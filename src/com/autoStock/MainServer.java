@@ -4,7 +4,6 @@
 package com.autoStock;
 
 import java.lang.management.ManagementFactory;
-import org.apache.commons.daemon.DaemonContext;
 import com.autoStock.comServer.ConnectionServer;
 import com.autoStock.internal.Global;
 import com.autoStock.internal.Global.Mode;
