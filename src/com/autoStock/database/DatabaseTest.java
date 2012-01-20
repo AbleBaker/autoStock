@@ -1,4 +1,4 @@
-package com.qutoStock.database;
+package com.autoStock.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.autoStock.Co;
+import com.autoStock.tools.Benchmark;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
-import com.qutoStock.tools.Benchmark;
 
 /**
  * @author Kevin Kowalewski

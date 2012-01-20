@@ -1,4 +1,4 @@
-package com.qutoStock.tools;
+package com.autoStock.tools;
 
 import java.util.Date;
 

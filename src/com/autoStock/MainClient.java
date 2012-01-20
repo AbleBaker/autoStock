@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import com.autoStock.com.CommandHolder.Command;
 import com.autoStock.comClient.ConnectionClient;
-import com.qutoStock.database.DatabaseTest;
+import com.autoStock.database.DatabaseTest;
 
 /**
  * @author Kevin Kowalewski
