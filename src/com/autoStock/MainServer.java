@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.autoStock;
 
 import java.lang.management.ManagementFactory;

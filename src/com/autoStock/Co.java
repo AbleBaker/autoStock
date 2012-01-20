@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.autoStock;
 
 /**
@@ -26,6 +23,6 @@ public class Co {
 	}
 	
 	public static void log(String string){
-		
+		System.out.println(string);
 	}
 }
