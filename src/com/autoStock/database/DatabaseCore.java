@@ -6,6 +6,6 @@ package com.autoStock.database;
  */
 public class DatabaseCore {
 	public void test(){
-		//BIG PENIS
+		//Nothing to see here
 	}
 }
