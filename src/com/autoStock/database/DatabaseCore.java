@@ -6,6 +6,6 @@ package com.autoStock.database;
  */
 public class DatabaseCore {
 	public void test(){
-		//Nothing to see here
+		//
 	}
 }
