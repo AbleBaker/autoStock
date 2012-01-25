@@ -9,17 +9,17 @@ import com.autoStock.Co;
  *
  */
 public class Benchmark {
-	private Date date = new Date();
-	private long startMark = date.getTime();
-	private int lastMark = 0;
+	private long startMark = new Date().getTime();
+	private long lastMark = 0;
 	
 	public void tick(){
-		long currentTimeMills = date.getTime();
-		Co.log("Tick: " + (currentTimeMills - lastMark));
+		long currentTimeMills = new Date().getTime();
+		Co.log("Tick: " + (currentTimeMills - lastMark) + "ms");
+		lastMark = currentTimeMills;
 	}
 	
 	public void total(){
-		long currentTimeMills = date.getTime();
+		long currentTimeMills = new Date().getTime();
 		Co.log("Benchmark: " + (currentTimeMills - startMark));
 	}
 }
