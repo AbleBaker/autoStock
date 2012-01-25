@@ -43,17 +43,19 @@ public class DatabaseTest {
 
 		Benchmark bench = new Benchmark();
 		
+		connection = connectionPool.getConnection();
+		
 		for (int i=0; i<100; i++){	
 			bench.tick();
-			connection = connectionPool.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("SELECT RAND()");
 			//while (rs.next()) {
 				rs.next();
 				Co.println(rs.getString(1));
 			//}
-			connection.close();
 		}
+		
+		connection.close();
 		
 		bench.total();
 	}

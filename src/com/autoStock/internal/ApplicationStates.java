@@ -5,6 +5,7 @@ package com.autoStock.internal;
 
 import com.autoStock.Co;
 import com.autoStock.MainServer;
+import com.autoStock.database.DatabaseCore;
 import com.autoStock.internal.Global.Mode;
 
 /**
@@ -12,6 +13,22 @@ import com.autoStock.internal.Global.Mode;
  *
  */
 public class ApplicationStates {
+	private static DatabaseCore databaseCore;
+	
+	public static void startup(){
+		databaseCore = new DatabaseCore();
+		databaseCore.init();
+		
+		if (Global.mode == Mode.client){
+			
+		}
+		
+		if (Global.mode == Mode.server){
+			
+		}
+	}
+	
+	
 	public static void shutdown(){
 		if (Global.mode == Mode.client){
 			System.exit(0);

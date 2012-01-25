@@ -15,7 +15,7 @@ public class Global {
 		client
 	}
 	
-	public static Mode getMode(){
-		return mode;
+	public static enum Brokerage {
+		ib,
 	}
 }
