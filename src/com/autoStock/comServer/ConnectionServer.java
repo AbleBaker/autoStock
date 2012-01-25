@@ -35,7 +35,7 @@ public class ConnectionServer {
 			String receivedLine = new String();
 			String receivedString = new String();
 			
-		    try {server = new ServerSocket(18000, 5, InetAddress.getByName("127.0.0.1"));}catch (Exception e){e.printStackTrace();}
+		    try {server = new ServerSocket(8888, 5, InetAddress.getByName("127.0.0.1"));}catch (Exception e){e.printStackTrace();}
 		    try {incoming = server.accept();}catch(Exception e){e.printStackTrace();}
 		    
 		    try {in = new BufferedReader(new InputStreamReader(incoming.getInputStream()));}catch(Exception e){e.printStackTrace();}

@@ -23,7 +23,7 @@ public class ConnectionClient {
 	PrintWriter printWriter;
 	
 	public void startClient(){
-	    try {this.clientSocket = new Socket(InetAddress.getByName("127.0.0.1"), 18000);}catch (Exception e){e.printStackTrace();}
+	    try {this.clientSocket = new Socket(InetAddress.getByName("127.0.0.1"), 8888);}catch (Exception e){e.printStackTrace();}
 	    try {this.printWriter = new PrintWriter(clientSocket.getOutputStream(), false);}catch (Exception e){e.printStackTrace();}
 	}
 	

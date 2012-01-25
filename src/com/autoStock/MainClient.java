@@ -15,16 +15,16 @@ public class MainClient {
 		Co.println("AutoStock configuration");
 		Co.println("Testing...");
 		
-		new DatabaseTest().test();
+		//new DatabaseTest().test();
 		
-//		ConnectionClient connectionClient = new ConnectionClient();
-//		connectionClient.startClient();
+		ConnectionClient connectionClient = new ConnectionClient();
+		connectionClient.startClient();
 //		
 //		//connectionClient.sendSerializedCommand(Command.shutdown);
-//		connectionClient.sendSerializedCommand(Command.testThreadCom, args[0]);
+		connectionClient.sendSerializedCommand(Command.testThreadCom, "Apples");
 //		
-//		connectionClient.stop();
+		connectionClient.stop();
 //		
-//		Co.println("Sent");
+		Co.println("Sent");
 	}
 }
