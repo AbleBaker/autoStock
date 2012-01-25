@@ -19,8 +19,8 @@ public class MainClient {
 		ApplicationStates.startup();
 		
 		
-		new TWSSupervisor().launchTws();
-		//new DatabaseTest().test();
+		//new TWSSupervisor().launchTws();
+		new DatabaseTest().test();
 				
 //		ConnectionClient connectionClient = new ConnectionClient();
 //		connectionClient.startClient();		
