@@ -6,6 +6,7 @@ import com.autoStock.com.CommandHolder.Command;
 import com.autoStock.comClient.ConnectionClient;
 import com.autoStock.database.DatabaseTest;
 import com.autoStock.internal.ApplicationStates;
+import com.autoStock.trading.platform.ib.tws.TWSSupervisor;
 
 /**
  * @author Kevin Kowalewski
@@ -17,7 +18,9 @@ public class MainClient {
 		
 		ApplicationStates.startup();
 		
-		new DatabaseTest().test();
+		
+		new TWSSupervisor().launchTws();
+		//new DatabaseTest().test();
 				
 //		ConnectionClient connectionClient = new ConnectionClient();
 //		connectionClient.startClient();		

@@ -9,6 +9,8 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JPasswordFieldOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
 
+import com.autoStock.internal.Config;
+
 /**
  * @author Kevin Kowalewski
  * 
@@ -17,7 +19,7 @@ public class TWSSupervisor {
 	public void launchTws() {
 		try {
 			String[] params = new String[1];
-			params[0] = "~/IBJts";
+			params[0] = "/Users/kevink/Documents/IB/IBJts/jts.jar";
 			new ClassReference("jclient.LoginFrame").startApplication(params);
 
 			JFrameOperator loginFrame = new JFrameOperator("Login");
@@ -28,9 +30,9 @@ public class TWSSupervisor {
 
 			loginFrame.requestFocus();
 			userNameField.requestFocus();
-			userNameField.typeText("MYUSERNAME");
+			userNameField.typeText(Config.plIbUsername);
 			passwordField.requestFocus();
-			passwordField.typeText("MYPASSWORD");
+			passwordField.typeText(Config.plIbPassword);
 			loginButton.requestFocus();
 			loginButton.push();
 		} catch (Exception e) {
