@@ -1,0 +1,50 @@
+NK 00:12:16:182 JTS-Main: Created on: 20120125
+NK 00:12:16:182 JTS-Main: ------------------------------- TWS RESTART --------------------------------
+NK 00:12:16:190 JTS-Main: Jts dir is ./
+NK 00:12:16:322 JTS-Main: PROXY Installed custom selector
+NK 00:12:16:345 JTS-Main: Region:America dr:false
+NK 00:12:16:345 JTS-Main: Property locale_to_use=en
+NK 00:12:16:345 JTS-Main: JTS Locale=en_US  country=United States  variant=
+NK 00:12:16:345 JTS-Main: Locale=en_US  country=United States  variant=
+NK 00:12:16:345 JTS-Main: Error no jar:/Users/kevink/Documents/IB/IBJts/language.jar
+NK 00:12:16:346 JTS-Main: prohibiting class lookup [ji18n.Language]
+NK 00:12:16:363 JTS-Main: prohibiting class lookup [ji18n.Language_en]
+NK 00:12:16:363 JTS-Main: prohibiting class lookup [ji18n.Language_en_US]
+NK 00:12:16:363 JTS-Main: prohibiting resource lookup [ji18n/Language_en_US.properties]
+NK 00:12:16:363 JTS-Main:   actual locale: 
+NK 00:12:16:601 JTS-Main: prohibiting class lookup [org.jfree.chart.LocalizationBundle]
+NK 00:12:16:611 JTS-Main: prohibiting class lookup [org.jfree.chart.LocalizationBundle_en]
+NK 00:12:16:611 JTS-Main: prohibiting resource lookup [org/jfree/chart/LocalizationBundle_en.properties]
+NK 00:12:16:612 JTS-Main: prohibiting class lookup [org.jfree.chart.LocalizationBundle_en_US]
+NK 00:12:16:612 JTS-Main: prohibiting resource lookup [org/jfree/chart/LocalizationBundle_en_US.properties]
+NK 00:12:16:612 JTS-Main: prohibiting class lookup [org.jfree.chart.plot.LocalizationBundle]
+NK 00:12:16:629 JTS-Main: prohibiting class lookup [org.jfree.chart.plot.LocalizationBundle_en]
+NK 00:12:16:629 JTS-Main: prohibiting resource lookup [org/jfree/chart/plot/LocalizationBundle_en.properties]
+NK 00:12:16:629 JTS-Main: prohibiting class lookup [org.jfree.chart.plot.LocalizationBundle_en_US]
+NK 00:12:16:629 JTS-Main: prohibiting resource lookup [org/jfree/chart/plot/LocalizationBundle_en_US.properties]
+NK 00:12:18:850 JTS-Main: jfreechart version =1.0.8
+NK 00:12:18:850 JTS-Main: jcommon version =1.0.12
+NK 00:12:18:864 JTS-Main: plugin support version =1.0
+NK 00:12:18:876 JTS-Main: JDOMFactory Class =interface org.jdom.JDOMFactory
+NK 00:12:18:944 JTS-Main: hsqldb jdbc =class org.hsqldb.jdbcDriver 2.2
+NK 00:12:18:978 JTS-Main: Build 922.6, Jan 5, 2012 1:07:18 PM
+NK 00:12:19:222 JTS-Main: LookAndFeelChangedListener installed
+NK 00:12:19:223 JTS-Main: JtsLookAndFeel initialized
+NK 00:12:19:751 JTS-Main: Current LAF: TWS LAF
+NK 00:12:19:770 JTS-Main: java.lang.UnsupportedOperationException: Toolkit.getLockingKeyState
+NK 00:12:21:307 AWT-EventQueue-0: Started on 20120125-05:12:21
+NK 00:12:21:335 AWT-EventQueue-0: Default timezone:America/Toronto name:Eastern Standard Time dst:3600000
+NK 00:12:21:335 AWT-EventQueue-0: java version = 1.6.0_29
+NK 00:12:21:335 AWT-EventQueue-0: sun.arch.data.model = 64
+NK 00:12:21:335 AWT-EventQueue-0: os = Mac OS X
+NK 00:12:21:335 AWT-EventQueue-0: runtime = Java(TM) SE Runtime Environment
+NK 00:12:21:335 AWT-EventQueue-0: vendor = Apple Inc.
+NK 00:12:21:335 AWT-EventQueue-0: vm name = Java HotSpot(TM) 64-Bit Server VM
+NK 00:12:21:366 AWT-EventQueue-0: WebRegionURL Path:/java/classes/locales.jar URL:http://www.interactivebrokers.com/java/classes/locales.jar
+NK 00:12:21:367 AWT-EventQueue-0: downloading file: /Users/kevink/Documents/IB/IBJts/locales.jar from http://www.interactivebrokers.com/java/classes/locales.jar
+NK 00:12:21:367 AWT-EventQueue-0: Starting to download file: /java/classes/locales.jar
+NK 00:12:22:280 AWT-EventQueue-0: Finished downloading file: /java/classes/locales.jar
+NK 00:12:22:560 AWT-EventQueue-0: Installing listeners for twslaunch.jclient.bc[frame0,0,22,1x1,invalid,hidden,layout=java.awt.BorderLayout,title=Login,normal,defaultCloseOperation=DISPOSE_ON_CLOSE,rootPane=javax.swing.JRootPane[,0,0,0x0,invalid,layout=javax.swing.JRootPane$RootLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=16777673,maximumSize=,minimumSize=,preferredSize=],rootPaneCheckingEnabled=true]
+NK 00:12:22:704 AWT-EventQueue-0: Basic init done. Login window shown
+NK 00:12:56:577 AWT-EventQueue-0: Cancel login
+NK 00:12:56:604 AWT-EventQueue-0: Application exit
