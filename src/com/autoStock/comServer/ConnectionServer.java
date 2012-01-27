@@ -78,6 +78,7 @@ public class ConnectionServer {
 				out = new PrintWriter(incoming.getOutputStream(), true);
 			} catch (Exception e) {
 				e.printStackTrace();
+				
 			}
 
 			while (true) {
