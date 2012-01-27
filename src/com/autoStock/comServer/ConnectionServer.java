@@ -26,22 +26,49 @@ public class ConnectionServer {
 	public static final String EndCommunication = "QUIT";
 	public static final String EndCommand = "END";
 	
-	public void startServer (){
-		while (true){
-			ServerSocket server = null;
-			Socket incoming = null;
+	public void startServer()
+	{
+		ServerSocket server = null;
+		Socket incoming = null;
+
+	    try {
+	    	server = new ServerSocket(8888, 5, InetAddress.getByName("127.0.0.1"));
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+
+	    while ( true )
+	    {
+	    	try {incoming = server.accept();}catch(Exception e){e.printStackTrace();}
+	    	ClientThread cs = new ClientThread( incoming );
+	    	cs.run();
+	    }
+ 
+	    try {server.close();}catch(Exception e){e.printStackTrace();}
+    	//Co.println("Connection Closed. New server!");
+	}
+
+	private class ClientThread extends Thread
+	{
+		Socket s;
+	    public ClientThread( Socket sock ) {
+	      super("ClientThread");
+	      s = sock;
+	      start();
+	    }
+
+	    public void run()
+	    {
 			BufferedReader in = null;
 			PrintWriter out = null;
 			String receivedLine = new String();
 			String receivedString = new String();
-			
-		    try {server = new ServerSocket(8888, 5, InetAddress.getByName("127.0.0.1"));}catch (Exception e){e.printStackTrace();}
-		    try {incoming = server.accept();}catch(Exception e){e.printStackTrace();}
-		    
-		    try {in = new BufferedReader(new InputStreamReader(incoming.getInputStream()));}catch(Exception e){e.printStackTrace();}
-		    try {out = new PrintWriter(incoming.getOutputStream(), true);}catch(Exception e){e.printStackTrace();}
-		   
-			while (true) {
+
+			try {in = new BufferedReader(new InputStreamReader(incoming.getInputStream()));}catch(Exception e){e.printStackTrace();}
+	    	try {out = new PrintWriter(incoming.getOutputStream(), true);}catch(Exception e){e.printStackTrace();}
+
+	    	while (true)
+	    	{
 				try {receivedLine = in.readLine();}catch(IOException e){e.printStackTrace();}
 				//System.out.println("Got line: " + receivedLine);
 				if (receivedLine == null){
@@ -59,9 +86,7 @@ public class ConnectionServer {
 					receivedString = receivedString.concat(receivedLine);
 				}
 			}
-			
-			try {server.close();}catch(Exception e){e.printStackTrace();}
-			//Co.println("Connection Closed. New server!");
-		}
+	    }
 	}
 }
+
