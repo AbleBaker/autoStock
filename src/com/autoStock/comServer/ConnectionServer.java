@@ -50,7 +50,7 @@ public class ConnectionServer {
 
 	private class ClientThread extends Thread
 	{
-		Socket s;
+		private Socket s;
 	    public ClientThread( Socket sock ) {
 	      super("ClientThread");
 	      s = sock;
