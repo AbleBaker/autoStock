@@ -86,7 +86,7 @@ public class ConnectionServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				// System.out.println("Got line: " + receivedLine);
+				// System.out.println("Got line: " + receivedLine); 3
 				if (receivedLine == null) {
 					break;
 				}
