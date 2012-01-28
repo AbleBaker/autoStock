@@ -27,6 +27,8 @@ public class MainClient {
 		connectionClient.sendSerializedCommand(Command.testSleep);	
 		//connectionClient.stop();
 		
+		try{Thread.sleep(30000);}catch(Exception e){}
+		
 		Co.println("OK");
 	}
 }
