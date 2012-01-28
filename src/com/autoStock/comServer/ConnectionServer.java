@@ -45,13 +45,6 @@ public class ConnectionServer {
 			ClientThread cs = new ClientThread(incoming);
 			cs.run();
 		}
-
-/*		try {
-			server.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-*/		// Co.println("Connection Closed. New server!");
 	}
 
 	private class ClientThread extends Thread {

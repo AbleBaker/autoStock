@@ -5,6 +5,7 @@ package com.autoStock.com;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Random;
 import java.util.Vector;
 
 import com.autoStock.Co;
@@ -25,6 +26,7 @@ public class CommandHolder implements Runnable {
 		startup,
 		testThreadCom,
 		testThreadCom2,
+		testSleep
 	}
 	
 	public CommandHolder(Command command){
@@ -45,6 +47,19 @@ public class CommandHolder implements Runnable {
 		
 		if (command == Command.testThreadCom){
 			MainServer.appleState = (String)arrayOfObject[0];
+		}
+		
+		if (command == Command.testSleep){
+			Thread thread = new Thread(new Runnable(){
+				@Override
+				public void run() {
+					String rand = String.valueOf(new Random().nextInt(100));
+					while (true){
+						MainServer.appleState = rand + "," + String.valueOf(new Random().nextInt(1000));
+					}
+				}
+			});
+			thread.start();
 		}
 	}
 }

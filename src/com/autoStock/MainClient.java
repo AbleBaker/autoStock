@@ -22,10 +22,10 @@ public class MainClient {
 		//new TWSSupervisor().launchTws();
 		//new DatabaseTest().test();
 				
-//		ConnectionClient connectionClient = new ConnectionClient();
-//		connectionClient.startClient();		
-//		connectionClient.sendSerializedCommand(Command.testThreadCom, "Apples");	
-//		connectionClient.stop();
+		ConnectionClient connectionClient = new ConnectionClient();
+		connectionClient.startClient();		
+		connectionClient.sendSerializedCommand(Command.testSleep);	
+		//connectionClient.stop();
 		
 		Co.println("OK");
 	}
