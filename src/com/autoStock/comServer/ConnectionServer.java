@@ -46,12 +46,12 @@ public class ConnectionServer {
 			cs.run();
 		}
 
-		try {
+/*		try {
 			server.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// Co.println("Connection Closed. New server!");
+*/		// Co.println("Connection Closed. New server!");
 	}
 
 	private class ClientThread extends Thread {
@@ -70,12 +70,12 @@ public class ConnectionServer {
 			String receivedString = new String();
 
 			try {
-				in = new BufferedReader(new InputStreamReader(incoming.getInputStream()));
+				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			try {
-				out = new PrintWriter(incoming.getOutputStream(), true);
+				out = new PrintWriter(socket.getOutputStream(), true);
 			} catch (Exception e) {
 				e.printStackTrace();	
 				
@@ -87,17 +87,12 @@ public class ConnectionServer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				// System.out.println("Got line: " + receivedLine); 3
+				// System.out.println("Got line: " + receivedLine);
 				if (receivedLine == null) {
 					break;
 				}
 				if (receivedLine.trim().equals(EndCommunication)) {
-					try {
-						server.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					break;
+					return;
 				} else if (receivedLine.trim().equals(EndCommand)) {
 					new CommandReceiver().receiveGsonString(receivedString);
 					receivedString = new String();
