@@ -20,7 +20,7 @@ public class MainClient {
 		
 		
 		//new TWSSupervisor().launchTws();
-		new DatabaseTest().test();
+		//new DatabaseTest().test();
 				
 //		ConnectionClient connectionClient = new ConnectionClient();
 //		connectionClient.startClient();		

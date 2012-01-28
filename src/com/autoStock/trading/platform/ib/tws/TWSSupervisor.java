@@ -19,7 +19,7 @@ public class TWSSupervisor {
 	public void launchTws() {
 		try {
 			String[] params = new String[1];
-			params[0] = "/Users/kevink/Documents/IB/IBJts/";
+			params[0] = "/autoStock/external.trading.ib.tws/IBjts";
 			new ClassReference("jclient.LoginFrame").startApplication(params);
 
 			JFrameOperator loginFrame = new JFrameOperator("Login");
