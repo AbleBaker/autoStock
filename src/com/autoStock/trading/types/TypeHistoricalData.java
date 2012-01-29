@@ -1,4 +1,4 @@
-package com.qutoStock.trading.types;
+package com.autoStock.trading.types;
 
 import java.util.Date;
 

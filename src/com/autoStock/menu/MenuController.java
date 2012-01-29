@@ -17,19 +17,18 @@ import com.autoStock.tools.StringUtils;
 public class MenuController {
 	public void displayMenu(MenuStructures menuStructure){
 		if (menuStructure == MenuStructures.menu_main){
-			
 			for (MenuStructures menuStructureEntry : MenuStructures.values()){
 				Co.print(StringUtils.removePrefix(menuStructureEntry.name(),"_") + " ");
 				for (MenuArguments menuArgumentsEntry : menuStructureEntry.arrayOfMenuArguments){
-					Co.print(StringUtils.removePrefix(menuArgumentsEntry.name(), "_") + " ( ");
+					Co.print(StringUtils.removePrefix(menuArgumentsEntry.name(), "_") + " [");
 					for (MenuArgumentTypes menuArgumentTypesEntry : menuArgumentsEntry.arrayOfArgumentTypes){
 						if (menuArgumentsEntry.arrayOfArgumentTypes.length-1 == MiscUtils.getArrayIndex(menuArgumentsEntry.arrayOfArgumentTypes, menuArgumentTypesEntry)){
-							Co.print(StringUtils.removePrefix(menuArgumentTypesEntry.name(), "_") + " ");
+							Co.print(StringUtils.removePrefix(menuArgumentTypesEntry.name(), "_") + "");
 						}else{
-							Co.print(StringUtils.removePrefix(menuArgumentTypesEntry.name(), "_") + ", ");
+							Co.print(StringUtils.removePrefix(menuArgumentTypesEntry.name(), "_") + " | ");
 						}
 					}
-					Co.print(")");
+					Co.print("] ");
 				}
 				Co.print("\n");
 			}

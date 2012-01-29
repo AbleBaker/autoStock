@@ -10,6 +10,8 @@ import java.util.Vector;
 
 import com.autoStock.Co;
 import com.autoStock.MainServer;
+import com.autoStock.com.CommandDefinitions.Command;
+import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.internal.ApplicationStates;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,14 +22,6 @@ import com.google.gson.reflect.TypeToken;
 public class CommandHolder implements Runnable {
 	Command command;
 	Object[] arrayOfObject;
-	
-	public static enum Command {
-		shutdown,
-		startup,
-		testThreadCom,
-		testThreadCom2,
-		testSleep
-	}
 	
 	public CommandHolder(Command command){
 		this.command = command;
@@ -45,21 +39,12 @@ public class CommandHolder implements Runnable {
 			ApplicationStates.shutdown();
 		}
 		
-		if (command == Command.testThreadCom){
+		if (command == Command.testThreadCom && arrayOfObject[0] instanceof String){
 			MainServer.appleState = (String)arrayOfObject[0];
 		}
 		
-		if (command == Command.testSleep){
-			Thread thread = new Thread(new Runnable(){
-				@Override
-				public void run() {
-					String rand = String.valueOf(new Random().nextInt(100));
-					while (true){
-						MainServer.appleState = rand + "," + String.valueOf(new Random().nextInt(1000));
-					}
-				}
-			});
-			thread.start();
+		if (command == Command.client_ex_request_historical_data && arrayOfObject[0] instanceof RequestHistoricalData){
+			MainServer.appleState = "Would have request historical data";
 		}
 	}
 }

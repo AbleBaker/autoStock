@@ -3,6 +3,8 @@
  */
 package com.autoStock.trading.platform.ib;
 
+import java.util.ArrayList;
+
 import com.autoStock.Co;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
@@ -17,6 +19,13 @@ import com.autoStock.trading.platform.ib.core.UnderComp;
  *
  */
 public class IbExchangeWrapper implements EWrapper {
+	
+	public static ArrayList<Integer> discardErrorCodes = new ArrayList<Integer>();
+	
+	public IbExchangeWrapper(){
+		discardErrorCodes.add(2104);
+		discardErrorCodes.add(2107);
+	}
 
 	@Override
 	public void error(Exception e) {
@@ -31,7 +40,9 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void error(int id, int errorCode, String errorMsg) {
-		Co.log("Error occurred:" + errorCode + "," + errorMsg);
+		if (!discardErrorCodes.contains(errorCode)){
+			Co.log("Error occurred:" + errorCode + "," + errorMsg);
+		}
 	}
 
 	@Override

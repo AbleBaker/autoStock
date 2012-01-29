@@ -14,7 +14,7 @@ public class MainServer {
 	
 	public static void main(String[] args) {
 		Global.mode = Mode.server;
-		Co.println("AutoStock");
+		Co.println("Welcome to autoStock\n");
 		
 		runningThread = new Thread(new Runnable(){
 			@Override
