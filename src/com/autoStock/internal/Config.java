@@ -5,8 +5,8 @@ package com.autoStock.internal;
  *
  */
 public class Config {
-	public static int comListenPort;
-	public static int comSocketTimeout;
+	public static int comListenPort = 8888;
+	public static int comSocketTimeout = 30;
 	public static int dbPort = 3306;
 	public static String dbHost = "199.19.173.146";
 	public static String dbDatabase = "autoStock";
@@ -17,4 +17,6 @@ public class Config {
 	public static String dbPassword = "SSmxynk";
 	public static String plIbUsername = "cmiha621";
 	public static String plIbPassword = "paper123";
+	public static int plIbTwsPort = 888;
+	public static String plIbTwsHost = "199.19.173.146";
 }

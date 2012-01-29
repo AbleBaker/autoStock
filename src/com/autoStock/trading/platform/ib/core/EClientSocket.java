@@ -9,6 +9,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.autoStock.Co;
+
 public class EClientSocket {
 
     // Client version history
@@ -169,7 +171,7 @@ public class EClientSocket {
     private static final int MIN_SERVER_VER_SMART_COMBO_ROUTING_PARAMS = 57;
     private static final int MIN_SERVER_VER_DELTA_NEUTRAL_CONID = 58;
 
-    private AnyWrapper 			m_anyWrapper;	// msg handler
+    public AnyWrapper 			m_anyWrapper;	// msg handler
     private DataOutputStream 	m_dos;      // the socket output stream
     private boolean 			m_connected;// true if we are connected
     private EReader 			m_reader;   // thread which reads msgs from socket

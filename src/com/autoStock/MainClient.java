@@ -8,6 +8,9 @@ import com.autoStock.database.DatabaseTest;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
+import com.autoStock.trading.platform.ib.IbExchangeInstance;
+import com.autoStock.trading.platform.ib.core.AnyWrapper;
+import com.autoStock.trading.platform.ib.core.EClientSocket;
 import com.autoStock.trading.platform.ib.tws.TWSSupervisor;
 
 /**
@@ -19,10 +22,14 @@ public class MainClient {
 		Co.println("Welcome to autoStock\n");
 		
 		ApplicationStates.startup();
-		
+	
 		new MenuController().displayMenu(MenuStructures.menu_main);
 		
+		IbExchangeInstance ibExchangeInstance = new IbExchangeInstance();
+		ibExchangeInstance.init();
+		ibExchangeInstance.getQuote("AAPL");
 		
+
 		//new TWSSupervisor().launchTws();
 		//new DatabaseTest().test();
 //				
@@ -31,8 +38,14 @@ public class MainClient {
 //		connectionClient.sendSerializedCommand(Command.testSleep);	
 //		//connectionClient.stop();
 //		
-//		try{Thread.sleep(30000);}catch(Exception e){}
+		
+		Co.println("Waiting for callbacks...");
+		
+		try{Thread.sleep(10000);}catch(Exception e){}
 		
 		Co.println("\n Done \n");
+		
+		System.exit(0);
+		
 	}
 }
