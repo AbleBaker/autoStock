@@ -27,7 +27,7 @@ public class MainClient {
 		
 		IbExchangeInstance ibExchangeInstance = new IbExchangeInstance();
 		ibExchangeInstance.init();
-		ibExchangeInstance.getQuote("AAPL");
+		ibExchangeInstance.getQuote(null);
 		
 
 		//new TWSSupervisor().launchTws();

@@ -34,8 +34,8 @@ public class IbExchangeInstance {
 		contract.m_currency = "USD";
 		//contract.m_secIdType = "ISIN";
 		//contract.m_secId = "US0378331005";
-		String startDate = "20120109 10:30:00 EST";
-		String duration = "120 S";
-		ibExchangeClientSocket.eClientSocket.reqHistoricalData(1, contract, startDate, duration, "1 secs", "BID_ASK", 1, 2);
+		String endDate = "20120109 10:30:00 EST";
+		String duration = "1 D";
+		ibExchangeClientSocket.eClientSocket.reqHistoricalData(1, contract, endDate, duration, "1 secs", "BID_ASK", 1, 2);
 	}
 }
