@@ -15,7 +15,11 @@ public class RequestManager {
 		return requestId;
 	}
 	
-	public synchronized RequestHolder getRequestHolder(int requestId){
+	public static synchronized void addRequestHolder(RequestHolder requestHolder){
+		listOfRequestHolder.add(requestHolder);
+	}
+	
+	public static synchronized RequestHolder getRequestHolder(int requestId){
 		for (RequestHolder requestHolder : listOfRequestHolder){
 			if (requestHolder.requestId == requestId){
 				return requestHolder;
@@ -24,7 +28,7 @@ public class RequestManager {
 		return null;
 	}
 	
-	public synchronized void removeRequestHolder(int requestId){
+	public static synchronized void removeRequestHolder(int requestId){
 		RequestHolder requestHolder = getRequestHolder(requestId);
 		listOfRequestHolder.remove(requestHolder);
 		requestHolder = null;

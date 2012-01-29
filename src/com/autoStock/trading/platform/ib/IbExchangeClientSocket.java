@@ -6,6 +6,7 @@ package com.autoStock.trading.platform.ib;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 import com.autoStock.Co;
 import com.autoStock.internal.Config;
@@ -26,6 +27,6 @@ public class IbExchangeClientSocket {
 	}
 	
 	public void connect() throws IOException{
-		eClientSocket.eConnect(socket, 0);
+		eClientSocket.eConnect(socket, new Random().nextInt());
 	}
 }

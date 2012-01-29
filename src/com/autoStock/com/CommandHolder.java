@@ -39,12 +39,17 @@ public class CommandHolder implements Runnable {
 			ApplicationStates.shutdown();
 		}
 		
-		if (command == Command.testThreadCom && arrayOfObject[0] instanceof String){
+		else if (command == Command.testThreadCom){
 			MainServer.appleState = (String)arrayOfObject[0];
 		}
 		
-		if (command == Command.client_ex_request_historical_data && arrayOfObject[0] instanceof RequestHistoricalData){
+		else if (command == Command.client_ex_request_historical_data){
 			MainServer.appleState = "Would have request historical data";
+			MainServer.ibExchangeInstance.getQuote("AAPL");
+		}
+		
+		else {
+			Co.println("Error: No matching command instance pairs");
 		}
 	}
 }

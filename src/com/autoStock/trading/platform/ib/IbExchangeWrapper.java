@@ -6,6 +6,8 @@ package com.autoStock.trading.platform.ib;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.exchange.request.RequestHistoricalData;
+import com.autoStock.exchange.request.RequestManager;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
 import com.autoStock.trading.platform.ib.core.EWrapper;
@@ -13,6 +15,8 @@ import com.autoStock.trading.platform.ib.core.Execution;
 import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.OrderState;
 import com.autoStock.trading.platform.ib.core.UnderComp;
+import com.autoStock.trading.results.ExResultHistoricalData;
+import com.autoStock.trading.results.ExResultHistoricalData.ExResultRowHistoricalData;
 
 /**
  * @author Kevin Kowalewski
@@ -171,9 +175,9 @@ public class IbExchangeWrapper implements EWrapper {
 	}
 
 	@Override
-	public void historicalData(int reqId, String date, double open, double high, double low, double close, int volume, int count, double WAP, boolean hasGaps) {
+	public void historicalData(int requestId, String date, double open, double high, double low, double close, int volume, int count, double WAP, boolean hasGaps) {
 		Co.log("Got historicalData:" + date + "," + open + "," + high + "," + low + "," + close + "," + volume + "," + count + "," + WAP + "," + hasGaps);
-		
+		((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).addResult(new ExResultHistoricalData(). new ExResultRowHistoricalData(date, (float)close));
 	}
 
 	@Override
