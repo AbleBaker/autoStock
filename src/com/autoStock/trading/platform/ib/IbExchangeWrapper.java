@@ -20,7 +20,7 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void error(Exception e) {
-		Co.log("Error occurred");
+		Co.log("Exception occurred");
 		e.printStackTrace();
 	}
 

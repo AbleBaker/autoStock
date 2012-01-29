@@ -6,6 +6,7 @@ import com.autoStock.com.CommandHolder.Command;
 import com.autoStock.comClient.ConnectionClient;
 import com.autoStock.database.DatabaseTest;
 import com.autoStock.internal.ApplicationStates;
+import com.autoStock.menu.CharvaExample;
 import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.trading.platform.ib.IbExchangeInstance;
@@ -23,11 +24,14 @@ public class MainClient {
 		
 		ApplicationStates.startup();
 	
-		new MenuController().displayMenu(MenuStructures.menu_main);
+		//new MenuController().displayMenu(MenuStructures.menu_main);
 		
-		IbExchangeInstance ibExchangeInstance = new IbExchangeInstance();
-		ibExchangeInstance.init();
-		ibExchangeInstance.getQuote(null);
+		CharvaExample demo = new CharvaExample();
+		demo.show();
+		
+//		IbExchangeInstance ibExchangeInstance = new IbExchangeInstance();
+//		ibExchangeInstance.init();
+//		ibExchangeInstance.getQuote(null);
 		
 
 		//new TWSSupervisor().launchTws();
@@ -39,13 +43,10 @@ public class MainClient {
 //		//connectionClient.stop();
 //		
 		
-		Co.println("Waiting for callbacks...");
-		
-		try{Thread.sleep(10000);}catch(Exception e){}
-		
-		Co.println("\n Done \n");
-		
-		System.exit(0);
+		//Co.println("Waiting for callbacks...");
+		//try{Thread.sleep(10000);}catch(Exception e){}
+		//Co.println("\n Done \n");
+		//System.exit(0);
 		
 	}
 }
