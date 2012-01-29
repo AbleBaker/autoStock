@@ -7,6 +7,7 @@ import java.net.Socket;
 
 import com.autoStock.internal.Config;
 import com.autoStock.trading.platform.ib.core.Contract;
+import com.autoStock.trading.platform.ib.core.EClientSocket;
 
 /**
  * @author Kevin Kowalewski
@@ -24,6 +25,10 @@ public class IbExchangeInstance {
 			ibExchangeClientSocket.init();
 			ibExchangeClientSocket.connect();
 		}catch(Exception e){e.printStackTrace();}
+	}
+	
+	public EClientSocket getEclientSocket(){
+		return ibExchangeClientSocket.eClientSocket;
 	}
 	
 	public void getQuote(String symbol){

@@ -162,6 +162,7 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void historicalData(int reqId, String date, double open, double high, double low, double close, int volume, int count, double WAP, boolean hasGaps) {
 		Co.log("Got historicalData:" + date + "," + open + "," + high + "," + low + "," + close + "," + volume + "," + count + "," + WAP + "," + hasGaps);
+		
 	}
 
 	@Override
