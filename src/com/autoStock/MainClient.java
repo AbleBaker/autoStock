@@ -6,6 +6,8 @@ import com.autoStock.com.CommandHolder.Command;
 import com.autoStock.comClient.ConnectionClient;
 import com.autoStock.database.DatabaseTest;
 import com.autoStock.internal.ApplicationStates;
+import com.autoStock.menu.MenuController;
+import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.trading.platform.ib.tws.TWSSupervisor;
 
 /**
@@ -14,21 +16,23 @@ import com.autoStock.trading.platform.ib.tws.TWSSupervisor;
  */
 public class MainClient {
 	public static void main(String[] args) throws SQLException {
-		Co.println("Welcome to autoStock");
+		Co.println("Welcome to autoStock\n");
 		
 		ApplicationStates.startup();
+		
+		new MenuController().displayMenu(MenuStructures.menu_main);
 		
 		
 		//new TWSSupervisor().launchTws();
 		//new DatabaseTest().test();
-				
-		ConnectionClient connectionClient = new ConnectionClient();
-		connectionClient.startClient();		
-		connectionClient.sendSerializedCommand(Command.testSleep);	
-		//connectionClient.stop();
+//				
+//		ConnectionClient connectionClient = new ConnectionClient();
+//		connectionClient.startClient();		
+//		connectionClient.sendSerializedCommand(Command.testSleep);	
+//		//connectionClient.stop();
+//		
+//		try{Thread.sleep(30000);}catch(Exception e){}
 		
-		try{Thread.sleep(30000);}catch(Exception e){}
-		
-		Co.println("OK");
+		Co.println("\n Done \n");
 	}
 }

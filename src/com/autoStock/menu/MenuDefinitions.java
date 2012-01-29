@@ -1,0 +1,44 @@
+package com.autoStock.menu;
+
+/**
+ * @author Kevin Kowalewski
+ *
+ */
+public class MenuDefinitions {
+	public static enum MenuStructures {
+		menu_main(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_shutdown(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_startup(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_restart(new MenuArguments[]{MenuArguments.arg_restart_delay}),
+		;
+		
+		public MenuArguments[] arrayOfMenuArguments;
+		
+		private MenuStructures(MenuArguments[] arrayOfMenuArguments) {
+			this.arrayOfMenuArguments = arrayOfMenuArguments;
+		}
+	}
+	
+	public static enum MenuArguments{
+		arg_none(new MenuArgumentTypes[]{MenuArgumentTypes.const_none}, ""),
+		arg_restart_delay(new MenuArgumentTypes[]{MenuArgumentTypes.const_now, MenuArgumentTypes.const_safe, MenuArgumentTypes.basic_integer}, "Restart delay"),
+		;
+		
+		public MenuArgumentTypes[] arrayOfArgumentTypes;
+		public String argumentDescription;
+		
+		MenuArguments(MenuArgumentTypes[] arrayOfArgumentTypes, String argumentDescription){
+			this.arrayOfArgumentTypes = arrayOfArgumentTypes;
+			this.argumentDescription = argumentDescription;
+		}
+	}
+	
+	public static enum MenuArgumentTypes {
+		basic_integer,
+		basic_float,
+		basic_string,
+		const_now,
+		const_safe,
+		const_none
+	}
+}
