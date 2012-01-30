@@ -3,13 +3,18 @@
  */
 package com.autoStock.comClient;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.autoStock.Co;
 import com.autoStock.com.CommandDefinitions.Command;
 import com.autoStock.com.CommandHolder;
+import com.autoStock.comServer.CommandReceiver;
 import com.autoStock.comServer.ConnectionServer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,8 +24,10 @@ import com.google.gson.reflect.TypeToken;
  *
  */
 public class ConnectionClient {
-	Socket clientSocket;
-	PrintWriter printWriter;
+	public static final String EndCommunication = "QUIT";
+	public static final String EndCommand = "END";
+	private Socket clientSocket;
+	private PrintWriter printWriter;
 	
 	public void startClient(){
 	    try {this.clientSocket = new Socket(InetAddress.getByName("127.0.0.1"), 8888);}catch (Exception e){e.printStackTrace();}
@@ -46,5 +53,36 @@ public class ConnectionClient {
 		this.printWriter.println(string);
 		this.printWriter.println(ConnectionServer.EndCommand);
 		this.printWriter.flush();
+	}
+	
+	public void listenForResponse(){
+		BufferedReader in = null;
+		String receivedString = new String();
+		String receivedLine = new String();
+
+		try {
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			
+			while (true) {
+				try {
+					receivedLine = in.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				// System.out.println("Got line: " + receivedLine);
+				if (receivedLine == null) {
+					break;
+				}
+				if (receivedLine.trim().equals(EndCommunication)) {
+					Co.println("End communication!");
+					return;
+				} else if (receivedLine.trim().equals(EndCommand)) {
+					Co.println("End command!");
+					receivedString = new String();
+				} else {
+					receivedString = receivedString.concat(receivedLine);
+				}
+			}
+		}catch(Exception e){}	
 	}
 }

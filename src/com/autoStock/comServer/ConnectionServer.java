@@ -49,7 +49,7 @@ public class ConnectionServer {
 
 	private class ClientThread extends Thread {
 		private Socket socket;
-
+		
 		public ClientThread(Socket sock) {
 			super("ClientThread");
 			socket = sock;
@@ -88,6 +88,7 @@ public class ConnectionServer {
 					return;
 				} else if (receivedLine.trim().equals(EndCommand)) {
 					new CommandReceiver().receiveGsonString(receivedString);
+					out.println(EndCommand);
 					receivedString = new String();
 				} else {
 					receivedString = receivedString.concat(receivedLine);

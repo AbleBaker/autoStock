@@ -11,6 +11,7 @@ import java.util.Vector;
 import com.autoStock.Co;
 import com.autoStock.MainServer;
 import com.autoStock.com.CommandDefinitions.Command;
+import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.internal.ApplicationStates;
 import com.google.gson.reflect.TypeToken;
@@ -45,7 +46,7 @@ public class CommandHolder implements Runnable {
 		
 		else if (command == Command.client_ex_request_historical_data){
 			MainServer.appleState = "Would have request historical data";
-			MainServer.ibExchangeInstance.getQuote("AAPL");
+			ExchangeController.getIbExchangeInstance().getQuote("AAPL");
 		}
 		
 		else {

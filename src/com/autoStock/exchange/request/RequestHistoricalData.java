@@ -1,6 +1,7 @@
 package com.autoStock.exchange.request;
 
 import com.autoStock.MainClient;
+import com.autoStock.exchange.ExchangeController;
 import com.autoStock.trading.results.ExResultHistoricalData;
 import com.autoStock.trading.results.ExResultHistoricalData.ExResultRowHistoricalData;
 import com.autoStock.trading.results.ExResultHistoricalData.ExResultSetHistoricalData;
@@ -22,11 +23,17 @@ public class RequestHistoricalData {
 		this.typeHistoricalData = typeHistoricalData;
 		this.exResultSetHistoricalData = new ExResultHistoricalData(). new ExResultSetHistoricalData(typeHistoricalData);
 		this.requestHolder.caller = this;
-		
-		MainClient.ibExchangeInstance.getHistoricalPrice(typeHistoricalData, requestHolder);
 	}
 	
 	public void addResult(ExResultRowHistoricalData exResultRowHistoricalData){
 		this.exResultSetHistoricalData.listOfExResultRowHistoricalData.add(exResultRowHistoricalData);
+	}
+	
+	public void finished(){
+		this.requestHistoricalDataListener.completed(requestHolder, exResultSetHistoricalData);
+	}
+	
+	public void start(){
+		ExchangeController.getIbExchangeInstance().getHistoricalPrice(typeHistoricalData, requestHolder);
 	}
 }

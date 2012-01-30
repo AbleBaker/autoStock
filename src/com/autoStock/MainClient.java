@@ -33,10 +33,7 @@ import com.bethecoder.ascii_table.ASCIITable;
  * @author Kevin Kowalewski
  *
  */
-public class MainClient {
-	
-	public static IbExchangeInstance ibExchangeInstance;
-	
+public class MainClient {	
 	public static void main(String[] args) throws SQLException {
 		Global.mode = Mode.client;
 		Co.println("Welcome to autoStock\n");
@@ -62,11 +59,39 @@ public class MainClient {
 //			}
 //		});
 		
-		ibExchangeInstance = new IbExchangeInstance();
-		ibExchangeInstance.init();
+//		ibExchangeInstance = new IbExchangeInstance();
+//		ibExchangeInstance.init();
 	//	ibExchangeInstance.getQuote(null);
 				
-		new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
+//		new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
+//			@Override
+//			public void failed(RequestHolder requestHolder) {
+//				
+//			}
+//			
+//			@Override
+//			public void completed(RequestHolder requestHolder, ExResultSetHistoricalData exResultSetHistoricalData) {
+//				Co.println("Completed!!!");
+//			}
+//		}, new TypeHistoricalData("AAPL", null, null));
+		
+
+		//new TWSSupervisor().launchTws();
+		//new DatabaseTest().test();
+		
+		Date startDate = null;
+		try {
+			startDate = DateFormat.getInstance().parse("20120109 10:30:00 AM EST"); 
+		}catch(Exception e){}
+		
+		Date endDate = null;
+		try {
+			startDate = DateFormat.getInstance().parse("20120109 10:35:00 AM EST"); 
+		}catch(Exception e){}
+
+		ConnectionClient connectionClient = new ConnectionClient();
+		connectionClient.startClient();		
+		connectionClient.sendSerializedCommand(Command.client_ex_request_historical_data, new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
 			@Override
 			public void failed(RequestHolder requestHolder) {
 				
@@ -74,38 +99,9 @@ public class MainClient {
 			
 			@Override
 			public void completed(RequestHolder requestHolder, ExResultSetHistoricalData exResultSetHistoricalData) {
-				
+				Co.println("Completed!!!");
 			}
-		}, new TypeHistoricalData("AAPL", null, null));
-		
-
-		//new TWSSupervisor().launchTws();
-		//new DatabaseTest().test();
-		
-//		Date startDate = null;
-//		try {
-//			startDate = DateFormat.getInstance().parse("20120109 10:30:00 AM EST"); 
-//		}catch(Exception e){}
-//		
-//		Date endDate = null;
-//		try {
-//			startDate = DateFormat.getInstance().parse("20120109 10:35:00 AM EST"); 
-//		}catch(Exception e){}
-//
-//		ConnectionClient connectionClient = new ConnectionClient();
-//		connectionClient.startClient();		
-//		connectionClient.sendSerializedCommand(Command.client_ex_request_historical_data, new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
-//			@Override
-//			public void failed(RequestHolder requestHolder) {
-//				Co.println("Failed");
-//			}
-//
-//			@Override
-//			public void completed(RequestHolder requestHolder, ExResultSetHistoricalData exResultSetHistoricalData) {
-//				
-//			}
-//			
-//		}, new TypeHistoricalData("AAPL", startDate, endDate)));
+		}, new TypeHistoricalData("AAPL", null, null)));
 		
 		
 		//connectionClient.stop();

@@ -29,6 +29,7 @@ public class IbExchangeWrapper implements EWrapper {
 	public IbExchangeWrapper(){
 		discardErrorCodes.add(2104);
 		discardErrorCodes.add(2107);
+		discardErrorCodes.add(2106);
 	}
 
 	@Override
@@ -177,7 +178,11 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void historicalData(int requestId, String date, double open, double high, double low, double close, int volume, int count, double WAP, boolean hasGaps) {
 		Co.log("Got historicalData:" + date + "," + open + "," + high + "," + low + "," + close + "," + volume + "," + count + "," + WAP + "," + hasGaps);
-		((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).addResult(new ExResultHistoricalData(). new ExResultRowHistoricalData(date, (float)close));
+		if (date.contains("finished")){
+			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).finished();
+		}else{
+			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).addResult(new ExResultHistoricalData(). new ExResultRowHistoricalData(date, (float)close));
+		}
 	}
 
 	@Override
