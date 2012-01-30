@@ -23,6 +23,8 @@ public class RequestHistoricalData {
 		this.typeHistoricalData = typeHistoricalData;
 		this.exResultSetHistoricalData = new ExResultHistoricalData(). new ExResultSetHistoricalData(typeHistoricalData);
 		this.requestHolder.caller = this;
+		
+		ExchangeController.getIbExchangeInstance().getHistoricalPrice(typeHistoricalData, requestHolder);
 	}
 	
 	public void addResult(ExResultRowHistoricalData exResultRowHistoricalData){
@@ -31,9 +33,5 @@ public class RequestHistoricalData {
 	
 	public void finished(){
 		this.requestHistoricalDataListener.completed(requestHolder, exResultSetHistoricalData);
-	}
-	
-	public void start(){
-		ExchangeController.getIbExchangeInstance().getHistoricalPrice(typeHistoricalData, requestHolder);
 	}
 }

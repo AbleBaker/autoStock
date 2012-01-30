@@ -32,6 +32,7 @@ public class TableHelper {
 		int i=0;
 		for (TableDefinitions.Columns column : arrayOfColumns){
 			arrayOfString[i] = column.name().substring(0,1).toUpperCase() + column.name().substring(1);
+			i++;
 		}
 		
 		return arrayOfString;

@@ -6,14 +6,14 @@ package com.autoStock.tables;
  */
 public class TableDefinitions {
 	public static enum Tables{
-		equity_historical_price_live(new Columns[]{Columns.symbol, Columns.price, Columns.sizeVolume}),
+		equity_historical_price_live(new Columns[]{Columns.symbol, Columns.dateTime, Columns.price}), //, Columns.sizeVolume
 		equity_historicla_price_db(new Columns[]{}),
 		;
 		
 		Columns[] arrayOfColumns;
 		
 		Tables (Columns[] arrayOfColumns){
-			
+			this.arrayOfColumns = arrayOfColumns;
 		}
 	}
 	
