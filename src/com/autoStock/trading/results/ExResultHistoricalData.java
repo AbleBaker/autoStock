@@ -21,11 +21,11 @@ public class ExResultHistoricalData {
 	}
 	
 	public class ExResultRowHistoricalData {
-		public String date;
-		public float price;
+		public long date;
+		public double price;
 		
-		public ExResultRowHistoricalData(String date, float price){
-			this.date = date;
+		public ExResultRowHistoricalData(long date, double price){
+			this.date = date*1000;
 			this.price = price;
 		}
 	}

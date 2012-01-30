@@ -6,7 +6,7 @@ package com.autoStock.tables;
  */
 public class TableDefinitions {
 	public static enum Tables{
-		equity_historical_price_live(new Columns[]{Columns.symbol, Columns.dateTime, Columns.price}), //, Columns.sizeVolume
+		equity_historical_price_live(new Columns[]{Columns.symbol, Columns.dateTime, Columns.price, Columns.derivedChange}), //, Columns.sizeVolume
 		equity_historicla_price_db(new Columns[]{}),
 		;
 		
@@ -36,5 +36,6 @@ public class TableDefinitions {
 		sizeLast,
 		sizeVolume,
 		dateTime,
+		derivedChange,
 	}
 }

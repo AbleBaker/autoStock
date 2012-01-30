@@ -20,6 +20,8 @@ import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.Tables;
+import com.autoStock.tools.DateTools;
+import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.IbEquityInformation;
 import com.autoStock.trading.platform.ib.IbExchangeInstance;
 import com.autoStock.trading.platform.ib.IbExchangeManager;
@@ -77,12 +79,17 @@ public class MainClient {
 				
 				ArrayList<ArrayList<String>> listOfRows = new ArrayList<ArrayList<String>>();
 				
+				ExResultRowHistoricalData lastRow = exResultSetHistoricalData.listOfExResultRowHistoricalData.get(0);
+				
 				for (ExResultRowHistoricalData exResultRowHistoricalData : exResultSetHistoricalData.listOfExResultRowHistoricalData){
 					ArrayList<String> listOfColumnValues = new ArrayList<String>();
 					listOfColumnValues.add(exResultSetHistoricalData.typeHistoricalData.symbol);
-					listOfColumnValues.add(exResultRowHistoricalData.date);
+					listOfColumnValues.add(DateTools.getPrettyDate(exResultRowHistoricalData.date));
 					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.price));
+					listOfColumnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(exResultRowHistoricalData.price - lastRow.price)));
 					listOfRows.add(listOfColumnValues);
+					
+					lastRow = exResultRowHistoricalData;
 				}
 				
 				new TableController().displayTable(Tables.equity_historical_price_live, listOfRows);

@@ -181,7 +181,7 @@ public class IbExchangeWrapper implements EWrapper {
 		if (date.contains("finished")){
 			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).finished();
 		}else{
-			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).addResult(new ExResultHistoricalData(). new ExResultRowHistoricalData(date, (float)close));
+			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).addResult(new ExResultHistoricalData(). new ExResultRowHistoricalData(Long.valueOf(date), close));
 		}
 	}
 
