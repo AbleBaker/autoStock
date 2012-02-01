@@ -5,5 +5,5 @@ package com.autoStock;
  *
  */
 public class Ci {
-
+	//Console input
 }
