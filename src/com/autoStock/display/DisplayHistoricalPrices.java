@@ -46,6 +46,7 @@ public class DisplayHistoricalPrices {
 					listOfColumnValues.add(DateTools.getPrettyDate(exResultRowHistoricalData.date));
 					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.price));
 					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.volume));
+					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.count));
 					listOfColumnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(exResultRowHistoricalData.price - lastRow.price)));
 					listOfRows.add(listOfColumnValues);
 					

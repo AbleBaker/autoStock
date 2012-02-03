@@ -24,11 +24,13 @@ public class ExResultHistoricalData {
 		public long date;
 		public double price;
 		public int volume;
+		public int count;
 		
-		public ExResultRowHistoricalData(long date, double price, int volume){
+		public ExResultRowHistoricalData(long date, double price, int volume, int count){
 			this.date = date*1000;
 			this.price = price;
 			this.volume = volume;
+			this.count = count;
 		}
 	}
 }
