@@ -45,15 +45,10 @@ public class MainClient {
 		
 		ApplicationStates.startup();
 	
-		new MenuController().displayMenu(MenuStructures.menu_main);
-
-
-		//ASCIITable.getInstance().printTable(header, data);
-		
-//		IbExchangeInstance ibExchangeInstance;
-//		ibExchangeInstance = new IbExchangeInstance();
-//		ibExchangeInstance.init();
-				
+		MenuController menuController = new MenuController();
+		menuController.displayMenu(MenuStructures.menu_main);
+		MenuStructures menuStructure = menuController.getRelatedMenu(args);
+		menuController.handleMenuStructure(menuStructure, args);				
 		new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
 			@Override
 			public void failed(RequestHolder requestHolder) {
@@ -88,7 +83,7 @@ public class MainClient {
 		//new DatabaseTest().test();
 		//connectionClient.stop();
 		
-		Co.println("Waiting for callbacks... OK");
+		Co.println("\n\nWaiting for callbacks... OK");
 		try{Thread.sleep(1*1000);}catch(Exception e){}
 		Co.println("\n Done \n");
 		System.exit(0);

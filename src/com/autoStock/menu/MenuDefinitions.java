@@ -10,7 +10,7 @@ public class MenuDefinitions {
 		menu_shutdown(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_startup(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_restart(new MenuArguments[]{MenuArguments.arg_restart_delay}),
-		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
+		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
 		;
 		
 		public MenuArguments[] arrayOfMenuArguments;
@@ -24,12 +24,14 @@ public class MenuDefinitions {
 		arg_none(new MenuArgumentTypes[]{MenuArgumentTypes.const_none}, ""),
 		arg_restart_delay(new MenuArgumentTypes[]{MenuArgumentTypes.const_now, MenuArgumentTypes.const_safe, MenuArgumentTypes.basic_integer}, "Restart delay"),
 		arg_security_type(new MenuArgumentTypes[]{MenuArgumentTypes.const_stk, MenuArgumentTypes.const_opt, MenuArgumentTypes.const_fut}, "Security Type"),
+		arg_symbol(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Symbol"),
 		arg_start_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date}, "Start Date"),
 		arg_end_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date, MenuArgumentTypes.basic_period}, "End Date or Period"),
 		;
 		
 		public MenuArgumentTypes[] arrayOfArgumentTypes;
 		public String argumentDescription;
+		public String value;
 		
 		MenuArguments(MenuArgumentTypes[] arrayOfArgumentTypes, String argumentDescription){
 			this.arrayOfArgumentTypes = arrayOfArgumentTypes;

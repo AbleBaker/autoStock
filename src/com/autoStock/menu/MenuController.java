@@ -4,11 +4,13 @@
 package com.autoStock.menu;
 
 import com.autoStock.Co;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.menu.MenuDefinitions.MenuArgumentTypes;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.tools.MiscUtils;
 import com.autoStock.tools.StringUtils;
+import com.autoStock.tools.ValidilityCheck;
 
 /**
  * @author Kevin Kowalewski
@@ -33,5 +35,56 @@ public class MenuController {
 				Co.print("\n");
 			}
 		}
+	}
+	
+	public MenuStructures getRelatedMenu(String[] arguments){
+		if (arguments.length == 0){return null;}
+		String command = arguments[0];
+		for (MenuStructures menuStructureEntry : MenuStructures.values()){
+			if (StringUtils.removePrefix(menuStructureEntry.name(), "_").equals(command)){
+				return menuStructureEntry;
+			}
+		}
+		
+		return null;
+	}
+	
+	public void getArgument(){
+		
+	}
+
+	public void handleMenuStructure(MenuStructures menuStructure, String[] args) {
+		if (menuStructure == null){
+			Co.println("\nError: No known command was entered");
+			ApplicationStates.shutdown();
+			return;
+		}
+		
+		//Co.println("Got menu: " + menuStructure.name());
+		
+		int index = 1;
+		for (MenuArguments menuArgument : menuStructure.arrayOfMenuArguments){
+			//Co.println("Need argument: " + menuArgument.name());
+			//Co.println("Have value:" + args[index]);
+			try {
+				menuArgument.value = args[index];
+			}catch (IndexOutOfBoundsException e){
+				Co.println("\nError: Invalid argument length");
+				ApplicationStates.shutdown();
+				return;
+			}
+			
+			if (new ValidilityCheck().isValidMenuArgument(menuArgument) == false){
+				Co.println("\nInvalid menu argument type or value for: " + menuArgument.name());
+				ApplicationStates.shutdown();
+				return;
+			}
+			
+			index++;
+		}
+	}
+	
+	public boolean isValidMenuArgument(MenuArguments menuArgument, String value){	
+		return true;
 	}
 }
