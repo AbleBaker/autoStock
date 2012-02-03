@@ -14,7 +14,7 @@ import java.util.Date;
 public class DateTools {
 	public static String getPrettyDate(long date){
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
-		dateFormat.applyPattern("EEE, MMM d, yyyy hh:mm a");
+		dateFormat.applyPattern("EEE, MMM d, yyyy hh:mm:ss a");
 		return dateFormat.format(new Date(date));
 	}	
 	

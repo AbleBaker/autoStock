@@ -37,9 +37,7 @@ public class DisplayHistoricalPrices {
 			
 			@Override
 			public void completed(RequestHolder requestHolder, ExResultSetHistoricalData exResultSetHistoricalData) {
-				
 				ArrayList<ArrayList<String>> listOfRows = new ArrayList<ArrayList<String>>();
-				
 				ExResultRowHistoricalData lastRow = exResultSetHistoricalData.listOfExResultRowHistoricalData.get(0);
 				
 				for (ExResultRowHistoricalData exResultRowHistoricalData : exResultSetHistoricalData.listOfExResultRowHistoricalData){

@@ -35,7 +35,7 @@ public class IbExchangeInstance {
 		Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
 		contract.m_exchange = "Smart";
-		contract.m_symbol = "AAPL";
+		contract.m_symbol = typeHistoricalData.symbol;
 		contract.m_secType = "STK";
 		contract.m_currency = "USD";
 		String endDate = "20120109 10:30:00 EST";
