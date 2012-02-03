@@ -83,8 +83,4 @@ public class MenuController {
 			index++;
 		}
 	}
-	
-	public boolean isValidMenuArgument(MenuArguments menuArgument, String value){	
-		return true;
-	}
 }

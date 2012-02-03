@@ -12,7 +12,7 @@ public class TypeHistoricalData {
 	public String symbol;
 	
 	public TypeHistoricalData(String symbol, Date startDate, Date endDate){
-		this.symbol = symbol;
+		this.symbol = symbol.toUpperCase();
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}

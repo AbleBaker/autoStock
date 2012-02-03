@@ -6,6 +6,7 @@ import com.autoStock.internal.Global;
 import com.autoStock.internal.Global.Mode;
 import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
+import com.autoStock.menu.MenuDisplayLauncher;
 
 /**
  * @author Kevin Kowalewski
@@ -19,16 +20,14 @@ public class MainClient {
 		ApplicationStates.startup();
 	
 		MenuController menuController = new MenuController();
-		menuController.displayMenu(MenuStructures.menu_main);
+		if (args.length == 0){menuController.displayMenu(MenuStructures.menu_main); return;}
 		MenuStructures menuStructure = menuController.getRelatedMenu(args);
-		menuController.handleMenuStructure(menuStructure, args);				
-
-		//new TWSSupervisor().launchTws();
-		//new DatabaseTest().test();
-		//connectionClient.stop();
+		menuController.handleMenuStructure(menuStructure, args);
 		
-		Co.println("\n\nWaiting for callbacks... OK");
-		try{Thread.sleep(1*1000);}catch(Exception e){}
+		new MenuDisplayLauncher().launchDisplay(menuStructure);
+		
+		Co.println("\n\nWaiting for callbacks...");
+		try{Thread.sleep(3*1000);}catch(Exception e){}
 		Co.println("\n Done \n");
 		System.exit(0);
 		

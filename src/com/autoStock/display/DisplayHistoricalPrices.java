@@ -21,6 +21,13 @@ import com.autoStock.trading.types.TypeHistoricalData;
  *
  */
 public class DisplayHistoricalPrices {
+	
+	private TypeHistoricalData typeHistoricalData;
+	
+	public DisplayHistoricalPrices(TypeHistoricalData typeHistoricalData){
+		this.typeHistoricalData = typeHistoricalData;
+	}
+	
 	public void display(){
 		new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
 			@Override
@@ -49,6 +56,6 @@ public class DisplayHistoricalPrices {
 				new TableController().displayTable(AsciiTables.equity_historical_price_live, listOfRows);
 				Co.println("Completed!!!");
 			}
-		}, new TypeHistoricalData("AAPL", null, null));
+		}, typeHistoricalData);
 	}
 }

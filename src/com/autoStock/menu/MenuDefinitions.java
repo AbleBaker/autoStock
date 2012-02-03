@@ -18,6 +18,16 @@ public class MenuDefinitions {
 		private MenuStructures(MenuArguments[] arrayOfMenuArguments) {
 			this.arrayOfMenuArguments = arrayOfMenuArguments;
 		}
+		
+		public MenuArguments getArgument(MenuArguments menuArgument){
+			for (MenuArguments tempMenuArgument : arrayOfMenuArguments){
+				if (tempMenuArgument == menuArgument){
+					return menuArgument;
+				}
+			}
+			
+			return null;
+		}
 	}
 	
 	public static enum MenuArguments{
