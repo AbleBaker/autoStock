@@ -23,10 +23,12 @@ public class ExResultHistoricalData {
 	public class ExResultRowHistoricalData {
 		public long date;
 		public double price;
+		public int volume;
 		
-		public ExResultRowHistoricalData(long date, double price){
+		public ExResultRowHistoricalData(long date, double price, int volume){
 			this.date = date*1000;
 			this.price = price;
+			this.volume = volume;
 		}
 	}
 }

@@ -6,7 +6,7 @@ package com.autoStock.tables;
  */
 public class TableDefinitions {
 	public static enum AsciiTables{
-		equity_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.derivedChange}), //, Columns.sizeVolume
+		equity_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.sizeVolume, AsciiColumns.derivedChange}), //, Columns.sizeVolume
 		equity_historicla_price_db(new AsciiColumns[]{}),
 		;
 		
