@@ -18,5 +18,5 @@ public class Config {
 	public static String plIbUsername = "cmiha621";
 	public static String plIbPassword = "paper123";
 	public static int plIbTwsPort = 888;
-	public static String plIbTwsHost = "127.0.0.1";
+	public static String plIbTwsHost = "199.19.173.146";
 }

@@ -25,7 +25,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket = new IbExchangeClientSocket();
 		
 		try {
-			ibExchangeClientSocket.init();
+			ibExchangeClientSocket.init(ibExchangeWrapper);
 			ibExchangeClientSocket.connect();
 		}catch(Exception e){e.printStackTrace();}
 	}
@@ -44,18 +44,5 @@ public class IbExchangeInstance {
 		String endDate = "20120109 10:30:00 EST";
 		String duration = "120 S";
 		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, "1 secs", "BID_ASK", 1, 2);
-	}
-	
-	public void getQuote(String symbol){
-		Contract contract = new Contract();
-		contract.m_exchange = "Smart";
-		contract.m_symbol = "AAPL";
-		contract.m_secType = "STK";
-		contract.m_currency = "USD";
-		//contract.m_secIdType = "ISIN";
-		//contract.m_secId = "US0378331005";
-		String endDate = "20120109 10:30:00 EST";
-		String duration = "120 S";
-		ibExchangeClientSocket.eClientSocket.reqHistoricalData(1, contract, endDate, duration, "1 secs", "BID_ASK", 1, 2);
 	}
 }

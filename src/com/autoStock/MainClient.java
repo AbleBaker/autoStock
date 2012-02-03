@@ -49,24 +49,10 @@ public class MainClient {
 
 
 		//ASCIITable.getInstance().printTable(header, data);
-//		
-//		new IbExchangeManager();
-//		IbExchangeManager.getIbExchangeInstance();
 		
-//		new RequestInformation().requestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
-//			@Override
-//			public void failed(RequestHolder requestHolder) {
-//				
-//			}
-//			@Override
-//			public void completed(RequestHolder requestHolder) {
-//				
-//			}
-//		});
-		
+//		IbExchangeInstance ibExchangeInstance;
 //		ibExchangeInstance = new IbExchangeInstance();
 //		ibExchangeInstance.init();
-	//	ibExchangeInstance.getQuote(null);
 				
 		new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
 			@Override
@@ -103,7 +89,7 @@ public class MainClient {
 		//connectionClient.stop();
 		
 		Co.println("Waiting for callbacks... OK");
-		try{Thread.sleep(60*1000);}catch(Exception e){}
+		try{Thread.sleep(1*1000);}catch(Exception e){}
 		Co.println("\n Done \n");
 		System.exit(0);
 		

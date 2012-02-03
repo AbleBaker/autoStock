@@ -8,13 +8,13 @@ package com.autoStock.trading.platform.ib;
  *
  */
 public class IbExchangeManager {
-	static IbExchangeInstance ibExchangeInstance = new IbExchangeInstance();
+	//static IbExchangeInstance ibExchangeInstance = new IbExchangeInstance();
 	
-	public IbExchangeManager(){
-		ibExchangeInstance.init();
-	}
-	
-	public static IbExchangeInstance getIbExchangeInstance(){
-		return ibExchangeInstance;
-	}
+//	public IbExchangeManager(){
+//		ibExchangeInstance.init();
+//	}
+//	
+//	public static IbExchangeInstance getIbExchangeInstance(){
+//		return ibExchangeInstance;
+//	}
 }

@@ -21,9 +21,9 @@ public class IbExchangeClientSocket {
 	public EClientSocket eClientSocket;
 	public Socket socket;
 	
-	public void init() throws UnknownHostException, IOException{
+	public void init(IbExchangeWrapper ibExchangeWrapper) throws UnknownHostException, IOException{
 		socket = new Socket(Config.plIbTwsHost, Config.plIbTwsPort);
-		eClientSocket = new EClientSocket(new IbExchangeWrapper());
+		eClientSocket = new EClientSocket(ibExchangeWrapper);
 	}
 	
 	public void connect() throws IOException{

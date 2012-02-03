@@ -46,7 +46,6 @@ public class CommandHolder implements Runnable {
 		
 		else if (command == Command.client_ex_request_historical_data){
 			MainServer.appleState = "Would have request historical data";
-			ExchangeController.getIbExchangeInstance().getQuote("AAPL");
 		}
 		
 		else {
