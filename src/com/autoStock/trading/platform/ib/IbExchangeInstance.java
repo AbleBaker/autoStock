@@ -3,11 +3,8 @@
  */
 package com.autoStock.trading.platform.ib;
 
-import java.net.Socket;
-
 import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHolder;
-import com.autoStock.internal.Config;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
 import com.autoStock.trading.types.TypeHistoricalData;

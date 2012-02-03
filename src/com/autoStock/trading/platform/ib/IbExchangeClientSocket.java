@@ -8,9 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Random;
 
-import com.autoStock.Co;
 import com.autoStock.internal.Config;
-import com.autoStock.trading.platform.ib.core.AnyWrapper;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
 
 /**

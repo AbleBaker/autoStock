@@ -63,7 +63,8 @@ public class EReader extends Thread {
         m_dis = dis;
     }
 
-    public void run() {
+    @Override
+	public void run() {
         try {
             // loop until thread is terminated
             while( !isInterrupted() && processMsg(readInt()));

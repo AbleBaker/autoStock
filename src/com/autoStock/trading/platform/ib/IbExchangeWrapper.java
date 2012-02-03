@@ -16,7 +16,6 @@ import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.OrderState;
 import com.autoStock.trading.platform.ib.core.UnderComp;
 import com.autoStock.trading.results.ExResultHistoricalData;
-import com.autoStock.trading.results.ExResultHistoricalData.ExResultRowHistoricalData;
 
 /**
  * @author Kevin Kowalewski

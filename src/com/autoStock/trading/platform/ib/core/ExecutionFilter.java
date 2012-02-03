@@ -28,7 +28,8 @@ public class ExecutionFilter{
         m_side = p_side;
     }
 
-    public boolean equals(Object p_other) {
+    @Override
+	public boolean equals(Object p_other) {
         boolean l_bRetVal = false;
 
         if ( p_other == null ) {

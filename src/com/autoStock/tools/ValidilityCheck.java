@@ -3,9 +3,6 @@ package com.autoStock.tools;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import javax.swing.text.DateFormatter;
-
-import com.autoStock.Co;
 import com.autoStock.menu.MenuDefinitions.MenuArgumentTypes;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData;

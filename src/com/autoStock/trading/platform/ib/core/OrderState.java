@@ -36,6 +36,7 @@ public class OrderState {
 		m_warningText = warningText;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 
         if (this == other)

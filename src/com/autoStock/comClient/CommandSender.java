@@ -3,9 +3,6 @@
  */
 package com.autoStock.comClient;
 
-import java.util.Vector;
-
-import com.autoStock.com.CommandDefinitions;
 import com.autoStock.com.CommandDefinitions.Command;
 import com.autoStock.com.CommandHolder;
 

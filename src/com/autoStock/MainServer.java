@@ -1,11 +1,9 @@
 package com.autoStock;
 
-import java.lang.management.ManagementFactory;
 import com.autoStock.comServer.ConnectionServer;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.internal.Global.Mode;
-import com.autoStock.trading.platform.ib.IbExchangeInstance;
 /**
  * @author Kevin Kowalewski
  *

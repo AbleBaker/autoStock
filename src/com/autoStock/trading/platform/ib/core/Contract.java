@@ -38,7 +38,8 @@ public class Contract implements Cloneable {
         m_includeExpired = false;
     }
 
-    public Object clone() throws CloneNotSupportedException {
+    @Override
+	public Object clone() throws CloneNotSupportedException {
         Contract retval = (Contract)super.clone();
         retval.m_comboLegs = (Vector)retval.m_comboLegs.clone();
         return retval;
@@ -66,7 +67,8 @@ public class Contract implements Cloneable {
         m_secId = p_secId ;
     }
 
-    public boolean equals(Object p_other) {
+    @Override
+	public boolean equals(Object p_other) {
 
     	if (this == p_other) {
     		return true;

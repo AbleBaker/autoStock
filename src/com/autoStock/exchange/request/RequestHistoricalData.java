@@ -1,6 +1,5 @@
 package com.autoStock.exchange.request;
 
-import com.autoStock.MainClient;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.trading.results.ExResultHistoricalData;
 import com.autoStock.trading.results.ExResultHistoricalData.ExResultRowHistoricalData;

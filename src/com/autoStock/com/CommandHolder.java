@@ -3,18 +3,10 @@
  */
 package com.autoStock.com;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Random;
-import java.util.Vector;
-
 import com.autoStock.Co;
 import com.autoStock.MainServer;
 import com.autoStock.com.CommandDefinitions.Command;
-import com.autoStock.exchange.ExchangeController;
-import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.internal.ApplicationStates;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Kevin Kowalewski

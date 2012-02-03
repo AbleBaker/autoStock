@@ -5,19 +5,19 @@ package com.autoStock.tables;
  *
  */
 public class TableDefinitions {
-	public static enum Tables{
-		equity_historical_price_live(new Columns[]{Columns.symbol, Columns.dateTime, Columns.price, Columns.derivedChange}), //, Columns.sizeVolume
-		equity_historicla_price_db(new Columns[]{}),
+	public static enum AsciiTables{
+		equity_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.derivedChange}), //, Columns.sizeVolume
+		equity_historicla_price_db(new AsciiColumns[]{}),
 		;
 		
-		Columns[] arrayOfColumns;
+		AsciiColumns[] arrayOfColumns;
 		
-		Tables (Columns[] arrayOfColumns){
+		AsciiTables (AsciiColumns[] arrayOfColumns){
 			this.arrayOfColumns = arrayOfColumns;
 		}
 	}
 	
-	public static enum Columns {
+	public static enum AsciiColumns {
 		id,
 		symbol,
 		orderType,

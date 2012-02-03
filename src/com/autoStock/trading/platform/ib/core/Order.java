@@ -164,7 +164,8 @@ public class Order {
         m_notHeld = false;
     }
 
-    public boolean equals(Object p_other) {
+    @Override
+	public boolean equals(Object p_other) {
 
         if ( this == p_other )
             return true;

@@ -51,7 +51,8 @@ public class Execution {
         m_orderRef = p_orderRef;
     }
 
-    public boolean equals(Object p_other) {
+    @Override
+	public boolean equals(Object p_other) {
         boolean l_bRetVal = false;
 
         if ( p_other == null ) {

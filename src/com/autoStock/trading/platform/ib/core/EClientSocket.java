@@ -9,8 +9,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.autoStock.Co;
-
 public class EClientSocket {
 
     // Client version history

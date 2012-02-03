@@ -8,13 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.autoStock.Co;
 import com.autoStock.com.CommandDefinitions.Command;
 import com.autoStock.com.CommandHolder;
-import com.autoStock.comServer.CommandReceiver;
 import com.autoStock.comServer.ConnectionServer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -7,16 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import com.autoStock.Co;
-import com.autoStock.com.CommandHolder;
-import com.autoStock.comClient.CommandSender;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Kevin Kowalewski
@@ -56,6 +49,7 @@ public class ConnectionServer {
 			start();
 		}
 
+		@Override
 		public void run() {
 			BufferedReader in = null;
 			PrintWriter out = null;
