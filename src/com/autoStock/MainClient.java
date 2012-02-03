@@ -45,7 +45,7 @@ public class MainClient {
 		
 		ApplicationStates.startup();
 	
-		//new MenuController().displayMenu(MenuStructures.menu_main);
+		new MenuController().displayMenu(MenuStructures.menu_main);
 
 
 		//ASCIITable.getInstance().printTable(header, data);
@@ -100,35 +100,9 @@ public class MainClient {
 
 		//new TWSSupervisor().launchTws();
 		//new DatabaseTest().test();
-		
-//		Date startDate = null;
-//		try {
-//			startDate = DateFormat.getInstance().parse("20120109 10:30:00 AM EST"); 
-//		}catch(Exception e){}
-//		
-//		Date endDate = null;
-//		try {
-//			startDate = DateFormat.getInstance().parse("20120109 10:35:00 AM EST"); 
-//		}catch(Exception e){}
-//
-//		ConnectionClient connectionClient = new ConnectionClient();
-//		connectionClient.startClient();		
-//		connectionClient.sendSerializedCommand(Command.client_ex_request_historical_data, new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
-//			@Override
-//			public void failed(RequestHolder requestHolder) {
-//				
-//			}
-//			
-//			@Override
-//			public void completed(RequestHolder requestHolder, ExResultSetHistoricalData exResultSetHistoricalData) {
-//				Co.println("Completed!!!");
-//			}
-//		}, new TypeHistoricalData("AAPL", null, null)));
-		
-		
 		//connectionClient.stop();
 		
-		Co.println("Waiting for callbacks...");
+		Co.println("Waiting for callbacks... OK");
 		try{Thread.sleep(60*1000);}catch(Exception e){}
 		Co.println("\n Done \n");
 		System.exit(0);

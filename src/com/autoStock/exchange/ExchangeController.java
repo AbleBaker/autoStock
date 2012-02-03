@@ -3,6 +3,7 @@
  */
 package com.autoStock.exchange;
 
+import com.autoStock.Co;
 import com.autoStock.trading.platform.ib.IbExchangeInstance;
 
 /**

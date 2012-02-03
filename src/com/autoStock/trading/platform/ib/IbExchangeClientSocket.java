@@ -27,6 +27,6 @@ public class IbExchangeClientSocket {
 	}
 	
 	public void connect() throws IOException{
-		eClientSocket.eConnect(socket, new Random().nextInt());
+		eClientSocket.eConnect(socket, new Random().nextInt(10000));
 	}
 }
