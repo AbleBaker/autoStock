@@ -10,7 +10,7 @@ public class MenuDefinitions {
 		menu_shutdown(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_startup(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_restart(new MenuArguments[]{MenuArguments.arg_restart_delay}),
-		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
+		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol, MenuArguments.arg_resolution, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
 		;
 		
 		public MenuArguments[] arrayOfMenuArguments;
@@ -36,7 +36,8 @@ public class MenuDefinitions {
 		arg_security_type(new MenuArgumentTypes[]{MenuArgumentTypes.const_stk, MenuArgumentTypes.const_opt, MenuArgumentTypes.const_fut}, "Security Type"),
 		arg_symbol(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Symbol"),
 		arg_start_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date}, "Start Date"),
-		arg_end_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date, MenuArgumentTypes.basic_period}, "End Date or Period"),
+		arg_end_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date}, "End Date or Period"), // MenuArgumentTypes.basic_period}
+		arg_resolution(new MenuArgumentTypes[]{MenuArgumentTypes.basic_resolution}, "Reporting resolution"),
 		;
 		
 		public MenuArgumentTypes[] arrayOfArgumentTypes;
@@ -55,6 +56,7 @@ public class MenuDefinitions {
 		basic_string,
 		basic_date,
 		basic_period,
+		basic_resolution,
 		const_now,
 		const_safe,
 		const_stk,

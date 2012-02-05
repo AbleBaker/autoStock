@@ -39,11 +39,10 @@ public class IbExchangeInstance {
 		Contract contract = new Contract();
 		contract.m_exchange = "Smart";
 		contract.m_symbol = typeHistoricalData.symbol;
-		contract.m_secType = "STK";
+		contract.m_secType = typeHistoricalData.securityType;
 		contract.m_currency = "USD";
-		//String endDate = "20120109 10:30:00 EST";
-		String endDate = new SimpleDateFormat("yyyyMMdd hh:mm:ss").format(typeHistoricalData.endDate);
-		String duration = "120 S";
-		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, "1 secs", "TRADES", 1, 2);
+		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(typeHistoricalData.endDate) + " est";
+		String duration = String.valueOf(typeHistoricalData.duration) + " S";
+		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, typeHistoricalData.resolution.barSize, "TRADES", 1, 2);
 	}
 }

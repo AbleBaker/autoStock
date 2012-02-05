@@ -8,42 +8,72 @@ package com.autoStock.trading.platform.ib.definitions;
  *
  */
 public class HistoricalData {
+	
+	public static int MIN_PERIOD = 30;
+	
 	public static enum Period{
-		year(new Resolution[]{Resolution.day}),
-		month_6(new Resolution[]{Resolution.day}),
-		month_3(new Resolution[]{Resolution.day}),
-		month(new Resolution[]{Resolution.day, Resolution.hour}),
-		week(new Resolution[]{Resolution.day, Resolution.hour, Resolution.min_30, Resolution.min_15}),
-		day(new Resolution[]{Resolution.hour, Resolution.min_30, Resolution.min_15, Resolution.min}),
-		hour_1(new Resolution[]{Resolution.min_30, Resolution.min_15, Resolution.min, Resolution.sec_30,  Resolution.sec_15, Resolution.sec_5}),
-		min_30(new Resolution[]{Resolution.min_15, Resolution.min, Resolution.sec_30, Resolution.sec_15, Resolution.sec_5}),
-		min(new Resolution[]{Resolution.sec_30, Resolution.sec_15, Resolution.sec_5, Resolution.sec}),
+		year(new Resolution[]{Resolution.day},365*24*60*60),
+		month_6(new Resolution[]{Resolution.day},182*24*60*60),
+		month_3(new Resolution[]{Resolution.day},90*24*60*60),
+		month(new Resolution[]{Resolution.day, Resolution.hour},31*26*60*60),
+		week(new Resolution[]{Resolution.day, Resolution.hour, Resolution.min_30, Resolution.min_15},7*26*60*60),
+		day(new Resolution[]{Resolution.hour, Resolution.min_30, Resolution.min_15, Resolution.min},24*60*60),
+		hour_1(new Resolution[]{Resolution.min_30, Resolution.min_15, Resolution.min, Resolution.sec_30,  Resolution.sec_15, Resolution.sec_5},1*60*60),
+		min_30(new Resolution[]{Resolution.min_15, Resolution.min, Resolution.sec_30, Resolution.sec_15, Resolution.sec_5, Resolution.sec},30*60),
+		min(new Resolution[]{Resolution.sec_30, Resolution.sec_15, Resolution.sec_5, Resolution.sec},60),
 		;
 		
-		Resolution[] arrayOfResolution;
+		public Resolution[] arrayOfResolution;
+		public int duration;
 		
-		Period(Resolution[] arrayOfResolution){
+		Period(Resolution[] arrayOfResolution, int duration){
 			this.arrayOfResolution = arrayOfResolution;
+			this.duration = duration;
 		}
 	}
 	
 	public static enum Resolution {
-		day(86400),
-		hour(3600),
-		min_30(1800),
-		min_15(900),
-		min_5(300),
-		min(60),
-		sec_30(30),
-		sec_15(15),
-		sec_5(5),
-		sec(1),
+		day(86400, "1 day"),
+		hour(3600, "1 hour"),
+		min_30(1800, "30 mins"),
+		min_15(900, "15 mins"),
+		min_5(300, "5 mins"),
+		min(60, "1 min"),
+		sec_30(30, "30 secs"),
+		sec_15(15, "15 secs"),
+		sec_5(5, "5 secs"),
+		sec(1, "1 secs"),
 		;
 		
 		public int seconds;
+		public String barSize;
 		
-		Resolution(int seconds){
+		Resolution(int seconds, String barSize){
 			this.seconds = seconds;
+			this.barSize = barSize;
 		}
+	}
+	
+	public static Resolution getBestResolution(long duration){
+		Period bestPeriod = Period.year;
+		for (Period period : Period.values()){
+			if (period.duration >= duration){
+				bestPeriod = period;
+			}
+		}
+		
+		return bestPeriod.arrayOfResolution[bestPeriod.arrayOfResolution.length-1];
+	}
+	
+	public static Period getBestPeriod(Resolution resolution){
+		for (Period period : Period.values()){
+			for (Resolution tempResolution : period.arrayOfResolution){
+				if (resolution == tempResolution){
+					return period;
+				}
+			}
+		}
+		
+		return null;
 	}
 }

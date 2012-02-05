@@ -3,6 +3,9 @@
  */
 package com.autoStock.exchange;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.autoStock.trading.platform.ib.IbExchangeInstance;
 
 /**
@@ -10,14 +13,18 @@ import com.autoStock.trading.platform.ib.IbExchangeInstance;
  *
  */
 public class ExchangeController {
-	public static IbExchangeInstance ibExchangeInstance;
+	public static int MAX_INSTANCES = 8;
+	public static ArrayList<IbExchangeInstance> listOfIbExchangeInstance = new ArrayList<IbExchangeInstance>();
 	
 	public static void init(){
-		ibExchangeInstance = new IbExchangeInstance();
-		ibExchangeInstance.init();
+		for (int i=0; i<MAX_INSTANCES; i++){
+			IbExchangeInstance ibExchangeInstance = new IbExchangeInstance();
+			ibExchangeInstance.init();
+			listOfIbExchangeInstance.add(ibExchangeInstance);
+		}
 	}
 	
 	public static IbExchangeInstance getIbExchangeInstance(){
-		return ibExchangeInstance;
+		return listOfIbExchangeInstance.get(new Random().nextInt(listOfIbExchangeInstance.size()));
 	}
 }

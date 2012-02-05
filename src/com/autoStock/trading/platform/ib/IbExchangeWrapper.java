@@ -96,7 +96,7 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void openOrderEnd() {
-		Co.log("Got openOrderEnd");
+		//Co.log("Got openOrderEnd");
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void nextValidId(int orderId) {
-		Co.log("Got nextValidId");	
+		//Co.log("Got nextValidId: " + orderId);	
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void historicalData(int requestId, String date, double open, double high, double low, double close, int volume, int count, double WAP, boolean hasGaps) {
-		//Co.log("Got historicalData:" + date + "," + open + "," + high + "," + low + "," + close + "," + volume + "," + count + "," + WAP + "," + hasGaps);
+		//Co.log("Got historicalData:" + requestId + date + "," + open + "," + high + "," + low + "," + close + "," + volume + "," + count + "," + WAP + "," + hasGaps);
 		if (date.contains("finished")){
 			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).finished();
 		}else{

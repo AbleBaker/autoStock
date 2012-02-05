@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import com.autoStock.menu.MenuDefinitions.MenuArgumentTypes;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData;
+import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
 
 /**
  * @author Kevin Kowalewski
@@ -20,25 +21,41 @@ public class ValidilityCheck {
 				return isValidDate(menuArgument.value);
 			}
 			
-			if (menuArgumentType == MenuArgumentTypes.basic_integer){
+			else if (menuArgumentType == MenuArgumentTypes.basic_integer){
 				return isValidInt(menuArgument.value);
 			}
 			
-			if (menuArgumentType == MenuArgumentTypes.basic_float){
+			else if (menuArgumentType == MenuArgumentTypes.basic_float){
 				return isValidFloat(menuArgument.value);
 			}
 			
-			if (menuArgumentType == MenuArgumentTypes.basic_period){
+			else if (menuArgumentType == MenuArgumentTypes.basic_period){
 				return isValidPeriod(menuArgument.value);
 			}
 			
-			if (menuArgumentType.name().startsWith("const")){
+			else if (menuArgumentType.name().startsWith("const")){
 				return isValidMenuDefinitionConst(menuArgument.value);
 			}
 			
-			if (menuArgumentType == MenuArgumentTypes.basic_string){
+			else if (menuArgumentType == MenuArgumentTypes.basic_resolution){
+				return isValidResolution(menuArgument.value);
+			}
+			
+			else if (menuArgumentType == MenuArgumentTypes.basic_string){
 				return true;
 			}
+			
+			else {
+				throw new UnsatisfiedLinkError();
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean isValidResolution(String value){
+		if (Resolution.valueOf(value) != null){
+			return true;
 		}
 		
 		return false;
@@ -68,7 +85,7 @@ public class ValidilityCheck {
 			return true;
 		}catch (ParseException e){
 			try {
-				new SimpleDateFormat("yyyy/MM/dd.HH:mm.ss a").parse(value);
+				new SimpleDateFormat("yyyy/MM/dd.HH:mm:ss.a").parse(value);
 				return true;
 			}catch (ParseException ex){
 				return false;
