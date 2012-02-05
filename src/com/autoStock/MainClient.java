@@ -27,7 +27,7 @@ public class MainClient {
 		new MenuDisplayLauncher().launchDisplay(menuStructure);
 		
 		Co.println("\n\nWaiting for callbacks...");
-		try{Thread.sleep(3*1000);}catch(Exception e){}
+		try{Thread.sleep(30*1000);}catch(Exception e){}
 		Co.println("\n Done \n");
 		System.exit(0);
 		
