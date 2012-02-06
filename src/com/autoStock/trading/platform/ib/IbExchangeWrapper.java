@@ -29,6 +29,7 @@ public class IbExchangeWrapper implements EWrapper {
 		discardErrorCodes.add(2104);
 		discardErrorCodes.add(2107);
 		discardErrorCodes.add(2106);
+		discardErrorCodes.add(2108);
 	}
 
 	@Override
@@ -56,22 +57,22 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
-		Co.log("Got tickPrice");
+		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + canAutoExecute);
 	}
 
 	@Override
 	public void tickSize(int tickerId, int field, int size) {
-		Co.log("Got tickSize");
-	}
-
-	@Override
-	public void tickOptionComputation(int tickerId, int field, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
-		Co.log("Got tickOptionCompuation");
+		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size);
 	}
 
 	@Override
 	public void tickGeneric(int tickerId, int tickType, double value) {
-		Co.log("Got tickGeneric");
+		Co.log("Got tickGeneric: " + tickerId + ", " + tickType + ", " + value);
+	}
+	
+	@Override
+	public void tickOptionComputation(int tickerId, int field, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice) {
+		Co.log("Got tickOptionCompuation");
 	}
 
 	@Override

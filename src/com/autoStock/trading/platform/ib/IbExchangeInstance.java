@@ -11,6 +11,7 @@ import com.autoStock.exchange.request.RequestHolder;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
 import com.autoStock.trading.types.TypeHistoricalData;
+import com.autoStock.trading.types.TypeMarketData;
 
 /**
  * @author Kevin Kowalewski
@@ -32,6 +33,16 @@ public class IbExchangeInstance {
 	
 	public EClientSocket getEclientSocket(){
 		return ibExchangeClientSocket.eClientSocket;
+	}
+	
+	public void getMarketData(TypeMarketData typeMarketData, RequestHolder requestHolder){
+		Co.println("Request id: " + requestHolder.requestId);
+		Contract contract = new Contract();
+		contract.m_exchange = "CHIXJ";
+		contract.m_symbol = typeMarketData.symbol;
+		contract.m_secType = typeMarketData.securityType;
+		contract.m_currency = "JPY";
+		ibExchangeClientSocket.eClientSocket.reqMktData(requestHolder.requestId, contract, "104,165,225", false);
 	}
 	
 	public void getHistoricalPrice(TypeHistoricalData typeHistoricalData, RequestHolder requestHolder){
