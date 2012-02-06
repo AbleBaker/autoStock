@@ -15,6 +15,7 @@ import com.autoStock.trading.platform.ib.core.Execution;
 import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.OrderState;
 import com.autoStock.trading.platform.ib.core.UnderComp;
+import com.autoStock.trading.platform.ib.definitions.MarketData;
 import com.autoStock.trading.results.ExResultHistoricalData;
 
 /**
@@ -57,12 +58,12 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
-		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + canAutoExecute);
+		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketData.getTickPriceField(field).name());
 	}
 
 	@Override
 	public void tickSize(int tickerId, int field, int size) {
-		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size);
+		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size + ", " + MarketData.getTickSizeField(field));
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickString(int tickerId, int tickType, String value) {
-		Co.log("Got tickString");
+		Co.log("Got tickString: " + value);
 	}
 
 	@Override
