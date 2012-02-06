@@ -13,7 +13,7 @@ import com.autoStock.trading.platform.ib.IbExchangeInstance;
  *
  */
 public class ExchangeController {
-	public static int MAX_INSTANCES = 8;
+	public static int MAX_INSTANCES = 4;
 	public static ArrayList<IbExchangeInstance> listOfIbExchangeInstance = new ArrayList<IbExchangeInstance>();
 	
 	public static void init(){
