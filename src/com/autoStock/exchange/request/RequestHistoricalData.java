@@ -7,6 +7,7 @@ import java.util.Date;
 import com.autoStock.Co;
 import com.autoStock.Log;
 import com.autoStock.exchange.ExchangeController;
+import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.ReflectiveComparator;
@@ -33,9 +34,9 @@ public class RequestHistoricalData {
 		this.exResultSetHistoricalData = new ExResultHistoricalData(). new ExResultSetHistoricalData(typeHistoricalData);
 		this.requestHolder.caller = this;
 		
-		Co.println("Start / end date: " + this.typeHistoricalData.startDate + "," + this.typeHistoricalData.endDate);
-		Co.println("Sample period: " + this.typeHistoricalData.duration);
-		Co.println("Best res: " + HistoricalData.getBestResolution(this.typeHistoricalData.duration));
+		//Co.println("Start / end date: " + this.typeHistoricalData.startDate + "," + this.typeHistoricalData.endDate);
+		//Co.println("Sample period: " + this.typeHistoricalData.duration);
+		//Co.println("Best res: " + HistoricalData.getBestResolution(this.typeHistoricalData.duration));
 		
 		if (HistoricalData.getBestResolution(this.typeHistoricalData.duration) != this.typeHistoricalData.resolution){		
 			int neededCalls = (int)(this.typeHistoricalData.duration / HistoricalData.getBestPeriod(typeHistoricalData.resolution).duration) + 1;
@@ -50,9 +51,7 @@ public class RequestHistoricalData {
 				if (i == neededCalls-1){
 					callEndTime = callStartTime + neededDuration;
 				}
-				
-				Co.println("Call start time: " + callStartTime + ", " + callEndTime);
-				
+								
 				TypeHistoricalData tempTypeHistoricalData = typeHistoricalData.clone();
 				tempTypeHistoricalData.duration = callEndTime - callStartTime;
 				
@@ -61,9 +60,7 @@ public class RequestHistoricalData {
 					callEndTime += (HistoricalData.MIN_PERIOD - tempTypeHistoricalData.duration);
 					tempTypeHistoricalData.duration = HistoricalData.MIN_PERIOD;
 				}
-				
-				Co.println("Call start time 2: " + callStartTime + ", " + callEndTime);
-				
+								
 				tempTypeHistoricalData.startDate = new Date(callStartTime*1000);
 				tempTypeHistoricalData.endDate = new Date(callEndTime*1000);
 				

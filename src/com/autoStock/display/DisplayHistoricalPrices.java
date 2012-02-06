@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
-import com.autoStock.exchange.request.RequestHistoricalDataListener;
 import com.autoStock.exchange.request.RequestHolder;
+import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;

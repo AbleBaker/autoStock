@@ -1,8 +1,9 @@
 /**
  * 
  */
-package com.autoStock.exchange.request;
+package com.autoStock.exchange.request.listener;
 
+import com.autoStock.exchange.request.RequestHolder;
 import com.autoStock.trading.results.ExResultHistoricalData.ExResultSetHistoricalData;
 
 /**
