@@ -12,6 +12,7 @@ import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
+import com.autoStock.trading.types.TypeRealtimeData;
 
 /**
  * @author Kevin Kowalewski
@@ -33,6 +34,16 @@ public class IbExchangeInstance {
 	
 	public EClientSocket getEclientSocket(){
 		return ibExchangeClientSocket.eClientSocket;
+	}
+	
+	public void getRealtimeData(TypeRealtimeData typeRealtimeData, RequestHolder requestHolder){
+		Co.println("Request id: " + requestHolder.requestId);
+		Contract contract = new Contract();
+		contract.m_exchange = "CHIXJ";
+		contract.m_symbol = typeRealtimeData.symbol;
+		contract.m_secType = typeRealtimeData.securityType;
+		contract.m_currency = "JPY";
+		ibExchangeClientSocket.eClientSocket.reqRealTimeBars(requestHolder.requestId, contract, 5, "TRADES", false);
 	}
 	
 	public void getMarketData(TypeMarketData typeMarketData, RequestHolder requestHolder){

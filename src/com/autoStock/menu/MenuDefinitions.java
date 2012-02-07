@@ -11,7 +11,10 @@ public class MenuDefinitions {
 		menu_startup(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_restart(new MenuArguments[]{MenuArguments.arg_restart_delay}),
 		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol, MenuArguments.arg_resolution, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
-		menu_request_market_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol})
+		menu_request_market_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),
+		menu_request_realtime_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),
+		menu_test_realtime_data(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_test_market_data(new MenuArguments[]{MenuArguments.arg_none}),
 		;
 		
 		public MenuArguments[] arrayOfMenuArguments;

@@ -10,7 +10,6 @@ import com.autoStock.trading.types.TypeHistoricalData;
  */
 
 public class ExResultHistoricalData {
-	
 	public class ExResultSetHistoricalData {
 		public TypeHistoricalData typeHistoricalData;
 		public ArrayList<ExResultRowHistoricalData> listOfExResultRowHistoricalData = new ArrayList<ExResultRowHistoricalData>();

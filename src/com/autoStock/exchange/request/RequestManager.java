@@ -25,7 +25,7 @@ public class RequestManager {
 				return requestHolder;
 			}
 		}
-		return null;
+		throw new NullPointerException("No request holder has requestId: " + requestId);
 	}
 	
 	public static synchronized void removeRequestHolder(int requestId){

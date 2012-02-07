@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
+import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
 import com.autoStock.trading.platform.ib.core.EWrapper;
@@ -17,6 +18,7 @@ import com.autoStock.trading.platform.ib.core.OrderState;
 import com.autoStock.trading.platform.ib.core.UnderComp;
 import com.autoStock.trading.platform.ib.definitions.MarketData;
 import com.autoStock.trading.results.ExResultHistoricalData;
+import com.autoStock.trading.results.ExResultMarketData;
 
 /**
  * @author Kevin Kowalewski
@@ -59,11 +61,13 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
 		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketData.getTickPriceField(field).name());
+		
 	}
 
 	@Override
 	public void tickSize(int tickerId, int field, int size) {
 		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size + ", " + MarketData.getTickSizeField(field));
+		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultMarketData(). new ExResultRowMarketData(MarketData.getTickSizeField(field), size));
 	}
 
 	@Override
@@ -203,7 +207,7 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void realtimeBar(int reqId, long time, double open, double high, double low, double close, long volume, double wap, int count) {
-		Co.log("Got realtimeBar");
+		Co.log("Got realtimeBar: " + reqId + "," + time + "," + open + "," + high + "," + low + "," + close + "," + volume + "," + count);
 	}
 
 	@Override

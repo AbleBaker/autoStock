@@ -3,6 +3,12 @@
  */
 package com.autoStock.trading.results;
 
+import java.util.ArrayList;
+
+import com.autoStock.trading.platform.ib.core.TickType;
+import com.autoStock.trading.platform.ib.definitions.MarketData.TickPriceFields;
+import com.autoStock.trading.platform.ib.definitions.MarketData.TickSizeFields;
+import com.autoStock.trading.platform.ib.definitions.MarketData.TickTypes;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
 
@@ -11,9 +17,29 @@ import com.autoStock.trading.types.TypeMarketData;
  *
  */
 public class ExResultMarketData {
-	TypeMarketData typeMarketData;
+	public class ExResultSetMarketData {
+		public TypeMarketData typeMarketData;
+		public ArrayList<ExResultRowMarketData> listOfExResultRowMarketData = new ArrayList<ExResultRowMarketData>();
+		
+		public ExResultSetMarketData(TypeMarketData typeMarketData){
+			this.typeMarketData = typeMarketData;
+		}
+	}
 	
-	public ExResultMarketData(TypeMarketData typeMarketData){
-		this.typeMarketData = typeMarketData;
-	} 
+	public class ExResultRowMarketData{
+		public TickTypes tickType;
+		public TickPriceFields tickPriceField;
+		public TickSizeFields tickSizeField;
+		public double value;
+		
+		public ExResultRowMarketData(TickPriceFields field, double value){
+			this.tickType = TickTypes.type_price;
+			this.tickPriceField = field;
+		}
+		
+		public ExResultRowMarketData(TickSizeFields field, double value){
+			this.tickType = TickTypes.type_size;
+			this.tickSizeField = field;
+		}
+	}	
 }

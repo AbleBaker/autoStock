@@ -16,6 +16,7 @@ import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.results.ExResultMarketData;
+import com.autoStock.trading.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.trading.results.ExResultHistoricalData.*;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
@@ -38,10 +39,11 @@ public class DisplayMarketData {
 			public void failed(RequestHolder requestHolder) {
 				
 			}
-
+			
 			@Override
-			public void completed(RequestHolder requestHolder, ExResultMarketData exResultMarketData) {
+			public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
 				Co.println("Completed!");
+				
 			}
 		}, typeMarketData);
 	}

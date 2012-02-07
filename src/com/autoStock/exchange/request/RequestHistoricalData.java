@@ -29,10 +29,10 @@ public class RequestHistoricalData {
 	
 	public RequestHistoricalData(RequestHolder requestHolder, RequestHistoricalDataListener requestListener, TypeHistoricalData typeHistoricalData){
 		this.requestHolder = requestHolder;
+		this.requestHolder.caller = this;
 		this.requestHistoricalDataListener = requestListener;
 		this.typeHistoricalData = typeHistoricalData;
 		this.exResultSetHistoricalData = new ExResultHistoricalData(). new ExResultSetHistoricalData(typeHistoricalData);
-		this.requestHolder.caller = this;
 		
 		//Co.println("Start / end date: " + this.typeHistoricalData.startDate + "," + this.typeHistoricalData.endDate);
 		//Co.println("Sample period: " + this.typeHistoricalData.duration);

@@ -62,6 +62,10 @@ public class MenuController {
 		
 		//Co.println("Got menu: " + menuStructure.name());
 		
+		if (menuStructure.arrayOfMenuArguments[0] == MenuArguments.arg_none){
+			return;
+		}
+		
 		int index = 1;
 		for (MenuArguments menuArgument : menuStructure.arrayOfMenuArguments){
 			//Co.println("Need argument: " + menuArgument.name());
