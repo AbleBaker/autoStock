@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Random;
 
+import com.autoStock.Co;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Config;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
 
@@ -20,7 +22,13 @@ public class IbExchangeClientSocket {
 	public Socket socket;
 	
 	public void init(IbExchangeWrapper ibExchangeWrapper) throws UnknownHostException, IOException{
-		socket = new Socket(Config.plIbTwsHost, Config.plIbTwsPort);
+		try {
+			socket = new Socket(Config.plIbTwsHost, Config.plIbTwsPort);
+		}catch (Exception e){
+			Co.println("Failed to connect to TWS!");
+			e.printStackTrace();
+			ApplicationStates.shutdown();
+		}
 		eClientSocket = new EClientSocket(ibExchangeWrapper);
 	}
 	

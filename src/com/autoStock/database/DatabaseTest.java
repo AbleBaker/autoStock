@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.autoStock.Co;
+import com.autoStock.internal.Config;
 import com.autoStock.tools.Benchmark;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
@@ -27,9 +28,9 @@ public class DatabaseTest {
 		}
 
 		BoneCPConfig config = new BoneCPConfig();
-		config.setJdbcUrl("jdbc:mysql://199.19.173.146:3306/autoStock");
-		config.setUsername("autoStock");
-		config.setPassword("SSmxynk");
+		config.setJdbcUrl("jdbc:mysql://" + Config.dbHost + ":" + Config.dbPort + "/" + Config.dbDatabase );
+		config.setUsername(Config.dbUsername);
+		config.setPassword(Config.dbPassword);
 		config.setMinConnectionsPerPartition(1);
 		config.setMaxConnectionsPerPartition(15);
 		config.setPartitionCount(1);

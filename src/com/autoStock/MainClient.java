@@ -20,7 +20,7 @@ public class MainClient {
 		ApplicationStates.startup();
 	
 		MenuController menuController = new MenuController();
-		if (args.length == 0){menuController.displayMenu(MenuStructures.menu_main); return;}
+		if (args.length == 0){menuController.displayMenu(MenuStructures.menu_main); ApplicationStates.shutdown();}
 		MenuStructures menuStructure = menuController.getRelatedMenu(args);
 		menuController.handleMenuStructure(menuStructure, args);
 		
