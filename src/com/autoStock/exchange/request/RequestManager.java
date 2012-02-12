@@ -2,6 +2,8 @@ package com.autoStock.exchange.request;
 
 import java.util.ArrayList;
 
+import com.autoStock.exchange.request.base.RequestHolder;
+
 /**
  * @author Kevin Kowalewski
  *

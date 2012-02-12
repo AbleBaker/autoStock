@@ -4,6 +4,7 @@
 package com.autoStock.exchange.request;
 
 import com.autoStock.exchange.ExchangeController;
+import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.request.listener.RequestRealtimeDataListener;
 import com.autoStock.trading.results.ExResultMarketData;

@@ -1,4 +1,6 @@
-package com.autoStock.exchange.request;
+package com.autoStock.exchange.request.base;
+
+import com.autoStock.exchange.request.RequestManager;
 
 /**
  * @author Kevin Kowalewski

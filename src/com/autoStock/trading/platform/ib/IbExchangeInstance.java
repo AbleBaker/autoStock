@@ -7,7 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import com.autoStock.Co;
-import com.autoStock.exchange.request.RequestHolder;
+import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
 import com.autoStock.trading.types.TypeHistoricalData;

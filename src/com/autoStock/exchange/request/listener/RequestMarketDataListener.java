@@ -3,7 +3,7 @@
  */
 package com.autoStock.exchange.request.listener;
 
-import com.autoStock.exchange.request.RequestHolder;
+import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.trading.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.trading.results.ExResultMarketData;
 import com.autoStock.trading.results.ExResultMarketData.ExResultSetMarketData;

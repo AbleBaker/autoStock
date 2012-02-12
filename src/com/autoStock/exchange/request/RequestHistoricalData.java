@@ -7,6 +7,7 @@ import java.util.Date;
 import com.autoStock.Co;
 import com.autoStock.Log;
 import com.autoStock.exchange.ExchangeController;
+import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.tools.ListTools;

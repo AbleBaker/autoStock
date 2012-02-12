@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.autoStock.exchange.request;
+package com.autoStock.exchange.request.base;
 
 /**
  * @author Kevin Kowalewski
