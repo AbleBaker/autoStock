@@ -12,7 +12,7 @@ import com.jolbox.bonecp.BoneCPConfig;
  */
 public class DatabaseCore {
 	
-	BoneCP connectionPool;
+	static BoneCP connectionPool;
 	Connection connection;
 	
 	public void init(){
@@ -30,6 +30,17 @@ public class DatabaseCore {
 		
 		try{
 			connectionPool = new BoneCP(config);
-		}catch(Exception e){}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static Connection getConnection(){
+		try {
+			return connectionPool.getConnection();
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

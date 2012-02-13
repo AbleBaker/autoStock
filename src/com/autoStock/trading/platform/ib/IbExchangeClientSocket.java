@@ -26,8 +26,8 @@ public class IbExchangeClientSocket {
 			socket = new Socket(Config.plIbTwsHost, Config.plIbTwsPort);
 		}catch (Exception e){
 			Co.println("Failed to connect to TWS!");
-			e.printStackTrace();
-			ApplicationStates.shutdown();
+//			e.printStackTrace();
+//			ApplicationStates.shutdown();
 		}
 		eClientSocket = new EClientSocket(ibExchangeWrapper);
 	}

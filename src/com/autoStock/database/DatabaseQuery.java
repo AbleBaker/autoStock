@@ -1,48 +1,37 @@
+/**
+ * 
+ */
 package com.autoStock.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
-import com.autoStock.internal.*;
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
+import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
+import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 
 /**
- * @author Graeme Davison
+ * @author Kevin Kowalewski
  *
  */
 public class DatabaseQuery {
-	public String query;
-
-	public ResultSet runQuery( String q )
-	{
-		query = q;
-		DatabaseCore dbCore = ApplicationStates.getDBCore();
-		Connection connection = null;
-		
+	public ArrayList<Object> getQueryResults(){
 		try {
-			connection = dbCore.connectionPool.getConnection(); // fetch a connection
-		}
-		catch ( Exception e )
-		{
+			Connection connection = DatabaseCore.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("select * from stockHistoricalPrices limit 10;");
 			
-		}
-
-		if ( connection == null )
-			return null;
-		
-		try {
-			if (connection != null) {
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery(q);
-				return rs;
+			ArrayList<Object> listOfDbStockHistoricalPrice = new ArrayList<Object>();
+			
+			while (resultSet.next()){
+//				DbStockHistoricalPrice dbStockHistoricalPrice = new BasicTableDefinitions(). new DbStockHistoricalPrice();
+//				dbStockHistoricalPrice.getClass().getFields()[0].set(dbStockHistoricalPrice.getClass().getFields()[0].getType(), resultSet.getString(0));
+				
 			}
-		}
-		catch ( SQLException se )
-		{
-			se.printStackTrace();
-			return null;
-		}
-		
-		return null;
+			
+			return listOfDbStockHistoricalPrice;
+			
+		}catch (Exception e){e.printStackTrace(); return null;}
 	}
 }
