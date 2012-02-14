@@ -17,4 +17,14 @@ public class ListTools {
 		arrayList.clear();
 		arrayList.addAll(setOfObject);
 	}
+	
+	public static ArrayList<Object> mergeLists(ArrayList<Object>... listOfArrayLists){
+		ArrayList<Object> listOfObject = new ArrayList<Object>();
+		
+		for (ArrayList<Object> list : listOfArrayLists){
+			listOfObject.addAll(list);
+		}
+		
+		return listOfObject;
+	}
 }

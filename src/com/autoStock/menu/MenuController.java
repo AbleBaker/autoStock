@@ -9,7 +9,7 @@ import com.autoStock.menu.MenuDefinitions.MenuArgumentTypes;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.tools.MiscUtils;
-import com.autoStock.tools.StringUtils;
+import com.autoStock.tools.StringTools;
 import com.autoStock.tools.ValidilityCheck;
 
 /**
@@ -20,14 +20,14 @@ public class MenuController {
 	public void displayMenu(MenuStructures menuStructure){
 		if (menuStructure == MenuStructures.menu_main){
 			for (MenuStructures menuStructureEntry : MenuStructures.values()){
-				Co.print(StringUtils.removePrefix(menuStructureEntry.name(),"_") + " ");
+				Co.print(StringTools.removePrefix(menuStructureEntry.name(),"_") + " ");
 				for (MenuArguments menuArgumentsEntry : menuStructureEntry.arrayOfMenuArguments){
-					Co.print(StringUtils.removePrefix(menuArgumentsEntry.name(), "_") + " [");
+					Co.print(StringTools.removePrefix(menuArgumentsEntry.name(), "_") + " [");
 					for (MenuArgumentTypes menuArgumentTypesEntry : menuArgumentsEntry.arrayOfArgumentTypes){
 						if (menuArgumentsEntry.arrayOfArgumentTypes.length-1 == MiscUtils.getArrayIndex(menuArgumentsEntry.arrayOfArgumentTypes, menuArgumentTypesEntry)){
-							Co.print(StringUtils.removePrefix(menuArgumentTypesEntry.name(), "_") + "");
+							Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + "");
 						}else{
-							Co.print(StringUtils.removePrefix(menuArgumentTypesEntry.name(), "_") + " | ");
+							Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + " | ");
 						}
 					}
 					Co.print("] ");
@@ -41,7 +41,7 @@ public class MenuController {
 		if (arguments.length == 0){return null;}
 		String command = arguments[0];
 		for (MenuStructures menuStructureEntry : MenuStructures.values()){
-			if (StringUtils.removePrefix(menuStructureEntry.name(), "_").equals(command)){
+			if (StringTools.removePrefix(menuStructureEntry.name(), "_").equals(command)){
 				return menuStructureEntry;
 			}
 		}

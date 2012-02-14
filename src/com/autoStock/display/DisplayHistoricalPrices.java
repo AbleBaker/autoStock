@@ -53,7 +53,7 @@ public class DisplayHistoricalPrices {
 					lastRow = exResultRowHistoricalData;
 				}
 				
-				new TableController().displayTable(AsciiTables.equity_historical_price_live, listOfRows);
+				new TableController().displayTable(AsciiTables.stock_historical_price_live, listOfRows);
 				Co.println("Completed!!!");
 			}
 		}, typeHistoricalData);

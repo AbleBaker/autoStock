@@ -6,14 +6,33 @@ package com.autoStock.tables;
  */
 public class TableDefinitions {
 	public static enum AsciiTables{
-		equity_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.sizeVolume, AsciiColumns.sizeCount, AsciiColumns.derivedChange}), //, Columns.sizeVolume
-		equity_historicla_price_db(new AsciiColumns[]{}),
+		stock_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.sizeVolume, AsciiColumns.sizeCount, AsciiColumns.derivedChange}), //, Columns.sizeVolume
+		stock_historical_price_db(new AsciiColumns[]{AsciiColumns.id, AsciiColumns.symbol, AsciiColumns.priceOpen, AsciiColumns.priceHigh, AsciiColumns.priceLow, AsciiColumns.priceClose, AsciiColumns.sizeVolume, AsciiColumns.dateTime}),
 		;
 		
 		AsciiColumns[] arrayOfColumns;
 		
 		AsciiTables (AsciiColumns[] arrayOfColumns){
 			this.arrayOfColumns = arrayOfColumns;
+		}
+		
+		public AsciiTables injectColumns(AsciiColumns... columns){
+			AsciiColumns[] tempArrayOfColumns = new AsciiColumns[arrayOfColumns.length + columns.length];
+	
+			int i = 0;
+			for (AsciiColumns column : arrayOfColumns){
+				tempArrayOfColumns[i] = column;
+				i++;
+			}
+			
+			for (AsciiColumns column : columns){
+				tempArrayOfColumns[i] = column;
+				i++;
+			}
+			
+			arrayOfColumns = tempArrayOfColumns;
+			
+			return this;
 		}
 	}
 	
@@ -24,6 +43,10 @@ public class TableDefinitions {
 		quantity,
 		priceLimit,
 		priceStop,
+		priceOpen,
+		priceHigh,
+		priceLow,
+		priceClose,
 		goodAfterDate,
 		goodUntilDate,
 		priceAverageFill,

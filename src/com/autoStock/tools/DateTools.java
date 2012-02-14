@@ -17,8 +17,15 @@ import com.autoStock.internal.ApplicationStates;
 public class DateTools {
 	public static String getPrettyDate(long date){
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
-		dateFormat.applyPattern("EEE, MMM d, yyyy hh:mm:ss a");
+		//dateFormat.applyPattern("EEE, MMM d, yyyy hh:mm:ss a");
+		dateFormat.applyPattern("yyyy/MM/dd hh:mm:ss a");
 		return dateFormat.format(new Date(date));
+	}
+	
+	public static String getPrettyDate(Date date){
+		SimpleDateFormat dateFormat = new SimpleDateFormat();
+		dateFormat.applyPattern("yyyy/MM/dd hh:mm:ss a");
+		return dateFormat.format(date);
 	}
 	
 	public static String getSqlDate(Date date){

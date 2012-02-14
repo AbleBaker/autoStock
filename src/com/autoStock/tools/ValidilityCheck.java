@@ -105,7 +105,7 @@ public class ValidilityCheck {
 	
 	public boolean isValidMenuDefinitionConst(String value){
 		for (MenuArgumentTypes tempArgumentType : MenuArgumentTypes.values()){
-			if (tempArgumentType.name().startsWith("const") && StringUtils.removePrefix(tempArgumentType.name(), "_").equals(value)){
+			if (tempArgumentType.name().startsWith("const") && StringTools.removePrefix(tempArgumentType.name(), "_").equals(value)){
 				return true;
 			}
 		}
