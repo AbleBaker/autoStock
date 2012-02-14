@@ -29,7 +29,7 @@ public class IbExchangeInstance {
 		try {
 			ibExchangeClientSocket.init(ibExchangeWrapper);
 			ibExchangeClientSocket.connect();
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){} //e.printStackTrace();
 	}
 	
 	public EClientSocket getEclientSocket(){

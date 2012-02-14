@@ -9,8 +9,11 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.util.Date;
 
 import com.autoStock.Co;
+import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
+import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbExchange;
 
 /**
  * @author Kevin Kowalewski
@@ -31,12 +34,14 @@ public class BuildDatabaseDefinitions {
 			printWriter.println("public class BasicTableDefinitions {\n");
 			
 			while (resultSetForTables.next()){
-				printWriter.println("\tpublic class Db" + resultSetForTables.getString(3).substring(0,1).toUpperCase() + resultSetForTables.getString(3).substring(1,resultSetForTables.getString(3).length()-1) + " {");
+				String classString = resultSetForTables.getString(3).substring(0,1).toUpperCase() + resultSetForTables.getString(3).substring(1,resultSetForTables.getString(3).length()-1);
+				printWriter.println("\tpublic class Db" + classString + " {");
 				ResultSet resultSetForColumns = metaData.getColumns(null, null, resultSetForTables.getString(3), null);
 				while (resultSetForColumns.next()){
-					printWriter.println("\t\t" + getJavaType(resultSetForColumns.getString(6)) + " " + resultSetForColumns.getString(4) + ";");
+					printWriter.println("\t\tpublic " + getStringType(resultSetForColumns.getString(6)) + " " + resultSetForColumns.getString(4) + ";");
 				}
 				printWriter.println("\t}\n");
+				printWriter.println("\tpublic static Db"+ classString +" db"+ classString +" = new BasicTableDefinitions(). new Db"+ classString +"();\n");
 			}
 			
 			printWriter.println("}");
@@ -51,12 +56,21 @@ public class BuildDatabaseDefinitions {
 		return true;
 	}
 	
-	public String getJavaType(String sqlType){
+	public static String getStringType(String sqlType){
 		if (sqlType.equals("FLOAT")){return "float";}
 		if (sqlType.equals("INT")){return "int";}
 		if (sqlType.equals("BIGINT")){return "long";}
 		if (sqlType.equals("DATETIME")){return "Date";}
 		if (sqlType.equals("VARCHAR")){return "String";}
+		else {throw new UnsatisfiedLinkError();}
+	}
+	
+	public static Object getJavaType(String sqlType){
+		if (sqlType.equals("FLOAT")){return Float.class;}
+		if (sqlType.equals("INT")){return Integer.class;}
+		if (sqlType.equals("BIGINT")){return Long.class;}
+		if (sqlType.equals("DATETIME")){return Date.class;}
+		if (sqlType.equals("VARCHAR")){return String.class;}
 		else {throw new UnsatisfiedLinkError();}
 	}
 }

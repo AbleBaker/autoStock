@@ -1,8 +1,13 @@
 package com.autoStock;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.autoStock.database.BuildDatabaseDefinitions;
+import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.database.DatabaseQuery;
+import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.internal.Global.Mode;
@@ -21,7 +26,15 @@ public class MainClient {
 			
 		ApplicationStates.startup();
 		
-		new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
+		//new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
+		
+		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
+				BasicQueries.basic_historical_price_range,
+				QueryArgs.symbol.setValue("RAS"),
+				QueryArgs.startDate.setValue("2011-01-03 10:00:00"),
+				QueryArgs.endDate.setValue("2011-01-03 10:10:00"));
+		
+		Co.println("Size: " + listOfResults.size());
 		
 		System.exit(0);
 

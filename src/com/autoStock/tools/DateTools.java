@@ -19,7 +19,13 @@ public class DateTools {
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
 		dateFormat.applyPattern("EEE, MMM d, yyyy hh:mm:ss a");
 		return dateFormat.format(new Date(date));
-	}	
+	}
+	
+	public static String getSqlDate(Date date){
+		SimpleDateFormat dateFormat = new SimpleDateFormat();
+		dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss.S");
+		return dateFormat.format(date);
+	}
 	
 	public static Date getDateFromString(String date){
 		try {
@@ -28,9 +34,13 @@ public class DateTools {
 			try {
 				return new SimpleDateFormat("yyyy/MM/dd.HH:mm:ss.a").parse(date);
 			}catch (ParseException ex){
-				Co.println("Could not parse: " + date);
-				ApplicationStates.shutdown();
-				return null;
+				try {
+					return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(date);
+				}catch (ParseException exc){
+					Co.println("Could not parse: " + date);
+					ApplicationStates.shutdown();
+					return null;
+				}
 			}
 		}
 	}
