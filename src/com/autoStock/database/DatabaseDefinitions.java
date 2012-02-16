@@ -24,10 +24,15 @@ public class DatabaseDefinitions {
 	
 	
 	public static enum BasicQueries {
-		basic_historical_price_range("select * from stockHistoricalPrices where symbol = '%s' and dateTime between '%s' and '%s' GROUP BY ((60/10) * HOUR( dateTime ) + FLOOR( MINUTE( dateTime ) / 10 )) ",
+		basic_historical_price_range("select * from stockHistoricalPrices where symbol  '%s' and dateTime between '%s' and '%s' GROUP BY ((60/10) * HOUR( dateTime ) + FLOOR( MINUTE( dateTime ) / 10 )) order by dateTime asc ",
 			new QueryArgs[]{QueryArgs.symbol, QueryArgs.startDate, QueryArgs.endDate},
 			DbStockHistoricalPrice.class
 		),
+		
+		basic_single_date_sample_all_stocks("select * from stockHistoricalPrices where dateTime between '%s' and '%s' order by symbol asc",
+				new QueryArgs[]{QueryArgs.startDate, QueryArgs.endDate},
+				DbStockHistoricalPrice.class
+			),
 		;
 		
 		public String query;

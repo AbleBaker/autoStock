@@ -3,6 +3,8 @@ package com.autoStock;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.autoStock.algorithm.basic.AlgoDayOverDay;
+import com.autoStock.analysis.TALibTest;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
@@ -34,27 +36,9 @@ public class MainClient {
 		
 		//new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
 		
-		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
-				BasicQueries.basic_historical_price_range,
-				QueryArgs.symbol.setValue("RAS"),
-				QueryArgs.startDate.setValue("2011-01-03 10:00:00"),
-				QueryArgs.endDate.setValue("2011-01-04 14:00:00"));
+		//new AlgoDayOverDay().simpleTest();
 		
-		ArrayList<ArrayList<String>> listOfRows = new ArrayList<ArrayList<String>>();
-		
-		float lastPriceClose = 0;
-		
-		for (DbStockHistoricalPrice row : listOfResults){
-			ArrayList<String> columns = new ReflectionHelper().getValuesToStringArryay(row);
-			columns.add(StringTools.blankZeroValues(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(row.priceClose - lastPriceClose))));
-			listOfRows.add(columns);
-			
-			lastPriceClose = row.priceClose;
-		}
-		
-		new TableController().displayTable(AsciiTables.stock_historical_price_db.injectColumns(AsciiColumns.derivedChange), listOfRows);
-		
-		Co.println("Size: " + listOfResults.size());
+		new TALibTest().test();
 		
 		System.exit(0);
 
