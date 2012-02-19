@@ -64,7 +64,7 @@ public class CombinedLineChart {
 			subPlot1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 			
 			NumberAxis numberAxis2 = new NumberAxis("Range 2");
-			numberAxis2.setAutoRange(true);
+			numberAxis2.setRange(2.15,2.35);
 			XYPlot subPlot2 = new XYPlot(dataset2, null, numberAxis2, new StandardXYItemRenderer());
 			subPlot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
 			

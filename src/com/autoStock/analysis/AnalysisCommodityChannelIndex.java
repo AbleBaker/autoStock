@@ -23,6 +23,7 @@ import com.tictactec.ta.lib.RetCode;
 public class AnalysisCommodityChannelIndex extends AnalysisBase {
 	
 	public ResultsCommodityChannelIndex results;
+	private int periodLength = 32; 
 	
 	public ResultsCommodityChannelIndex analyize(){
 		
@@ -34,8 +35,16 @@ public class AnalysisCommodityChannelIndex extends AnalysisBase {
 		float[] valuesPriceLow = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceLow").toArray(new Float[0]));
 		float[] valuesPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));
 	
-		RetCode returnCode = getTaLibCore().cci(32, valuesPriceHigh.length-1, valuesPriceHigh, valuesPriceLow, valuesPriceClose, 32, new MInteger(), new MInteger(), results.arrayOfCCI);
+		RetCode returnCode = getTaLibCore().cci(periodLength, valuesPriceHigh.length-1, valuesPriceHigh, valuesPriceLow, valuesPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfCCI);
 		handleAnalysisResult(returnCode);
+		
+		float[] arrayOfTemp = new float[results.arrayOfPrice.length-periodLength];
+		
+		for (int i=periodLength; i<results.arrayOfPrice.length; i++){
+			arrayOfTemp[i-periodLength] = results.arrayOfPrice[i];
+		}
+		
+		results.arrayOfPrice = arrayOfTemp;
 		
 		return results;
 	}
