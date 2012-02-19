@@ -38,6 +38,8 @@ public class DatabaseQuery {
 			
 			return listOfResults;
 			
-		}catch (Exception e){e.printStackTrace(); return null;}
+		}catch (Exception e){
+			Co.println("Could not execute query: " + new QueryFormatter().format(dbQuery, queryArgs));
+			e.printStackTrace(); return null;}
 	}
 }

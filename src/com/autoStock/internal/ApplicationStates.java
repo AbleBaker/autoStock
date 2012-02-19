@@ -15,12 +15,14 @@ import com.autoStock.internal.Global.Mode;
  */
 public class ApplicationStates {
 	private static DatabaseCore databaseCore;
+	private static ExchangeController exchangeController;
 	
 	public static void startup(){
 		databaseCore = new DatabaseCore();
 		databaseCore.init();
 		
-		ExchangeController.init();
+		exchangeController = new ExchangeController();
+		exchangeController.init();
 		
 		if (Global.mode == Mode.client){
 			
