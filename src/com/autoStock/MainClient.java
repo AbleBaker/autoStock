@@ -57,9 +57,10 @@ public class MainClient {
 		ResultsBollingerBands resultsBollingerBands = analysis.analyize(MAType.Kama);
 		
 		TimeSeriesCollection timeSeriesCollection = new TimeSeriesCollection();
-		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Upper", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.dataExtractor.resultsOfDate, analysis.results.arrayOfUpperBand)));
-		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Middle", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.dataExtractor.resultsOfDate, analysis.results.arrayOfMiddleBand)));
 		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Lower", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.dataExtractor.resultsOfDate, analysis.results.arrayOfLowerBand)));
+		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Middle", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.dataExtractor.resultsOfDate, analysis.results.arrayOfMiddleBand)));
+		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Upper", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.dataExtractor.resultsOfDate, analysis.results.arrayOfUpperBand)));
+
 		
 		new LineChart().new LineChartDisplay(timeSeriesCollection);
 		
