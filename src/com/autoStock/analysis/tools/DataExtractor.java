@@ -3,8 +3,11 @@
  */
 package com.autoStock.analysis.tools;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
+
+import javax.xml.crypto.Data;
 
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 
@@ -13,24 +16,91 @@ import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHis
  *
  */
 public class DataExtractor {
-	public static enum PriceExtractorMode{
-		mode_average,
+//	public static enum PriceExtractorMode{
+//		mode_average,
+//	}
+//	
+//	public double[] resultsOfDouble;
+//	public Date[] resultsOfDate;
+//	
+//	public void extractFromDbStockHistoricalPrice(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, PriceExtractorMode extractorMode){
+//		this.resultsOfDouble = new double[listOfDbStockHistoricalPrice.size()];
+//		this.resultsOfDate = new Date[listOfDbStockHistoricalPrice.size()];
+//		
+//		int i = 0;
+//		for (DbStockHistoricalPrice dbStockHistoricalPrice : listOfDbStockHistoricalPrice){
+//			if (extractorMode == PriceExtractorMode.mode_average){
+//				this.resultsOfDouble[i] = (dbStockHistoricalPrice.priceOpen + dbStockHistoricalPrice.priceClose) / 2;
+//				this.resultsOfDate[i] = dbStockHistoricalPrice.dateTime;
+//				i++;
+//			}else{throw new UnsupportedOperationException();}
+//		}
+//	}
+	
+	public ArrayList<Date> extractDate(ArrayList<?> listOfObject, String fieldName){
+		ArrayList<Date> listOfResults = new ArrayList<Date>();
+		for (Object object : listOfObject){
+			try {
+				Field field = object.getClass().getField(fieldName);
+				field.setAccessible(true);
+				listOfResults.add((Date)field.get(object));
+			}catch(Exception e){}
+		}
+		
+		return listOfResults;
 	}
 	
-	public double[] resultsOfDouble;
-	public Date[] resultsOfDate;
-	
-	public void extractFromDbStockHistoricalPrice(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, PriceExtractorMode extractorMode){
-		this.resultsOfDouble = new double[listOfDbStockHistoricalPrice.size()];
-		this.resultsOfDate = new Date[listOfDbStockHistoricalPrice.size()];
-		
-		int i = 0;
-		for (DbStockHistoricalPrice dbStockHistoricalPrice : listOfDbStockHistoricalPrice){
-			if (extractorMode == PriceExtractorMode.mode_average){
-				this.resultsOfDouble[i] = (dbStockHistoricalPrice.priceOpen + dbStockHistoricalPrice.priceClose) / 2;
-				this.resultsOfDate[i] = dbStockHistoricalPrice.dateTime;
-				i++;
-			}else{throw new UnsupportedOperationException();}
+	public ArrayList<Float> extractFloat(ArrayList<?> listOfObject, String fieldName){
+		ArrayList<Float> listOfResults = new ArrayList<Float>();
+		for (Object object : listOfObject){
+			try {
+				Field field = object.getClass().getField(fieldName);
+				field.setAccessible(true);
+				listOfResults.add((Float)field.get(object));
+			}catch(Exception e){}
 		}
+		
+		return listOfResults;
+	}
+	
+	public ArrayList<Double> extractDouble(ArrayList<?> listOfObject, String fieldName){
+		ArrayList<Double> listOfResults = new ArrayList<Double>();
+		for (Object object : listOfObject){
+			try {
+				Field field = object.getClass().getField(fieldName);
+				field.setAccessible(true);
+				listOfResults.add((Double)field.get(object));
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return listOfResults;
+	}
+	
+	public ArrayList<String> extractString(ArrayList<?> listOfObject, String fieldName){
+		ArrayList<String> listOfResults = new ArrayList<String>();
+		for (Object object : listOfObject){
+			try {
+				Field field = object.getClass().getField(fieldName);
+				field.setAccessible(true);
+				listOfResults.add((String)field.get(object));
+			}catch(Exception e){}
+		}
+		
+		return listOfResults;
+	}
+	
+	public ArrayList<Integer> extractInteger(ArrayList<?> listOfObject, String fieldName){
+		ArrayList<Integer> listOfResults = new ArrayList<Integer>();
+		for (Object object : listOfObject){
+			try {
+				Field field = object.getClass().getField(fieldName);
+				field.setAccessible(true);
+				listOfResults.add((Integer)field.get(object));
+			}catch(Exception e){}
+		}
+		
+		return listOfResults;
 	}
 }

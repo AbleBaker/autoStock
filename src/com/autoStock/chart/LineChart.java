@@ -35,7 +35,7 @@ public class LineChart {
 			super("autoStock - Chart");
 
 			ChartPanel chartPanel = (ChartPanel) createPanel(timeSeriesCollection);
-			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+			chartPanel.setPreferredSize(new java.awt.Dimension(500*2, 270*2));
 			setContentPane(chartPanel);
 
 			RefineryUtilities.centerFrameOnScreen(this);
@@ -69,8 +69,8 @@ public class LineChart {
 			plot.setDomainGridlinePaint(Color.white);
 			plot.setRangeGridlinePaint(Color.white);
 			plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-			plot.setDomainCrosshairVisible(true);
-			plot.setRangeCrosshairVisible(true);
+			//plot.setDomainCrosshairVisible(true);
+			//plot.setRangeCrosshairVisible(true);
 
 //			XYItemRenderer r = plot.getRenderer();
 //			if (r instanceof XYLineAndShapeRenderer) {

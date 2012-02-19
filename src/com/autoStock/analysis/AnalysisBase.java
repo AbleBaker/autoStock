@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.analysis.tools.DataExtractor;
-import com.autoStock.analysis.tools.DataExtractor.PriceExtractorMode;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.RetCode;
@@ -18,8 +17,7 @@ import com.tictactec.ta.lib.RetCode;
  */
 public abstract class AnalysisBase {
 	private Core taLibCore = new Core();
-	public Object source;
-	public double[] values;
+	public Object dataSource;
 	public DataExtractor dataExtractor;
 	
 	public AnalysisBase() {
@@ -35,11 +33,7 @@ public abstract class AnalysisBase {
 			throw new IllegalStateException();
 		}
 		
-		this.dataExtractor = new DataExtractor();
-		this.dataExtractor.extractFromDbStockHistoricalPrice(listOfDbStockHistoricalPrice, PriceExtractorMode.mode_average);
-		
-		this.source = listOfDbStockHistoricalPrice;
-		this.values = dataExtractor.resultsOfDouble;
+		this.dataSource = listOfDbStockHistoricalPrice;
 	}
 	
 	public void handleAnalysisResult(RetCode returnCode){

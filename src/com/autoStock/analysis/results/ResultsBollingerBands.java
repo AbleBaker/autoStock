@@ -17,20 +17,12 @@ public class ResultsBollingerBands extends ResultsBase {
 	public double[] arrayOfUpperBand;
 	public double[] arrayOfMiddleBand;
 	public double[] arrayOfLowerBand;
+	public Date[] arrayOfDates;
 	
 	public ResultsBollingerBands(int length){
 		this.arrayOfUpperBand = new double[length];
 		this.arrayOfMiddleBand = new double[length];
 		this.arrayOfLowerBand = new double[length];
-	}
-	
-	public ArrayList<BasicTimeValuePair> getResultsAsListOfBasicTimeValuePair(Date[] arrayOfDates, double[] arrayOfValues){
-		ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair = new ArrayList<BasicTimeValuePair>();
-		
-		for (int i=0; i<Math.min(arrayOfDates.length, arrayOfValues.length); i++){
-			listOfBasicTimeValuePair.add(new ChartDataFiller(). new BasicTimeValuePair(arrayOfDates[i], String.valueOf(arrayOfValues[i])));
-		}
-		
-		return listOfBasicTimeValuePair;
+		this.arrayOfDates = new Date[length];
 	}
 }

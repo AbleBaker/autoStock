@@ -3,6 +3,13 @@
  */
 package com.autoStock.analysis.results;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+import com.autoStock.chart.ChartDataFiller;
+import com.autoStock.chart.ChartDataFiller.BasicTimeValuePair;
+import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -10,5 +17,25 @@ package com.autoStock.analysis.results;
 public abstract class ResultsBase {
 	public ResultsBase (){
 		
+	}
+	
+	public ArrayList<BasicTimeValuePair> getResultsAsListOfBasicTimeValuePair(Date[] arrayOfDates, double[] arrayOfValues){
+		ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair = new ArrayList<BasicTimeValuePair>();
+		
+		for (int i=0; i<Math.min(arrayOfDates.length, arrayOfValues.length); i++){
+			listOfBasicTimeValuePair.add(new ChartDataFiller(). new BasicTimeValuePair(arrayOfDates[i], String.valueOf(arrayOfValues[i])));
+		}
+		
+		return listOfBasicTimeValuePair;
+	}
+	
+	public ArrayList<BasicTimeValuePair> getResultsAsListOfBasicTimeValuePair(Date[] arrayOfDates, float[] arrayOfValues){
+		ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair = new ArrayList<BasicTimeValuePair>();
+		
+		for (int i=0; i<Math.min(arrayOfDates.length, arrayOfValues.length); i++){
+			listOfBasicTimeValuePair.add(new ChartDataFiller(). new BasicTimeValuePair(arrayOfDates[i], String.valueOf(arrayOfValues[i])));
+		}
+		
+		return listOfBasicTimeValuePair;
 	}
 }
