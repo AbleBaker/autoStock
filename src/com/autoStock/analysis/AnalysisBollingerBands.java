@@ -25,14 +25,11 @@ public class AnalysisBollingerBands extends AnalysisBase {
 	
 	public ResultsBollingerBands results;
 	
-	public ResultsBollingerBands analyize(MAType manalysisType){
-		
+	public ResultsBollingerBands analyize(MAType manalysisType){	
 		results = new ResultsBollingerBands(((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		
 		float[] values = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));
-		
-		Co.println("Length: " + values.length + "," + ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
 		
 		RetCode returnCode = getTaLibCore().bbands(0, values.length-1, values, 5, 5, 5, manalysisType, new MInteger(), new MInteger(), results.arrayOfUpperBand, results.arrayOfMiddleBand, results.arrayOfLowerBand);
 		handleAnalysisResult(returnCode);

@@ -43,9 +43,10 @@ public class CombinedLineChart {
 			chartPanel.setPreferredSize(new java.awt.Dimension(500*2, 270*3));
 			setContentPane(chartPanel);
 
-			RefineryUtilities.centerFrameOnScreen(this);
 			setVisible(true);
 			pack();
+			
+			RefineryUtilities.centerFrameOnScreen(this);
 		}
 
 		public JPanel createPanel(XYDataset dataset1, XYDataset dataset2) {
@@ -64,7 +65,7 @@ public class CombinedLineChart {
 			subPlot1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
 			
 			NumberAxis numberAxis2 = new NumberAxis("Range 2");
-			numberAxis2.setRange(2.15,2.35);
+			numberAxis2.setRange(2.25, 2.65);
 			XYPlot subPlot2 = new XYPlot(dataset2, null, numberAxis2, new StandardXYItemRenderer());
 			subPlot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
 			

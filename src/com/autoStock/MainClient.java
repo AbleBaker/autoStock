@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import org.jfree.data.time.TimeSeriesCollection;
 
 import com.autoStock.algorithm.basic.AlgoDayOverDay;
+import com.autoStock.analysis.AnalysisAverageDirectionalIndex;
 import com.autoStock.analysis.AnalysisBollingerBands;
 import com.autoStock.analysis.AnalysisCommodityChannelIndex;
-import com.autoStock.analysis.TALibTest;
+import com.autoStock.analysis.results.ResultsAverageDirectionalIndex;
 import com.autoStock.analysis.results.ResultsBollingerBands;
 import com.autoStock.analysis.results.ResultsCommodityChannelIndex;
 import com.autoStock.chart.ChartDataFiller;
@@ -52,8 +53,8 @@ public class MainClient {
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
 				BasicQueries.basic_historical_price_range,
 				QueryArgs.symbol.setValue("RAS"),
-				QueryArgs.startDate.setValue("2011-01-03 09:30:00"),
-				QueryArgs.endDate.setValue("2011-01-03 15:50:00"));
+				QueryArgs.startDate.setValue("2011-01-05 09:30:00"),
+				QueryArgs.endDate.setValue("2011-01-05 15:30:00"));
 		
 //		AnalysisBollingerBands analysis = new AnalysisBollingerBands();
 //		analysis.setDataSet(listOfResults);
@@ -63,16 +64,22 @@ public class MainClient {
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Middle", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMiddleBand)));
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Upper", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfUpperBand)));
 
-		AnalysisCommodityChannelIndex analysis = new AnalysisCommodityChannelIndex();
+//		AnalysisCommodityChannelIndex analysis = new AnalysisCommodityChannelIndex();
+//		analysis.setDataSet(listOfResults);
+//		ResultsCommodityChannelIndex resultsCommodityChannelIndex = analysis.analyize();
+//		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
+//		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfCCI)));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+//		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
+		
+		AnalysisAverageDirectionalIndex analysis = new AnalysisAverageDirectionalIndex();
 		analysis.setDataSet(listOfResults);
-		ResultsCommodityChannelIndex resultsCommodityChannelIndex = analysis.analyize();
+		ResultsAverageDirectionalIndex resultsAverageDirectionalIndex = analysis.analize();
 		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
-		
-		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfCCI)));
-		
-		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
-		
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("ADX", resultsAverageDirectionalIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfADX)));
+		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsAverageDirectionalIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
 		//System.exit(0);
