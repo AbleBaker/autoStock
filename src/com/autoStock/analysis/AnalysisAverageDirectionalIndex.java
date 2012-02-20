@@ -22,7 +22,7 @@ public class AnalysisAverageDirectionalIndex extends AnalysisBase {
 	public ResultsAverageDirectionalIndex results;
 	
 	public ResultsAverageDirectionalIndex analize(){
-		super.initializeTypicalAnalys(64, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
+		super.initializeTypicalAnalys(128, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
 		
 		results = new ResultsAverageDirectionalIndex(datasetLength+periodLength);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
@@ -35,7 +35,7 @@ public class AnalysisAverageDirectionalIndex extends AnalysisBase {
 		
 		preceedDataSetWithPeriod();
 		
-		RetCode returnCode = getTaLibCore().adx(0,  datasetLength+periodLength-1, valuesPriceHigh, valuesPriceLow, valuesPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfADX);
+		RetCode returnCode = getTaLibCore().adx(0,  datasetLength+periodLength-1, valuesPriceHigh, valuesPriceLow, valuesPriceClose, periodLength/2, new MInteger(), new MInteger(), results.arrayOfADX);
 		handleAnalysisResult(returnCode);
 		
 		return results;

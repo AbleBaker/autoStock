@@ -66,10 +66,11 @@ public abstract class AnalysisBase {
 		//Co.println("periodLength: " + periodLength + "," + datasetLength);
 		
 		for (int i=0; i<=periodLength; i++){
-			tempValuesPriceHigh[i] = valuesPriceOpen[new Random().nextInt(periodLength)];
-			tempValuesPriceHigh[i] = valuesPriceHigh[new Random().nextInt(periodLength)];
-			tempValuesPriceLow[i] = valuesPriceLow[new Random().nextInt(periodLength)];
-			tempValuesPriceClose[i] = valuesPriceClose[new Random().nextInt(periodLength)];
+			int preceedWith = new Random().nextInt(periodLength);
+			tempValuesPriceHigh[i] = valuesPriceOpen[preceedWith];
+			tempValuesPriceHigh[i] = valuesPriceOpen[preceedWith];
+			tempValuesPriceLow[i] = valuesPriceOpen[preceedWith];
+			tempValuesPriceClose[i] = valuesPriceOpen[preceedWith];
 		}
 		
 		for (int i=periodLength; i<datasetLength+periodLength; i++){
