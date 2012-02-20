@@ -9,13 +9,13 @@ import java.util.Date;
  * @author Kevin Kowalewski
  *
  */
-public class ResultsCommodityChannelIndex extends ResultsBase {
+public class ResultsCCI extends ResultsBase {
 	
 	public Date[] arrayOfDates;
 	public double[] arrayOfCCI;
 	public float[] arrayOfPrice;
 	
-	public ResultsCommodityChannelIndex(int length){
+	public ResultsCCI(int length){
 		this.arrayOfDates = new Date[length];
 		this.arrayOfCCI = new double[length];
 		this.arrayOfPrice = new float[length];

@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import org.jfree.data.time.TimeSeriesCollection;
 
 import com.autoStock.algorithm.basic.AlgoDayOverDay;
-import com.autoStock.analysis.AnalysisAverageDirectionalIndex;
+import com.autoStock.analysis.AnalysisADX;
 import com.autoStock.analysis.AnalysisBollingerBands;
-import com.autoStock.analysis.AnalysisCommodityChannelIndex;
-import com.autoStock.analysis.results.ResultsAverageDirectionalIndex;
+import com.autoStock.analysis.AnalysisCCI;
+import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsBollingerBands;
-import com.autoStock.analysis.results.ResultsCommodityChannelIndex;
+import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.chart.ChartDataFiller;
 import com.autoStock.chart.CombinedLineChart;
 import com.autoStock.chart.ChartDataFiller.BasicTimeValuePair;
@@ -73,13 +73,13 @@ public class MainClient {
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 //		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
-		AnalysisAverageDirectionalIndex analysis = new AnalysisAverageDirectionalIndex();
+		AnalysisADX analysis = new AnalysisADX();
 		analysis.setDataSet(listOfResults);
-		ResultsAverageDirectionalIndex resultsAverageDirectionalIndex = analysis.analize();
+		ResultsADX resultsADX = analysis.analize();
 		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
-		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("ADX", resultsAverageDirectionalIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfADX)));
-		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsAverageDirectionalIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("ADX", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfADX)));
+		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
 		//System.exit(0);
