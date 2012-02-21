@@ -28,10 +28,6 @@ public abstract class AnalysisBase {
 	public float[] valuesPriceLow;
 	public float[] valuesPriceClose;
 	
-	public AnalysisBase(){
-		
-	}
-	
 	public void initializeTypicalAnalys(int periodLength, int datasetLength) {
 		this.periodLength = periodLength;
 		this.datasetLength = datasetLength;

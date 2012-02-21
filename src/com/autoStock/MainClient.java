@@ -9,9 +9,11 @@ import com.autoStock.algorithm.basic.AlgoDayOverDay;
 import com.autoStock.analysis.AnalysisADX;
 import com.autoStock.analysis.AnalysisBollingerBands;
 import com.autoStock.analysis.AnalysisCCI;
+import com.autoStock.analysis.AnalysisMACD;
 import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsBollingerBands;
 import com.autoStock.analysis.results.ResultsCCI;
+import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.chart.ChartDataFiller;
 import com.autoStock.chart.CombinedLineChart;
 import com.autoStock.chart.ChartDataFiller.BasicTimeValuePair;
@@ -63,6 +65,7 @@ public class MainClient {
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Lower", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfLowerBand)));
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Middle", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMiddleBand)));
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Upper", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfUpperBand)));
+//		new LineChart(). new LineChartDisplay(timeSeriesCollection);
 
 //		AnalysisCommodityChannelIndex analysis = new AnalysisCommodityChannelIndex();
 //		analysis.setDataSet(listOfResults);
@@ -73,14 +76,26 @@ public class MainClient {
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 //		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
-		AnalysisADX analysis = new AnalysisADX();
+//		AnalysisADX analysis = new AnalysisADX();
+//		analysis.setDataSet(listOfResults);
+//		ResultsADX resultsADX = analysis.analize();
+//		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
+//		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("ADX", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfADX)));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+//		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
+		
+		AnalysisMACD analysis = new AnalysisMACD();
 		analysis.setDataSet(listOfResults);
-		ResultsADX resultsADX = analysis.analize();
+		ResultsMACD resultsMACD = analysis.analize();
 		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
-		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("ADX", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfADX)));
-		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD ", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACD)));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Signal", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDSignal)));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Histogram", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDHistogram)));
+		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
+		//new LineChart(). new LineChartDisplay(timeSeriesCollection1);
 		
 		//System.exit(0);
 

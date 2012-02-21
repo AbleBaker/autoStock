@@ -16,27 +16,6 @@ import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHis
  *
  */
 public class DataExtractor {
-//	public static enum PriceExtractorMode{
-//		mode_average,
-//	}
-//	
-//	public double[] resultsOfDouble;
-//	public Date[] resultsOfDate;
-//	
-//	public void extractFromDbStockHistoricalPrice(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, PriceExtractorMode extractorMode){
-//		this.resultsOfDouble = new double[listOfDbStockHistoricalPrice.size()];
-//		this.resultsOfDate = new Date[listOfDbStockHistoricalPrice.size()];
-//		
-//		int i = 0;
-//		for (DbStockHistoricalPrice dbStockHistoricalPrice : listOfDbStockHistoricalPrice){
-//			if (extractorMode == PriceExtractorMode.mode_average){
-//				this.resultsOfDouble[i] = (dbStockHistoricalPrice.priceOpen + dbStockHistoricalPrice.priceClose) / 2;
-//				this.resultsOfDate[i] = dbStockHistoricalPrice.dateTime;
-//				i++;
-//			}else{throw new UnsupportedOperationException();}
-//		}
-//	}
-	
 	public ArrayList<Date> extractDate(ArrayList<?> listOfObject, String fieldName){
 		ArrayList<Date> listOfResults = new ArrayList<Date>();
 		for (Object object : listOfObject){

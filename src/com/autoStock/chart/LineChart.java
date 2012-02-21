@@ -69,16 +69,6 @@ public class LineChart {
 			plot.setDomainGridlinePaint(Color.white);
 			plot.setRangeGridlinePaint(Color.white);
 			plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-			//plot.setDomainCrosshairVisible(true);
-			//plot.setRangeCrosshairVisible(true);
-
-//			XYItemRenderer r = plot.getRenderer();
-//			if (r instanceof XYLineAndShapeRenderer) {
-//				XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-//				renderer.setBaseShapesVisible(true);
-//				renderer.setBaseShapesFilled(true);
-//				renderer.setDrawSeriesLineAsPath(true);
-//			}
 
 			DateAxis axis = (DateAxis) plot.getDomainAxis();
 			axis.setDateFormatOverride(new SimpleDateFormat("HH:mm"));

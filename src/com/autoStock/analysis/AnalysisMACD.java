@@ -9,8 +9,10 @@ import java.util.Date;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.autoStock.analysis.results.ResultsADX;
+import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.tools.DataExtractor;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
+import com.tictactec.ta.lib.MAType;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
 
@@ -19,12 +21,12 @@ import com.tictactec.ta.lib.RetCode;
  *
  */
 public class AnalysisMACD extends AnalysisBase {
-	public ResultsADX results;
+	public ResultsMACD results;
 	
-	public ResultsADX analize(){
-		super.initializeTypicalAnalys(128, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
+	public ResultsMACD analize(){
+		super.initializeTypicalAnalys(64, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
 		
-		results = new ResultsADX(datasetLength+periodLength);
+		results = new ResultsMACD(datasetLength+periodLength);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));
 		
@@ -35,8 +37,9 @@ public class AnalysisMACD extends AnalysisBase {
 		
 		preceedDataSetWithPeriod();
 		
-		//RetCode returnCode = getTaLibCore().macdExt(startIdx, endIdx, inReal, optInFastPeriod, optInFastMAType, optInSlowPeriod, optInSlowMAType, optInSignalPeriod, optInSignalMAType, outBegIdx, outNBElement, outMACD, outMACDSignal, outMACDHist);
-		//handleAnalysisResult(returnCode);
+		//RetCode returnCode = getTaLibCore().macdExt(0, datasetLength+periodLength-1, valuesPriceClose, periodLength, MAType.Wma, periodLength, MAType.Wma, periodLength, MAType.Wma, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACD, results.arrayOfMACDHistogram);
+		RetCode returnCode = getTaLibCore().macd(0, datasetLength+periodLength-1, valuesPriceClose, 8, 32, 32, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		handleAnalysisResult(returnCode);
 		
 		return results;
 	}
