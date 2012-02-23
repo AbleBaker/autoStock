@@ -38,7 +38,7 @@ public class AnalysisMACD extends AnalysisBase {
 		preceedDataSetWithPeriod();
 		
 		//RetCode returnCode = getTaLibCore().macdExt(0, datasetLength+periodLength-1, valuesPriceClose, periodLength, MAType.Wma, periodLength, MAType.Wma, periodLength, MAType.Wma, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACD, results.arrayOfMACDHistogram);
-		RetCode returnCode = getTaLibCore().macd(0, datasetLength+periodLength-1, valuesPriceClose, 8, 32, 32, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		RetCode returnCode = getTaLibCore().macd(0, datasetLength+periodLength-1, valuesPriceClose, 32, 8, 32, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		handleAnalysisResult(returnCode);
 		
 		return results;

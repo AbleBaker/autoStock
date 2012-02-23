@@ -67,9 +67,9 @@ public class MainClient {
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Upper", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfUpperBand)));
 //		new LineChart(). new LineChartDisplay(timeSeriesCollection);
 
-//		AnalysisCommodityChannelIndex analysis = new AnalysisCommodityChannelIndex();
+//		AnalysisCCI analysis = new AnalysisCCI();
 //		analysis.setDataSet(listOfResults);
-//		ResultsCommodityChannelIndex resultsCommodityChannelIndex = analysis.analyize();
+//		ResultsCCI resultsCommodityChannelIndex = analysis.analyize();
 //		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
 //		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
 //		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfCCI)));

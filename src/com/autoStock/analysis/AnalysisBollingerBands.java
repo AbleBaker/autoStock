@@ -31,7 +31,7 @@ public class AnalysisBollingerBands extends AnalysisBase {
 		
 		float[] values = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));
 		
-		RetCode returnCode = getTaLibCore().bbands(0, values.length-1, values, 5, 5, 5, manalysisType, new MInteger(), new MInteger(), results.arrayOfUpperBand, results.arrayOfMiddleBand, results.arrayOfLowerBand);
+		RetCode returnCode = getTaLibCore().bbands(0, values.length-1, values, 5, 2, 2, manalysisType, new MInteger(), new MInteger(), results.arrayOfUpperBand, results.arrayOfMiddleBand, results.arrayOfLowerBand);
 		handleAnalysisResult(returnCode);
 		
 		return results;
