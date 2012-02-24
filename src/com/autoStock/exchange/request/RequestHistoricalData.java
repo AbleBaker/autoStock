@@ -9,13 +9,13 @@ import com.autoStock.Log;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
+import com.autoStock.exchange.results.ExResultHistoricalData;
+import com.autoStock.exchange.results.ExResultHistoricalData.ExResultRowHistoricalData;
+import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.ReflectiveComparator;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData;
-import com.autoStock.trading.results.ExResultHistoricalData;
-import com.autoStock.trading.results.ExResultHistoricalData.ExResultRowHistoricalData;
-import com.autoStock.trading.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.trading.types.TypeHistoricalData;
 
 /**

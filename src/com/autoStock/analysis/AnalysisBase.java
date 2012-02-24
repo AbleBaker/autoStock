@@ -23,10 +23,10 @@ public abstract class AnalysisBase {
 	
 	public int periodLength;
 	public int datasetLength;
-	public float[] valuesPriceOpen;
-	public float[] valuesPriceHigh;
-	public float[] valuesPriceLow;
-	public float[] valuesPriceClose;
+	public float[] arrayOfPriceOpen;
+	public float[] arrayOfPriceHigh;
+	public float[] arrayOfPriceLow;
+	public float[] areayOfPriceClose;
 	
 	public void initializeTypicalAnalys(int periodLength, int datasetLength) {
 		this.periodLength = periodLength;
@@ -46,39 +46,8 @@ public abstract class AnalysisBase {
 	}
 	
 	public void handleAnalysisResult(RetCode returnCode){
-		if (returnCode == RetCode.Success){
-			//pass
-		}else{
+		if (returnCode != RetCode.Success){
 			Co.println("Analysis result was not success: " + returnCode.name());
 		}
-	}
-	
-	public void preceedDataSetWithPeriod(){
-		float[] tempValuesPriceOpen = new float[datasetLength+periodLength];
-		float[] tempValuesPriceHigh = new float[datasetLength+periodLength];
-		float[] tempValuesPriceLow = new float[datasetLength+periodLength];
-		float[] tempValuesPriceClose = new float[datasetLength+periodLength];
-		
-		//Co.println("periodLength: " + periodLength + "," + datasetLength);
-		
-		for (int i=0; i<=periodLength; i++){
-			int preceedWith = new Random().nextInt(periodLength);
-			tempValuesPriceHigh[i] = valuesPriceOpen[preceedWith];
-			tempValuesPriceHigh[i] = valuesPriceOpen[preceedWith];
-			tempValuesPriceLow[i] = valuesPriceOpen[preceedWith];
-			tempValuesPriceClose[i] = valuesPriceOpen[preceedWith];
-		}
-		
-		for (int i=periodLength; i<datasetLength+periodLength; i++){
-			tempValuesPriceOpen[i] = valuesPriceOpen[i-periodLength];
-			tempValuesPriceHigh[i] = valuesPriceHigh[i-periodLength];
-			tempValuesPriceLow[i] = valuesPriceLow[i-periodLength];
-			tempValuesPriceClose[i] = valuesPriceClose[i-periodLength];
-		}
-		
-		valuesPriceOpen = tempValuesPriceOpen;
-		valuesPriceHigh = tempValuesPriceHigh;
-		valuesPriceLow = tempValuesPriceLow;
-		valuesPriceClose = tempValuesPriceClose;
 	}
 }

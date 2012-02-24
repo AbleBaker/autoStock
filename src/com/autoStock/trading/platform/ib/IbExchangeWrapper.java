@@ -9,6 +9,8 @@ import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
 import com.autoStock.exchange.request.RequestMarketData;
+import com.autoStock.exchange.results.ExResultHistoricalData;
+import com.autoStock.exchange.results.ExResultMarketData;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
 import com.autoStock.trading.platform.ib.core.EWrapper;
@@ -17,8 +19,6 @@ import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.OrderState;
 import com.autoStock.trading.platform.ib.core.UnderComp;
 import com.autoStock.trading.platform.ib.definitions.MarketData;
-import com.autoStock.trading.results.ExResultHistoricalData;
-import com.autoStock.trading.results.ExResultMarketData;
 
 /**
  * @author Kevin Kowalewski

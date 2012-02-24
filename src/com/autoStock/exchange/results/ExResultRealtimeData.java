@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.autoStock.trading.results;
+package com.autoStock.exchange.results;
 
 import java.util.ArrayList;
 

@@ -9,11 +9,11 @@ import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
+import com.autoStock.exchange.results.ExResultHistoricalData.*;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
-import com.autoStock.trading.results.ExResultHistoricalData.*;
 import com.autoStock.trading.types.TypeHistoricalData;
 
 /**

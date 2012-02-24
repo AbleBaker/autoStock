@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.chart.ChartDataFiller;
-import com.autoStock.chart.ChartDataFiller.BasicTimeValuePair;
 
 /**
  * @author Kevin Kowalewski

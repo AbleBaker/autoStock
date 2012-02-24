@@ -4,9 +4,9 @@
 package com.autoStock.exchange.request.listener;
 
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.trading.results.ExResultHistoricalData.ExResultSetHistoricalData;
-import com.autoStock.trading.results.ExResultMarketData;
-import com.autoStock.trading.results.ExResultMarketData.ExResultSetMarketData;
+import com.autoStock.exchange.results.ExResultMarketData;
+import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
+import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 
 /**
  * @author Kevin Kowalewski

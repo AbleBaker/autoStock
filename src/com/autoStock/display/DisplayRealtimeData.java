@@ -6,7 +6,7 @@ package com.autoStock.display;
 import com.autoStock.exchange.request.RequestRealtimeData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestRealtimeDataListener;
-import com.autoStock.trading.results.ExResultRealtimeData.ExResultSetRealtimeData;
+import com.autoStock.exchange.results.ExResultRealtimeData.ExResultSetRealtimeData;
 import com.autoStock.trading.types.TypeRealtimeData;
 
 /**

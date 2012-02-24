@@ -11,13 +11,13 @@ import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
+import com.autoStock.exchange.results.ExResultMarketData;
+import com.autoStock.exchange.results.ExResultHistoricalData.*;
+import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
-import com.autoStock.trading.results.ExResultMarketData;
-import com.autoStock.trading.results.ExResultMarketData.ExResultSetMarketData;
-import com.autoStock.trading.results.ExResultHistoricalData.*;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
 

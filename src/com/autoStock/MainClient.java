@@ -16,7 +16,6 @@ import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.chart.ChartDataFiller;
 import com.autoStock.chart.CombinedLineChart;
-import com.autoStock.chart.ChartDataFiller.BasicTimeValuePair;
 import com.autoStock.chart.LineChart;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;

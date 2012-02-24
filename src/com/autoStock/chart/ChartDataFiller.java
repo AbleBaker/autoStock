@@ -10,6 +10,8 @@ import java.util.Date;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 
+import com.autoStock.analysis.tools.BasicTimeValuePair;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -27,15 +29,5 @@ public class ChartDataFiller {
 		}
 		
 		return timeSeries;
-	}
-	
-	public class BasicTimeValuePair{
-		public Date date;
-		public String value;
-		
-		public BasicTimeValuePair(Date date, String value){
-			this.date = date;
-			this.value = value;
-		}
 	}
 }
