@@ -24,6 +24,7 @@ public class MarketData {
 		field_high(6),
 		field_low(7),
 		field_close(9),
+		field_open(14),
 		field_week_13_low(15),
 		field_week_13_high(16),
 		field_week_26_low(17),
@@ -33,6 +34,7 @@ public class MarketData {
 		;
 		
 		public int field;
+		public String value;
 		
 		TickPriceFields(int field){
 			this.field = field;

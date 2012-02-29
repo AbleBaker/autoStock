@@ -8,5 +8,10 @@ package com.autoStock.algorithm;
  *
  */
 public class AlgorithmTest extends AlgorithmBase {
-
+	public void run(){
+		
+		//Setup analysis set
+		//Setup quote stream
+		
+	}
 }

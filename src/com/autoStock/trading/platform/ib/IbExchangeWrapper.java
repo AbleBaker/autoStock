@@ -9,8 +9,11 @@ import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
 import com.autoStock.exchange.request.RequestMarketData;
+import com.autoStock.exchange.request.RequestRealtimeData;
 import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketData;
+import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
+import com.autoStock.exchange.results.ExResultRealtimeData.ExResultRowRealtimeData;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
 import com.autoStock.trading.platform.ib.core.EWrapper;
@@ -19,6 +22,7 @@ import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.OrderState;
 import com.autoStock.trading.platform.ib.core.UnderComp;
 import com.autoStock.trading.platform.ib.definitions.MarketData;
+import com.autoStock.trading.platform.ib.definitions.MarketData.TickPriceFields;
 
 /**
  * @author Kevin Kowalewski
@@ -61,13 +65,13 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
 		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketData.getTickPriceField(field).name());
-		
+		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketData.getTickPriceField(field), price));
 	}
 
 	@Override
 	public void tickSize(int tickerId, int field, int size) {
 		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size + ", " + MarketData.getTickSizeField(field));
-		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultMarketData(). new ExResultRowMarketData(MarketData.getTickSizeField(field), size));
+		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketData.getTickSizeField(field), size));
 	}
 
 	@Override
@@ -82,7 +86,8 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickString(int tickerId, int tickType, String value) {
-		Co.log("Got tickString: " + value);
+		Co.log("Got tickString: " + tickerId + "," + value);
+		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(value));
 	}
 
 	@Override

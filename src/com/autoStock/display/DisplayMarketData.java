@@ -45,6 +45,6 @@ public class DisplayMarketData {
 				Co.println("Completed!");
 				
 			}
-		}, typeMarketData);
+		}, typeMarketData, 0);
 	}
 }

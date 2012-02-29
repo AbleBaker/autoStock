@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.autoStock.Co;
-import com.autoStock.analysis.tools.DataExtractor;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.tools.DataConditioner;
+import com.autoStock.tools.DataExtractor;
+import com.autoStock.tools.DataConditioner.PrecededDataset;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.RetCode;
 
@@ -26,7 +28,7 @@ public abstract class AnalysisBase {
 	public float[] arrayOfPriceOpen;
 	public float[] arrayOfPriceHigh;
 	public float[] arrayOfPriceLow;
-	public float[] areayOfPriceClose;
+	public float[] arrayOfPriceClose;
 	
 	public void initializeTypicalAnalys(int periodLength, int datasetLength) {
 		this.periodLength = periodLength;
@@ -49,5 +51,13 @@ public abstract class AnalysisBase {
 		if (returnCode != RetCode.Success){
 			Co.println("Analysis result was not success: " + returnCode.name());
 		}
+	}
+	
+	public void preceedDatasetWithPeriod(){
+		PrecededDataset dataSet = new DataConditioner().preceedDatasetWithPeriod(arrayOfPriceOpen, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength, datasetLength);
+		arrayOfPriceOpen = dataSet.arrayOfPriceOpen;
+		arrayOfPriceHigh = dataSet.arrayOfPriceHigh;
+		arrayOfPriceLow = dataSet.arrayOfPriceLow;
+		arrayOfPriceClose = dataSet.arrayOfPriceClose;
 	}
 }

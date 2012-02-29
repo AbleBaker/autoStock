@@ -10,9 +10,9 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.autoStock.Co;
 import com.autoStock.analysis.results.ResultsBollingerBands;
-import com.autoStock.analysis.tools.DataExtractor;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.tools.DataExtractor;
 import com.tictactec.ta.lib.MAType;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;

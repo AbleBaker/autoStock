@@ -6,9 +6,9 @@ package com.autoStock.analysis.results;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.analysis.tools.BasicTimeValuePair;
 import com.autoStock.chart.ChartDataFiller;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
+import com.autoStock.tools.BasicTimeValuePair;
 
 /**
  * @author Kevin Kowalewski

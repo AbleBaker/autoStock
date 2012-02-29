@@ -26,11 +26,13 @@ public class ExResultRealtimeData {
 		}
 	}
 	
-	public class ExResultRowRealtimeData{
-		public double value;
+	public static class ExResultRowRealtimeData{
+		TickPriceFields field;
+		String value;
 		
-		public ExResultRowRealtimeData(TickPriceFields field){
-			//
+		public ExResultRowRealtimeData(TickPriceFields field, String value){
+			this.field = field;
+			this.value = value;
 		}
 	}	
 }

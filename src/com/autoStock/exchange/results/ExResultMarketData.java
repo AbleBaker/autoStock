@@ -26,10 +26,11 @@ public class ExResultMarketData {
 		}
 	}
 	
-	public class ExResultRowMarketData{
+	public static class ExResultRowMarketData{
 		public TickTypes tickType;
 		public TickPriceFields tickPriceField;
 		public TickSizeFields tickSizeField;
+		public String tickStringValue;
 		public double value;
 		
 		public ExResultRowMarketData(TickPriceFields field, double value){
@@ -40,6 +41,11 @@ public class ExResultMarketData {
 		public ExResultRowMarketData(TickSizeFields field, double value){
 			this.tickType = TickTypes.type_size;
 			this.tickSizeField = field;
+		}
+		
+		public ExResultRowMarketData(String value){
+			this.tickType = TickTypes.type_string;
+			this.tickStringValue = value;
 		}
 	}	
 }

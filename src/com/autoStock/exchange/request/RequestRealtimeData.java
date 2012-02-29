@@ -3,6 +3,7 @@
  */
 package com.autoStock.exchange.request;
 
+import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
@@ -37,6 +38,7 @@ public class RequestRealtimeData {
 	}
 	
 	public synchronized void addResult(ExResultRowRealtimeData exResultRowRealtimeData){
+		Co.println("addResult");
 		this.exResultSetRealtimeData.listOfExResultRowRealtimeData.add(exResultRowRealtimeData);
 	}
 }

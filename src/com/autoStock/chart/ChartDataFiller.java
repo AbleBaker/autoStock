@@ -10,7 +10,7 @@ import java.util.Date;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 
-import com.autoStock.analysis.tools.BasicTimeValuePair;
+import com.autoStock.tools.BasicTimeValuePair;
 
 /**
  * @author Kevin Kowalewski

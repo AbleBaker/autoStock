@@ -14,6 +14,7 @@ import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsBollingerBands;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
+import com.autoStock.backtest.Backtest;
 import com.autoStock.chart.ChartDataFiller;
 import com.autoStock.chart.CombinedLineChart;
 import com.autoStock.chart.LineChart;
@@ -21,6 +22,10 @@ import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.exchange.request.RequestMarketData;
+import com.autoStock.exchange.request.base.RequestHolder;
+import com.autoStock.exchange.request.listener.RequestMarketDataListener;
+import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
@@ -31,9 +36,13 @@ import com.autoStock.menu.MenuDisplayLauncher;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiColumns;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.ReflectionHelper;
 import com.autoStock.tools.StringTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
+import com.autoStock.trading.types.TypeHistoricalData;
+import com.autoStock.trading.types.TypeMarketData;
 import com.tictactec.ta.lib.MAType;
 
 /**
@@ -47,6 +56,21 @@ public class MainClient {
 			
 		ApplicationStates.startup();
 		
+//		TypeMarketData typeMarketData = new TypeMarketData("8411", "STK");
+//		
+//		new RequestMarketData(new RequestHolder(null), new RequestMarketDataListener() {
+//			@Override
+//			public void failed(RequestHolder requestHolder) {
+//				
+//			}
+//			
+//			@Override
+//			public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
+//				Co.println("Completed!");
+//				
+//			}
+//		}, typeMarketData, 5000);
+		
 		//new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
 		//new AlgoDayOverDay().simpleTest();
 		//new TALibTest().test();
@@ -55,7 +79,12 @@ public class MainClient {
 				BasicQueries.basic_historical_price_range,
 				QueryArgs.symbol.setValue("RAS"),
 				QueryArgs.startDate.setValue("2011-01-05 09:30:00"),
-				QueryArgs.endDate.setValue("2011-01-05 15:30:00"));
+				QueryArgs.endDate.setValue("2011-01-05 16:00:00"));
+		
+		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);
+		
+		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
+		backtest.performBacktest();
 		
 //		AnalysisBollingerBands analysis = new AnalysisBollingerBands();
 //		analysis.setDataSet(listOfResults);
@@ -84,17 +113,17 @@ public class MainClient {
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 //		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
-		AnalysisMACD analysis = new AnalysisMACD();
-		analysis.setDataSet(listOfResults);
-		ResultsMACD resultsMACD = analysis.analize();
-		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
-		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD ", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACD)));
-		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Signal", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDSignal)));
-		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Histogram", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDHistogram)));
-		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
-		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
-		//new LineChart(). new LineChartDisplay(timeSeriesCollection1);
+//		AnalysisMACD analysis = new AnalysisMACD();
+//		analysis.setDataSet(listOfResults);
+//		ResultsMACD resultsMACD = analysis.analize();
+//		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
+//		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD ", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACD)));
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Signal", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDSignal)));
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Histogram", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDHistogram)));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+//		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
+//		//new LineChart(). new LineChartDisplay(timeSeriesCollection1);
 		
 		//System.exit(0);
 
@@ -107,7 +136,7 @@ public class MainClient {
 //		new MenuDisplayLauncher().launchDisplay(menuStructure);
 //		
 //		Co.println("\n\nWaiting for callbacks...");
-//		try{Thread.sleep(30*1000);}catch(Exception e){}
+//		try{Thread.sleep(15*1000);}catch(Exception e){}
 //		Co.println("\n Done \n");
 //		System.exit(0);
 		

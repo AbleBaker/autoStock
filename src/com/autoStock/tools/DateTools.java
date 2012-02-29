@@ -37,16 +37,20 @@ public class DateTools {
 	public static Date getDateFromString(String date){
 		try {
 			return new SimpleDateFormat("yyyy/MM/dd.HH:mm.a").parse(date);
-		}catch (ParseException e){
+		}catch (ParseException e1){
 			try {
 				return new SimpleDateFormat("yyyy/MM/dd.HH:mm:ss.a").parse(date);
-			}catch (ParseException ex){
+			}catch (ParseException e2){
 				try {
 					return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(date);
-				}catch (ParseException exc){
-					Co.println("Could not parse: " + date);
-					ApplicationStates.shutdown();
-					return null;
+				}catch (ParseException e3){
+					try {
+						return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);	
+					}catch (ParseException e4){
+						Co.println("Could not parse: " + date);
+						ApplicationStates.shutdown();
+						return null;
+					}
 				}
 			}
 		}
