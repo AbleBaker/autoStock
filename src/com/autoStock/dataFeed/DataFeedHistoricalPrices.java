@@ -6,9 +6,9 @@ package com.autoStock.dataFeed;
 import java.util.ArrayList;
 
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
-import com.autoStock.exchange.results.ResultQuoteSlice;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.trading.types.TypeHistoricalData;
+import com.autoStock.types.TypeQuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -45,7 +45,7 @@ public class DataFeedHistoricalPrices {
 	
 	private void feed(DbStockHistoricalPrice price){
 		for (DataFeedListenerOfQuoteSlice listener : listOfListener){
-			listener.receivedQuoteSlice(new ResultQuoteSlice(price.symbol, price.priceOpen, price.priceHigh, price.priceLow, price.priceClose, -1, -1, price.sizeVolume, price.dateTime));
+			listener.receivedQuoteSlice(new TypeQuoteSlice(price.symbol, price.priceOpen, price.priceHigh, price.priceLow, price.priceClose, -1, -1, price.sizeVolume, price.dateTime));
 		}
 	}
 	

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.jfree.data.time.TimeSeriesCollection;
 
+import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.basic.AlgoDayOverDay;
 import com.autoStock.analysis.AnalysisADX;
 import com.autoStock.analysis.AnalysisBollingerBands;
@@ -84,7 +85,10 @@ public class MainClient {
 		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);
 		
 		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
-		backtest.performBacktest();
+		AlgorithmTest algorithm = new AlgorithmTest();
+		
+		backtest.performBacktest(algorithm.getReceiver());
+		algorithm.run();
 		
 //		AnalysisBollingerBands analysis = new AnalysisBollingerBands();
 //		analysis.setDataSet(listOfResults);

@@ -16,11 +16,11 @@ import com.autoStock.exchange.results.ExResultHistoricalData.ExResultRowHistoric
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
-import com.autoStock.exchange.results.ResultQuoteSlice;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.MarketData.TickTypes;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
+import com.autoStock.types.TypeQuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -71,11 +71,11 @@ public class RequestMarketData {
 				while (true){
 					try {Thread.sleep(sliceMilliseconds);}catch(InterruptedException e){return;}
 					synchronized(RequestMarketData.this){
-						ResultQuoteSlice resultQuoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData);
+						TypeQuoteSlice typeQuoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData);
 						exResultSetMarketData.listOfExResultRowMarketData.clear();
 						
 						Co.println("Generated new QuoteSlice");
-						Co.println("O,H,L,C" + resultQuoteSlice.priceOpen + "," + resultQuoteSlice.priceHigh + "," + resultQuoteSlice.priceLow + "," + resultQuoteSlice.priceClose + "," + resultQuoteSlice.sizeVolume);
+						Co.println("O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);
 					}
 				}
 			}

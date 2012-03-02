@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.autoStock.exchange.results;
+package com.autoStock.types;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +13,7 @@ import com.autoStock.trading.types.TypeRealtimeData;
  * @author Kevin Kowalewski
  *
  */
-public class ResultQuoteSlice {
+public class TypeQuoteSlice {
 	public String symbol;
 	public float priceOpen;
 	public float priceHigh;
@@ -24,11 +24,11 @@ public class ResultQuoteSlice {
 	public int sizeVolume;
 	public Date dateTime;
 	
-	public ResultQuoteSlice(){
+	public TypeQuoteSlice(){
 		
 	}
 	
-	public ResultQuoteSlice(String symbol, float priceOpen, float priceHigh, float priceLow, float priceClose, float priceBid, float priceAsk, int sizeVolume, Date dateTime) {
+	public TypeQuoteSlice(String symbol, float priceOpen, float priceHigh, float priceLow, float priceClose, float priceBid, float priceAsk, int sizeVolume, Date dateTime) {
 		this.symbol = symbol;
 		this.priceOpen = priceOpen;
 		this.priceHigh = priceHigh;

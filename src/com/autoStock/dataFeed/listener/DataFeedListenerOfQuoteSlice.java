@@ -3,12 +3,12 @@
  */
 package com.autoStock.dataFeed.listener;
 
-import com.autoStock.exchange.results.ResultQuoteSlice;
+import com.autoStock.types.TypeQuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public interface DataFeedListenerOfQuoteSlice {
-	void receivedQuoteSlice(ResultQuoteSlice resultQuoteSlice);
+	void receivedQuoteSlice(TypeQuoteSlice typeQuoteSlice);
 }
