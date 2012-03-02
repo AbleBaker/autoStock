@@ -37,6 +37,7 @@ import com.autoStock.menu.MenuDisplayLauncher;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiColumns;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.ReflectionHelper;
@@ -44,6 +45,7 @@ import com.autoStock.tools.StringTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
+import com.autoStock.types.TypeQuoteSlice;
 import com.tictactec.ta.lib.MAType;
 
 /**
@@ -99,14 +101,14 @@ public class MainClient {
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Upper", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfUpperBand)));
 //		new LineChart(). new LineChartDisplay(timeSeriesCollection);
 
-//		AnalysisCCI analysis = new AnalysisCCI();
-//		analysis.setDataSet(listOfResults);
-//		ResultsCCI resultsCommodityChannelIndex = analysis.analyize();
-//		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
-//		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
-//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfCCI)));
-//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
-//		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
+		AnalysisCCI analysis = new AnalysisCCI();
+		analysis.setDataSetFromDatabase(listOfResults);
+		ResultsCCI resultsCommodityChannelIndex = analysis.analyize(false);
+		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
+		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, ArrayTools.shiftArrayDown(analysis.results.arrayOfCCI, analysis.periodLength))));
+		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
 //		AnalysisADX analysis = new AnalysisADX();
 //		analysis.setDataSet(listOfResults);

@@ -43,6 +43,7 @@ public class HistoricalData {
 		sec_15(15, "15 secs"),
 		sec_5(5, "5 secs"),
 		sec(1, "1 secs"),
+		tick(0, "1 ticks");
 		;
 		
 		public int seconds;

@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
+import com.autoStock.balance.BasicBalance;
 import com.autoStock.dataFeed.DataFeedHistoricalPrices;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.tools.DateTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.types.TypeQuoteSlice;
 
@@ -33,12 +35,18 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	public void performBacktest(ReceiverOfQuoteSlice reciever){
 		receiverOfQuoteSlice = reciever;
 		dataFeedHistoricalPrices.addListener(this);
-		dataFeedHistoricalPrices.startFeed(60, 10);
+		dataFeedHistoricalPrices.startFeed(60, 0);
 	}
 
 	@Override
 	public void receivedQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
 		//Co.println("Received backtest quote: " + DateTools.getPrettyDate(resultQuoteSlice.dateTime) + ", " + resultQuoteSlice.priceClose);
 		receiverOfQuoteSlice.receiveQuoteSlice(typeQuoteSlice);
+	}
+
+	@Override
+	public void endOfFeed() {
+		Co.println("Bank Balance: " + BasicBalance.bankBalance);
+		Co.println("Transactoins: " + BasicBalance.transactions);
 	}	
 }

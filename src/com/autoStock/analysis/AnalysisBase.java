@@ -3,6 +3,7 @@
  */
 package com.autoStock.analysis;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHis
 import com.autoStock.tools.DataConditioner;
 import com.autoStock.tools.DataExtractor;
 import com.autoStock.tools.DataConditioner.PrecededDataset;
+import com.autoStock.types.TypeQuoteSlice;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.RetCode;
 
@@ -21,6 +23,7 @@ import com.tictactec.ta.lib.RetCode;
 public abstract class AnalysisBase {
 	private Core taLibCore = new Core();
 	public Object dataSource;
+	public Type dateSourceType;
 	public DataExtractor dataExtractor;
 	
 	public int periodLength;
@@ -30,7 +33,7 @@ public abstract class AnalysisBase {
 	public float[] arrayOfPriceLow;
 	public float[] arrayOfPriceClose;
 	
-	public void initializeTypicalAnalys(int periodLength, int datasetLength) {
+	public void initializeTypicalAnalysis(int periodLength, int datasetLength) {
 		this.periodLength = periodLength;
 		this.datasetLength = datasetLength;
 	}
@@ -39,12 +42,22 @@ public abstract class AnalysisBase {
 		return this.taLibCore;
 	}
 	
-	public void setDataSet(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
+	public void setDataSet(ArrayList<TypeQuoteSlice> listOfQuoteSlice){
+		if (listOfQuoteSlice.size() == 0){
+			throw new IllegalArgumentException();
+		}
+		
+		this.dataSource = listOfQuoteSlice;
+		this.dateSourceType = listOfQuoteSlice.getClass();
+	}
+	
+	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
 		if (listOfDbStockHistoricalPrice.size() == 0){
-			throw new IllegalStateException();
+			throw new IllegalArgumentException();
 		}
 		
 		this.dataSource = listOfDbStockHistoricalPrice;
+		this.dateSourceType = listOfDbStockHistoricalPrice.getClass();
 	}
 	
 	public void handleAnalysisResult(RetCode returnCode){

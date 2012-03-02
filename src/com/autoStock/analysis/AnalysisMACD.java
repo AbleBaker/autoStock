@@ -26,7 +26,7 @@ public class AnalysisMACD extends AnalysisBase {
 	public ResultsMACD results;
 	
 	public ResultsMACD analize(){
-		super.initializeTypicalAnalys(64, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
+		super.initializeTypicalAnalysis(64, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
 		
 		results = new ResultsMACD(datasetLength+periodLength);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);

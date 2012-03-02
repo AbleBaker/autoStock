@@ -11,4 +11,5 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public interface DataFeedListenerOfQuoteSlice {
 	void receivedQuoteSlice(TypeQuoteSlice typeQuoteSlice);
+	void endOfFeed();
 }

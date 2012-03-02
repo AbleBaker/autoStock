@@ -25,11 +25,14 @@ import com.tictactec.ta.lib.RetCode;
  */
 public class AnalysisCCI extends AnalysisBase {
 	public ResultsCCI results;
+	private int endIndex;
 	
-	public ResultsCCI analyize(){
-		super.initializeTypicalAnalys(128, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
+	public ResultsCCI analyize(boolean preceedDataset){
+		super.initializeTypicalAnalysis(30, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
 		
-		results = new ResultsCCI(datasetLength+periodLength);
+		endIndex = preceedDataset ? (periodLength + datasetLength -1) : datasetLength -1;
+		
+		results = new ResultsCCI(endIndex+1);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));
 
@@ -37,10 +40,12 @@ public class AnalysisCCI extends AnalysisBase {
 		arrayOfPriceHigh = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceHigh").toArray(new Float[0]));
 		arrayOfPriceLow = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceLow").toArray(new Float[0]));
 		arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));
-	
-		preceedDatasetWithPeriod();
 		
-		RetCode returnCode = getTaLibCore().cci(periodLength+1, periodLength+datasetLength-1, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfCCI);
+		if (preceedDataset){
+			preceedDatasetWithPeriod();
+		}
+		
+		RetCode returnCode = getTaLibCore().cci(periodLength+1, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfCCI);
 		handleAnalysisResult(returnCode);
 		
 		return results;

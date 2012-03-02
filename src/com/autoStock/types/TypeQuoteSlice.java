@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.exchange.results.ExResultRealtimeData.ExResultRowRealtimeData;
+import com.autoStock.trading.platform.ib.definitions.HistoricalData.Period;
+import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
 import com.autoStock.trading.types.TypeRealtimeData;
 
 /**
@@ -23,12 +25,13 @@ public class TypeQuoteSlice {
 	public float priceAsk;
 	public int sizeVolume;
 	public Date dateTime;
+	public Resolution resolution;
 	
 	public TypeQuoteSlice(){
 		
 	}
 	
-	public TypeQuoteSlice(String symbol, float priceOpen, float priceHigh, float priceLow, float priceClose, float priceBid, float priceAsk, int sizeVolume, Date dateTime) {
+	public TypeQuoteSlice(String symbol, float priceOpen, float priceHigh, float priceLow, float priceClose, float priceBid, float priceAsk, int sizeVolume, Date dateTime, Resolution resolution) {
 		this.symbol = symbol;
 		this.priceOpen = priceOpen;
 		this.priceHigh = priceHigh;

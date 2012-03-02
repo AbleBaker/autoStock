@@ -23,7 +23,7 @@ public class AnalysisADX extends AnalysisBase {
 	public ResultsADX results;
 	
 	public ResultsADX analize(){
-		super.initializeTypicalAnalys(128, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
+		super.initializeTypicalAnalysis(128, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
 		
 		results = new ResultsADX(datasetLength+periodLength);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
