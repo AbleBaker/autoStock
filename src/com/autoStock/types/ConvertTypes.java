@@ -25,6 +25,8 @@ public class ConvertTypes {
 			typeQuoteSlice.priceLow = dbStockHistoricalPrice.priceLow;
 			typeQuoteSlice.priceClose = dbStockHistoricalPrice.priceClose;
 			typeQuoteSlice.sizeVolume = dbStockHistoricalPrice.sizeVolume;
+			
+			listOfQuoteSlice.add(typeQuoteSlice);
 		}
 		
 		return listOfQuoteSlice;

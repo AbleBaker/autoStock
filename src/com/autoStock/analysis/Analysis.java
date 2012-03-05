@@ -48,7 +48,7 @@ public abstract class Analysis {
 	
 	public void setDataSet(ArrayList<TypeQuoteSlice> listOfQuoteSlice){
 		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength){
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size());
 		}
 		
 		this.dataSource = listOfQuoteSlice;
