@@ -7,6 +7,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.autoStock.Co;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.tools.DataConditioner;

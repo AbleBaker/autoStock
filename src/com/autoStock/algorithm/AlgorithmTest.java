@@ -19,8 +19,11 @@ import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsSTORSI;
 import com.autoStock.balance.BasicBalance;
+import com.autoStock.tables.TableController;
+import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.MathTools;
 import com.autoStock.types.TypeQuoteSlice;
 import com.tictactec.ta.lib.MAType;
 
@@ -31,19 +34,23 @@ import com.tictactec.ta.lib.MAType;
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	
 	private int periodLength = 30;
-	public Benchmark bench;
+	public Benchmark bench = new Benchmark();
 	
 	private AnalysisCCI analysisOfCCI = new AnalysisCCI(periodLength, false);
 	private AnalysisADX analysisOfADX = new AnalysisADX(periodLength, false);
 	private AnalysisMACD analysisOfMACD = new AnalysisMACD(periodLength, false);
 	private AnalysisBB analysisOfBB = new AnalysisBB(periodLength, false);
 	private AnalysisSTORSI analysisOfSTORSI = new AnalysisSTORSI(periodLength, false);
+	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	//private boolean havePosition = false;
 	
+	public AlgorithmTest(){
+		
+	}
+	
 	public ReceiverOfQuoteSlice getReceiver(){
-		 bench = new Benchmark();
 		return this;
 	}
 
@@ -53,10 +60,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		listOfQuoteSlice.add(typeQuoteSlice);
 		
-		bench.tick();
+		//bench.tick();
 	
 		if (listOfQuoteSlice.size() > periodLength+1){
 			float analysisPrice = (float) typeQuoteSlice.priceClose;
+			
+			if (listOfQuoteSlice.size() > periodLength+2){
+				listOfQuoteSlice.remove(0); //Prune to save CPU cycles
+			}
 			
 			analysisOfCCI.setDataSet(listOfQuoteSlice);
 			analysisOfADX.setDataSet(listOfQuoteSlice);
@@ -64,21 +75,32 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			analysisOfMACD.setDataSet(listOfQuoteSlice);
 			analysisOfSTORSI.setDataSet(listOfQuoteSlice);
 			
-			bench.tick("set");
-			
 			ResultsCCI resultsCCI = analysisOfCCI.analyize();
 			ResultsADX resultsADX = analysisOfADX.analize();
-			ResultsBB resultsBB = analysisOfBB.analyize(MAType.T3);
+			ResultsBB resultsBB = analysisOfBB.analyize(MAType.Ema);
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
 			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analize();
 			
-			bench.tick("analized");
-			
 			float analysisOfCCIResult = (float) resultsCCI.arrayOfCCI[listOfQuoteSlice.size()-periodLength-2];
 			float analysisOfADXResult = (float) resultsADX.arrayOfADX[listOfQuoteSlice.size()-periodLength-2];
-			float analysisOfBBResult = (float) resultsBB.arrayOfLowerBand[listOfQuoteSlice.size()-periodLength-2];
-			float analysisOfMACD = (float) resultsMACD.arrayOfMACDSignal[listOfQuoteSlice.size()-periodLength-2];
-			float analysisOfSTORSI = (float) resultsSTORSI.arrayOfPercentK[listOfQuoteSlice.size()-periodLength-2];
+			float analysisOfBBResultUpper = (float) resultsBB.arrayOfUpperBand[listOfQuoteSlice.size()-periodLength-2];
+			float analysisOfBBResultLower = (float) resultsBB.arrayOfLowerBand[listOfQuoteSlice.size()-periodLength-2];
+			float analysisOfMACDResultSignal = (float) resultsMACD.arrayOfMACDSignal[listOfQuoteSlice.size()-periodLength-2]*100;
+			float analysisOfSTORSIResultK = (float) resultsSTORSI.arrayOfPercentK[listOfQuoteSlice.size()-periodLength-2];
+			float analysisOfSTORSIResultD = (float) resultsSTORSI.arrayOfPercentD[listOfQuoteSlice.size()-periodLength-2];
+			
+			ArrayList<String> columnValues = new ArrayList<String>();
+			
+			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
+			columnValues.add(String.valueOf(analysisOfMACDResultSignal));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
+			
+			listOfDisplayRows.add(columnValues);
 			
 			//Co.println("Analyized: " + typeQuoteSlice.priceClose + ", " + analysisOfCCIResult);
 //			if (analysisResult > 50 && havePosition == false){
@@ -89,12 +111,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //				havePosition = false;
 //			}
 		}else{
-			Co.println("Waiting for more data (period condition)... ");
+			//Co.println("Waiting for more data (period condition)... ");
 		}
 	}
 
 	@Override
 	public void endOfFeed() {
 		bench.total();
+		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 	}
 }
