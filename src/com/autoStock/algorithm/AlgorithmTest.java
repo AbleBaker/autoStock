@@ -11,10 +11,14 @@ import com.autoStock.analysis.AnalysisADX;
 import com.autoStock.analysis.AnalysisBB;
 import com.autoStock.analysis.AnalysisCCI;
 import com.autoStock.analysis.AnalysisMACD;
+import com.autoStock.analysis.results.ResultsADX;
+import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
+import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.balance.BasicBalance;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.TypeQuoteSlice;
+import com.tictactec.ta.lib.MAType;
 
 /**
  * @author Kevin Kowalewski
@@ -22,16 +26,15 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	
-	private AnalysisCCI analysisOfCCI = new AnalysisCCI(30, false);
-	private AnalysisADX analysisOfADX = new AnalysisADX(30, false);
-	private AnalysisMACD analysisOfMACD = new AnalysisMACD(30, false);
-	private AnalysisBB analysisOfBollingerBands = new AnalysisBB(30, false);
-	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
-	private boolean havePosition = false;
+	private int periodLength = 30;
 	
-	public void run(){
-		Co.println("Algorithm is running...");
-	}
+	private AnalysisCCI analysisOfCCI = new AnalysisCCI(periodLength, false);
+	private AnalysisADX analysisOfADX = new AnalysisADX(periodLength, false);
+	private AnalysisMACD analysisOfMACD = new AnalysisMACD(periodLength, false);
+	private AnalysisBB analysisOfBB = new AnalysisBB(periodLength, false);
+	
+	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
+	//private boolean havePosition = false;
 	
 	public ReceiverOfQuoteSlice getReceiver(){
 		return this;
@@ -43,13 +46,25 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		listOfQuoteSlice.add(typeQuoteSlice);
 	
-		if (listOfQuoteSlice.size() > 30+1){
-			analysisOfCCI.setDataSet(listOfQuoteSlice);
-			ResultsCCI resultsCommodityChannelIndex = analysisOfCCI.analyize();
-			float analysisResult = (float) resultsCommodityChannelIndex.arrayOfCCI[listOfQuoteSlice.size()-32];
-			float analysisPrice = (float) resultsCommodityChannelIndex.arrayOfPrice[listOfQuoteSlice.size()-32];
+		if (listOfQuoteSlice.size() > periodLength+1){
+			float analysisPrice = (float) typeQuoteSlice.priceClose;
 			
-//			Co.println("Analyized: " + typeQuoteSlice.priceClose + ", " + analysisResult);
+			analysisOfCCI.setDataSet(listOfQuoteSlice);
+			analysisOfADX.setDataSet(listOfQuoteSlice);
+			analysisOfBB.setDataSet(listOfQuoteSlice);
+			analysisOfMACD.setDataSet(listOfQuoteSlice);
+			
+			ResultsCCI resultsCCI = analysisOfCCI.analyize();
+			ResultsADX resultsADX = analysisOfADX.analize();
+			ResultsBB resultsBB = analysisOfBB.analyize(MAType.T3);
+			ResultsMACD resultsMACD = analysisOfMACD.analize();
+			
+			float analysisOfCCIResult = (float) resultsCCI.arrayOfCCI[listOfQuoteSlice.size()-periodLength-2];
+			float analysisOfADXResult = (float) resultsADX.arrayOfADX[listOfQuoteSlice.size()-periodLength-2];
+			float analysisOfBBResult = (float) resultsBB.arrayOfLowerBand[listOfQuoteSlice.size()-periodLength-2];
+			float analysisOfMACD = (float) resultsBB.arrayOfLowerBand[listOfQuoteSlice.size()-periodLength-2];
+			
+			Co.println("Analyized: " + typeQuoteSlice.priceClose + ", " + analysisOfCCIResult);
 //			if (analysisResult > 50 && havePosition == false){
 //				BasicBalance.buy(analysisPrice);
 //				havePosition = true;

@@ -12,7 +12,7 @@ import com.autoStock.analysis.AnalysisBB;
 import com.autoStock.analysis.AnalysisCCI;
 import com.autoStock.analysis.AnalysisMACD;
 import com.autoStock.analysis.results.ResultsADX;
-import com.autoStock.analysis.results.ResultsBollingerBands;
+import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.backtest.Backtest;
@@ -90,7 +90,6 @@ public class MainClient {
 		AlgorithmTest algorithm = new AlgorithmTest();
 		
 		backtest.performBacktest(algorithm.getReceiver());
-		algorithm.run();
 		
 //		AnalysisBollingerBands analysis = new AnalysisBollingerBands();
 //		analysis.setDataSet(listOfResults);

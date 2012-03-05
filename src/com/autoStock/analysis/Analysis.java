@@ -20,7 +20,7 @@ import com.tictactec.ta.lib.RetCode;
  * @author Kevin Kowalewski
  *
  */
-public abstract class AnalysisBase {
+public abstract class Analysis {
 	private Core taLibCore = new Core();
 	public Object dataSource;
 	public Type dateSourceType;
@@ -33,9 +33,11 @@ public abstract class AnalysisBase {
 	public float[] arrayOfPriceLow;
 	public float[] arrayOfPriceClose;
 	public boolean preceedDataset;
+	public int endIndex;
 	
-	public AnalysisBase(int periodLength, boolean preceedDataset){
-		
+	public Analysis(int periodLength, boolean preceedDataset){
+		this.periodLength = periodLength;
+		this.preceedDataset = preceedDataset;
 	}
 	
 	public Core getTaLibCore(){
@@ -50,6 +52,7 @@ public abstract class AnalysisBase {
 		this.dataSource = listOfQuoteSlice;
 		this.datasetLength = listOfQuoteSlice.size();
 		this.dateSourceType = listOfQuoteSlice.getClass();
+		this.endIndex = preceedDataset ? (periodLength + datasetLength -1) : datasetLength -1;
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){

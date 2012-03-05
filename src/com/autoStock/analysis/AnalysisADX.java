@@ -12,6 +12,7 @@ import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.tools.DataConditioner;
 import com.autoStock.tools.DataExtractor;
+import com.autoStock.types.TypeQuoteSlice;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
 
@@ -19,27 +20,29 @@ import com.tictactec.ta.lib.RetCode;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisADX extends AnalysisBase {
+public class AnalysisADX extends Analysis {
+	public ResultsADX results;
+	
 	public AnalysisADX(int periodLength, boolean preceedDataset) {
 		super(periodLength, preceedDataset);
 	}
-
-	public ResultsADX results;
 	
 	public ResultsADX analize(){
+		results = new ResultsADX(endIndex+1);
 		
-		results = new ResultsADX(datasetLength+periodLength);
-		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
-		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));
+		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<TypeQuoteSlice>)super.dataSource), "dateTime").toArray(new Date[0]);
+		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceClose").toArray(new Float[0]));
 		
-		arrayOfPriceOpen = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceOpen").toArray(new Float[0]));
-		arrayOfPriceHigh = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceHigh").toArray(new Float[0]));
-		arrayOfPriceLow = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceLow").toArray(new Float[0]));
-		arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));
+		arrayOfPriceOpen = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceOpen").toArray(new Float[0]));
+		arrayOfPriceHigh = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceHigh").toArray(new Float[0]));
+		arrayOfPriceLow = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceLow").toArray(new Float[0]));
+		arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceClose").toArray(new Float[0]));
 		
-		preceedDatasetWithPeriod();
+		if (preceedDataset){
+			preceedDatasetWithPeriod();
+		}
 		
-		RetCode returnCode = getTaLibCore().adx(0,  datasetLength+periodLength-1, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength/2, new MInteger(), new MInteger(), results.arrayOfADX);
+		RetCode returnCode = getTaLibCore().adx(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength/2, new MInteger(), new MInteger(), results.arrayOfADX);
 		handleAnalysisResult(returnCode);
 		
 		return results;
