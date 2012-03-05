@@ -25,9 +25,11 @@ import com.tictactec.ta.lib.RetCode;
 public class AnalysisMACD extends AnalysisBase {
 	public ResultsMACD results;
 	
+	public AnalysisMACD(int periodLength, boolean preceedDataset) {
+		super(periodLength, preceedDataset);
+	}
+	
 	public ResultsMACD analize(){
-		super.initializeTypicalAnalysis(64, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
-		
 		results = new ResultsMACD(datasetLength+periodLength);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "priceClose").toArray(new Float[0]));

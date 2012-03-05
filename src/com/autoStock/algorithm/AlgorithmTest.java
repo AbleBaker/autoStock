@@ -7,7 +7,10 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
+import com.autoStock.analysis.AnalysisADX;
+import com.autoStock.analysis.AnalysisBB;
 import com.autoStock.analysis.AnalysisCCI;
+import com.autoStock.analysis.AnalysisMACD;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.balance.BasicBalance;
 import com.autoStock.tools.DateTools;
@@ -19,7 +22,10 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	
-	private AnalysisCCI analysisOfCCI = new AnalysisCCI();
+	private AnalysisCCI analysisOfCCI = new AnalysisCCI(30, false);
+	private AnalysisADX analysisOfADX = new AnalysisADX(30, false);
+	private AnalysisMACD analysisOfMACD = new AnalysisMACD(30, false);
+	private AnalysisBB analysisOfBollingerBands = new AnalysisBB(30, false);
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	private boolean havePosition = false;
 	
@@ -39,17 +45,18 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	
 		if (listOfQuoteSlice.size() > 30+1){
 			analysisOfCCI.setDataSet(listOfQuoteSlice);
-			ResultsCCI resultsCommodityChannelIndex = analysisOfCCI.analyize(false);
+			ResultsCCI resultsCommodityChannelIndex = analysisOfCCI.analyize();
 			float analysisResult = (float) resultsCommodityChannelIndex.arrayOfCCI[listOfQuoteSlice.size()-32];
 			float analysisPrice = (float) resultsCommodityChannelIndex.arrayOfPrice[listOfQuoteSlice.size()-32];
-			Co.println("Analyized: " + typeQuoteSlice.priceClose + ", " + analysisResult);
-			if (analysisResult > 50 && havePosition == false){
-				BasicBalance.buy(analysisPrice);
-				havePosition = true;
-			}else if (analysisResult < -200 && havePosition == true){
-				BasicBalance.sell(analysisPrice);
-				havePosition = false;
-			}
+			
+//			Co.println("Analyized: " + typeQuoteSlice.priceClose + ", " + analysisResult);
+//			if (analysisResult > 50 && havePosition == false){
+//				BasicBalance.buy(analysisPrice);
+//				havePosition = true;
+//			}else if (analysisResult < -200 && havePosition == true){
+//				BasicBalance.sell(analysisPrice);
+//				havePosition = false;
+//			}
 		}else{
 			Co.println("Waiting for more data (period condition)... ");
 		}

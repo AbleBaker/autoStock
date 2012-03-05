@@ -20,10 +20,13 @@ import com.tictactec.ta.lib.RetCode;
  *
  */
 public class AnalysisADX extends AnalysisBase {
+	public AnalysisADX(int periodLength, boolean preceedDataset) {
+		super(periodLength, preceedDataset);
+	}
+
 	public ResultsADX results;
 	
 	public ResultsADX analize(){
-		super.initializeTypicalAnalysis(128, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
 		
 		results = new ResultsADX(datasetLength+periodLength);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);

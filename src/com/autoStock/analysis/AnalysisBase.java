@@ -32,10 +32,10 @@ public abstract class AnalysisBase {
 	public float[] arrayOfPriceHigh;
 	public float[] arrayOfPriceLow;
 	public float[] arrayOfPriceClose;
+	public boolean preceedDataset;
 	
-	public void initializeTypicalAnalysis(int periodLength, int datasetLength) {
-		this.periodLength = periodLength;
-		this.datasetLength = datasetLength;
+	public AnalysisBase(int periodLength, boolean preceedDataset){
+		
 	}
 	
 	public Core getTaLibCore(){
@@ -43,11 +43,12 @@ public abstract class AnalysisBase {
 	}
 	
 	public void setDataSet(ArrayList<TypeQuoteSlice> listOfQuoteSlice){
-		if (listOfQuoteSlice.size() == 0){
+		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength){
 			throw new IllegalArgumentException();
 		}
 		
 		this.dataSource = listOfQuoteSlice;
+		this.datasetLength = listOfQuoteSlice.size();
 		this.dateSourceType = listOfQuoteSlice.getClass();
 	}
 	

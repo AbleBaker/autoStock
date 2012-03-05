@@ -27,9 +27,11 @@ public class AnalysisCCI extends AnalysisBase {
 	public ResultsCCI results;
 	private int endIndex;
 	
-	public ResultsCCI analyize(boolean preceedDataset){
-		super.initializeTypicalAnalysis(30, ((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
-		
+	public AnalysisCCI(int periodLength, boolean preceedDataset) {
+		super(periodLength, preceedDataset);
+	}
+	
+	public ResultsCCI analyize(){
 		endIndex = preceedDataset ? (periodLength + datasetLength -1) : datasetLength -1;
 		
 		results = new ResultsCCI(endIndex+1);

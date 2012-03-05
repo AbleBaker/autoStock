@@ -21,9 +21,12 @@ import com.tictactec.ta.lib.RetCode;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisBollingerBands extends AnalysisBase {
-	
+public class AnalysisBB extends AnalysisBase {
 	public ResultsBollingerBands results;
+	
+	public AnalysisBB(int periodLength, boolean preceedDataset) {
+		super(periodLength, preceedDataset);
+	}
 	
 	public ResultsBollingerBands analyize(MAType manalysisType){	
 		results = new ResultsBollingerBands(((ArrayList<DbStockHistoricalPrice>)super.dataSource).size());
