@@ -8,14 +8,9 @@ import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsMACD;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.tools.DataConditioner;
 import com.autoStock.tools.DataExtractor;
-import com.autoStock.tools.DataConditioner.PrecededDataset;
 import com.autoStock.types.TypeQuoteSlice;
-import com.tictactec.ta.lib.MAType;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
 
@@ -45,7 +40,7 @@ public class AnalysisMACD extends Analysis {
 		}
 		
 		//RetCode returnCode = getTaLibCore().macdExt(0, datasetLength+periodLength-1, valuesPriceClose, periodLength, MAType.Wma, periodLength, MAType.Wma, periodLength, MAType.Wma, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACD, results.arrayOfMACDHistogram);
-		RetCode returnCode = getTaLibCore().macd(0, endIndex, arrayOfPriceClose, 8, 16, 16, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		RetCode returnCode = getTaLibCore().macd(0, endIndex, arrayOfPriceClose, 8, 16, 32, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		handleAnalysisResult(returnCode);
 		
 		return results;

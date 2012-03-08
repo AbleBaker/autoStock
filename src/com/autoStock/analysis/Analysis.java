@@ -63,7 +63,9 @@ public abstract class Analysis {
 		}
 		
 		this.dataSource = listOfDbStockHistoricalPrice;
+		this.datasetLength = listOfDbStockHistoricalPrice.size();
 		this.dateSourceType = listOfDbStockHistoricalPrice.getClass();
+		this.endIndex = preceedDataset ? (periodLength + datasetLength -1) : datasetLength -1;
 	}
 	
 	public void handleAnalysisResult(RetCode returnCode){

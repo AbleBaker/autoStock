@@ -24,8 +24,8 @@ import com.tictactec.ta.lib.RetCode;
  */
 public class AnalysisBB extends Analysis {
 	public ResultsBB results;
-	public int optionDeviationUp = 5;
-	public int optionDeviationDown = 5;
+	public int optionDeviationUp = 2;
+	public int optionDeviationDown = 2;
 	
 	public AnalysisBB(int periodLength, boolean preceedDataset) {
 		super(periodLength, preceedDataset);
@@ -33,7 +33,7 @@ public class AnalysisBB extends Analysis {
 	
 	public ResultsBB analyize(MAType manalysisType){	
 		results = new ResultsBB(endIndex+1);
-//		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
+		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<DbStockHistoricalPrice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		
 		//arrayOfPriceOpen = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceOpen").toArray(new Float[0]));
 		//arrayOfPriceHigh = new ArrayUtils().toPrimitive(new DataExtractor().extractFloat(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceHigh").toArray(new Float[0]));

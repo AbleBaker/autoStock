@@ -5,25 +5,23 @@ package com.autoStock.algorithm;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.analysis.AnalysisADX;
 import com.autoStock.analysis.AnalysisBB;
 import com.autoStock.analysis.AnalysisCCI;
 import com.autoStock.analysis.AnalysisMACD;
-import com.autoStock.analysis.AnalysisRSI;
 import com.autoStock.analysis.AnalysisSTORSI;
 import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsSTORSI;
-import com.autoStock.balance.BasicBalance;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.tools.StringTools;
 import com.autoStock.types.TypeQuoteSlice;
 import com.tictactec.ta.lib.MAType;
 
@@ -34,6 +32,7 @@ import com.tictactec.ta.lib.MAType;
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	
 	private int periodLength = 30;
+	private int periodWindow = 10;
 	public Benchmark bench = new Benchmark();
 	
 	private AnalysisCCI analysisOfCCI = new AnalysisCCI(periodLength, false);
@@ -62,11 +61,11 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		//bench.tick();
 	
-		if (listOfQuoteSlice.size() > periodLength+1){
+		if (listOfQuoteSlice.size() > (periodLength + periodWindow)){
 			float analysisPrice = (float) typeQuoteSlice.priceClose;
 			
-			if (listOfQuoteSlice.size() > periodLength+2){
-				listOfQuoteSlice.remove(0); //Prune to save CPU cycles
+			if (listOfQuoteSlice.size() > (periodLength + periodWindow + 2)){
+				listOfQuoteSlice.remove(0);
 			}
 			
 			analysisOfCCI.setDataSet(listOfQuoteSlice);
@@ -93,6 +92,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
+			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));

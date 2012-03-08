@@ -24,17 +24,17 @@ public class DataConditioner {
 		
 		for (int i=0; i<=periodLength; i++){
 			int preceedWith = new Random().nextInt(periodLength);
-			tempValuesPriceHigh[i] = arrayOfPriceOpen[preceedWith];
-			tempValuesPriceHigh[i] = arrayOfPriceOpen[preceedWith];
-			tempValuesPriceLow[i] = arrayOfPriceOpen[preceedWith];
-			tempValuesPriceClose[i] = arrayOfPriceOpen[preceedWith];
+			if (arrayOfPriceOpen != null){tempValuesPriceOpen[i] = arrayOfPriceOpen[preceedWith];}
+			if (arrayOfPriceHigh != null){tempValuesPriceHigh[i] = arrayOfPriceHigh[preceedWith];}
+			if (arrayOfPriceLow != null){tempValuesPriceLow[i] = arrayOfPriceLow[preceedWith];}
+			if (arrayOfPriceClose != null){tempValuesPriceClose[i] = arrayOfPriceClose[preceedWith];}
 		}
 		
 		for (int i=periodLength; i<datasetLength+periodLength; i++){
-			tempValuesPriceOpen[i] = arrayOfPriceOpen[i-periodLength];
-			tempValuesPriceHigh[i] = arrayOfPriceHigh[i-periodLength];
-			tempValuesPriceLow[i] = arrayOfPriceLow[i-periodLength];
-			tempValuesPriceClose[i] = arrayOfPriceClose[i-periodLength];
+			if (arrayOfPriceOpen != null){tempValuesPriceOpen[i] = arrayOfPriceOpen[i-periodLength];}
+			if (arrayOfPriceHigh != null){tempValuesPriceHigh[i] = arrayOfPriceHigh[i-periodLength];}
+			if (arrayOfPriceLow != null){tempValuesPriceLow[i] = arrayOfPriceLow[i-periodLength];}
+			if (arrayOfPriceClose != null){tempValuesPriceClose[i] = arrayOfPriceClose[i-periodLength];}
 		}
 		
 		return new PrecededDataset(tempValuesPriceOpen, tempValuesPriceHigh, tempValuesPriceLow, tempValuesPriceClose);

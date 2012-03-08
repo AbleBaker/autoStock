@@ -11,10 +11,12 @@ import com.autoStock.analysis.AnalysisADX;
 import com.autoStock.analysis.AnalysisBB;
 import com.autoStock.analysis.AnalysisCCI;
 import com.autoStock.analysis.AnalysisMACD;
+import com.autoStock.analysis.AnalysisRSI;
 import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
+import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.backtest.Backtest;
 import com.autoStock.chart.ChartDataFiller;
 import com.autoStock.chart.CombinedLineChart;
@@ -79,39 +81,40 @@ public class MainClient {
 		//new AlgoDayOverDay().simpleTest();
 		//new TALibTest().test();
 		
+		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
+		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-06 09:30:00"), DateTools.getDateFromString("2011-01-06 16:00:00"), Resolution.min);
+
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
 				BasicQueries.basic_historical_price_range,
-				QueryArgs.symbol.setValue("RAS"),
-				QueryArgs.startDate.setValue("2011-01-05 09:30:00"),
-				QueryArgs.endDate.setValue("2011-01-05 16:00:00"));
+				QueryArgs.symbol.setValue(typeHistoricalData.symbol),
+				QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
+				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
+				
+		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
+		AlgorithmTest algorithm = new AlgorithmTest();
 		
-//		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);
-//		
-//		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
-//		AlgorithmTest algorithm = new AlgorithmTest();
-//		
-//		backtest.performBacktest(algorithm.getReceiver());
+		backtest.performBacktest(algorithm.getReceiver());
 		
-//		AnalysisBollingerBands analysis = new AnalysisBollingerBands();
-//		analysis.setDataSet(listOfResults);
-//		ResultsBollingerBands resultsBollingerBands = analysis.analyize(MAType.T3);
+//		AnalysisBB analysis = new AnalysisBB(30, false);
+//		analysis.setDataSetFromDatabase(listOfResults);
+//		ResultsBB resultsBollingerBands = analysis.analyize(MAType.T3);
 //		TimeSeriesCollection timeSeriesCollection = new TimeSeriesCollection();
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Lower", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfLowerBand)));
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Middle", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMiddleBand)));
 //		timeSeriesCollection.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Upper", resultsBollingerBands.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfUpperBand)));
 //		new LineChart(). new LineChartDisplay(timeSeriesCollection);
 
-//		AnalysisCCI analysis = new AnalysisCCI();
+//		AnalysisCCI analysis = new AnalysisCCI(30,false);
 //		analysis.setDataSetFromDatabase(listOfResults);
-//		ResultsCCI resultsCommodityChannelIndex = analysis.analyize(false);
+//		ResultsCCI resultsCommodityChannelIndex = analysis.analyize();
 //		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
 //		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
 //		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, ArrayTools.shiftArrayDown(analysis.results.arrayOfCCI, analysis.periodLength))));
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsCommodityChannelIndex.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 //		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
-//		AnalysisADX analysis = new AnalysisADX();
-//		analysis.setDataSet(listOfResults);
+//		AnalysisADX analysis = new AnalysisADX(30, false);
+//		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));
 //		ResultsADX resultsADX = analysis.analize();
 //		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
 //		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
@@ -119,7 +122,7 @@ public class MainClient {
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 //		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
-		AnalysisMACD analysis = new AnalysisMACD(30, false);
+		AnalysisMACD analysis = new AnalysisMACD(128, true);
 		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));
 		ResultsMACD resultsMACD = analysis.analize();
 		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
@@ -129,7 +132,16 @@ public class MainClient {
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Histogram", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDHistogram)));
 		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
-		//new LineChart(). new LineChartDisplay(timeSeriesCollection1);
+//		//new LineChart(). new LineChartDisplay(timeSeriesCollection1);
+		
+//		AnalysisRSI analysis = new AnalysisRSI(30, true);
+//		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));
+//		ResultsRSI resultsRSI = analysis.analize();
+//		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
+//		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("RSI", resultsRSI.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfRSI)));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsRSI.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+//		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
 		//System.exit(0);
 
