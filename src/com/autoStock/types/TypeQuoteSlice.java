@@ -17,12 +17,12 @@ import com.autoStock.trading.types.TypeRealtimeData;
  */
 public class TypeQuoteSlice {
 	public String symbol;
-	public float priceOpen;
-	public float priceHigh;
-	public float priceLow;
-	public float priceClose;
-	public float priceBid;
-	public float priceAsk;
+	public double priceOpen;
+	public double priceHigh;
+	public double priceLow;
+	public double priceClose;
+	public double priceBid;
+	public double priceAsk;
 	public int sizeVolume;
 	public Date dateTime;
 	public Resolution resolution;
@@ -31,7 +31,7 @@ public class TypeQuoteSlice {
 		
 	}
 	
-	public TypeQuoteSlice(String symbol, float priceOpen, float priceHigh, float priceLow, float priceClose, float priceBid, float priceAsk, int sizeVolume, Date dateTime, Resolution resolution) {
+	public TypeQuoteSlice(String symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, double priceBid, double priceAsk, int sizeVolume, Date dateTime, Resolution resolution) {
 		this.symbol = symbol;
 		this.priceOpen = priceOpen;
 		this.priceHigh = priceHigh;

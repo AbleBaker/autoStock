@@ -30,10 +30,10 @@ public abstract class Analysis {
 	
 	public int periodLength;
 	public int datasetLength;
-	public float[] arrayOfPriceOpen;
-	public float[] arrayOfPriceHigh;
-	public float[] arrayOfPriceLow;
-	public float[] arrayOfPriceClose;
+	public double[] arrayOfPriceOpen;
+	public double[] arrayOfPriceHigh;
+	public double[] arrayOfPriceLow;
+	public double[] arrayOfPriceClose;
 	public boolean preceedDataset;
 	public int endIndex;
 	

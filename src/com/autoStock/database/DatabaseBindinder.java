@@ -14,7 +14,7 @@ import com.autoStock.tools.DateTools;
  *
  */
 public class DatabaseBindinder {
-	public DbStockHistoricalPrice getDbStockHistoricalPrice(long id, String symbol, float priceOpen, float priceHigh, float priceLow, float priceClose, int sizeVolume, String date){
+	public DbStockHistoricalPrice getDbStockHistoricalPrice(long id, String symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, int sizeVolume, String date){
 		DbStockHistoricalPrice dbStockHistoricalPrice = new BasicTableDefinitions(). new DbStockHistoricalPrice();
 		dbStockHistoricalPrice.id = id;
 		dbStockHistoricalPrice.symbol = symbol;

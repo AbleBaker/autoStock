@@ -75,7 +75,7 @@ public class AlgoDayOverDay {
 		}
 		
 		ArrayList<ArrayList<String>> listOfRows = new ArrayList<ArrayList<String>>();		
-		float lastPriceClose = 0;
+		double lastPriceClose = 0;
 	}
 	
 	public DbStockHistoricalPrice getDbStockHistoricalPrice(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, String symbol){
@@ -89,8 +89,8 @@ public class AlgoDayOverDay {
 	
 	public class DbStockHistoricalPriceChange {
 		public DbStockHistoricalPrice dbHistoricalPrice;
-		public float changeInPriceClose;
-		public DbStockHistoricalPriceChange(DbStockHistoricalPrice dbStockHistoricalPrice, float changeInPriceClose){
+		public double changeInPriceClose;
+		public DbStockHistoricalPriceChange(DbStockHistoricalPrice dbStockHistoricalPrice, double changeInPriceClose){
 			this.dbHistoricalPrice = dbStockHistoricalPrice;
 			this.changeInPriceClose = changeInPriceClose;
 		}

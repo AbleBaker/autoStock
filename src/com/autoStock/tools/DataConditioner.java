@@ -14,11 +14,11 @@ import com.autoStock.Co;
 public class DataConditioner {
 	//TODO: Implement me from AnalysisBase
 	
-	public PrecededDataset preceedDatasetWithPeriod(float[] arrayOfPriceOpen, float[] arrayOfPriceHigh, float[] arrayOfPriceLow, float[] arrayOfPriceClose, int periodLength, int datasetLength){
-		float[] tempValuesPriceOpen = new float[datasetLength+periodLength];
-		float[] tempValuesPriceHigh = new float[datasetLength+periodLength];
-		float[] tempValuesPriceLow = new float[datasetLength+periodLength];
-		float[] tempValuesPriceClose = new float[datasetLength+periodLength];
+	public PrecededDataset preceedDatasetWithPeriod(double[] arrayOfPriceOpen, double[] arrayOfPriceHigh, double[] arrayOfPriceLow, double[] arrayOfPriceClose, int periodLength, int datasetLength){
+		double[] tempValuesPriceOpen = new double[datasetLength+periodLength];
+		double[] tempValuesPriceHigh = new double[datasetLength+periodLength];
+		double[] tempValuesPriceLow = new double[datasetLength+periodLength];
+		double[] tempValuesPriceClose = new double[datasetLength+periodLength];
 		
 		//Co.println("periodLength: " + periodLength + "," + datasetLength);
 		
@@ -41,12 +41,12 @@ public class DataConditioner {
 	}
 	
 	public class PrecededDataset{
-		public float[] arrayOfPriceOpen;
-		public float[] arrayOfPriceHigh;
-		public float[] arrayOfPriceLow;
-		public float[] arrayOfPriceClose;
+		public double[] arrayOfPriceOpen;
+		public double[] arrayOfPriceHigh;
+		public double[] arrayOfPriceLow;
+		public double[] arrayOfPriceClose;
 		
-		public PrecededDataset(float[] arrayOfPriceOpen, float[] arrayOfPriceHigh, float[] arrayOfPriceLow, float[] arrayOfPriceClose){
+		public PrecededDataset(double[] arrayOfPriceOpen, double[] arrayOfPriceHigh, double[] arrayOfPriceLow, double[] arrayOfPriceClose){
 			this.arrayOfPriceOpen = arrayOfPriceOpen;
 			this.arrayOfPriceHigh = arrayOfPriceHigh;
 			this.arrayOfPriceLow = arrayOfPriceClose;

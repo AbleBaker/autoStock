@@ -16,11 +16,11 @@ public class BasicTableDefinitions {
 		public String symbol;
 		public String orderType;
 		public int quantity;
-		public float priceLimit;
-		public float priceStop;
+		public double priceLimit;
+		public double priceStop;
 		public Date goodAfterDate;
 		public Date goodUntilDate;
-		public float priceAverageFill;
+		public double priceAverageFill;
 	}
 
 	public static DbMarketOrder dbMarketOrder = new BasicTableDefinitions(). new DbMarketOrder();
@@ -28,10 +28,10 @@ public class BasicTableDefinitions {
 	public class DbStockHistoricalPrice {
 		public long id;
 		public String symbol;
-		public float priceOpen;
-		public float priceHigh;
-		public float priceLow;
-		public float priceClose;
+		public double priceOpen;
+		public double priceHigh;
+		public double priceLow;
+		public double priceClose;
 		public int sizeVolume;
 		public Date dateTime;
 	}

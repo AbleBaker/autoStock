@@ -13,11 +13,11 @@ public class ResultsADX extends ResultsBase {
 	
 	public Date[] arrayOfDates;
 	public double[] arrayOfADX;
-	public float[] arrayOfPrice;
+	public double[] arrayOfPrice;
 	
 	public ResultsADX(int length){
 		this.arrayOfDates = new Date[length];
 		this.arrayOfADX = new double[length];
-		this.arrayOfPrice = new float[length];
+		this.arrayOfPrice = new double[length];
 	}
 }

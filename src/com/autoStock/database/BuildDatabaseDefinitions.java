@@ -57,7 +57,7 @@ public class BuildDatabaseDefinitions {
 	}
 	
 	public static String getStringType(String sqlType){
-		if (sqlType.equals("FLOAT")){return "float";}
+		if (sqlType.equals("FLOAT")){return "double";}
 		if (sqlType.equals("INT")){return "int";}
 		if (sqlType.equals("BIGINT")){return "long";}
 		if (sqlType.equals("DATETIME")){return "Date";}
@@ -66,7 +66,7 @@ public class BuildDatabaseDefinitions {
 	}
 	
 	public static Object getJavaType(String sqlType){
-		if (sqlType.equals("FLOAT")){return Float.class;}
+		if (sqlType.equals("FLOAT")){return Double.class;}
 		if (sqlType.equals("INT")){return Integer.class;}
 		if (sqlType.equals("BIGINT")){return Long.class;}
 		if (sqlType.equals("DATETIME")){return Date.class;}

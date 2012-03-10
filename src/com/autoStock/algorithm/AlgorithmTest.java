@@ -17,6 +17,7 @@ import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsSTORSI;
+import com.autoStock.signal.SignalOfADX;
 import com.autoStock.signal.SignalOfPPC;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -64,7 +65,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		//bench.tick();
 	
 		if (listOfQuoteSlice.size() > (periodLength + periodWindow)){
-			float analysisPrice = (float) typeQuoteSlice.priceClose;
+			double analysisPrice = typeQuoteSlice.priceClose;
 			
 			if (listOfQuoteSlice.size() > (periodLength + periodWindow)){
 				listOfQuoteSlice.remove(0);
@@ -82,24 +83,26 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
 			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analize();
 			
-			float analysisOfCCIResult = (float) resultsCCI.arrayOfCCI[listOfQuoteSlice.size()-periodLength];
-			float analysisOfADXResult = (float) resultsADX.arrayOfADX[listOfQuoteSlice.size()-periodLength];
-			float analysisOfBBResultUpper = (float) resultsBB.arrayOfUpperBand[listOfQuoteSlice.size()-periodLength];
-			float analysisOfBBResultLower = (float) resultsBB.arrayOfLowerBand[listOfQuoteSlice.size()-periodLength];
-			float analysisOfMACDResultSignal = (float) resultsMACD.arrayOfMACDSignal[listOfQuoteSlice.size()-periodLength]*100;
-			float analysisOfSTORSIResultK = (float) resultsSTORSI.arrayOfPercentK[listOfQuoteSlice.size()-periodLength];
-			float analysisOfSTORSIResultD = (float) resultsSTORSI.arrayOfPercentD[listOfQuoteSlice.size()-periodLength];
+			double analysisOfCCIResult = resultsCCI.arrayOfCCI[listOfQuoteSlice.size()-periodLength];
+			double analysisOfADXResult =  resultsADX.arrayOfADX[listOfQuoteSlice.size()-periodLength];
+			double analysisOfBBResultUpper =  resultsBB.arrayOfUpperBand[listOfQuoteSlice.size()-periodLength];
+			double analysisOfBBResultLower =  resultsBB.arrayOfLowerBand[listOfQuoteSlice.size()-periodLength];
+			double analysisOfMACDResultSignal =  resultsMACD.arrayOfMACDSignal[listOfQuoteSlice.size()-periodLength]*100;
+			double analysisOfSTORSIResultK =  resultsSTORSI.arrayOfPercentK[listOfQuoteSlice.size()-periodLength];
+			double analysisOfSTORSIResultD =  resultsSTORSI.arrayOfPercentD[listOfQuoteSlice.size()-periodLength];
 			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			
 			SignalOfPPC signalOfPPC = new SignalOfPPC(resultsCCI.arrayOfPrice, 3);
+			SignalOfADX signalOfADX =new SignalOfADX(resultsADX.arrayOfADX, 3);
 			
 			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
 			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(signalOfPPC.getChange())));
-			columnValues.add(String.valueOf(new SignalOfPPC(resultsCCI.arrayOfPrice, 3).getSignal().strength + "," + signalOfPPC.getSignal().signalTypeMetric.name()));
+			columnValues.add(String.valueOf(0));
+			columnValues.add(String.valueOf(signalOfADX.getSignal().strength + "," + signalOfADX.getSignal().signalTypeMetric.name()));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
 			columnValues.add(String.valueOf(analysisOfMACDResultSignal));
