@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.balance.BasicBalance;
+import com.autoStock.balance.AccountBalance;
 import com.autoStock.dataFeed.DataFeedHistoricalPrices;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
@@ -47,7 +47,6 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	@Override
 	public void endOfFeed() {
 		receiverOfQuoteSlice.endOfFeed();
-		Co.println("Bank Balance: " + BasicBalance.bankBalance);
-		Co.println("Transactoins: " + BasicBalance.transactions);
+		Co.println("Bank Balance: " + AccountBalance.bankBalance);
 	}	
 }

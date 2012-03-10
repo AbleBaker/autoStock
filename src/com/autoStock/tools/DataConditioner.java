@@ -20,7 +20,7 @@ public class DataConditioner {
 		float[] tempValuesPriceLow = new float[datasetLength+periodLength];
 		float[] tempValuesPriceClose = new float[datasetLength+periodLength];
 		
-		Co.println("periodLength: " + periodLength + "," + datasetLength);
+		//Co.println("periodLength: " + periodLength + "," + datasetLength);
 		
 		for (int i=0; i<=periodLength; i++){
 			int preceedWith = new Random().nextInt(periodLength);

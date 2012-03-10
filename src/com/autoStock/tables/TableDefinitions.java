@@ -10,7 +10,7 @@ public class TableDefinitions {
 	public static enum AsciiTables{
 		stock_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.sizeVolume, AsciiColumns.sizeCount, AsciiColumns.derivedChange}), //, Columns.sizeVolume
 		stock_historical_price_db(new AsciiColumns[]{AsciiColumns.id, AsciiColumns.symbol, AsciiColumns.priceOpen, AsciiColumns.priceHigh, AsciiColumns.priceLow, AsciiColumns.priceClose, AsciiColumns.sizeVolume, AsciiColumns.dateTime}),
-		analysis_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.priceClose, AsciiColumns.derivedChange, AsciiColumns.ADX, AsciiColumns.BBUpper, AsciiColumns.BBLower, AsciiColumns.MACDSignal, AsciiColumns.STORSIK, AsciiColumns.STORISD});
+		analysis_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.priceClose, AsciiColumns.derivedChange, AsciiColumns.derivedChange, AsciiColumns.signal ,AsciiColumns.ADX, AsciiColumns.BBUpper, AsciiColumns.BBLower, AsciiColumns.MACDSignal, AsciiColumns.STORSIK, AsciiColumns.STORISD});
 		;
 		
 		AsciiColumns[] arrayOfColumns;
@@ -71,5 +71,6 @@ public class TableDefinitions {
 		MACDSignal,
 		STORSIK,
 		STORISD,
+		signal,
 	}
 }
