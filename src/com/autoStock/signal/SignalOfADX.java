@@ -16,15 +16,18 @@ public class SignalOfADX{
 	private double adxValue = 0;
 	
 	public SignalOfADX(double[] arrayOfADX, int periodAverage){
-		if (arrayOfADX.length < 3){throw new IllegalArgumentException();}
-		if (periodAverage > 0 && arrayOfADX.length < periodAverage * 2){throw new IllegalArgumentException();}
+		if (arrayOfADX.length < 1){throw new IllegalArgumentException();}
+		if (periodAverage > 0 && arrayOfADX.length < periodAverage){throw new IllegalArgumentException();}
 		
 		if (periodAverage > 0){
-			for (int i=arrayOfADX.length-periodAverage; i<arrayOfADX.length-1; i++){
+			for (int i=arrayOfADX.length-periodAverage; i<arrayOfADX.length; i++){
 				adxValue += arrayOfADX[i];
+				Co.print("Added: " + arrayOfADX[i]);
 			}
 			
 			adxValue /= periodAverage;
+			
+			Co.println(" average: " + adxValue);
 			
 		}else{
 			adxValue = arrayOfADX[arrayOfADX.length-1];
@@ -34,12 +37,12 @@ public class SignalOfADX{
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_adx);
 	
-		SignalStrenghts.setSignalStrengthForADX(signalMetric, adxValue);
+		SignalControl.setSignalStrengthForADX(signalMetric, adxValue);
 		
 		return signalMetric;
 	}
 	
-	public double getChange(){
+	public double getValue(){
 		return adxValue;
 	}
 }

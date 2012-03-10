@@ -16,7 +16,7 @@ public class SignalOfPPC{
 	private double percentChange = 0;
 	
 	public SignalOfPPC(double[] arrayOfPrice, int periodAverage){
-		if (arrayOfPrice.length < 3){throw new IllegalArgumentException();}
+		if (arrayOfPrice.length < 1){throw new IllegalArgumentException();}
 		if (periodAverage > 0 && arrayOfPrice.length < periodAverage * 2){throw new IllegalArgumentException();}
 		
 		double firstValue = 0;
@@ -46,12 +46,12 @@ public class SignalOfPPC{
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_ppc);
 	
-		SignalStrenghts.setSignalStrengthForPPC(signalMetric, percentChange);
+		SignalControl.setSignalStrengthForPPC(signalMetric, percentChange);
 		
 		return signalMetric;
 	}
 	
-	public double getChange(){
+	public double getValue(){
 		return percentChange;
 	}
 }

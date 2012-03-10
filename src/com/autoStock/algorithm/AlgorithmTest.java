@@ -17,10 +17,13 @@ import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsSTORSI;
+import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalOfADX;
+import com.autoStock.signal.SignalOfCCI;
 import com.autoStock.signal.SignalOfPPC;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
@@ -93,14 +96,15 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			
-			SignalOfPPC signalOfPPC = new SignalOfPPC(resultsCCI.arrayOfPrice, 3);
-			SignalOfADX signalOfADX =new SignalOfADX(resultsADX.arrayOfADX, 3);
+			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(resultsCCI.arrayOfPrice, 0, periodWindow), SignalControl.periodAverageForPPC);
+			SignalOfADX signalOfADX = new SignalOfADX(ArrayTools.subArray(resultsADX.arrayOfADX, 0, periodWindow), SignalControl.periodAverageForADX);
+			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
 			
 			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
 			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-			columnValues.add(String.valueOf(0));
-			columnValues.add(String.valueOf(signalOfADX.getSignal().strength + "," + signalOfADX.getSignal().signalTypeMetric.name()));
+			columnValues.add(String.valueOf(signalOfCCI.getValue()));
+			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength + "," + signalOfCCI.getSignal().signalTypeMetric.name()));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));

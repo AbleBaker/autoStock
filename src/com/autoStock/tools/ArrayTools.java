@@ -27,4 +27,14 @@ public class ArrayTools {
 		
 		return arrayOfdouble;
 	}
+	
+	public static double[] subArray(double[] array, int start, int end){
+		double[] arrayOfDouble = new double[end-start];
+		
+		for (int i=start; i<end; i++){
+			arrayOfDouble[i] = array[i];
+		}
+		
+		return arrayOfDouble;
+	}
 }
