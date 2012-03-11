@@ -22,7 +22,7 @@ public class SignalOfPPC{
 		double firstValue = 0;
 		double secondValue = 0;
 		
-		if (periodAverage > 0){
+		if (periodAverage > 1){
 			for (int i=0; i<periodAverage; i++){
 				firstValue += arrayOfPrice[i];
 			}
@@ -34,7 +34,7 @@ public class SignalOfPPC{
 			firstValue /= periodAverage;
 			secondValue /= periodAverage;
 		}else{
-			firstValue = arrayOfPrice[0];
+			firstValue = arrayOfPrice[arrayOfPrice.length-2];
 			secondValue = arrayOfPrice[arrayOfPrice.length-1]; 
 		}
 		

@@ -22,12 +22,9 @@ public class SignalOfMACD{
 		if (periodAverage > 0){
 			for (int i=arrayOfMACD.length-periodAverage; i<arrayOfMACD.length; i++){
 				macdValue += arrayOfMACD[i];
-				Co.print("Added: " + arrayOfMACD[i]);
 			}
 			
 			macdValue /= periodAverage;
-			
-			Co.println(" average: " + macdValue);
 			
 		}else{
 			macdValue = arrayOfMACD[arrayOfMACD.length-1];

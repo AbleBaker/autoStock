@@ -5,6 +5,8 @@ package com.autoStock.algorithm;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.analysis.AnalysisADX;
@@ -26,6 +28,7 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.Benchmark;
+import com.autoStock.tools.DataExtractor;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
@@ -49,9 +52,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisSTORSI analysisOfSTORSI = new AnalysisSTORSI(periodLength, false);
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
-	//private boolean havePosition = false;
-	private int testPositive = 0;
-	private int testNegative = 0;
 	
 	public AlgorithmTest(){
 		
@@ -96,42 +96,44 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			double analysisOfSTORSIResultK =  resultsSTORSI.arrayOfPercentK[listOfQuoteSlice.size()-periodLength];
 			double analysisOfSTORSIResultD =  resultsSTORSI.arrayOfPercentD[listOfQuoteSlice.size()-periodLength];
 			
-			ArrayList<String> columnValues = new ArrayList<String>();
+			double[] arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)listOfQuoteSlice), "priceClose").toArray(new Double[0]));
 			
-			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(resultsCCI.arrayOfPrice, 0, periodWindow), SignalControl.periodAverageForPPC);
+			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(arrayOfPriceClose, periodLength, periodLength + periodWindow), SignalControl.periodAverageForPPC);
 			SignalOfADX signalOfADX = new SignalOfADX(ArrayTools.subArray(resultsADX.arrayOfADX, 0, periodWindow), SignalControl.periodAverageForADX);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
 			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, periodWindow), SignalControl.periodAverageForMACD);
 			
+			ArrayList<String> columnValues = new ArrayList<String>();
+			
+//			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+//			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
+//			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+//			columnValues.add(String.valueOf(signalOfMACD.getValue()));
+//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
+//			columnValues.add(String.valueOf(analysisOfMACDResultHistorgram));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
+			
 			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
 			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-			columnValues.add(String.valueOf(signalOfMACD.getValue()));
-			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
-			columnValues.add(String.valueOf(analysisOfMACDResultHistorgram));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
+			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfADX.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
+			columnValues.add(String.valueOf(
+					(signalOfPPC.getSignal().strength +
+					signalOfADX.getSignal().strength + 
+					signalOfCCI.getSignal().strength +
+					signalOfMACD.getSignal().strength) /4
+			));
 			
 			listOfDisplayRows.add(columnValues);
 			
-			if (signalOfMACD.getSignal().strength > 0){
-				testPositive++;
-			}else{
-				testNegative++;
-			}
-			
-			//Co.println("Analyized: " + typeQuoteSlice.priceClose + ", " + analysisOfCCIResult);
-//			if (analysisResult > 50 && havePosition == false){
-//				BasicBalance.buy(analysisPrice);
-//				havePosition = true;
-//			}else if (analysisResult < -200 && havePosition == true){
-//				BasicBalance.sell(analysisPrice);
-//				havePosition = false;
-//			}
 		}else{
 			//Co.println("Waiting for more data (period condition)... ");
 		}
@@ -140,7 +142,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	@Override
 	public void endOfFeed() {
 		bench.total();
-		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		Co.println("positive, negative: " + testPositive + "," + testNegative);
+		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
+		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

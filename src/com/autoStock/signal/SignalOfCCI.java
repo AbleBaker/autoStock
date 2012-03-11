@@ -22,12 +22,9 @@ public class SignalOfCCI{
 		if (periodAverage > 0){
 			for (int i=arrayOfCCI.length-periodAverage; i<arrayOfCCI.length; i++){
 				cciValue += arrayOfCCI[i];
-				Co.print("Added: " + arrayOfCCI[i]);
 			}
 			
 			cciValue /= periodAverage;
-			
-			Co.println(" average: " + cciValue);
 			
 		}else{
 			cciValue = arrayOfCCI[arrayOfCCI.length-1];

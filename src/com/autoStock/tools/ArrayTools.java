@@ -32,7 +32,7 @@ public class ArrayTools {
 		double[] arrayOfDouble = new double[end-start];
 		
 		for (int i=start; i<end; i++){
-			arrayOfDouble[i] = array[i];
+			arrayOfDouble[i-start] = array[i];
 		}
 		
 		return arrayOfDouble;

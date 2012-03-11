@@ -22,12 +22,9 @@ public class SignalOfADX{
 		if (periodAverage > 0){
 			for (int i=arrayOfADX.length-periodAverage; i<arrayOfADX.length; i++){
 				adxValue += arrayOfADX[i];
-				Co.print("Added: " + arrayOfADX[i]);
 			}
 			
 			adxValue /= periodAverage;
-			
-			Co.println(" average: " + adxValue);
 			
 		}else{
 			adxValue = arrayOfADX[arrayOfADX.length-1];
