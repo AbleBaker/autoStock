@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.autoStock.algorithm;
 
 import java.util.ArrayList;
@@ -19,7 +16,9 @@ import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsSTORSI;
+import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
+import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalOfADX;
 import com.autoStock.signal.SignalOfCCI;
 import com.autoStock.signal.SignalOfMACD;
@@ -52,10 +51,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisSTORSI analysisOfSTORSI = new AnalysisSTORSI(periodLength, false);
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
-	
-	public AlgorithmTest(){
-		
-	}
+	private Signal signal = new Signal(SignalSource.from_analysis);
 	
 	public ReceiverOfQuoteSlice getReceiver(){
 		return this;
@@ -66,8 +62,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		//Co.println("Received backtest quote: " + DateTools.getPrettyDate(typeQuoteSlice.dateTime) + ", " + typeQuoteSlice.priceClose);
 		
 		listOfQuoteSlice.add(typeQuoteSlice);
-		
-		//bench.tick();
 	
 		if (listOfQuoteSlice.size() > (periodLength + periodWindow)){
 			double analysisPrice = typeQuoteSlice.priceClose;
@@ -103,6 +97,9 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
 			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, periodWindow), SignalControl.periodAverageForMACD);
 			
+			signal.reset();
+			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfADX.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
+			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			
 //			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
@@ -125,12 +122,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			columnValues.add(String.valueOf(signalOfADX.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
-			columnValues.add(String.valueOf(
-					(signalOfPPC.getSignal().strength +
-					signalOfADX.getSignal().strength + 
-					signalOfCCI.getSignal().strength +
-					signalOfMACD.getSignal().strength) /4
-			));
+			columnValues.add(String.valueOf(signal.getCombinedSignal()));
+			
+			if (signal.getCombinedSignal() > 50){
+				//buy
+			}else if (signal.getCombinedSignal() < 50){
+				//sell
+			}
 			
 			listOfDisplayRows.add(columnValues);
 			

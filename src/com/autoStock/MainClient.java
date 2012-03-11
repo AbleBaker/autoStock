@@ -82,7 +82,7 @@ public class MainClient {
 		//new TALibTest().test();
 		
 		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
-		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-06 09:30:00"), DateTools.getDateFromString("2011-01-06 16:00:00"), Resolution.min);
+		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-07 09:30:00"), DateTools.getDateFromString("2011-01-07 16:00:00"), Resolution.min);
 
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
 				BasicQueries.basic_historical_price_range,
@@ -122,17 +122,17 @@ public class MainClient {
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsADX.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
 //		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
-//		AnalysisMACD analysis = new AnalysisMACD(128, true);
-//		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));
-//		ResultsMACD resultsMACD = analysis.analize();
-//		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
-//		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
-//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD ", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACD)));
-//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Signal", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDSignal)));
-//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Histogram", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDHistogram)));
-//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
-//		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
-////		//new LineChart(). new LineChartDisplay(timeSeriesCollection1);
+		AnalysisMACD analysis = new AnalysisMACD(128, true);
+		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));
+		ResultsMACD resultsMACD = analysis.analize();
+		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
+		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD ", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACD)));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Signal", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDSignal)));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Histogram", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDHistogram)));
+		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
+//		//new LineChart(). new LineChartDisplay(timeSeriesCollection1);
 		
 //		AnalysisRSI analysis = new AnalysisRSI(30, true);
 //		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));

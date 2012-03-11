@@ -9,7 +9,7 @@ package com.autoStock.signal;
  */
 public class SignalDefinitions {
 	public static enum SignalSource{
-		from_algorithm,
+		from_analysis,
 		from_market_trend,
 		from_news,
 	}
@@ -27,5 +27,13 @@ public class SignalDefinitions {
 		metric_adx,
 		metric_cci,
 		metric_macd,
+	}
+	
+	public static double getSignalWeight(SignalTypeMetric signalTypeMetric){
+		if (signalTypeMetric == SignalTypeMetric.metric_ppc){return SignalControl.weightForPPC;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_adx){return SignalControl.weightForADX;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_cci){return SignalControl.weightForCCI;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_macd){return SignalControl.weightForMACD;}
+		throw new UnsupportedOperationException();
 	}
 }

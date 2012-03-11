@@ -14,14 +14,14 @@ public class SignalControl {
 	public static final int periodAverageForCCI = 8;
 	public static final int periodAverageForMACD = 2;
 	
-	public static final int weightForPPC = 10;
-	public static final int weightForADX = 10;
-	public static final int weightForCCI = 10;
-	public static final int weightForMACD = 10;
+	public static final double weightForPPC = 1.0;
+	public static final double weightForADX = 1.0;
+	public static final double weightForCCI = 0.5;
+	public static final double weightForMACD = 1.0;
 	
 	public static void setSignalStrengthForPPC(SignalMetric signalMetric, double percentChange){
 		
-		signalMetric.strength = (int) ((percentChange - 1) * 1000 * 1);
+		signalMetric.strength = (int) ((percentChange - 1) * 1000 * 5);
 		
 //		if (percentChange > 1.00){
 //			signalMetric.strength = (int) ((percentChange - 1) * 1000 * 2);
@@ -60,7 +60,11 @@ public class SignalControl {
 //		}
 	}
 	
-	public static void setSignalStrengthForMACD(SignalMetric signMetric, double macdValue){
-		signMetric.strength = (int) (macdValue*10000);
+	public static void setSignalStrengthForMACD(SignalMetric signalMetric, double macdValue){
+		if (macdValue > 0){
+			signalMetric.strength = (int) (macdValue*1000 * 10);
+		}else{
+			signalMetric.strength = (int) (macdValue*1000 * 5);
+		}
 	}
 }

@@ -24,8 +24,8 @@ import com.tictactec.ta.lib.RetCode;
  */
 public class AnalysisBB extends Analysis {
 	public ResultsBB results;
-	public int optionDeviationUp = 2;
-	public int optionDeviationDown = 2;
+	public int optionDeviationUp = 8;
+	public int optionDeviationDown = 8;
 	
 	public AnalysisBB(int periodLength, boolean preceedDataset) {
 		super(periodLength, preceedDataset);
