@@ -26,5 +26,6 @@ public class SignalDefinitions {
 		metric_ppc,
 		metric_adx,
 		metric_cci,
+		metric_macd,
 	}
 }

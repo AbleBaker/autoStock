@@ -20,6 +20,7 @@ import com.autoStock.analysis.results.ResultsSTORSI;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalOfADX;
 import com.autoStock.signal.SignalOfCCI;
+import com.autoStock.signal.SignalOfMACD;
 import com.autoStock.signal.SignalOfPPC;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -47,9 +48,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisBB analysisOfBB = new AnalysisBB(periodLength, false);
 	private AnalysisSTORSI analysisOfSTORSI = new AnalysisSTORSI(periodLength, false);
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
-	
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	//private boolean havePosition = false;
+	private int testPositive = 0;
+	private int testNegative = 0;
 	
 	public AlgorithmTest(){
 		
@@ -90,7 +92,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			double analysisOfADXResult =  resultsADX.arrayOfADX[listOfQuoteSlice.size()-periodLength];
 			double analysisOfBBResultUpper =  resultsBB.arrayOfUpperBand[listOfQuoteSlice.size()-periodLength];
 			double analysisOfBBResultLower =  resultsBB.arrayOfLowerBand[listOfQuoteSlice.size()-periodLength];
-			double analysisOfMACDResultSignal =  resultsMACD.arrayOfMACDSignal[listOfQuoteSlice.size()-periodLength]*100;
+			double analysisOfMACDResultHistorgram =  resultsMACD.arrayOfMACDHistogram[listOfQuoteSlice.size()-periodLength]*100;
 			double analysisOfSTORSIResultK =  resultsSTORSI.arrayOfPercentK[listOfQuoteSlice.size()-periodLength];
 			double analysisOfSTORSIResultD =  resultsSTORSI.arrayOfPercentD[listOfQuoteSlice.size()-periodLength];
 			
@@ -99,21 +101,28 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(resultsCCI.arrayOfPrice, 0, periodWindow), SignalControl.periodAverageForPPC);
 			SignalOfADX signalOfADX = new SignalOfADX(ArrayTools.subArray(resultsADX.arrayOfADX, 0, periodWindow), SignalControl.periodAverageForADX);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
+			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, periodWindow), SignalControl.periodAverageForMACD);
 			
 			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
 			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-			columnValues.add(String.valueOf(signalOfCCI.getValue()));
-			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength + "," + signalOfCCI.getSignal().signalTypeMetric.name()));
+			columnValues.add(String.valueOf(signalOfMACD.getValue()));
+			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
-			columnValues.add(String.valueOf(analysisOfMACDResultSignal));
+			columnValues.add(String.valueOf(analysisOfMACDResultHistorgram));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
 			
 			listOfDisplayRows.add(columnValues);
+			
+			if (signalOfMACD.getSignal().strength > 0){
+				testPositive++;
+			}else{
+				testNegative++;
+			}
 			
 			//Co.println("Analyized: " + typeQuoteSlice.priceClose + ", " + analysisOfCCIResult);
 //			if (analysisResult > 50 && havePosition == false){
@@ -132,5 +141,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	public void endOfFeed() {
 		bench.total();
 		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
+		Co.println("positive, negative: " + testPositive + "," + testNegative);
 	}
 }
