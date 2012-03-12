@@ -111,31 +111,32 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			
-//			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-//			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
-//			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-//			columnValues.add(String.valueOf(signalOfMACD.getValue()));
-//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
-//			columnValues.add(String.valueOf(analysisOfMACDResultHistorgram));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
-			
 			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
 			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
-			columnValues.add(String.valueOf(signalOfADX.getSignal().strength));
-			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
-			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
-			columnValues.add(String.valueOf(signal.getCombinedSignal()));
+			columnValues.add(String.valueOf(signalOfMACD.getValue()));
+			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
+			columnValues.add(String.valueOf(signalOfPPC.getValue()));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
+			columnValues.add(String.valueOf(analysisOfMACDResultHistorgram));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
+			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
+			
+//			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+//			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
+//			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+//			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
+//			columnValues.add(String.valueOf(signalOfADX.getSignal().strength));
+//			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
+//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
+//			columnValues.add(String.valueOf(signal.getCombinedSignal()));
 			
 			if (signal.getCombinedSignal() > 50){
 				//buy
-			}else if (signal.getCombinedSignal() < 50){
+			}else if (signal.getCombinedSignal() < -50){
 				//sell
 			}
 			
@@ -149,7 +150,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	@Override
 	public void endOfFeed() {
 		bench.total();
-		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
+		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

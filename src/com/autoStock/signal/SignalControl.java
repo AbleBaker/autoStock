@@ -3,6 +3,8 @@
  */
 package com.autoStock.signal;
 
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -20,7 +22,6 @@ public class SignalControl {
 	public static final double weightForMACD = 1.0;
 	
 	public static void setSignalStrengthForPPC(SignalMetric signalMetric, double percentChange){
-		
 		signalMetric.strength = (int) ((percentChange - 1) * 1000 * 5);
 		
 //		if (percentChange > 1.00){
@@ -46,7 +47,6 @@ public class SignalControl {
 	}
 	
 	public static void setSignalStrengthForCCI(SignalMetric signalMetric, double cciValue){
-		
 		signalMetric.strength = (int) cciValue / 2;
 		
 		//cciValue /= 2;
@@ -61,10 +61,13 @@ public class SignalControl {
 	}
 	
 	public static void setSignalStrengthForMACD(SignalMetric signalMetric, double macdValue){
-		if (macdValue > 0){
-			signalMetric.strength = (int) (macdValue*1000 * 10);
-		}else{
-			signalMetric.strength = (int) (macdValue*1000 * 5);
-		}
+		
+		signalMetric.strength = (int) (macdValue * 100);
+		
+//		if (macdValue > 0){
+//			signalMetric.strength = (int) (macdValue*1000 * 10);
+//		}else{
+//			signalMetric.strength = (int) (macdValue*1000 * 5);
+//		}
 	}
 }
