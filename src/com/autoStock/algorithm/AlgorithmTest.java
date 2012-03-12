@@ -52,9 +52,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
+	private AlgorithmListener algorithmListener;
 	
 	public ReceiverOfQuoteSlice getReceiver(){
 		return this;
+	}
+	
+	public void setAlgorithmListener(AlgorithmListener algorithmListener){
+		this.algorithmListener = algorithmListener;
 	}
 
 	@Override
@@ -100,6 +105,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signal.reset();
 			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfADX.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
 			
+			if (algorithmListener != null){
+				algorithmListener.recieveSignal(signal, typeQuoteSlice);
+			}
+			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			
 //			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
@@ -141,6 +150,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	public void endOfFeed() {
 		bench.total();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

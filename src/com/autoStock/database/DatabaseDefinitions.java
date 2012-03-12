@@ -1,6 +1,7 @@
 package com.autoStock.database;
 
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbSymbol;
 
 /**
  * @author Kevin Kowalewski
@@ -12,13 +13,15 @@ public class DatabaseDefinitions {
 		startDate,
 		endDate,
 		symbol,
+		exchange,
+		limit,
 		;
 		
 		public String value;
 		
 		public QueryArgs setValue(String value){
 			this.value = value;
-			return this;
+			return this; // TODO: not thread safe 
 		}
 	}
 	
@@ -32,6 +35,11 @@ public class DatabaseDefinitions {
 		basic_single_date_sample_all_stocks("select * from stockHistoricalPrices where dateTime between '%s' and '%s' order by symbol asc",
 				new QueryArgs[]{QueryArgs.startDate, QueryArgs.endDate},
 				DbStockHistoricalPrice.class
+			),
+			
+		basic_get_symbol_list_from_exchange("select * from symbols where exchange = '%s' order by rand() limit 100 ",
+				new QueryArgs[]{QueryArgs.exchange},
+				DbSymbol.class
 			),
 		;
 		

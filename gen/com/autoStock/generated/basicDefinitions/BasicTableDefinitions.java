@@ -42,6 +42,7 @@ public class BasicTableDefinitions {
 		public long id;
 		public String symbol;
 		public String exchange;
+		public String description;
 	}
 
 	public static DbSymbol dbSymbol = new BasicTableDefinitions(). new DbSymbol();

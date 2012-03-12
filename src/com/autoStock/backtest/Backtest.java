@@ -47,6 +47,5 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	@Override
 	public void endOfFeed() {
 		receiverOfQuoteSlice.endOfFeed();
-		Co.println("Bank Balance: " + AccountBalance.bankBalance);
 	}	
 }
