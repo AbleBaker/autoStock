@@ -150,6 +150,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	public void endOfFeed() {
 		bench.total();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

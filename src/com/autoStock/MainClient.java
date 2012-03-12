@@ -82,22 +82,22 @@ public class MainClient {
 		//new AlgoDayOverDay().simpleTest();
 		//new TALibTest().test();
 		
-		MarketScanner marketScanner = new MarketScanner();
-		marketScanner.startScan();
+//		MarketScanner marketScanner = new MarketScanner();
+//		marketScanner.startScan();
 		
-		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
+		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
 		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-07 09:30:00"), DateTools.getDateFromString("2011-01-07 16:00:00"), Resolution.min);
 
-//		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
-//				BasicQueries.basic_historical_price_range,
-//				QueryArgs.symbol.setValue(typeHistoricalData.symbol),
-//				QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
-//				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
-//				
-//		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
-//		AlgorithmTest algorithm = new AlgorithmTest();
-//		
-//		backtest.performBacktest(algorithm.getReceiver());
+		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
+				BasicQueries.basic_historical_price_range,
+				QueryArgs.symbol.setValue(typeHistoricalData.symbol),
+				QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
+				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
+				
+		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
+		AlgorithmTest algorithm = new AlgorithmTest();
+		
+		backtest.performBacktest(algorithm.getReceiver());
 		
 //		AnalysisBB analysis = new AnalysisBB(30, false);
 //		analysis.setDataSetFromDatabase(listOfResults);
