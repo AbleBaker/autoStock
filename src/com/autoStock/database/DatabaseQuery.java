@@ -19,7 +19,7 @@ import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHis
  * @author Kevin Kowalewski
  *
  */
-public class DatabaseQuery {
+public class DatabaseQuery {	
 	public Object getQueryResults(BasicQueries dbQuery, QueryArgs... queryArgs){
 		try {
 			Connection connection = DatabaseCore.getConnection();

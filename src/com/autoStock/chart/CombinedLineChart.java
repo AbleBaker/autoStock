@@ -6,6 +6,7 @@ package com.autoStock.chart;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -36,10 +37,10 @@ public class CombinedLineChart {
 
 	public class LineChartDisplay extends ApplicationFrame {
 
-		public LineChartDisplay(TimeSeriesCollection timeSeriesCollection1, TimeSeriesCollection timeSeriesCollection2) {
+		public LineChartDisplay(TimeSeriesCollection... timeSeriesCollections) {
 			super("autoStock - Chart");
 
-			ChartPanel chartPanel = (ChartPanel) createPanel(timeSeriesCollection1, timeSeriesCollection2);
+			ChartPanel chartPanel = (ChartPanel) createPanel(timeSeriesCollections);
 			chartPanel.setPreferredSize(new java.awt.Dimension(500*2, 270*3));
 			setContentPane(chartPanel);
 
@@ -49,42 +50,30 @@ public class CombinedLineChart {
 			RefineryUtilities.centerFrameOnScreen(this);
 		}
 
-		public JPanel createPanel(XYDataset dataset1, XYDataset dataset2) {
-			JFreeChart chart = createChart(dataset1, dataset2);
+		public JPanel createPanel(XYDataset... xydatasets) {
+			JFreeChart chart = createChart(xydatasets);
 			ChartPanel panel = new ChartPanel(chart);
 			panel.setFillZoomRectangle(true);
 			panel.setMouseWheelEnabled(true);
 			return panel;
 		}
 
-		private JFreeChart createChart(XYDataset dataset1, XYDataset dataset2) {
-			
-			NumberAxis numberAxis1 = new NumberAxis("Range 1");
-			numberAxis1.setAutoRange(true);
-			XYPlot subPlot1 = new XYPlot(dataset1, null, numberAxis1, new StandardXYItemRenderer());
-			subPlot1.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-			
-			NumberAxis numberAxis2 = new NumberAxis("Range 2");
-			//numberAxis2.setRange(2.25, 2.65);
-			
-			XYPlot subPlot2 = new XYPlot(dataset2, null, numberAxis2, new StandardXYItemRenderer());
-			subPlot2.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+		private JFreeChart createChart(XYDataset... xydatasets) {
 			
 			CombinedDomainXYPlot plot = new CombinedDomainXYPlot(new DateAxis("Domain"));
 			plot.setGap(10);
-			plot.add(subPlot1, 1);
-			plot.add(subPlot2, 1);
-			plot.setOrientation(PlotOrientation.VERTICAL);
-
-//			JFreeChart chart = ChartFactory.createTimeSeriesChart("autoStock - Analysis",
-//					"Date", // x-axis label
-//					"Price Per Share", // y-axis label
-//					plot,
-//					true,
-//					true,
-//					false 
-//					);
 			
+			int i = 1;
+			for (XYDataset xydataset : xydatasets){
+				XYPlot subPlot = new XYPlot(xydataset, null, new NumberAxis("Range " + i), new StandardXYItemRenderer());
+			
+				subPlot.getRenderer().setSeriesPaint(0, getColor());
+				
+				plot.add(subPlot, 1);
+				i++;
+			}
+			
+			plot.setOrientation(PlotOrientation.VERTICAL);
 			plot.setBackgroundPaint(Color.lightGray);
 			plot.setDomainGridlinePaint(Color.white);
 			plot.setRangeGridlinePaint(Color.white);
@@ -99,6 +88,11 @@ public class CombinedLineChart {
 
 			return chart;
 
+		}
+		
+		public Color getColor(){
+			Color[] arrayOfColors = new Color[]{Color.GRAY, Color.BLUE, Color.GREEN, Color.RED, Color.PINK, Color.ORANGE};
+			return arrayOfColors[new Random().nextInt(arrayOfColors.length-1)];
 		}
 	}
 }

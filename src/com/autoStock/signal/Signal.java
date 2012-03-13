@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import com.autoStock.signal.SignalDefinitions.SignalSource;

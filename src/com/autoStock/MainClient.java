@@ -37,6 +37,7 @@ import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.menu.MenuDisplayLauncher;
 import com.autoStock.scanner.MarketScanner;
+import com.autoStock.scanner.Shortlist;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiColumns;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -61,7 +62,7 @@ public class MainClient {
 		Global.mode = Mode.client;
 		Co.println("Welcome to autoStock\n");
 			
-		ApplicationStates.startup();
+		ApplicationStates.startup();		
 		
 //		TypeMarketData typeMarketData = new TypeMarketData("8411", "STK");
 //		
@@ -85,8 +86,8 @@ public class MainClient {
 //		MarketScanner marketScanner = new MarketScanner();
 //		marketScanner.startScan();
 		
-		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
-		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-07 09:30:00"), DateTools.getDateFromString("2011-01-07 16:00:00"), Resolution.min);
+		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
+		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("RAS", "STK", DateTools.getDateFromString("2011-01-07 09:30:00"), DateTools.getDateFromString("2011-01-07 16:00:00"), Resolution.min);
 
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
 				BasicQueries.basic_historical_price_range,
@@ -98,6 +99,18 @@ public class MainClient {
 		AlgorithmTest algorithm = new AlgorithmTest();
 		
 		backtest.performBacktest(algorithm.getReceiver());
+		
+//		AnalysisMACD analysis = new AnalysisMACD(30, true);
+//		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));
+//		ResultsMACD resultsMACD = analysis.analize();
+//		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
+//		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal PPC ", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACD)));
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal ADX", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDSignal)));
+//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal CCI", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfMACDHistogram)));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", resultsMACD.getResultsAsListOfBasicTimeValuePair(analysis.results.arrayOfDates, analysis.results.arrayOfPrice)));		
+//		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
+////		//new LineChart(). new LineChartDisplay(timeSeriesCollection1);
 		
 //		AnalysisBB analysis = new AnalysisBB(30, false);
 //		analysis.setDataSetFromDatabase(listOfResults);

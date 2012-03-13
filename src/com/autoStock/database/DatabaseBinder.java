@@ -5,6 +5,7 @@ package com.autoStock.database;
 
 import java.util.Date;
 
+import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbSymbol;
@@ -35,5 +36,9 @@ public class DatabaseBinder {
 		dbSymbol.exchange = exchange;
 		dbSymbol.description = description;
 		return dbSymbol;
+	}
+
+	public Object getQrSymbolCountFromExchange(String symbol, int count, long sizeVolume) {
+		return new QueryResult.QrSymbolCountFromExchange(symbol, count, sizeVolume);
 	}
 }

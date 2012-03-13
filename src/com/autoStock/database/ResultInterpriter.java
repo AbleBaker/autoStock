@@ -5,6 +5,7 @@ package com.autoStock.database;
 
 import java.sql.ResultSet;
 
+import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbSymbol;
 
@@ -19,6 +20,8 @@ public class ResultInterpriter {
 				return new DatabaseBinder().getDbStockHistoricalPrice(resultSet.getLong(1), resultSet.getString(2), resultSet.getDouble(3), resultSet.getDouble(4), resultSet.getDouble(5), resultSet.getDouble(6), resultSet.getInt(7), resultSet.getString(8));
 			}else if (resultClass == DbSymbol.class){
 				return new DatabaseBinder().getDbSymbol(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
+			}else if (resultClass == QueryResult.QrSymbolCountFromExchange.class){
+				return new DatabaseBinder().getQrSymbolCountFromExchange(resultSet.getString(1), resultSet.getInt(2), resultSet.getLong(3));
 			}else{
 				throw new UnsupportedOperationException();
 			}

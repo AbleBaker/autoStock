@@ -1,5 +1,6 @@
 package com.autoStock.database;
 
+import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbSymbol;
 
@@ -12,6 +13,7 @@ public class DatabaseDefinitions {
 	public static enum QueryArgs{
 		startDate,
 		endDate,
+		dayDate,
 		symbol,
 		exchange,
 		limit,
@@ -40,6 +42,11 @@ public class DatabaseDefinitions {
 		basic_get_symbol_list_from_exchange("select * from symbols where exchange = '%s' order by rand() limit 100 ",
 				new QueryArgs[]{QueryArgs.exchange},
 				DbSymbol.class
+			),
+			
+		basic_get_symbol_list_most_volume("select symbols.symbol, count(symbols.id), sum(sizeVolume) from stockHistoricalPrices left join symbols on symbols.symbol = stockHistoricalPrices.symbol where symbols.exchange = '%s' and (dateTime > '%s' and dateTime < '%s') group by symbols.symbol order by sum(sizeVolume) desc limit %s ",
+				new QueryArgs[]{QueryArgs.startDate, QueryArgs.endDate, QueryArgs.exchange, QueryArgs.limit},
+				QueryResult.QrSymbolCountFromExchange.class
 			),
 		;
 		

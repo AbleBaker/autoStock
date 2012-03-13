@@ -16,6 +16,7 @@ import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsSTORSI;
+import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
@@ -53,6 +54,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
 	private AlgorithmListener algorithmListener;
+	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
 	
 	public ReceiverOfQuoteSlice getReceiver(){
 		return this;
@@ -105,6 +107,15 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signal.reset();
 			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfADX.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
 			
+			chart.listOfDate.add(typeQuoteSlice.dateTime);
+			chart.listOfPrice.add(typeQuoteSlice.priceClose);
+			chart.listOfSignalADX.add(signalOfADX.getSignal().strength);
+			chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
+			chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
+			
+			chart.listOfADX.add(analysisOfADXResult);
+			chart.listOfCCI.add(analysisOfCCIResult);
+			
 			if (algorithmListener != null){
 				algorithmListener.recieveSignal(signal, typeQuoteSlice);
 			}
@@ -150,7 +161,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	@Override
 	public void endOfFeed() {
 		bench.total();
-		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
+		chart.display();
+		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

@@ -3,6 +3,8 @@
  */
 package com.autoStock.signal;
 
+import java.util.Date;
+
 import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
 
 /**
