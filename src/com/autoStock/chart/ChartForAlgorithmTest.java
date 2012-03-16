@@ -20,6 +20,7 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Integer> listOfSignalPPC = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalADX = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalCCI = new ArrayList<Integer>();
+	public ArrayList<Integer> listOfSignalMACD = new ArrayList<Integer>();
 	
 	public ArrayList<Double> listOfPrice = new ArrayList<Double>();
 	public ArrayList<Date> listOfDate = new ArrayList<Date>();
@@ -36,6 +37,7 @@ public class ChartForAlgorithmTest {
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal PPC ", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalPPC))));
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal ADX", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalADX))));
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal CCI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalCCI))));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal MACD", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalMACD))));
 		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("ADX Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertDoubles(listOfADX))));
 		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertDoubles(listOfCCI))));
 		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertDoubles(listOfMACD))));

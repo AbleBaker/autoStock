@@ -50,6 +50,8 @@ public class Signal {
 			combinedSignal += (signalMetric.strength * SignalDefinitions.getSignalWeight(signalMetric.signalTypeMetric));
 		}
 		
-		return (int) combinedSignal;
+		combinedSignal = (combinedSignal / listOfSignalMetric.size());
+		
+		return (int) (combinedSignal > 0 ? Math.min(100, combinedSignal) : Math.max(-100, combinedSignal));
 	}
 }

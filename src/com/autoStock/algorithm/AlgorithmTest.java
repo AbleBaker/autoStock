@@ -18,6 +18,7 @@ import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsSTORSI;
+import com.autoStock.balance.AccountBalance;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
@@ -102,7 +103,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			double analysisOfADXResult =  resultsADX.arrayOfADX[periodWindow-1];
 			double analysisOfBBResultUpper =  resultsBB.arrayOfUpperBand[periodWindow-1];
 			double analysisOfBBResultLower =  resultsBB.arrayOfLowerBand[periodWindow-1];
-			double analysisOfMACDResultHistorgram =  resultsMACD.arrayOfMACD[periodWindow-1]*100;
+			double analysisOfMACDResult =  resultsMACD.arrayOfMACD[periodWindow-1]*1000;
 			double analysisOfSTORSIResultK =  resultsSTORSI.arrayOfPercentK[periodWindow-1];
 			double analysisOfSTORSIResultD =  resultsSTORSI.arrayOfPercentD[periodWindow-1];
 			double analysisOfRSIResult = resultsRSI.arrayOfRSI[periodWindow-1];
@@ -112,7 +113,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(arrayOfPriceClose, periodLength, periodLength + periodWindow), SignalControl.periodAverageForPPC);
 			SignalOfADX signalOfADX = new SignalOfADX(ArrayTools.subArray(resultsADX.arrayOfADX, 0, periodWindow), SignalControl.periodAverageForADX);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
-			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, periodWindow), SignalControl.periodAverageForMACD);
+			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACD, 0, periodWindow), SignalControl.periodAverageForMACD);
 			
 			signal.reset();
 			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfADX.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
@@ -122,10 +123,11 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			chart.listOfSignalADX.add(signalOfADX.getSignal().strength);
 			chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
 			chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
+			chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
 			
 			chart.listOfADX.add(analysisOfADXResult);
 			chart.listOfCCI.add(analysisOfCCIResult);
-			chart.listOfMACD.add(analysisOfMACDResultHistorgram*10);
+			chart.listOfMACD.add(analysisOfMACDResult);
 			chart.listOfRSI.add(analysisOfRSIResult);
 			
 			if (algorithmListener != null){
@@ -144,7 +146,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
-			columnValues.add(String.valueOf(analysisOfMACDResultHistorgram));
+			columnValues.add(String.valueOf(analysisOfMACDResult));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
 			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
 			
@@ -157,12 +159,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
 //			columnValues.add(String.valueOf(signal.getCombinedSignal()));
 			
-			if (analysisOfCCIResult > 50){
+			if (signal.getCombinedSignal() > 50){
 				signal.currentSignalType = SignalType.type_buy;
 				positionManager.suggestPosition(typeQuoteSlice, signal);
-			}else if (analysisOfCCIResult < -100){
+			}else if (signal.getCombinedSignal() < -50){
 				signal.currentSignalType = SignalType.type_sell;
 				positionManager.suggestPosition(typeQuoteSlice, signal);
+			}else {
+				signal.currentSignalType = SignalType.type_none;
 			}
 			
 			listOfDisplayRows.add(columnValues);
@@ -175,6 +179,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	@Override
 	public void endOfFeed() {
 		bench.total();
+		PositionManager.instance.induceSellAll();
+		Co.println("Account balance: " + AccountBalance.instance.getBankBalance());
 		chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);

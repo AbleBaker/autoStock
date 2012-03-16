@@ -22,4 +22,8 @@ public class AccountBalance {
 	public void setBankBalance(double bankBalance){
 		this.bankBalance = bankBalance;
 	}
+	
+	public double getTransactionCost(int units){
+		return units * 0.005;
+	}
 }

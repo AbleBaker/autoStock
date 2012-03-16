@@ -87,7 +87,7 @@ public class MainClient {
 //		marketScanner.startScan();
 		
 		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
-		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-11 09:30:00"), DateTools.getDateFromString("2011-01-11 16:00:00"), Resolution.min);
+		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-14 09:30:00"), DateTools.getDateFromString("2011-01-14 16:00:00"), Resolution.min);
 
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
 				BasicQueries.basic_historical_price_range,

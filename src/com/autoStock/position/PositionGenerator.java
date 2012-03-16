@@ -27,17 +27,17 @@ public class PositionGenerator {
 		TypePosition typePosition = new TypePosition();
 		
 		typePosition.symbol = typeQuoteSlice.symbol;
-		typePosition.averagePrice = typeQuoteSlice.priceClose;
+		typePosition.pricePosition = typeQuoteSlice.priceClose;
 		typePosition.securityType = "STK";
-		typePosition.units = getPositionUnits(signal);
+		typePosition.units = (int) getPositionUnits(typePosition.pricePosition, signal);
 		
-		Co.println("Units: " + getPositionUnits(signal));
+		//Co.println("Units: " + getPositionUnits(typePosition.pricePosition, signal));
 		
 		return typePosition;
 	}
 	
-	private int getPositionUnits(Signal signal){
-		if (accountBalance.getBankBalance() <= 0){return 0;}
-		return (int) (accountBalance.getBankBalance() / (signal.getSignalMetric(SignalTypeMetric.metric_cci).strength / 100));
+	private double getPositionUnits(double price, Signal signal){
+		if (accountBalance.getBankBalance() <= 0){Co.println("Insufficient account blanace for trade"); return 0;}
+		return ((accountBalance.getBankBalance() / price) * ((double)signal.getCombinedSignal() / 100));
 	}
 }
