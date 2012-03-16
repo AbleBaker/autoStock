@@ -34,6 +34,8 @@ import org.jfree.ui.RefineryUtilities;
  * 
  */
 public class CombinedLineChart {
+	
+	public int usedColor = -1;
 
 	public class LineChartDisplay extends ApplicationFrame {
 
@@ -92,7 +94,9 @@ public class CombinedLineChart {
 		
 		public Color getColor(){
 			Color[] arrayOfColors = new Color[]{Color.GRAY, Color.BLUE, Color.GREEN, Color.RED, Color.PINK, Color.ORANGE};
-			return arrayOfColors[new Random().nextInt(arrayOfColors.length-1)];
+			usedColor++;
+			if (usedColor >= arrayOfColors.length){usedColor = 0;}
+			return arrayOfColors[usedColor];
 		}
 	}
 }

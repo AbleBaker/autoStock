@@ -8,11 +8,15 @@ package com.autoStock.balance;
  *
  */
 public class AccountBalance {
-	public static double bankBalance = 25000.00;
+	private static volatile double bankBalance = 10000.00;
 	public static AccountBalance instance = new AccountBalance();
 	
 	public double getBankBalance(){
 		return this.bankBalance;
+	}
+	
+	public void changeBankBalance(double amount){
+		this.bankBalance += amount;
 	}
 	
 	public void setBankBalance(double bankBalance){

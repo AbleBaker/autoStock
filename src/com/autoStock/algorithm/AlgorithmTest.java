@@ -10,16 +10,20 @@ import com.autoStock.analysis.AnalysisADX;
 import com.autoStock.analysis.AnalysisBB;
 import com.autoStock.analysis.AnalysisCCI;
 import com.autoStock.analysis.AnalysisMACD;
+import com.autoStock.analysis.AnalysisRSI;
 import com.autoStock.analysis.AnalysisSTORSI;
 import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
+import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsSTORSI;
 import com.autoStock.chart.ChartForAlgorithmTest;
+import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
+import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.signal.SignalOfADX;
 import com.autoStock.signal.SignalOfCCI;
 import com.autoStock.signal.SignalOfMACD;
@@ -50,11 +54,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisMACD analysisOfMACD = new AnalysisMACD(periodLength, false);
 	private AnalysisBB analysisOfBB = new AnalysisBB(periodLength, false);
 	private AnalysisSTORSI analysisOfSTORSI = new AnalysisSTORSI(periodLength, false);
+	private AnalysisRSI analysisOfRSI = new AnalysisRSI(periodLength, false); 
+	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
 	private AlgorithmListener algorithmListener;
 	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
+	private PositionManager positionManager = PositionManager.instance;
 	
 	public ReceiverOfQuoteSlice getReceiver(){
 		return this;
@@ -82,20 +89,23 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			analysisOfBB.setDataSet(listOfQuoteSlice);
 			analysisOfMACD.setDataSet(listOfQuoteSlice);
 			analysisOfSTORSI.setDataSet(listOfQuoteSlice);
+			analysisOfRSI.setDataSet(listOfQuoteSlice);
 			
 			ResultsCCI resultsCCI = analysisOfCCI.analyize();
 			ResultsADX resultsADX = analysisOfADX.analize();
 			ResultsBB resultsBB = analysisOfBB.analyize(MAType.Ema);
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
 			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analize();
+			ResultsRSI resultsRSI = analysisOfRSI.analize();
 			
-			double analysisOfCCIResult = resultsCCI.arrayOfCCI[listOfQuoteSlice.size()-periodLength];
-			double analysisOfADXResult =  resultsADX.arrayOfADX[listOfQuoteSlice.size()-periodLength];
-			double analysisOfBBResultUpper =  resultsBB.arrayOfUpperBand[listOfQuoteSlice.size()-periodLength];
-			double analysisOfBBResultLower =  resultsBB.arrayOfLowerBand[listOfQuoteSlice.size()-periodLength];
-			double analysisOfMACDResultHistorgram =  resultsMACD.arrayOfMACDHistogram[listOfQuoteSlice.size()-periodLength]*100;
-			double analysisOfSTORSIResultK =  resultsSTORSI.arrayOfPercentK[listOfQuoteSlice.size()-periodLength];
-			double analysisOfSTORSIResultD =  resultsSTORSI.arrayOfPercentD[listOfQuoteSlice.size()-periodLength];
+			double analysisOfCCIResult = resultsCCI.arrayOfCCI[periodWindow-1];
+			double analysisOfADXResult =  resultsADX.arrayOfADX[periodWindow-1];
+			double analysisOfBBResultUpper =  resultsBB.arrayOfUpperBand[periodWindow-1];
+			double analysisOfBBResultLower =  resultsBB.arrayOfLowerBand[periodWindow-1];
+			double analysisOfMACDResultHistorgram =  resultsMACD.arrayOfMACD[periodWindow-1]*100;
+			double analysisOfSTORSIResultK =  resultsSTORSI.arrayOfPercentK[periodWindow-1];
+			double analysisOfSTORSIResultD =  resultsSTORSI.arrayOfPercentD[periodWindow-1];
+			double analysisOfRSIResult = resultsRSI.arrayOfRSI[periodWindow-1];
 			
 			double[] arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)listOfQuoteSlice), "priceClose").toArray(new Double[0]));
 			
@@ -115,6 +125,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			chart.listOfADX.add(analysisOfADXResult);
 			chart.listOfCCI.add(analysisOfCCIResult);
+			chart.listOfMACD.add(analysisOfMACDResultHistorgram*10);
+			chart.listOfRSI.add(analysisOfRSIResult);
 			
 			if (algorithmListener != null){
 				algorithmListener.recieveSignal(signal, typeQuoteSlice);
@@ -145,10 +157,12 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
 //			columnValues.add(String.valueOf(signal.getCombinedSignal()));
 			
-			if (signal.getCombinedSignal() > 50){
-				//buy
-			}else if (signal.getCombinedSignal() < -50){
-				//sell
+			if (analysisOfCCIResult > 50){
+				signal.currentSignalType = SignalType.type_buy;
+				positionManager.suggestPosition(typeQuoteSlice, signal);
+			}else if (analysisOfCCIResult < -100){
+				signal.currentSignalType = SignalType.type_sell;
+				positionManager.suggestPosition(typeQuoteSlice, signal);
 			}
 			
 			listOfDisplayRows.add(columnValues);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalDefinitions.SignalType;
+import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
 
 /**
  * @author Kevin Kowalewski
@@ -26,6 +27,16 @@ public class Signal {
 		for (SignalMetric signalMetric : signalMetrics){
 			listOfSignalMetric.add(signalMetric);
 		}
+	}
+	
+	public SignalMetric getSignalMetric(SignalTypeMetric signalTypeMetric ){
+		for (SignalMetric signalMetric : listOfSignalMetric){
+			if (signalMetric.signalTypeMetric == signalTypeMetric){
+				return signalMetric;
+			}
+		}
+		
+		return null;
 	}
 	
 	public void reset(){

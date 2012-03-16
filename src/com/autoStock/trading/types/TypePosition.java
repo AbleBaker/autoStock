@@ -13,9 +13,13 @@ public class TypePosition {
 	public int units;
 	public String symbol;
 	public String securityType;
-	public float averagePrice;
+	public double averagePrice;
+	
+	public TypePosition(){
+		
+	}
 
-	public TypePosition(int units, String symbol, String securityType, float averagePrice) {
+	public TypePosition(int units, String symbol, String securityType, double averagePrice) {
 		this.units = units;
 		this.symbol = symbol;
 		this.securityType = securityType;

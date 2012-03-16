@@ -47,7 +47,7 @@ public class SignalControl {
 	}
 	
 	public static void setSignalStrengthForCCI(SignalMetric signalMetric, double cciValue){
-		signalMetric.strength = (int) cciValue / 2;
+		signalMetric.strength = (int) cciValue;
 		
 		//cciValue /= 2;
 		
