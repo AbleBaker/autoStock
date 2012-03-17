@@ -24,6 +24,6 @@ public class AccountBalance {
 	}
 	
 	public double getTransactionCost(int units){
-		return units * 0.005;
+		return units * 0.018;
 	}
 }
