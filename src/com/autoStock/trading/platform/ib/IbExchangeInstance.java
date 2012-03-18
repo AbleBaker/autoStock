@@ -10,8 +10,10 @@ import com.autoStock.Co;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
+import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
+import com.autoStock.trading.types.TypePosition;
 import com.autoStock.trading.types.TypeRealtimeData;
 
 /**
@@ -34,6 +36,18 @@ public class IbExchangeInstance {
 	
 	public EClientSocket getEclientSocket(){
 		return ibExchangeClientSocket.eClientSocket;
+	}
+	
+	public void placeOrder(TypePosition typePosition, RequestHolder requestHolder){
+		Contract contract = new Contract();
+		Order order = new Order();
+		contract.m_exchange = "NYSE";
+		contract.m_symbol = typePosition.symbol;
+		contract.m_secType = "STK";
+		contract.m_currency = "USD";
+		order.m_action = "BUY";
+		
+		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
 	}
 	
 	public void getRealtimeData(TypeRealtimeData typeRealtimeData, RequestHolder requestHolder){
