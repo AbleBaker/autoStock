@@ -23,7 +23,12 @@ public class ExResultMarketScanner {
 	}
 	
 	public static class ExResultRowMarketScanner{
-		String symbol;
-		int rank;
+		public String symbol;
+		public int rank;
+		
+		public ExResultRowMarketScanner(String symbol, int rank) {
+			this.symbol = symbol;
+			this.rank = rank;
+		}
 	}
 }

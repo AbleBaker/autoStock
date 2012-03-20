@@ -31,7 +31,9 @@ import com.autoStock.exchange.request.RequestMarketOrder;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
+import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
+import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
 import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
@@ -71,6 +73,8 @@ public class MainClient {
 		Co.println("Welcome to autoStock\n");
 			
 		ApplicationStates.startup();
+		
+		new DayTest().init();
 //		
 //		IbExchangeInstance ibExchangeInstance = ExchangeController.getIbExchangeInstance();
 //		TypePosition typePosition = new TypePosition(1200, "BTU", "STK", 0);
@@ -85,8 +89,6 @@ public class MainClient {
 //		ibExchangeInstance.getOpenOrders();
 		
 		//ExchangeController.getIbExchangeInstance().ibExchangeClientSocket.eClientSocket.reqScannerParameters();
-		
-		new RequestMarketScanner(new RequestHolder(null));
 		
 //		TypeMarketData typeMarketData = new TypeMarketData("8411", "STK");
 //		

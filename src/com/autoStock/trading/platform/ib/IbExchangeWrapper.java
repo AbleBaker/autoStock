@@ -214,7 +214,7 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void scannerData(int reqId, int rank, ContractDetails contractDetails, String distance, String benchmark, String projection, String legsStr) {
 		Co.log("Got scannerData: " + rank + ", " + contractDetails.m_summary.m_symbol + ", " + distance + ", " + benchmark + ", " + projection);
-		((RequestMarketScanner)RequestManager.getRequestHolder(reqId).caller).addResult(new ExResultRowMarketScanner());
+		((RequestMarketScanner)RequestManager.getRequestHolder(reqId).caller).addResult(new ExResultRowMarketScanner(contractDetails.m_summary.m_symbol, rank));
 	}
 
 	@Override

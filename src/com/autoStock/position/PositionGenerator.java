@@ -34,7 +34,13 @@ public class PositionGenerator {
 	}
 	
 	private double getPositionUnits(double price, Signal signal){
-		if (account.getBankBalance() <= 0){Co.println("Insufficient account blanace for trade"); return 0;}
-		return ((account.getBankBalance() / price) * ((double)signal.getCombinedSignal() / 100));
+		double accountBalance = account.getBankBalance();
+		double units = 0;
+		
+		if (accountBalance <= 0){Co.println("Insufficient account blanace for trade"); return 0;}
+		
+		units = Math.min(1000, (account.getBankBalance() / price)) * ((double)signal.getCombinedSignal() / 100);
+		
+		return units;
 	}
 }

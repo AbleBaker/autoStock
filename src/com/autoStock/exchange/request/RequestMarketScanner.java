@@ -6,6 +6,7 @@ package com.autoStock.exchange.request;
 import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
+import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
@@ -37,6 +38,7 @@ public class RequestMarketScanner {
 	}
 	
 	public synchronized void finished(){
+		((RequestMarketScannerListener)requestHolder.callback).completed(requestHolder, exResultSetMarketScanner);
 		Co.println("Finished market scanner...");
 	}
 }
