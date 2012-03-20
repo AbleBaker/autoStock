@@ -3,6 +3,7 @@
  */
 package com.autoStock.position;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -32,6 +33,8 @@ public class PositionManager {
 			induceBuy(typeQuoteSlice, signal);
 		}else if (getPosition(typeQuoteSlice.symbol) != null && signal.currentSignalType == SignalType.type_sell){
 			induceSell(typeQuoteSlice, signal);
+		}else if (getPosition(typeQuoteSlice.symbol) == null && signal.currentSignalType == SignalType.type_short){
+			induceShort(typeQuoteSlice, signal);
 		}else if (signal.currentSignalType == SignalType.type_none){
 			if (getPosition(typeQuoteSlice.symbol) != null){
 				getPosition(typeQuoteSlice.symbol).lastKnownPrice = typeQuoteSlice.priceClose;
@@ -47,40 +50,51 @@ public class PositionManager {
 	private void induceBuy(TypeQuoteSlice typeQuoteSlice, Signal signal){
 		Co.println("Induced buy @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 		TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal);
-		addPosition(typePosition);
+		buyPosition(typePosition);
 	}
 	
 	private void induceSell(TypeQuoteSlice typeQuoteSlice, Signal signal){
 		Co.println("Induced sell @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-		removePosition(getPosition(typeQuoteSlice.symbol), typeQuoteSlice.priceClose, true);
+		sellPosition(getPosition(typeQuoteSlice.symbol), typeQuoteSlice.priceClose, true);
+	}
+	
+	private void induceShort(TypeQuoteSlice typeQuoteSlice, Signal signal){
+		Co.println("Induced short @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+		TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal);
+		buyPosition(typePosition);
 	}
 	
 	public void induceSellAll(){
 		Co.println("Induced sell all");
 		synchronized(listOfPosition){
 			for (TypePosition typePosition : listOfPosition){
-				removePosition(typePosition, typePosition.lastKnownPrice, false);
+				sellPosition(typePosition, typePosition.lastKnownPrice, false);
 			}
 			
 			listOfPosition.clear();
 		}
 	}
 	
-	private void addPosition(TypePosition typePosition){
+	private void buyPosition(TypePosition typePosition){
 		synchronized(listOfPosition){
-			accountBalance.changeBankBalance(-1 * (typePosition.units * typePosition.pricePosition) - accountBalance.getTransactionCost(typePosition.units));
+			accountBalance.changeBankBalance(-1 * (typePosition.units * typePosition.pricePosition), accountBalance.getTransactionCost(typePosition.units));
 			listOfPosition.add(typePosition);
 			Co.println("Added position: " + typePosition.symbol + "," + typePosition.units + "," + typePosition.pricePosition + " = " + accountBalance.getBankBalance());
 		}
 	}
 	
-	private void removePosition(TypePosition typePosition, double price, boolean removeFromList){
+	private void sellPosition(TypePosition typePosition, double price, boolean removeFromList){
 		synchronized(listOfPosition){
-			accountBalance.changeBankBalance(typePosition.units * price - accountBalance.getTransactionCost(typePosition.units));
-			if (removeFromList){
-				listOfPosition.remove(typePosition);
-			}
+			accountBalance.changeBankBalance(typePosition.units * price, accountBalance.getTransactionCost(typePosition.units));
+			if (removeFromList){listOfPosition.remove(typePosition);}
 			Co.println("Removed position: " + typePosition.symbol + "," + typePosition.units + "," + price + " = " + accountBalance.getBankBalance());
+		}
+	}
+	
+	private void shortPosition(TypePosition typePosition){
+		synchronized (listOfPosition){
+			listOfPosition.add(typePosition);
+			accountBalance.changeBankBalance(-1 * (typePosition.units * typePosition.pricePosition), accountBalance.getTransactionCost(typePosition.units));
 		}
 	}
 	

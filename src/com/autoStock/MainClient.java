@@ -25,7 +25,10 @@ import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.RequestMarketData;
+import com.autoStock.exchange.request.RequestMarketOrder;
+import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
@@ -38,6 +41,9 @@ import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.menu.MenuDisplayLauncher;
 import com.autoStock.scanner.MarketScanner;
 import com.autoStock.scanner.Shortlist;
+import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalDefinitions.SignalSource;
+import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiColumns;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -46,9 +52,11 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.ReflectionHelper;
 import com.autoStock.tools.StringTools;
+import com.autoStock.trading.platform.ib.IbExchangeInstance;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
+import com.autoStock.trading.types.TypePosition;
 import com.autoStock.types.ConvertTypes;
 import com.autoStock.types.TypeQuoteSlice;
 import com.tictactec.ta.lib.MAType;
@@ -62,7 +70,23 @@ public class MainClient {
 		Global.mode = Mode.client;
 		Co.println("Welcome to autoStock\n");
 			
-		ApplicationStates.startup();		
+		ApplicationStates.startup();
+//		
+//		IbExchangeInstance ibExchangeInstance = ExchangeController.getIbExchangeInstance();
+//		TypePosition typePosition = new TypePosition(1200, "BTU", "STK", 0);
+//		Signal signal = new Signal(SignalSource.from_manual);
+//		signal.currentSignalType = SignalType.type_buy;
+//		
+//		new RequestMarketOrder(new RequestHolder(null), typePosition, signal);
+		
+		//ibExchangeInstance.placeSellOrder(typePosition, new RequestHolder(null));
+		
+		//ibExchangeInstance.getAccountUpdates();
+//		ibExchangeInstance.getOpenOrders();
+		
+		//ExchangeController.getIbExchangeInstance().ibExchangeClientSocket.eClientSocket.reqScannerParameters();
+		
+		new RequestMarketScanner(new RequestHolder(null));
 		
 //		TypeMarketData typeMarketData = new TypeMarketData("8411", "STK");
 //		
@@ -87,18 +111,18 @@ public class MainClient {
 //		marketScanner.startScan();
 		
 		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
-		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-13 09:30:00"), DateTools.getDateFromString("2011-01-13 16:00:00"), Resolution.min);
-
-		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
-				BasicQueries.basic_historical_price_range,
-				QueryArgs.symbol.setValue(typeHistoricalData.symbol),
-				QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
-				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
-				
-		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
-		AlgorithmTest algorithm = new AlgorithmTest();
-		
-		backtest.performBacktest(algorithm.getReceiver());
+//		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-13 09:30:00"), DateTools.getDateFromString("2011-01-13 16:00:00"), Resolution.min);
+//
+//		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
+//				BasicQueries.basic_historical_price_range,
+//				QueryArgs.symbol.setValue(typeHistoricalData.symbol),
+//				QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
+//				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
+//				
+//		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
+//		AlgorithmTest algorithm = new AlgorithmTest();
+//		
+//		backtest.performBacktest(algorithm.getReceiver());
 		
 //		AnalysisMACD analysis = new AnalysisMACD(30, true);
 //		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));
@@ -169,7 +193,7 @@ public class MainClient {
 //		menuController.handleMenuStructure(menuStructure, args);
 //		
 //		new MenuDisplayLauncher().launchDisplay(menuStructure);
-//		
+////		
 //		Co.println("\n\nWaiting for callbacks...");
 //		try{Thread.sleep(15*1000);}catch(Exception e){}
 //		Co.println("\n Done \n");

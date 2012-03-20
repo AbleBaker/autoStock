@@ -12,4 +12,5 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public interface AlgorithmListener {
 	public void recieveSignal(Signal signal, TypeQuoteSlice typeQuoteSlice);
+	public void endOfAlgorithm();
 }

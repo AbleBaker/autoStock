@@ -11,6 +11,7 @@ import com.autoStock.algorithm.AlgorithmListener;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.Backtest;
+import com.autoStock.balance.AccountBalance;
 import com.autoStock.database.DatabaseCore;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
@@ -35,6 +36,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	private ArrayList<AlgorithmTest> listOfAlgorithmTest = new ArrayList<AlgorithmTest>();
 	private Shortlist shortlist = new Shortlist("NYSE");
 	private PositionManager positionManager = PositionManager.instance;
+	private int endOfAlgorithmCount = 0;
 	
 	public MarketScanner(){
 		Co.println("Getting shortlist");
@@ -63,9 +65,10 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 		Co.println("Initializing backtests... ");
 		
 		for (Backtest backtest : listOfBacktest){
-			AlgorithmTest algorithmTest = new AlgorithmTest();
+			AlgorithmTest algorithmTest = new AlgorithmTest(false);
 			algorithmTest.setAlgorithmListener(this);
 			backtest.performBacktest(algorithmTest.getReceiver());
+			listOfAlgorithmTest.add(algorithmTest);
 		}
 	}
 
@@ -76,17 +79,28 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 
 	@Override
 	public void endOfFeed() {
-		
+		Co.println("End of feed");
 	}
 
 	@Override
 	public void recieveSignal(Signal signal, TypeQuoteSlice typeQuoteSlice) {
-		if (signal.getCombinedSignal() > 50){
-			//Co.println("Recieved buy signal: " + signal.getCombinedSignal());
-			positionManager.suggestPosition(typeQuoteSlice, signal);
-		}else if (signal.getCombinedSignal() < 50){
-			//Co.println("Recieved sell signal: " + signal.getCombinedSignal());
-			positionManager.suggestPosition(typeQuoteSlice, signal);
+//		if (signal.getCombinedSignal() > 50){
+//			//Co.println("Recieved buy signal: " + signal.getCombinedSignal());
+//			positionManager.suggestPosition(typeQuoteSlice, signal);
+//		}else if (signal.getCombinedSignal() < 50){
+//			//Co.println("Recieved sell signal: " + signal.getCombinedSignal());
+//			positionManager.suggestPosition(typeQuoteSlice, signal);
+//		}
+	}
+
+	@Override
+	public void endOfAlgorithm() {
+		Co.println("End of algo: " + endOfAlgorithmCount + "," + listOfAlgorithmTest.size());
+		if (endOfAlgorithmCount == listOfAlgorithmTest.size()-1){
+			PositionManager.instance.induceSellAll();
+			Co.println("Account balance: " + AccountBalance.instance.getBankBalance() + " Fees paid: " + AccountBalance.instance.getTransactionFeesPaid());
 		}
+		
+		endOfAlgorithmCount++;
 	}
 }

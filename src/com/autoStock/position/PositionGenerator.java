@@ -25,13 +25,10 @@ public class PositionGenerator {
 	
 	public TypePosition generatePosition(TypeQuoteSlice typeQuoteSlice, Signal signal){
 		TypePosition typePosition = new TypePosition();
-		
 		typePosition.symbol = typeQuoteSlice.symbol;
 		typePosition.pricePosition = typeQuoteSlice.priceClose;
 		typePosition.securityType = "STK";
 		typePosition.units = (int) getPositionUnits(typePosition.pricePosition, signal);
-		
-		//Co.println("Units: " + getPositionUnits(typePosition.pricePosition, signal));
 		
 		return typePosition;
 	}

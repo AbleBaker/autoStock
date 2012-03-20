@@ -12,6 +12,7 @@ public class SignalDefinitions {
 		from_analysis,
 		from_market_trend,
 		from_news,
+		from_manual,
 	}
 	
 	public static enum SignalType {

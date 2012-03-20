@@ -9,10 +9,15 @@ import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
 import com.autoStock.exchange.request.RequestMarketData;
+import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.RequestRealtimeData;
+import com.autoStock.exchange.request.RequestMarketOrder;
 import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
+import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
+import com.autoStock.exchange.results.ExResultMarketScanner;
+import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultRealtimeData.ExResultRowRealtimeData;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
@@ -97,12 +102,18 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void orderStatus(int orderId, String status, int filled, int remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
-		Co.log("Got orderStatus");
+		Co.log("Got orderStatus: " + orderId +", " + status + ", " + filled + ", " + remaining + ", " + avgFillPrice + ", " + lastFillPrice + ", " + whyHeld);
+		
+		if (status.equals("Filled")){
+			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).finished();
+		}else{
+			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).addResult(new ExResultRowMarketOrder(avgFillPrice, lastFillPrice, 0, filled, remaining, filled-remaining, status));
+		}
 	}
 
 	@Override
 	public void openOrder(int orderId, Contract contract, Order order, OrderState orderState) {
-		Co.log("Got openOrder");
+		Co.log("Got openOrder: " + contract.m_symbol + ", " + orderState.m_commission + ", " + orderState.m_status);
 	}
 
 	@Override
@@ -112,7 +123,7 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void updateAccountValue(String key, String value, String currency, String accountName) {
-		Co.log("Got updateAccountValue");
+		Co.log("Got updateAccountValue: " + key + ", " + value + ", " + ", " + currency + ", " + accountName);
 	}
 
 	@Override
@@ -147,12 +158,12 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void contractDetailsEnd(int reqId) {
-		Co.log("got contractDetails");
+		Co.log("Got contractDetailsEnd");
 	}
 
 	@Override
 	public void execDetails(int reqId, Contract contract, Execution execution) {
-		Co.log("Got execDetails");
+		Co.log("Got execDetails: " + contract.m_symbol + ", " + execution.m_avgPrice + ", " + execution.m_cumQty + ", " + execution.m_price + ", " + execution.m_shares);
 	}
 
 	@Override
@@ -197,17 +208,19 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void scannerParameters(String xml) {
-		Co.log("Got scannerParameters");		
+		Co.log("Got scannerParameters: " + xml);		
 	}
 
 	@Override
 	public void scannerData(int reqId, int rank, ContractDetails contractDetails, String distance, String benchmark, String projection, String legsStr) {
-		Co.log("Got scannerData");
+		Co.log("Got scannerData: " + rank + ", " + contractDetails.m_summary.m_symbol + ", " + distance + ", " + benchmark + ", " + projection);
+		((RequestMarketScanner)RequestManager.getRequestHolder(reqId).caller).addResult(new ExResultRowMarketScanner());
 	}
 
 	@Override
 	public void scannerDataEnd(int reqId) {
 		Co.log("Got scannerDataEnd");
+		((RequestMarketScanner)RequestManager.getRequestHolder(reqId).caller).finished();
 	}
 
 	@Override

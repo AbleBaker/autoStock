@@ -46,6 +46,10 @@ import com.tictactec.ta.lib.MAType;
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	
+	public AlgorithmTest(boolean canTrade) {
+		super(canTrade);
+	}
+
 	private int periodLength = 30;
 	private int periodWindow = 10;
 	public Benchmark bench = new Benchmark();
@@ -162,10 +166,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			if (signal.getCombinedSignal() > 50){
 				signal.currentSignalType = SignalType.type_buy;
 				positionManager.suggestPosition(typeQuoteSlice, signal);
-			}else if (signal.getCombinedSignal() < -50){
+			}else if (signal.getCombinedSignal() < -75){
 				signal.currentSignalType = SignalType.type_sell;
 				positionManager.suggestPosition(typeQuoteSlice, signal);
-			}else {
+//			}else if (signal.getCombinedSignal() < -76){
+//				signal.currentSignalType = SignalType.type_short;
+//				positionManager.suggestPosition(typeQuoteSlice, signal);
+//			}else {
 				signal.currentSignalType = SignalType.type_none;
 			}
 			
@@ -179,9 +186,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	@Override
 	public void endOfFeed() {
 		bench.total();
-		PositionManager.instance.induceSellAll();
-		Co.println("Account balance: " + AccountBalance.instance.getBankBalance());
-		chart.display();
+		algorithmListener.endOfAlgorithm();
+		//PositionManager.instance.induceSellAll();
+		//Co.println("Account balance: " + AccountBalance.instance.getBankBalance() + " Fees paid: " + AccountBalance.instance.getTransactionFeesPaid());
+		//chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}

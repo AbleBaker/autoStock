@@ -8,5 +8,9 @@ package com.autoStock.algorithm;
  *
  */
 public class AlgorithmBase {
-
+	public boolean canTrade;
+	
+	public AlgorithmBase(boolean canTrade){
+		this.canTrade = canTrade;
+	}
 }

@@ -9,7 +9,7 @@ import com.autoStock.exchange.request.base.RequestHolder;
  *
  */
 public class RequestManager {
-	private static int requestId;
+	private static volatile int requestId;
 	private static ArrayList<RequestHolder> listOfRequestHolder = new ArrayList<RequestHolder>();
 	
 	public static synchronized int getNewRequestId(){

@@ -26,6 +26,8 @@ public class Shortlist {
 	
 	public static enum ShortlistReason {
 		high_volume,
+		high_signal_combined,
+		high_signal_ppc,
 	}
 	
 	public Shortlist(String exchange){
