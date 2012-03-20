@@ -7,10 +7,10 @@ package com.autoStock.balance;
  * @author Kevin Kowalewski
  *
  */
-public class AccountBalance {
-	private static volatile double bankBalance = 10000.00;
+public class Account {
+	private static volatile double bankBalance = 100000.00;
 	private static volatile double transactionFeesPaid = 0;
-	public static AccountBalance instance = new AccountBalance();
+	public static Account instance = new Account();
 	
 	public double getBankBalance(){
 		return this.bankBalance;
@@ -35,6 +35,7 @@ public class AccountBalance {
 	}
 	
 	public double getTransactionCost(int units){
-		return units * 0.018;
+		//TODO: Get exchange and more accurate commissions
+		return Math.max(1.30, units * 0.013);
 	}
 }

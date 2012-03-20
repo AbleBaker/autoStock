@@ -11,7 +11,7 @@ import com.autoStock.algorithm.AlgorithmListener;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.Backtest;
-import com.autoStock.balance.AccountBalance;
+import com.autoStock.balance.Account;
 import com.autoStock.database.DatabaseCore;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
@@ -98,7 +98,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 		Co.println("End of algo: " + endOfAlgorithmCount + "," + listOfAlgorithmTest.size());
 		if (endOfAlgorithmCount == listOfAlgorithmTest.size()-1){
 			PositionManager.instance.induceSellAll();
-			Co.println("Account balance: " + AccountBalance.instance.getBankBalance() + " Fees paid: " + AccountBalance.instance.getTransactionFeesPaid());
+			Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
 		}
 		
 		endOfAlgorithmCount++;

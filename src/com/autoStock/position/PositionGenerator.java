@@ -4,7 +4,7 @@
 package com.autoStock.position;
 
 import com.autoStock.Co;
-import com.autoStock.balance.AccountBalance;
+import com.autoStock.balance.Account;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
@@ -17,10 +17,10 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public class PositionGenerator {
 	
-	private AccountBalance accountBalance;
+	private Account account;
 	
-	public PositionGenerator(AccountBalance accountBalance){
-		this.accountBalance = accountBalance;
+	public PositionGenerator(Account account){
+		this.account = account;
 	}
 	
 	public TypePosition generatePosition(TypeQuoteSlice typeQuoteSlice, Signal signal){
@@ -34,7 +34,7 @@ public class PositionGenerator {
 	}
 	
 	private double getPositionUnits(double price, Signal signal){
-		if (accountBalance.getBankBalance() <= 0){Co.println("Insufficient account blanace for trade"); return 0;}
-		return ((accountBalance.getBankBalance() / price) * ((double)signal.getCombinedSignal() / 100));
+		if (account.getBankBalance() <= 0){Co.println("Insufficient account blanace for trade"); return 0;}
+		return ((account.getBankBalance() / price) * ((double)signal.getCombinedSignal() / 100));
 	}
 }

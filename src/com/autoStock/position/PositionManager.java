@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.autoStock.Co;
-import com.autoStock.balance.AccountBalance;
+import com.autoStock.balance.Account;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.tools.DateTools;
@@ -21,8 +21,8 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public class PositionManager {
 	public static PositionManager instance = new PositionManager();
-	private AccountBalance accountBalance = AccountBalance.instance;
-	private PositionGenerator positionGenerator = new PositionGenerator(accountBalance);
+	private Account account = Account.instance;
+	private PositionGenerator positionGenerator = new PositionGenerator(account);
 	private ArrayList<TypePosition> listOfPosition = new ArrayList<TypePosition>();
 	private int maxPositions = 10;
 	
@@ -77,24 +77,24 @@ public class PositionManager {
 	
 	private void buyPosition(TypePosition typePosition){
 		synchronized(listOfPosition){
-			accountBalance.changeBankBalance(-1 * (typePosition.units * typePosition.pricePosition), accountBalance.getTransactionCost(typePosition.units));
+			account.changeBankBalance(-1 * (typePosition.units * typePosition.pricePosition), account.getTransactionCost(typePosition.units));
 			listOfPosition.add(typePosition);
-			Co.println("Added position: " + typePosition.symbol + "," + typePosition.units + "," + typePosition.pricePosition + " = " + accountBalance.getBankBalance());
+			Co.println("Added position: " + typePosition.symbol + "," + typePosition.units + "," + typePosition.pricePosition + " = " + account.getBankBalance());
 		}
 	}
 	
 	private void sellPosition(TypePosition typePosition, double price, boolean removeFromList){
 		synchronized(listOfPosition){
-			accountBalance.changeBankBalance(typePosition.units * price, accountBalance.getTransactionCost(typePosition.units));
+			account.changeBankBalance(typePosition.units * price, account.getTransactionCost(typePosition.units));
 			if (removeFromList){listOfPosition.remove(typePosition);}
-			Co.println("Removed position: " + typePosition.symbol + "," + typePosition.units + "," + price + " = " + accountBalance.getBankBalance());
+			Co.println("Removed position: " + typePosition.symbol + "," + typePosition.units + "," + price + " = " + account.getBankBalance());
 		}
 	}
 	
 	private void shortPosition(TypePosition typePosition){
 		synchronized (listOfPosition){
 			listOfPosition.add(typePosition);
-			accountBalance.changeBankBalance(-1 * (typePosition.units * typePosition.pricePosition), accountBalance.getTransactionCost(typePosition.units));
+			account.changeBankBalance(-1 * (typePosition.units * typePosition.pricePosition), account.getTransactionCost(typePosition.units));
 		}
 	}
 	

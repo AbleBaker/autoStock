@@ -18,7 +18,7 @@ import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsSTORSI;
-import com.autoStock.balance.AccountBalance;
+import com.autoStock.balance.Account;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
