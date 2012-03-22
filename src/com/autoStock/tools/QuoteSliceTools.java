@@ -65,8 +65,6 @@ public class QuoteSliceTools {
 			}
 		}
 		
-		Co.println("AA O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);
-		
 		return typeQuoteSlice;
 	}
 }

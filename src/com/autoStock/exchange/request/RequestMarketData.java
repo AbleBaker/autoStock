@@ -74,7 +74,7 @@ public class RequestMarketData {
 						exResultSetMarketData.listOfExResultRowMarketData.clear();
 						
 						//Co.println("Generated new QuoteSlice");
-						Co.println("O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);
+						//Co.println("O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);
 						
 						requestMarketDataListener.receiveQuoteSlice(requestHolder, typeQuoteSlice);
 					}

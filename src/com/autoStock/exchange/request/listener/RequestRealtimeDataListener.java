@@ -8,6 +8,7 @@ import com.autoStock.exchange.results.ExResultMarketData;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.exchange.results.ExResultRealtimeData.ExResultSetRealtimeData;
+import com.autoStock.types.TypeQuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -15,5 +16,6 @@ import com.autoStock.exchange.results.ExResultRealtimeData.ExResultSetRealtimeDa
  */
 public interface RequestRealtimeDataListener {
 		public void failed(RequestHolder requestHolder);
+		public void receiveQuoteSlice(RequestHolder requestHolder, TypeQuoteSlice typeQuoteSlice);
 		public void completed(RequestHolder requestHolder, ExResultSetRealtimeData exResultSetRealtimeData);
 }

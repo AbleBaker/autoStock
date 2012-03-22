@@ -108,10 +108,10 @@ public class IbExchangeInstance {
 	public void getRealtimeData(TypeRealtimeData typeRealtimeData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = "CHIXJ";
+		contract.m_exchange = "ASX";
 		contract.m_symbol = typeRealtimeData.symbol;
 		contract.m_secType = typeRealtimeData.securityType;
-		contract.m_currency = "JPY";
+		contract.m_currency = "AUD";
 		ibExchangeClientSocket.eClientSocket.reqRealTimeBars(requestHolder.requestId, contract, 5, "TRADES", false);
 	}
 	
