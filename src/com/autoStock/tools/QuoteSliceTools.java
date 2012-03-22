@@ -5,6 +5,7 @@ package com.autoStock.tools;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.trading.platform.ib.definitions.MarketData.TickPriceFields;
 import com.autoStock.trading.platform.ib.definitions.MarketData.TickSizeFields;
@@ -17,45 +18,55 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public class QuoteSliceTools {
 	public TypeQuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData){
-		TypeQuoteSlice trRealtimeDataSlice = new TypeQuoteSlice();
+		TypeQuoteSlice typeQuoteSlice = new TypeQuoteSlice();
 		
 		float priceHigh = 0;
 		float priceLow = 0;
 		
-		for (ExResultRowMarketData resultRow : listOfExResultRowMarketData){
+		for (ExResultRowMarketData resultRow : listOfExResultRowMarketData){		
 			if (resultRow.tickType == TickTypes.type_price){
-				if (resultRow.tickPriceField == TickPriceFields.field_open && trRealtimeDataSlice.priceOpen == 0){
-					trRealtimeDataSlice.priceOpen = (float)resultRow.value;
+				if (resultRow.tickPriceField == TickPriceFields.field_open && typeQuoteSlice.priceOpen == 0){
+					typeQuoteSlice.priceOpen = (float)resultRow.value;
 				}
 			
-				if (resultRow.tickPriceField == TickPriceFields.field_high){
-					trRealtimeDataSlice.priceHigh = (float)resultRow.value;
+				else if (resultRow.tickPriceField == TickPriceFields.field_high){
+					typeQuoteSlice.priceHigh = (float)resultRow.value;
 				}
 				
-				if (resultRow.tickPriceField == TickPriceFields.field_low && trRealtimeDataSlice.priceLow > resultRow.value){
-					trRealtimeDataSlice.priceLow = (float)resultRow.value;
+				else if (resultRow.tickPriceField == TickPriceFields.field_low && typeQuoteSlice.priceLow > resultRow.value){
+					typeQuoteSlice.priceLow = (float)resultRow.value;
 				}
 				
-				if (resultRow.tickPriceField == TickPriceFields.field_close || resultRow.tickPriceField == TickPriceFields.field_last){
-					trRealtimeDataSlice.priceClose = (float)resultRow.value;
+				else if (resultRow.tickPriceField == TickPriceFields.field_close || resultRow.tickPriceField == TickPriceFields.field_last){
+					typeQuoteSlice.priceClose = (float)resultRow.value;
 				}
 				
-				if (resultRow.tickPriceField == TickPriceFields.field_bid){
-					trRealtimeDataSlice.priceBid = (float)resultRow.value;
+				else if (resultRow.tickPriceField == TickPriceFields.field_bid){
+					typeQuoteSlice.priceBid = (float)resultRow.value;
 				}
 				
-				if (resultRow.tickPriceField == TickPriceFields.field_ask){
-					trRealtimeDataSlice.priceAsk = (float)resultRow.value;
+				else if (resultRow.tickPriceField == TickPriceFields.field_ask){
+					typeQuoteSlice.priceAsk = (float)resultRow.value;
+				}
+				
+				else {
+					Co.println("No tickPriceField matched: " + resultRow.tickPriceField.name());
 				}
 			}
 			
-			if (resultRow.tickType == TickTypes.type_size){
+			else if (resultRow.tickType == TickTypes.type_size){
 				if (resultRow.tickSizeField == TickSizeFields.field_volume){
-					trRealtimeDataSlice.sizeVolume = (int)resultRow.value;
+					typeQuoteSlice.sizeVolume = (int)resultRow.value;
 				}
+			}
+			
+			else {
+				Co.println("No tickType mathced");
 			}
 		}
 		
-		return trRealtimeDataSlice;
+		Co.println("AA O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);
+		
+		return typeQuoteSlice;
 	}
 }

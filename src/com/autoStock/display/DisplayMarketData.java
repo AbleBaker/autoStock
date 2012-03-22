@@ -20,6 +20,7 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
+import com.autoStock.types.TypeQuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -43,6 +44,12 @@ public class DisplayMarketData {
 			@Override
 			public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
 				Co.println("Completed!");
+				
+			}
+
+			@Override
+			public void receiveQuoteSlice(RequestHolder requestHolder, TypeQuoteSlice typeQuoteSlice) {
+				// TODO Auto-generated method stub
 				
 			}
 		}, typeMarketData, 0);

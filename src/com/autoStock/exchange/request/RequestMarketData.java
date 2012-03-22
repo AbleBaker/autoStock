@@ -48,7 +48,6 @@ public class RequestMarketData {
 	}
 	
 	public synchronized void addResult(ExResultRowMarketData exResultRowMarketData){
-		Co.println("addResult");
 		if (exResultRowMarketData.tickType == TickTypes.type_string){
 			if (sliceMilliseconds != 0 && receivedTimestamp == 0){
 				receivedTimestamp = Long.valueOf(exResultRowMarketData.tickStringValue);
@@ -74,8 +73,10 @@ public class RequestMarketData {
 						TypeQuoteSlice typeQuoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData);
 						exResultSetMarketData.listOfExResultRowMarketData.clear();
 						
-						Co.println("Generated new QuoteSlice");
+						//Co.println("Generated new QuoteSlice");
 						Co.println("O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);
+						
+						requestMarketDataListener.receiveQuoteSlice(requestHolder, typeQuoteSlice);
 					}
 				}
 			}

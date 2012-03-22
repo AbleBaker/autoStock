@@ -36,11 +36,13 @@ public class ExResultMarketData {
 		public ExResultRowMarketData(TickPriceFields field, double value){
 			this.tickType = TickTypes.type_price;
 			this.tickPriceField = field;
+			this.value = value;
 		}
 		
 		public ExResultRowMarketData(TickSizeFields field, double value){
 			this.tickType = TickTypes.type_size;
 			this.tickSizeField = field;
+			this.value = value;
 		}
 		
 		public ExResultRowMarketData(String value){

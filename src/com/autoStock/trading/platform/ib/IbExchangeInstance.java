@@ -96,9 +96,11 @@ public class IbExchangeInstance {
 	public void getScanner(){
 		ScannerSubscription scanner = new ScannerSubscription();
 		scanner.numberOfRows(50);
-		scanner.instrument("STK");
-		scanner.locationCode("STK.NYSE");
+		scanner.instrument("STOCK.HK");
+		scanner.locationCode("STK.HK.ASX");
 		scanner.scanCode("TOP_PERC_GAIN");
+		scanner.aboveVolume(100000);
+		scanner.abovePrice(10.00);
 		scanner.averageOptionVolumeAbove(0);
 		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(1, scanner);
 	}
@@ -116,10 +118,10 @@ public class IbExchangeInstance {
 	public void getMarketData(TypeMarketData typeMarketData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = "CHIXJ";
+		contract.m_exchange = "ASX";
 		contract.m_symbol = typeMarketData.symbol;
 		contract.m_secType = typeMarketData.securityType;
-		contract.m_currency = "JPY";
+		contract.m_currency = "AUD";
 		ibExchangeClientSocket.eClientSocket.reqMktData(requestHolder.requestId, contract, "104,165,225", false);
 	}
 	
