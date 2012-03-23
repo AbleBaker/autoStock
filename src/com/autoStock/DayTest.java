@@ -66,39 +66,22 @@ public class DayTest {
 	public void handleCompletedMarketScanner(){
 		for (ExResultRowMarketScanner result : exResultSetMarketScanner.listOfExResultRowMarketScanner){
 			Co.println("Should run algorithm for symbol: " + result.symbol);
-//			new RequestMarketData(new RequestHolder(null), new RequestMarketDataListener() {
-//				@Override
-//				public void receiveQuoteSlice(RequestHolder requestHolder, TypeQuoteSlice typeQuoteSlice) {
-//					Co.println("Received quote slice: " + typeQuoteSlice.symbol + ", " + typeQuoteSlice.priceClose);
-//				}
-//				
-//				@Override
-//				public void failed(RequestHolder requestHolder) {
-//					
-//				}
-//				
-//				@Override
-//				public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
-//					
-//				}
-//			}, new TypeMarketData(result.symbol, "STK"), 5000);
-			
-			new RequestRealtimeData(new RequestHolder(null), new RequestRealtimeDataListener() {
+			new RequestMarketData(new RequestHolder(null), new RequestMarketDataListener() {
+				@Override
+				public void receiveQuoteSlice(RequestHolder requestHolder, TypeQuoteSlice typeQuoteSlice) {
+					Co.println("Received quote slice: " + typeQuoteSlice.symbol + ", " + typeQuoteSlice.priceClose);
+				}
+				
 				@Override
 				public void failed(RequestHolder requestHolder) {
 					
 				}
 				
 				@Override
-				public void completed(RequestHolder requestHolder, ExResultSetRealtimeData exResultSetRealtimeData) {
+				public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
 					
 				}
-
-				@Override
-				public void receiveQuoteSlice(RequestHolder requestHolder, TypeQuoteSlice typeQuoteSlice) {
-					Co.println("Received quote slice: " + typeQuoteSlice.symbol + ", " + typeQuoteSlice.priceClose);
-				}
-			}, new TypeRealtimeData(result.symbol, "STK"));
+			}, new TypeMarketData(result.symbol, "STK"), 5000);
 		}
 	}
 	

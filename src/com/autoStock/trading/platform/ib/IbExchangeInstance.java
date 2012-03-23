@@ -95,12 +95,12 @@ public class IbExchangeInstance {
 	
 	public void getScanner(){
 		ScannerSubscription scanner = new ScannerSubscription();
-		scanner.numberOfRows(50);
+		scanner.numberOfRows();
 		scanner.instrument("STOCK.HK");
 		scanner.locationCode("STK.HK.ASX");
 		scanner.scanCode("TOP_PERC_GAIN");
-		scanner.aboveVolume(100000);
-		scanner.abovePrice(10.00);
+		scanner.aboveVolume(10000);
+		scanner.abovePrice(3.00);
 		scanner.averageOptionVolumeAbove(0);
 		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(1, scanner);
 	}

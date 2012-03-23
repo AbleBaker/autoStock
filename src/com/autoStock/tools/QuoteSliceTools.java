@@ -33,7 +33,7 @@ public class QuoteSliceTools {
 					typeQuoteSlice.priceHigh = (float)resultRow.value;
 				}
 				
-				else if (resultRow.tickPriceField == TickPriceFields.field_low && typeQuoteSlice.priceLow > resultRow.value){
+				else if (resultRow.tickPriceField == TickPriceFields.field_low){ // && typeQuoteSlice.priceLow > resultRow.value
 					typeQuoteSlice.priceLow = (float)resultRow.value;
 				}
 				
