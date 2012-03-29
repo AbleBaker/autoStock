@@ -68,9 +68,7 @@ public class CombinedLineChart {
 			int i = 1;
 			for (XYDataset xydataset : xydatasets){
 				XYPlot subPlot = new XYPlot(xydataset, null, new NumberAxis("Range " + i), new StandardXYItemRenderer());
-			
 				subPlot.getRenderer().setSeriesPaint(0, getColor());
-				
 				plot.add(subPlot, 1);
 				i++;
 			}
