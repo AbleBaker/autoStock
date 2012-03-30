@@ -18,6 +18,7 @@ public class ApplicationStates {
 	private static ExchangeController exchangeController;
 	
 	public static void startup(){
+		//new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
 		databaseCore = new DatabaseCore();
 		databaseCore.init();
 		

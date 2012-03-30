@@ -74,40 +74,7 @@ public class MainClient {
 			
 		ApplicationStates.startup();
 		
-		new DayTest().init();
-//		
-//		IbExchangeInstance ibExchangeInstance = ExchangeController.getIbExchangeInstance();
-//		TypePosition typePosition = new TypePosition(1200, "BTU", "STK", 0);
-//		Signal signal = new Signal(SignalSource.from_manual);
-//		signal.currentSignalType = SignalType.type_buy;
-//		
-//		new RequestMarketOrder(new RequestHolder(null), typePosition, signal);
-		
-		//ibExchangeInstance.placeSellOrder(typePosition, new RequestHolder(null));
-		
-		//ibExchangeInstance.getAccountUpdates();
-//		ibExchangeInstance.getOpenOrders();
-		
-		//ExchangeController.getIbExchangeInstance().ibExchangeClientSocket.eClientSocket.reqScannerParameters();
-		
-//		TypeMarketData typeMarketData = new TypeMarketData("8411", "STK");
-//		
-//		new RequestMarketData(new RequestHolder(null), new RequestMarketDataListener() {
-//			@Override
-//			public void failed(RequestHolder requestHolder) {
-//				
-//			}
-//			
-//			@Override
-//			public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
-//				Co.println("Completed!");
-//				
-//			}
-//		}, typeMarketData, 5000);
-		
-		//new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
-		//new AlgoDayOverDay().simpleTest();
-		//new TALibTest().test();
+		//new DayTest().init();
 		
 //		MarketScanner marketScanner = new MarketScanner();
 //		marketScanner.startScan();
