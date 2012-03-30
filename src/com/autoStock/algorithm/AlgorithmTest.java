@@ -163,7 +163,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //			}else if (signal.getCombinedSignal() < -76){
 //				signal.currentSignalType = SignalType.type_short;
 //				positionManager.suggestPosition(typeQuoteSlice, signal);
-//			}else {
+			}else {
 				signal.currentSignalType = SignalType.type_none;
 			}
 			
