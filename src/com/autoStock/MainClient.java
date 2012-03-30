@@ -113,18 +113,17 @@ public class MainClient {
 //		marketScanner.startScan();
 		
 		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
-//		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-13 09:30:00"), DateTools.getDateFromString("2011-01-13 16:00:00"), Resolution.min);
-//
-//		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
-//				BasicQueries.basic_historical_price_range,
-//				QueryArgs.symbol.setValue(typeHistoricalData.symbol),
-//				QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
-//				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
-//				
-//		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
-//		AlgorithmTest algorithm = new AlgorithmTest();
-//		
-//		backtest.performBacktest(algorithm.getReceiver());
+		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-13 09:30:00"), DateTools.getDateFromString("2011-01-13 16:00:00"), Resolution.min);
+
+		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
+				BasicQueries.basic_historical_price_range,
+				QueryArgs.symbol.setValue(typeHistoricalData.symbol),
+				QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
+				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
+				
+		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
+		AlgorithmTest algorithm = new AlgorithmTest(false);
+		backtest.performBacktest(algorithm.getReceiver());
 		
 //		AnalysisMACD analysis = new AnalysisMACD(30, true);
 //		analysis.setDataSet(new ConvertTypes().convertToQuoteSlice(listOfResults));

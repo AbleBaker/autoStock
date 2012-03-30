@@ -177,11 +177,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	@Override
 	public void endOfFeed() {
 		bench.total();
-		algorithmListener.endOfAlgorithm();
+		if (algorithmListener != null){
+			algorithmListener.endOfAlgorithm();
+		}
 		//PositionManager.instance.induceSellAll();
 		//Co.println("Account balance: " + AccountBalance.instance.getBankBalance() + " Fees paid: " + AccountBalance.instance.getTransactionFeesPaid());
 		//chart.display();
-		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
+		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }
