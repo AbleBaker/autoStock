@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.jfree.data.time.TimeSeriesCollection;
 
+import com.autoStock.algorithm.AlgorithmForCiprian;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.basic.AlgoDayOverDay;
 import com.autoStock.analysis.AnalysisADX;
@@ -74,11 +75,6 @@ public class MainClient {
 			
 		ApplicationStates.startup();
 		
-		//new DayTest().init();
-		
-//		MarketScanner marketScanner = new MarketScanner();
-//		marketScanner.startScan();
-		
 		//TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 16:00:00"), Resolution.min);		
 		TypeHistoricalData typeHistoricalData = new TypeHistoricalData("BTU", "STK", DateTools.getDateFromString("2011-01-13 09:30:00"), DateTools.getDateFromString("2011-01-13 16:00:00"), Resolution.min);
 
@@ -89,7 +85,8 @@ public class MainClient {
 				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
 				
 		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
-		AlgorithmTest algorithm = new AlgorithmTest(false);
+		//AlgorithmTest algorithm = new AlgorithmTest(false);
+		AlgorithmForCiprian algorithm = new AlgorithmForCiprian(false);
 		backtest.performBacktest(algorithm.getReceiver());
 		
 //		AnalysisMACD analysis = new AnalysisMACD(30, true);
@@ -153,7 +150,6 @@ public class MainClient {
 //		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection1, timeSeriesCollection2);
 		
 		//System.exit(0);
-
 //	
 //		MenuController menuController = new MenuController();
 //		if (args.length == 0){menuController.displayMenu(MenuStructures.menu_main); ApplicationStates.shutdown();}
