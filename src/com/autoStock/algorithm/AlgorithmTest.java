@@ -64,17 +64,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
-	private AlgorithmListener algorithmListener;
 	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
 	private PositionManager positionManager = PositionManager.instance;
-	
-	public ReceiverOfQuoteSlice getReceiver(){
-		return this;
-	}
-	
-	public void setAlgorithmListener(AlgorithmListener algorithmListener){
-		this.algorithmListener = algorithmListener;
-	}
 
 	@Override
 	public void receiveQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
