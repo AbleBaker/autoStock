@@ -8,13 +8,14 @@ public class MenuDefinitions {
 	public static enum MenuStructures {
 		menu_main(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_shutdown(new MenuArguments[]{MenuArguments.arg_none}),
-		menu_startup(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_startup(new MenuArguments[]{MenuArguments.arg_exchange}),
 		menu_restart(new MenuArguments[]{MenuArguments.arg_restart_delay}),
 		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol, MenuArguments.arg_resolution, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
 		menu_request_market_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),
 		menu_request_realtime_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),
 		menu_test_realtime_data(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_test_market_data(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_algorithm_backtest(new MenuArguments[]{MenuArguments.arg_none}),
 		;
 		
 		public MenuArguments[] arrayOfMenuArguments;
@@ -42,6 +43,8 @@ public class MenuDefinitions {
 		arg_start_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date}, "Start Date"),
 		arg_end_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date}, "End Date or Period"), // MenuArgumentTypes.basic_period}
 		arg_resolution(new MenuArgumentTypes[]{MenuArgumentTypes.basic_resolution}, "Reporting resolution"),
+		arg_algorithm(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Algorithm"),
+		arg_exchange(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Exchange"),
 		;
 		
 		public MenuArgumentTypes[] arrayOfArgumentTypes;

@@ -27,7 +27,7 @@ import com.autoStock.types.TypeQuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public class MainDayTest {
+public class MainCampaign {
 	
 	private ExResultSetMarketScanner exResultSetMarketScanner;
 	
@@ -57,7 +57,7 @@ public class MainDayTest {
 					Co.println("Should run algorithm for symbol: " + result.symbol);
 				}
 				
-				MainDayTest.this.exResultSetMarketScanner = exResultSetMarketScanner;
+				MainCampaign.this.exResultSetMarketScanner = exResultSetMarketScanner;
 				handleCompletedMarketScanner();
 			}
 		}));
