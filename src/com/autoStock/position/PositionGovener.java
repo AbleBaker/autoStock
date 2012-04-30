@@ -13,7 +13,7 @@ public class PositionGovener {
 	private PositionManager positionManager = PositionManager.instance;
 	
 	public void informGovener(TypeQuoteSlice typeQuoteSlice, Signal signal){
-		Co.println("PositionGovener received new signal: " + signal.getCombinedSignal());
+		//Co.println("PositionGovener received new signal: " + signal.getCombinedSignal());
 		
 //		if (signal.getCombinedSignal() > 25){
 //			signal.currentSignalType = SignalType.type_buy;

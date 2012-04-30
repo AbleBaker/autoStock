@@ -21,6 +21,8 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Integer> listOfSignalCCI = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalMACD = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalSTORSI = new ArrayList<Integer>();
+	public ArrayList<Integer> listOfSignalRSI = new ArrayList<Integer>();
+	public ArrayList<Integer> listOfSignalTRIX = new ArrayList<Integer>();
 	//public ArrayList<Integer> listOfSignalSTORSID = new ArrayList<Integer>();
 	
 	public ArrayList<Double> listOfPrice = new ArrayList<Double>();
@@ -40,6 +42,8 @@ public class ChartForAlgorithmTest {
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal CCI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalCCI))));
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal MACD", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalMACD))));
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal STORSI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalSTORSI))));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal RSI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalRSI))));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal TRIX", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalTRIX))));
 		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("ADX Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertDoubles(listOfADX))));
 		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertDoubles(listOfCCI))));
 		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertDoubles(listOfMACD))));

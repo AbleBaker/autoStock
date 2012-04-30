@@ -29,6 +29,7 @@ public class SignalDefinitions {
 		metric_cci,
 		metric_macd,
 		metric_storsi,
+		metric_rsi,
 	}
 	
 	public static double getSignalWeight(SignalTypeMetric signalTypeMetric){

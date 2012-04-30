@@ -52,5 +52,11 @@ package com.autoStock.taLib;
  */
  public class MInteger
  {
-    public int value;           
+    public int value;
+    
+    public MInteger(){}
+    
+    public MInteger(int value){
+   	 this.value = value;
+    }
  }

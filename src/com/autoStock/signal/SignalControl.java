@@ -16,13 +16,16 @@ public class SignalControl {
 	public static final int periodAverageForADX = 0;
 	public static final int periodAverageForCCI = 10;
 	public static final int periodAverageForMACD = 0;
+	public static final int  periodAverageForRSI = 0;
 	public static final int periodAverageForSTORSI = 5;
+	public static final int periodAverageForTRIX = 5;
 	
 	public static final double weightForPPC = 1.0;
 	public static final double weightForADX = 1.0;
 	public static final double weightForCCI = 1.0;
 	public static final double weightForMACD = 1.0;
 	public static final double weightForSTORSI = 1.0;
+	public static final double weightForTRIX = 1.0;
 	
 	public static void setSignalStrengthForPPC(SignalMetric signalMetric, double percentChange){
 		signalMetric.strength = (int) ((percentChange - 1) * 10000);
@@ -40,7 +43,18 @@ public class SignalControl {
 		signalMetric.strength = (int) (macdValue * 1000);
 	}
 	
+	public static void setSignalStrengthForRSI(SignalMetric signalMetric, double rsiValue){
+		signalMetric.strength = (int) (rsiValue - 50);
+	}
+	
+	public static void setSignalStrengthForTRIX(SignalMetric signalMetric, double trixValue){
+		Co.println("Have trix value: " + trixValue);
+		signalMetric.strength = (int) (trixValue * 10000);
+	}
+	
 	public static void setSignalStrengthForSTORSI(SignalMetric signalMetric, double percentKValue, double percentDValue){
-		signalMetric.strength = Math.max(-100, Math.min(100, (int) (percentKValue + percentDValue) / 2)) - 70;
+		//Co.println("Have K, D " + percentKValue + ", " + percentDValue + ", " + (percentKValue - percentDValue));
+		//signalMetric.strength = Math.max(-100, Math.min(100, (int) (percentKValue + percentDValue) / 2)) - 100;
+		signalMetric.strength = 100;
 	}
 }

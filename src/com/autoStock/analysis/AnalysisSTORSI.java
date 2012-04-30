@@ -40,7 +40,7 @@ public class AnalysisSTORSI extends Analysis {
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().stochRsi(0, endIndex, arrayOfPriceClose, periodLength-12, 10, 3, MAType.Ema, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
+		RetCode returnCode = getTaLibCore().stochRsi(0, endIndex, arrayOfPriceClose, periodLength-16, 10, 5, MAType.Dema, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
 		handleAnalysisResult(returnCode);
 		
 		return results;

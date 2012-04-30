@@ -12,12 +12,14 @@ import com.autoStock.analysis.AnalysisCCI;
 import com.autoStock.analysis.AnalysisMACD;
 import com.autoStock.analysis.AnalysisRSI;
 import com.autoStock.analysis.AnalysisSTORSI;
+import com.autoStock.analysis.AnalysisTRIX;
 import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsSTORSI;
+import com.autoStock.analysis.results.ResultsTRIX;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionGovener;
@@ -30,7 +32,9 @@ import com.autoStock.signal.SignalOfADX;
 import com.autoStock.signal.SignalOfCCI;
 import com.autoStock.signal.SignalOfMACD;
 import com.autoStock.signal.SignalOfPPC;
+import com.autoStock.signal.SignalOfRSI;
 import com.autoStock.signal.SignalOfSTORSI;
+import com.autoStock.signal.SignalOfTRIX;
 import com.autoStock.taLib.MAType;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -51,8 +55,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		super(canTrade);
 	}
 
-	private int periodLength = 15;
-	private int periodWindow = 15;
+	private int periodLength = 60;
+	private int periodWindow = 30;
 	public Benchmark bench = new Benchmark();
 	
 	private AnalysisCCI analysisOfCCI = new AnalysisCCI(periodLength, false);
@@ -61,6 +65,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisBB analysisOfBB = new AnalysisBB(periodLength, false);
 	private AnalysisSTORSI analysisOfSTORSI = new AnalysisSTORSI(periodLength, false);
 	private AnalysisRSI analysisOfRSI = new AnalysisRSI(periodLength, false);
+	private AnalysisTRIX analysisOfTRIX = new AnalysisTRIX(periodLength, false);
 	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
@@ -87,6 +92,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			analysisOfMACD.setDataSet(listOfQuoteSlice);
 			analysisOfSTORSI.setDataSet(listOfQuoteSlice);
 			analysisOfRSI.setDataSet(listOfQuoteSlice);
+			analysisOfTRIX.setDataSet(listOfQuoteSlice);
 			
 			ResultsCCI resultsCCI = analysisOfCCI.analyize();
 			ResultsADX resultsADX = analysisOfADX.analize();
@@ -94,6 +100,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
 			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analyize();
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
+			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
 			
 			double[] arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)listOfQuoteSlice), "priceClose").toArray(new Double[0]));
 			double analysisOfCCIResult = resultsCCI.arrayOfCCI[periodWindow-1];
@@ -104,12 +111,15 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			double analysisOfSTORSIResultK = resultsSTORSI.arrayOfPercentK[periodWindow-1];
 			double analysisOfSTORSIResultD = resultsSTORSI.arrayOfPercentD[periodWindow-1];
 			double analysisOfRSIResult = resultsRSI.arrayOfRSI[periodWindow-1];
+			double analysisOfTrixResult = resultsTRIX.arrayOfTRIX[periodWindow-1];
 			
 			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(arrayOfPriceClose, periodLength, periodLength + periodWindow), SignalControl.periodAverageForPPC);
 			SignalOfADX signalOfADX = new SignalOfADX(ArrayTools.subArray(resultsADX.arrayOfADX, 0, periodWindow), SignalControl.periodAverageForADX);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
-			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACD, 0, periodWindow), SignalControl.periodAverageForMACD);
+			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, periodWindow), SignalControl.periodAverageForMACD);
 			SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(ArrayTools.subArray(resultsSTORSI.arrayOfPercentK, 0, periodWindow), ArrayTools.subArray(resultsSTORSI.arrayOfPercentD, 0, periodWindow), SignalControl.periodAverageForSTORSI);
+			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, periodWindow), SignalControl.periodAverageForRSI);
+			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, periodWindow), SignalControl.periodAverageForTRIX);
 			
 			signal.reset();
 			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
@@ -121,6 +131,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
 			chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
 			chart.listOfSignalSTORSI.add(signalOfSTORSI.getSignal().strength);
+			chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
+			chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
 			
 			chart.listOfADX.add(analysisOfADXResult);
 			chart.listOfCCI.add(analysisOfCCIResult);
@@ -155,6 +167,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfSTORSI.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
 			columnValues.add(String.valueOf(signal.getCombinedSignal()));
 		
 			boolean changedPosition = false;
