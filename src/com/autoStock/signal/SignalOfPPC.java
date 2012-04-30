@@ -36,13 +36,10 @@ public class SignalOfPPC{
 		}
 		
 		percentChange = secondValue / firstValue;
-		//Co.println("First average, second: " +arrayOfPrice.length + "," + MathTools.roundToTwoDecimalPlaces(firstValue) + "," + MathTools.roundToTwoDecimalPlaces(secondValue) + "," + getSignal().strength);
-		//Co.println("PPC: " + arrayOfPriceClose.length + ","+ percentChange);
 	}
 	
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_ppc);
-	
 		SignalControl.setSignalStrengthForPPC(signalMetric, percentChange);
 		
 		return signalMetric;

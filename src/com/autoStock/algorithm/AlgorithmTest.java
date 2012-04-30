@@ -20,6 +20,7 @@ import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsSTORSI;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
+import com.autoStock.position.PositionGovener;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
@@ -50,8 +51,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		super(canTrade);
 	}
 
-	private int periodLength = 30;
-	private int periodWindow = 10;
+	private int periodLength = 15;
+	private int periodWindow = 15;
 	public Benchmark bench = new Benchmark();
 	
 	private AnalysisCCI analysisOfCCI = new AnalysisCCI(periodLength, false);
@@ -59,13 +60,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisMACD analysisOfMACD = new AnalysisMACD(periodLength, false);
 	private AnalysisBB analysisOfBB = new AnalysisBB(periodLength, false);
 	private AnalysisSTORSI analysisOfSTORSI = new AnalysisSTORSI(periodLength, false);
-	private AnalysisRSI analysisOfRSI = new AnalysisRSI(periodLength, false); 
+	private AnalysisRSI analysisOfRSI = new AnalysisRSI(periodLength, false);
 	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
 	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
-	private PositionManager positionManager = PositionManager.instance;
+	private PositionGovener positionGovener = new PositionGovener();
 
 	@Override
 	public void receiveQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
@@ -94,16 +95,15 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analyize();
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			
-			double analysisOfCCIResult = resultsCCI.arrayOfCCI[periodWindow-1];
-			double analysisOfADXResult =  resultsADX.arrayOfADX[periodWindow-1];
-			double analysisOfBBResultUpper =  resultsBB.arrayOfUpperBand[periodWindow-1];
-			double analysisOfBBResultLower =  resultsBB.arrayOfLowerBand[periodWindow-1];
-			double analysisOfMACDResult =  resultsMACD.arrayOfMACD[periodWindow-1]*1000;
-			double analysisOfSTORSIResultK =  resultsSTORSI.arrayOfPercentK[periodWindow-1];
-			double analysisOfSTORSIResultD =  resultsSTORSI.arrayOfPercentD[periodWindow-1];
-			double analysisOfRSIResult = resultsRSI.arrayOfRSI[periodWindow-1];
-			
 			double[] arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)listOfQuoteSlice), "priceClose").toArray(new Double[0]));
+			double analysisOfCCIResult = resultsCCI.arrayOfCCI[periodWindow-1];
+			double analysisOfADXResult = resultsADX.arrayOfADX[periodWindow-1];
+			double analysisOfBBResultUpper = resultsBB.arrayOfUpperBand[periodWindow-1];
+			double analysisOfBBResultLower = resultsBB.arrayOfLowerBand[periodWindow-1];
+			double analysisOfMACDResult = resultsMACD.arrayOfMACDHistogram[periodWindow-1]*1000;
+			double analysisOfSTORSIResultK = resultsSTORSI.arrayOfPercentK[periodWindow-1];
+			double analysisOfSTORSIResultD = resultsSTORSI.arrayOfPercentD[periodWindow-1];
+			double analysisOfRSIResult = resultsRSI.arrayOfRSI[periodWindow-1];
 			
 			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(arrayOfPriceClose, periodLength, periodLength + periodWindow), SignalControl.periodAverageForPPC);
 			SignalOfADX signalOfADX = new SignalOfADX(ArrayTools.subArray(resultsADX.arrayOfADX, 0, periodWindow), SignalControl.periodAverageForADX);
@@ -159,15 +159,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 			boolean changedPosition = false;
 			
-			if (signal.getCombinedSignal() > 25){
-				signal.currentSignalType = SignalType.type_buy;
-				changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
-			}else if (signal.getCombinedSignal() < -10){
-				signal.currentSignalType = SignalType.type_sell;
-				changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
-			}else {
-				signal.currentSignalType = SignalType.type_none;
-			}
+			positionGovener.informGovener(typeQuoteSlice, signal);
 			
 			if (changedPosition){
 				columnValues.add(String.valueOf(signal.currentSignalType.name()));
@@ -175,10 +167,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				columnValues.add("");
 			}
 			
-			listOfDisplayRows.add(columnValues);
-			
-		}else{
-			//Co.println("Waiting for more data (period condition)... ");
+			listOfDisplayRows.add(columnValues);	
 		}
 	}
 
@@ -191,8 +180,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		}
 		PositionManager.instance.induceSellAll();
 		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		//chart.display();
+		chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

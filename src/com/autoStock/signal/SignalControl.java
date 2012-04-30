@@ -12,7 +12,7 @@ import com.autoStock.Co;
  */
 public class SignalControl {
 	
-	public static final int periodAverageForPPC = 0;
+	public static final int periodAverageForPPC = 5;
 	public static final int periodAverageForADX = 0;
 	public static final int periodAverageForCCI = 10;
 	public static final int periodAverageForMACD = 0;

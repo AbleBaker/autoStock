@@ -64,7 +64,7 @@ public class PositionManager {
 	private void induceShort(TypeQuoteSlice typeQuoteSlice, Signal signal){
 		Co.println("Induced short @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 		TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal);
-		buyPosition(typePosition);
+		shortPosition(typePosition);
 	}
 	
 	public void induceSellAll(){
@@ -93,7 +93,7 @@ public class PositionManager {
 		synchronized(listOfPosition){
 			account.changeBankBalance(typePosition.units * price, account.getTransactionCost(typePosition.units, typePosition.price));
 			if (removeFromList){listOfPosition.remove(typePosition);}
-			Co.println("Removed position: " + typePosition.symbol + "," + typePosition.units + "," + price + " = " + account.getBankBalance());
+			Co.println("Sold position: " + typePosition.symbol + "," + typePosition.units + "," + price + " = " + account.getBankBalance());
 		}
 	}
 	
@@ -101,6 +101,7 @@ public class PositionManager {
 		synchronized (listOfPosition){
 			listOfPosition.add(typePosition);
 			account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
+			Co.println("Short position: " + typePosition.symbol + "," + typePosition.units + "," + typePosition.price + " = " + account.getBankBalance());
 		}
 	}
 	

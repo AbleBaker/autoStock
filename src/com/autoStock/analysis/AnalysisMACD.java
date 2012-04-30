@@ -26,7 +26,7 @@ public class AnalysisMACD extends Analysis {
 	}
 	
 	public ResultsMACD analize(){
-		if (periodLength < 30){throw new UnsupportedOperationException();}
+		if (periodLength < 8){throw new UnsupportedOperationException();}
 		results = new ResultsMACD(endIndex+1);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<TypeQuoteSlice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceClose").toArray(new Double[0]));

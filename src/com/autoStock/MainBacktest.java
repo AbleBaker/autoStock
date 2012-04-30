@@ -37,28 +37,6 @@ public class MainBacktest {
 		
 		int days = typeHistoricalData.endDate.getDay() - typeHistoricalData.startDate.getDay();
 
-		typeHistoricalData.startDate.setDate(3);
-		typeHistoricalData.endDate.setDate(3);
-		runBacktest(typeHistoricalData);
-		
-		typeHistoricalData.startDate.setDate(4);
-		typeHistoricalData.endDate.setDate(4);
-		runBacktest(typeHistoricalData);
-		
-		typeHistoricalData.startDate.setDate(5);
-		typeHistoricalData.endDate.setDate(5);
-		runBacktest(typeHistoricalData);
-		
-		typeHistoricalData.startDate.setDate(6);
-		typeHistoricalData.endDate.setDate(6);
-		runBacktest(typeHistoricalData);
-		
-		typeHistoricalData.startDate.setDate(7);
-		typeHistoricalData.endDate.setDate(7);
-		runBacktest(typeHistoricalData);
-	
-		typeHistoricalData.startDate.setDate(8);
-		typeHistoricalData.endDate.setDate(8);
 		runBacktest(typeHistoricalData);
 	}
 	
