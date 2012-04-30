@@ -41,7 +41,7 @@ public class AnalysisOfTRIX extends AnalysisBase {
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().trix(0, endIndex, arrayOfPriceClose, 16, new MInteger(), new MInteger(), results.arrayOfTRIX);
+		RetCode returnCode = getTaLibCore().trix(0, endIndex, arrayOfPriceClose, periodLength/3, new MInteger(), new MInteger(), results.arrayOfTRIX);
 		handleAnalysisResult(returnCode);
 		
 		return results;
