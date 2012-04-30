@@ -30,7 +30,7 @@ public class MainBacktest {
 		typeHistoricalData.startDate.setMinutes(exchange.timeOpen.minute);
 		typeHistoricalData.endDate.setHours(exchange.timeClose.hour);
 		typeHistoricalData.endDate.setMinutes(exchange.timeClose.minute);
-		typeHistoricalData.symbol = "BTU";
+		typeHistoricalData.symbol = "RAS";
 		
 		Co.println("Running backtest on Exchange: " + exchange.exchange);
 		Co.println("Running backtest for dates between " + DateTools.getPrettyDate(typeHistoricalData.startDate) + " - " + DateTools.getPrettyDate(typeHistoricalData.endDate));

@@ -14,11 +14,11 @@ public class SignalControl {
 	
 	public static final int periodAverageForPPC = 5;
 	public static final int periodAverageForADX = 0;
-	public static final int periodAverageForCCI = 10;
+	public static final int periodAverageForCCI = 25;
 	public static final int periodAverageForMACD = 0;
-	public static final int  periodAverageForRSI = 0;
+	public static final int periodAverageForRSI = 0;
 	public static final int periodAverageForSTORSI = 5;
-	public static final int periodAverageForTRIX = 5;
+	public static final int periodAverageForTRIX = 0;
 	
 	public static final double weightForPPC = 1.0;
 	public static final double weightForADX = 1.0;
@@ -48,8 +48,7 @@ public class SignalControl {
 	}
 	
 	public static void setSignalStrengthForTRIX(SignalMetric signalMetric, double trixValue){
-		Co.println("Have trix value: " + trixValue);
-		signalMetric.strength = (int) (trixValue * 10000);
+		signalMetric.strength = (int) (trixValue * 1000);
 	}
 	
 	public static void setSignalStrengthForSTORSI(SignalMetric signalMetric, double percentKValue, double percentDValue){
