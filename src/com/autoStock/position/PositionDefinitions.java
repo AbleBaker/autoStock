@@ -4,7 +4,7 @@
 package com.autoStock.position;
 
 /**
- * @author kevink
+ * @author Kevin Kowalewski
  *
  */
 public class PositionDefinitions {

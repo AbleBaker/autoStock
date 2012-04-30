@@ -9,6 +9,7 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.results.ExResultMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.trading.types.TypePosition;
@@ -22,17 +23,17 @@ public class RequestMarketOrder {
 	private RequestHolder requestHolder;
 	private TypePosition typePosition;
 	
-	public RequestMarketOrder(RequestHolder requestHolder, TypePosition typePosition, Signal signal){
+	public RequestMarketOrder(RequestHolder requestHolder, TypePosition typePosition, PositionType positionType){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.typePosition = typePosition;
 		this.exResultSetMarketOrder = new ExResultMarketOrder(). new ExResultSetMarketOrder(typePosition);
 		
-		if (signal.currentSignalType == SignalType.type_buy){
+		if (positionType == PositionType.position_buy){
 			ExchangeController.getIbExchangeInstance().placeBuyOrder(typePosition, requestHolder);
-		}else if (signal.currentSignalType == SignalType.type_sell){
+		}else if (positionType == PositionType.position_sell){
 			ExchangeController.getIbExchangeInstance().placeSellOrder(typePosition, requestHolder);
-		}else if (signal.currentSignalType == SignalType.type_short){
+		}else if (positionType == PositionType.position_short){
 			 ExchangeController.getIbExchangeInstance().placeShortOrder(typePosition, requestHolder);
 		}else{
 			throw new UnsupportedOperationException();

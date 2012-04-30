@@ -27,14 +27,11 @@ public class PositionManager {
 	public boolean suggestPosition(TypeQuoteSlice typeQuoteSlice, Signal signal){
 		//Co.println("Suggested position: " + signal.currentSignalType.name() + " " + typeQuoteSlice.symbol + " @ " + typeQuoteSlice.priceClose + " signal " + signal.getCombinedSignal());
 		
-		if (getPosition(typeQuoteSlice.symbol) == null && signal.currentSignalType == SignalType.type_buy){
+		if (getPosition(typeQuoteSlice.symbol) == null && signal.currentSignalType == SignalType.type_trend_up){
 			induceBuy(typeQuoteSlice, signal);
 			return true;
-		}else if (getPosition(typeQuoteSlice.symbol) != null && signal.currentSignalType == SignalType.type_sell){
+		}else if (getPosition(typeQuoteSlice.symbol) != null && signal.currentSignalType == SignalType.type_trend_down){
 			induceSell(typeQuoteSlice, signal);
-			return true;
-		}else if (getPosition(typeQuoteSlice.symbol) == null && signal.currentSignalType == SignalType.type_short){
-			induceShort(typeQuoteSlice, signal);
 			return true;
 		}else if (signal.currentSignalType == SignalType.type_none){
 			if (getPosition(typeQuoteSlice.symbol) != null){

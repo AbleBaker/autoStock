@@ -42,9 +42,6 @@ public class AnalysisOfMACD extends AnalysisBase {
 		//int macdFastPeriod = AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_fast);
 		//int macdSlowPeriod = periodLength / 2; //AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_slow);
 		//int macdSignalPeriod = periodLength / 2; //AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_signal);
-//		int macdFastPeriod = periodLength / 4;
-//		int macdSlowPeriod = periodLength / 2;
-//		int macdSignalPeriod = periodLength / periodLength / 2;
 		
 		//Co.println("macdFastPeirod: " + macdFastPeriod);
 		

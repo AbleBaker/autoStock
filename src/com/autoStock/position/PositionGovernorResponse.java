@@ -6,7 +6,7 @@ package com.autoStock.position;
 import com.autoStock.position.PositionDefinitions.PositionType;
 
 /**
- * @author kevink
+ * @author Kevin Kowalewski
  *
  */
 public class PositionGovernorResponse {

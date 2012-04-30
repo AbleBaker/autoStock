@@ -13,23 +13,20 @@ public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.instance;
 	
 	public PositionGovernorResponse informGovener(TypeQuoteSlice typeQuoteSlice, Signal signal){
+		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
+		
 		//Co.println("PositionGovener received new signal: " + signal.getCombinedSignal());
 		
-		boolean changedPosition;
-		
 		if (signal.getCombinedSignal() > 25){
-			signal.currentSignalType = SignalType.type_buy;
-			changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
-//		} else if (signal.getCombinedSignal() < -20){
-//			signal.currentSignalType = SignalType.type_short;
-//			changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);	
+			signal.currentSignalType = SignalType.type_trend_up;
+			positionManager.suggestPosition(typeQuoteSlice, signal);
 		} else if (signal.getCombinedSignal() < -10){
-			signal.currentSignalType = SignalType.type_sell;
-			changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
+			signal.currentSignalType = SignalType.type_trend_down;
+			positionManager.suggestPosition(typeQuoteSlice, signal);
 		} else {
 			signal.currentSignalType = SignalType.type_none;
 		}
 		
-		return null;
+		return positionGovernorResponse;
 	}
 }

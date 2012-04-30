@@ -2,6 +2,8 @@ package com.autoStock.algorithm;
 
 import java.util.ArrayList;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.autoStock.Co;
@@ -23,6 +25,7 @@ import com.autoStock.analysis.results.ResultsTRIX;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionGovernor;
+import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
@@ -170,12 +173,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			columnValues.add(String.valueOf(signalOfSTORSI.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
 			columnValues.add(String.valueOf(signal.getCombinedSignal()));
-		
-			boolean changedPosition = false;
 			
-			positionGovener.informGovener(typeQuoteSlice, signal);
+			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(typeQuoteSlice, signal);
 			
-			if (changedPosition){
+			if (positionGovenorResponse.changedPosition){
 				columnValues.add(String.valueOf(signal.currentSignalType.name()));
 			}else{
 				columnValues.add("");

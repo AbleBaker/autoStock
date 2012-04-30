@@ -16,10 +16,9 @@ public class SignalDefinitions {
 	}
 	
 	public static enum SignalType {
-		type_buy,
-		type_sell,
-		type_hold,
-		type_short,
+		type_trend_up,
+		type_trend_down,
+		type_trend_flat,
 		type_none,
 	}
 	
