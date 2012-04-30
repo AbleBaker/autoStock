@@ -8,15 +8,13 @@ import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.autoStock.Co;
 import com.autoStock.analysis.results.ResultsBB;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.taLib.MAType;
+import com.autoStock.taLib.MInteger;
+import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataExtractor;
 import com.autoStock.types.TypeQuoteSlice;
-import com.tictactec.ta.lib.MAType;
-import com.tictactec.ta.lib.MInteger;
-import com.tictactec.ta.lib.RetCode;
 
 /**
  * @author Kevin Kowalewski

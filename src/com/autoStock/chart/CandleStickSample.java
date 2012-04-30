@@ -4,10 +4,16 @@
 package com.autoStock.chart;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import javax.swing.JPanel;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -17,16 +23,11 @@ import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.data.xy.*;
-
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.List;
+import org.jfree.data.xy.AbstractIntervalXYDataset;
+import org.jfree.data.xy.DefaultOHLCDataset;
+import org.jfree.data.xy.IntervalXYDataset;
+import org.jfree.data.xy.OHLCDataItem;
+import org.jfree.data.xy.OHLCDataset;
 
 /**
  * @author Kevin Kowalewski

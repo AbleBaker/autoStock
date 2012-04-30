@@ -3,7 +3,6 @@
  */
 package com.autoStock.database;
 
-import com.autoStock.Co;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 

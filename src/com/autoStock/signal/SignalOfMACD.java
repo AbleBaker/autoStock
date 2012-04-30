@@ -3,10 +3,7 @@
  */
 package com.autoStock.signal;
 
-import com.autoStock.Co;
-import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
-import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski
@@ -33,7 +30,6 @@ public class SignalOfMACD{
 	
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_macd);
-	
 		SignalControl.setSignalStrengthForMACD(signalMetric, macdValue);
 		
 		return signalMetric;

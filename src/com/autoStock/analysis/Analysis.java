@@ -5,18 +5,15 @@ package com.autoStock.analysis;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Random;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import com.autoStock.Co;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.taLib.Core;
+import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataConditioner;
-import com.autoStock.tools.DataExtractor;
 import com.autoStock.tools.DataConditioner.PrecededDataset;
+import com.autoStock.tools.DataExtractor;
 import com.autoStock.types.TypeQuoteSlice;
-import com.tictactec.ta.lib.Core;
-import com.tictactec.ta.lib.RetCode;
 
 /**
  * @author Kevin Kowalewski

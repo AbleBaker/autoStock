@@ -3,7 +3,6 @@
  */
 package com.autoStock.tools;
 
-import com.autoStock.Co;
 
 /**
  * @author Kevin Kowalewski
@@ -32,5 +31,27 @@ public class MathTools {
 		}
 		
 		return average /= arrayOfFloat.length;
+	}
+	
+	public static double max(double... numbers){
+		double returnValue = Double.MIN_VALUE;
+		for (double number : numbers){
+			if (number > returnValue){
+				returnValue = number;
+			}
+		}
+		
+		return returnValue;
+	}
+	
+	public static double min(double... numbers){
+		double returnValue = Double.MAX_VALUE;
+		for (double number : numbers){
+			if (number < returnValue){
+				returnValue = number;
+			}
+		}
+		
+		return returnValue;
 	}
 }

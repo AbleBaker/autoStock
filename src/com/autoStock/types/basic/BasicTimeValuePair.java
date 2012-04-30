@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.autoStock.tools;
+package com.autoStock.types.basic;
 
 import java.util.Date;
 

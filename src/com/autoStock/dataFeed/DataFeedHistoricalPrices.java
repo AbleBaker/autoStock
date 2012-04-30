@@ -6,7 +6,7 @@ package com.autoStock.dataFeed;
 import java.util.ArrayList;
 
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.types.TypeQuoteSlice;

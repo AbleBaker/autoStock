@@ -9,16 +9,12 @@ import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
 import com.autoStock.exchange.request.RequestMarketData;
-import com.autoStock.exchange.request.RequestMarketScanner;
-import com.autoStock.exchange.request.RequestRealtimeData;
 import com.autoStock.exchange.request.RequestMarketOrder;
+import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.results.ExResultHistoricalData;
-import com.autoStock.exchange.results.ExResultMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
-import com.autoStock.exchange.results.ExResultMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
-import com.autoStock.exchange.results.ExResultRealtimeData.ExResultRowRealtimeData;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
 import com.autoStock.trading.platform.ib.core.EWrapper;
@@ -27,7 +23,6 @@ import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.OrderState;
 import com.autoStock.trading.platform.ib.core.UnderComp;
 import com.autoStock.trading.platform.ib.definitions.MarketData;
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickPriceFields;
 
 /**
  * @author Kevin Kowalewski

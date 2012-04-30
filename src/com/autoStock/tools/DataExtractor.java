@@ -7,10 +7,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.xml.crypto.Data;
-
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-
 /**
  * @author Kevin Kowalewski
  *

@@ -1,6 +1,5 @@
 package com.autoStock.tables;
 
-import com.google.common.base.Ascii;
 
 /**
  * @author Kevin Kowalewski
@@ -11,7 +10,7 @@ public class TableDefinitions {
 		stock_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.sizeVolume, AsciiColumns.sizeCount, AsciiColumns.derivedChange}), //, Columns.sizeVolume
 		stock_historical_price_db(new AsciiColumns[]{AsciiColumns.id, AsciiColumns.symbol, AsciiColumns.priceOpen, AsciiColumns.priceHigh, AsciiColumns.priceLow, AsciiColumns.priceClose, AsciiColumns.sizeVolume, AsciiColumns.dateTime}),
 		analysis_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.priceClose, AsciiColumns.derivedChange, AsciiColumns.derivedChange, AsciiColumns.signal , AsciiColumns.PPC, AsciiColumns.ADX, AsciiColumns.CCI, AsciiColumns.BBUpper, AsciiColumns.BBLower, AsciiColumns.MACDHistogram, AsciiColumns.STORSIK, AsciiColumns.STORISD}),
-		algorithm_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.derivedChange, AsciiColumns.signalPPC, AsciiColumns.signalADX, AsciiColumns.signalCCI, AsciiColumns.signalMACD, AsciiColumns.signalTotal})
+		algorithm_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.derivedChange, AsciiColumns.signalPPC, AsciiColumns.signalADX, AsciiColumns.signalCCI, AsciiColumns.signalMACD, AsciiColumns.signalSTORSI, AsciiColumns.signalTotal, AsciiColumns.inducedAction})
 		;
 		
 		AsciiColumns[] arrayOfColumns;
@@ -78,6 +77,8 @@ public class TableDefinitions {
 		signalADX,
 		signalCCI,
 		signalMACD,
-		signalTotal
+		signalSTORSI,
+		signalTotal,
+		inducedAction,
 	}
 }

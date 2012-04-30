@@ -3,13 +3,9 @@
  */
 package com.autoStock.types;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.exchange.results.ExResultRealtimeData.ExResultRowRealtimeData;
-import com.autoStock.trading.platform.ib.definitions.HistoricalData.Period;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
-import com.autoStock.trading.types.TypeRealtimeData;
 
 /**
  * @author Kevin Kowalewski

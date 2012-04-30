@@ -3,6 +3,8 @@
  */
 package com.autoStock.database.queryResults;
 
+import com.autoStock.types.basic.Time;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -18,5 +20,13 @@ public class QueryResult {
 			 this.symbol = symbol;
 			 this.sizeVolume = sizeVolume;
 		 }
+	 }
+	 
+	 public static class QrExchange{
+		 public String exchange;
+		 public Time timeOpen;
+		 public Time timeClose;
+		 public Time timeOffset;
+		 public String currency;
 	 }
 }

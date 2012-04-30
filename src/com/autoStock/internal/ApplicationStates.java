@@ -17,30 +17,29 @@ public class ApplicationStates {
 	private static DatabaseCore databaseCore;
 	private static ExchangeController exchangeController;
 	
-	public static void startup(){
-		//new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
+	public static void startup(Mode mode){
+		Global.setMode(mode);
 		databaseCore = new DatabaseCore();
 		databaseCore.init();
 		
 		exchangeController = new ExchangeController();
 		exchangeController.init();
 		
-		if (Global.mode == Mode.client){
+		if (mode == Mode.client){
 			
 		}
 		
-		if (Global.mode == Mode.server){
+		if (mode == Mode.server){
 			
 		}
 	}
 	
-	
 	public static void shutdown(){
-		if (Global.mode == Mode.client){
+		if (Global.getMode() == Mode.client){
 			System.exit(0);
 		}
 		
-		if (Global.mode == Mode.server){
+		if (Global.getMode() == Mode.server){
 			try {MainServer.runningThread.interrupt();}catch(Exception e){}
 			Co.println("Good bye!");
 			System.exit(0);

@@ -17,7 +17,7 @@ public class TypeHistoricalData implements Cloneable {
 	public long duration;
 	
 	public TypeHistoricalData(String symbol, String securityType, Date startDate, Date endDate, Resolution resolution){
-		this.symbol = symbol.toUpperCase();
+		if (symbol != null){this.symbol = symbol.toUpperCase();}
 		this.securityType = securityType.toUpperCase();
 		this.startDate = startDate;
 		this.endDate = endDate;

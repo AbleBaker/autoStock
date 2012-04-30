@@ -11,10 +11,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.Date;
 
-import com.autoStock.Co;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbExchange;
-
 /**
  * @author Kevin Kowalewski
  *
@@ -26,22 +22,23 @@ public class BuildDatabaseDefinitions {
 			DatabaseMetaData metaData = connection.getMetaData();
 			ResultSet resultSetForTables = metaData.getTables(null, null, "%", null);
 			
-			FileWriter writer = new FileWriter(new File("gen/com/autoStock/generated/basicDefinitions/BasicTableDefinitions.java"));
+			FileWriter writer = new FileWriter(new File("gen/com/autoStock/generated/basicDefinitions/TableDefinitions.java"));
 			PrintWriter printWriter  = new PrintWriter(writer);
 			
 			printWriter.println("package com.autoStock.generated.basicDefinitions;\n");
 			printWriter.println("import java.util.Date;");
-			printWriter.println("public class BasicTableDefinitions {\n");
+			printWriter.println("import com.autoStock.types.basic.Time;");
+			printWriter.println("public class TableDefinitions {\n");
 			
 			while (resultSetForTables.next()){
 				String classString = resultSetForTables.getString(3).substring(0,1).toUpperCase() + resultSetForTables.getString(3).substring(1,resultSetForTables.getString(3).length()-1);
-				printWriter.println("\tpublic class Db" + classString + " {");
+				printWriter.println("\tpublic static class Db" + classString + " {");
 				ResultSet resultSetForColumns = metaData.getColumns(null, null, resultSetForTables.getString(3), null);
 				while (resultSetForColumns.next()){
 					printWriter.println("\t\tpublic " + getStringType(resultSetForColumns.getString(6)) + " " + resultSetForColumns.getString(4) + ";");
 				}
 				printWriter.println("\t}\n");
-				printWriter.println("\tpublic static Db"+ classString +" db"+ classString +" = new BasicTableDefinitions(). new Db"+ classString +"();\n");
+				printWriter.println("\tpublic static Db"+ classString +" db"+ classString +" = new TableDefinitions.Db"+ classString +"();\n");
 			}
 			
 			printWriter.println("}");
@@ -62,6 +59,7 @@ public class BuildDatabaseDefinitions {
 		if (sqlType.equals("BIGINT")){return "long";}
 		if (sqlType.equals("DATETIME")){return "Date";}
 		if (sqlType.equals("VARCHAR")){return "String";}
+		if (sqlType.equals("TIME")){return "Time";}
 		else {throw new UnsatisfiedLinkError();}
 	}
 	

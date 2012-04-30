@@ -3,12 +3,11 @@
  */
 package com.autoStock.menu;
 
-import java.util.ArrayList;
-
+import com.autoStock.MainBacktest;
+import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
 import com.autoStock.display.DisplayMarketData;
 import com.autoStock.display.DisplayRealtimeData;
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.tools.DateTools;
@@ -16,6 +15,7 @@ import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.trading.types.TypeMarketData;
 import com.autoStock.trading.types.TypeRealtimeData;
+import com.autoStock.types.TypeExchange;
 
 /**
  * @author Kevin Kowalewski
@@ -77,8 +77,24 @@ public class MenuDisplayLauncher {
 			}
 		}
 		
+		else if (menuStructure == MenuStructures.menu_main_backtest){
+			new MainBacktest(
+					new TypeExchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
+					new TypeHistoricalData(
+							null, 
+							"STK", 
+							new DateTools().getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
+							new DateTools().getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value), 
+							Resolution.valueOf(menuStructure.getArgument(MenuArguments.arg_resolution).value)
+						)
+					);
+		}
+		
+		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){
+			new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
+		}
+		
 		else {
-			ApplicationStates.shutdown();
 			throw new UnsatisfiedLinkError();
 		}
 	}

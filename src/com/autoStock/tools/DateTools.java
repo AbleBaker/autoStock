@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.autoStock.Co;
-import com.autoStock.internal.ApplicationStates;
+import com.autoStock.types.basic.Time;
 
 /**
  * @author Kevin Kowalewski
@@ -47,12 +47,23 @@ public class DateTools {
 					try {
 						return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);	
 					}catch (ParseException e4){
-						Co.println("Could not parse: " + date);
-						ApplicationStates.shutdown();
-						return null;
+						try {
+							return new SimpleDateFormat("yyyy/MM/dd").parse(date);
+						}catch (ParseException e5){
+							Co.println("Could not parse: " + date);
+							return null;	
+						}
 					}
 				}
 			}
 		}
+	}
+	
+	public static Time getTimeFromString(String timeString){
+		Time time = new Time();
+		time.hour = Integer.valueOf(timeString.substring(0,2));
+		time.minute = Integer.valueOf(timeString.substring(4,5));
+		time.second = Integer.valueOf(timeString.substring(7,8));
+		return time;
 	}
 }

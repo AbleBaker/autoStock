@@ -3,12 +3,11 @@
  */
 package com.autoStock.database;
 
-import java.util.Date;
-
 import com.autoStock.database.queryResults.QueryResult;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbSymbol;
+import com.autoStock.generated.basicDefinitions.TableDefinitions;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbSymbol;
 import com.autoStock.tools.DateTools;
 
 /**
@@ -17,7 +16,7 @@ import com.autoStock.tools.DateTools;
  */
 public class DatabaseBinder {
 	public DbStockHistoricalPrice getDbStockHistoricalPrice(long id, String symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, int sizeVolume, String date){
-		DbStockHistoricalPrice dbStockHistoricalPrice = new BasicTableDefinitions(). new DbStockHistoricalPrice();
+		DbStockHistoricalPrice dbStockHistoricalPrice = new TableDefinitions.DbStockHistoricalPrice();
 		dbStockHistoricalPrice.id = id;
 		dbStockHistoricalPrice.symbol = symbol;
 		dbStockHistoricalPrice.priceOpen = priceOpen;
@@ -30,12 +29,23 @@ public class DatabaseBinder {
 	}
 	
 	public DbSymbol getDbSymbol(long id, String symbol, String exchange, String description){
-		DbSymbol dbSymbol = new BasicTableDefinitions(). new DbSymbol();
+		DbSymbol dbSymbol = new TableDefinitions.DbSymbol();
 		dbSymbol.id = id;
 		dbSymbol.symbol = symbol;
 		dbSymbol.exchange = exchange;
 		dbSymbol.description = description;
 		return dbSymbol;
+	}
+	
+	public DbExchange getDbExchange(long id, String exchange, String currency, String timeOpen, String timeClose, String timeOffset){
+		DbExchange dbExchange = new TableDefinitions.DbExchange();
+		dbExchange.id = id;
+		dbExchange.exchange = exchange;
+		dbExchange.currency = currency;
+		dbExchange.timeOpen = DateTools.getTimeFromString(timeOpen);
+		dbExchange.timeClose = DateTools.getTimeFromString(timeClose);
+		dbExchange.timeOffset = DateTools.getTimeFromString(timeOffset);
+		return dbExchange;
 	}
 
 	public Object getQrSymbolCountFromExchange(String symbol, int count, long sizeVolume) {

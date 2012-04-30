@@ -3,7 +3,6 @@
  */
 package com.autoStock.scanner;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
@@ -11,13 +10,11 @@ import com.autoStock.algorithm.AlgorithmListener;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.Backtest;
-import com.autoStock.balance.Account;
-import com.autoStock.database.DatabaseCore;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbSymbol;
+import com.autoStock.finance.Account;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.tools.DateTools;

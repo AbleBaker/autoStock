@@ -5,8 +5,7 @@ package com.autoStock.types;
 
 import java.util.ArrayList;
 
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.tools.QuoteSliceTools;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 
 /**
  * @author Kevin Kowalewski

@@ -6,6 +6,8 @@ package com.autoStock.tools;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.types.basic.BasicTimeValuePair;
+
 /**
  * @author Kevin Kowalewski
  *

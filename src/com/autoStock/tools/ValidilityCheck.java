@@ -1,8 +1,5 @@
 package com.autoStock.tools;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import com.autoStock.menu.MenuDefinitions.MenuArgumentTypes;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData;
@@ -80,16 +77,10 @@ public class ValidilityCheck {
 	}
 	
 	public boolean isValidDate(String value){
-		try {
-			new SimpleDateFormat("yyyy/MM/dd.HH:mm.a").parse(value);
+		if (new DateTools().getDateFromString(value) != null){
 			return true;
-		}catch (ParseException e){
-			try {
-				new SimpleDateFormat("yyyy/MM/dd.HH:mm:ss.a").parse(value);
-				return true;
-			}catch (ParseException ex){
-				return false;
-			}
+		}else{
+			return false;
 		}
 	}
 	

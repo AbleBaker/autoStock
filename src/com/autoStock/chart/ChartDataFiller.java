@@ -5,12 +5,11 @@ package com.autoStock.chart;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 
-import com.autoStock.tools.BasicTimeValuePair;
+import com.autoStock.types.basic.BasicTimeValuePair;
 
 /**
  * @author Kevin Kowalewski

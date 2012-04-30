@@ -3,7 +3,6 @@
  */
 package com.autoStock.trading.types;
 
-import com.lowagie.text.Section;
 
 /**
  * @author Kevin Kowalewski
@@ -13,7 +12,7 @@ public class TypePosition {
 	public int units;
 	public String symbol;
 	public String securityType;
-	public double pricePosition;
+	public double price;
 	public double lastKnownPrice;
 	
 	public TypePosition(){
@@ -24,6 +23,6 @@ public class TypePosition {
 		this.units = units;
 		this.symbol = symbol;
 		this.securityType = securityType;
-		this.pricePosition = averagePrice;
+		this.price = averagePrice;
 	}
 }

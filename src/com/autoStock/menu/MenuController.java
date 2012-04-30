@@ -20,9 +20,9 @@ public class MenuController {
 	public void displayMenu(MenuStructures menuStructure){
 		if (menuStructure == MenuStructures.menu_main){
 			for (MenuStructures menuStructureEntry : MenuStructures.values()){
-				Co.print(StringTools.removePrefix(menuStructureEntry.name(),"_") + " ");
+				Co.print(StringTools.removePrefix(menuStructureEntry.name(),"_") + " --> ");
 				for (MenuArguments menuArgumentsEntry : menuStructureEntry.arrayOfMenuArguments){
-					Co.print(StringTools.removePrefix(menuArgumentsEntry.name(), "_") + " [");
+					Co.print(StringTools.removePrefix(menuArgumentsEntry.name(), "_") + "[");
 					for (MenuArgumentTypes menuArgumentTypesEntry : menuArgumentsEntry.arrayOfArgumentTypes){
 						if (menuArgumentsEntry.arrayOfArgumentTypes.length-1 == MiscUtils.getArrayIndex(menuArgumentsEntry.arrayOfArgumentTypes, menuArgumentTypesEntry)){
 							Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + "");
@@ -79,7 +79,7 @@ public class MenuController {
 			}
 			
 			if (new ValidilityCheck().isValidMenuArgument(menuArgument) == false){
-				Co.println("\nInvalid menu argument type or value for: " + menuArgument.name());
+				Co.println("\nInvalid menu argument value for: " + menuArgument.name() + ", " + menuArgument.argumentDescription);
 				ApplicationStates.shutdown();
 				return;
 			}

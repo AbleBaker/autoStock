@@ -4,19 +4,15 @@
 package com.autoStock.analysis;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsSTORSI;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.tools.DataConditioner;
+import com.autoStock.taLib.MAType;
+import com.autoStock.taLib.MInteger;
+import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataExtractor;
 import com.autoStock.types.TypeQuoteSlice;
-import com.tictactec.ta.lib.MAType;
-import com.tictactec.ta.lib.MInteger;
-import com.tictactec.ta.lib.RetCode;
 
 /**
  * @author Kevin Kowalewski
@@ -29,7 +25,7 @@ public class AnalysisSTORSI extends Analysis {
 		super(periodLength, preceedDataset);
 	}
 	
-	public ResultsSTORSI analize(){
+	public ResultsSTORSI analyize(){
 		results = new ResultsSTORSI(endIndex+1);
 		
 //		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<TypeQuoteSlice>)super.dataSource), "dateTime").toArray(new Date[0]);
@@ -44,7 +40,7 @@ public class AnalysisSTORSI extends Analysis {
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().stochRsi(0, endIndex, arrayOfPriceClose, periodLength, 5, 3, MAType.Trima, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
+		RetCode returnCode = getTaLibCore().stochRsi(0, endIndex, arrayOfPriceClose, periodLength-12, 10, 3, MAType.Ema, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
 		handleAnalysisResult(returnCode);
 		
 		return results;

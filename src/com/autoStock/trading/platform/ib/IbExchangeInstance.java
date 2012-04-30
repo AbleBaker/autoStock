@@ -3,10 +3,8 @@
  */
 package com.autoStock.trading.platform.ib;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import com.autoStock.Co;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.internal.Config;
 import com.autoStock.trading.platform.ib.core.Contract;

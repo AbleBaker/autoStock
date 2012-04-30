@@ -9,12 +9,9 @@ import java.util.Date;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.autoStock.analysis.results.ResultsADX;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.tools.DataConditioner;
+import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataExtractor;
 import com.autoStock.types.TypeQuoteSlice;
-import com.tictactec.ta.lib.MInteger;
-import com.tictactec.ta.lib.RetCode;
 
 /**
  * @author Kevin Kowalewski

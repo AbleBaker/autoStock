@@ -3,24 +3,19 @@
  */
 package com.autoStock;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.RequestMarketScanner;
-import com.autoStock.exchange.request.RequestRealtimeData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
-import com.autoStock.exchange.request.listener.RequestRealtimeDataListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
-import com.autoStock.exchange.results.ExResultRealtimeData.ExResultSetRealtimeData;
 import com.autoStock.position.PositionManager;
 import com.autoStock.trading.types.TypeMarketData;
-import com.autoStock.trading.types.TypeRealtimeData;
 import com.autoStock.types.TypeQuoteSlice;
 
 /**

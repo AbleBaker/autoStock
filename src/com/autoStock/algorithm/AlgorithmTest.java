@@ -18,8 +18,8 @@ import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsSTORSI;
-import com.autoStock.balance.Account;
 import com.autoStock.chart.ChartForAlgorithmTest;
+import com.autoStock.finance.Account;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
@@ -29,6 +29,8 @@ import com.autoStock.signal.SignalOfADX;
 import com.autoStock.signal.SignalOfCCI;
 import com.autoStock.signal.SignalOfMACD;
 import com.autoStock.signal.SignalOfPPC;
+import com.autoStock.signal.SignalOfSTORSI;
+import com.autoStock.taLib.MAType;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.ArrayTools;
@@ -38,14 +40,12 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
 import com.autoStock.types.TypeQuoteSlice;
-import com.tictactec.ta.lib.MAType;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
-	
 	public AlgorithmTest(boolean canTrade) {
 		super(canTrade);
 	}
@@ -91,8 +91,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsADX resultsADX = analysisOfADX.analize();
 			ResultsBB resultsBB = analysisOfBB.analyize(MAType.Ema);
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
-			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analize();
-			ResultsRSI resultsRSI = analysisOfRSI.analize();
+			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analyize();
+			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			
 			double analysisOfCCIResult = resultsCCI.arrayOfCCI[periodWindow-1];
 			double analysisOfADXResult =  resultsADX.arrayOfADX[periodWindow-1];
@@ -109,9 +109,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfADX signalOfADX = new SignalOfADX(ArrayTools.subArray(resultsADX.arrayOfADX, 0, periodWindow), SignalControl.periodAverageForADX);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
 			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACD, 0, periodWindow), SignalControl.periodAverageForMACD);
+			SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(ArrayTools.subArray(resultsSTORSI.arrayOfPercentK, 0, periodWindow), ArrayTools.subArray(resultsSTORSI.arrayOfPercentD, 0, periodWindow), SignalControl.periodAverageForSTORSI);
 			
 			signal.reset();
-			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfADX.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
+			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
 			
 			chart.listOfDate.add(typeQuoteSlice.dateTime);
 			chart.listOfPrice.add(typeQuoteSlice.priceClose);
@@ -119,6 +120,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
 			chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
 			chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
+			chart.listOfSignalSTORSI.add(signalOfSTORSI.getSignal().strength);
 			
 			chart.listOfADX.add(analysisOfADXResult);
 			chart.listOfCCI.add(analysisOfCCIResult);
@@ -131,37 +133,46 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			
-			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
-			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-			columnValues.add(String.valueOf(signalOfMACD.getValue()));
-			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
-			columnValues.add(String.valueOf(signalOfPPC.getValue()));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
-			columnValues.add(String.valueOf(analysisOfMACDResult));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
-			
 //			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 //			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
 //			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-//			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfADX.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
-//			columnValues.add(String.valueOf(signal.getCombinedSignal()));
+//			columnValues.add(String.valueOf(signalOfMACD.getValue()));
+//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
+//			columnValues.add(String.valueOf(signalOfPPC.getValue()));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfADXResult)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
+//			columnValues.add(String.valueOf(analysisOfMACDResult));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
 			
-			if (signal.getCombinedSignal() > 50){
+			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
+			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfADX.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfSTORSI.getSignal().strength));
+			columnValues.add(String.valueOf(signal.getCombinedSignal()));
+		
+			boolean changedPosition = false;
+			
+			if (signal.getCombinedSignal() > 25){
 				signal.currentSignalType = SignalType.type_buy;
-				positionManager.suggestPosition(typeQuoteSlice, signal);
-			}else if (signal.getCombinedSignal() < -75){
+				changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
+			}else if (signal.getCombinedSignal() < -10){
 				signal.currentSignalType = SignalType.type_sell;
-				positionManager.suggestPosition(typeQuoteSlice, signal);
+				changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
 			}else {
 				signal.currentSignalType = SignalType.type_none;
+			}
+			
+			if (changedPosition){
+				columnValues.add(String.valueOf(signal.currentSignalType.name()));
+			}else{
+				columnValues.add("");
 			}
 			
 			listOfDisplayRows.add(columnValues);
@@ -173,14 +184,15 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 
 	@Override
 	public void endOfFeed() {
+		Co.println("Received end of feed...");
 		bench.total();
 		if (algorithmListener != null){
 			algorithmListener.endOfAlgorithm();
 		}
-		//PositionManager.instance.induceSellAll();
-		//Co.println("Account balance: " + AccountBalance.instance.getBankBalance() + " Fees paid: " + AccountBalance.instance.getTransactionFeesPaid());
+		PositionManager.instance.induceSellAll();
+		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
 		//chart.display();
-		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
+		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

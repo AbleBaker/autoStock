@@ -3,10 +3,7 @@
  */
 package com.autoStock.analysis.results;
 
-import java.util.ArrayList;
 import java.util.Date;
-
-import com.autoStock.chart.ChartDataFiller;
 
 /**
  * @author Kevin Kowalewski

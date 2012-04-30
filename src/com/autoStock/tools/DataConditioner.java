@@ -5,8 +5,6 @@ package com.autoStock.tools;
 
 import java.util.Random;
 
-import com.autoStock.Co;
-
 /**
  * @author Kevin Kowalewski
  *

@@ -8,12 +8,11 @@ import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsRSI;
+import com.autoStock.taLib.MInteger;
+import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataExtractor;
 import com.autoStock.types.TypeQuoteSlice;
-import com.tictactec.ta.lib.MInteger;
-import com.tictactec.ta.lib.RetCode;
 
 /**
  * @author Kevin Kowalewski
@@ -26,7 +25,7 @@ public class AnalysisRSI extends Analysis{
 		super(periodLength, preceedDataset);
 	}
 	
-	public ResultsRSI analize(){
+	public ResultsRSI analyize(){
 		results = new ResultsRSI(endIndex+1);
 		
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<TypeQuoteSlice>)super.dataSource), "dateTime").toArray(new Date[0]);

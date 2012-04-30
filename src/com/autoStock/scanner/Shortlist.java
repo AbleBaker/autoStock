@@ -3,18 +3,13 @@
  */
 package com.autoStock.scanner;
 
-import java.sql.Connection;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.autoStock.Co;
-import com.autoStock.database.DatabaseCore;
 import com.autoStock.database.DatabaseDefinitions;
-import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.database.queryResults.QueryResult.QrSymbolCountFromExchange;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbSymbol;
 import com.autoStock.types.TypeShorlistStock;
 
 /**

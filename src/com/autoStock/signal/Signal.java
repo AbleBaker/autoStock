@@ -3,7 +3,6 @@
  */
 package com.autoStock.signal;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import com.autoStock.signal.SignalDefinitions.SignalSource;
@@ -16,7 +15,8 @@ import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
  */
 public class Signal {
 	public SignalSource signalSource;
-	public SignalType currentSignalType;
+	public SignalType lastSignalType = SignalType.type_none;
+	public SignalType currentSignalType = SignalType.type_none;
 	public ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	
 	public Signal(SignalSource signalSource) {

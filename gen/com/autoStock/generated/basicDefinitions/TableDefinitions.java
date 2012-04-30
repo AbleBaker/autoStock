@@ -1,17 +1,22 @@
 package com.autoStock.generated.basicDefinitions;
 
 import java.util.Date;
-public class BasicTableDefinitions {
 
-	public class DbExchange {
+import com.autoStock.types.basic.Time;
+public class TableDefinitions {
+
+	public static class DbExchange {
 		public long id;
 		public String exchange;
 		public String currency;
+		public Time timeOpen;
+		public Time timeClose;
+		public Time timeOffset;
 	}
 
-	public static DbExchange dbExchange = new BasicTableDefinitions(). new DbExchange();
+	public static DbExchange dbExchange = new TableDefinitions.DbExchange();
 
-	public class DbMarketOrder {
+	public static class DbMarketOrder {
 		public long id;
 		public String symbol;
 		public String orderType;
@@ -23,9 +28,9 @@ public class BasicTableDefinitions {
 		public double priceAverageFill;
 	}
 
-	public static DbMarketOrder dbMarketOrder = new BasicTableDefinitions(). new DbMarketOrder();
+	public static DbMarketOrder dbMarketOrder = new TableDefinitions.DbMarketOrder();
 
-	public class DbStockHistoricalPrice {
+	public static class DbStockHistoricalPrice {
 		public long id;
 		public String symbol;
 		public double priceOpen;
@@ -36,15 +41,15 @@ public class BasicTableDefinitions {
 		public Date dateTime;
 	}
 
-	public static DbStockHistoricalPrice dbStockHistoricalPrice = new BasicTableDefinitions(). new DbStockHistoricalPrice();
+	public static DbStockHistoricalPrice dbStockHistoricalPrice = new TableDefinitions.DbStockHistoricalPrice();
 
-	public class DbSymbol {
+	public static class DbSymbol {
 		public long id;
 		public String symbol;
 		public String exchange;
 		public String description;
 	}
 
-	public static DbSymbol dbSymbol = new BasicTableDefinitions(). new DbSymbol();
+	public static DbSymbol dbSymbol = new TableDefinitions.DbSymbol();
 
 }

@@ -7,18 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.autoStock.Co;
-import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.tables.TableController;
-import com.autoStock.tables.TableDefinitions.AsciiColumns;
-import com.autoStock.tables.TableDefinitions.AsciiTables;
-import com.autoStock.tools.MathTools;
-import com.autoStock.tools.ReflectionHelper;
+import com.autoStock.database.DatabaseQuery;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.tools.ReflectiveComparator;
-import com.autoStock.tools.StringTools;
-import com.autoStock.tools.ReflectiveComparator.ListComparator;
 
 /**
  * @author Kevin Kowalewski

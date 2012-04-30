@@ -3,10 +3,7 @@
  */
 package com.autoStock.signal;
 
-import com.autoStock.Co;
-import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
-import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski

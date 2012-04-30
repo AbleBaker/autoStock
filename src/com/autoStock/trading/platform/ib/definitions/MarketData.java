@@ -1,7 +1,5 @@
 package com.autoStock.trading.platform.ib.definitions;
 
-import org.omg.CORBA.TCKind;
-
 import com.autoStock.trading.platform.ib.core.TickType;
 
 /**

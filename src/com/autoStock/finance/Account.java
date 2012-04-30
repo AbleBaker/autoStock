@@ -1,15 +1,16 @@
 /**
  * 
  */
-package com.autoStock.balance;
+package com.autoStock.finance;
+
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class Account {
-	private static volatile double bankBalance = 100000.00;
-	private static volatile double transactionFeesPaid = 0;
+	private volatile double bankBalance = 100000.00;
+	private volatile double transactionFeesPaid = 0;
 	public static Account instance = new Account();
 	
 	public double getBankBalance(){
@@ -34,8 +35,11 @@ public class Account {
 		this.bankBalance = bankBalance;
 	}
 	
-	public double getTransactionCost(int units){
-		//TODO: Get exchange and more accurate commissions
-		return Math.max(1.30, units * 0.013);
+	public double getTransactionCost(int units, double price){
+		if (units <= 500){
+			return Math.max(1.30, units * 0.013);	
+		}else{
+			return Math.max(1.30, units * 0.008);
+		}
 	}
 }

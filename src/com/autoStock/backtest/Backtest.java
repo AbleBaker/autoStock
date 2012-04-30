@@ -5,13 +5,11 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.balance.Account;
 import com.autoStock.dataFeed.DataFeedHistoricalPrices;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
-import com.autoStock.generated.basicDefinitions.BasicTableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.tools.DateTools;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.internal.Global;
 import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.types.TypeQuoteSlice;
@@ -35,7 +33,7 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	public void performBacktest(ReceiverOfQuoteSlice reciever){
 		receiverOfQuoteSlice = reciever;
 		dataFeedHistoricalPrices.addListener(this);
-		dataFeedHistoricalPrices.startFeed(60, 0);
+		dataFeedHistoricalPrices.startFeed(Resolution.min.seconds, 0);
 	}
 
 	@Override
@@ -47,5 +45,6 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	@Override
 	public void endOfFeed() {
 		receiverOfQuoteSlice.endOfFeed();
+		Global.callbackLock.releaseCallbackLock();
 	}	
 }
