@@ -15,17 +15,19 @@ public class PositionGovener {
 	public void informGovener(TypeQuoteSlice typeQuoteSlice, Signal signal){
 		//Co.println("PositionGovener received new signal: " + signal.getCombinedSignal());
 		
-//		if (signal.getCombinedSignal() > 25){
-//			signal.currentSignalType = SignalType.type_buy;
-//			changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
+		boolean changedPosition;
+		
+		if (signal.getCombinedSignal() > 25){
+			signal.currentSignalType = SignalType.type_buy;
+			changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
 //		} else if (signal.getCombinedSignal() < -20){
 //			signal.currentSignalType = SignalType.type_short;
 //			changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);	
-//		} else if (signal.getCombinedSignal() < -10){
-//			signal.currentSignalType = SignalType.type_sell;
-//			changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
-//		} else {
-//			signal.currentSignalType = SignalType.type_none;
-//		}
+		} else if (signal.getCombinedSignal() < -10){
+			signal.currentSignalType = SignalType.type_sell;
+			changedPosition = positionManager.suggestPosition(typeQuoteSlice, signal);
+		} else {
+			signal.currentSignalType = SignalType.type_none;
+		}
 	}
 }

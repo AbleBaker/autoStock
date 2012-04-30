@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.autoStock.analysis;
 
 import java.util.ArrayList;
@@ -8,6 +5,9 @@ import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.autoStock.Co;
+import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
@@ -26,7 +26,6 @@ public class AnalysisOfMACD extends AnalysisBase {
 	}
 	
 	public ResultsMACD analize(){
-		if (periodLength < 8){throw new UnsupportedOperationException();}
 		results = new ResultsMACD(endIndex+1);
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<TypeQuoteSlice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceClose").toArray(new Double[0]));
@@ -40,7 +39,13 @@ public class AnalysisOfMACD extends AnalysisBase {
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().macd(0, endIndex, arrayOfPriceClose, periodLength/4, periodLength/2, periodLength/2, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		int macdFastPeriod = AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_fast);
+		int macdSlowPeriod = periodLength / 2; //AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_slow);
+		int macdSignalPeriod = periodLength / 2; //AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_signal);
+		
+		//Co.println("macdFastPeirod: " + macdFastPeriod);
+		
+		RetCode returnCode = getTaLibCore().macd(0, endIndex, arrayOfPriceClose, macdFastPeriod, macdSlowPeriod, macdSignalPeriod, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		handleAnalysisResult(returnCode);
 		
 		return results;

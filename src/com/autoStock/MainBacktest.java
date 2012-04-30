@@ -2,25 +2,33 @@ package com.autoStock;
 
 import java.util.ArrayList;
 
+import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
 import com.autoStock.algorithm.AlgorithmTest;
+import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.Backtest;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.exchange.results.ExResultHistoricalData;
+import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.types.TypeExchange;
+import com.autoStock.types.TypeQuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
-public class MainBacktest {
+public class MainBacktest implements ReceiverOfQuoteSlice {
 	private TypeHistoricalData typeHistoricalData;
 	private ExResultHistoricalData exResultHistoricalData;
+	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
+	private AlgorithmTest algorithm;
+	private ArrayList<Double> listOfAlorithmPerformance = new ArrayList<Double>();
 	
 	public MainBacktest(TypeExchange exchange, TypeHistoricalData typeHistoricalData){
 		this.typeHistoricalData = typeHistoricalData;
@@ -36,7 +44,7 @@ public class MainBacktest {
 		Co.println("Running backtest for dates between " + DateTools.getPrettyDate(typeHistoricalData.startDate) + " - " + DateTools.getPrettyDate(typeHistoricalData.endDate));
 		
 		int days = typeHistoricalData.endDate.getDay() - typeHistoricalData.startDate.getDay();
-
+		
 		runBacktest(typeHistoricalData);
 	}
 	
@@ -49,7 +57,27 @@ public class MainBacktest {
 				QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
 
 		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
-		AlgorithmTest algorithm = new AlgorithmTest(false);
-		backtest.performBacktest(algorithm.getReceiver());
+		algorithm = new AlgorithmTest(false);
+		backtest.performBacktest(this);
+	}
+
+	@Override
+	public void receiveQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
+		algorithm.receiveQuoteSlice(typeQuoteSlice);
+	}
+
+	@Override
+	public void endOfFeed() {
+		algorithm.endOfFeed();
+		
+		Co.println("End of feed in MainBacktest");
+		
+		if (adjustmentCampaign.runAdjustment(AdjustmentDefinitions.analysis_macd_fast)){
+			Co.println("Algorithm has eneded : " + Account.instance.getTransactionFeesPaid());
+			Account.instance.changeBankBalance(100000);
+			runBacktest(typeHistoricalData);
+		}else{
+			Global.callbackLock.releaseCallbackLock();
+		}
 	}
 }

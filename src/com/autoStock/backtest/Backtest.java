@@ -45,6 +45,5 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	@Override
 	public void endOfFeed() {
 		receiverOfQuoteSlice.endOfFeed();
-		Global.callbackLock.releaseCallbackLock();
 	}	
 }
