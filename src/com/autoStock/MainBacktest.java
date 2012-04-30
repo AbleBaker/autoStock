@@ -7,7 +7,6 @@ import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.Backtest;
-import com.autoStock.backtest.BacktestDefinitions;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;

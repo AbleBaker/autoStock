@@ -8,7 +8,6 @@ import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsTRIX;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;

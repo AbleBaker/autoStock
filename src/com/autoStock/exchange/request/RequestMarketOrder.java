@@ -10,8 +10,6 @@ import com.autoStock.exchange.results.ExResultMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.trading.types.TypePosition;
 
 /**

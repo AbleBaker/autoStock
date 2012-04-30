@@ -2,8 +2,6 @@ package com.autoStock.algorithm;
 
 import java.util.ArrayList;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.autoStock.Co;
@@ -30,7 +28,6 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
-import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.signal.SignalOfADX;
 import com.autoStock.signal.SignalOfCCI;
 import com.autoStock.signal.SignalOfMACD;

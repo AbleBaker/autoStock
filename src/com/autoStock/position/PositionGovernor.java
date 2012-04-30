@@ -1,6 +1,5 @@
 package com.autoStock.position;
 
-import com.autoStock.Co;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.types.TypeQuoteSlice;

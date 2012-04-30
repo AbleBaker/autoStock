@@ -5,9 +5,6 @@ import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.autoStock.Co;
-import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
