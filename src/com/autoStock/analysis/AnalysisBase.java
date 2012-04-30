@@ -19,7 +19,7 @@ import com.autoStock.types.TypeQuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public abstract class Analysis {
+public abstract class AnalysisBase {
 	private Core taLibCore = new Core();
 	public Object dataSource;
 	public Type dateSourceType;
@@ -34,7 +34,7 @@ public abstract class Analysis {
 	public boolean preceedDataset;
 	public int endIndex;
 	
-	public Analysis(int periodLength, boolean preceedDataset){
+	public AnalysisBase(int periodLength, boolean preceedDataset){
 		this.periodLength = periodLength;
 		this.preceedDataset = preceedDataset;
 	}

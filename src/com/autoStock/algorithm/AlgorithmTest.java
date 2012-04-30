@@ -6,13 +6,13 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.analysis.AnalysisADX;
-import com.autoStock.analysis.AnalysisBB;
-import com.autoStock.analysis.AnalysisCCI;
-import com.autoStock.analysis.AnalysisMACD;
-import com.autoStock.analysis.AnalysisRSI;
-import com.autoStock.analysis.AnalysisSTORSI;
-import com.autoStock.analysis.AnalysisTRIX;
+import com.autoStock.analysis.AnalysisOfADX;
+import com.autoStock.analysis.AnalysisOfBB;
+import com.autoStock.analysis.AnalysisOfCCI;
+import com.autoStock.analysis.AnalysisOfMACD;
+import com.autoStock.analysis.AnalysisOfRSI;
+import com.autoStock.analysis.AnalysisOfSTORSI;
+import com.autoStock.analysis.AnalysisOfTRIX;
 import com.autoStock.analysis.results.ResultsADX;
 import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
@@ -59,13 +59,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private int periodWindow = 30;
 	public Benchmark bench = new Benchmark();
 	
-	private AnalysisCCI analysisOfCCI = new AnalysisCCI(periodLength, false);
-	private AnalysisADX analysisOfADX = new AnalysisADX(periodLength, false);
-	private AnalysisMACD analysisOfMACD = new AnalysisMACD(periodLength, false);
-	private AnalysisBB analysisOfBB = new AnalysisBB(periodLength, false);
-	private AnalysisSTORSI analysisOfSTORSI = new AnalysisSTORSI(periodLength, false);
-	private AnalysisRSI analysisOfRSI = new AnalysisRSI(periodLength, false);
-	private AnalysisTRIX analysisOfTRIX = new AnalysisTRIX(periodLength, false);
+	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
+	private AnalysisOfADX analysisOfADX = new AnalysisOfADX(periodLength, false);
+	private AnalysisOfMACD analysisOfMACD = new AnalysisOfMACD(periodLength, false);
+	private AnalysisOfBB analysisOfBB = new AnalysisOfBB(periodLength, false);
+	private AnalysisOfSTORSI analysisOfSTORSI = new AnalysisOfSTORSI(periodLength, false);
+	private AnalysisOfRSI analysisOfRSI = new AnalysisOfRSI(periodLength, false);
+	private AnalysisOfTRIX analysisOfTRIX = new AnalysisOfTRIX(periodLength, false);
 	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();

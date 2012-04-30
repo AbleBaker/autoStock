@@ -18,10 +18,10 @@ import com.autoStock.types.TypeQuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisADX extends Analysis {
+public class AnalysisOfADX extends AnalysisBase {
 	public ResultsADX results;
 	
-	public AnalysisADX(int periodLength, boolean preceedDataset) {
+	public AnalysisOfADX(int periodLength, boolean preceedDataset) {
 		super(periodLength, preceedDataset);
 	}
 	
