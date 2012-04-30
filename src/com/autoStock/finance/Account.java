@@ -9,6 +9,8 @@ package com.autoStock.finance;
  *
  */
 public class Account {
+	private final double bankBalanceDefault = 100000.00;
+	private final double transactionFeesDefault = 0;
 	private volatile double bankBalance = 100000.00;
 	private volatile double transactionFeesPaid = 0;
 	public static Account instance = new Account();
@@ -41,5 +43,10 @@ public class Account {
 		}else{
 			return Math.max(1.30, units * 0.008);
 		}
+	}
+	
+	public void resetAccount(){
+		bankBalance = bankBalanceDefault;
+		transactionFeesPaid = transactionFeesDefault;
 	}
 }

@@ -9,10 +9,10 @@ import com.autoStock.types.TypeQuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public class PositionGovener {
+public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.instance;
 	
-	public void informGovener(TypeQuoteSlice typeQuoteSlice, Signal signal){
+	public PositionGovernorResponse informGovener(TypeQuoteSlice typeQuoteSlice, Signal signal){
 		//Co.println("PositionGovener received new signal: " + signal.getCombinedSignal());
 		
 		boolean changedPosition;
@@ -29,5 +29,7 @@ public class PositionGovener {
 		} else {
 			signal.currentSignalType = SignalType.type_none;
 		}
+		
+		return null;
 	}
 }

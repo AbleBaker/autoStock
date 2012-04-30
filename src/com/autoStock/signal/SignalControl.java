@@ -40,7 +40,7 @@ public class SignalControl {
 	}
 	
 	public static void setSignalStrengthForMACD(SignalMetric signalMetric, double macdValue){
-		signalMetric.strength = (int) (macdValue * 1000);
+		signalMetric.strength = (int) (macdValue * 10000);
 	}
 	
 	public static void setSignalStrengthForRSI(SignalMetric signalMetric, double rsiValue){

@@ -7,6 +7,8 @@ import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.Backtest;
+import com.autoStock.backtest.BacktestDefinitions;
+import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
@@ -29,6 +31,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AlgorithmTest algorithm;
 	private ArrayList<Double> listOfAlorithmPerformance = new ArrayList<Double>();
+	private BacktestType backtestType = BacktestType.backtest_default;
 	
 	public MainBacktest(TypeExchange exchange, TypeHistoricalData typeHistoricalData){
 		this.typeHistoricalData = typeHistoricalData;
@@ -71,13 +74,15 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		algorithm.endOfFeed();
 		
 		Co.println("End of feed in MainBacktest");
-		
-		if (adjustmentCampaign.runAdjustment(AdjustmentDefinitions.analysis_macd_fast)){
-			Co.println("Algorithm has eneded : " + Account.instance.getTransactionFeesPaid());
-			Account.instance.changeBankBalance(100000);
-			runBacktest(typeHistoricalData);
-		}else{
-			Global.callbackLock.releaseCallbackLock();
+	
+		if (backtestType == BacktestType.backtest_with_adjustment){
+			if (adjustmentCampaign.runAdjustment(AdjustmentDefinitions.analysis_macd_fast)){
+				Co.println("Algorithm has eneded : " + Account.instance.getTransactionFeesPaid());
+				Account.instance.resetAccount();
+				runBacktest(typeHistoricalData);
+			}
 		}
+		
+		Global.callbackLock.releaseCallbackLock();
 	}
 }

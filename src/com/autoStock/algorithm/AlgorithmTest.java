@@ -22,7 +22,7 @@ import com.autoStock.analysis.results.ResultsSTORSI;
 import com.autoStock.analysis.results.ResultsTRIX;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
-import com.autoStock.position.PositionGovener;
+import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
@@ -71,7 +71,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
 	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
-	private PositionGovener positionGovener = new PositionGovener();
+	private PositionGovernor positionGovener = new PositionGovernor();
 
 	@Override
 	public void receiveQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
@@ -122,7 +122,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, periodWindow), SignalControl.periodAverageForTRIX);
 			
 			signal.reset();
-			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
+			//signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
+			signal.addSignalMetrics(signalOfMACD.getSignal());
 			
 			chart.listOfDate.add(typeQuoteSlice.dateTime);
 			chart.listOfPrice.add(typeQuoteSlice.priceClose);
@@ -195,6 +196,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
 		//chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

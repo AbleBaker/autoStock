@@ -39,13 +39,16 @@ public class AnalysisOfMACD extends AnalysisBase {
 			preceedDatasetWithPeriod();
 		}
 		
-		int macdFastPeriod = AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_fast);
-		int macdSlowPeriod = periodLength / 2; //AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_slow);
-		int macdSignalPeriod = periodLength / 2; //AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_signal);
+		//int macdFastPeriod = AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_fast);
+		//int macdSlowPeriod = periodLength / 2; //AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_slow);
+		//int macdSignalPeriod = periodLength / 2; //AdjustmentCampaign.getInstance().getAdjustmentValueOfInt(AdjustmentDefinitions.analysis_macd_signal);
+//		int macdFastPeriod = periodLength / 4;
+//		int macdSlowPeriod = periodLength / 2;
+//		int macdSignalPeriod = periodLength / periodLength / 2;
 		
 		//Co.println("macdFastPeirod: " + macdFastPeriod);
 		
-		RetCode returnCode = getTaLibCore().macd(0, endIndex, arrayOfPriceClose, macdFastPeriod, macdSlowPeriod, macdSignalPeriod, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		RetCode returnCode = getTaLibCore().macd(0, endIndex, arrayOfPriceClose, periodLength/2, periodLength/4, periodLength/2, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		handleAnalysisResult(returnCode);
 		
 		return results;
