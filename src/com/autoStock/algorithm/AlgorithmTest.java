@@ -55,8 +55,9 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		super(canTrade);
 	}
 
-	private int periodLength = 60;
-	private int periodWindow = 30;
+	private int periodLength = SignalControl.periodLength;
+	private int periodWindow = SignalControl.periodWindow;
+	
 	public Benchmark bench = new Benchmark();
 	
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
@@ -71,7 +72,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
 	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
-	private PositionGovernor positionGovener = new PositionGovernor();
+	private PositionGovernor positionGovener = PositionGovernor.instance;
 
 	@Override
 	public void receiveQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
@@ -190,9 +191,9 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		if (algorithmListener != null){
 			algorithmListener.endOfAlgorithm();
 		}
-		PositionManager.instance.induceSellAll();
+		PositionManager.instance.executeSellAll();
 		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		//chart.display();
+		chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}

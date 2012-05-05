@@ -40,7 +40,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		typeHistoricalData.startDate.setMinutes(exchange.timeOpen.minute);
 		typeHistoricalData.endDate.setHours(exchange.timeClose.hour);
 		typeHistoricalData.endDate.setMinutes(exchange.timeClose.minute);
-		typeHistoricalData.symbol = "RAS";
+		typeHistoricalData.symbol = "BTU";
 		
 		Co.println("Running backtest on Exchange: " + exchange.exchange);
 		Co.println("Running backtest for dates between " + DateTools.getPrettyDate(typeHistoricalData.startDate) + " - " + DateTools.getPrettyDate(typeHistoricalData.endDate));

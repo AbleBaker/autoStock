@@ -67,7 +67,7 @@ public abstract class AnalysisBase {
 	
 	public void handleAnalysisResult(RetCode returnCode){
 		if (returnCode != RetCode.Success){
-			Co.println("Analysis result was not success: " + returnCode.name());
+			Co.println("Analysis result was not success: " + returnCode.name() + ", " + this.getClass().getSimpleName());
 		}
 	}
 	

@@ -3,6 +3,8 @@
  */
 package com.autoStock.trading.types;
 
+import com.autoStock.position.PositionDefinitions.PositionType;
+
 
 /**
  * @author Kevin Kowalewski
@@ -14,12 +16,14 @@ public class TypePosition {
 	public String securityType;
 	public double price;
 	public double lastKnownPrice;
+	public PositionType positionType;
 	
 	public TypePosition(){
 		
 	}
 
-	public TypePosition(int units, String symbol, String securityType, double averagePrice) {
+	public TypePosition(PositionType positionType, int units, String symbol, String securityType, double averagePrice) {
+		this.positionType = positionType;
 		this.units = units;
 		this.symbol = symbol;
 		this.securityType = securityType;

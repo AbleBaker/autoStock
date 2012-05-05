@@ -82,7 +82,7 @@ public class MainCampaign {
 	
 	public void dayEnd(){
 		Co.println("End of day reached, sell all...");
-		PositionManager.instance.induceSellAll();
+		PositionManager.instance.executeSellAll();
 	}
 	
 	public Date getDate(){

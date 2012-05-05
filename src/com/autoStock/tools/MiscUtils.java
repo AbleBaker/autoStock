@@ -3,6 +3,8 @@
  */
 package com.autoStock.tools;
 
+import java.text.NumberFormat;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -17,5 +19,15 @@ public class MiscUtils {
 			i++;
 		}
 		return -1;
+	}
+	
+	public static String getCommifiedValue(int number){
+		NumberFormat numberFormat = NumberFormat.getInstance();
+		return numberFormat.format(number);
+	}
+	
+	public static String getCommifiedValue(double number){
+		NumberFormat numberFormat = NumberFormat.getInstance();
+		return numberFormat.format(number);
 	}
 }

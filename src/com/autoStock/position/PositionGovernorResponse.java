@@ -10,6 +10,6 @@ import com.autoStock.position.PositionDefinitions.PositionType;
  *
  */
 public class PositionGovernorResponse {
-	public boolean changedPosition = true;
+	public boolean changedPosition = false;
 	public PositionType positionType = PositionType.position_none;
 }
