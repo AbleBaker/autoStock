@@ -2,6 +2,7 @@ package com.autoStock.position;
 
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalType;
 import com.autoStock.types.TypeQuoteSlice;
 
@@ -16,9 +17,9 @@ public class PositionGovernor {
 	public PositionGovernorResponse informGovener(TypeQuoteSlice typeQuoteSlice, Signal signal){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		
-		if (signal.getCombinedSignal() > 25){
+		if (signal.getCombinedSignal() > SignalControl.pointToSignalUp){
 			governTrendUp(typeQuoteSlice, signal, positionGovernorResponse);
-		} else if (signal.getCombinedSignal() < -25){
+		} else if (signal.getCombinedSignal() < SignalControl.pointToSignalDown){
 			governTrendDown(typeQuoteSlice, signal, positionGovernorResponse);
 		} else {
 			governTrendFlat(typeQuoteSlice, signal, positionGovernorResponse);

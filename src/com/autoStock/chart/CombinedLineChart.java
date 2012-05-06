@@ -36,7 +36,7 @@ public class CombinedLineChart {
 			super("autoStock - Chart");
 
 			ChartPanel chartPanel = (ChartPanel) createPanel(timeSeriesCollections);
-			chartPanel.setPreferredSize(new java.awt.Dimension(500*2, 270*3));
+			chartPanel.setPreferredSize(new java.awt.Dimension(500*2, 250* timeSeriesCollections.length));
 			setContentPane(chartPanel);
 
 			setVisible(true);
@@ -60,6 +60,7 @@ public class CombinedLineChart {
 			
 			int i = 1;
 			for (XYDataset xydataset : xydatasets){
+				usedColor = -1;
 				XYPlot subPlot = new XYPlot(xydataset, null, new NumberAxis("Range " + i), new StandardXYItemRenderer());
 				subPlot.getRenderer().setSeriesPaint(0, getColor());
 				plot.add(subPlot, 1);
@@ -84,9 +85,9 @@ public class CombinedLineChart {
 		}
 		
 		public Color getColor(){
-			Color[] arrayOfColors = new Color[]{Color.GRAY, Color.BLUE, Color.GREEN, Color.RED, Color.PINK, Color.ORANGE};
+			Color[] arrayOfColors = new Color[]{Color.GRAY, Color.BLUE, Color.GREEN, Color.RED, Color.PINK, Color.BLACK, Color.CYAN};
+			if (usedColor >= arrayOfColors.length-1){usedColor = -1;}
 			usedColor++;
-			if (usedColor >= arrayOfColors.length){usedColor = 0;}
 			return arrayOfColors[usedColor];
 		}
 	}
