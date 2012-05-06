@@ -29,8 +29,9 @@ public class SignalControl {
 	public static final double weightForSTORSI = 1.0;
 	public static final double weightForTRIX = 1.0;
 	
-	public static final int pointToSignalUp = 25;
-	public static final int pointToSignalDown = -10;
+	public static final int pointToSignalUp = 15;
+	public static final int pointToSignalDown = -5;
+	public static final int pointToSignalShort = -10;
 	
 	public static void setSignalStrengthForPPC(SignalMetric signalMetric, double percentChange){
 		signalMetric.strength = (int) ((percentChange - 1) * 10000);

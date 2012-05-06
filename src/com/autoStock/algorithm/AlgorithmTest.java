@@ -149,38 +149,42 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			
-			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
-			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-			columnValues.add(String.valueOf(signalOfMACD.getValue()));
-			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
-			columnValues.add(String.valueOf(signalOfPPC.getValue()));
-			columnValues.add(String.valueOf((analysisOfDIResultPlus - analysisOfDIResultMinus)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
-			columnValues.add(String.valueOf(analysisOfMACDResult));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
-			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
-			
 //			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 //			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
 //			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-//			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfADX.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfSTORSI.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
-//			columnValues.add(String.valueOf(signal.getCombinedSignal()));
+//			columnValues.add(String.valueOf(signalOfMACD.getValue()));
+//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
+//			columnValues.add(String.valueOf(signalOfPPC.getValue()));
+//			columnValues.add(String.valueOf((analysisOfDIResultPlus - analysisOfDIResultMinus)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
+//			columnValues.add(String.valueOf(analysisOfMACDResult));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
+//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
+			
+			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
+			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfSTORSI.getSignal().strength));
+			columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
+			columnValues.add(String.valueOf(signal.getCombinedSignal()));
 			
 			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(typeQuoteSlice, signal);
 			
-//			if (positionGovenorResponse.changedPosition){
-//				columnValues.add(String.valueOf(signal.currentSignalType.name()));
-//			}else{
-//				columnValues.add("");
-//			}
+			if (positionGovenorResponse.changedPosition){
+				columnValues.add(signal.currentSignalType.name() + ", " + positionGovenorResponse.positionType.name());
+				columnValues.add(positionGovenorResponse.typePosition.units + ", " + positionGovenorResponse.typePosition.lastKnownPrice + ", " + (positionGovenorResponse.typePosition.units * positionGovenorResponse.typePosition.lastKnownPrice));
+				columnValues.add(String.valueOf(Account.instance.getBankBalance()));
+			}else{
+				columnValues.add("");
+				columnValues.add("");
+				columnValues.add("");
+			}
 			
 			listOfDisplayRows.add(columnValues);	
 		}
@@ -195,8 +199,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		}
 		PositionManager.instance.executeSellAll();
 		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		chart.display();
-		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		//chart.display();
+		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
+		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

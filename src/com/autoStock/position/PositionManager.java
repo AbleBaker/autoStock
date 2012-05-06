@@ -25,18 +25,18 @@ public class PositionManager {
 	private ArrayList<TypePosition> listOfPosition = new ArrayList<TypePosition>();
 	private final int MAX_POSITIONS = 10;
 	
-	public void suggestPosition(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+	public TypePosition suggestPosition(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
 		
 		updatePositionPrice(typeQuoteSlice);
 		
 		if (positionType == PositionType.position_buy){
-			executeBuy(typeQuoteSlice, signal, positionType);
+			return executeBuy(typeQuoteSlice, signal, positionType);
 		}
 		else if (positionType == PositionType.position_sell){
-			executeSell(typeQuoteSlice, signal, positionType);
+			return executeSell(typeQuoteSlice, signal, positionType);
 		}
 		else if (positionType == PositionType.position_short){
-			executeShort(typeQuoteSlice, signal, positionType);
+			return executeShort(typeQuoteSlice, signal, positionType);
 		}else {
 			throw new UnsupportedOperationException();
 		}
@@ -48,21 +48,25 @@ public class PositionManager {
 		}
 	}
 	
-	private void executeBuy(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+	private TypePosition executeBuy(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
 		Co.println("Induced buy @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 		TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
 		positionBuy(typePosition);
+		return typePosition;
 	}
 	
-	private void executeSell(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+	private TypePosition executeSell(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
 		Co.println("Induced sell @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+		TypePosition typePosition = getPosition(typeQuoteSlice.symbol).clone();
 		positionSell(getPosition(typeQuoteSlice.symbol), true);
+		return typePosition;
 	}
 	
-	private void executeShort(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+	private TypePosition executeShort(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
 		Co.println("Induced short @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 		TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
 		positionShort(typePosition);
+		return typePosition;
 	}
 	
 	public void executeSellAll(){

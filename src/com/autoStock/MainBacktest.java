@@ -15,6 +15,7 @@ import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
+import com.autoStock.position.PositionManager;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.TypeHistoricalData;
 import com.autoStock.types.TypeExchange;
@@ -80,6 +81,8 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 				Account.instance.resetAccount();
 				runBacktest(typeHistoricalData);
 			}
+		}else{
+			Co.println("Algorithm has eneded : " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactionFeesPaid());
 		}
 		
 		Global.callbackLock.releaseCallbackLock();
