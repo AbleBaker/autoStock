@@ -31,7 +31,7 @@ public class SignalOfRSI{
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_rsi);
 	
-		SignalControl.setSignalStrengthForADX(signalMetric, rsiValue);
+		SignalControl.setSignalStrengthForDI(signalMetric, rsiValue);
 		
 		return signalMetric;
 	}

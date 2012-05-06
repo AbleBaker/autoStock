@@ -8,7 +8,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.autoStock.analysis.results.ResultsADX;
+import com.autoStock.analysis.results.ResultsDI;
 import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataExtractor;
 import com.autoStock.types.TypeQuoteSlice;
@@ -18,14 +18,14 @@ import com.autoStock.types.TypeQuoteSlice;
  *
  */
 public class AnalysisOfCDL extends AnalysisBase {
-	public ResultsADX results;
+	public ResultsDI results;
 	
 	public AnalysisOfCDL(int periodLength, boolean preceedDataset) {
 		super(periodLength, preceedDataset);
 	}
 	
-	public ResultsADX analize(){
-		results = new ResultsADX(endIndex+1);
+	public ResultsDI analize(){
+		results = new ResultsDI(endIndex+1);
 		
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<TypeQuoteSlice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceClose").toArray(new Double[0]));

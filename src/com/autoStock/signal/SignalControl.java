@@ -11,13 +11,13 @@ package com.autoStock.signal;
  */
 public class SignalControl {
 	
-	public static final int periodLength = 15;
-	public static final int periodWindow = 45;
+	public static final int periodLength = 30;
+	public static final int periodWindow = 30;
 	
 	public static final int periodAverageForPPC = periodWindow / 2;
-	public static final int periodAverageForADX = 0;
-	public static final int periodAverageForCCI = 25;
-	public static final int periodAverageForMACD = periodWindow;
+	public static final int periodAverageForDI = periodWindow / 2;
+	public static final int periodAverageForCCI = periodWindow / 2;
+	public static final int periodAverageForMACD = periodWindow / 2;
 	public static final int periodAverageForRSI = 0;
 	public static final int periodAverageForSTORSI = 5;
 	public static final int periodAverageForTRIX = 0;
@@ -33,8 +33,8 @@ public class SignalControl {
 		signalMetric.strength = (int) ((percentChange - 1) * 10000);
 	}
 
-	public static void setSignalStrengthForADX(SignalMetric signalMetric, double adxValue) {
-		signalMetric.strength = (int) adxValue;
+	public static void setSignalStrengthForDI(SignalMetric signalMetric, double diValue) {
+		signalMetric.strength = (int) diValue;
 	}
 	
 	public static void setSignalStrengthForCCI(SignalMetric signalMetric, double cciValue){
@@ -42,7 +42,7 @@ public class SignalControl {
 	}
 	
 	public static void setSignalStrengthForMACD(SignalMetric signalMetric, double macdValue){
-		signalMetric.strength = (int) (macdValue * 10000);
+		signalMetric.strength = (int) (macdValue * 1000);
 	}
 	
 	public static void setSignalStrengthForRSI(SignalMetric signalMetric, double rsiValue){

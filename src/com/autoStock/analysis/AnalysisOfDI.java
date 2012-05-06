@@ -8,7 +8,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.autoStock.analysis.results.ResultsADX;
+import com.autoStock.analysis.results.ResultsDI;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataExtractor;
@@ -18,15 +18,15 @@ import com.autoStock.types.TypeQuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisOfADX extends AnalysisBase {
-	public ResultsADX results;
+public class AnalysisOfDI extends AnalysisBase {
+	public ResultsDI results;
 	
-	public AnalysisOfADX(int periodLength, boolean preceedDataset) {
+	public AnalysisOfDI(int periodLength, boolean preceedDataset) {
 		super(periodLength, preceedDataset);
 	}
 	
-	public ResultsADX analize(){
-		results = new ResultsADX(endIndex+1);
+	public ResultsDI analize(){
+		results = new ResultsDI(endIndex+1);
 		
 		results.arrayOfDates =  new DataExtractor().extractDate(((ArrayList<TypeQuoteSlice>)super.dataSource), "dateTime").toArray(new Date[0]);
 		results.arrayOfPrice =  new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceClose").toArray(new Double[0]));
@@ -40,7 +40,10 @@ public class AnalysisOfADX extends AnalysisBase {
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().adx(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength/2, new MInteger(), new MInteger(), results.arrayOfADX);
+		RetCode returnCode = getTaLibCore().plusDI(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfDIPlus);
+		if (returnCode == RetCode.Success){
+			returnCode = getTaLibCore().minusDI(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfDIMinus);
+		}
 		handleAnalysisResult(returnCode);
 		
 		return results;

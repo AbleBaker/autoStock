@@ -9,15 +9,17 @@ import java.util.Date;
  * @author Kevin Kowalewski
  *
  */
-public class ResultsADX extends ResultsBase {
+public class ResultsDI extends ResultsBase {
 	
 	public Date[] arrayOfDates;
-	public double[] arrayOfADX;
+	public double[] arrayOfDIPlus;
+	public double[] arrayOfDIMinus;
 	public double[] arrayOfPrice;
 	
-	public ResultsADX(int length){
+	public ResultsDI(int length){
 		this.arrayOfDates = new Date[length];
-		this.arrayOfADX = new double[length];
+		this.arrayOfDIPlus = new double[length];
+		this.arrayOfDIMinus = new double[length];
 		this.arrayOfPrice = new double[length];
 	}
 }
