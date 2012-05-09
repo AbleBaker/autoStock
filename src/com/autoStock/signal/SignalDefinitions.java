@@ -24,18 +24,20 @@ public class SignalDefinitions {
 	
 	public static enum SignalTypeMetric {
 		metric_ppc,
-		metric_adx,
+		metric_di,
 		metric_cci,
 		metric_macd,
 		metric_storsi,
 		metric_rsi,
+		metric_trix,
 	}
 	
 	public static double getSignalWeight(SignalTypeMetric signalTypeMetric){
 		if (signalTypeMetric == SignalTypeMetric.metric_ppc){return SignalControl.weightForPPC;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_adx){return SignalControl.weightForADX;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_di){return SignalControl.weightForDI;}
 		else if (signalTypeMetric == SignalTypeMetric.metric_cci){return SignalControl.weightForCCI;}
 		else if (signalTypeMetric == SignalTypeMetric.metric_macd){return SignalControl.weightForMACD;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_trix){return SignalControl.weightForTRIX;}
 		throw new UnsupportedOperationException();
 	}
 	

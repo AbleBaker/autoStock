@@ -29,7 +29,7 @@ public class SignalOfTRIX{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_cci);
+		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_trix);
 		SignalControl.setSignalStrengthForTRIX(signalMetric, trixValue);
 		
 		return signalMetric;

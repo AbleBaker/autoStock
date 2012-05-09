@@ -36,7 +36,7 @@ public class SignalOfDI{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_adx);
+		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_di);
 	
 		SignalControl.setSignalStrengthForDI(signalMetric, diValue);
 		

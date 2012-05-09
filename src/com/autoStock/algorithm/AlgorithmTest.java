@@ -124,7 +124,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, periodWindow), SignalControl.periodAverageForTRIX);
 			
 			signal.reset();
-			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal());
+			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
 			//signal.addSignalMetrics(signalOfMACD.getSignal());
 			
 			chart.listOfDate.add(typeQuoteSlice.dateTime);
@@ -199,7 +199,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		}
 		PositionManager.instance.executeSellAll();
 		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		//chart.display();
+		chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}

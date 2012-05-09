@@ -15,22 +15,22 @@ public class SignalControl {
 	public static final int periodWindow = 30;
 	
 	public static final int periodAverageForPPC = periodWindow / 2;
-	public static final int periodAverageForDI = periodWindow / 2;
-	public static final int periodAverageForCCI = periodWindow / 2;
-	public static final int periodAverageForMACD = periodWindow / 1;
+	public static final int periodAverageForDI = periodWindow / 3;
+	public static final int periodAverageForCCI = periodWindow / 3;
+	public static final int periodAverageForMACD = periodWindow / 3;
 	public static final int periodAverageForRSI = 0;
 	public static final int periodAverageForSTORSI = 5;
 	public static final int periodAverageForTRIX = 0;
 	
 	public static final double weightForPPC = 1.0;
-	public static final double weightForADX = 1.0;
+	public static final double weightForDI = 1.0;
 	public static final double weightForCCI = 1.0;
 	public static final double weightForMACD = 1.0;
 	public static final double weightForSTORSI = 1.0;
 	public static final double weightForTRIX = 1.0;
 	
-	public static final int pointToSignalLongEntry = 15;
-	public static final int pointToSignalLongExit = -5;
+	public static final int pointToSignalLongEntry = 10;
+	public static final int pointToSignalLongExit = 0;
 	public static final int pointToSignalShortEntry = -10;
 	public static final int pointToSignalShortExit = 5;
 	
@@ -39,7 +39,7 @@ public class SignalControl {
 	}
 
 	public static void setSignalStrengthForDI(SignalMetric signalMetric, double diValue) {
-		signalMetric.strength = (int) diValue;
+		signalMetric.strength = (int) diValue * 2;
 	}
 	
 	public static void setSignalStrengthForCCI(SignalMetric signalMetric, double cciValue){
