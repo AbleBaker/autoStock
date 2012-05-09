@@ -38,4 +38,14 @@ public class SignalDefinitions {
 		else if (signalTypeMetric == SignalTypeMetric.metric_macd){return SignalControl.weightForMACD;}
 		throw new UnsupportedOperationException();
 	}
+	
+	public static SignalType getSignalType(Signal signal){
+		if (signal.getCombinedSignal() > SignalControl.pointToSignalLongEntry){
+			return SignalType.type_trend_up;
+		}else if (signal.getCombinedSignal() < SignalControl.pointToSignalShortEntry){
+			return SignalType.type_trend_down;
+		}else{
+			return SignalType.type_trend_flat;
+		}
+	}
 }

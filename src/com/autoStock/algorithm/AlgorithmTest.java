@@ -177,7 +177,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(typeQuoteSlice, signal);
 			
 			if (positionGovenorResponse.changedPosition){
-				columnValues.add(signal.currentSignalType.name() + ", " + positionGovenorResponse.positionType.name());
+				columnValues.add(signal.currentSignalType.name() + ", " + positionGovenorResponse.typePosition.positionType.name());
 				columnValues.add(positionGovenorResponse.typePosition.units + ", " + positionGovenorResponse.typePosition.lastKnownPrice + ", " + (positionGovenorResponse.typePosition.units * positionGovenorResponse.typePosition.lastKnownPrice));
 				columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 			}else{

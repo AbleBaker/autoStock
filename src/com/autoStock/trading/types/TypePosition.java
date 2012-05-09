@@ -16,7 +16,7 @@ public class TypePosition implements Cloneable {
 	public String securityType;
 	public double price;
 	public double lastKnownPrice;
-	public PositionType positionType;
+	public PositionType positionType = PositionType.position_none;
 	
 	public TypePosition(){
 		

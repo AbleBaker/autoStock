@@ -9,10 +9,15 @@ package com.autoStock.position;
  */
 public class PositionDefinitions {
 	public static enum PositionType {
-		position_buy,
-		position_sell,
+		position_long_entry,
+		position_short_entry,
+		position_long,
 		position_short,
-		position_hold_past,
+		position_long_exit,
+		position_short_exit,
+		
+		position_exited,
+		position_failed,
 		position_none,
 	}
 }

@@ -9,8 +9,7 @@ import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalDefinitions.SignalType;
-import com.autoStock.tools.DateTools;
+import com.autoStock.tools.Lock;
 import com.autoStock.trading.types.TypePosition;
 import com.autoStock.types.TypeQuoteSlice;
 
@@ -23,50 +22,89 @@ public class PositionManager {
 	private Account account = Account.instance;
 	private PositionGenerator positionGenerator = new PositionGenerator(account);
 	private ArrayList<TypePosition> listOfPosition = new ArrayList<TypePosition>();
-	private final int MAX_POSITIONS = 10;
+	private Lock lock = new Lock();
 	
-	public TypePosition suggestPosition(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
-		
-		updatePositionPrice(typeQuoteSlice);
-		
-		if (positionType == PositionType.position_buy){
-			return executeBuy(typeQuoteSlice, signal, positionType);
+	public TypePosition suggestPosition(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){		
+		if (positionType == PositionType.position_long_entry){
+			return executeLongEntry(typeQuoteSlice, signal, positionType);
 		}
-		else if (positionType == PositionType.position_sell){
-			return executeSell(typeQuoteSlice, signal, positionType);
+		else if (positionType == PositionType.position_short_entry){
+			return executeShortEntry(typeQuoteSlice, signal, positionType);
 		}
-		else if (positionType == PositionType.position_short){
-			return executeShort(typeQuoteSlice, signal, positionType);
-		}else {
+		else if (positionType == PositionType.position_long_exit){
+			TypePosition typePosition = executeLongExit(getPosition(typeQuoteSlice.symbol), positionType).clone();
+			listOfPosition.remove(getPosition(typeQuoteSlice.symbol));
+			return typePosition;
+			
+		}
+		else if (positionType == PositionType.position_short_exit){
+			TypePosition typePosition = executeShortExit(getPosition(typeQuoteSlice.symbol), positionType);
+			listOfPosition.remove(getPosition(typeQuoteSlice.symbol));
+			return typePosition;
+		}
+		else {
 			throw new UnsupportedOperationException();
+		}		
+	}
+	
+	private TypePosition executeLongEntry(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+		synchronized (lock) {
+			TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
+			account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
+			listOfPosition.add(typePosition);
+			PositionCallback.setPositionSuccess(typePosition);
+			
+			//Co.println("\n-------> Long position entry (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.price + ", " + (typePosition.price * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
+			//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+			return typePosition;	
 		}
 	}
 	
-	public void updatePositionPrice(TypeQuoteSlice typeQuoteSlice){
-		if (getPosition(typeQuoteSlice.symbol) != null){
-			getPosition(typeQuoteSlice.symbol).lastKnownPrice = typeQuoteSlice.priceClose;
+	private TypePosition executeShortEntry(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+		synchronized (lock){
+			TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
+			listOfPosition.add(typePosition);
+			account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
+			PositionCallback.setPositionSuccess(typePosition);
+			
+			//Co.println("\n-------> Short position entry (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.price + ", " + (typePosition.price * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
+			//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+			return typePosition;
 		}
 	}
 	
-	private TypePosition executeBuy(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
-		Co.println("Induced buy @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-		TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
-		positionBuy(typePosition);
-		return typePosition;
+	private TypePosition executeLongExit(TypePosition typePosition, PositionType positionType){
+		synchronized (lock){
+			typePosition.positionType = PositionType.position_long_exit;
+			
+			account.changeBankBalance(typePosition.units * typePosition.lastKnownPrice, account.getTransactionCost(typePosition.units, typePosition.price));
+			PositionCallback.setPositionSuccess(typePosition);
+			
+			//Co.println("\n-------> Long position exit (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.lastKnownPrice + ", " + (typePosition.lastKnownPrice * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
+			//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+			
+			return typePosition;
+		}
 	}
 	
-	private TypePosition executeSell(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
-		Co.println("Induced sell @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-		TypePosition typePosition = getPosition(typeQuoteSlice.symbol).clone();
-		positionSell(getPosition(typeQuoteSlice.symbol), true);
-		return typePosition;
-	}
+	private TypePosition executeShortExit(TypePosition typePosition, PositionType positionType){
+		synchronized(lock){
+			typePosition.positionType = PositionType.position_short_exit;
+
+			account.changeBankBalance(typePosition.units * typePosition.price, account.getTransactionCost(typePosition.units, typePosition.price));
+			PositionCallback.setPositionSuccess(typePosition);
+			
+			//Co.println("\n-------> Short position exit (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.price + ", " + (typePosition.price * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
+			//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+			
+			return typePosition;
+		}
+	}		
 	
-	private TypePosition executeShort(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
-		Co.println("Induced short @ " + DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-		TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
-		positionShort(typePosition);
-		return typePosition;
+	public void updatePositionPrice(TypeQuoteSlice typeQuoteSlice, TypePosition typePosition){
+		if (typePosition != null){
+			typePosition.lastKnownPrice = typeQuoteSlice.priceClose;
+		}
 	}
 	
 	public void executeSellAll(){
@@ -74,49 +112,18 @@ public class PositionManager {
 		if (listOfPosition.size() == 0){
 			Co.println("Not holding any positions...");
 		}
-		synchronized(listOfPosition){
+		synchronized(lock){
 			for (TypePosition typePosition : listOfPosition){
-				if (typePosition.positionType == PositionType.position_buy){
-					positionSell(typePosition, false);
+				if (typePosition.positionType == PositionType.position_long){
+					executeLongExit(typePosition, typePosition.positionType);
 				}else if (typePosition.positionType == PositionType.position_short){
-					positionSell(typePosition, false);
+					executeShortExit(typePosition, typePosition.positionType);
 				}else {
-					throw new IllegalStateException();
+					throw new IllegalStateException("No condition matched PositionType: " + typePosition.positionType.name());
 				}
 			}
 			
 			listOfPosition.clear();
-		}
-	}
-	
-	private void positionBuy(TypePosition typePosition){
-		synchronized(listOfPosition){
-			account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
-			listOfPosition.add(typePosition);
-			Co.println("-------> Buy position (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.price + ", " + (typePosition.price * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
-		}
-	}
-	
-	private void positionSell(TypePosition typePosition, boolean removeFromList){
-		synchronized(listOfPosition){
-			if (typePosition.positionType == PositionType.position_buy){
-				account.changeBankBalance(typePosition.units * typePosition.lastKnownPrice, account.getTransactionCost(typePosition.units, typePosition.price));
-			}else if (typePosition.positionType == PositionType.position_short){
-				account.changeBankBalance(typePosition.units * typePosition.lastKnownPrice, account.getTransactionCost(typePosition.units, typePosition.price));
-			}else {
-				throw new IllegalStateException();
-			}
-			
-			if (removeFromList){listOfPosition.remove(typePosition);}
-			Co.println("-------> Sell position (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.lastKnownPrice + ", " + (typePosition.lastKnownPrice * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
-		}
-	}
-	
-	private void positionShort(TypePosition typePosition){
-		synchronized (listOfPosition){
-			listOfPosition.add(typePosition);
-			account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
-			Co.println("-------> Short position (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.price + ", " + (typePosition.price * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
 		}
 	}
 	

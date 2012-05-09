@@ -21,17 +21,17 @@ public class RequestMarketOrder {
 	private RequestHolder requestHolder;
 	private TypePosition typePosition;
 	
-	public RequestMarketOrder(RequestHolder requestHolder, TypePosition typePosition, PositionType positionType){
+	public RequestMarketOrder(RequestHolder requestHolder, TypePosition typePosition){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.typePosition = typePosition;
 		this.exResultSetMarketOrder = new ExResultMarketOrder(). new ExResultSetMarketOrder(typePosition);
 		
-		if (positionType == PositionType.position_buy){
+		if (typePosition.positionType == PositionType.position_long_entry){
 			ExchangeController.getIbExchangeInstance().placeBuyOrder(typePosition, requestHolder);
-		}else if (positionType == PositionType.position_sell){
+		}else if (typePosition.positionType == PositionType.position_long_exit){
 			ExchangeController.getIbExchangeInstance().placeSellOrder(typePosition, requestHolder);
-		}else if (positionType == PositionType.position_short){
+		}else if (typePosition.positionType == PositionType.position_short_entry){
 			 ExchangeController.getIbExchangeInstance().placeShortOrder(typePosition, requestHolder);
 		}else{
 			throw new UnsupportedOperationException();
