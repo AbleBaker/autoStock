@@ -7,8 +7,8 @@ import com.autoStock.exchange.request.RequestRealtimeData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestRealtimeDataListener;
 import com.autoStock.exchange.results.ExResultRealtimeData.ExResultSetRealtimeData;
-import com.autoStock.trading.types.TypeRealtimeData;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.types.RealtimeData;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -16,9 +16,9 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public class DisplayRealtimeData {
 
-	public TypeRealtimeData typeRealtimeData;
+	public RealtimeData typeRealtimeData;
 	
-	public DisplayRealtimeData(TypeRealtimeData typeRealtimeData) {
+	public DisplayRealtimeData(RealtimeData typeRealtimeData) {
 		this.typeRealtimeData = typeRealtimeData;
 	}
 	
@@ -31,7 +31,7 @@ public class DisplayRealtimeData {
 			public void completed(RequestHolder requestHolder, ExResultSetRealtimeData exResultSetRealtimeData) {}
 
 			@Override
-			public void receiveQuoteSlice(RequestHolder requestHolder, TypeQuoteSlice typeQuoteSlice) {
+			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice typeQuoteSlice) {
 				
 			}
 		}, typeRealtimeData);

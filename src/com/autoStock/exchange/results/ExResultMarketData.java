@@ -5,10 +5,10 @@ package com.autoStock.exchange.results;
 
 import java.util.ArrayList;
 
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickPriceFields;
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickSizeFields;
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickTypes;
-import com.autoStock.trading.types.TypeMarketData;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickPriceFields;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickSizeFields;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
+import com.autoStock.trading.types.MarketData;
 
 /**
  * @author Kevin Kowalewski
@@ -16,10 +16,10 @@ import com.autoStock.trading.types.TypeMarketData;
  */
 public class ExResultMarketData {
 	public class ExResultSetMarketData {
-		public TypeMarketData typeMarketData;
+		public MarketData typeMarketData;
 		public ArrayList<ExResultRowMarketData> listOfExResultRowMarketData = new ArrayList<ExResultRowMarketData>();
 		
-		public ExResultSetMarketData(TypeMarketData typeMarketData){
+		public ExResultSetMarketData(MarketData typeMarketData){
 			this.typeMarketData = typeMarketData;
 		}
 	}

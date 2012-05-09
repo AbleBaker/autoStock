@@ -12,9 +12,9 @@ import com.autoStock.exchange.results.ExResultMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.tools.QuoteSliceTools;
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickTypes;
-import com.autoStock.trading.types.TypeMarketData;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
+import com.autoStock.trading.types.MarketData;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -24,13 +24,13 @@ public class RequestMarketData {
 	public RequestHolder requestHolder;
 	public RequestMarketDataListener requestMarketDataListener;
 	public ExResultSetMarketData exResultSetMarketData;
-	public TypeMarketData typeMarketData;
+	public MarketData typeMarketData;
 	private Thread threadForSliceCollector;
 	private int sliceMilliseconds;
 	private long receivedTimestamp = 0;
 	private Date sliceDate;
 
-	public RequestMarketData(RequestHolder requestHolder, RequestMarketDataListener requestMarketDataListener, TypeMarketData typeMarketData, int sliceMilliseconds) {
+	public RequestMarketData(RequestHolder requestHolder, RequestMarketDataListener requestMarketDataListener, MarketData typeMarketData, int sliceMilliseconds) {
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestMarketDataListener = requestMarketDataListener;
@@ -64,7 +64,7 @@ public class RequestMarketData {
 				while (true){
 					try {Thread.sleep(sliceMilliseconds);}catch(InterruptedException e){return;}
 					synchronized(RequestMarketData.this){
-						TypeQuoteSlice typeQuoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData);
+						QuoteSlice typeQuoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData);
 						exResultSetMarketData.listOfExResultRowMarketData.clear();
 						
 						//Co.println("Generated new QuoteSlice");

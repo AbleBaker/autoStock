@@ -6,7 +6,7 @@ package com.autoStock.algorithm;
 import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.tools.DateTools;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -18,7 +18,7 @@ public class AlgorithmForCiprian extends AlgorithmBase implements ReceiverOfQuot
 	}
 
 	@Override
-	public void receiveQuoteSlice(TypeQuoteSlice quoteSlice) {
+	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		Co.println("Received quoteSlice: " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + quoteSlice.priceClose);
 
 	}

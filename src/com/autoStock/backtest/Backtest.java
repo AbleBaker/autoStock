@@ -9,21 +9,21 @@ import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.dataFeed.DataFeedHistoricalPrices;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
-import com.autoStock.trading.types.TypeHistoricalData;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class Backtest implements DataFeedListenerOfQuoteSlice {
-	private TypeHistoricalData typeHistoricalData;
+	private HistoricalData typeHistoricalData;
 	private DataFeedHistoricalPrices dataFeedHistoricalPrices;
 	private ArrayList<DbStockHistoricalPrice> listOfPrices;
 	private ReceiverOfQuoteSlice receiverOfQuoteSlice;
 	
-	public Backtest(TypeHistoricalData typeHistoricalData, ArrayList<DbStockHistoricalPrice> listOfPrices){
+	public Backtest(HistoricalData typeHistoricalData, ArrayList<DbStockHistoricalPrice> listOfPrices){
 		this.typeHistoricalData = typeHistoricalData;
 		this.listOfPrices = listOfPrices;
 		this.dataFeedHistoricalPrices = new DataFeedHistoricalPrices(typeHistoricalData, listOfPrices);
@@ -36,7 +36,7 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	}
 
 	@Override
-	public void receivedQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
+	public void receivedQuoteSlice(QuoteSlice typeQuoteSlice) {
 		//Co.println("Received backtest quote: " + DateTools.getPrettyDate(resultQuoteSlice.dateTime) + ", " + resultQuoteSlice.priceClose);
 		receiverOfQuoteSlice.receiveQuoteSlice(typeQuoteSlice);
 	}

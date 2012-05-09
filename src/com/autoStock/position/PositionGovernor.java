@@ -4,8 +4,8 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions;
-import com.autoStock.trading.types.TypePosition;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.types.Position;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -15,9 +15,9 @@ public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.instance;
 	public static PositionGovernor instance = new PositionGovernor();
 	
-	public PositionGovernorResponse informGovener(TypeQuoteSlice typeQuoteSlice, Signal signal){
+	public PositionGovernorResponse informGovener(QuoteSlice typeQuoteSlice, Signal signal){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
-		TypePosition typePosition = positionManager.getPosition(typeQuoteSlice.symbol);
+		Position typePosition = positionManager.getPosition(typeQuoteSlice.symbol);
 		
 		signal.currentSignalType = SignalDefinitions.getSignalType(signal);
 		positionManager.updatePositionPrice(typeQuoteSlice, typePosition);
@@ -54,28 +54,28 @@ public class PositionGovernor {
 		return positionGovernorResponse;
 	}
 	
-	private void governLongEntry(TypeQuoteSlice typeQuoteSlice, TypePosition typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
+	private void governLongEntry(QuoteSlice typeQuoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
 		if (typePosition != null && (typePosition.positionType == PositionType.position_long || typePosition.positionType == PositionType.position_long_entry)){
 			return;
 		}
 		positionGovernorResponse.typePosition = positionManager.suggestPosition(typeQuoteSlice, signal, PositionType.position_long_entry);
 	}
 	
-	private void governShortEntry(TypeQuoteSlice typeQuoteSlice, TypePosition typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
+	private void governShortEntry(QuoteSlice typeQuoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
 		if (typePosition != null && (typePosition.positionType == PositionType.position_short || typePosition.positionType == PositionType.position_short_entry)){
 			return;
 		}
 		positionGovernorResponse.typePosition = positionManager.suggestPosition(typeQuoteSlice, signal, PositionType.position_short_entry);
 	}
 	
-	private void governLongExit(TypeQuoteSlice typeQuoteSlice, TypePosition typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
+	private void governLongExit(QuoteSlice typeQuoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
 		if (typePosition != null && (typePosition.positionType == PositionType.position_long_exit)){
 			return;
 		}
 		positionGovernorResponse.typePosition = positionManager.suggestPosition(typeQuoteSlice, signal, PositionType.position_long_exit);
 	}
 	
-	private void governShortExit(TypeQuoteSlice typeQuoteSlice, TypePosition typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
+	private void governShortExit(QuoteSlice typeQuoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
 		if (typePosition != null && (typePosition.positionType == PositionType.position_short_exit)){
 			return;
 		}

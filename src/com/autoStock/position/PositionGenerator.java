@@ -7,8 +7,8 @@ import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
-import com.autoStock.trading.types.TypePosition;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.types.Position;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -23,8 +23,8 @@ public class PositionGenerator {
 		this.account = account;
 	}
 	
-	public TypePosition generatePosition(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
-		TypePosition typePosition = new TypePosition();
+	public Position generatePosition(QuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+		Position typePosition = new Position();
 		typePosition.symbol = typeQuoteSlice.symbol;
 		typePosition.price = typeQuoteSlice.priceClose;
 		typePosition.lastKnownPrice = typeQuoteSlice.priceClose;

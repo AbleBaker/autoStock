@@ -15,25 +15,24 @@ import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
-import com.autoStock.position.PositionManager;
 import com.autoStock.tools.DateTools;
-import com.autoStock.trading.types.TypeHistoricalData;
-import com.autoStock.types.TypeExchange;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.types.Exchange;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class MainBacktest implements ReceiverOfQuoteSlice {
-	private TypeHistoricalData typeHistoricalData;
+	private HistoricalData typeHistoricalData;
 	private ExResultHistoricalData exResultHistoricalData;
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AlgorithmTest algorithm;
 	private ArrayList<Double> listOfAlorithmPerformance = new ArrayList<Double>();
 	private BacktestType backtestType = BacktestType.backtest_default;
 	
-	public MainBacktest(TypeExchange exchange, TypeHistoricalData typeHistoricalData){
+	public MainBacktest(Exchange exchange, HistoricalData typeHistoricalData){
 		this.typeHistoricalData = typeHistoricalData;
 		Global.callbackLock.requestCallbackLock();
 		
@@ -52,7 +51,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void runBacktest(TypeHistoricalData typeHistoricalData){
+	public void runBacktest(HistoricalData typeHistoricalData){
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
 				BasicQueries.basic_historical_price_range,
 				QueryArgs.symbol.setValue(typeHistoricalData.symbol),
@@ -65,7 +64,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	}
 
 	@Override
-	public void receiveQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
+	public void receiveQuoteSlice(QuoteSlice typeQuoteSlice) {
 		algorithm.receiveQuoteSlice(typeQuoteSlice);
 	}
 

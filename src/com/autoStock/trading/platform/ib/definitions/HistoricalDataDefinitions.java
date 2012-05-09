@@ -7,7 +7,7 @@ package com.autoStock.trading.platform.ib.definitions;
  * @author Kevin Kowalewski
  *
  */
-public class HistoricalData {
+public class HistoricalDataDefinitions {
 	
 	public static int MIN_PERIOD = 30;
 	

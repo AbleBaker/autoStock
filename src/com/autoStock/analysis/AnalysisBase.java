@@ -13,7 +13,7 @@ import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataConditioner;
 import com.autoStock.tools.DataConditioner.PrecededDataset;
 import com.autoStock.tools.DataExtractor;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -43,7 +43,7 @@ public abstract class AnalysisBase {
 		return this.taLibCore;
 	}
 	
-	public void setDataSet(ArrayList<TypeQuoteSlice> listOfQuoteSlice){
+	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
 		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength){
 			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size());
 		}

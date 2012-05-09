@@ -5,7 +5,7 @@ package com.autoStock.exchange.results;
 
 import java.util.ArrayList;
 
-import com.autoStock.trading.types.TypePosition;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
@@ -13,10 +13,10 @@ import com.autoStock.trading.types.TypePosition;
  */
 public class ExResultMarketOrder {
 	public class ExResultSetMarketOrder {
-		public TypePosition typePosition;
+		public Position typePosition;
 		public ArrayList<ExResultRowMarketOrder> listOfExResultRowMarketOrder = new ArrayList<ExResultRowMarketOrder>();
 		
-		public ExResultSetMarketOrder(TypePosition typePosition){
+		public ExResultSetMarketOrder(Position typePosition){
 			this.typePosition = typePosition;
 		}
 	}

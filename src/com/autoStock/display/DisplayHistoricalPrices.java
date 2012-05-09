@@ -15,7 +15,7 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
-import com.autoStock.trading.types.TypeHistoricalData;
+import com.autoStock.trading.types.HistoricalData;
 
 /**
  * @author Kevin Kowalewski
@@ -23,9 +23,9 @@ import com.autoStock.trading.types.TypeHistoricalData;
  */
 public class DisplayHistoricalPrices {
 	
-	private TypeHistoricalData typeHistoricalData;
+	private HistoricalData typeHistoricalData;
 	
-	public DisplayHistoricalPrices(TypeHistoricalData typeHistoricalData){
+	public DisplayHistoricalPrices(HistoricalData typeHistoricalData){
 		this.typeHistoricalData = typeHistoricalData;
 	}
 	

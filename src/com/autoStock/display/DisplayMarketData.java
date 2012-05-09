@@ -8,8 +8,8 @@ import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
-import com.autoStock.trading.types.TypeMarketData;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.types.MarketData;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -17,9 +17,9 @@ import com.autoStock.types.TypeQuoteSlice;
  */
 public class DisplayMarketData {
 	
-	private TypeMarketData typeMarketData;
+	private MarketData typeMarketData;
 	
-	public DisplayMarketData(TypeMarketData typeMarketData){
+	public DisplayMarketData(MarketData typeMarketData){
 		this.typeMarketData = typeMarketData;
 	}
 	
@@ -37,7 +37,7 @@ public class DisplayMarketData {
 			}
 
 			@Override
-			public void receiveQuoteSlice(RequestHolder requestHolder, TypeQuoteSlice typeQuoteSlice) {
+			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice typeQuoteSlice) {
 				// TODO Auto-generated method stub
 				
 			}

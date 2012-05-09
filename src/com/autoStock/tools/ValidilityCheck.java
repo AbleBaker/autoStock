@@ -2,8 +2,8 @@ package com.autoStock.tools;
 
 import com.autoStock.menu.MenuDefinitions.MenuArgumentTypes;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
-import com.autoStock.trading.platform.ib.definitions.HistoricalData;
-import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 
 /**
  * @author Kevin Kowalewski
@@ -85,7 +85,7 @@ public class ValidilityCheck {
 	}
 	
 	public boolean isValidPeriod(String value){
-		for (HistoricalData.Resolution resolution : HistoricalData.Resolution.values()){
+		for (HistoricalDataDefinitions.Resolution resolution : HistoricalDataDefinitions.Resolution.values()){
 			if (value.toLowerCase().equals(resolution.name().toLowerCase())){
 				return true;
 			}

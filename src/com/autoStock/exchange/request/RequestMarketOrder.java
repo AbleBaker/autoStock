@@ -10,7 +10,7 @@ import com.autoStock.exchange.results.ExResultMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.trading.types.TypePosition;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
@@ -19,9 +19,9 @@ import com.autoStock.trading.types.TypePosition;
 public class RequestMarketOrder {
 	private ExResultSetMarketOrder exResultSetMarketOrder;
 	private RequestHolder requestHolder;
-	private TypePosition typePosition;
+	private Position typePosition;
 	
-	public RequestMarketOrder(RequestHolder requestHolder, TypePosition typePosition){
+	public RequestMarketOrder(RequestHolder requestHolder, Position typePosition){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.typePosition = typePosition;

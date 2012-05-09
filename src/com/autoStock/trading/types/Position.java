@@ -10,7 +10,7 @@ import com.autoStock.position.PositionDefinitions.PositionType;
  * @author Kevin Kowalewski
  *
  */
-public class TypePosition implements Cloneable {
+public class Position implements Cloneable {
 	public int units;
 	public String symbol;
 	public String securityType;
@@ -18,11 +18,11 @@ public class TypePosition implements Cloneable {
 	public double lastKnownPrice;
 	public PositionType positionType = PositionType.position_none;
 	
-	public TypePosition(){
+	public Position(){
 		
 	}
 
-	public TypePosition(PositionType positionType, int units, String symbol, String securityType, double averagePrice) {
+	public Position(PositionType positionType, int units, String symbol, String securityType, double averagePrice) {
 		this.positionType = positionType;
 		this.units = units;
 		this.symbol = symbol;
@@ -31,9 +31,9 @@ public class TypePosition implements Cloneable {
 	}
 	
 	@Override
-	public TypePosition clone(){
+	public Position clone(){
 		try {
-			return (TypePosition) super.clone();
+			return (Position) super.clone();
 		} catch (CloneNotSupportedException e) {
 			return null;
 		}

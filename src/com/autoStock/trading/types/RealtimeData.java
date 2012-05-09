@@ -7,19 +7,19 @@ package com.autoStock.trading.types;
  * @author Kevin Kowalewski
  *
  */
-public class TypeRealtimeData implements Cloneable {
+public class RealtimeData implements Cloneable {
 
 	public String symbol;
 	public String securityType;
 	
-	public TypeRealtimeData(String symbol, String securityType){
+	public RealtimeData(String symbol, String securityType){
 		this.symbol = symbol;
 		this.securityType = securityType.toUpperCase();
 	}
 
-	public TypeRealtimeData clone(){
+	public RealtimeData clone(){
 		try {
-			return (TypeRealtimeData) super.clone();
+			return (RealtimeData) super.clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 			return null;

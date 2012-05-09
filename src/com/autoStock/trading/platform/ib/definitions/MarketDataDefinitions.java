@@ -6,7 +6,7 @@ import com.autoStock.trading.platform.ib.core.TickType;
  * @author Kevin Kowalewski
  *
  */
-public class MarketData {
+public class MarketDataDefinitions {
 	
 	public static enum TickTypes {
 		type_size,

@@ -5,8 +5,8 @@ package com.autoStock.exchange.results;
 
 import java.util.ArrayList;
 
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickPriceFields;
-import com.autoStock.trading.types.TypeRealtimeData;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickPriceFields;
+import com.autoStock.trading.types.RealtimeData;
 
 /**
  * @author Kevin Kowalewski
@@ -14,10 +14,10 @@ import com.autoStock.trading.types.TypeRealtimeData;
  */
 public class ExResultRealtimeData {
 	public class ExResultSetRealtimeData {
-		public TypeRealtimeData typeRealtimeData;
+		public RealtimeData typeRealtimeData;
 		public ArrayList<ExResultRowRealtimeData> listOfExResultRowRealtimeData = new ArrayList<ExResultRowRealtimeData>();
 		
-		public ExResultSetRealtimeData(TypeRealtimeData typeRealtimeData){
+		public ExResultSetRealtimeData(RealtimeData typeRealtimeData){
 			this.typeRealtimeData = typeRealtimeData;
 		}
 	}

@@ -10,8 +10,8 @@ import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.tools.Lock;
-import com.autoStock.trading.types.TypePosition;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.types.Position;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -21,10 +21,10 @@ public class PositionManager {
 	public static PositionManager instance = new PositionManager();
 	private Account account = Account.instance;
 	private PositionGenerator positionGenerator = new PositionGenerator(account);
-	private ArrayList<TypePosition> listOfPosition = new ArrayList<TypePosition>();
+	private ArrayList<Position> listOfPosition = new ArrayList<Position>();
 	private Lock lock = new Lock();
 	
-	public TypePosition suggestPosition(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){		
+	public Position suggestPosition(QuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){		
 		if (positionType == PositionType.position_long_entry){
 			return executeLongEntry(typeQuoteSlice, signal, positionType);
 		}
@@ -32,13 +32,13 @@ public class PositionManager {
 			return executeShortEntry(typeQuoteSlice, signal, positionType);
 		}
 		else if (positionType == PositionType.position_long_exit){
-			TypePosition typePosition = executeLongExit(getPosition(typeQuoteSlice.symbol), positionType).clone();
+			Position typePosition = executeLongExit(getPosition(typeQuoteSlice.symbol), positionType).clone();
 			listOfPosition.remove(getPosition(typeQuoteSlice.symbol));
 			return typePosition;
 			
 		}
 		else if (positionType == PositionType.position_short_exit){
-			TypePosition typePosition = executeShortExit(getPosition(typeQuoteSlice.symbol), positionType);
+			Position typePosition = executeShortExit(getPosition(typeQuoteSlice.symbol), positionType);
 			listOfPosition.remove(getPosition(typeQuoteSlice.symbol));
 			return typePosition;
 		}
@@ -47,9 +47,9 @@ public class PositionManager {
 		}		
 	}
 	
-	private TypePosition executeLongEntry(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+	private Position executeLongEntry(QuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
 		synchronized (lock) {
-			TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
+			Position typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
 			account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
 			listOfPosition.add(typePosition);
 			PositionCallback.setPositionSuccess(typePosition);
@@ -60,9 +60,9 @@ public class PositionManager {
 		}
 	}
 	
-	private TypePosition executeShortEntry(TypeQuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
+	private Position executeShortEntry(QuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
 		synchronized (lock){
-			TypePosition typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
+			Position typePosition = positionGenerator.generatePosition(typeQuoteSlice, signal, positionType);
 			listOfPosition.add(typePosition);
 			account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
 			PositionCallback.setPositionSuccess(typePosition);
@@ -73,7 +73,7 @@ public class PositionManager {
 		}
 	}
 	
-	private TypePosition executeLongExit(TypePosition typePosition, PositionType positionType){
+	private Position executeLongExit(Position typePosition, PositionType positionType){
 		synchronized (lock){
 			typePosition.positionType = PositionType.position_long_exit;
 			
@@ -87,7 +87,7 @@ public class PositionManager {
 		}
 	}
 	
-	private TypePosition executeShortExit(TypePosition typePosition, PositionType positionType){
+	private Position executeShortExit(Position typePosition, PositionType positionType){
 		synchronized(lock){
 			typePosition.positionType = PositionType.position_short_exit;
 
@@ -101,7 +101,7 @@ public class PositionManager {
 		}
 	}		
 	
-	public void updatePositionPrice(TypeQuoteSlice typeQuoteSlice, TypePosition typePosition){
+	public void updatePositionPrice(QuoteSlice typeQuoteSlice, Position typePosition){
 		if (typePosition != null){
 			typePosition.lastKnownPrice = typeQuoteSlice.priceClose;
 		}
@@ -113,7 +113,7 @@ public class PositionManager {
 			Co.println("Not holding any positions...");
 		}
 		synchronized(lock){
-			for (TypePosition typePosition : listOfPosition){
+			for (Position typePosition : listOfPosition){
 				if (typePosition.positionType == PositionType.position_long){
 					executeLongExit(typePosition, typePosition.positionType);
 				}else if (typePosition.positionType == PositionType.position_short){
@@ -127,9 +127,9 @@ public class PositionManager {
 		}
 	}
 	
-	public TypePosition getPosition(String symbol){
+	public Position getPosition(String symbol){
 		synchronized(listOfPosition){
-			for (TypePosition typePosition : listOfPosition){
+			for (Position typePosition : listOfPosition){
 				if (typePosition.symbol.equals(symbol)){
 					return typePosition;
 				}

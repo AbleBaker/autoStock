@@ -15,8 +15,8 @@ import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
 import com.autoStock.position.PositionManager;
-import com.autoStock.trading.types.TypeMarketData;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.types.MarketData;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -63,7 +63,7 @@ public class MainCampaign {
 			Co.println("Should run algorithm for symbol: " + result.symbol);
 			new RequestMarketData(new RequestHolder(null), new RequestMarketDataListener() {
 				@Override
-				public void receiveQuoteSlice(RequestHolder requestHolder, TypeQuoteSlice typeQuoteSlice) {
+				public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice typeQuoteSlice) {
 					Co.println("Received quote slice: " + typeQuoteSlice.symbol + ", " + typeQuoteSlice.priceClose);
 				}
 				
@@ -76,7 +76,7 @@ public class MainCampaign {
 				public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
 					
 				}
-			}, new TypeMarketData(result.symbol, "STK"), 5000);
+			}, new MarketData(result.symbol, "STK"), 5000);
 		}
 	}
 	

@@ -3,8 +3,7 @@
  */
 package com.autoStock.position;
 
-import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.trading.types.TypePosition;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
@@ -12,9 +11,9 @@ import com.autoStock.trading.types.TypePosition;
  */
 public class PositionGovernorResponse {
 	public boolean changedPosition = false;
-	public TypePosition typePosition = new TypePosition();
+	public Position typePosition = new Position();
 	
-	public void setResponse(boolean changedPosition, TypePosition typePosition){
+	public void setResponse(boolean changedPosition, Position typePosition){
 		this.changedPosition = changedPosition;
 		this.typePosition =  typePosition;
 	}

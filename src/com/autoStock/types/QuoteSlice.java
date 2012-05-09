@@ -5,13 +5,13 @@ package com.autoStock.types;
 
 import java.util.Date;
 
-import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 
 /**
  * @author Kevin Kowalewski
  *
  */
-public class TypeQuoteSlice {
+public class QuoteSlice {
 	public String symbol;
 	public double priceOpen;
 	public double priceHigh;
@@ -23,11 +23,11 @@ public class TypeQuoteSlice {
 	public Date dateTime;
 	public Resolution resolution;
 	
-	public TypeQuoteSlice(){
+	public QuoteSlice(){
 		
 	}
 	
-	public TypeQuoteSlice(String symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, double priceBid, double priceAsk, int sizeVolume, Date dateTime, Resolution resolution) {
+	public QuoteSlice(String symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, double priceBid, double priceAsk, int sizeVolume, Date dateTime, Resolution resolution) {
 		this.symbol = symbol;
 		this.priceOpen = priceOpen;
 		this.priceHigh = priceHigh;

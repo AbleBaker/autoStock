@@ -3,14 +3,14 @@
  */
 package com.autoStock.trading.platform.ib;
 
-import com.autoStock.trading.types.TypeHistoricalData;
+import com.autoStock.trading.types.HistoricalData;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class IbEquityInformation {
-	public void requestHistoricalQuote(TypeHistoricalData typeHistoricalData){
+	public void requestHistoricalQuote(HistoricalData typeHistoricalData){
 		
 	}
 }

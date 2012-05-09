@@ -1,24 +1,13 @@
 package com.autoStock;
 
 import java.sql.SQLException;
-import java.util.Date;
 
-import com.autoStock.finance.Account;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.internal.Global.Mode;
 import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.menu.MenuDisplayLauncher;
-import com.autoStock.position.PositionGovernor;
-import com.autoStock.position.PositionManager;
-import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
-import com.autoStock.signal.SignalMetric;
-import com.autoStock.signal.SignalDefinitions.SignalSource;
-import com.autoStock.signal.SignalDefinitions.SignalType;
-import com.autoStock.tools.MiscUtils;
-import com.autoStock.types.TypeQuoteSlice;
 
 /**
  * @author Kevin Kowalewski

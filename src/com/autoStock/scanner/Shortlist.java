@@ -10,7 +10,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.database.queryResults.QueryResult.QrSymbolCountFromExchange;
-import com.autoStock.types.TypeShorlistStock;
+import com.autoStock.types.ShorlistOfStock;
 
 /**
  * @author Kevin Kowalewski
@@ -29,11 +29,11 @@ public class Shortlist {
 		this.exchange = exchange;
 	}
 	
-	public ArrayList<TypeShorlistStock> getShortlistedStocks(){
-		ArrayList<TypeShorlistStock> listOfSymbol = new ArrayList<TypeShorlistStock>();
+	public ArrayList<ShorlistOfStock> getShortlistedStocks(){
+		ArrayList<ShorlistOfStock> listOfSymbol = new ArrayList<ShorlistOfStock>();
 		
 		for (QueryResult.QrSymbolCountFromExchange queryResult : generateShortlist()){
-			listOfSymbol.add(new TypeShorlistStock(queryResult.symbol, exchange, ShortlistReason.high_volume));
+			listOfSymbol.add(new ShorlistOfStock(queryResult.symbol, exchange, ShortlistReason.high_volume));
 		}
 		
 		return listOfSymbol;

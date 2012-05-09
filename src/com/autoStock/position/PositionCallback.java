@@ -1,7 +1,7 @@
 package com.autoStock.position;
 
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.trading.types.TypePosition;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
@@ -9,7 +9,7 @@ import com.autoStock.trading.types.TypePosition;
  */
 public class PositionCallback {
 	// Will throw if connected to the exchange
-	public static void setPositionSuccess(TypePosition typePosition) throws IllegalAccessError {
+	public static void setPositionSuccess(Position typePosition) throws IllegalAccessError {
 		if (typePosition.positionType == PositionType.position_long_entry){typePosition.positionType = PositionType.position_long;}
 		else if (typePosition.positionType == PositionType.position_short_entry){typePosition.positionType = PositionType.position_short;}
 		else if (typePosition.positionType == PositionType.position_long_exit){typePosition.positionType = PositionType.position_exited;}

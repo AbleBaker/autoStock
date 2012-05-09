@@ -11,8 +11,8 @@ import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultRowHistoricalData;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.tools.ReflectiveComparator;
-import com.autoStock.trading.platform.ib.definitions.HistoricalData;
-import com.autoStock.trading.types.TypeHistoricalData;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions;
+import com.autoStock.trading.types.HistoricalData;
 
 /**
  * @author Kevin Kowalewski
@@ -21,10 +21,10 @@ import com.autoStock.trading.types.TypeHistoricalData;
 public class RequestHistoricalData {
 	public RequestHolder requestHolder;
 	public RequestHistoricalDataListener requestHistoricalDataListener;
-	public TypeHistoricalData typeHistoricalData;
+	public HistoricalData typeHistoricalData;
 	public ExResultSetHistoricalData exResultSetHistoricalData;
 	
-	public RequestHistoricalData(RequestHolder requestHolder, RequestHistoricalDataListener requestListener, TypeHistoricalData typeHistoricalData){
+	public RequestHistoricalData(RequestHolder requestHolder, RequestHistoricalDataListener requestListener, HistoricalData typeHistoricalData){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestHistoricalDataListener = requestListener;
@@ -35,27 +35,27 @@ public class RequestHistoricalData {
 		//Co.println("Sample period: " + this.typeHistoricalData.duration);
 		//Co.println("Best res: " + HistoricalData.getBestResolution(this.typeHistoricalData.duration));
 		
-		if (HistoricalData.getBestResolution(this.typeHistoricalData.duration) != this.typeHistoricalData.resolution){		
-			int neededCalls = (int)(this.typeHistoricalData.duration / HistoricalData.getBestPeriod(typeHistoricalData.resolution).duration) + 1;
+		if (HistoricalDataDefinitions.getBestResolution(this.typeHistoricalData.duration) != this.typeHistoricalData.resolution){		
+			int neededCalls = (int)(this.typeHistoricalData.duration / HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration) + 1;
 			
 			requestHolder.mulitpleRequests = neededCalls;
 			
 			long neededDuration = this.typeHistoricalData.duration;
 			long callStartTime = this.typeHistoricalData.startDate.getTime() / 1000;
-			long callEndTime = (this.typeHistoricalData.startDate.getTime() / 1000) + HistoricalData.getBestPeriod(typeHistoricalData.resolution).duration;
+			long callEndTime = (this.typeHistoricalData.startDate.getTime() / 1000) + HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration;
 			
 			for (int i=0; i<neededCalls; i++){
 				if (i == neededCalls-1){
 					callEndTime = callStartTime + neededDuration;
 				}
 								
-				TypeHistoricalData tempTypeHistoricalData = typeHistoricalData.clone();
+				HistoricalData tempTypeHistoricalData = typeHistoricalData.clone();
 				tempTypeHistoricalData.duration = callEndTime - callStartTime;
 				
-				if (tempTypeHistoricalData.duration < HistoricalData.MIN_PERIOD){
+				if (tempTypeHistoricalData.duration < HistoricalDataDefinitions.MIN_PERIOD){
 					Log.w("Period is too short, using MIN_PERIOD instead");
-					callEndTime += (HistoricalData.MIN_PERIOD - tempTypeHistoricalData.duration);
-					tempTypeHistoricalData.duration = HistoricalData.MIN_PERIOD;
+					callEndTime += (HistoricalDataDefinitions.MIN_PERIOD - tempTypeHistoricalData.duration);
+					tempTypeHistoricalData.duration = HistoricalDataDefinitions.MIN_PERIOD;
 				}
 								
 				tempTypeHistoricalData.startDate = new Date(callStartTime*1000);
@@ -63,9 +63,9 @@ public class RequestHistoricalData {
 				
 				ExchangeController.getIbExchangeInstance().getHistoricalPrice(tempTypeHistoricalData, requestHolder);
 				
-				neededDuration -= HistoricalData.getBestPeriod(typeHistoricalData.resolution).duration;
-				callStartTime += HistoricalData.getBestPeriod(typeHistoricalData.resolution).duration + 1;
-				callEndTime += HistoricalData.getBestPeriod(typeHistoricalData.resolution).duration + 1;			
+				neededDuration -= HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration;
+				callStartTime += HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration + 1;
+				callEndTime += HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration + 1;			
 			}
 		}else{
 			ExchangeController.getIbExchangeInstance().getHistoricalPrice(typeHistoricalData, requestHolder);

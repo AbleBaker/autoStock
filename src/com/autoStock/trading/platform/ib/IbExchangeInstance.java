@@ -11,10 +11,10 @@ import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
 import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.ScannerSubscription;
-import com.autoStock.trading.types.TypeHistoricalData;
-import com.autoStock.trading.types.TypeMarketData;
-import com.autoStock.trading.types.TypePosition;
-import com.autoStock.trading.types.TypeRealtimeData;
+import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.trading.types.MarketData;
+import com.autoStock.trading.types.Position;
+import com.autoStock.trading.types.RealtimeData;
 
 /**
  * @author Kevin Kowalewski
@@ -46,7 +46,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqOpenOrders();
 	}
 	
-	public void placeBuyOrder(TypePosition typePosition, RequestHolder requestHolder){
+	public void placeBuyOrder(Position typePosition, RequestHolder requestHolder){
 		Contract contract = new Contract();
 		Order order = new Order();
 		contract.m_exchange = "NYSE";
@@ -61,7 +61,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
 	}
 	
-	public void placeSellOrder(TypePosition typePosition, RequestHolder requestHolder){
+	public void placeSellOrder(Position typePosition, RequestHolder requestHolder){
 		Contract contract = new Contract();
 		Order order = new Order();
 		contract.m_exchange = "NYSE";
@@ -76,7 +76,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
 	}
 	
-	public void placeShortOrder(TypePosition typePosition, RequestHolder requestHolder){
+	public void placeShortOrder(Position typePosition, RequestHolder requestHolder){
 		Contract contract = new Contract();
 		Order order = new Order();
 		contract.m_exchange = "NYSE";
@@ -103,7 +103,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(1, scanner);
 	}
 	
-	public void getRealtimeData(TypeRealtimeData typeRealtimeData, RequestHolder requestHolder){
+	public void getRealtimeData(RealtimeData typeRealtimeData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
 		contract.m_exchange = "ASX";
@@ -113,7 +113,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqRealTimeBars(requestHolder.requestId, contract, 5, "TRADES", false);
 	}
 	
-	public void getMarketData(TypeMarketData typeMarketData, RequestHolder requestHolder){
+	public void getMarketData(MarketData typeMarketData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
 		contract.m_exchange = "ASX";
@@ -123,7 +123,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqMktData(requestHolder.requestId, contract, "104,165,225", false);
 	}
 	
-	public void getHistoricalPrice(TypeHistoricalData typeHistoricalData, RequestHolder requestHolder){
+	public void getHistoricalPrice(HistoricalData typeHistoricalData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
 		contract.m_exchange = "Smart";

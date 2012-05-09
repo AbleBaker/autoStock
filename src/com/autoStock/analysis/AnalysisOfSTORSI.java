@@ -12,7 +12,7 @@ import com.autoStock.taLib.MAType;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.DataExtractor;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -34,13 +34,13 @@ public class AnalysisOfSTORSI extends AnalysisBase {
 		//arrayOfPriceOpen = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceOpen").toArray(new Double[0]));
 		//arrayOfPriceHigh = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceHigh").toArray(new Double[0]));
 		//arrayOfPriceLow = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceLow").toArray(new Double[0]));
-		arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)super.dataSource), "priceClose").toArray(new Double[0]));
+		arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<QuoteSlice>)super.dataSource), "priceClose").toArray(new Double[0]));
 		
 		if (preceedDataset){
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().stochRsi(0, endIndex, arrayOfPriceClose, periodLength-(periodLength/2), periodLength/4*2, periodLength/4, MAType.Tema, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
+		RetCode returnCode = getTaLibCore().stochRsi(0, endIndex, arrayOfPriceClose, periodLength-16, 10, 5, MAType.Dema, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
 		handleAnalysisResult(returnCode);
 		
 		return results;

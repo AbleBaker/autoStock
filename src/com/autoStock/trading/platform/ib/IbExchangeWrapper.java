@@ -22,7 +22,7 @@ import com.autoStock.trading.platform.ib.core.Execution;
 import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.OrderState;
 import com.autoStock.trading.platform.ib.core.UnderComp;
-import com.autoStock.trading.platform.ib.definitions.MarketData;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions;
 
 /**
  * @author Kevin Kowalewski
@@ -64,14 +64,14 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
-		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketData.getTickPriceField(field).name());
-		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketData.getTickPriceField(field), price));
+		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketDataDefinitions.getTickPriceField(field).name());
+		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickPriceField(field), price));
 	}
 
 	@Override
 	public void tickSize(int tickerId, int field, int size) {
-		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size + ", " + MarketData.getTickSizeField(field));
-		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketData.getTickSizeField(field), size));
+		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size + ", " + MarketDataDefinitions.getTickSizeField(field));
+		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickSizeField(field), size));
 	}
 
 	@Override

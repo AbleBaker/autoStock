@@ -6,16 +6,16 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.analysis.AnalysisOfDI;
 import com.autoStock.analysis.AnalysisOfBB;
 import com.autoStock.analysis.AnalysisOfCCI;
+import com.autoStock.analysis.AnalysisOfDI;
 import com.autoStock.analysis.AnalysisOfMACD;
 import com.autoStock.analysis.AnalysisOfRSI;
 import com.autoStock.analysis.AnalysisOfSTORSI;
 import com.autoStock.analysis.AnalysisOfTRIX;
-import com.autoStock.analysis.results.ResultsDI;
 import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
+import com.autoStock.analysis.results.ResultsDI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsSTORSI;
@@ -28,8 +28,8 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
-import com.autoStock.signal.SignalOfDI;
 import com.autoStock.signal.SignalOfCCI;
+import com.autoStock.signal.SignalOfDI;
 import com.autoStock.signal.SignalOfMACD;
 import com.autoStock.signal.SignalOfPPC;
 import com.autoStock.signal.SignalOfRSI;
@@ -44,7 +44,7 @@ import com.autoStock.tools.DataExtractor;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -69,13 +69,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisOfTRIX analysisOfTRIX = new AnalysisOfTRIX(periodLength, false);
 	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
-	private ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
+	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
 	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
 	private PositionGovernor positionGovener = PositionGovernor.instance;
 
 	@Override
-	public void receiveQuoteSlice(TypeQuoteSlice typeQuoteSlice) {
+	public void receiveQuoteSlice(QuoteSlice typeQuoteSlice) {
 		//Co.println("Received backtest quote: " + DateTools.getPrettyDate(typeQuoteSlice.dateTime) + ", " + typeQuoteSlice.priceClose);
 		
 		listOfQuoteSlice.add(typeQuoteSlice);
@@ -103,7 +103,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
 			
-			double[] arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<TypeQuoteSlice>)listOfQuoteSlice), "priceClose").toArray(new Double[0]));
+			double[] arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<QuoteSlice>)listOfQuoteSlice), "priceClose").toArray(new Double[0]));
 			double analysisOfCCIResult = resultsCCI.arrayOfCCI[periodWindow-1];
 			double analysisOfDIResultPlus = resultsDI.arrayOfDIPlus[periodWindow-1];
 			double analysisOfDIResultMinus = resultsDI.arrayOfDIMinus[periodWindow-1];

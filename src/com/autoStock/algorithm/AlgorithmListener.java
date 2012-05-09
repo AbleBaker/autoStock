@@ -4,13 +4,13 @@
 package com.autoStock.algorithm;
 
 import com.autoStock.signal.Signal;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public interface AlgorithmListener {
-	public void recieveSignal(Signal signal, TypeQuoteSlice typeQuoteSlice);
+	public void recieveSignal(Signal signal, QuoteSlice typeQuoteSlice);
 	public void endOfAlgorithm();
 }

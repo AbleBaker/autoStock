@@ -7,18 +7,18 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickPriceFields;
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickSizeFields;
-import com.autoStock.trading.platform.ib.definitions.MarketData.TickTypes;
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickPriceFields;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickSizeFields;
+import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class QuoteSliceTools {
-	public TypeQuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData){
-		TypeQuoteSlice typeQuoteSlice = new TypeQuoteSlice();
+	public QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData){
+		QuoteSlice typeQuoteSlice = new QuoteSlice();
 		
 		float priceHigh = 0;
 		float priceLow = 0;

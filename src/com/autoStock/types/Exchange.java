@@ -13,14 +13,14 @@ import com.autoStock.types.basic.Time;
  * @author Kevin Kowalewski
  *
  */
-public class TypeExchange {
+public class Exchange {
 	public String exchange;
 	public CurrencyDefinitions currency;
 	public Time timeOpen;
 	public Time timeClose;
 	public Time timeOffset;
 	
-	public TypeExchange(String exchange){
+	public Exchange(String exchange){
 		ArrayList<DbExchange> listOfQrExchange = (ArrayList<DbExchange>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_exchange_info, QueryArgs.exchange.setValue(exchange));
 		DbExchange queryResultOfExchange = listOfQrExchange.get(0);
 		this.exchange = exchange;
@@ -30,7 +30,7 @@ public class TypeExchange {
 		this.timeOffset = queryResultOfExchange.timeOffset;
 	}
 	
-	public TypeExchange(String exchange, CurrencyDefinitions currency, Time timeOpen, Time timeClose) {
+	public Exchange(String exchange, CurrencyDefinitions currency, Time timeOpen, Time timeClose) {
 		this.exchange = exchange;
 		this.currency = currency;
 		this.timeOpen = timeOpen;

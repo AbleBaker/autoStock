@@ -12,11 +12,11 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
  *
  */
 public class ConvertTypes {
-	public ArrayList<TypeQuoteSlice> convertToQuoteSlice(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
-		ArrayList<TypeQuoteSlice> listOfQuoteSlice = new ArrayList<TypeQuoteSlice>();
+	public ArrayList<QuoteSlice> convertToQuoteSlice(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
+		ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 		
 		for (DbStockHistoricalPrice dbStockHistoricalPrice : listOfDbStockHistoricalPrice){
-			TypeQuoteSlice typeQuoteSlice = new TypeQuoteSlice();
+			QuoteSlice typeQuoteSlice = new QuoteSlice();
 			typeQuoteSlice.symbol = dbStockHistoricalPrice.symbol;
 			typeQuoteSlice.dateTime = dbStockHistoricalPrice.dateTime;
 			typeQuoteSlice.priceOpen = dbStockHistoricalPrice.priceOpen;

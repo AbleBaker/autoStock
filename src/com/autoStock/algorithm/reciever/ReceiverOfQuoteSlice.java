@@ -3,13 +3,13 @@
  */
 package com.autoStock.algorithm.reciever;
 
-import com.autoStock.types.TypeQuoteSlice;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public interface ReceiverOfQuoteSlice {
-	void receiveQuoteSlice(TypeQuoteSlice quoteSlice);
+	void receiveQuoteSlice(QuoteSlice quoteSlice);
 	void endOfFeed();
 }

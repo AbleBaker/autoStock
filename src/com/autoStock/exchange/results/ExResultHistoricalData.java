@@ -2,7 +2,7 @@ package com.autoStock.exchange.results;
 
 import java.util.ArrayList;
 
-import com.autoStock.trading.types.TypeHistoricalData;
+import com.autoStock.trading.types.HistoricalData;
 
 /**
  * @author Kevin Kowalewski
@@ -11,10 +11,10 @@ import com.autoStock.trading.types.TypeHistoricalData;
 
 public class ExResultHistoricalData {
 	public class ExResultSetHistoricalData {
-		public TypeHistoricalData typeHistoricalData;
+		public HistoricalData typeHistoricalData;
 		public ArrayList<ExResultRowHistoricalData> listOfExResultRowHistoricalData = new ArrayList<ExResultRowHistoricalData>();
 		
-		public ExResultSetHistoricalData(TypeHistoricalData typeHistoricalData){
+		public ExResultSetHistoricalData(HistoricalData typeHistoricalData){
 			this.typeHistoricalData = typeHistoricalData;
 		}
 	}

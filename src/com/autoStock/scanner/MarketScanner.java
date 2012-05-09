@@ -18,17 +18,17 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.tools.DateTools;
-import com.autoStock.trading.platform.ib.definitions.HistoricalData.Resolution;
-import com.autoStock.trading.types.TypeHistoricalData;
-import com.autoStock.types.TypeQuoteSlice;
-import com.autoStock.types.TypeShorlistStock;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.ShorlistOfStock;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
-	private ArrayList<TypeShorlistStock> listOfShortlistedStocks;
+	private ArrayList<ShorlistOfStock> listOfShortlistedStocks;
 	private ArrayList<Backtest> listOfBacktest = new ArrayList<Backtest>();
 	private ArrayList<AlgorithmTest> listOfAlgorithmTest = new ArrayList<AlgorithmTest>();
 	private Shortlist shortlist = new Shortlist("NYSE");
@@ -43,8 +43,8 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	
 	public void startScan(){
 		Co.println("Fetching symbol historical data...");
-		for (TypeShorlistStock shortlistedStock : listOfShortlistedStocks){
-			TypeHistoricalData typeHistoricalData = new TypeHistoricalData(shortlistedStock.symbol, "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 15:30:00"), Resolution.min);
+		for (ShorlistOfStock shortlistedStock : listOfShortlistedStocks){
+			HistoricalData typeHistoricalData = new HistoricalData(shortlistedStock.symbol, "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 15:30:00"), Resolution.min);
 			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
 					BasicQueries.basic_historical_price_range,
 					QueryArgs.symbol.setValue(typeHistoricalData.symbol),
@@ -70,7 +70,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	}
 
 	@Override
-	public void receiveQuoteSlice(TypeQuoteSlice quoteSlice) {
+	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		Co.println("Received slice: " + quoteSlice.symbol);
 	}
 
@@ -80,7 +80,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	}
 
 	@Override
-	public void recieveSignal(Signal signal, TypeQuoteSlice typeQuoteSlice) {
+	public void recieveSignal(Signal signal, QuoteSlice typeQuoteSlice) {
 //		if (signal.getCombinedSignal() > 50){
 //			//Co.println("Recieved buy signal: " + signal.getCombinedSignal());
 //			positionManager.suggestPosition(typeQuoteSlice, signal);
