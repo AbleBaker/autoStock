@@ -42,7 +42,7 @@ public class AnalysisOfMACD extends AnalysisBase {
 		
 		//Co.println("macdFastPeirod: " + macdFastPeriod);
 		
-		RetCode returnCode = getTaLibCore().macd(0, endIndex, arrayOfPriceClose, periodLength/2, periodLength/4, periodLength/2, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		RetCode returnCode = getTaLibCore().macd(0, endIndex, arrayOfPriceClose, periodLength/4, periodLength/2, periodLength/2, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		handleAnalysisResult(returnCode);
 		
 		return results;

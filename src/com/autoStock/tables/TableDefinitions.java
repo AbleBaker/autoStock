@@ -10,7 +10,7 @@ public class TableDefinitions {
 		stock_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.sizeVolume, AsciiColumns.sizeCount, AsciiColumns.derivedChange}), //, Columns.sizeVolume
 		stock_historical_price_db(new AsciiColumns[]{AsciiColumns.id, AsciiColumns.symbol, AsciiColumns.priceOpen, AsciiColumns.priceHigh, AsciiColumns.priceLow, AsciiColumns.priceClose, AsciiColumns.sizeVolume, AsciiColumns.dateTime}),
 		analysis_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.priceClose, AsciiColumns.derivedChange, AsciiColumns.derivedChange, AsciiColumns.signal , AsciiColumns.PPC, AsciiColumns.ADX, AsciiColumns.CCI, AsciiColumns.BBUpper, AsciiColumns.BBLower, AsciiColumns.MACDHistogram, AsciiColumns.STORSIK, AsciiColumns.STORISD}),
-		algorithm_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.derivedChange, AsciiColumns.signalPPC, AsciiColumns.signalADX, AsciiColumns.signalCCI, AsciiColumns.signalMACD, AsciiColumns.signalSTORSI, AsciiColumns.signalTRIX, AsciiColumns.signalTotal, AsciiColumns.inducedAction, AsciiColumns.transactionDetails, AsciiColumns.bankBalance})
+		algorithm_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.derivedChange, AsciiColumns.signalPPC, AsciiColumns.signalDI, AsciiColumns.signalCCI, AsciiColumns.signalMACD, AsciiColumns.signalTRIX, AsciiColumns.signalTotal, AsciiColumns.inducedAction, AsciiColumns.transactionDetails, AsciiColumns.bankBalance, AsciiColumns.peakDetect})
 		;
 		
 		AsciiColumns[] arrayOfColumns;
@@ -74,7 +74,7 @@ public class TableDefinitions {
 		STORISD,
 		signal,
 		signalPPC,
-		signalADX,
+		signalDI,
 		signalCCI,
 		signalMACD,
 		signalSTORSI,
@@ -83,5 +83,6 @@ public class TableDefinitions {
 		inducedAction,
 		bankBalance,
 		transactionDetails,
+		peakDetect,
 	}
 }

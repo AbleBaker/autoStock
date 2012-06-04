@@ -23,7 +23,7 @@ public class ApplicationStates {
 		databaseCore.init();
 		
 		exchangeController = new ExchangeController();
-		exchangeController.init();
+		//exchangeController.init();
 		
 		if (mode == Mode.client){
 			

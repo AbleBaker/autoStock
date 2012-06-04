@@ -125,7 +125,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			signal.reset();
 			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
-			//signal.addSignalMetrics(signalOfMACD.getSignal());
+			//signal.addSignalMetrics(signalOfDI.getSignal());
 			
 			chart.listOfDate.add(typeQuoteSlice.dateTime);
 			chart.listOfPrice.add(typeQuoteSlice.priceClose);
@@ -133,7 +133,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
 			chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
 			chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
-			chart.listOfSignalSTORSI.add(signalOfSTORSI.getSignal().strength);
 			chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
 			chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
 			chart.listOfSignalTotal.add(signal.getCombinedSignal());
@@ -170,7 +169,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
-			columnValues.add(String.valueOf(signalOfSTORSI.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
 			columnValues.add(String.valueOf(signal.getCombinedSignal()));
 			
@@ -185,6 +183,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				columnValues.add("");
 				columnValues.add("");
 			}
+			
+			columnValues.add("");
 			
 			listOfDisplayRows.add(columnValues);	
 		}

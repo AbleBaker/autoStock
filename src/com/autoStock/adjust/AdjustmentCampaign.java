@@ -1,5 +1,7 @@
 package com.autoStock.adjust;
 
+import com.autoStock.signal.SignalControl;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -17,6 +19,7 @@ public class AdjustmentCampaign {
 		algo_signal_short(-100,0),
 		algo_signal_sell(-100, 0),
 		signal_cci_average(0, 10),
+		signal_di_average(0, SignalControl.periodWindow),
 		analysis_macd_fast(1, 15),
 		analysis_macd_slow(1, 30),
 		analysis_macd_signal(1, 30),
