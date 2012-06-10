@@ -92,6 +92,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 
 		if (backtestType == BacktestType.backtest_with_adjustment) {
 			Co.println("Algorithm has eneded 1: " + Account.instance.getTransactionFeesPaid() + ", " + Account.instance.getBankBalance());
+			bench.printTotal();
 			Co.println("\n\n");
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
