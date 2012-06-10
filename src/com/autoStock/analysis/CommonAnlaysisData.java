@@ -26,7 +26,23 @@ public class CommonAnlaysisData {
 		arrayOfPriceHigh = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceHigh");
 		arrayOfPriceLow = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceLow");
 		arrayOfPriceClose = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceClose");
-		arrayOfDates = new DataExtractor().extractDate(listOfQuoteSlice, "dateTime").toArray(new Date[0]);
+		arrayOfDates = extractDateFromQuoteSlice(listOfQuoteSlice, "dateTime");
+	}
+	
+	private static Date[] extractDateFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field){
+		Date[] arrayOfDate = new Date[listOfQuoteSlice.size()];
+		
+		int i = 0;
+		
+		for (QuoteSlice quoteSlice : listOfQuoteSlice){
+			if (field.equals("dateTime")){
+				arrayOfDate[i] = quoteSlice.dateTime;
+			}
+			
+			i++;
+		}
+		
+		return arrayOfDate;
 	}
 	
 	private static double[] extractDoubleFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field){
