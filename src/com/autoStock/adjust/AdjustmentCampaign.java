@@ -42,10 +42,10 @@ public class AdjustmentCampaign {
 	}
 	
 	public enum AdjustmentDefinitions {
-		algo_signal_long_entry(0, 10),
-		algo_signal_long_exit(-10, 10),
-		algo_signal_short_entry(-10, 10),
-		algo_signal_short_exit(-10, 10),
+		algo_signal_long_entry(-10, 20),
+		algo_signal_long_exit(-10, 20),
+		algo_signal_short_entry(-20, 10),
+		algo_signal_short_exit(-20, 10),
 //		signal_cci_average(0, 10),
 //		signal_di_average(0, SignalControl.periodWindow),
 //		analysis_macd_fast(1, 15),

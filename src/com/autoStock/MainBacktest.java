@@ -41,6 +41,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private Benchmark bench;
+	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	
 	private double metricBestAccountBalance = 0;
 
@@ -96,7 +97,12 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 			Co.println("\n\n");
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				Co.println("88888888 Better backtest result: " + SignalControl.pointToSignalLongEntry + ", " + SignalControl.pointToSignalLongExit);
+				listOfStringBestBacktestResults.add("88888888 Better backtest result: " + 
+					SignalControl.pointToSignalLongEntry + ", " + 
+					SignalControl.pointToSignalLongExit + ", " + 
+					SignalControl.pointToSignalShortEntry + ", " +
+					SignalControl.pointToSignalShortExit + ", ");
+				
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
 
@@ -104,7 +110,10 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 				Account.instance.resetAccount();
 				runBacktest(typeHistoricalData);
 			}else{
-				Co.println("Best backtest result: " + SignalControl.pointToSignalLongEntry + ", " + SignalControl.pointToSignalLongExit);
+				Co.println("Best backtest results...");
+				for (String string : listOfStringBestBacktestResults){
+					Co.println(string);
+				}
 				bench.printTotal();
 				Global.callbackLock.releaseCallbackLock();
 			}
