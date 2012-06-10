@@ -72,7 +72,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
-	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
+	//private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
 	private PositionGovernor positionGovener = PositionGovernor.instance;
 
 	@Override
@@ -130,20 +130,20 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
 			//signal.addSignalMetrics(signalOfDI.getSignal());
 			
-			chart.listOfDate.add(typeQuoteSlice.dateTime);
-			chart.listOfPrice.add(typeQuoteSlice.priceClose);
-			chart.listOfSignalDI.add(signalOfDI.getSignal().strength);
-			chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
-			chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
-			chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
-			chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
-			chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
-			chart.listOfSignalTotal.add(signal.getCombinedSignal());
-			
-			chart.listOfDI.add(analysisOfDIResultPlus - analysisOfDIResultMinus);
-			chart.listOfCCI.add(analysisOfCCIResult);
-			chart.listOfMACD.add(analysisOfMACDResult);
-			chart.listOfRSI.add(analysisOfRSIResult);
+//			chart.listOfDate.add(typeQuoteSlice.dateTime);
+//			chart.listOfPrice.add(typeQuoteSlice.priceClose);
+//			chart.listOfSignalDI.add(signalOfDI.getSignal().strength);
+//			chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
+//			chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
+//			chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
+//			chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
+//			chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
+//			chart.listOfSignalTotal.add(signal.getCombinedSignal());
+//			
+//			chart.listOfDI.add(analysisOfDIResultPlus - analysisOfDIResultMinus);
+//			chart.listOfCCI.add(analysisOfCCIResult);
+//			chart.listOfMACD.add(analysisOfMACDResult);
+//			chart.listOfRSI.add(analysisOfRSIResult);
 			
 			if (algorithmListener != null){
 				algorithmListener.recieveSignal(signal, typeQuoteSlice);
@@ -201,7 +201,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		PositionManager.instance.executeSellAll();
 		//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		//chart.display();
+//		/chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}

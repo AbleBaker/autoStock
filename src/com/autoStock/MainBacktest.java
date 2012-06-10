@@ -64,6 +64,8 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		
 		 int days = typeHistoricalData.endDate.getDay() -
 		 typeHistoricalData.startDate.getDay();
+		 
+		 System.gc();
 		
 		 runBacktest(typeHistoricalData);
 	}
