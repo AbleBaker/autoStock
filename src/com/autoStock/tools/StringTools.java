@@ -46,4 +46,14 @@ public class StringTools {
 			return number;
 		}
 	}
+	
+	public static String arrayOfStringToString(String[] arrayOfString){
+		String returnString = new String();
+		
+		for (String string : arrayOfString){
+			returnString = returnString.concat(string);
+		}
+		
+		return returnString;
+	}
 }

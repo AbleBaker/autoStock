@@ -4,6 +4,8 @@
 package com.autoStock.tools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -64,5 +66,15 @@ public class ArrayTools {
 		}
 		return ret;
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public static void sort2DStringArray(String[][] arrayOfString){
+		Arrays.sort(arrayOfString, new Comparator() {
+		    public int compare(Object o1, Object o2) {
+		        String[] elt1 = (String[])o1;
+		        String[] elt2 = (String[])o2;
+		        return elt1[0].compareTo(elt2[0]);
+		    }
+		});
+	}
 }

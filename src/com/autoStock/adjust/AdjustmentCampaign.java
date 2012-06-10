@@ -1,5 +1,6 @@
 package com.autoStock.adjust;
 
+import com.autoStock.adjust.Permutation.Iteration;
 import com.autoStock.signal.SignalControl;
 
 /**
@@ -9,14 +10,20 @@ import com.autoStock.signal.SignalControl;
 public class AdjustmentCampaign {
 	private static AdjustmentCampaign instance = new AdjustmentCampaign();
 	private int adjustmentRun = 0;
+	private Permutation iterationMatrix = new Permutation();
+	
+	public AdjustmentCampaign(){
+//		iterationMatrix.addIteration(new Iteration(1, 3, 1, AdjustmentDefinitions.algo_signal_sell));
+//		iterationMatrix.addIteration(new Iteration(1, 3, 1, AdjustmentDefinitions.algo_signal_buy));
+	}
 	
 	public static AdjustmentCampaign getInstance(){
 		return instance;
 	}
 	
-	public static enum AdjustmentDefinitions {
-		algo_signal_buy(0,100),
-		algo_signal_short(-100,0),
+	public enum AdjustmentDefinitions {
+		algo_signal_buy(0, 100),
+		algo_signal_short(-100, 0),
 		algo_signal_sell(-100, 0),
 		signal_cci_average(0, 10),
 		signal_di_average(0, SignalControl.periodWindow),
@@ -37,20 +44,16 @@ public class AdjustmentCampaign {
 	}
 
 	public boolean runAdjustment(AdjustmentDefinitions adjustment){
-		adjustment.currentValue = adjustment.startValue + adjustmentRun;
-		if(adjustment.currentValue == adjustment.endValue){
-			return false;
-		}
-		
-		adjustmentRun++;
-		
-		return true;
-//		for (AdjustmentDefinitions adjustment : AdjustmentDefinitions.values()){
-//			adjustment.currentValue = adjustment.startValue + adjustmentRun;
-//		}
+		return iterationMatrix.iterate();
 	}
 	
 	public int getAdjustmentValueOfInt(AdjustmentDefinitions adjustment){
 		return adjustment.currentValue;
 	}
+	
+//	public static class Adjustment {
+//		public Adjustment(AdjustmentDefinitions adjustmentDefinition, int start, int end){
+//			
+//		}
+//	}
 }
