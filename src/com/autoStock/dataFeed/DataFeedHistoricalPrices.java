@@ -29,9 +29,7 @@ public class DataFeedHistoricalPrices {
 		this.resolution = typeHistoricalData.resolution;
 	}
 	
-	public void startFeed(int feedIntervalSec, final int delayMsec){
-		if (feedIntervalSec < 1){throw new IllegalArgumentException();}
-		
+	public void startFeed(int feedIntervalSec, final int delayMsec){		
 		threadForDelivery = new Thread(new Runnable(){
 			@Override
 			public void run() {
@@ -44,7 +42,7 @@ public class DataFeedHistoricalPrices {
 			}
 		});
 		
-		threadForDelivery.setPriority(Thread.MIN_PRIORITY);
+		threadForDelivery.setPriority(Thread.MAX_PRIORITY);
 		threadForDelivery.start();
 	}
 	

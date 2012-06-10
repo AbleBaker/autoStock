@@ -3,6 +3,7 @@ package com.autoStock.adjust;
 import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 import com.autoStock.Co;
 import com.autoStock.tools.ArrayTools;
@@ -48,7 +49,7 @@ public class Permutation {
 //		Co.println("Min/max: " + min + "," + max);
 		
 		arrayOfStringResults = permutationCore.getVariations();
-		ArrayTools.sort2DStringArray(arrayOfStringResults);
+//		ArrayTools.sort2DStringArray(arrayOfStringResults);
 		
 //		for (String[] string : arrayOfStringResults){
 //			Co.println(StringTools.arrayOfStringToString(string));
@@ -91,6 +92,10 @@ public class Permutation {
 		return null;
 	}
 	
+	public ArrayList<Iteration> getListOfIterations(){
+		return listOfIteration;
+	}
+	
 	public static class Iteration{
 		private int start;
 		private int end;
@@ -105,6 +110,10 @@ public class Permutation {
 		
 		public double getCurrentValue(){
 			return this.current;
+		}
+		
+		public Object getRequest(){
+			return this.request;
 		}
 	}
 }

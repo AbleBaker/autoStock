@@ -108,9 +108,9 @@ public class PositionManager {
 	}
 	
 	public void executeSellAll(){
-		Co.println("Induced sell all");
+//		Co.println("Induced sell all");
 		if (listOfPosition.size() == 0){
-			Co.println("Not holding any positions...");
+//			Co.println("Not holding any positions...");
 		}
 		synchronized(lock){
 			for (Position typePosition : listOfPosition){

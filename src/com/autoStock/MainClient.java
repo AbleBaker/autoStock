@@ -27,8 +27,8 @@ public class MainClient {
 		new MenuDisplayLauncher().launchDisplay(menuStructure);
 		
 		while (Global.callbackLock.isWaitingForCallbacks()){
-			Co.println("...");
-			try{Thread.sleep(1*1000);}catch(InterruptedException e){return;}
+//			Co.println("...");
+			try{Thread.sleep(1*100);}catch(InterruptedException e){return;}
 		}
 		
 //		Co.println("Test positions...");

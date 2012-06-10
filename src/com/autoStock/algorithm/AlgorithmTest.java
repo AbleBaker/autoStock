@@ -13,6 +13,7 @@ import com.autoStock.analysis.AnalysisOfMACD;
 import com.autoStock.analysis.AnalysisOfRSI;
 import com.autoStock.analysis.AnalysisOfSTORSI;
 import com.autoStock.analysis.AnalysisOfTRIX;
+import com.autoStock.analysis.CommonAnlaysisData;
 import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
 import com.autoStock.analysis.results.ResultsDI;
@@ -87,6 +88,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				listOfQuoteSlice.remove(0);
 			}
 			
+			CommonAnlaysisData.setAnalysisData(listOfQuoteSlice);
+			
 			analysisOfCCI.setDataSet(listOfQuoteSlice);
 			analysisOfDI.setDataSet(listOfQuoteSlice);
 			analysisOfBB.setDataSet(listOfQuoteSlice);
@@ -103,7 +106,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
 			
-			double[] arrayOfPriceClose = new ArrayUtils().toPrimitive(new DataExtractor().extractDouble(((ArrayList<QuoteSlice>)listOfQuoteSlice), "priceClose").toArray(new Double[0]));
+			double[] arrayOfPriceClose = CommonAnlaysisData.arrayOfPriceClose;
 			double analysisOfCCIResult = resultsCCI.arrayOfCCI[periodWindow-1];
 			double analysisOfDIResultPlus = resultsDI.arrayOfDIPlus[periodWindow-1];
 			double analysisOfDIResultMinus = resultsDI.arrayOfDIMinus[periodWindow-1];
@@ -193,14 +196,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	@Override
 	public void endOfFeed() {
 		Co.println("Received end of feed...");
-		bench.total();
-		if (algorithmListener != null){
-			algorithmListener.endOfAlgorithm();
-		}
+		//bench.total();
+		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
+		
 		PositionManager.instance.executeSellAll();
-		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		chart.display();
+		//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+		//chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

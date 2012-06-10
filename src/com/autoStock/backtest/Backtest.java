@@ -32,7 +32,7 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	public void performBacktest(ReceiverOfQuoteSlice reciever){
 		receiverOfQuoteSlice = reciever;
 		dataFeedHistoricalPrices.addListener(this);
-		dataFeedHistoricalPrices.startFeed(Resolution.min.seconds, 0);
+		dataFeedHistoricalPrices.startFeed(0, 0);
 	}
 
 	@Override

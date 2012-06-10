@@ -29,10 +29,10 @@ public class SignalControl {
 	public static final double weightForSTORSI = 1.0;
 	public static final double weightForTRIX = 1.0;
 	
-	public static final int pointToSignalLongEntry = 10;
-	public static final int pointToSignalLongExit = 8;
-	public static final int pointToSignalShortEntry = -10;
-	public static final int pointToSignalShortExit = -5;
+	public static int pointToSignalLongEntry = 10;
+	public static int pointToSignalLongExit = -3;
+	public static int pointToSignalShortEntry = -10;
+	public static int pointToSignalShortExit = -5;
 	
 	public static void setSignalStrengthForPPC(SignalMetric signalMetric, double percentChange){
 		signalMetric.strength = (int) ((percentChange - 1) * 10000);

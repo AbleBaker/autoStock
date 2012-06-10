@@ -22,7 +22,7 @@ import com.autoStock.types.QuoteSlice;
 public abstract class AnalysisBase {
 	private Core taLibCore = new Core();
 	public Object dataSource;
-	public Type dateSourceType;
+	public Type dataSourceType;
 	public DataExtractor dataExtractor;
 	
 	public int periodLength;
@@ -43,6 +43,10 @@ public abstract class AnalysisBase {
 		return this.taLibCore;
 	}
 	
+	public void setDataSet(){
+		
+	}
+	
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
 		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength){
 			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size());
@@ -50,8 +54,13 @@ public abstract class AnalysisBase {
 		
 		this.dataSource = listOfQuoteSlice;
 		this.datasetLength = listOfQuoteSlice.size();
-		this.dateSourceType = listOfQuoteSlice.getClass();
+		this.dataSourceType = listOfQuoteSlice.getClass();
 		this.endIndex = preceedDataset ? (periodLength + datasetLength -1) : datasetLength -1;
+		
+		arrayOfPriceOpen = CommonAnlaysisData.arrayOfPriceOpen;
+		arrayOfPriceHigh = CommonAnlaysisData.arrayOfPriceHigh;
+		arrayOfPriceLow = CommonAnlaysisData.arrayOfPriceLow;
+		arrayOfPriceClose = CommonAnlaysisData.arrayOfPriceClose;
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
@@ -61,7 +70,7 @@ public abstract class AnalysisBase {
 		
 		this.dataSource = listOfDbStockHistoricalPrice;
 		this.datasetLength = listOfDbStockHistoricalPrice.size();
-		this.dateSourceType = listOfDbStockHistoricalPrice.getClass();
+		this.dataSourceType = listOfDbStockHistoricalPrice.getClass();
 		this.endIndex = preceedDataset ? (periodLength + datasetLength -1) : datasetLength -1;
 	}
 	

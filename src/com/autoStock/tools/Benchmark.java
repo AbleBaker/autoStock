@@ -18,13 +18,13 @@ public class Benchmark {
 		lastMark = currentTimeMills;
 	}
 	
-	public void tick(String action){
+	public void printTick(String action){
 		long currentTimeMills = new Date().getTime();
 		Co.log("Tick: [" + action + "] " + (currentTimeMills - lastMark) + "ms");
 		lastMark = currentTimeMills;
 	}
 	
-	public void total(){
+	public void printTotal(){
 		long currentTimeMills = new Date().getTime();
 		Co.log("Benchmark: " + (currentTimeMills - startMark));
 	}

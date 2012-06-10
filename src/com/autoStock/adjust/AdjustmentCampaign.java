@@ -1,5 +1,6 @@
 package com.autoStock.adjust;
 
+import com.autoStock.Co;
 import com.autoStock.adjust.Permutation.Iteration;
 import com.autoStock.signal.SignalControl;
 
@@ -10,11 +11,30 @@ import com.autoStock.signal.SignalControl;
 public class AdjustmentCampaign {
 	private static AdjustmentCampaign instance = new AdjustmentCampaign();
 	private int adjustmentRun = 0;
-	private Permutation iterationMatrix = new Permutation();
+	private Permutation permutation = new Permutation();
 	
 	public AdjustmentCampaign(){
-//		iterationMatrix.addIteration(new Iteration(1, 3, 1, AdjustmentDefinitions.algo_signal_sell));
-//		iterationMatrix.addIteration(new Iteration(1, 3, 1, AdjustmentDefinitions.algo_signal_buy));
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_long_entry.startValue, 
+			AdjustmentDefinitions.algo_signal_long_entry.endValue, 
+			AdjustmentDefinitions.algo_signal_long_entry));
+		
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_long_exit.startValue,
+			AdjustmentDefinitions.algo_signal_long_exit.endValue, 
+			AdjustmentDefinitions.algo_signal_long_exit));
+		
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_short_entry.startValue, 
+			AdjustmentDefinitions.algo_signal_short_entry.endValue, 
+			AdjustmentDefinitions.algo_signal_short_entry));
+		
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_short_exit.startValue,
+			AdjustmentDefinitions.algo_signal_short_exit.endValue, 
+			AdjustmentDefinitions.algo_signal_short_exit));
+	
+		permutation.prepare();
 	}
 	
 	public static AdjustmentCampaign getInstance(){
@@ -22,14 +42,15 @@ public class AdjustmentCampaign {
 	}
 	
 	public enum AdjustmentDefinitions {
-		algo_signal_buy(0, 100),
-		algo_signal_short(-100, 0),
-		algo_signal_sell(-100, 0),
-		signal_cci_average(0, 10),
-		signal_di_average(0, SignalControl.periodWindow),
-		analysis_macd_fast(1, 15),
-		analysis_macd_slow(1, 30),
-		analysis_macd_signal(1, 30),
+		algo_signal_long_entry(0, 10),
+		algo_signal_long_exit(-10, 10),
+		algo_signal_short_entry(-10, 10),
+		algo_signal_short_exit(-10, 10),
+//		signal_cci_average(0, 10),
+//		signal_di_average(0, SignalControl.periodWindow),
+//		analysis_macd_fast(1, 15),
+//		analysis_macd_slow(1, 30),
+//		analysis_macd_signal(1, 30),
 		;
 		
 		public int startValue;
@@ -43,17 +64,45 @@ public class AdjustmentCampaign {
 		}
 	}
 
-	public boolean runAdjustment(AdjustmentDefinitions adjustment){
-		return iterationMatrix.iterate();
+	public boolean runAdjustment(){
+		boolean ranPermutation = permutation.iterate();
+		
+		setAdjustmentValues();
+		
+		return ranPermutation;
+	}
+	
+	private void setAdjustmentValues(){		
+		for (Iteration iteration : permutation.getListOfIterations()){
+			AdjustmentDefinitions adjustment = (AdjustmentDefinitions) iteration.getRequest();
+			
+			if (adjustment == AdjustmentDefinitions.algo_signal_long_entry){
+				SignalControl.pointToSignalLongEntry = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.pointToSignalLongEntry);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_long_exit){
+				SignalControl.pointToSignalLongExit = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.pointToSignalLongExit);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_short_entry){
+				SignalControl.pointToSignalShortEntry = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.pointToSignalShortEntry);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_short_exit){
+				SignalControl.pointToSignalShortExit = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.pointToSignalShortExit);
+			}
+			
+			else {
+				throw new UnsupportedOperationException("Undefined condition");
+			}
+		}
 	}
 	
 	public int getAdjustmentValueOfInt(AdjustmentDefinitions adjustment){
 		return adjustment.currentValue;
 	}
-	
-//	public static class Adjustment {
-//		public Adjustment(AdjustmentDefinitions adjustmentDefinition, int start, int end){
-//			
-//		}
-//	}
 }

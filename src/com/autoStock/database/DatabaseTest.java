@@ -57,6 +57,6 @@ public class DatabaseTest {
 		
 		connection.close();
 		
-		bench.total();
+		bench.printTotal();
 	}
 }
