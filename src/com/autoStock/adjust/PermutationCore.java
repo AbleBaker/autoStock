@@ -23,6 +23,9 @@ public class PermutationCore {
 	public String[][] getVariations() {
 		int l = a.length;
 		int permutations = (int) Math.pow(l, n);
+		
+		Co.println("Permutation array size: " + permutations);
+		
 		String[][] table = new String[permutations][n];
 
 		for (int x = 0; x < n; x++) {

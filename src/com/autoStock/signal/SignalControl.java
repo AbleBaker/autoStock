@@ -11,28 +11,28 @@ package com.autoStock.signal;
  */
 public class SignalControl {
 	
-	public static final int periodLength = 60;
-	public static final int periodWindow = 15;
+	public static int periodLength = 50;
+	public static int periodWindow = 18;
 	
-	public static final int periodAverageForPPC = periodWindow / 2;
-	public static final int periodAverageForDI = 0; //periodWindow / 1;
-	public static final int periodAverageForCCI = 0; //periodWindow / 1;
-	public static final int periodAverageForMACD = 0; //periodWindow / 1;
+	public static int periodAverageForPPC = 3;
+	public static int periodAverageForDI = 4; 
+	public static int periodAverageForCCI = 2; 
+	public static int periodAverageForMACD = 2; 
+	public static int periodAverageForTRIX = 2;
 	public static final int periodAverageForRSI = 0;
 	public static final int periodAverageForSTORSI = 5;
-	public static final int periodAverageForTRIX = 0;
 	
-	public static final double weightForPPC = 1.0;
-	public static final double weightForDI = 1.0;
-	public static final double weightForCCI = 1.0;
-	public static final double weightForMACD = 1.0;
+	public static int weightForPPC = 10;
+	public static int weightForDI = 10;
+	public static int weightForCCI = 10;
+	public static int weightForMACD = 10;
+	public static int weightForTRIX = 10;
 	public static final double weightForSTORSI = 1.0;
-	public static final double weightForTRIX = 1.0;
 	
-	public static int pointToSignalLongEntry = 10;
+	public static int pointToSignalLongEntry = 13;
 	public static int pointToSignalLongExit = -3;
-	public static int pointToSignalShortEntry = -10;
-	public static int pointToSignalShortExit = -5;
+	public static int pointToSignalShortEntry = -12;
+	public static int pointToSignalShortExit = -10;
 	
 	public static void setSignalStrengthForPPC(SignalMetric signalMetric, double percentChange){
 		signalMetric.strength = (int) ((percentChange - 1) * 10000);
@@ -43,7 +43,7 @@ public class SignalControl {
 	}
 	
 	public static void setSignalStrengthForCCI(SignalMetric signalMetric, double cciValue){
-		signalMetric.strength = (int) cciValue /4;
+		signalMetric.strength = (int) cciValue / 4;
 	}
 	
 	public static void setSignalStrengthForMACD(SignalMetric signalMetric, double macdValue){

@@ -33,11 +33,11 @@ public class SignalDefinitions {
 	}
 	
 	public static double getSignalWeight(SignalTypeMetric signalTypeMetric){
-		if (signalTypeMetric == SignalTypeMetric.metric_ppc){return SignalControl.weightForPPC;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_di){return SignalControl.weightForDI;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_cci){return SignalControl.weightForCCI;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_macd){return SignalControl.weightForMACD;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_trix){return SignalControl.weightForTRIX;}
+		if (signalTypeMetric == SignalTypeMetric.metric_ppc){return (double)SignalControl.weightForPPC / 10;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_di){return (double)SignalControl.weightForDI / 10;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_cci){return (double)SignalControl.weightForCCI / 10;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_macd){return (double)SignalControl.weightForMACD / 10;}
+		else if (signalTypeMetric == SignalTypeMetric.metric_trix){return (double)SignalControl.weightForTRIX / 10;}
 		throw new UnsupportedOperationException();
 	}
 	

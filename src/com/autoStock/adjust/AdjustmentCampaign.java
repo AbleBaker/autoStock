@@ -14,25 +14,85 @@ public class AdjustmentCampaign {
 	private Permutation permutation = new Permutation();
 	
 	public AdjustmentCampaign(){
-		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_long_entry.startValue, 
-			AdjustmentDefinitions.algo_signal_long_entry.endValue, 
-			AdjustmentDefinitions.algo_signal_long_entry));
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_long_entry.startValue, 
+//			AdjustmentDefinitions.algo_signal_long_entry.endValue, 
+//			AdjustmentDefinitions.algo_signal_long_entry));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_long_exit.startValue,
+//			AdjustmentDefinitions.algo_signal_long_exit.endValue, 
+//			AdjustmentDefinitions.algo_signal_long_exit));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_short_entry.startValue, 
+//			AdjustmentDefinitions.algo_signal_short_entry.endValue, 
+//			AdjustmentDefinitions.algo_signal_short_entry));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_short_exit.startValue,
+//			AdjustmentDefinitions.algo_signal_short_exit.endValue, 
+//			AdjustmentDefinitions.algo_signal_short_exit));
+		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_period_length.startValue,
+//			AdjustmentDefinitions.algo_signal_period_length.endValue,
+//			AdjustmentDefinitions.algo_signal_period_length));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_period_window.startValue,
+//			AdjustmentDefinitions.algo_signal_period_window.endValue,
+//			AdjustmentDefinitions.algo_signal_period_window));
+		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_period_average_ppc.startValue,
+//			AdjustmentDefinitions.algo_signal_period_average_ppc.endValue,
+//			AdjustmentDefinitions.algo_signal_period_average_ppc));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_period_average_di.startValue,
+//			AdjustmentDefinitions.algo_signal_period_average_di.endValue,
+//			AdjustmentDefinitions.algo_signal_period_average_di));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_period_average_cci.startValue,
+//			AdjustmentDefinitions.algo_signal_period_average_cci.endValue,
+//			AdjustmentDefinitions.algo_signal_period_average_cci));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_period_average_macd.startValue,
+//			AdjustmentDefinitions.algo_signal_period_average_macd.endValue,
+//			AdjustmentDefinitions.algo_signal_period_average_macd));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_period_average_trix.startValue,
+//			AdjustmentDefinitions.algo_signal_period_average_trix.endValue,
+//			AdjustmentDefinitions.algo_signal_period_average_trix));
 		
 		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_long_exit.startValue,
-			AdjustmentDefinitions.algo_signal_long_exit.endValue, 
-			AdjustmentDefinitions.algo_signal_long_exit));
+			AdjustmentDefinitions.algo_signal_weight_ppc.startValue,
+			AdjustmentDefinitions.algo_signal_weight_ppc.endValue,
+			AdjustmentDefinitions.algo_signal_weight_ppc));
 		
 		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_short_entry.startValue, 
-			AdjustmentDefinitions.algo_signal_short_entry.endValue, 
-			AdjustmentDefinitions.algo_signal_short_entry));
+				AdjustmentDefinitions.algo_signal_weight_di.startValue,
+				AdjustmentDefinitions.algo_signal_weight_di.endValue,
+				AdjustmentDefinitions.algo_signal_weight_di));
 		
 		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_short_exit.startValue,
-			AdjustmentDefinitions.algo_signal_short_exit.endValue, 
-			AdjustmentDefinitions.algo_signal_short_exit));
+				AdjustmentDefinitions.algo_signal_weight_cci.startValue,
+				AdjustmentDefinitions.algo_signal_weight_cci.endValue,
+				AdjustmentDefinitions.algo_signal_weight_cci));
+		
+		permutation.addIteration(new Iteration(
+				AdjustmentDefinitions.algo_signal_weight_macd.startValue,
+				AdjustmentDefinitions.algo_signal_weight_macd.endValue,
+				AdjustmentDefinitions.algo_signal_weight_macd));
+		
+		permutation.addIteration(new Iteration(
+				AdjustmentDefinitions.algo_signal_weight_trix.startValue,
+				AdjustmentDefinitions.algo_signal_weight_trix.endValue,
+				AdjustmentDefinitions.algo_signal_weight_trix));
 	
 		permutation.prepare();
 	}
@@ -42,15 +102,26 @@ public class AdjustmentCampaign {
 	}
 	
 	public enum AdjustmentDefinitions {
-		algo_signal_long_entry(-10, 20),
-		algo_signal_long_exit(-10, 20),
-		algo_signal_short_entry(-20, 10),
-		algo_signal_short_exit(-20, 10),
-//		signal_cci_average(0, 10),
-//		signal_di_average(0, SignalControl.periodWindow),
-//		analysis_macd_fast(1, 15),
-//		analysis_macd_slow(1, 30),
-//		analysis_macd_signal(1, 30),
+		algo_signal_long_entry(0, 15),
+		algo_signal_long_exit(-5, 15),
+		algo_signal_short_entry(-15, 5),
+		algo_signal_short_exit(-15, 5),
+		
+		algo_signal_period_length(15,30),
+		algo_signal_period_window(15,30),
+		
+		algo_signal_period_average_ppc(0,8),
+		algo_signal_period_average_di(0,8),
+		algo_signal_period_average_cci(0,8),
+		algo_signal_period_average_macd(0,8),
+		algo_signal_period_average_trix(0,8),
+		
+		algo_signal_weight_ppc(0,20),
+		algo_signal_weight_di(0,20),
+		algo_signal_weight_cci(0,20),
+		algo_signal_weight_macd(0,20),
+		algo_signal_weight_trix(0,20),
+		
 		;
 		
 		public int startValue;
@@ -76,6 +147,7 @@ public class AdjustmentCampaign {
 		for (Iteration iteration : permutation.getListOfIterations()){
 			AdjustmentDefinitions adjustment = (AdjustmentDefinitions) iteration.getRequest();
 			
+			//Entry & Exit
 			if (adjustment == AdjustmentDefinitions.algo_signal_long_entry){
 				SignalControl.pointToSignalLongEntry = (int) permutation.getIteration(adjustment).getCurrentValue();
 				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.pointToSignalLongEntry);
@@ -94,6 +166,69 @@ public class AdjustmentCampaign {
 			else if (adjustment == AdjustmentDefinitions.algo_signal_short_exit){
 				SignalControl.pointToSignalShortExit = (int) permutation.getIteration(adjustment).getCurrentValue();
 				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.pointToSignalShortExit);
+			}
+			
+			//Period and Window lengths
+			else if (adjustment == AdjustmentDefinitions.algo_signal_period_length){
+				SignalControl.periodLength = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodLength);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_period_window){
+				SignalControl.periodWindow = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodWindow);
+			}
+			
+			//Analysis averages
+			else if (adjustment == AdjustmentDefinitions.algo_signal_period_average_ppc){
+				SignalControl.periodAverageForPPC = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodAverageForPPC);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_period_average_di){
+				SignalControl.periodAverageForDI = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodAverageForDI);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_period_average_cci){
+				SignalControl.periodAverageForCCI = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodAverageForCCI);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_period_average_macd){
+				SignalControl.periodAverageForMACD = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodAverageForMACD);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_period_average_trix){
+				SignalControl.periodAverageForTRIX = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodAverageForTRIX);
+			}
+			
+			//Weights
+			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_ppc){
+				SignalControl.weightForPPC = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForPPC);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_di){
+				SignalControl.weightForDI = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForDI);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_cci){
+				SignalControl.weightForCCI = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForCCI);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_macd){
+				SignalControl.weightForMACD = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForMACD);
+			}
+			
+			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_trix){
+				SignalControl.weightForTRIX = (int) permutation.getIteration(adjustment).getCurrentValue();
+				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForTRIX);
 			}
 			
 			else {

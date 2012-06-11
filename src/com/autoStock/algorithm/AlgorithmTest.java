@@ -72,7 +72,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
-	//private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
+//	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
 	private PositionGovernor positionGovener = PositionGovernor.instance;
 
 	@Override
@@ -94,7 +94,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			analysisOfDI.setDataSet(listOfQuoteSlice);
 			analysisOfBB.setDataSet(listOfQuoteSlice);
 			analysisOfMACD.setDataSet(listOfQuoteSlice);
-			analysisOfSTORSI.setDataSet(listOfQuoteSlice);
+//			analysisOfSTORSI.setDataSet(listOfQuoteSlice);
 			analysisOfRSI.setDataSet(listOfQuoteSlice);
 			analysisOfTRIX.setDataSet(listOfQuoteSlice);
 			
@@ -102,7 +102,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsDI resultsDI = analysisOfDI.analize();
 			ResultsBB resultsBB = analysisOfBB.analyize(MAType.Ema);
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
-			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analyize();
+//			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analyize();
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
 			
@@ -113,8 +113,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			double analysisOfBBResultUpper = resultsBB.arrayOfUpperBand[periodWindow-1];
 			double analysisOfBBResultLower = resultsBB.arrayOfLowerBand[periodWindow-1];
 			double analysisOfMACDResult = resultsMACD.arrayOfMACDHistogram[periodWindow-1]*1000;
-			double analysisOfSTORSIResultK = resultsSTORSI.arrayOfPercentK[periodWindow-1];
-			double analysisOfSTORSIResultD = resultsSTORSI.arrayOfPercentD[periodWindow-1];
+//			double analysisOfSTORSIResultK = resultsSTORSI.arrayOfPercentK[periodWindow-1];
+//			double analysisOfSTORSIResultD = resultsSTORSI.arrayOfPercentD[periodWindow-1];
 			double analysisOfRSIResult = resultsRSI.arrayOfRSI[periodWindow-1];
 			double analysisOfTrixResult = resultsTRIX.arrayOfTRIX[periodWindow-1];
 			
@@ -122,7 +122,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfDI signalOfDI = new SignalOfDI(ArrayTools.subArray(resultsDI.arrayOfDIPlus, 0, periodWindow), ArrayTools.subArray(resultsDI.arrayOfDIMinus, 0, periodWindow), SignalControl.periodAverageForDI);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
 			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, periodWindow), SignalControl.periodAverageForMACD);
-			SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(ArrayTools.subArray(resultsSTORSI.arrayOfPercentK, 0, periodWindow), ArrayTools.subArray(resultsSTORSI.arrayOfPercentD, 0, periodWindow), SignalControl.periodAverageForSTORSI);
+//			SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(ArrayTools.subArray(resultsSTORSI.arrayOfPercentK, 0, periodWindow), ArrayTools.subArray(resultsSTORSI.arrayOfPercentD, 0, periodWindow), SignalControl.periodAverageForSTORSI);
 			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, periodWindow), SignalControl.periodAverageForRSI);
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, periodWindow), SignalControl.periodAverageForTRIX);
 			
@@ -167,7 +167,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
 			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
-			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
 			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
 			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
@@ -201,7 +201,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		PositionManager.instance.executeSellAll();
 		//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-//		/chart.display();
+//		chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		//new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}

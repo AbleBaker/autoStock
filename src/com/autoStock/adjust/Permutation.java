@@ -50,34 +50,32 @@ public class Permutation {
 		
 		arrayOfStringResults = permutationCore.getVariations();
 //		ArrayTools.sort2DStringArray(arrayOfStringResults);
-		
-//		for (String[] string : arrayOfStringResults){
-//			Co.println(StringTools.arrayOfStringToString(string));
-//		}
+
 	}
 
 	public boolean iterate(){
-		int i=0;
-		
-		if (count == arrayOfStringResults.length){
-			return false;
-		}
-		
-		for (Iteration iteration : listOfIteration){
+		LABEL_ITERATE_LOOP: {
+			int i=0;
 			
-			int currentValue = Integer.valueOf(arrayOfStringResults[count][i]);
-			
-			if (currentValue > iteration.end || currentValue < iteration.start){
-				//Co.println("Failed at: " + iteration.start + "," + iteration.end + " / " + currentValue);
-				count++;
-				return iterate();
+			if (count == arrayOfStringResults.length){
+				return false;
 			}
 			
-			iteration.current = currentValue;
-			i++;
+			for (Iteration iteration : listOfIteration){
+				int currentValue = Integer.valueOf(arrayOfStringResults[count][i]);
+				
+				if (currentValue > iteration.end || currentValue < iteration.start){
+					//Co.println("Failed at: " + iteration.start + "," + iteration.end + " / " + currentValue);
+					count++;
+					break LABEL_ITERATE_LOOP;
+				}
+				
+				iteration.current = currentValue;
+				i++;
+			}
+			
+			count++;
 		}
-		
-		count++;
 		
 		return true;
 	}

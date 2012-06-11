@@ -9,7 +9,7 @@ package com.autoStock.tools;
  *
  */
 public class MathTools {
-	public static String roundToTwoDecimalPlaces(double value){
+	public static String round(double value){
 		return String.valueOf(Math.round(value*100.0)/100.0);
 	}
 	

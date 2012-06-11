@@ -39,10 +39,10 @@ public class DataFeedHistoricalPrices {
 				}
 				
 				feedFinished();
+				threadForDelivery.interrupt();
 			}
 		});
 		
-		threadForDelivery.setPriority(Thread.MAX_PRIORITY);
 		threadForDelivery.start();
 	}
 	

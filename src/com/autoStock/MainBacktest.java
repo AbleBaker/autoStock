@@ -24,6 +24,7 @@ import com.autoStock.signal.SignalControl;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -94,16 +95,29 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		Co.println("******** End of feed in MainBacktest ********");
 
 		if (backtestType == BacktestType.backtest_with_adjustment) {
-			Co.println("Algorithm has eneded 1: " + Account.instance.getTransactionFeesPaid() + ", " + Account.instance.getBankBalance());
+			Co.println("Algorithm has eneded 1: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + MathTools.round(Account.instance.getBankBalance()));
 			bench.printTotal();
 			Co.println("\n\n");
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add("88888888 Better backtest result: " + 
+				listOfStringBestBacktestResults.add("--------> Best backtest results: " + 
 					SignalControl.pointToSignalLongEntry + ", " + 
 					SignalControl.pointToSignalLongExit + ", " + 
 					SignalControl.pointToSignalShortEntry + ", " +
-					SignalControl.pointToSignalShortExit + ", ");
+					SignalControl.pointToSignalShortExit + ", " +
+					SignalControl.periodLength + ", " + 
+					SignalControl.periodWindow + ", " + 
+					SignalControl.periodAverageForPPC + ", " + 
+					SignalControl.periodAverageForDI + ", " + 
+					SignalControl.periodAverageForCCI + ", " + 
+					SignalControl.periodAverageForMACD + ", " + 
+					SignalControl.periodAverageForTRIX + ", " +
+					SignalControl.weightForPPC + ", " +
+					SignalControl.weightForDI + ", " + 
+					SignalControl.weightForCCI + ", " + 
+					SignalControl.weightForMACD + ", " + 
+					SignalControl.weightForTRIX + ", " + 
+					Account.instance.getBankBalance() + "\n");
 				
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
