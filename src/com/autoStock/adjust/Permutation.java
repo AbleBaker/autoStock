@@ -64,7 +64,7 @@ public class Permutation {
 			for (Iteration iteration : listOfIteration){
 				int currentValue = Integer.valueOf(arrayOfStringResults[count][i]);
 				
-				if (currentValue > iteration.end || currentValue < iteration.start){
+				if (currentValue > iteration.end || currentValue < iteration.start){ // || currentValue %2 != 0
 					//Co.println("Failed at: " + iteration.start + "," + iteration.end + " / " + currentValue);
 					count++;
 					break LABEL_ITERATE_LOOP;

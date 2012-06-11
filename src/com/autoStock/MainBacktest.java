@@ -95,28 +95,29 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		Co.println("******** End of feed in MainBacktest ********");
 
 		if (backtestType == BacktestType.backtest_with_adjustment) {
-			Co.println("Algorithm has eneded 1: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + MathTools.round(Account.instance.getBankBalance()));
+			Co.println("Algorithm has eneded 1: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getBankBalance()));
 			bench.printTotal();
 			Co.println("\n\n");
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
 				listOfStringBestBacktestResults.add("--------> Best backtest results: " + 
-					SignalControl.pointToSignalLongEntry + ", " + 
-					SignalControl.pointToSignalLongExit + ", " + 
-					SignalControl.pointToSignalShortEntry + ", " +
-					SignalControl.pointToSignalShortExit + ", " +
-					SignalControl.periodLength + ", " + 
-					SignalControl.periodWindow + ", " + 
-					SignalControl.periodAverageForPPC + ", " + 
-					SignalControl.periodAverageForDI + ", " + 
-					SignalControl.periodAverageForCCI + ", " + 
-					SignalControl.periodAverageForMACD + ", " + 
-					SignalControl.periodAverageForTRIX + ", " +
-					SignalControl.weightForPPC + ", " +
-					SignalControl.weightForDI + ", " + 
-					SignalControl.weightForCCI + ", " + 
-					SignalControl.weightForMACD + ", " + 
-					SignalControl.weightForTRIX + ", " + 
+					SignalControl.pointToSignalLongEntry + "\n" + 
+					SignalControl.pointToSignalLongExit + "\n" + 
+					SignalControl.pointToSignalShortEntry + "\n" +
+					SignalControl.pointToSignalShortExit + "\n" +
+					SignalControl.periodLength + "\n" + 
+					SignalControl.periodWindow + "\n" + 
+					SignalControl.periodAverageForPPC + "\n" + 
+					SignalControl.periodAverageForDI + "\n" + 
+					SignalControl.periodAverageForCCI + "\n" + 
+					SignalControl.periodAverageForMACD + "\n" + 
+					SignalControl.periodAverageForTRIX + "\n" +
+					SignalControl.weightForPPC + "\n" +
+					SignalControl.weightForDI + "\n" + 
+					SignalControl.weightForCCI + "\n" + 
+					SignalControl.weightForMACD + "\n" + 
+					SignalControl.weightForTRIX + "\n" +
+					Account.instance.getTransactions() + "\n" + 
 					Account.instance.getBankBalance() + "\n");
 				
 				metricBestAccountBalance = Account.instance.getBankBalance();

@@ -22,11 +22,11 @@ public class SignalControl {
 	public static final int periodAverageForRSI = 0;
 	public static final int periodAverageForSTORSI = 5;
 	
-	public static int weightForPPC = 10;
-	public static int weightForDI = 10;
-	public static int weightForCCI = 10;
-	public static int weightForMACD = 10;
-	public static int weightForTRIX = 10;
+	public static double weightForPPC = 1.4;
+	public static double weightForDI = 0.5;
+	public static double weightForCCI = 0.5;
+	public static double weightForMACD = 0.4;
+	public static double weightForTRIX = 0.4;
 	public static final double weightForSTORSI = 1.0;
 	
 	public static int pointToSignalLongEntry = 13;

@@ -13,6 +13,7 @@ public class Account {
 	private final double transactionFeesDefault = 0;
 	private volatile double bankBalance = 100000.00;
 	private volatile double transactionFeesPaid = 0;
+	private volatile int transactions = 0;
 	public static Account instance = new Account();
 	
 	public double getBankBalance(){
@@ -23,18 +24,19 @@ public class Account {
 		return this.transactionFeesPaid;
 	}
 	
+	public int getTransactions(){
+		return this.transactions;
+	}
+	
 	public void changeBankBalance(double amount){
 		this.bankBalance += amount;
 	}
 	
 	public void changeBankBalance(double positionCost, double transactionCost){
-		this.bankBalance += positionCost;
-		this.bankBalance -= transactionCost;
-		this.transactionFeesPaid += transactionCost;
-	}
-	
-	public void setBankBalance(double bankBalance){
-		this.bankBalance = bankBalance;
+		bankBalance += positionCost;
+		bankBalance -= transactionCost;
+		transactionFeesPaid += transactionCost;
+		transactions++;
 	}
 	
 	public double getTransactionCost(int units, double price){
@@ -48,5 +50,6 @@ public class Account {
 	public void resetAccount(){
 		bankBalance = bankBalanceDefault;
 		transactionFeesPaid = transactionFeesDefault;
+		transactions = 0;
 	}
 }

@@ -165,15 +165,15 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
 //			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
 			
-			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
-			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
-			columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
-			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
-			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
-			columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
-			columnValues.add(String.valueOf(signal.getCombinedSignal()));
+//			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+//			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
+//			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+//			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
+//			columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
+//			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
+//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
+//			columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
+//			columnValues.add(String.valueOf(signal.getCombinedSignal()));
 			
 			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(typeQuoteSlice, signal);
 			
