@@ -39,7 +39,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AlgorithmTest algorithm;
 	private ArrayList<Double> listOfAlorithmPerformance = new ArrayList<Double>();
-	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
+	private BacktestType backtestType = BacktestType.backtest_default;
 	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private Benchmark bench;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
@@ -63,8 +63,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		 DateTools.getPrettyDate(typeHistoricalData.startDate) + " - " +
 		 DateTools.getPrettyDate(typeHistoricalData.endDate));
 		
-		 int days = typeHistoricalData.endDate.getDay() -
-		 typeHistoricalData.startDate.getDay();
+		 int days = typeHistoricalData.endDate.getDay() - typeHistoricalData.startDate.getDay();
 		 
 		 System.gc();
 		
@@ -74,9 +73,10 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	@SuppressWarnings("unchecked")
 	public void runBacktest(HistoricalData typeHistoricalData) {
 		bench = new Benchmark();
-		if (listOfResults == null){
+//		if (listOfResults == null){
 			listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(typeHistoricalData.symbol), QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
-		}
+			
+//		}
 
 		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
 		algorithm = new AlgorithmTest(false);

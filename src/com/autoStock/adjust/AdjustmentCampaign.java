@@ -14,25 +14,25 @@ public class AdjustmentCampaign {
 	private Permutation permutation = new Permutation();
 	
 	public AdjustmentCampaign(){
-		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_long_entry.startValue, 
-			AdjustmentDefinitions.algo_signal_long_entry.endValue, 
-			AdjustmentDefinitions.algo_signal_long_entry));
-		
-		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_long_exit.startValue,
-			AdjustmentDefinitions.algo_signal_long_exit.endValue, 
-			AdjustmentDefinitions.algo_signal_long_exit));
-		
-		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_short_entry.startValue, 
-			AdjustmentDefinitions.algo_signal_short_entry.endValue, 
-			AdjustmentDefinitions.algo_signal_short_entry));
-		
-		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_short_exit.startValue,
-			AdjustmentDefinitions.algo_signal_short_exit.endValue, 
-			AdjustmentDefinitions.algo_signal_short_exit));
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_long_entry.startValue, 
+//			AdjustmentDefinitions.algo_signal_long_entry.endValue, 
+//			AdjustmentDefinitions.algo_signal_long_entry));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_long_exit.startValue,
+//			AdjustmentDefinitions.algo_signal_long_exit.endValue, 
+//			AdjustmentDefinitions.algo_signal_long_exit));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_short_entry.startValue, 
+//			AdjustmentDefinitions.algo_signal_short_entry.endValue, 
+//			AdjustmentDefinitions.algo_signal_short_entry));
+//		
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_short_exit.startValue,
+//			AdjustmentDefinitions.algo_signal_short_exit.endValue, 
+//			AdjustmentDefinitions.algo_signal_short_exit));
 		
 //		permutation.addIteration(new Iteration(
 //			AdjustmentDefinitions.algo_signal_period_length.startValue,
@@ -43,7 +43,7 @@ public class AdjustmentCampaign {
 //			AdjustmentDefinitions.algo_signal_period_window.startValue,
 //			AdjustmentDefinitions.algo_signal_period_window.endValue,
 //			AdjustmentDefinitions.algo_signal_period_window));
-		
+//		
 //		permutation.addIteration(new Iteration(
 //			AdjustmentDefinitions.algo_signal_period_average_ppc.startValue,
 //			AdjustmentDefinitions.algo_signal_period_average_ppc.endValue,
