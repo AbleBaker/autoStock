@@ -202,8 +202,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		PositionManager.instance.executeSellAll();
 		//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		chart.display();
+//		chart.display();
 		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+//		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

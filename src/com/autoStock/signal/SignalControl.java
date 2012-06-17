@@ -11,14 +11,14 @@ package com.autoStock.signal;
  */
 public class SignalControl {
 	
-	public static int periodLength = 50;
-	public static int periodWindow = 18;
+	public static int periodLength = 30;
+	public static int periodWindow = 15;
 	
-	public static int periodAverageForPPC = 3;
-	public static int periodAverageForDI = 4; 
-	public static int periodAverageForCCI = 2; 
-	public static int periodAverageForMACD = 2; 
-	public static int periodAverageForTRIX = 2;
+	public static int periodAverageForPPC = 5;
+	public static int periodAverageForDI = 5; 
+	public static int periodAverageForCCI = 5; 
+	public static int periodAverageForMACD = 5; 
+	public static int periodAverageForTRIX = 5;
 	public static final int periodAverageForRSI = 0;
 	public static final int periodAverageForSTORSI = 5;
 	
@@ -29,10 +29,10 @@ public class SignalControl {
 	public static double weightForTRIX = 1.0;
 	public static final double weightForSTORSI = 1.0;
 	
-	public static int pointToSignalLongEntry = 13;
-	public static int pointToSignalLongExit = -3;
-	public static int pointToSignalShortEntry = -12;
-	public static int pointToSignalShortExit = -10;
+	public static int pointToSignalLongEntry = 10;
+	public static int pointToSignalLongExit = 5;
+	public static int pointToSignalShortEntry = -10;
+	public static int pointToSignalShortExit = -5;
 	
 	public static void setSignalStrengthForPPC(SignalMetric signalMetric, double percentChange){
 		signalMetric.strength = (int) ((percentChange - 1) * 10000);

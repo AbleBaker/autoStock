@@ -7,19 +7,19 @@ package com.autoStock.internal;
 public class CallbackLock {
 	private volatile int callbacks;
 	
-	public void requestCallbackLock(){
+	public void requestLock(){
 		synchronized (this) {
 			callbacks++;
 		}
 	}
 	
-	public void releaseCallbackLock(){
+	public void releaseLock(){
 		synchronized (this) {
 			callbacks--;	
 		}
 	}
 	
-	public boolean isWaitingForCallbacks(){
+	public boolean isLocked(){
 		if (callbacks > 0){
 			return true;
 		}

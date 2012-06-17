@@ -14,24 +14,24 @@ import com.autoStock.types.basic.Time;
  *
  */
 public class Exchange {
-	public String exchange;
+	public String name;
 	public CurrencyDefinitions currency;
 	public Time timeOpen;
 	public Time timeClose;
 	public Time timeOffset;
 	
-	public Exchange(String exchange){
-		ArrayList<DbExchange> listOfQrExchange = (ArrayList<DbExchange>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_exchange_info, QueryArgs.exchange.setValue(exchange));
+	public Exchange(String name){
+		ArrayList<DbExchange> listOfQrExchange = (ArrayList<DbExchange>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_exchange_info, QueryArgs.exchange.setValue(name));
 		DbExchange queryResultOfExchange = listOfQrExchange.get(0);
-		this.exchange = exchange;
+		this.name = name;
 		this.currency = CurrencyDefinitions.valueOf(queryResultOfExchange.currency);
 		this.timeOpen = queryResultOfExchange.timeOpen;
 		this.timeClose = queryResultOfExchange.timeClose;
 		this.timeOffset = queryResultOfExchange.timeOffset;
 	}
 	
-	public Exchange(String exchange, CurrencyDefinitions currency, Time timeOpen, Time timeClose) {
-		this.exchange = exchange;
+	public Exchange(String name, CurrencyDefinitions currency, Time timeOpen, Time timeClose) {
+		this.name = name;
 		this.currency = currency;
 		this.timeOpen = timeOpen;
 		this.timeClose = timeClose;

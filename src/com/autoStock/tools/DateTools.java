@@ -5,6 +5,8 @@ package com.autoStock.tools;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.autoStock.Co;
@@ -85,5 +87,25 @@ public class DateTools {
 		date.setSeconds(time.second);
 		
 		return date;
+	}
+	
+	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, Date endDate){
+		ArrayList<Date> listOfDate = new ArrayList<Date>();
+		Calendar calendarAtCurrent = Calendar.getInstance();
+		Calendar calendarAtEnd = Calendar.getInstance();
+		
+		calendarAtCurrent.setTime(startDate);
+		calendarAtEnd.setTime(endDate);
+		
+		while (calendarAtCurrent.get(Calendar.MONTH) <= calendarAtEnd.get(Calendar.MONTH)&& calendarAtCurrent.get(Calendar.DAY_OF_MONTH) <= calendarAtEnd.get(Calendar.DAY_OF_MONTH)){
+			if (calendarAtCurrent.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && calendarAtCurrent.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY){
+				listOfDate.add(new Date(calendarAtCurrent.getTimeInMillis()));
+				Co.println("Have date: " + DateTools.getPrettyDate(calendarAtCurrent.getTimeInMillis()));
+			}
+			
+			calendarAtCurrent.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		
+		return listOfDate;
 	}
 }

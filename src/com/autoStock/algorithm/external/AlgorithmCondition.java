@@ -16,7 +16,8 @@ public class AlgorithmCondition {
 	public static boolean canTradeOnDate(QuoteSlice quoteSlice, Exchange exchange){
 		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeClose), AlgorithmConditionDefintions.maxPositionEntryTime);		
 	
-		if (quoteSlice.dateTime.getHours() >= dateForLastExecution.getHours() && quoteSlice.dateTime.getMinutes() >= dateForLastExecution.getMinutes()){
+		if (quoteSlice.dateTime.getHours() > dateForLastExecution.getHours() || (
+			quoteSlice.dateTime.getHours() >= dateForLastExecution.getHours() && quoteSlice.dateTime.getMinutes() >= dateForLastExecution.getMinutes())){
 			return false;
 		}
 		

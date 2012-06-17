@@ -2,6 +2,7 @@ package com.autoStock.trading.types;
 
 import java.util.Date;
 
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 
 /**
@@ -30,6 +31,7 @@ public class HistoricalData implements Cloneable {
 			return (HistoricalData) super.clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
+			ApplicationStates.shutdown();
 			return null;
 		}
 	}
