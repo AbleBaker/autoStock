@@ -1,10 +1,12 @@
 package com.autoStock.position;
 
+import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.trading.types.Position;
+import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -15,29 +17,33 @@ public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.instance;
 	public static PositionGovernor instance = new PositionGovernor();
 	
-	public PositionGovernorResponse informGovener(QuoteSlice typeQuoteSlice, Signal signal){
+	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
-		Position typePosition = positionManager.getPosition(typeQuoteSlice.symbol);
+		Position typePosition = positionManager.getPosition(quoteSlice.symbol);
 		
 		signal.currentSignalType = SignalDefinitions.getSignalType(signal);
-		positionManager.updatePositionPrice(typeQuoteSlice, typePosition);
+		positionManager.updatePositionPrice(quoteSlice, typePosition);
 		
 		if (typePosition == null){
+			if (!AlgorithmCondition.canTradeOnDate(quoteSlice, exchange)){
+				return positionGovernorResponse;
+			}
+			
 			if (signal.getCombinedSignal() >= SignalControl.pointToSignalLongEntry){
 				//Enter long
-				governLongEntry(typeQuoteSlice, null, signal, positionGovernorResponse);
+				governLongEntry(quoteSlice, null, signal, positionGovernorResponse);
 				positionGovernorResponse.changedPosition = true;
 			}
 			else if (signal.getCombinedSignal() <= SignalControl.pointToSignalShortEntry){
 				// Enter short
-				governShortEntry(typeQuoteSlice, null, signal, positionGovernorResponse);
+				governShortEntry(quoteSlice, null, signal, positionGovernorResponse);
 				positionGovernorResponse.changedPosition = true;
 			}
 		}else{
 			if (typePosition.positionType == PositionType.position_long_entry || typePosition.positionType == PositionType.position_long){
 				if (signal.getCombinedSignal() <= SignalControl.pointToSignalLongExit){
 					// Exit long
-					governLongExit(typeQuoteSlice, typePosition, signal, positionGovernorResponse);
+					governLongExit(quoteSlice, typePosition, signal, positionGovernorResponse);
 					positionGovernorResponse.changedPosition = true;
 				}
 			}
@@ -45,7 +51,7 @@ public class PositionGovernor {
 			if (typePosition.positionType == PositionType.position_short_entry || typePosition.positionType == PositionType.position_short){
 				if (signal.getCombinedSignal() >= SignalControl.pointToSignalShortExit){
 					//Exit short
-					governShortExit(typeQuoteSlice, typePosition, signal, positionGovernorResponse);
+					governShortExit(quoteSlice, typePosition, signal, positionGovernorResponse);
 					positionGovernorResponse.changedPosition = true;
 				}
 			}

@@ -43,11 +43,13 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private Benchmark bench;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
+	private Exchange exchange;
 	
 	private double metricBestAccountBalance = 0;
 
 	public MainBacktest(Exchange exchange, HistoricalData typeHistoricalData) {
 		this.typeHistoricalData = typeHistoricalData;
+		this.exchange = exchange;
 		Global.callbackLock.requestCallbackLock();
 		
 		Co.println("Testing permutation...");
@@ -56,7 +58,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		 typeHistoricalData.startDate.setMinutes(exchange.timeOpen.minute);
 		 typeHistoricalData.endDate.setHours(exchange.timeClose.hour);
 		 typeHistoricalData.endDate.setMinutes(exchange.timeClose.minute);
-		 typeHistoricalData.symbol = "BAC";
+		 typeHistoricalData.symbol = "NOK";
 		
 		 Co.println("Running backtest on Exchange: " + exchange.exchange);
 		 Co.println("Running backtest for dates between " +
@@ -79,7 +81,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 //		}
 
 		Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
-		algorithm = new AlgorithmTest(false);
+		algorithm = new AlgorithmTest(false, exchange);
 		backtest.performBacktest(this);
 	}
 

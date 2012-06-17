@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.autoStock.Co;
+import com.autoStock.taLib.MInteger;
 import com.autoStock.types.basic.Time;
 
 /**
@@ -19,12 +20,14 @@ public class DateTools {
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
 		//dateFormat.applyPattern("EEE, MMM d, yyyy hh:mm:ss a");
 		dateFormat.applyPattern("yyyy/MM/dd hh:mm:ss a");
+		
 		return dateFormat.format(new Date(date));
 	}
 	
 	public static String getPrettyDate(Date date){
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
 		dateFormat.applyPattern("yyyy/MM/dd hh:mm:ss a");
+		
 		return dateFormat.format(date);
 	}
 	
@@ -64,6 +67,23 @@ public class DateTools {
 		time.hour = Integer.valueOf(timeString.substring(0,2));
 		time.minute = Integer.valueOf(timeString.substring(4,5));
 		time.second = Integer.valueOf(timeString.substring(7,8));
+		
 		return time;
+	}
+	
+	public static Date getChangedDate(Date date, int minutes){
+		Date returnDate = (Date) date.clone();
+		returnDate.setTime(date.getTime() - (minutes * 60) * 1000);
+		
+		return returnDate;
+	}
+	
+	public static Date getDateFromTime(Time time){
+		Date date = new Date();
+		date.setHours(time.hour);
+		date.setMinutes(time.minute);
+		date.setSeconds(time.second);
+		
+		return date;
 	}
 }

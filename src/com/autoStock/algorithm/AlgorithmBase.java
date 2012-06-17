@@ -4,6 +4,7 @@
 package com.autoStock.algorithm;
 
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
+import com.autoStock.types.Exchange;
 
 /**
  * @author Kevin Kowalewski
@@ -12,9 +13,11 @@ import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 public class AlgorithmBase {
 	public boolean canTrade;
 	public AlgorithmListener algorithmListener;
+	public Exchange exchange;
 	
-	public AlgorithmBase(boolean canTrade){
+	public AlgorithmBase(boolean canTrade, Exchange exchange){
 		this.canTrade = canTrade;
+		this.exchange = exchange;
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){
