@@ -3,6 +3,8 @@
  */
 package com.autoStock.tools;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.NumberFormat;
 
 /**
@@ -29,5 +31,16 @@ public class MiscUtils {
 	public static String getCommifiedValue(double number){
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		return numberFormat.format(number);
+	}
+	
+	public static String getHash(String string){
+		 try {
+			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+			return new String(messageDigest.digest(string.getBytes()));
+			
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

@@ -14,6 +14,7 @@ import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.Backtest;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
@@ -39,7 +40,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	private HistoricalData historicalDataAtCurrent;
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AlgorithmTest algorithm;
-	private BacktestType backtestType = BacktestType.backtest_default;
+	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<Date> listOfBacktestDates;
@@ -111,26 +112,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 			Co.println("\n\n");
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add("--------> Best backtest results: " + 
-					SignalControl.pointToSignalLongEntry + "\n" + 
-					SignalControl.pointToSignalLongExit + "\n" + 
-					SignalControl.pointToSignalShortEntry + "\n" +
-					SignalControl.pointToSignalShortExit + "\n" +
-					SignalControl.periodLength + "\n" + 
-					SignalControl.periodWindow + "\n" + 
-					SignalControl.periodAverageForPPC + "\n" + 
-					SignalControl.periodAverageForDI + "\n" + 
-					SignalControl.periodAverageForCCI + "\n" + 
-					SignalControl.periodAverageForMACD + "\n" + 
-					SignalControl.periodAverageForTRIX + "\n" +
-					SignalControl.weightForPPC + "\n" +
-					SignalControl.weightForDI + "\n" + 
-					SignalControl.weightForCCI + "\n" + 
-					SignalControl.weightForMACD + "\n" + 
-					SignalControl.weightForTRIX + "\n" +
-					Account.instance.getTransactions() + "\n" + 
-					Account.instance.getBankBalance() + "\n");
-				
+				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup());
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
 

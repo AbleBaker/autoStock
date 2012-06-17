@@ -44,10 +44,10 @@ public class AdjustmentCampaign {
 //			AdjustmentDefinitions.algo_signal_period_window.endValue,
 //			AdjustmentDefinitions.algo_signal_period_window));
 //		
-//		permutation.addIteration(new Iteration(
-//			AdjustmentDefinitions.algo_signal_period_average_ppc.startValue,
-//			AdjustmentDefinitions.algo_signal_period_average_ppc.endValue,
-//			AdjustmentDefinitions.algo_signal_period_average_ppc));
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_period_average_ppc.startValue,
+			AdjustmentDefinitions.algo_signal_period_average_ppc.endValue,
+			AdjustmentDefinitions.algo_signal_period_average_ppc));
 //		
 //		permutation.addIteration(new Iteration(
 //			AdjustmentDefinitions.algo_signal_period_average_di.startValue,
