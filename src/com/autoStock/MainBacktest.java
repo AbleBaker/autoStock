@@ -67,9 +67,6 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	}
 	
 	public boolean runNextBacktest(){
-		
-		bench.printTick("runNext");
-		
 		if (listOfHistoricalData.size() == currentBacktestDayIndex){		
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
 				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup());
