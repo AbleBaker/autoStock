@@ -11,7 +11,7 @@ package com.autoStock.signal;
  */
 public class SignalControl {
 	
-	public static int periodLength = 30;
+	public static int periodLength = 45;
 	public static int periodWindow = 15;
 	
 	public static int periodAverageForPPC = 2;

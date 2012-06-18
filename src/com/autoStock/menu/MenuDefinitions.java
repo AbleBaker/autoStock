@@ -7,7 +7,7 @@ package com.autoStock.menu;
 public class MenuDefinitions {
 	public static enum MenuStructures {
 		menu_main(new MenuArguments[]{MenuArguments.arg_none}),
-		menu_main_backtest(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_start_date, MenuArguments.arg_end_date, MenuArguments.arg_resolution}),
+		menu_main_backtest(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
 		//menu_shutdown(new MenuArguments[]{MenuArguments.arg_none}),
 		//menu_startup(new MenuArguments[]{MenuArguments.arg_exchange}),
 		//menu_restart(new MenuArguments[]{MenuArguments.arg_restart_delay}),

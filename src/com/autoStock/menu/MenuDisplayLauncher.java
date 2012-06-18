@@ -81,11 +81,12 @@ public class MenuDisplayLauncher {
 			new MainBacktest(
 					new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 					new HistoricalData(
-							null, 
+							menuStructure.getArgument(MenuArguments.arg_symbol).value, 
 							"STK", 
 							new DateTools().getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
-							new DateTools().getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value), 
-							Resolution.valueOf(menuStructure.getArgument(MenuArguments.arg_resolution).value)
+							new DateTools().getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
+							Resolution.min
+							//Resolution.valueOf(menuStructure.getArgument(MenuArguments.arg_resolution).value)
 						)
 					);
 		}

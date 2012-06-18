@@ -52,7 +52,6 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		historicalData.startDate.setMinutes(exchange.timeOpen.minute);
 		historicalData.endDate.setHours(exchange.timeClose.hour);
 		historicalData.endDate.setMinutes(exchange.timeClose.minute);
-		historicalData.symbol = "NOK";
 
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
 		
