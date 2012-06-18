@@ -66,6 +66,12 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	
 	public boolean runNextBacktest(){
 		if (listOfHistoricalData.size() == currentBacktestDayIndex){
+			
+			if (Account.instance.getBankBalance() > metricBestAccountBalance){
+				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup());
+				metricBestAccountBalance = Account.instance.getBankBalance();
+			}
+			
 			if (adjustmentCampaign.runAdjustment()) {
 				currentBacktestDayIndex = 0;
 				Account.instance.resetAccount();
@@ -114,11 +120,6 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		if (backtestType == BacktestType.backtest_with_adjustment) {
 			Co.println("Algorithm has eneded 1: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getBankBalance()));
 			Co.println("\n\n");
-			
-			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup());
-				metricBestAccountBalance = Account.instance.getBankBalance();
-			}
 
 			runNextBacktest();
 		} else {

@@ -14,7 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  * @author Kevin Kowalewski
  *
  */
-public class MiscUtils {
+public class MiscTools {
 	public static int getArrayIndex(Object[] listOfObject, Object object){
 		int i = 0;
 		for (Object objectEntry : listOfObject){

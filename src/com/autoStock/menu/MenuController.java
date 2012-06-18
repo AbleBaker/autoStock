@@ -8,7 +8,7 @@ import com.autoStock.internal.ApplicationStates;
 import com.autoStock.menu.MenuDefinitions.MenuArgumentTypes;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
-import com.autoStock.tools.MiscUtils;
+import com.autoStock.tools.MiscTools;
 import com.autoStock.tools.StringTools;
 import com.autoStock.tools.ValidilityCheck;
 
@@ -24,7 +24,7 @@ public class MenuController {
 				for (MenuArguments menuArgumentsEntry : menuStructureEntry.arrayOfMenuArguments){
 					Co.print(StringTools.removePrefix(menuArgumentsEntry.name(), "_") + "[");
 					for (MenuArgumentTypes menuArgumentTypesEntry : menuArgumentsEntry.arrayOfArgumentTypes){
-						if (menuArgumentsEntry.arrayOfArgumentTypes.length-1 == MiscUtils.getArrayIndex(menuArgumentsEntry.arrayOfArgumentTypes, menuArgumentTypesEntry)){
+						if (menuArgumentsEntry.arrayOfArgumentTypes.length-1 == MiscTools.getArrayIndex(menuArgumentsEntry.arrayOfArgumentTypes, menuArgumentTypesEntry)){
 							Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + "");
 						}else{
 							Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + " | ");

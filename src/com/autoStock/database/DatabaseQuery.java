@@ -12,7 +12,7 @@ import com.autoStock.Co;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.memoryCache.HashCache;
-import com.autoStock.tools.MiscUtils;
+import com.autoStock.tools.MiscTools;
 
 /**
  * @author Kevin Kowalewski
@@ -25,7 +25,7 @@ public class DatabaseQuery {
 	public Object getQueryResults(BasicQueries dbQuery, QueryArgs... queryArgs){
 		try {
 			String query = new QueryFormatter().format(dbQuery, queryArgs);
-			String queryHash = MiscUtils.getHash(query);
+			String queryHash = MiscTools.getHash(query);
 			
 			if (hashCache.containsKey(queryHash)){
 				return hashCache.getValue(queryHash);
