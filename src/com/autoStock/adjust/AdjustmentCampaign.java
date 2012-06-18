@@ -14,25 +14,25 @@ public class AdjustmentCampaign {
 	private Permutation permutation = new Permutation();
 	
 	public AdjustmentCampaign(){
-//		permutation.addIteration(new Iteration(
-//			AdjustmentDefinitions.algo_signal_long_entry.startValue, 
-//			AdjustmentDefinitions.algo_signal_long_entry.endValue, 
-//			AdjustmentDefinitions.algo_signal_long_entry));
-//		
-//		permutation.addIteration(new Iteration(
-//			AdjustmentDefinitions.algo_signal_long_exit.startValue,
-//			AdjustmentDefinitions.algo_signal_long_exit.endValue, 
-//			AdjustmentDefinitions.algo_signal_long_exit));
-//		
-//		permutation.addIteration(new Iteration(
-//			AdjustmentDefinitions.algo_signal_short_entry.startValue, 
-//			AdjustmentDefinitions.algo_signal_short_entry.endValue, 
-//			AdjustmentDefinitions.algo_signal_short_entry));
-//		
-//		permutation.addIteration(new Iteration(
-//			AdjustmentDefinitions.algo_signal_short_exit.startValue,
-//			AdjustmentDefinitions.algo_signal_short_exit.endValue, 
-//			AdjustmentDefinitions.algo_signal_short_exit));
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_long_entry.startValue, 
+			AdjustmentDefinitions.algo_signal_long_entry.endValue, 
+			AdjustmentDefinitions.algo_signal_long_entry));
+		
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_long_exit.startValue,
+			AdjustmentDefinitions.algo_signal_long_exit.endValue, 
+			AdjustmentDefinitions.algo_signal_long_exit));
+		
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_short_entry.startValue, 
+			AdjustmentDefinitions.algo_signal_short_entry.endValue, 
+			AdjustmentDefinitions.algo_signal_short_entry));
+		
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_short_exit.startValue,
+			AdjustmentDefinitions.algo_signal_short_exit.endValue, 
+			AdjustmentDefinitions.algo_signal_short_exit));
 		
 //		permutation.addIteration(new Iteration(
 //			AdjustmentDefinitions.algo_signal_period_length.startValue,
@@ -69,30 +69,30 @@ public class AdjustmentCampaign {
 //			AdjustmentDefinitions.algo_signal_period_average_trix.endValue,
 //			AdjustmentDefinitions.algo_signal_period_average_trix));
 //		
-		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_weight_ppc.startValue,
-			AdjustmentDefinitions.algo_signal_weight_ppc.endValue,
-			AdjustmentDefinitions.algo_signal_weight_ppc));
-		
-		permutation.addIteration(new Iteration(
-				AdjustmentDefinitions.algo_signal_weight_di.startValue,
-				AdjustmentDefinitions.algo_signal_weight_di.endValue,
-				AdjustmentDefinitions.algo_signal_weight_di));
-		
-		permutation.addIteration(new Iteration(
-				AdjustmentDefinitions.algo_signal_weight_cci.startValue,
-				AdjustmentDefinitions.algo_signal_weight_cci.endValue,
-				AdjustmentDefinitions.algo_signal_weight_cci));
-		
-		permutation.addIteration(new Iteration(
-				AdjustmentDefinitions.algo_signal_weight_macd.startValue,
-				AdjustmentDefinitions.algo_signal_weight_macd.endValue,
-				AdjustmentDefinitions.algo_signal_weight_macd));
-		
-		permutation.addIteration(new Iteration(
-				AdjustmentDefinitions.algo_signal_weight_trix.startValue,
-				AdjustmentDefinitions.algo_signal_weight_trix.endValue,
-				AdjustmentDefinitions.algo_signal_weight_trix));
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_weight_ppc.startValue,
+//			AdjustmentDefinitions.algo_signal_weight_ppc.endValue,
+//			AdjustmentDefinitions.algo_signal_weight_ppc));
+//		
+//		permutation.addIteration(new Iteration(
+//				AdjustmentDefinitions.algo_signal_weight_di.startValue,
+//				AdjustmentDefinitions.algo_signal_weight_di.endValue,
+//				AdjustmentDefinitions.algo_signal_weight_di));
+//		
+//		permutation.addIteration(new Iteration(
+//				AdjustmentDefinitions.algo_signal_weight_cci.startValue,
+//				AdjustmentDefinitions.algo_signal_weight_cci.endValue,
+//				AdjustmentDefinitions.algo_signal_weight_cci));
+//		
+//		permutation.addIteration(new Iteration(
+//				AdjustmentDefinitions.algo_signal_weight_macd.startValue,
+//				AdjustmentDefinitions.algo_signal_weight_macd.endValue,
+//				AdjustmentDefinitions.algo_signal_weight_macd));
+//		
+//		permutation.addIteration(new Iteration(
+//				AdjustmentDefinitions.algo_signal_weight_trix.startValue,
+//				AdjustmentDefinitions.algo_signal_weight_trix.endValue,
+//				AdjustmentDefinitions.algo_signal_weight_trix));
 	
 		permutation.prepare();
 	}
