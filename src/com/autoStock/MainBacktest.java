@@ -1,15 +1,9 @@
 package com.autoStock;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.adjust.Permutation;
-import com.autoStock.adjust.PermutationCore;
-import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
-import com.autoStock.adjust.Permutation.Iteration;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.Backtest;
@@ -18,15 +12,11 @@ import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
-import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.CallbackLock;
 import com.autoStock.internal.Global;
-import com.autoStock.signal.SignalControl;
-import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
-import com.autoStock.tools.ListTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
@@ -37,18 +27,18 @@ import com.autoStock.types.QuoteSlice;
  * 
  */
 public class MainBacktest implements ReceiverOfQuoteSlice {
-	private HistoricalData historicalDataAtCurrent;
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AlgorithmTest algorithm;
 	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
-	private ArrayList<Date> listOfBacktestDates;
+	private ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
 	private Exchange exchange;
 	private CallbackLock callbackLock = new CallbackLock();
-	
+	private int currentBacktestDayIndex = 0;
 	private double metricBestAccountBalance = 0;
 
+	@SuppressWarnings("deprecation")
 	public MainBacktest(Exchange exchange, HistoricalData historicalData) {
 		this.exchange = exchange;
 		Global.callbackLock.requestLock();
@@ -62,24 +52,38 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		historicalData.endDate.setMinutes(exchange.timeClose.minute);
 		historicalData.symbol = "NOK";
 
-		listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
-
+		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
+		
 		for (Date date : listOfBacktestDates) {
-			callbackLock.requestLock();
 			HistoricalData dayHistoricalData = new HistoricalData(historicalData.symbol, historicalData.securityType, (Date)date.clone(), (Date)date.clone(), historicalData.resolution);
 			dayHistoricalData.startDate.setHours(exchange.timeOpen.hour);
 			dayHistoricalData.endDate.setHours(exchange.timeClose.hour);
-			
-			historicalDataAtCurrent = dayHistoricalData;
-			Co.println("Running backtest on Exchange: " + exchange.name + " for dates between " + DateTools.getPrettyDate(dayHistoricalData.startDate) + " - " + DateTools.getPrettyDate(dayHistoricalData.endDate));
-			runBacktest(dayHistoricalData);
-			
-			while (callbackLock.isLocked()){
-				try {Thread.sleep(1);}catch(InterruptedException e){return;}
-			}
+			listOfHistoricalData.add(dayHistoricalData);
 		}
 		
-		Global.callbackLock.releaseLock();
+		runNextBacktest();
+	}
+	
+	public boolean runNextBacktest(){
+		if (listOfHistoricalData.size() == currentBacktestDayIndex){
+			if (adjustmentCampaign.runAdjustment()) {
+				currentBacktestDayIndex = 0;
+				Account.instance.resetAccount();
+				runNextBacktest();
+			}else{
+				Co.println("******** End of backtest and adjustment ********");
+				BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
+			}
+			
+			return false;
+		}else{
+			HistoricalData historicalData = listOfHistoricalData.get(currentBacktestDayIndex++);
+			
+//			Co.println("Running backtest on Exchange: " + exchange.name + " for dates between " + DateTools.getPrettyDate(historicalData.startDate) + " - " + DateTools.getPrettyDate(historicalData.endDate));
+			runBacktest(historicalData);
+			
+			return true;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -116,16 +120,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
 
-			if (adjustmentCampaign.runAdjustment()) {
-				Account.instance.resetAccount();
-				runBacktest(historicalDataAtCurrent);
-			}else{
-				Co.println("Best backtest results...");
-				for (String string : listOfStringBestBacktestResults){
-					Co.println(string);
-				}
-				Global.callbackLock.releaseLock();
-			}
+			runNextBacktest();
 		} else {
 			Co.println("Algorithm has eneded 2: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactionFeesPaid());
 			callbackLock.releaseLock();

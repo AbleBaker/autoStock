@@ -3,9 +3,12 @@
  */
 package com.autoStock.tools;
 
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.NumberFormat;
+
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  * @author Kevin Kowalewski
@@ -34,13 +37,6 @@ public class MiscUtils {
 	}
 	
 	public static String getHash(String string){
-		 try {
-			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-			return new String(messageDigest.digest(string.getBytes()));
-			
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return DigestUtils.md5Hex(string);
 	}
 }

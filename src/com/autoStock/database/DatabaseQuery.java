@@ -31,9 +31,10 @@ public class DatabaseQuery {
 				return hashCache.getValue(queryHash);
 			}
 			
+			//Co.println("Executing query: " + query);
+			
 			Connection connection = DatabaseCore.getConnection();
 			Statement statement = connection.createStatement();
-			//Co.println("Executing query: " + query);
 			ResultSet resultSet = statement.executeQuery(query);
 			
 			ArrayList<Object> listOfResults = new ArrayList<Object>();

@@ -196,14 +196,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 
 	@Override
 	public void endOfFeed() {
-		Co.println("Received end of feed...");
-		//bench.total();
-		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
-		
+//		Co.println("Received end of feed...");
+//		bench.total();		
 		PositionManager.instance.executeSellAll();
-		//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
 //		chart.display();
-		//new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
+//		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 //		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		
+		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
 	}
 }
