@@ -108,7 +108,7 @@ public class PositionManager {
 	}
 	
 	public void executeSellAll(){
-		Co.println("Exiting all positions");
+//		Co.println("Exiting all positions");
 		if (listOfPosition.size() == 0){
 //			Co.println("Not holding any positions...");
 		}

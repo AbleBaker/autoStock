@@ -115,11 +115,11 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	public void endOfFeed() {
 		algorithm.endOfFeed();
 
-		Co.println("******** End of feed in MainBacktest ********");
+//		Co.println("******** End of feed in MainBacktest ********");
 
 		if (backtestType == BacktestType.backtest_with_adjustment) {
-			Co.println("Algorithm has eneded 1: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getBankBalance()));
-			Co.println("\n\n");
+//			Co.println("Algorithm has eneded 1: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getBankBalance()));
+//			Co.println("\n\n");
 
 			runNextBacktest();
 		} else {

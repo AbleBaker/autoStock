@@ -235,6 +235,8 @@ public class AdjustmentCampaign {
 				throw new UnsupportedOperationException("Undefined condition");
 			}
 		}
+		
+		Co.println("\n");
 	}
 	
 	public int getAdjustmentValueOfInt(AdjustmentDefinitions adjustment){
