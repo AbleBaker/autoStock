@@ -10,7 +10,7 @@ import com.autoStock.Co;
  */
 public class Benchmark {
 	private long startMark = new Date().getTime();
-	private long lastMark = 0;
+	private long lastMark = new Date().getTime();
 	
 	public void tick(){
 		long currentTimeMills = new Date().getTime();

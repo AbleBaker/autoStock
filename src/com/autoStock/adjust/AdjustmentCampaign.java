@@ -44,10 +44,10 @@ public class AdjustmentCampaign {
 //			AdjustmentDefinitions.algo_signal_period_window.endValue,
 //			AdjustmentDefinitions.algo_signal_period_window));
 //		
-		permutation.addIteration(new Iteration(
-			AdjustmentDefinitions.algo_signal_period_average_ppc.startValue,
-			AdjustmentDefinitions.algo_signal_period_average_ppc.endValue,
-			AdjustmentDefinitions.algo_signal_period_average_ppc));
+//		permutation.addIteration(new Iteration(
+//			AdjustmentDefinitions.algo_signal_period_average_ppc.startValue,
+//			AdjustmentDefinitions.algo_signal_period_average_ppc.endValue,
+//			AdjustmentDefinitions.algo_signal_period_average_ppc));
 //		
 //		permutation.addIteration(new Iteration(
 //			AdjustmentDefinitions.algo_signal_period_average_di.startValue,
@@ -69,30 +69,30 @@ public class AdjustmentCampaign {
 //			AdjustmentDefinitions.algo_signal_period_average_trix.endValue,
 //			AdjustmentDefinitions.algo_signal_period_average_trix));
 //		
-//		permutation.addIteration(new Iteration(
-//			AdjustmentDefinitions.algo_signal_weight_ppc.startValue,
-//			AdjustmentDefinitions.algo_signal_weight_ppc.endValue,
-//			AdjustmentDefinitions.algo_signal_weight_ppc));
-//		
-//		permutation.addIteration(new Iteration(
-//				AdjustmentDefinitions.algo_signal_weight_di.startValue,
-//				AdjustmentDefinitions.algo_signal_weight_di.endValue,
-//				AdjustmentDefinitions.algo_signal_weight_di));
-//		
-//		permutation.addIteration(new Iteration(
-//				AdjustmentDefinitions.algo_signal_weight_cci.startValue,
-//				AdjustmentDefinitions.algo_signal_weight_cci.endValue,
-//				AdjustmentDefinitions.algo_signal_weight_cci));
-//		
-//		permutation.addIteration(new Iteration(
-//				AdjustmentDefinitions.algo_signal_weight_macd.startValue,
-//				AdjustmentDefinitions.algo_signal_weight_macd.endValue,
-//				AdjustmentDefinitions.algo_signal_weight_macd));
-//		
-//		permutation.addIteration(new Iteration(
-//				AdjustmentDefinitions.algo_signal_weight_trix.startValue,
-//				AdjustmentDefinitions.algo_signal_weight_trix.endValue,
-//				AdjustmentDefinitions.algo_signal_weight_trix));
+		permutation.addIteration(new Iteration(
+			AdjustmentDefinitions.algo_signal_weight_ppc.startValue,
+			AdjustmentDefinitions.algo_signal_weight_ppc.endValue,
+			AdjustmentDefinitions.algo_signal_weight_ppc));
+		
+		permutation.addIteration(new Iteration(
+				AdjustmentDefinitions.algo_signal_weight_di.startValue,
+				AdjustmentDefinitions.algo_signal_weight_di.endValue,
+				AdjustmentDefinitions.algo_signal_weight_di));
+		
+		permutation.addIteration(new Iteration(
+				AdjustmentDefinitions.algo_signal_weight_cci.startValue,
+				AdjustmentDefinitions.algo_signal_weight_cci.endValue,
+				AdjustmentDefinitions.algo_signal_weight_cci));
+		
+		permutation.addIteration(new Iteration(
+				AdjustmentDefinitions.algo_signal_weight_macd.startValue,
+				AdjustmentDefinitions.algo_signal_weight_macd.endValue,
+				AdjustmentDefinitions.algo_signal_weight_macd));
+		
+		permutation.addIteration(new Iteration(
+				AdjustmentDefinitions.algo_signal_weight_trix.startValue,
+				AdjustmentDefinitions.algo_signal_weight_trix.endValue,
+				AdjustmentDefinitions.algo_signal_weight_trix));
 	
 		permutation.prepare();
 	}
@@ -110,11 +110,11 @@ public class AdjustmentCampaign {
 		algo_signal_period_length(15,45),
 		algo_signal_period_window(15,30),
 		
-		algo_signal_period_average_ppc(0,4),
-		algo_signal_period_average_di(0,4),
-		algo_signal_period_average_cci(0,4),
-		algo_signal_period_average_macd(0,4),
-		algo_signal_period_average_trix(0,4),
+		algo_signal_period_average_ppc(0,8),
+		algo_signal_period_average_di(0,8),
+		algo_signal_period_average_cci(0,8),
+		algo_signal_period_average_macd(0,8),
+		algo_signal_period_average_trix(0,8),
 		
 		algo_signal_weight_ppc(0,4),
 		algo_signal_weight_di(0,4),

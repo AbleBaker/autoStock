@@ -17,7 +17,7 @@ public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.instance;
 	public static PositionGovernor instance = new PositionGovernor();
 	
-	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
+	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		Position typePosition = positionManager.getPosition(quoteSlice.symbol);
 		

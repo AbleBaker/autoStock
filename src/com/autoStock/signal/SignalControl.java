@@ -14,13 +14,13 @@ public class SignalControl {
 	public static int periodLength = 30;
 	public static int periodWindow = 15;
 	
-	public static int periodAverageForPPC = 5;
-	public static int periodAverageForDI = 5; 
-	public static int periodAverageForCCI = 5; 
-	public static int periodAverageForMACD = 5; 
-	public static int periodAverageForTRIX = 5;
+	public static int periodAverageForPPC = 2;
+	public static int periodAverageForDI = 0; 
+	public static int periodAverageForCCI = 0; 
+	public static int periodAverageForMACD = 0; 
+	public static int periodAverageForTRIX = 0;
 	public static final int periodAverageForRSI = 0;
-	public static final int periodAverageForSTORSI = 5;
+	public static final int periodAverageForSTORSI = 0;
 	
 	public static double weightForPPC = 1.5;
 	public static double weightForDI = 1.0;

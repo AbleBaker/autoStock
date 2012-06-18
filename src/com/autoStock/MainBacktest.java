@@ -16,6 +16,7 @@ import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.CallbackLock;
 import com.autoStock.internal.Global;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.HistoricalData;
@@ -37,6 +38,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	private CallbackLock callbackLock = new CallbackLock();
 	private int currentBacktestDayIndex = 0;
 	private double metricBestAccountBalance = 0;
+	private Benchmark bench = new Benchmark();
 
 	@SuppressWarnings("deprecation")
 	public MainBacktest(Exchange exchange, HistoricalData historicalData) {
@@ -65,8 +67,10 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	}
 	
 	public boolean runNextBacktest(){
-		if (listOfHistoricalData.size() == currentBacktestDayIndex){
-			
+		
+		bench.printTick("runNext");
+		
+		if (listOfHistoricalData.size() == currentBacktestDayIndex){		
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
 				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup());
 				metricBestAccountBalance = Account.instance.getBankBalance();

@@ -13,30 +13,30 @@ import com.autoStock.signal.SignalControl;
 public class BacktestUtils {
 
 	public static String getCurrentBacktestValueGroup() {
-		return "--------> Best backtest results: " + 
-			SignalControl.pointToSignalLongEntry + "\n" + 
-			SignalControl.pointToSignalLongExit + "\n" + 
-			SignalControl.pointToSignalShortEntry + "\n" +
-			SignalControl.pointToSignalShortExit + "\n" +
-			SignalControl.periodLength + "\n" + 
-			SignalControl.periodWindow + "\n" + 
-			SignalControl.periodAverageForPPC + "\n" + 
-			SignalControl.periodAverageForDI + "\n" + 
-			SignalControl.periodAverageForCCI + "\n" + 
-			SignalControl.periodAverageForMACD + "\n" + 
-			SignalControl.periodAverageForTRIX + "\n" +
-			SignalControl.weightForPPC + "\n" +
-			SignalControl.weightForDI + "\n" + 
-			SignalControl.weightForCCI + "\n" + 
-			SignalControl.weightForMACD + "\n" + 
-			SignalControl.weightForTRIX + "\n" +
-			Account.instance.getTransactions() + "\n" + 
-			Account.instance.getBankBalance() + "\n";
+		return "--------> Best backtest results: \n" + 
+			"Long entry: " + SignalControl.pointToSignalLongEntry + "\n" + 
+			"Long exit: " + SignalControl.pointToSignalLongExit + "\n" + 
+			"Short entry: " + SignalControl.pointToSignalShortEntry + "\n" +
+			"Short exit: " + SignalControl.pointToSignalShortExit + "\n" +
+			"Period Length: " + SignalControl.periodLength + "\n" + 
+			"Period Window: " + SignalControl.periodWindow + "\n" + 
+			"Period Average PPC: " + SignalControl.periodAverageForPPC + "\n" + 
+			"Period Average DI: " + SignalControl.periodAverageForDI + "\n" + 
+			"Period Average CCI: " + SignalControl.periodAverageForCCI + "\n" + 
+			"Period Average MACD: " + SignalControl.periodAverageForMACD + "\n" + 
+			"Period Average TRIX: " + SignalControl.periodAverageForTRIX + "\n" +
+			"Weight for PPC: " + SignalControl.weightForPPC + "\n" +
+			"Weight for DI: " + SignalControl.weightForDI + "\n" + 
+			"Weight for CCI: " + SignalControl.weightForCCI + "\n" + 
+			"Weight for MACD: " + SignalControl.weightForMACD + "\n" + 
+			"Weight for TRIX: " + SignalControl.weightForTRIX + "\n" +
+			"Total transactions: " + Account.instance.getTransactions() + "\n" + 
+			"Bank account balance: " + Account.instance.getBankBalance() + "\n";
 	}
 	
 	public static void printBestBacktestResults(ArrayList<String> listOfStringBestBacktestResults){
 		Co.println("Best backtest results...");
-		for (String string : listOfStringBestBacktestResults){
+		for (String string : listOfStringBestBacktestResults.subList(0, Math.min(2, listOfStringBestBacktestResults.size()))){
 			Co.println(string);
 		}
 	}
