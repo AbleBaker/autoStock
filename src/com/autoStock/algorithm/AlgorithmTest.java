@@ -53,12 +53,11 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
-	public AlgorithmTest(boolean canTrade, Exchange exchange) {
-		super(canTrade, exchange);
-	}
-
 	private int periodLength = SignalControl.periodLength;
 	private int periodWindow = SignalControl.periodWindow;
+	
+	private boolean enableChart = false;
+	private boolean enableTable = false;
 	
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
 	private AnalysisOfDI analysisOfDI = new AnalysisOfDI(periodLength, false);
@@ -71,8 +70,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
-//	private ChartForAlgorithmTest chart = new ChartForAlgorithmTest();
 	private PositionGovernor positionGovener = PositionGovernor.instance;
+	private ChartForAlgorithmTest chart;
+	
+	
+	public AlgorithmTest(boolean canTrade, Exchange exchange) {
+		super(canTrade, exchange);
+		if (enableChart){chart = new ChartForAlgorithmTest();}
+	}
 
 	@Override
 	public void receiveQuoteSlice(QuoteSlice typeQuoteSlice) {
@@ -129,20 +134,22 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
 			//signal.addSignalMetrics(signalOfDI.getSignal());
 			
-//			chart.listOfDate.add(typeQuoteSlice.dateTime);
-//			chart.listOfPrice.add(typeQuoteSlice.priceClose);
-//			chart.listOfSignalDI.add(signalOfDI.getSignal().strength);
-//			chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
-//			chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
-//			chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
-//			chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
-//			chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
-//			chart.listOfSignalTotal.add(signal.getCombinedSignal());
-//			
-//			chart.listOfDI.add(analysisOfDIResultPlus - analysisOfDIResultMinus);
-//			chart.listOfCCI.add(analysisOfCCIResult);
-//			chart.listOfMACD.add(analysisOfMACDResult);
-//			chart.listOfRSI.add(analysisOfRSIResult);
+			if (enableChart){
+				chart.listOfDate.add(typeQuoteSlice.dateTime);
+				chart.listOfPrice.add(typeQuoteSlice.priceClose);
+				chart.listOfSignalDI.add(signalOfDI.getSignal().strength);
+				chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
+				chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
+				chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
+				chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
+				chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
+				chart.listOfSignalTotal.add(signal.getCombinedSignal());
+				
+				chart.listOfDI.add(analysisOfDIResultPlus - analysisOfDIResultMinus);
+				chart.listOfCCI.add(analysisOfCCIResult);
+				chart.listOfMACD.add(analysisOfMACDResult);
+				chart.listOfRSI.add(analysisOfRSIResult);
+			}
 			
 			if (algorithmListener != null){
 				algorithmListener.recieveSignal(signal, typeQuoteSlice);

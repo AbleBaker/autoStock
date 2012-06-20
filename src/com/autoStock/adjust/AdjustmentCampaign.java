@@ -23,7 +23,7 @@ public class AdjustmentCampaign {
 			AdjustmentDefinitions.algo_signal_long_exit.startValue,
 			AdjustmentDefinitions.algo_signal_long_exit.endValue, 
 			AdjustmentDefinitions.algo_signal_long_exit));
-		
+//		
 		permutation.addIteration(new Iteration(
 			AdjustmentDefinitions.algo_signal_short_entry.startValue, 
 			AdjustmentDefinitions.algo_signal_short_entry.endValue, 
@@ -102,10 +102,10 @@ public class AdjustmentCampaign {
 	}
 	
 	public enum AdjustmentDefinitions {
-		algo_signal_long_entry(0,20),
-		algo_signal_long_exit(-15,20),
-		algo_signal_short_entry(-15,0),
-		algo_signal_short_exit(-15,0),
+		algo_signal_long_entry(-50,50),
+		algo_signal_long_exit(-50,50),
+		algo_signal_short_entry(-50,50),
+		algo_signal_short_exit(-50,50),
 		
 		algo_signal_period_length(15,45),
 		algo_signal_period_window(15,30),

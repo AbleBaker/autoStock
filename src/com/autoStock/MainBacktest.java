@@ -66,11 +66,15 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	}
 	
 	public boolean runNextBacktest(){
-		if (listOfHistoricalData.size() == currentBacktestDayIndex){		
+		if (listOfHistoricalData.size() == currentBacktestDayIndex){
+			if (backtestType == BacktestType.backtest_default){Global.callbackLock.releaseLock(); return false;}
+			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
 				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup());
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
+			
+			Co.println("Account balance: " + Account.instance.getBankBalance());
 			
 			if (adjustmentCampaign.runAdjustment()) {
 				currentBacktestDayIndex = 0;
@@ -79,6 +83,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 			}else{
 				Co.println("******** End of backtest and adjustment ********");
 				BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
+				Global.callbackLock.releaseLock();
 			}
 			
 			return false;
@@ -86,7 +91,6 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 			HistoricalData historicalData = listOfHistoricalData.get(currentBacktestDayIndex++);
 			
 			Co.println("Backtesting: (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + ") " + DateTools.getPrettyDate(historicalData.startDate) + " - " +  DateTools.getPrettyDate(historicalData.endDate));
-//			Co.println("Running backtest on Exchange: " + exchange.name + " for dates between " + DateTools.getPrettyDate(historicalData.startDate) + " - " + DateTools.getPrettyDate(historicalData.endDate));
 			runBacktest(historicalData);
 			
 			return true;
@@ -119,13 +123,11 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 //		Co.println("******** End of feed in MainBacktest ********");
 
 		if (backtestType == BacktestType.backtest_with_adjustment) {
-//			Co.println("Algorithm has eneded 1: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getBankBalance()));
-//			Co.println("\n\n");
 
 			runNextBacktest();
 		} else {
-			Co.println("Algorithm has eneded 2: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactionFeesPaid());
-			callbackLock.releaseLock();
+			Co.println("Algorithm has eneded: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getBankBalance()));
+			runNextBacktest();
 		}		
 	}
 }
