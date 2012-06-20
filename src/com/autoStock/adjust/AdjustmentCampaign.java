@@ -242,4 +242,8 @@ public class AdjustmentCampaign {
 	public int getAdjustmentValueOfInt(AdjustmentDefinitions adjustment){
 		return adjustment.currentValue;
 	}
+	
+	public double getPercentComplete(){
+		return permutation.getPercentComplete();
+	}
 }

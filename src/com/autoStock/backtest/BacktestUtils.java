@@ -36,7 +36,7 @@ public class BacktestUtils {
 	
 	public static void printBestBacktestResults(ArrayList<String> listOfStringBestBacktestResults){
 		Co.println("Best backtest results...");
-		for (String string : listOfStringBestBacktestResults.subList(0, Math.min(2, listOfStringBestBacktestResults.size()))){
+		for (String string : listOfStringBestBacktestResults){
 			Co.println(string);
 		}
 	}

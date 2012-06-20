@@ -85,6 +85,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		}else{
 			HistoricalData historicalData = listOfHistoricalData.get(currentBacktestDayIndex++);
 			
+			Co.println("Backtesting: (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + ") " + DateTools.getPrettyDate(historicalData.startDate) + " - " +  DateTools.getPrettyDate(historicalData.endDate));
 //			Co.println("Running backtest on Exchange: " + exchange.name + " for dates between " + DateTools.getPrettyDate(historicalData.startDate) + " - " + DateTools.getPrettyDate(historicalData.endDate));
 			runBacktest(historicalData);
 			

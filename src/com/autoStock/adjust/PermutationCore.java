@@ -14,6 +14,7 @@ import com.autoStock.tools.StringTools;
 public class PermutationCore {
 	private String[] a;
 	private int n;
+	private int permutations = 0;
 
 	public PermutationCore(String[] arrayOfPossibilities, int lengthOfPermutation) {
 		this.a = arrayOfPossibilities;
@@ -22,7 +23,7 @@ public class PermutationCore {
 
 	public String[][] getVariations() {
 		int l = a.length;
-		int permutations = (int) Math.pow(l, n);
+		permutations = (int) Math.pow(l, n);
 		
 		Co.println("Permutation array size: " + permutations);
 		
@@ -41,5 +42,9 @@ public class PermutationCore {
 		}
 		
 		return table;
+	}
+	
+	public int getPermutationCount(){
+		return permutations;
 	}
 }

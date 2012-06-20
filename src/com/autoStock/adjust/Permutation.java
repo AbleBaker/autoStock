@@ -49,7 +49,6 @@ public class Permutation {
 //		Co.println("Min/max: " + min + "," + max);
 		
 		arrayOfStringResults = permutationCore.getVariations();
-//		ArrayTools.sort2DStringArray(arrayOfStringResults);
 
 	}
 
@@ -113,5 +112,9 @@ public class Permutation {
 		public Object getRequest(){
 			return this.request;
 		}
+	}
+	
+	public double getPercentComplete(){
+		return (double)count / (double)permutationCore.getPermutationCount();
 	}
 }
