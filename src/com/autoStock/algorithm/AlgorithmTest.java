@@ -56,8 +56,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private int periodLength = SignalControl.periodLength;
 	private int periodWindow = SignalControl.periodWindow;
 	
-	private boolean enableChart = true;
-	private boolean enableTable = true;
+	private boolean enableChart = false;
+	private boolean enableTable = false;
 	
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
 	private AnalysisOfDI analysisOfDI = new AnalysisOfDI(periodLength, false);
@@ -132,7 +132,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			signal.reset();
 //			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal()); //signalOfPPC.getSignal(), 
-			signal.addSignalMetrics(signalOfCCI.getSignal());
+			signal.addSignalMetrics(signalOfDI.getSignal());
 			
 			if (enableChart){
 				chart.listOfDate.add(typeQuoteSlice.dateTime);

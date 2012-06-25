@@ -103,7 +103,7 @@ public class AdjustmentCampaign {
 	
 	public enum AdjustmentDefinitions {
 		algo_signal_long_entry(-50,50),
-		algo_signal_long_exit(-50,50),
+		algo_signal_long_exit(-100,50),
 		algo_signal_short_entry(-50,50),
 		algo_signal_short_exit(-50,50),
 		
