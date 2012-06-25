@@ -17,6 +17,10 @@ public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.instance;
 	public static PositionGovernor instance = new PositionGovernor();
 	
+	private static final boolean canGoLong = true;
+	private static final boolean canGoShort = false;
+	
+	@SuppressWarnings("unused")
 	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		Position typePosition = positionManager.getPosition(quoteSlice.symbol);
@@ -29,12 +33,12 @@ public class PositionGovernor {
 				return positionGovernorResponse;
 			}
 			
-			if (signal.getCombinedSignal() >= SignalControl.pointToSignalLongEntry){
+			if ((signal.getCombinedSignal() >= SignalControl.pointToSignalLongEntry) && canGoLong){
 				//Enter long
 				governLongEntry(quoteSlice, null, signal, positionGovernorResponse);
 				positionGovernorResponse.changedPosition = true;
 			}
-			else if (signal.getCombinedSignal() <= SignalControl.pointToSignalShortEntry){
+			else if ((signal.getCombinedSignal() <= SignalControl.pointToSignalShortEntry) && canGoShort){
 				// Enter short
 				governShortEntry(quoteSlice, null, signal, positionGovernorResponse);
 				positionGovernorResponse.changedPosition = true;

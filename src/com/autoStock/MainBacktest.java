@@ -30,7 +30,7 @@ import com.autoStock.types.QuoteSlice;
 public class MainBacktest implements ReceiverOfQuoteSlice {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AlgorithmTest algorithm;
-	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
+	private BacktestType backtestType = BacktestType.backtest_default;
 	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();

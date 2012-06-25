@@ -56,8 +56,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private int periodLength = SignalControl.periodLength;
 	private int periodWindow = SignalControl.periodWindow;
 	
-	private boolean enableChart = false;
-	private boolean enableTable = false;
+	private boolean enableChart = true;
+	private boolean enableTable = true;
 	
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
 	private AnalysisOfDI analysisOfDI = new AnalysisOfDI(periodLength, false);
@@ -67,7 +67,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisOfSTORSI analysisOfSTORSI = new AnalysisOfSTORSI(periodLength, false);
 	private AnalysisOfRSI analysisOfRSI = new AnalysisOfRSI(periodLength, false);
 	
-//	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	private Signal signal = new Signal(SignalSource.from_analysis);
 	private PositionGovernor positionGovener = PositionGovernor.instance;
@@ -131,8 +131,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, periodWindow), SignalControl.periodAverageForTRIX);
 			
 			signal.reset();
-			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
-			//signal.addSignalMetrics(signalOfDI.getSignal());
+//			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal()); //signalOfPPC.getSignal(), 
+			signal.addSignalMetrics(signalOfCCI.getSignal());
 			
 			if (enableChart){
 				chart.listOfDate.add(typeQuoteSlice.dateTime);
@@ -171,43 +171,46 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
 //			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
 			
-//			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-//			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
-//			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-//			columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
-//			columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
-//			columnValues.add(String.valueOf(signal.getCombinedSignal()));
+			if (enableTable){
+				columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
+				columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
+				columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+				columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
+				columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
+				columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
+				columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
+				columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
+				columnValues.add(String.valueOf(signal.getCombinedSignal()));
+			}
 			
 			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(typeQuoteSlice, signal, exchange);
 			
-//			if (positionGovenorResponse.changedPosition){
-//				columnValues.add(signal.currentSignalType.name() + ", " + positionGovenorResponse.typePosition.positionType.name());
-//				columnValues.add(positionGovenorResponse.typePosition.units + ", " + positionGovenorResponse.typePosition.lastKnownPrice + ", " + (positionGovenorResponse.typePosition.units * positionGovenorResponse.typePosition.lastKnownPrice));
-//				columnValues.add(String.valueOf(Account.instance.getBankBalance()));
-//			}else{
-//				columnValues.add("");
-//				columnValues.add("");
-//				columnValues.add("");
-//			}
-//			
-//			columnValues.add("");
-			
-//			listOfDisplayRows.add(columnValues);	
+			if (enableTable){
+				if (positionGovenorResponse.changedPosition){
+					columnValues.add(signal.currentSignalType.name() + ", " + positionGovenorResponse.typePosition.positionType.name());
+					columnValues.add(positionGovenorResponse.typePosition.units + ", " + positionGovenorResponse.typePosition.lastKnownPrice + ", " + (positionGovenorResponse.typePosition.units * positionGovenorResponse.typePosition.lastKnownPrice));
+					columnValues.add(String.valueOf(Account.instance.getBankBalance()));
+				}else{
+					columnValues.add("");
+					columnValues.add("");
+					columnValues.add("");
+				}
+				
+				columnValues.add("");
+				listOfDisplayRows.add(columnValues);
+			}	
 		}
 	}
 
 	@Override
 	public void endOfFeed() {
 //		Co.println("Received end of feed...");
-//		bench.total();		
+//		bench.total();
 		PositionManager.instance.executeSellAll();
 //		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-//		chart.display();
+		if (enableChart){chart.display();}
 //		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
-//		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		if (enableTable){new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);}
 		
 		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
 	}
