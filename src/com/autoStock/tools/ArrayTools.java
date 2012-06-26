@@ -77,4 +77,8 @@ public class ArrayTools {
 		    }
 		});
 	}
+	
+	public static double getLastElement(double[] arrayOfDouble){
+		return arrayOfDouble[arrayOfDouble.length-1];
+	}
 }

@@ -14,6 +14,7 @@ public class AdjustmentCampaign {
 	private Permutation permutation = new Permutation();
 	
 	public AdjustmentCampaign(){
+		
 		permutation.addIteration(new Iteration(
 			AdjustmentDefinitions.algo_signal_long_entry.startValue, 
 			AdjustmentDefinitions.algo_signal_long_entry.endValue, 
@@ -107,6 +108,31 @@ public class AdjustmentCampaign {
 		algo_signal_short_entry(-50,50),
 		algo_signal_short_exit(-50,50),
 		
+		algo_signal_long_entry_di(-50,50),
+		algo_signal_long_exit_di(-100,50),
+		algo_signal_short_entry_di(-50,50),
+		algo_signal_short_exit_di(-50,50),
+		
+		algo_signal_long_entry_cci(-50,50),
+		algo_signal_long_exit_cci(-100,50),
+		algo_signal_short_entry_cci(-50,50),
+		algo_signal_short_exit_cci(-50,50),
+		
+		algo_signal_long_entry_ppc(-50,50),
+		algo_signal_long_exit_ppc(-100,50),
+		algo_signal_short_entry_ppc(-50,50),
+		algo_signal_short_exit_ppc(-50,50),
+		
+		algo_signal_long_entry_macd(-50,50),
+		algo_signal_long_exit_macd(-100,50),
+		algo_signal_short_entry_macd(-50,50),
+		algo_signal_short_exit_macd(-50,50),
+		
+		algo_signal_long_entry_trix(-50,50),
+		algo_signal_long_exit_trix(-100,50),
+		algo_signal_short_entry_trix(-50,50),
+		algo_signal_short_exit_trix(-50,50),
+		
 		algo_signal_period_length(15,45),
 		algo_signal_period_window(15,30),
 		
@@ -168,15 +194,10 @@ public class AdjustmentCampaign {
 				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.pointToSignalShortExit);
 			}
 			
-			//Period and Window lengths
+			//Period lengths
 			else if (adjustment == AdjustmentDefinitions.algo_signal_period_length){
 				SignalControl.periodLength = (int) permutation.getIteration(adjustment).getCurrentValue();
 				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodLength);
-			}
-			
-			else if (adjustment == AdjustmentDefinitions.algo_signal_period_window){
-				SignalControl.periodWindow = (int) permutation.getIteration(adjustment).getCurrentValue();
-				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodWindow);
 			}
 			
 			//Analysis averages
@@ -203,32 +224,6 @@ public class AdjustmentCampaign {
 			else if (adjustment == AdjustmentDefinitions.algo_signal_period_average_trix){
 				SignalControl.periodAverageForTRIX = (int) permutation.getIteration(adjustment).getCurrentValue();
 				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.periodAverageForTRIX);
-			}
-			
-			//Weights
-			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_ppc){
-				SignalControl.weightForPPC = (int) permutation.getIteration(adjustment).getCurrentValue();
-				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForPPC);
-			}
-			
-			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_di){
-				SignalControl.weightForDI = (int) permutation.getIteration(adjustment).getCurrentValue();
-				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForDI);
-			}
-			
-			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_cci){
-				SignalControl.weightForCCI = (int) permutation.getIteration(adjustment).getCurrentValue();
-				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForCCI);
-			}
-			
-			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_macd){
-				SignalControl.weightForMACD = (int) permutation.getIteration(adjustment).getCurrentValue();
-				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForMACD);
-			}
-			
-			else if (adjustment == AdjustmentDefinitions.algo_signal_weight_trix){
-				SignalControl.weightForTRIX = (int) permutation.getIteration(adjustment).getCurrentValue();
-				Co.println("******** Changed " + adjustment.name() + " to " + SignalControl.weightForTRIX);
 			}
 			
 			else {

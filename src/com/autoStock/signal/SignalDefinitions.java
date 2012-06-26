@@ -23,22 +23,28 @@ public class SignalDefinitions {
 	}
 	
 	public static enum SignalTypeMetric {
-		metric_ppc,
-		metric_di,
-		metric_cci,
-		metric_macd,
-		metric_storsi,
-		metric_rsi,
-		metric_trix,
-	}
-	
-	public static double getSignalWeight(SignalTypeMetric signalTypeMetric){
-		if (signalTypeMetric == SignalTypeMetric.metric_ppc){return SignalControl.weightForPPC;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_di){return SignalControl.weightForDI;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_cci){return SignalControl.weightForCCI;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_macd){return SignalControl.weightForMACD;}
-		else if (signalTypeMetric == SignalTypeMetric.metric_trix){return SignalControl.weightForTRIX;}
-		throw new UnsupportedOperationException();
+		metric_ppc(new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 10000);}}),
+		metric_di(new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}}),
+		metric_cci(new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}}),
+		metric_macd(new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 5000);}}),
+		metric_rsi(new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}}),
+		metric_trix(new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 1000);}}),
+		metric_storsi(null),
+		;
+		
+		CalculateInterface calculateInterface;
+		int pointToSignalLongEntry = 0;
+		int pointToSignalLongExit = 0;
+		int pointToSignalShortEntry = 0;
+		int pointToSignalShortExit = 0;
+		
+		private SignalTypeMetric(CalculateInterface calculateInterface) {
+			this.calculateInterface = calculateInterface;
+		}
+
+		public int getSignalStrength(double input) {
+			return this.calculateInterface.calculate(input);
+		} 
 	}
 	
 	public static SignalType getSignalType(Signal signal){

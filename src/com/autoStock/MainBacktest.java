@@ -16,6 +16,7 @@ import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.CallbackLock;
 import com.autoStock.internal.Global;
+import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
@@ -30,7 +31,7 @@ import com.autoStock.types.QuoteSlice;
 public class MainBacktest implements ReceiverOfQuoteSlice {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AlgorithmTest algorithm;
-	private BacktestType backtestType = BacktestType.backtest_default;
+	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();

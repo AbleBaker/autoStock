@@ -18,7 +18,7 @@ public class Signal {
 	public SignalSource signalSource;
 	public SignalType lastSignalType = SignalType.type_none;
 	public SignalType currentSignalType = SignalType.type_none;
-	public ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
+	private ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	
 	public Signal(SignalSource signalSource) {
 		this.signalSource = signalSource;
@@ -48,7 +48,7 @@ public class Signal {
 		double combinedSignal = 0;
 		
 		for (SignalMetric signalMetric : listOfSignalMetric){
-			combinedSignal += (signalMetric.strength * SignalDefinitions.getSignalWeight(signalMetric.signalTypeMetric));
+			combinedSignal += (signalMetric.strength);
 		}
 		
 		combinedSignal = (combinedSignal / listOfSignalMetric.size());

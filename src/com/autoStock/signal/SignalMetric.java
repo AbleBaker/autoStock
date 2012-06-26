@@ -17,4 +17,8 @@ public class SignalMetric {
 		this.strength = strength;
 		this.signalTypeMetric = signalTypeMetric;
 	}
+	
+	public void applyStength(double input){
+		strength = signalTypeMetric.getSignalStrength(input);
+	}
 }

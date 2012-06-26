@@ -31,7 +31,7 @@ public class SignalOfCCI{
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_cci);
 	
-		SignalControl.setSignalStrengthForCCI(signalMetric, cciValue);
+		signalMetric.applyStength(cciValue);
 		
 		return signalMetric;
 	}

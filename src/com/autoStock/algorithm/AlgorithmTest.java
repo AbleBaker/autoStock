@@ -54,7 +54,6 @@ import com.autoStock.types.QuoteSlice;
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	private int periodLength = SignalControl.periodLength;
-	private int periodWindow = SignalControl.periodWindow;
 	
 	private boolean enableChart = false;
 	private boolean enableTable = false;
@@ -73,7 +72,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private PositionGovernor positionGovener = PositionGovernor.instance;
 	private ChartForAlgorithmTest chart;
 	
-	
 	public AlgorithmTest(boolean canTrade, Exchange exchange) {
 		super(canTrade, exchange);
 		if (enableChart){chart = new ChartForAlgorithmTest();}
@@ -85,10 +83,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		listOfQuoteSlice.add(typeQuoteSlice);
 	
-		if (listOfQuoteSlice.size() > (periodLength + periodWindow)){
+		if (listOfQuoteSlice.size() > (periodLength)){
 			double analysisPrice = typeQuoteSlice.priceClose;
 			
-			if (listOfQuoteSlice.size() > (periodLength + periodWindow)){
+			if (listOfQuoteSlice.size() > (periodLength)){
 				listOfQuoteSlice.remove(0);
 			}
 			
@@ -111,28 +109,28 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
 			
 			double[] arrayOfPriceClose = CommonAnlaysisData.arrayOfPriceClose;
-			double analysisOfCCIResult = resultsCCI.arrayOfCCI[periodWindow-1];
-			double analysisOfDIResultPlus = resultsDI.arrayOfDIPlus[periodWindow-1];
-			double analysisOfDIResultMinus = resultsDI.arrayOfDIMinus[periodWindow-1];
-			double analysisOfBBResultUpper = resultsBB.arrayOfUpperBand[periodWindow-1];
-			double analysisOfBBResultLower = resultsBB.arrayOfLowerBand[periodWindow-1];
-			double analysisOfMACDResult = resultsMACD.arrayOfMACDHistogram[periodWindow-1]*1000;
+			double analysisOfCCIResult = resultsCCI.arrayOfCCI[0];
+			double analysisOfDIResultPlus = resultsDI.arrayOfDIPlus[0];
+			double analysisOfDIResultMinus = resultsDI.arrayOfDIMinus[0];
+			double analysisOfBBResultUpper = resultsBB.arrayOfUpperBand[0];
+			double analysisOfBBResultLower = resultsBB.arrayOfLowerBand[0];
+			double analysisOfMACDResult = resultsMACD.arrayOfMACDSignal[0];
 //			double analysisOfSTORSIResultK = resultsSTORSI.arrayOfPercentK[periodWindow-1];
 //			double analysisOfSTORSIResultD = resultsSTORSI.arrayOfPercentD[periodWindow-1];
-			double analysisOfRSIResult = resultsRSI.arrayOfRSI[periodWindow-1];
-			double analysisOfTrixResult = resultsTRIX.arrayOfTRIX[periodWindow-1];
+			double analysisOfRSIResult = resultsRSI.arrayOfRSI[0];
+			double analysisOfTrixResult = resultsTRIX.arrayOfTRIX[0];
 			
-			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(arrayOfPriceClose, periodLength, periodLength + periodWindow), SignalControl.periodAverageForPPC);
-			SignalOfDI signalOfDI = new SignalOfDI(ArrayTools.subArray(resultsDI.arrayOfDIPlus, 0, periodWindow), ArrayTools.subArray(resultsDI.arrayOfDIMinus, 0, periodWindow), SignalControl.periodAverageForDI);
-			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, periodWindow), SignalControl.periodAverageForCCI);
-			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, periodWindow), SignalControl.periodAverageForMACD);
+			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(arrayOfPriceClose, 0, periodLength), SignalControl.periodAverageForPPC);
+			SignalOfDI signalOfDI = new SignalOfDI(ArrayTools.subArray(resultsDI.arrayOfDIPlus, 0, 1), ArrayTools.subArray(resultsDI.arrayOfDIMinus, 0, 1), SignalControl.periodAverageForDI);
+			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, 1), SignalControl.periodAverageForCCI);
+			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDSignal, 0, 1), SignalControl.periodAverageForMACD);
 //			SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(ArrayTools.subArray(resultsSTORSI.arrayOfPercentK, 0, periodWindow), ArrayTools.subArray(resultsSTORSI.arrayOfPercentD, 0, periodWindow), SignalControl.periodAverageForSTORSI);
-			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, periodWindow), SignalControl.periodAverageForRSI);
-			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, periodWindow), SignalControl.periodAverageForTRIX);
+			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);
+			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 			
 			signal.reset();
-//			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal()); //signalOfPPC.getSignal(), 
-			signal.addSignalMetrics(signalOfDI.getSignal());
+			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal()); //signalOfPPC.getSignal(), 
+//			signal.addSignalMetrics(signalOfTRIX.getSignal());
 			
 			if (enableChart){
 				chart.listOfDate.add(typeQuoteSlice.dateTime);

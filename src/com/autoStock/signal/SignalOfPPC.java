@@ -40,7 +40,8 @@ public class SignalOfPPC{
 	
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_ppc);
-		SignalControl.setSignalStrengthForPPC(signalMetric, percentChange);
+		
+		signalMetric.applyStength(percentChange);
 		
 		return signalMetric;
 	}

@@ -30,7 +30,8 @@ public class SignalOfTRIX{
 	
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_trix);
-		SignalControl.setSignalStrengthForTRIX(signalMetric, trixValue);
+		
+		signalMetric.applyStength(trixValue);
 		
 		return signalMetric;
 	}

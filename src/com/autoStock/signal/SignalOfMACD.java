@@ -30,7 +30,7 @@ public class SignalOfMACD{
 	
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_macd);
-		SignalControl.setSignalStrengthForMACD(signalMetric, macdValue);
+		signalMetric.applyStength(macdValue);
 		
 		return signalMetric;
 	}

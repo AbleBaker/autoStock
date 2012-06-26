@@ -19,17 +19,11 @@ public class BacktestUtils {
 			"Short entry: " + SignalControl.pointToSignalShortEntry + "\n" +
 			"Short exit: " + SignalControl.pointToSignalShortExit + "\n" +
 			"Period Length: " + SignalControl.periodLength + "\n" + 
-			"Period Window: " + SignalControl.periodWindow + "\n" + 
 			"Period Average PPC: " + SignalControl.periodAverageForPPC + "\n" + 
 			"Period Average DI: " + SignalControl.periodAverageForDI + "\n" + 
 			"Period Average CCI: " + SignalControl.periodAverageForCCI + "\n" + 
 			"Period Average MACD: " + SignalControl.periodAverageForMACD + "\n" + 
 			"Period Average TRIX: " + SignalControl.periodAverageForTRIX + "\n" +
-			"Weight for PPC: " + SignalControl.weightForPPC + "\n" +
-			"Weight for DI: " + SignalControl.weightForDI + "\n" + 
-			"Weight for CCI: " + SignalControl.weightForCCI + "\n" + 
-			"Weight for MACD: " + SignalControl.weightForMACD + "\n" + 
-			"Weight for TRIX: " + SignalControl.weightForTRIX + "\n" +
 			"Total transactions: " + Account.instance.getTransactions() + "\n" + 
 			"Bank account balance: " + Account.instance.getBankBalance() + "\n";
 	}

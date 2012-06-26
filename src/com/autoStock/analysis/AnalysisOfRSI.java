@@ -35,7 +35,7 @@ public class AnalysisOfRSI extends AnalysisBase{
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().rsi(0, endIndex, arrayOfPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfRSI);
+		RetCode returnCode = getTaLibCore().rsi(0, endIndex, arrayOfPriceClose, periodLength-1, new MInteger(), new MInteger(), results.arrayOfRSI);
 		handleAnalysisResult(returnCode);
 		
 		return results;
