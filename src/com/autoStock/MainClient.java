@@ -7,7 +7,7 @@ import com.autoStock.internal.Global;
 import com.autoStock.internal.Global.Mode;
 import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
-import com.autoStock.menu.MenuDisplayLauncher;
+import com.autoStock.menu.MenuLauncher;
 
 /**
  * @author Kevin Kowalewski
@@ -24,7 +24,7 @@ public class MainClient {
 		MenuStructures menuStructure = menuController.getRelatedMenu(args);
 		menuController.handleMenuStructure(menuStructure, args);
 		
-		new MenuDisplayLauncher().launchDisplay(menuStructure);
+		new MenuLauncher().launchDisplay(menuStructure);
 		
 		while (Global.callbackLock.isLocked()){
 //			Co.println("...");

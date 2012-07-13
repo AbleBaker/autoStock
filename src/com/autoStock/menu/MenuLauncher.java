@@ -21,7 +21,7 @@ import com.autoStock.types.Exchange;
  * @author Kevin Kowalewski
  * 
  */
-public class MenuDisplayLauncher {
+public class MenuLauncher {
 	public void launchDisplay(MenuStructures menuStructure){
 		if (menuStructure == MenuStructures.menu_request_historical_prices){
 			new DisplayHistoricalPrices(
