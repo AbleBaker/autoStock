@@ -10,7 +10,6 @@ import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoric
  * @author Kevin Kowalewski
  *
  */
-public interface RequestHistoricalDataListener {
-	public void failed(RequestHolder requestHolder);
+public interface RequestHistoricalDataListener extends RequestListenerBase {
 	public void completed(RequestHolder requestHolder, ExResultSetHistoricalData exResultSetHistoricalData);
 }

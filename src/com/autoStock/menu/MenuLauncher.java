@@ -4,6 +4,7 @@
 package com.autoStock.menu;
 
 import com.autoStock.MainBacktest;
+import com.autoStock.MainFilter;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
 import com.autoStock.display.DisplayMarketData;
@@ -83,12 +84,16 @@ public class MenuLauncher {
 					new HistoricalData(
 							menuStructure.getArgument(MenuArguments.arg_symbol).value, 
 							"STK", 
-							new DateTools().getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
-							new DateTools().getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
+							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
+							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
 							Resolution.min
 							//Resolution.valueOf(menuStructure.getArgument(MenuArguments.arg_resolution).value)
 						)
 					);
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_market_filter){
+			new MainFilter(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value));
 		}
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){

@@ -93,10 +93,10 @@ public class IbExchangeInstance {
 	
 	public void getScanner(){
 		ScannerSubscription scanner = new ScannerSubscription();
-		scanner.numberOfRows();
+		scanner.numberOfRows(50);
 		scanner.instrument("STOCK.HK");
 		scanner.locationCode("STK.HK.ASX");
-		scanner.scanCode("TOP_PERC_GAIN");
+		scanner.scanCode("TOP_OPEN_PERC_GAIN");
 		scanner.aboveVolume(10000);
 		scanner.abovePrice(3.00);
 		scanner.averageOptionVolumeAbove(0);

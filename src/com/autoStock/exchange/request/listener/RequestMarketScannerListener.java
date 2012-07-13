@@ -10,7 +10,6 @@ import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketSca
  * @author Kevin Kowalewski
  *
  */
-public interface RequestMarketScannerListener {
-		public void failed(RequestHolder requestHolder);
-		public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner);
+public interface RequestMarketScannerListener extends RequestListenerBase {
+	public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner);
 }
