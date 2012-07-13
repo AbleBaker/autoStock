@@ -169,7 +169,7 @@ public class AdjustmentCampaign {
 		return ranPermutation;
 	}
 	
-	private void setAdjustmentValues(){		
+	private void setAdjustmentValues(){
 		for (Iteration iteration : permutation.getListOfIterations()){
 			AdjustmentDefinitions adjustment = (AdjustmentDefinitions) iteration.getRequest();
 			

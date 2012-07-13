@@ -91,7 +91,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
 	}
 	
-	public void getScanner(){
+	public void getScanner(RequestHolder requestHolder){
 		ScannerSubscription scanner = new ScannerSubscription();
 		scanner.numberOfRows(50);
 		scanner.instrument("STOCK.HK");
@@ -100,7 +100,9 @@ public class IbExchangeInstance {
 		scanner.aboveVolume(10000);
 		scanner.abovePrice(3.00);
 		scanner.averageOptionVolumeAbove(0);
-		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(1, scanner);
+		scanner.scannerSettingPairs("colums,55");
+		scanner.stockTypeFilter("STOCK");
+		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(requestHolder.requestId, scanner);
 	}
 	
 	public void getRealtimeData(RealtimeData typeRealtimeData, RequestHolder requestHolder){

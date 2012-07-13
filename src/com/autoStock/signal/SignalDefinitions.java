@@ -23,13 +23,25 @@ public class SignalDefinitions {
 	}
 	
 	public static enum SignalTypeMetric {
-		metric_ppc(new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 10000);}}),
-		metric_di(new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}}),
-		metric_cci(new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}}),
-		metric_macd(new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 5000);}}),
-		metric_rsi(new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}}),
-		metric_trix(new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 1000);}}),
-		metric_storsi(null),
+		metric_ppc(
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 2500);}},
+			1,2,3,4),
+		metric_di(
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}},
+			1,2,3,4),
+		metric_cci(
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}},
+			1,2,3,4),
+		metric_macd(
+			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 5000);}},
+			1,2,3,4),
+		metric_rsi(
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input *5000 / 4);}},
+			1,2,3,4),
+		metric_trix(
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 1000);}},
+			1,2,3,4),
+		metric_storsi(null,0,0,0,0),
 		;
 		
 		CalculateInterface calculateInterface;
@@ -38,8 +50,12 @@ public class SignalDefinitions {
 		int pointToSignalShortEntry = 0;
 		int pointToSignalShortExit = 0;
 		
-		private SignalTypeMetric(CalculateInterface calculateInterface) {
+		private SignalTypeMetric(CalculateInterface calculateInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
 			this.calculateInterface = calculateInterface;
+			this.pointToSignalLongEntry = pointToSignalLongEntry;
+			this.pointToSignalLongExit = pointToSignalLongExit;
+			this.pointToSignalShortEntry = pointToSignalShortEntry;
+			this.pointToSignalShortExit = pointToSignalShortExit;
 		}
 
 		public int getSignalStrength(double input) {

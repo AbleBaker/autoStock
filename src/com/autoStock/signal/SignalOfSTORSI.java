@@ -39,7 +39,7 @@ public class SignalOfSTORSI{
 	
 	public SignalMetric getSignal(){
 		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_storsi);
-		SignalControl.setSignalStrengthForSTORSI(signalMetric, percentKValue, percentDValue);
+		signalMetric.applyStength(percentKValue);
 		
 		return signalMetric;
 	}

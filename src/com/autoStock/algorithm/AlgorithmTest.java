@@ -55,7 +55,7 @@ import com.autoStock.types.QuoteSlice;
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	private int periodLength = SignalControl.periodLength;
 	
-	private boolean enableChart = false;
+	private boolean enableChart = true;
 	private boolean enableTable = false;
 	
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
@@ -129,8 +129,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 			
 			signal.reset();
-			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal()); //signalOfPPC.getSignal(), 
-//			signal.addSignalMetrics(signalOfTRIX.getSignal());
+			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
 			
 			if (enableChart){
 				chart.listOfDate.add(typeQuoteSlice.dateTime);

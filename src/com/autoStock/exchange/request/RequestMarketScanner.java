@@ -24,7 +24,7 @@ public class RequestMarketScanner {
 		this.requestHolder.caller = this;
 		this.exResultSetMarketScanner = new ExResultMarketScanner(). new ExResultSetMarketScanner();
 		
-		ExchangeController.getIbExchangeInstance().getScanner();
+		ExchangeController.getIbExchangeInstance().getScanner(requestHolder);
 	}
 	
 	public synchronized void addResult(ExResultRowMarketScanner exResultRowMarketScanner){

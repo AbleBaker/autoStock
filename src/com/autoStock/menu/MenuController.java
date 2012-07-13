@@ -20,7 +20,7 @@ public class MenuController {
 	public void displayMenu(MenuStructures menuStructure){
 		if (menuStructure == MenuStructures.menu_main){
 			for (MenuStructures menuStructureEntry : MenuStructures.values()){
-				Co.print(StringTools.removePrefix(menuStructureEntry.name(),"_") + " --> ");
+				Co.print("\n" + StringTools.removePrefix(menuStructureEntry.name(),"_") + "\n --> ");
 				for (MenuArguments menuArgumentsEntry : menuStructureEntry.arrayOfMenuArguments){
 					Co.print(StringTools.removePrefix(menuArgumentsEntry.name(), "_") + "[");
 					for (MenuArgumentTypes menuArgumentTypesEntry : menuArgumentsEntry.arrayOfArgumentTypes){
@@ -55,7 +55,8 @@ public class MenuController {
 
 	public void handleMenuStructure(MenuStructures menuStructure, String[] args) {
 		if (menuStructure == null){
-			Co.println("\nError: No known command was entered");
+			Co.println("\nAn unknown command was entered...");
+			displayMenu(MenuStructures.menu_main);
 			ApplicationStates.shutdown();
 			return;
 		}
