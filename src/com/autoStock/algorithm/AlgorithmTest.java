@@ -55,7 +55,7 @@ import com.autoStock.types.QuoteSlice;
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	private int periodLength = SignalControl.periodLength;
 	
-	private boolean enableChart = true;
+	private boolean enableChart = false;
 	private boolean enableTable = false;
 	
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
@@ -63,7 +63,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisOfMACD analysisOfMACD = new AnalysisOfMACD(periodLength, false);
 	private AnalysisOfBB analysisOfBB = new AnalysisOfBB(periodLength, false);
 	private AnalysisOfTRIX analysisOfTRIX = new AnalysisOfTRIX(periodLength, false);
-	private AnalysisOfSTORSI analysisOfSTORSI = new AnalysisOfSTORSI(periodLength, false);
 	private AnalysisOfRSI analysisOfRSI = new AnalysisOfRSI(periodLength, false);
 	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
@@ -96,7 +95,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			analysisOfDI.setDataSet(listOfQuoteSlice);
 			analysisOfBB.setDataSet(listOfQuoteSlice);
 			analysisOfMACD.setDataSet(listOfQuoteSlice);
-//			analysisOfSTORSI.setDataSet(listOfQuoteSlice);
 			analysisOfRSI.setDataSet(listOfQuoteSlice);
 			analysisOfTRIX.setDataSet(listOfQuoteSlice);
 			
@@ -115,8 +113,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			double analysisOfBBResultUpper = resultsBB.arrayOfUpperBand[0];
 			double analysisOfBBResultLower = resultsBB.arrayOfLowerBand[0];
 			double analysisOfMACDResult = resultsMACD.arrayOfMACDSignal[0];
-//			double analysisOfSTORSIResultK = resultsSTORSI.arrayOfPercentK[periodWindow-1];
-//			double analysisOfSTORSIResultD = resultsSTORSI.arrayOfPercentD[periodWindow-1];
 			double analysisOfRSIResult = resultsRSI.arrayOfRSI[0];
 			double analysisOfTrixResult = resultsTRIX.arrayOfTRIX[0];
 			
@@ -124,7 +120,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfDI signalOfDI = new SignalOfDI(ArrayTools.subArray(resultsDI.arrayOfDIPlus, 0, 1), ArrayTools.subArray(resultsDI.arrayOfDIMinus, 0, 1), SignalControl.periodAverageForDI);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, 1), SignalControl.periodAverageForCCI);
 			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDSignal, 0, 1), SignalControl.periodAverageForMACD);
-//			SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(ArrayTools.subArray(resultsSTORSI.arrayOfPercentK, 0, periodWindow), ArrayTools.subArray(resultsSTORSI.arrayOfPercentD, 0, periodWindow), SignalControl.periodAverageForSTORSI);
 			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 			
@@ -201,10 +196,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 
 	@Override
 	public void endOfFeed() {
-//		Co.println("Received end of feed...");
-//		bench.total();
 		PositionManager.instance.executeSellAll();
-//		Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
 		if (enableChart){chart.display();}
 //		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		if (enableTable){new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);}

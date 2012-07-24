@@ -5,6 +5,7 @@ package com.autoStock;
 
 import java.util.Date;
 
+import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.RequestMarketScanner;
@@ -23,74 +24,54 @@ import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
- *
+ * 
  */
-public class MainEngagement {
+public class MainEngagement implements RequestMarketScannerListener {
 	private ExResultSetMarketScanner exResultSetMarketScanner;
 	private Exchange exchange;
-	
-	public MainEngagement(Exchange exchange){
+
+	public MainEngagement(Exchange exchange) {
 		this.exchange = exchange;
-		
-		if (exchange.isOpen()){
-			
+
+		while (exchange.isOpen() == false) {
+			Co.println("--> Waiting for exchange to open...");
 		}
-		
+
 		Global.callbackLock.releaseLock();
 	}
-	
-	public void init(){		
+
+	public void init() {
 		dayStart();
 	}
-	
-	public void dayStart(){
-		new RequestMarketScanner(new RequestHolder(new RequestMarketScannerListener() {
-			@Override
-			public void failed(RequestHolder requestHolder) {
-				
-			}
-			
-			@Override
-			public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner) {
-				ExchangeController.getIbExchangeInstance().ibExchangeClientSocket.eClientSocket.cancelScannerSubscription(requestHolder.requestId);
-				for (ExResultRowMarketScanner result : exResultSetMarketScanner.listOfExResultRowMarketScanner){
-					Co.println("Should run algorithm for symbol: " + result.symbol);
-				}
-				
-				MainEngagement.this.exResultSetMarketScanner = exResultSetMarketScanner;
-				handleCompletedMarketScanner();
-			}
-		}));
+
+	public void dayStart() {
+		new RequestMarketScanner(new RequestHolder(this));
 	}
-	
-	public void handleCompletedMarketScanner(){
-		for (ExResultRowMarketScanner result : exResultSetMarketScanner.listOfExResultRowMarketScanner){
+
+	public void handleCompletedMarketScanner() {
+		for (ExResultRowMarketScanner result : exResultSetMarketScanner.listOfExResultRowMarketScanner) {
 			Co.println("Should run algorithm for symbol: " + result.symbol);
-			new RequestMarketData(new RequestHolder(null), new RequestMarketDataListener() {
-				@Override
-				public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice typeQuoteSlice) {
-					Co.println("Received quote slice: " + typeQuoteSlice.symbol + ", " + typeQuoteSlice.priceClose);
-				}
-				
-				@Override
-				public void failed(RequestHolder requestHolder) {
-					
-				}
-				
-				@Override
-				public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
-					
-				}
-			}, new MarketData(result.symbol, "STK"), 5000);
+			
+			new AlgorithmTest(true, exchange);
 		}
 	}
-	
-	public void dayEnd(){
+
+	public void dayEnd() {
 		Co.println("End of day reached, sell all...");
 		PositionManager.instance.executeSellAll();
 	}
-	
-	public Date getDate(){
-		return new Date();
+
+	@Override
+	public void failed(RequestHolder requestHolder) {
+
 	}
+
+	@Override
+	public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner) {
+		MainEngagement.this.exResultSetMarketScanner = exResultSetMarketScanner;
+		ExchangeController.getIbExchangeInstance().ibExchangeClientSocket.eClientSocket.cancelScannerSubscription(requestHolder.requestId);
+
+		handleCompletedMarketScanner();
+	}
+
 }
