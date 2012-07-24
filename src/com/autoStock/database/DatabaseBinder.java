@@ -37,7 +37,7 @@ public class DatabaseBinder {
 		return dbSymbol;
 	}
 	
-	public DbExchange getDbExchange(long id, String exchange, String currency, String timeOpen, String timeClose, String timeOffset){
+	public DbExchange getDbExchange(long id, String exchange, String currency, String timeOpen, String timeClose, String timeOffset, String timeZone){
 		DbExchange dbExchange = new TableDefinitions.DbExchange();
 		dbExchange.id = id;
 		dbExchange.exchange = exchange;
@@ -45,6 +45,7 @@ public class DatabaseBinder {
 		dbExchange.timeOpen = DateTools.getTimeFromString(timeOpen);
 		dbExchange.timeClose = DateTools.getTimeFromString(timeClose);
 		dbExchange.timeOffset = DateTools.getTimeFromString(timeOffset);
+		dbExchange.timeZone = timeZone;
 		return dbExchange;
 	}
 

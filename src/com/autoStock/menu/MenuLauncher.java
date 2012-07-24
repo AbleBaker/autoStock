@@ -4,6 +4,7 @@
 package com.autoStock.menu;
 
 import com.autoStock.MainBacktest;
+import com.autoStock.MainEngagement;
 import com.autoStock.MainFilter;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
@@ -87,9 +88,12 @@ public class MenuLauncher {
 							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
 							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
 							Resolution.min
-							//Resolution.valueOf(menuStructure.getArgument(MenuArguments.arg_resolution).value)
 						)
 					);
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_engage){
+			new MainEngagement(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value));
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_market_filter){

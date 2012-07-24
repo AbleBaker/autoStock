@@ -1,7 +1,6 @@
 package com.autoStock.generated.basicDefinitions;
 
 import java.util.Date;
-
 import com.autoStock.types.basic.Time;
 public class TableDefinitions {
 
@@ -12,6 +11,7 @@ public class TableDefinitions {
 		public Time timeOpen;
 		public Time timeClose;
 		public Time timeOffset;
+		public String timeZone;
 	}
 
 	public static DbExchange dbExchange = new TableDefinitions.DbExchange();

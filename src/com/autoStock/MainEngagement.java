@@ -14,27 +14,32 @@ import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
+import com.autoStock.internal.ApplicationStates;
+import com.autoStock.internal.Global;
 import com.autoStock.position.PositionManager;
 import com.autoStock.trading.types.MarketData;
+import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
-public class MainCampaign {
-	
+public class MainEngagement {
 	private ExResultSetMarketScanner exResultSetMarketScanner;
+	private Exchange exchange;
 	
-	public void init(){
-//		while (true){
-//			//Co.println("Waiting for date... " + getDate().getTime() + ", " + getDate().getHours());
-//			if (getDate().getHours() >= 9 && getDate().getMinutes() >= 35){
-//				break;
-//			}
-//			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
-//		}
+	public MainEngagement(Exchange exchange){
+		this.exchange = exchange;
 		
+		if (exchange.isOpen()){
+			
+		}
+		
+		Global.callbackLock.releaseLock();
+	}
+	
+	public void init(){		
 		dayStart();
 	}
 	
@@ -52,7 +57,7 @@ public class MainCampaign {
 					Co.println("Should run algorithm for symbol: " + result.symbol);
 				}
 				
-				MainCampaign.this.exResultSetMarketScanner = exResultSetMarketScanner;
+				MainEngagement.this.exResultSetMarketScanner = exResultSetMarketScanner;
 				handleCompletedMarketScanner();
 			}
 		}));

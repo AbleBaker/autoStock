@@ -8,6 +8,7 @@ public class MenuDefinitions {
 	public static enum MenuStructures {
 		menu_main(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_main_backtest(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
+		menu_main_engage(new MenuArguments[]{MenuArguments.arg_exchange}),
 		menu_main_market_filter(new MenuArguments[]{MenuArguments.arg_exchange}),
 		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol, MenuArguments.arg_resolution, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
 		menu_request_market_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),

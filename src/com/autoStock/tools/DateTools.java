@@ -66,9 +66,19 @@ public class DateTools {
 	
 	public static Time getTimeFromString(String timeString){
 		Time time = new Time();
-		time.hour = Integer.valueOf(timeString.substring(0,2));
-		time.minute = Integer.valueOf(timeString.substring(4,5));
-		time.second = Integer.valueOf(timeString.substring(7,8));
+		int offset = 0;
+		
+		if (timeString.contains("+") || timeString.contains("-")){
+			offset = 1;
+		}
+		
+		time.hour = Integer.valueOf(timeString.substring(0 + offset, 2 + offset));
+		time.minute = Integer.valueOf(timeString.substring(3 + offset, 5 + offset));
+		time.second = Integer.valueOf(timeString.substring(7 + offset, 8 + offset));
+		
+		if (timeString.contains("-")){
+			time.hour *= -1;
+		}
 		
 		return time;
 	}
