@@ -5,6 +5,7 @@ import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
+import com.autoStock.internal.Global;
 import com.autoStock.types.Exchange;
 
 /**
@@ -17,6 +18,8 @@ public class MainFilter {
 	
 	public MainFilter(Exchange exchange) {
 		this.exchange = exchange;		
+		
+		Global.callbackLock.requestLock();
 		
 		requestMarketScanner = new RequestMarketScanner(
 			new RequestHolder(new RequestMarketScannerListener(){

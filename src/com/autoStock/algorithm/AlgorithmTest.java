@@ -102,7 +102,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsDI resultsDI = analysisOfDI.analize();
 			ResultsBB resultsBB = analysisOfBB.analyize(MAType.Ema);
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
-//			ResultsSTORSI resultsSTORSI = analysisOfSTORSI.analyize();
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
 			

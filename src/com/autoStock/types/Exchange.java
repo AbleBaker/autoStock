@@ -49,14 +49,14 @@ public class Exchange extends ExchangeHelper {
 	
 	public boolean isOpen(){
 		boolean isOpen = new Date().after(dateLocalOpen) && new Date().before(dateLocalClose);
-		Co.println("--> Exchange opens at (foreign): " + DateTools.getPrettyDate(DateTools.getDateFromTime(timeOpen)));
-		Co.println("--> Exchange closes at (foreign): " + DateTools.getPrettyDate(DateTools.getDateFromTime(timeClose)));
-		
-		Co.println("--> Exchange opens at (local): " + DateTools.getPrettyDate(dateLocalOpen));
-		Co.println("--> Exchange closes at (local): " + DateTools.getPrettyDate(dateLocalClose));
-		
-		Co.println("--> Current local time is: " + DateTools.getPrettyDate(new Date()));		
-		Co.println("--> Exchange is open: " + isOpen);
+//		Co.println("--> Exchange opens at (foreign): " + DateTools.getPrettyDate(DateTools.getDateFromTime(timeOpen)));
+//		Co.println("--> Exchange closes at (foreign): " + DateTools.getPrettyDate(DateTools.getDateFromTime(timeClose)));
+//		
+//		Co.println("--> Exchange opens at (local): " + DateTools.getPrettyDate(dateLocalOpen));
+//		Co.println("--> Exchange closes at (local): " + DateTools.getPrettyDate(dateLocalClose));
+//		
+//		Co.println("--> Current local time is: " + DateTools.getPrettyDate(new Date()));		
+//		Co.println("--> Exchange is open: " + isOpen);
 		
 		return isOpen;
 	}

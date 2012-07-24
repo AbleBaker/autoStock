@@ -32,12 +32,16 @@ public class MainEngagement implements RequestMarketScannerListener {
 
 	public MainEngagement(Exchange exchange) {
 		this.exchange = exchange;
+		
+		Global.callbackLock.requestLock(); 
 
 		while (exchange.isOpen() == false) {
 			Co.println("--> Waiting for exchange to open...");
 		}
+		
+		init();
 
-		Global.callbackLock.releaseLock();
+//		Global.callbackLock.releaseLock();
 	}
 
 	public void init() {
@@ -52,7 +56,7 @@ public class MainEngagement implements RequestMarketScannerListener {
 		for (ExResultRowMarketScanner result : exResultSetMarketScanner.listOfExResultRowMarketScanner) {
 			Co.println("Should run algorithm for symbol: " + result.symbol);
 			
-			new AlgorithmTest(true, exchange);
+//			new AlgorithmTest(true, exchange);
 		}
 	}
 
