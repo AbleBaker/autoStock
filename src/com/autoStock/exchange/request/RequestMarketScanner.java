@@ -35,4 +35,8 @@ public class RequestMarketScanner {
 		((RequestMarketScannerListener)requestHolder.callback).completed(requestHolder, exResultSetMarketScanner);
 		Co.println("Finished market scanner...");
 	}
+
+	public void clearResults() {
+		exResultSetMarketScanner.listOfExResultRowMarketScanner.clear();
+	}
 }

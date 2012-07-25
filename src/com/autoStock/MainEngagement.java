@@ -3,10 +3,13 @@
  */
 package com.autoStock;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.exchange.ExchangeController;
+import com.autoStock.exchange.ExchangeStatusListener;
+import com.autoStock.exchange.ExchangeStatusObserver;
 import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.base.RequestHolder;
@@ -26,43 +29,38 @@ import com.autoStock.types.QuoteSlice;
  * @author Kevin Kowalewski
  * 
  */
-public class MainEngagement implements RequestMarketScannerListener {
+public class MainEngagement implements RequestMarketScannerListener, ExchangeStatusListener {
 	private ExResultSetMarketScanner exResultSetMarketScanner;
 	private Exchange exchange;
+	private ArrayList<AlgorithmTest> listOfAlgorithm = new ArrayList<AlgorithmTest>();
+	private ExchangeStatusObserver exchangeStatusObserver;
 
 	public MainEngagement(Exchange exchange) {
-		this.exchange = exchange;
-		
 		Global.callbackLock.requestLock(); 
-
-		while (exchange.isOpen() == false) {
-			Co.println("--> Waiting for exchange to open...");
-		}
 		
-		init();
-
-//		Global.callbackLock.releaseLock();
+		this.exchange = exchange;
+		exchangeStatusObserver = new ExchangeStatusObserver(exchange);
+		exchangeStatusObserver.addListener(this);
+		exchangeStatusObserver.observeExchangeStatus();
 	}
 
-	public void init() {
-		dayStart();
-	}
-
-	public void dayStart() {
+	private void engagementStart() {
 		new RequestMarketScanner(new RequestHolder(this));
+	}
+	
+	private void engagementWarnStopNear(){
+		
+	}
+	
+	private void engagementStop(){
+		
 	}
 
 	public void handleCompletedMarketScanner() {
 		for (ExResultRowMarketScanner result : exResultSetMarketScanner.listOfExResultRowMarketScanner) {
 			Co.println("Should run algorithm for symbol: " + result.symbol);
-			
 //			new AlgorithmTest(true, exchange);
 		}
-	}
-
-	public void dayEnd() {
-		Co.println("End of day reached, sell all...");
-		PositionManager.instance.executeSellAll();
 	}
 
 	@Override
@@ -73,9 +71,18 @@ public class MainEngagement implements RequestMarketScannerListener {
 	@Override
 	public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner) {
 		MainEngagement.this.exResultSetMarketScanner = exResultSetMarketScanner;
-		ExchangeController.getIbExchangeInstance().ibExchangeClientSocket.eClientSocket.cancelScannerSubscription(requestHolder.requestId);
-
 		handleCompletedMarketScanner();
 	}
 
+	@Override
+	public void stateChanged(ExchangeState exchangeState) {
+		Co.println("--> Got new state: " + exchangeState.name());
+		if (exchangeState == ExchangeState.status_open){
+			engagementStart();
+		}else if (exchangeState == ExchangeState.status_close_future){
+			engagementWarnStopNear();
+		}else if (exchangeState == ExchangeState.status_closed){
+			engagementStop();
+		}
+	}
 }

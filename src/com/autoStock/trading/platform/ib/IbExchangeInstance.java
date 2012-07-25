@@ -105,6 +105,10 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(requestHolder.requestId, scanner);
 	}
 	
+	public void cancelScanner(RequestHolder requestHolder){
+		ibExchangeClientSocket.eClientSocket.cancelScannerSubscription(requestHolder.requestId);
+	}
+	
 	public void getRealtimeData(RealtimeData typeRealtimeData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();

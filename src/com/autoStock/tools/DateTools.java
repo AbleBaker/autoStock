@@ -72,12 +72,12 @@ public class DateTools {
 			offset = 1;
 		}
 		
-		time.hour = Integer.valueOf(timeString.substring(0 + offset, 2 + offset));
-		time.minute = Integer.valueOf(timeString.substring(3 + offset, 5 + offset));
-		time.second = Integer.valueOf(timeString.substring(7 + offset, 8 + offset));
+		time.hours = Integer.valueOf(timeString.substring(0 + offset, 2 + offset));
+		time.minutes = Integer.valueOf(timeString.substring(3 + offset, 5 + offset));
+		time.seconds = Integer.valueOf(timeString.substring(7 + offset, 8 + offset));
 		
 		if (timeString.contains("-")){
-			time.hour *= -1;
+			time.hours *= -1;
 		}
 		
 		return time;
@@ -92,9 +92,9 @@ public class DateTools {
 	
 	public static Date getDateFromTime(Time time){
 		Date date = new Date();
-		date.setHours(time.hour);
-		date.setMinutes(time.minute);
-		date.setSeconds(time.second);
+		date.setHours(time.hours);
+		date.setMinutes(time.minutes);
+		date.setSeconds(time.seconds);
 		
 		return date;
 	}

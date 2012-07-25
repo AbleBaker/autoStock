@@ -49,17 +49,17 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		
 		Co.println("Main backtest...");
 
-		historicalData.startDate.setHours(exchange.timeOpen.hour);
-		historicalData.startDate.setMinutes(exchange.timeOpen.minute);
-		historicalData.endDate.setHours(exchange.timeClose.hour);
-		historicalData.endDate.setMinutes(exchange.timeClose.minute);
+		historicalData.startDate.setHours(exchange.timeOpen.hours);
+		historicalData.startDate.setMinutes(exchange.timeOpen.minutes);
+		historicalData.endDate.setHours(exchange.timeClose.hours);
+		historicalData.endDate.setMinutes(exchange.timeClose.minutes);
 
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
 		
 		for (Date date : listOfBacktestDates) {
 			HistoricalData dayHistoricalData = new HistoricalData(historicalData.symbol, historicalData.securityType, (Date)date.clone(), (Date)date.clone(), historicalData.resolution);
-			dayHistoricalData.startDate.setHours(exchange.timeOpen.hour);
-			dayHistoricalData.endDate.setHours(exchange.timeClose.hour);
+			dayHistoricalData.startDate.setHours(exchange.timeOpen.hours);
+			dayHistoricalData.endDate.setHours(exchange.timeClose.hours);
 			listOfHistoricalData.add(dayHistoricalData);
 		}
 		

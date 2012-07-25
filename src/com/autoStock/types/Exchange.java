@@ -10,6 +10,7 @@ import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.exchange.ExchangeHelper;
+import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.finance.Currency.CurrencyDefinitions;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.tools.DateTools;
@@ -26,9 +27,9 @@ public class Exchange extends ExchangeHelper {
 	public Time timeClose;
 	public Time timeOffset;
 	public String timeZone;
-	
 	public Date dateLocalOpen;
 	public Date dateLocalClose;
+	public ExchangeState exchangeState = ExchangeState.status_unknown;
 	
 	/**
 	 * An exchange object. Fields like currency open and close times will automatically be filled from the database.
@@ -59,5 +60,9 @@ public class Exchange extends ExchangeHelper {
 //		Co.println("--> Exchange is open: " + isOpen);
 		
 		return isOpen;
+	}
+	
+	public boolean isClosed(){
+		return !isOpen();
 	}
 }
