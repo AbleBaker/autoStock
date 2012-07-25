@@ -24,6 +24,7 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.trading.types.MarketData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.basic.Time;
 
 /**
  * @author Kevin Kowalewski
@@ -48,7 +49,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		new RequestMarketScanner(new RequestHolder(this));
 	}
 	
-	private void engagementWarnStopNear(){
+	private void engagementWarn(){
 		
 	}
 	
@@ -80,7 +81,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		if (exchangeState == ExchangeState.status_open){
 			engagementStart();
 		}else if (exchangeState == ExchangeState.status_close_future){
-			engagementWarnStopNear();
+			engagementWarn();
 		}else if (exchangeState == ExchangeState.status_closed){
 			engagementStop();
 		}
