@@ -31,7 +31,7 @@ import com.autoStock.types.QuoteSlice;
 public class MainBacktest implements ReceiverOfQuoteSlice {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AlgorithmTest algorithm;
-	private BacktestType backtestType = BacktestType.backtest_default;
+	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
@@ -71,7 +71,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 			if (backtestType == BacktestType.backtest_default){Global.callbackLock.releaseLock(); return false;}
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup());
+				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(algorithm.signal.getCombinedSignal()));
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
 			
@@ -91,7 +91,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 		}else{
 			HistoricalData historicalData = listOfHistoricalData.get(currentBacktestDayIndex++);
 			
-			Co.println("Backtesting: (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + ") " + DateTools.getPrettyDate(historicalData.startDate) + " - " +  DateTools.getPrettyDate(historicalData.endDate));
+			Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%): " + DateTools.getPrettyDate(historicalData.startDate) + " - " +  DateTools.getPrettyDate(historicalData.endDate));
 			runBacktest(historicalData);
 			
 			return true;

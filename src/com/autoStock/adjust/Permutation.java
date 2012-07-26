@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import com.autoStock.Co;
+import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
+import com.autoStock.signal.SignalDefinitions;
+import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.StringTools;
@@ -53,20 +56,20 @@ public class Permutation {
 	}
 
 	public boolean iterate(){
-		LABEL_ITERATE_LOOP: {
-			int i=0;
+		LABEL : {
+			int i = 0;
 			
 			if (count == arrayOfStringResults.length){
 				return false;
 			}
-			
+
 			for (Iteration iteration : listOfIteration){
 				int currentValue = Integer.valueOf(arrayOfStringResults[count][i]);
 				
 				if (currentValue > iteration.end || currentValue < iteration.start){ // || currentValue %2 != 0
-					//Co.println("Failed at: " + iteration.start + "," + iteration.end + " / " + currentValue);
+					Co.println("Failed at: " + iteration.start + "," + iteration.end + " / " + currentValue);
 					count++;
-					break LABEL_ITERATE_LOOP;
+					break LABEL;
 				}
 				
 				iteration.current = currentValue;
@@ -81,7 +84,7 @@ public class Permutation {
 	
 	public Iteration getIteration(Object request) {
 		for (Iteration iteration : listOfIteration){
-			if (iteration.request == request){
+			if (iteration.adjustment == request){
 				return iteration;
 			}
 		}
@@ -97,12 +100,20 @@ public class Permutation {
 		private int start;
 		private int end;
 		private int current;
-		private Object request;
+		private AdjustmentDefinitions adjustment;
+		public SignalTypeMetric signalTypeMetric;
 		
-		public Iteration(int start, int end, Object request){
+		public Iteration(int start, int end, AdjustmentDefinitions adjustment){
 			this.start = start;
 			this.end = end;
-			this.request = request;
+			this.adjustment = adjustment;
+		}
+		
+		public Iteration(AdjustmentDefinitions adjustment, SignalTypeMetric signalTypeMetric){
+			this.start = adjustment.startValue;
+			this.end = adjustment.endValue;
+			this.adjustment = adjustment;
+			this.signalTypeMetric = signalTypeMetric;
 		}
 		
 		public double getCurrentValue(){
@@ -110,7 +121,7 @@ public class Permutation {
 		}
 		
 		public Object getRequest(){
-			return this.request;
+			return this.adjustment;
 		}
 	}
 	

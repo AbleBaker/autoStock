@@ -1,5 +1,6 @@
 package com.autoStock.position;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
@@ -33,19 +34,19 @@ public class PositionGovernor {
 				return positionGovernorResponse;
 			}
 			
-			if ((signal.getCombinedSignal() >= SignalControl.pointToSignalLongEntry) && canGoLong){
+			if ((signal.getCombinedSignal().strength >= signal.getCombinedSignal().longEntry) && canGoLong){
 				//Enter long
 				governLongEntry(quoteSlice, null, signal, positionGovernorResponse);
 				positionGovernorResponse.changedPosition = true;
 			}
-			else if ((signal.getCombinedSignal() <= SignalControl.pointToSignalShortEntry) && canGoShort){
+			else if ((signal.getCombinedSignal().strength <= signal.getCombinedSignal().shortEntry) && canGoShort){
 				// Enter short
 				governShortEntry(quoteSlice, null, signal, positionGovernorResponse);
 				positionGovernorResponse.changedPosition = true;
 			}
 		}else{
 			if (typePosition.positionType == PositionType.position_long_entry || typePosition.positionType == PositionType.position_long){
-				if (signal.getCombinedSignal() <= SignalControl.pointToSignalLongExit){
+				if (signal.getCombinedSignal().strength <= signal.getCombinedSignal().longExit){
 					// Exit long
 					governLongExit(quoteSlice, typePosition, signal, positionGovernorResponse);
 					positionGovernorResponse.changedPosition = true;
@@ -53,7 +54,7 @@ public class PositionGovernor {
 			}
 			
 			if (typePosition.positionType == PositionType.position_short_entry || typePosition.positionType == PositionType.position_short){
-				if (signal.getCombinedSignal() >= SignalControl.pointToSignalShortExit){
+				if (signal.getCombinedSignal().strength >= signal.getCombinedSignal().shortExit){
 					//Exit short
 					governShortExit(quoteSlice, typePosition, signal, positionGovernorResponse);
 					positionGovernorResponse.changedPosition = true;

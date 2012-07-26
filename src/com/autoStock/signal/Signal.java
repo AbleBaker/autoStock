@@ -44,15 +44,45 @@ public class Signal {
 		listOfSignalMetric.clear();
 	}
 	
-	public int getCombinedSignal(){
-		double combinedSignal = 0;
+	public CombinedSignal getCombinedSignal(){
+		CombinedSignal combinedSignal = new CombinedSignal();
 		
 		for (SignalMetric signalMetric : listOfSignalMetric){
-			combinedSignal += (signalMetric.strength);
+			combinedSignal.strength += signalMetric.strength;
+			combinedSignal.longEntry += signalMetric.signalTypeMetric.pointToSignalLongEntry;
+			combinedSignal.longExit += signalMetric.signalTypeMetric.pointToSignalLongExit;
+			combinedSignal.shortEntry += signalMetric.signalTypeMetric.pointToSignalShortExit;
+			combinedSignal.shortExit += signalMetric.signalTypeMetric.pointToSignalShortExit;
 		}
 		
-		combinedSignal = (combinedSignal / listOfSignalMetric.size());
+		combinedSignal.strength = (combinedSignal.strength / listOfSignalMetric.size());
+		combinedSignal.longEntry = (combinedSignal.longEntry / listOfSignalMetric.size());
+		combinedSignal.longExit = (combinedSignal.longExit / listOfSignalMetric.size());
+		combinedSignal.shortEntry = (combinedSignal.shortEntry / listOfSignalMetric.size());
+		combinedSignal.shortExit = (combinedSignal.shortExit / listOfSignalMetric.size());
 		
-		return (int) (combinedSignal > 0 ? Math.min(100, combinedSignal) : Math.max(-100, combinedSignal));
+		combinedSignal.strength = (int) (combinedSignal.strength > 0 ? Math.min(100, combinedSignal.strength) : Math.max(-100, combinedSignal.strength));
+		
+		return combinedSignal;
+	}
+	
+	public static class CombinedSignal {
+		public int longEntry = 0;
+		public int longExit = 0;
+		public int shortEntry = 0;
+		public int shortExit = 0;
+		public double strength = 0;
+		
+		public CombinedSignal(){
+			
+		}
+		
+		public CombinedSignal(int longEntry, int longExit, int shortEntry, int shortExit, double strength) {
+			this.longEntry = longEntry;
+			this.longExit = longExit;
+			this.shortEntry = shortEntry;
+			this.shortExit = shortExit;
+			this.strength = strength;
+		}
 	}
 }

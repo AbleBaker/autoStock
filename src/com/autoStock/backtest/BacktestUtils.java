@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
+import com.autoStock.signal.Signal.CombinedSignal;
 import com.autoStock.signal.SignalControl;
 
 /**
@@ -12,12 +13,12 @@ import com.autoStock.signal.SignalControl;
  */
 public class BacktestUtils {
 
-	public static String getCurrentBacktestValueGroup() {
+	public static String getCurrentBacktestValueGroup(CombinedSignal combinedSignal) {
 		return "--------> Best backtest results: \n" + 
-			"Long entry: " + SignalControl.pointToSignalLongEntry + "\n" + 
-			"Long exit: " + SignalControl.pointToSignalLongExit + "\n" + 
-			"Short entry: " + SignalControl.pointToSignalShortEntry + "\n" +
-			"Short exit: " + SignalControl.pointToSignalShortExit + "\n" +
+			"Long entry: " + combinedSignal.longEntry + "\n" + 
+			"Long exit: " + combinedSignal.longExit + "\n" + 
+			"Short entry: " + combinedSignal.shortEntry + "\n" +
+			"Short exit: " + combinedSignal.shortExit + "\n" +
 			"Period Length: " + SignalControl.periodLength + "\n" + 
 			"Period Average PPC: " + SignalControl.periodAverageForPPC + "\n" + 
 			"Period Average DI: " + SignalControl.periodAverageForDI + "\n" + 

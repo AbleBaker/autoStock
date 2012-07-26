@@ -45,10 +45,10 @@ public class SignalDefinitions {
 		;
 		
 		CalculateInterface calculateInterface;
-		int pointToSignalLongEntry = 0;
-		int pointToSignalLongExit = 0;
-		int pointToSignalShortEntry = 0;
-		int pointToSignalShortExit = 0;
+		public int pointToSignalLongEntry = 0;
+		public int pointToSignalLongExit = 0;
+		public int pointToSignalShortEntry = 0;
+		public int pointToSignalShortExit = 0;
 		
 		private SignalTypeMetric(CalculateInterface calculateInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
 			this.calculateInterface = calculateInterface;
@@ -64,9 +64,9 @@ public class SignalDefinitions {
 	}
 	
 	public static SignalType getSignalType(Signal signal){
-		if (signal.getCombinedSignal() > SignalControl.pointToSignalLongEntry){
+		if (signal.getCombinedSignal().strength > signal.getCombinedSignal().longEntry){
 			return SignalType.type_trend_up;
-		}else if (signal.getCombinedSignal() < SignalControl.pointToSignalShortEntry){
+		}else if (signal.getCombinedSignal().strength < signal.getCombinedSignal().shortEntry){
 			return SignalType.type_trend_down;
 		}else{
 			return SignalType.type_trend_flat;

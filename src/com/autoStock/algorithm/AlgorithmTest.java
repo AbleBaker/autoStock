@@ -67,7 +67,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
-	private Signal signal = new Signal(SignalSource.from_analysis);
+	public Signal signal = new Signal(SignalSource.from_analysis);
 	private PositionGovernor positionGovener = PositionGovernor.instance;
 	private ChartForAlgorithmTest chart;
 	
@@ -123,7 +123,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 			
 			signal.reset();
-			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
+//			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
+			signal.addSignalMetrics(signalOfCCI.getSignal());
 			
 			if (enableChart){
 				chart.listOfDate.add(typeQuoteSlice.dateTime);
@@ -134,7 +135,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
 				chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
 				chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
-				chart.listOfSignalTotal.add(signal.getCombinedSignal());
+				chart.listOfSignalTotal.add((int)signal.getCombinedSignal().strength);
 				
 				chart.listOfDI.add(analysisOfDIResultPlus - analysisOfDIResultMinus);
 				chart.listOfCCI.add(analysisOfCCIResult);

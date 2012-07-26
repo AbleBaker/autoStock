@@ -11,9 +11,9 @@ import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
  * 
  */
 public class SignalControl {
-	public static int periodLength = 60;
+	public static int periodLength = 30;
 
-	public static int periodAverageForPPC = 5;
+	public static int periodAverageForPPC = 3;
 	public static int periodAverageForDI = 0;
 	public static int periodAverageForCCI = 0;
 	public static int periodAverageForMACD = 0;
@@ -21,8 +21,8 @@ public class SignalControl {
 	public static final int periodAverageForRSI = 0;
 	public static final int periodAverageForSTORSI = 0;
 
-	public static int pointToSignalLongEntry = 16;
-	public static int pointToSignalLongExit = -3;
-	public static int pointToSignalShortEntry = -10;
-	public static int pointToSignalShortExit = -5;
+//	public static int pointToSignalLongEntry = 16;
+//	public static int pointToSignalLongExit = -3;
+//	public static int pointToSignalShortEntry = -10;
+//	public static int pointToSignalShortExit = -5;
 }
