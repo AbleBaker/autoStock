@@ -124,7 +124,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			signal.reset();
 //			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
-			signal.addSignalMetrics(signalOfCCI.getSignal());
+//			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfTRIX.getSignal(), signalOfCCI.getSignal());
+			signal.addSignalMetrics(signalOfDI.getSignal());
 			
 			if (enableChart){
 				chart.listOfDate.add(typeQuoteSlice.dateTime);
@@ -172,7 +173,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
-				columnValues.add(String.valueOf(signal.getCombinedSignal()));
+				columnValues.add(String.valueOf(signal.getCombinedSignal().strength));
 			}
 			
 			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(typeQuoteSlice, signal, exchange);

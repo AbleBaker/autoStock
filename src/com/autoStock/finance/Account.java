@@ -40,11 +40,14 @@ public class Account {
 	}
 	
 	public double getTransactionCost(int units, double price){
+		double cost = 0;
 		if (units <= 500){
-			return Math.max(1.30, units * 0.013);	
+			cost = Math.max(1.30, units * 0.013);	
 		}else{
-			return Math.max(1.30, units * 0.008);
+			cost = Math.max(1.30, units * 0.008);
 		}
+		
+		return Math.min(cost, units * price * 0.005);
 	}
 	
 	public void resetAccount(){

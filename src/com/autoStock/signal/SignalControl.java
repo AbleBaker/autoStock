@@ -1,17 +1,11 @@
-/**
- * 
- */
 package com.autoStock.signal;
-
-import com.autoStock.signal.SignalDefinitions.SignalType;
-import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
 
 /**
  * @author Kevin Kowalewski
  * 
  */
 public class SignalControl {
-	public static int periodLength = 30;
+	public static int periodLength = 60;
 
 	public static int periodAverageForPPC = 3;
 	public static int periodAverageForDI = 0;

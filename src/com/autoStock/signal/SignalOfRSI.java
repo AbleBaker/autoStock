@@ -3,7 +3,7 @@
  */
 package com.autoStock.signal;
 
-import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
  * @author Kevin Kowalewski
@@ -29,7 +29,7 @@ public class SignalOfRSI{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_rsi);
+		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_rsi);
 	
 		signalMetric.applyStength(rsiValue);
 		

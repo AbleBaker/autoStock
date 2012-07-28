@@ -36,7 +36,6 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
 	private Exchange exchange;
-	private CallbackLock callbackLock = new CallbackLock();
 	private int currentBacktestDayIndex = 0;
 	private double metricBestAccountBalance = 0;
 	private Benchmark bench = new Benchmark();
@@ -56,6 +55,10 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
 		
+		if (listOfBacktestDates.size() == 0){
+			throw new IllegalArgumentException();
+		}
+		
 		for (Date date : listOfBacktestDates) {
 			HistoricalData dayHistoricalData = new HistoricalData(historicalData.symbol, historicalData.securityType, (Date)date.clone(), (Date)date.clone(), historicalData.resolution);
 			dayHistoricalData.startDate.setHours(exchange.timeOpen.hours);
@@ -71,11 +74,11 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 			if (backtestType == BacktestType.backtest_default){Global.callbackLock.releaseLock(); return false;}
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(algorithm.signal.getCombinedSignal()));
+				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(algorithm.signal));
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
 			
-			Co.println("Account balance: " + Account.instance.getBankBalance());
+			Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions());
 			
 			if (adjustmentCampaign.runAdjustment()) {
 				currentBacktestDayIndex = 0;
@@ -108,7 +111,7 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 			backtest.performBacktest(this);
 		}else{
 			Co.println("Warning, no data for weekday..." + DateTools.getPrettyDate(historicalData.startDate));
-			callbackLock.releaseLock();
+			runNextBacktest();
 		}
 	}
 
@@ -124,10 +127,9 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 //		Co.println("******** End of feed in MainBacktest ********");
 
 		if (backtestType == BacktestType.backtest_with_adjustment) {
-
 			runNextBacktest();
 		} else {
-			Co.println("Algorithm has eneded: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getBankBalance()));
+			Co.println("Algorithm has ended: Fees: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", Trans: " + Account.instance.getTransactions() + ", Balance: " + MathTools.round(Account.instance.getBankBalance()));
 			runNextBacktest();
 		}		
 	}

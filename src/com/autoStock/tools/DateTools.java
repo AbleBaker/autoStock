@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.autoStock.Co;
 import com.autoStock.taLib.MInteger;
@@ -101,13 +102,13 @@ public class DateTools {
 	
 	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, Date endDate){
 		ArrayList<Date> listOfDate = new ArrayList<Date>();
-		Calendar calendarAtCurrent = Calendar.getInstance();
-		Calendar calendarAtEnd = Calendar.getInstance();
+		GregorianCalendar calendarAtCurrent = new GregorianCalendar();
+		GregorianCalendar calendarAtEnd = new GregorianCalendar();
 		
 		calendarAtCurrent.setTime(startDate);
 		calendarAtEnd.setTime(endDate);
 		
-		while (calendarAtCurrent.get(Calendar.MONTH) <= calendarAtEnd.get(Calendar.MONTH)&& calendarAtCurrent.get(Calendar.DAY_OF_MONTH) <= calendarAtEnd.get(Calendar.DAY_OF_MONTH)){
+		while (calendarAtCurrent.get(Calendar.MONTH) <= calendarAtEnd.get(Calendar.MONTH) || (calendarAtCurrent.get(Calendar.MONTH) <= calendarAtEnd.get(Calendar.MONTH) && calendarAtCurrent.get(Calendar.DAY_OF_MONTH) <= calendarAtEnd.get(Calendar.DAY_OF_MONTH))){
 			if (calendarAtCurrent.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && calendarAtCurrent.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY){
 				listOfDate.add(new Date(calendarAtCurrent.getTimeInMillis()));
 			}

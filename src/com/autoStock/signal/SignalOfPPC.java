@@ -3,7 +3,7 @@
  */
 package com.autoStock.signal;
 
-import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
  * @author Kevin Kowalewski
@@ -39,7 +39,7 @@ public class SignalOfPPC{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalTypeMetric.metric_ppc);
+		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_ppc);
 		
 		signalMetric.applyStength(percentChange);
 		

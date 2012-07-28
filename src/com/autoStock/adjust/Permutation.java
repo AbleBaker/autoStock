@@ -8,7 +8,7 @@ import java.util.Iterator;
 import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
 import com.autoStock.signal.SignalDefinitions;
-import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.StringTools;
@@ -101,7 +101,7 @@ public class Permutation {
 		private int end;
 		private int current;
 		private AdjustmentDefinitions adjustment;
-		public SignalTypeMetric signalTypeMetric;
+		public SignalMetricType signalTypeMetric;
 		
 		public Iteration(int start, int end, AdjustmentDefinitions adjustment){
 			this.start = start;
@@ -109,7 +109,7 @@ public class Permutation {
 			this.adjustment = adjustment;
 		}
 		
-		public Iteration(AdjustmentDefinitions adjustment, SignalTypeMetric signalTypeMetric){
+		public Iteration(AdjustmentDefinitions adjustment, SignalMetricType signalTypeMetric){
 			this.start = adjustment.startValue;
 			this.end = adjustment.endValue;
 			this.adjustment = adjustment;

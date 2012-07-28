@@ -15,32 +15,44 @@ public class SignalDefinitions {
 		from_manual,
 	}
 	
-	public static enum SignalType {
+	public static enum SignalTrend {
 		type_trend_up,
 		type_trend_down,
 		type_trend_flat,
 		type_none,
 	}
 	
-	public static enum SignalTypeMetric {
+	public static enum SignalPoint {
+		long_entry,
+		long_exit,
+		short_entry,
+		short_exit,
+		none,
+		
+		; 
+		
+		public int occurences;
+	}
+	
+	public static enum SignalMetricType {
 		metric_ppc(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 2500);}},
-			1,2,3,4),
+				48, 44, 0, 0),
 		metric_di(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}},
-			1,2,3,4),
+				35, -24, 0, 0),
 		metric_cci(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}},
-			1,2,3,4),
+				42, -23, 0, 0),
 		metric_macd(
-			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 5000);}},
-			1,2,3,4),
+			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 2000);}},
+				0, 0, 0, 0),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input *5000 / 4);}},
-			1,2,3,4),
+				0, 0, 0, 0),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 1000);}},
-			1,2,3,4),
+				29, -23, 0, 0),
 		metric_storsi(null,0,0,0,0),
 		;
 		
@@ -50,7 +62,7 @@ public class SignalDefinitions {
 		public int pointToSignalShortEntry = 0;
 		public int pointToSignalShortExit = 0;
 		
-		private SignalTypeMetric(CalculateInterface calculateInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
+		private SignalMetricType(CalculateInterface calculateInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
 			this.calculateInterface = calculateInterface;
 			this.pointToSignalLongEntry = pointToSignalLongEntry;
 			this.pointToSignalLongExit = pointToSignalLongExit;
@@ -63,13 +75,13 @@ public class SignalDefinitions {
 		} 
 	}
 	
-	public static SignalType getSignalType(Signal signal){
+	public static SignalTrend getSignalType(Signal signal){
 		if (signal.getCombinedSignal().strength > signal.getCombinedSignal().longEntry){
-			return SignalType.type_trend_up;
+			return SignalTrend.type_trend_up;
 		}else if (signal.getCombinedSignal().strength < signal.getCombinedSignal().shortEntry){
-			return SignalType.type_trend_down;
+			return SignalTrend.type_trend_down;
 		}else{
-			return SignalType.type_trend_flat;
+			return SignalTrend.type_trend_flat;
 		}
 	}
 }

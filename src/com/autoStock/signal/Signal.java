@@ -6,9 +6,10 @@ package com.autoStock.signal;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
-import com.autoStock.signal.SignalDefinitions.SignalType;
-import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
+import com.autoStock.signal.SignalDefinitions.SignalTrend;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
  * @author Kevin Kowalewski
@@ -16,8 +17,9 @@ import com.autoStock.signal.SignalDefinitions.SignalTypeMetric;
  */
 public class Signal {
 	public SignalSource signalSource;
-	public SignalType lastSignalType = SignalType.type_none;
-	public SignalType currentSignalType = SignalType.type_none;
+	public SignalTrend lastSignalType = SignalTrend.type_none;
+	public SignalTrend currentSignalType = SignalTrend.type_none;
+	public SignalPoint currentSignalPoint = SignalPoint.none;
 	private ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	
 	public Signal(SignalSource signalSource) {
@@ -30,14 +32,33 @@ public class Signal {
 		}
 	}
 	
-	public SignalMetric getSignalMetric(SignalTypeMetric signalTypeMetric ){
+	public SignalMetric getSignalMetric(SignalMetricType signalTypeMetric ){
 		for (SignalMetric signalMetric : listOfSignalMetric){
-			if (signalMetric.signalTypeMetric == signalTypeMetric){
+			if (signalMetric.signalMetricType == signalTypeMetric){
 				return signalMetric;
 			}
 		}
 		
 		return null;
+	}
+	
+	public SignalPoint getSignalPointMajority(boolean havePosition){
+		int occurences = 0;
+		SignalPoint signalPoint = SignalPoint.none;
+
+		for (SignalMetric signalMetric : listOfSignalMetric){signalMetric.getSignalPoint(havePosition).occurences++;}
+		
+		for (SignalMetric signalMetric : listOfSignalMetric){
+			if (signalMetric.getSignalPoint(havePosition).occurences > occurences){
+				signalPoint = signalMetric.getSignalPoint(havePosition);
+			}
+		}
+		
+		return signalPoint;
+	}
+	
+	public ArrayList<SignalMetric> getListOfSignalMetric(){
+		return this.listOfSignalMetric;
 	}
 	
 	public void reset(){
@@ -49,10 +70,10 @@ public class Signal {
 		
 		for (SignalMetric signalMetric : listOfSignalMetric){
 			combinedSignal.strength += signalMetric.strength;
-			combinedSignal.longEntry += signalMetric.signalTypeMetric.pointToSignalLongEntry;
-			combinedSignal.longExit += signalMetric.signalTypeMetric.pointToSignalLongExit;
-			combinedSignal.shortEntry += signalMetric.signalTypeMetric.pointToSignalShortExit;
-			combinedSignal.shortExit += signalMetric.signalTypeMetric.pointToSignalShortExit;
+			combinedSignal.longEntry += signalMetric.signalMetricType.pointToSignalLongEntry;
+			combinedSignal.longExit += signalMetric.signalMetricType.pointToSignalLongExit;
+			combinedSignal.shortEntry += signalMetric.signalMetricType.pointToSignalShortExit;
+			combinedSignal.shortExit += signalMetric.signalMetricType.pointToSignalShortExit;
 		}
 		
 		combinedSignal.strength = (combinedSignal.strength / listOfSignalMetric.size());
