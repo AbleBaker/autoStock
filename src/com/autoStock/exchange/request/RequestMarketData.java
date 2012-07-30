@@ -3,6 +3,7 @@
  */
 package com.autoStock.exchange.request;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.exchange.ExchangeController;
@@ -14,7 +15,9 @@ import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.trading.types.MarketData;
+import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -28,17 +31,16 @@ public class RequestMarketData {
 	private Thread threadForSliceCollector;
 	private int sliceMilliseconds;
 	private long receivedTimestamp = 0;
-	private Date sliceDate;
+	private ArrayList<QuoteSlice> listOfQuoteSliceRecall = new ArrayList<QuoteSlice>();
 
-	public RequestMarketData(RequestHolder requestHolder, RequestMarketDataListener requestMarketDataListener, MarketData typeMarketData, int sliceMilliseconds) {
+	public RequestMarketData(RequestHolder requestHolder, RequestMarketDataListener requestMarketDataListener, Exchange exchange, Symbol symbol, int sliceMilliseconds) {
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestMarketDataListener = requestMarketDataListener;
-		this.typeMarketData = typeMarketData;
 		this.exResultSetMarketData = new ExResultMarketData(). new ExResultSetMarketData(typeMarketData);
 		this.sliceMilliseconds = sliceMilliseconds;
 		
-		ExchangeController.getIbExchangeInstance().getMarketData(typeMarketData, requestHolder);
+		ExchangeController.getIbExchangeInstance().getMarketData(exchange, symbol, requestHolder);
 	}
 	
 	public synchronized void addResult(ExResultRowMarketData exResultRowMarketData){
@@ -58,19 +60,19 @@ public class RequestMarketData {
 		Date date = new Date(receivedTimestamp*1000);
 		//Co.println("*********************************************: " + date.toGMTString());
 		
-		this.threadForSliceCollector = new Thread(new Runnable(){
+		threadForSliceCollector = new Thread(new Runnable(){
 			@Override
 			public void run() {
 				while (true){
 					try {Thread.sleep(sliceMilliseconds);}catch(InterruptedException e){return;}
 					synchronized(RequestMarketData.this){
-						QuoteSlice typeQuoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData);
+						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData);
+						
+//						quoteSlice = QuoteSliceTools.mergeQuoteSlices(quoteSliceA, quoteSliceB);
+						
 						exResultSetMarketData.listOfExResultRowMarketData.clear();
-						
-						//Co.println("Generated new QuoteSlice");
-						//Co.println("O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);
-						
-						requestMarketDataListener.receiveQuoteSlice(requestHolder, typeQuoteSlice);
+						//Co.println("O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);	
+						requestMarketDataListener.receiveQuoteSlice(requestHolder, quoteSlice);
 					}
 				}
 			}

@@ -41,6 +41,6 @@ public class DisplayMarketData {
 				// TODO Auto-generated method stub
 				
 			}
-		}, typeMarketData, 0);
+		}, null, null, 0);
 	}
 }

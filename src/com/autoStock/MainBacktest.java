@@ -157,7 +157,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted { // implements
 				PositionManager.instance.executeSellAll();
 				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions());
 				
-				if (runNextBacktest() == false){
+				if (runNextBacktest() == false && backtestType == BacktestType.backtest_default){
 					Co.println("Algorithm has ended: Fees: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", Trans: " + Account.instance.getTransactions() + ", Balance: " + MathTools.round(Account.instance.getBankBalance()));
 				}
 			}

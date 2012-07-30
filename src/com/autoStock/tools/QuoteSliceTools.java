@@ -18,35 +18,32 @@ import com.autoStock.types.QuoteSlice;
  */
 public class QuoteSliceTools {
 	public QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData){
-		QuoteSlice typeQuoteSlice = new QuoteSlice();
-		
-		float priceHigh = 0;
-		float priceLow = 0;
+		QuoteSlice quoteSlice = new QuoteSlice();
 		
 		for (ExResultRowMarketData resultRow : listOfExResultRowMarketData){		
 			if (resultRow.tickType == TickTypes.type_price){
-				if (resultRow.tickPriceField == TickPriceFields.field_open && typeQuoteSlice.priceOpen == 0){
-					typeQuoteSlice.priceOpen = (float)resultRow.value;
+				if (resultRow.tickPriceField == TickPriceFields.field_open && quoteSlice.priceOpen == 0){
+					quoteSlice.priceOpen = (float)resultRow.value;
 				}
 			
 				else if (resultRow.tickPriceField == TickPriceFields.field_high){
-					typeQuoteSlice.priceHigh = (float)resultRow.value;
+					quoteSlice.priceHigh = (float)resultRow.value;
 				}
 				
 				else if (resultRow.tickPriceField == TickPriceFields.field_low){ // && typeQuoteSlice.priceLow > resultRow.value
-					typeQuoteSlice.priceLow = (float)resultRow.value;
+					quoteSlice.priceLow = (float)resultRow.value;
 				}
 				
 				else if (resultRow.tickPriceField == TickPriceFields.field_close || resultRow.tickPriceField == TickPriceFields.field_last){
-					typeQuoteSlice.priceClose = (float)resultRow.value;
+					quoteSlice.priceClose = (float)resultRow.value;
 				}
 				
 				else if (resultRow.tickPriceField == TickPriceFields.field_bid){
-					typeQuoteSlice.priceBid = (float)resultRow.value;
+					quoteSlice.priceBid = (float)resultRow.value;
 				}
 				
 				else if (resultRow.tickPriceField == TickPriceFields.field_ask){
-					typeQuoteSlice.priceAsk = (float)resultRow.value;
+					quoteSlice.priceAsk = (float)resultRow.value;
 				}
 				
 				else {
@@ -56,15 +53,23 @@ public class QuoteSliceTools {
 			
 			else if (resultRow.tickType == TickTypes.type_size){
 				if (resultRow.tickSizeField == TickSizeFields.field_volume){
-					typeQuoteSlice.sizeVolume = (int)resultRow.value;
+					quoteSlice.sizeVolume = (int)resultRow.value;
 				}
 			}
 			
+			if (resultRow.date != null){
+				quoteSlice.dateTime = resultRow.date;
+			}
+			
 			else {
-				Co.println("No tickType mathced");
+//				Co.println("No tickType matched: " + resultRow.tickType);
 			}
 		}
 		
-		return typeQuoteSlice;
+		return quoteSlice;
+	}
+	
+	public static void mergeQuoteSlices(QuoteSlice quoteSliceA, QuoteSlice quoteSliceB){
+		
 	}
 }

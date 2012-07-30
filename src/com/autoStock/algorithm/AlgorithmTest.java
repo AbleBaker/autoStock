@@ -79,7 +79,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 
 	@Override
 	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
-		//Co.println("Received backtest quote: " + DateTools.getPrettyDate(typeQuoteSlice.dateTime) + ", " + typeQuoteSlice.priceClose);
+		Co.println("Received quote: " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + MathTools.round(quoteSlice.priceClose));
 		
 		listOfQuoteSlice.add(quoteSlice);
 	

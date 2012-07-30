@@ -64,19 +64,19 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
-		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketDataDefinitions.getTickPriceField(field).name());
+//		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketDataDefinitions.getTickPriceField(field).name());
 		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickPriceField(field), price));
 	}
 
 	@Override
 	public void tickSize(int tickerId, int field, int size) {
-		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size + ", " + MarketDataDefinitions.getTickSizeField(field));
+//		Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size + ", " + MarketDataDefinitions.getTickSizeField(field));
 		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickSizeField(field), size));
 	}
 
 	@Override
 	public void tickGeneric(int tickerId, int tickType, double value) {
-		Co.log("Got tickGeneric: " + tickerId + ", " + tickType + ", " + value);
+//		Co.log("Got tickGeneric: " + tickerId + ", " + tickType + ", " + value);
 	}
 	
 	@Override
@@ -86,8 +86,8 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickString(int tickerId, int tickType, String value) {
-		Co.log("Got tickString: " + tickerId + "," + value);
-		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(value));
+//		Co.log("Got tickString: " + tickerId + "," + tickType + value);
+		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(tickType, value));
 	}
 
 	@Override

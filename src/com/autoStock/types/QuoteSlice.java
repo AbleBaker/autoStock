@@ -20,7 +20,7 @@ public class QuoteSlice {
 	public double priceBid;
 	public double priceAsk;
 	public int sizeVolume;
-	public Date dateTime;
+	public Date dateTime = new Date();
 	public Resolution resolution;
 	
 	public QuoteSlice(){

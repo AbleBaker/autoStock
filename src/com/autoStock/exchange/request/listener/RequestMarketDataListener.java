@@ -12,6 +12,6 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public interface RequestMarketDataListener extends RequestListenerBase {
-		public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice typeQuoteSlice);
+		public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice quoteSlice);
 		public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData);
 }

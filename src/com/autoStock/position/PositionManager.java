@@ -63,11 +63,10 @@ public class PositionManager {
 	private Position executeShortEntry(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
 		Position typePosition = positionGenerator.generatePosition(quoteSlice, signal, positionType);
 		listOfPosition.add(typePosition);
+		
 		account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
 		PositionCallback.setPositionSuccess(typePosition);
 		
-		//Co.println("\n-------> Short position entry (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.price + ", " + (typePosition.price * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
-		//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
 		return typePosition;
 	}
 	
@@ -86,9 +85,6 @@ public class PositionManager {
 		account.changeBankBalance(position.units * position.price, account.getTransactionCost(position.units, position.price));
 		PositionCallback.setPositionSuccess(position);
 		
-		//Co.println("\n-------> Short position exit (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.price + ", " + (typePosition.price * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
-		//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		
 		return position;
 	}		
 	
@@ -100,8 +96,8 @@ public class PositionManager {
 	
 	public void executeSellAll(){
 		synchronized(lock){
-			Co.println("Exiting all positions");
-			if (listOfPosition.size() == 0){Co.println("Not holding any positions...");}
+//			Co.println("Exiting all positions");
+//			if (listOfPosition.size() == 0){Co.println("Not holding any positions...");}
 			
 			for (Position typePosition : listOfPosition){
 				if (typePosition.positionType == PositionType.position_long){

@@ -15,6 +15,8 @@ import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.MarketData;
 import com.autoStock.trading.types.Position;
 import com.autoStock.trading.types.RealtimeData;
+import com.autoStock.types.Exchange;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -119,13 +121,13 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqRealTimeBars(requestHolder.requestId, contract, 5, "TRADES", false);
 	}
 	
-	public void getMarketData(MarketData typeMarketData, RequestHolder requestHolder){
+	public void getMarketData(Exchange exchange, Symbol symbol, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = "ASX";
-		contract.m_symbol = typeMarketData.symbol;
-		contract.m_secType = typeMarketData.securityType;
-		contract.m_currency = "AUD";
+		contract.m_exchange = exchange.name;
+		contract.m_symbol = symbol.symbol;
+		contract.m_secType = "STK";
+		contract.m_currency = exchange.currency.name();
 		ibExchangeClientSocket.eClientSocket.reqMktData(requestHolder.requestId, contract, "104,165,225", false);
 	}
 	
