@@ -42,6 +42,10 @@ public class ValidilityCheck {
 				return true;
 			}
 			
+			else if (menuArgumentType == MenuArgumentTypes.basic_string_array){
+				return true;
+			}
+			
 			else {
 				throw new UnsatisfiedLinkError();
 			}

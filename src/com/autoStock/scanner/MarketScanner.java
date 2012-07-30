@@ -22,6 +22,7 @@ import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.R
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.ShorlistOfStock;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -51,7 +52,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 					QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
 					QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
 					
-			Backtest backtest = new Backtest(typeHistoricalData, listOfResults);
+			Backtest backtest = new Backtest(typeHistoricalData, listOfResults, null);
 		
 			if (listOfResults.size() != 0){
 				Co.println("Has size: " + listOfResults.size());
@@ -62,7 +63,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 		Co.println("Initializing backtests... ");
 		
 		for (Backtest backtest : listOfBacktest){
-			AlgorithmTest algorithmTest = new AlgorithmTest(false, null);
+			AlgorithmTest algorithmTest = new AlgorithmTest(false, null, null);
 			algorithmTest.setAlgorithmListener(this);
 			backtest.performBacktest(algorithmTest.getReceiver());
 			listOfAlgorithmTest.add(algorithmTest);
@@ -75,7 +76,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	}
 
 	@Override
-	public void endOfFeed() {
+	public void endOfFeed(Symbol symbol) {
 		Co.println("End of feed");
 	}
 

@@ -3,6 +3,8 @@
  */
 package com.autoStock.trading.types;
 
+import javax.servlet.UnavailableException;
+
 import com.autoStock.position.PositionDefinitions.PositionType;
 
 
@@ -35,7 +37,7 @@ public class Position implements Cloneable {
 		try {
 			return (Position) super.clone();
 		} catch (CloneNotSupportedException e) {
-			return null;
+			throw new UnknownError();
 		}
 	}
 }

@@ -47,6 +47,7 @@ import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -68,22 +69,22 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public Signal signal = new Signal(SignalSource.from_analysis);
-	private PositionGovernor positionGovener = PositionGovernor.instance;
+	private PositionGovernor positionGovener = new PositionGovernor();
 	private ChartForAlgorithmTest chart;
 	
-	public AlgorithmTest(boolean canTrade, Exchange exchange) {
-		super(canTrade, exchange);
+	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol) {
+		super(canTrade, exchange, symbol);
 		if (enableChart){chart = new ChartForAlgorithmTest();}
 	}
 
 	@Override
-	public void receiveQuoteSlice(QuoteSlice typeQuoteSlice) {
+	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		//Co.println("Received backtest quote: " + DateTools.getPrettyDate(typeQuoteSlice.dateTime) + ", " + typeQuoteSlice.priceClose);
 		
-		listOfQuoteSlice.add(typeQuoteSlice);
+		listOfQuoteSlice.add(quoteSlice);
 	
 		if (listOfQuoteSlice.size() > (periodLength)){
-			double analysisPrice = typeQuoteSlice.priceClose;
+			double analysisPrice = quoteSlice.priceClose;
 			
 			if (listOfQuoteSlice.size() > (periodLength)){
 				listOfQuoteSlice.remove(0);
@@ -125,11 +126,11 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signal.reset();
 //			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
 //			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfTRIX.getSignal(), signalOfCCI.getSignal());
-			signal.addSignalMetrics(signalOfRSI.getSignal());
+			signal.addSignalMetrics(signalOfDI.getSignal());
 			
 			if (enableChart){
-				chart.listOfDate.add(typeQuoteSlice.dateTime);
-				chart.listOfPrice.add(typeQuoteSlice.priceClose);
+				chart.listOfDate.add(quoteSlice.dateTime);
+				chart.listOfPrice.add(quoteSlice.priceClose);
 				chart.listOfSignalDI.add(signalOfDI.getSignal().strength);
 				chart.listOfSignalCCI.add(signalOfCCI.getSignal().strength);
 				chart.listOfSignalPPC.add(signalOfPPC.getSignal().strength);
@@ -145,7 +146,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			}
 			
 			if (algorithmListener != null){
-				algorithmListener.recieveSignal(signal, typeQuoteSlice);
+				algorithmListener.recieveSignal(signal, quoteSlice);
 			}
 			
 			ArrayList<String> columnValues = new ArrayList<String>();
@@ -165,18 +166,19 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
 			
 			if (enableTable){
-				columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-				columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
-				columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+				columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
+				columnValues.add(String.valueOf(quoteSlice.priceClose));
+				columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
 				columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
+				columnValues.add(String.valueOf(signalOfRSI.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
 				columnValues.add(String.valueOf(signal.getCombinedSignal().strength));
 			}
 			
-			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(typeQuoteSlice, signal, exchange);
+			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange);
 			
 			if (enableTable){
 				if (positionGovenorResponse.changedPosition){
@@ -196,12 +198,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	}
 
 	@Override
-	public void endOfFeed() {
-		PositionManager.instance.executeSellAll();
+	public void endOfFeed(Symbol symbol) {
 		if (enableChart){chart.display();}
 //		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		if (enableTable){new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);}
-		
 		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
 	}
 }

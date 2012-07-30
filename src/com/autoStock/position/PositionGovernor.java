@@ -9,6 +9,7 @@ import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.signal.SignalMetric;
+import com.autoStock.tools.Lock;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -19,43 +20,44 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.instance;
-	public static PositionGovernor instance = new PositionGovernor();
-	
 	private static boolean canGoLong = true;
 	private static boolean canGoShort = false;
+	private Lock lock = new Lock();
 	
-	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
-		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
-		Position position = positionManager.getPosition(quoteSlice.symbol);
-		
-		signal.currentSignalType = SignalDefinitions.getSignalType(signal);
-		positionManager.updatePositionPrice(quoteSlice, position);
-		
-		if (position == null){ //No position
-			if (!AlgorithmCondition.canTradeOnDate(quoteSlice, exchange)){return positionGovernorResponse;}
+	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
+		synchronized (lock) {
+			PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
+			Position position = positionManager.getPosition(quoteSlice.symbol);
 			
-			if (signal.getSignalPointMajority(false) == SignalPoint.long_entry && canGoLong){
-				governLongEntry(quoteSlice, position, signal, positionGovernorResponse);
-			}else if (signal.getSignalPointMajority(false) == SignalPoint.short_entry && canGoShort){
-				governShortEntry(quoteSlice, position, signal, positionGovernorResponse);
-			}
-		} else { // Have position
-//			Co.println("--> Signal point majority: " + signal.getSignalPointMajority(true));
-
-			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
-				if (signal.getSignalPointMajority(true) == SignalPoint.long_exit) {
-					governLongExit(quoteSlice, position, signal, positionGovernorResponse);
+			signal.currentSignalType = SignalDefinitions.getSignalType(signal);
+			positionManager.updatePositionPrice(quoteSlice, position);
+			
+			if (position == null){ //No position
+				if (!AlgorithmCondition.canTradeOnDate(quoteSlice, exchange)){return positionGovernorResponse;}
+				
+				if (signal.getSignalPointMajority(false) == SignalPoint.long_entry && canGoLong){
+					governLongEntry(quoteSlice, position, signal, positionGovernorResponse);
+				}else if (signal.getSignalPointMajority(false) == SignalPoint.short_entry && canGoShort){
+					governShortEntry(quoteSlice, position, signal, positionGovernorResponse);
+				}
+			} else { // Have position
+	//			Co.println("--> Signal point majority: " + signal.getSignalPointMajority(true));
+	
+				if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
+					if (signal.getSignalPointMajority(true) == SignalPoint.long_exit) {
+						governLongExit(quoteSlice, position, signal, positionGovernorResponse);
+					}
+				}
+	
+				else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
+					if (signal.getSignalPointMajority(true) == SignalPoint.short_exit) {
+						governShortExit(quoteSlice, position, signal, positionGovernorResponse);
+					}
 				}
 			}
-
-			else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
-				if (signal.getSignalPointMajority(true) == SignalPoint.short_exit) {
-					governShortExit(quoteSlice, position, signal, positionGovernorResponse);
-				}
-			}
+	
+			return positionGovernorResponse;
 		}
-
-		return positionGovernorResponse;
 	}
 	
 //	@SuppressWarnings("unused")
@@ -118,8 +120,8 @@ public class PositionGovernor {
 		positionGovernorResponse.changedPosition = true;
 	}
 	
-	private void governLongExit(QuoteSlice quoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
-		if (typePosition != null && (typePosition.positionType == PositionType.position_long_exit)){
+	private void governLongExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
+		if (position != null && (position.positionType == PositionType.position_long_exit)){
 			return;
 		}
 		positionGovernorResponse.typePosition = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_long_exit);

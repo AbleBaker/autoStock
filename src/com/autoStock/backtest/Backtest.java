@@ -12,6 +12,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -19,14 +20,16 @@ import com.autoStock.types.QuoteSlice;
  */
 public class Backtest implements DataFeedListenerOfQuoteSlice {
 	private HistoricalData typeHistoricalData;
-	private DataFeedHistoricalPrices dataFeedHistoricalPrices;
+	public DataFeedHistoricalPrices dataFeedHistoricalPrices;
 	private ArrayList<DbStockHistoricalPrice> listOfPrices;
 	private ReceiverOfQuoteSlice receiverOfQuoteSlice;
+	private Symbol symbol;
 	
-	public Backtest(HistoricalData typeHistoricalData, ArrayList<DbStockHistoricalPrice> listOfPrices){
+	public Backtest(HistoricalData typeHistoricalData, ArrayList<DbStockHistoricalPrice> listOfPrices, Symbol symbol){
 		this.typeHistoricalData = typeHistoricalData;
 		this.listOfPrices = listOfPrices;
 		this.dataFeedHistoricalPrices = new DataFeedHistoricalPrices(typeHistoricalData, listOfPrices);
+		this.symbol = symbol;
 	}
 	
 	public void performBacktest(ReceiverOfQuoteSlice reciever){
@@ -43,6 +46,6 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 
 	@Override
 	public void endOfFeed() {
-		receiverOfQuoteSlice.endOfFeed();
+		receiverOfQuoteSlice.endOfFeed(symbol);
 	}	
 }

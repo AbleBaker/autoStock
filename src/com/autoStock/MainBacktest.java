@@ -2,84 +2,132 @@ package com.autoStock;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.algorithm.AlgorithmTest;
-import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.backtest.Backtest;
+import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
+import com.autoStock.backtest.ListenerOfBacktestCompleted;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.internal.CallbackLock;
 import com.autoStock.internal.Global;
-import com.autoStock.signal.SignalDefinitions;
+import com.autoStock.position.PositionManager;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.trading.types.HistoricalDataList;
 import com.autoStock.types.Exchange;
-import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
  * 
  */
-public class MainBacktest implements ReceiverOfQuoteSlice {
+public class MainBacktest implements ListenerOfBacktestCompleted { // implements ReceiverOfQuoteSlice
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
-	private AlgorithmTest algorithm;
 	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
-	private ArrayList<DbStockHistoricalPrice> listOfResults; 
+//	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
-	private ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
+	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
+	private ArrayList<AlgorithmTest> listOfAlgorithm = new ArrayList<AlgorithmTest>();
 	private Exchange exchange;
 	private int currentBacktestDayIndex = 0;
 	private double metricBestAccountBalance = 0;
 	private Benchmark bench = new Benchmark();
+	private Lock lock = new Lock();
+	private AtomicInteger callbacks = new AtomicInteger();
+	
+	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>(0);
 
 	@SuppressWarnings("deprecation")
-	public MainBacktest(Exchange exchange, HistoricalData historicalData) {
+	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
 		this.exchange = exchange;
 		Global.callbackLock.requestLock();
 		System.gc();
 		
 		Co.println("Main backtest...");
+		
+		HistoricalData baseHistoricalData = new HistoricalData(null, "STK", dateStart, dateEnd, Resolution.min);
 
-		historicalData.startDate.setHours(exchange.timeOpen.hours);
-		historicalData.startDate.setMinutes(exchange.timeOpen.minutes);
-		historicalData.endDate.setHours(exchange.timeClose.hours);
-		historicalData.endDate.setMinutes(exchange.timeClose.minutes);
+		baseHistoricalData.startDate.setHours(exchange.timeOpen.hours);
+		baseHistoricalData.startDate.setMinutes(exchange.timeOpen.minutes);
+		baseHistoricalData.endDate.setHours(exchange.timeClose.hours);
+		baseHistoricalData.endDate.setMinutes(exchange.timeClose.minutes);
 
-		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
+		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate);
 		
 		if (listOfBacktestDates.size() == 0){
 			throw new IllegalArgumentException();
 		}
 		
 		for (Date date : listOfBacktestDates) {
-			HistoricalData dayHistoricalData = new HistoricalData(historicalData.symbol, historicalData.securityType, (Date)date.clone(), (Date)date.clone(), historicalData.resolution);
-			dayHistoricalData.startDate.setHours(exchange.timeOpen.hours);
-			dayHistoricalData.endDate.setHours(exchange.timeClose.hours);
-			listOfHistoricalData.add(dayHistoricalData);
+			HistoricalDataList historicalDataList = new HistoricalDataList();
+			for (String symbol : listOfSymbols){
+				HistoricalData dayHistoricalData = new HistoricalData(symbol, baseHistoricalData.securityType, (Date)date.clone(), (Date)date.clone(), baseHistoricalData.resolution);
+				dayHistoricalData.startDate.setHours(exchange.timeOpen.hours);
+				dayHistoricalData.endDate.setHours(exchange.timeClose.hours);
+				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
+			}
+			
+			listOfHistoricalDataList.add(historicalDataList);
 		}
 		
-		runNextBacktest();
+		initBacktestContainers();
+		runNextBacktestOnContainers(listOfHistoricalDataList.get(currentBacktestDayIndex++));
+	}
+	
+	private void initBacktestContainers(){
+		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
+		
+		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
+			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol), exchange, this));
+		}
+	}
+	
+	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList){
+		
+		callbacks.set(listOfBacktestContainer.size());
+		
+		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%)");
+		
+		for (BacktestContainer backtestContainer : listOfBacktestContainer){
+			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbol);
+			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
+
+			if (listOfResults.size() > 0){	
+				backtestContainer.setBacktestData(listOfResults, historicalData);
+				backtestContainer.runBacktest();
+			}
+		}
+	}
+	
+	private HistoricalData getHistoricalDataForSymbol(HistoricalDataList historicalDataList, String symbol){
+		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
+			if (historicalData.symbol.equals(symbol)){
+				return historicalData;
+			}
+		}
+		
+		throw new IllegalStateException();
 	}
 	
 	public boolean runNextBacktest(){
-		if (listOfHistoricalData.size() == currentBacktestDayIndex){
+		if (listOfHistoricalDataList.size() == currentBacktestDayIndex){
 			if (backtestType == BacktestType.backtest_default){Global.callbackLock.releaseLock(); return false;}
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(algorithm.signal));
+				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
-			
-			Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions());
-			
+						
 			if (adjustmentCampaign.runAdjustment()) {
 				currentBacktestDayIndex = 0;
 				Account.instance.resetAccount();
@@ -92,45 +140,27 @@ public class MainBacktest implements ReceiverOfQuoteSlice {
 			
 			return false;
 		}else{
-			HistoricalData historicalData = listOfHistoricalData.get(currentBacktestDayIndex++);
-			
-			Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%): " + DateTools.getPrettyDate(historicalData.startDate) + " - " +  DateTools.getPrettyDate(historicalData.endDate));
-			runBacktest(historicalData);
-			
+			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex++);
+			runNextBacktestOnContainers(historicalDataList);
 			return true;
 		}
 	}
-
-	@SuppressWarnings("unchecked")
-	public void runBacktest(HistoricalData historicalData) {
-		listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
-
-		if (listOfResults.size() > 0){
-			Backtest backtest = new Backtest(historicalData, listOfResults);
-			algorithm = new AlgorithmTest(false, exchange);
-			backtest.performBacktest(this);
-		}else{
-			Co.println("Warning, no data for weekday..." + DateTools.getPrettyDate(historicalData.startDate));
-			runNextBacktest();
+	
+	@Override
+	public void backtestCompleted(Symbol symbol) {	
+		synchronized (lock){
+			Co.println("--> Backtest completed... " + symbol.symbol + ", " + callbacks.get() + ", " + Thread.currentThread().getId());
+					
+			if (callbacks.decrementAndGet() == 0){
+				Co.println("--> All called back...\n\n");
+				
+				PositionManager.instance.executeSellAll();
+				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions());
+				
+				if (runNextBacktest() == false){
+					Co.println("Algorithm has ended: Fees: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", Trans: " + Account.instance.getTransactions() + ", Balance: " + MathTools.round(Account.instance.getBankBalance()));
+				}
+			}
 		}
-	}
-
-	@Override
-	public void receiveQuoteSlice(QuoteSlice typeQuoteSlice) {
-		algorithm.receiveQuoteSlice(typeQuoteSlice);
-	}
-
-	@Override
-	public void endOfFeed() {
-		algorithm.endOfFeed();
-
-//		Co.println("******** End of feed in MainBacktest ********");
-
-		if (backtestType == BacktestType.backtest_with_adjustment) {
-			runNextBacktest();
-		} else {
-			Co.println("Algorithm has ended: Fees: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", Trans: " + Account.instance.getTransactions() + ", Balance: " + MathTools.round(Account.instance.getBankBalance()));
-			runNextBacktest();
-		}		
 	}
 }

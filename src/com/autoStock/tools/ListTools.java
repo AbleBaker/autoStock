@@ -3,7 +3,9 @@
  */
 package com.autoStock.tools;
 
+import java.awt.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -36,5 +38,9 @@ public class ListTools {
 		}
 		
 		return listOfReturnObject;
+	}
+	
+	public static ArrayList<String> getArrayListFromString(String input, String separator){
+		return new ArrayList<String>(Arrays.asList(input.split(separator)));
 	}
 }

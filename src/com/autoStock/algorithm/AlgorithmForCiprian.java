@@ -8,6 +8,7 @@ import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -15,7 +16,7 @@ import com.autoStock.types.QuoteSlice;
  */
 public class AlgorithmForCiprian extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	public AlgorithmForCiprian(boolean canTrade, Exchange exchange) {
-		super(canTrade, exchange);
+		super(canTrade, exchange, null);
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class AlgorithmForCiprian extends AlgorithmBase implements ReceiverOfQuot
 	}
 
 	@Override
-	public void endOfFeed() {
+	public void endOfFeed(Symbol symbol) {
 		
 	}
 }

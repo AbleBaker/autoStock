@@ -13,6 +13,7 @@ import com.autoStock.display.DisplayRealtimeData;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.ListTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.MarketData;
@@ -81,15 +82,11 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_main_backtest){
 			new MainBacktest(
-					new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
-					new HistoricalData(
-							menuStructure.getArgument(MenuArguments.arg_symbol).value, 
-							"STK", 
-							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
-							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
-							Resolution.min
-						)
-					);
+				new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
+				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
+				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
+				ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " ")
+			);
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_engage){

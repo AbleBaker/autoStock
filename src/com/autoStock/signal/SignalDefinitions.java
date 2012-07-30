@@ -34,13 +34,13 @@ public class SignalDefinitions {
 		public int occurences;
 	}
 	
-	public static enum SignalMetricType {
+	public enum SignalMetricType {
 		metric_ppc(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 2500);}},
 				48, 44, 0, 0),
 		metric_di(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}},
-				22, -31, 0, 0),
+				15, -38, 0, 0),
 		metric_cci(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}},
 				42, -23, 0, 0),
@@ -48,7 +48,7 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 2000);}},
 				0, 0, 0, 0),
 		metric_rsi(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input *5000 / 4);}},
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input);}},
 				0, 0, 0, 0),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 1000);}},

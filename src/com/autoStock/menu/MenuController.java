@@ -70,7 +70,7 @@ public class MenuController {
 			try {
 				menuArgument.value = args[index];
 			}catch (IndexOutOfBoundsException e){
-				Co.println("\nError: Invalid argument length");
+				Co.println("\nError: Insufficient arguments supplied...");
 				ApplicationStates.shutdown();
 				return;
 			}
