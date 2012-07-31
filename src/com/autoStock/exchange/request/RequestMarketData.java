@@ -32,6 +32,8 @@ public class RequestMarketData {
 	private int sliceMilliseconds;
 	private long receivedTimestamp = 0;
 	private ArrayList<QuoteSlice> listOfQuoteSliceRecall = new ArrayList<QuoteSlice>();
+	private Exchange exchange;
+	private Symbol symbol;
 
 	public RequestMarketData(RequestHolder requestHolder, RequestMarketDataListener requestMarketDataListener, Exchange exchange, Symbol symbol, int sliceMilliseconds) {
 		this.requestHolder = requestHolder;
@@ -39,6 +41,8 @@ public class RequestMarketData {
 		this.requestMarketDataListener = requestMarketDataListener;
 		this.exResultSetMarketData = new ExResultMarketData(). new ExResultSetMarketData(typeMarketData);
 		this.sliceMilliseconds = sliceMilliseconds;
+		this.exchange = exchange;
+		this.symbol = symbol;
 		
 		ExchangeController.getIbExchangeInstance().getMarketData(exchange, symbol, requestHolder);
 	}
@@ -65,12 +69,15 @@ public class RequestMarketData {
 			public void run() {
 				while (true){
 					try {Thread.sleep(sliceMilliseconds);}catch(InterruptedException e){return;}
+					
 					synchronized(RequestMarketData.this){
-						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData);
+						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData, symbol);
 						
-//						quoteSlice = QuoteSliceTools.mergeQuoteSlices(quoteSliceA, quoteSliceB);
+						if (exResultSetMarketData.listOfExResultRowMarketData.size() > 60){ //hack
+							exResultSetMarketData.listOfExResultRowMarketData.remove(0);
+						}
 						
-						exResultSetMarketData.listOfExResultRowMarketData.clear();
+//						exResultSetMarketData.listOfExResultRowMarketData.clear();
 						//Co.println("O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);	
 						requestMarketDataListener.receiveQuoteSlice(requestHolder, quoteSlice);
 					}

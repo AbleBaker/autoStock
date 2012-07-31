@@ -31,13 +31,12 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  * 
  */
-public class MainBacktest implements ListenerOfBacktestCompleted { // implements ReceiverOfQuoteSlice
+public class MainBacktest implements ListenerOfBacktestCompleted {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 //	private ArrayList<DbStockHistoricalPrice> listOfResults; 
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
-	private ArrayList<AlgorithmTest> listOfAlgorithm = new ArrayList<AlgorithmTest>();
 	private Exchange exchange;
 	private int currentBacktestDayIndex = 0;
 	private double metricBestAccountBalance = 0;

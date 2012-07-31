@@ -11,14 +11,17 @@ import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickP
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickSizeFields;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class QuoteSliceTools {
-	public QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData){
+	public QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData, Symbol symbol){
+		
 		QuoteSlice quoteSlice = new QuoteSlice();
+		quoteSlice.symbol = symbol.symbol;
 		
 		for (ExResultRowMarketData resultRow : listOfExResultRowMarketData){		
 			if (resultRow.tickType == TickTypes.type_price){
@@ -30,7 +33,7 @@ public class QuoteSliceTools {
 					quoteSlice.priceHigh = (float)resultRow.value;
 				}
 				
-				else if (resultRow.tickPriceField == TickPriceFields.field_low){ // && typeQuoteSlice.priceLow > resultRow.value
+				else if (resultRow.tickPriceField == TickPriceFields.field_low){
 					quoteSlice.priceLow = (float)resultRow.value;
 				}
 				
@@ -47,7 +50,7 @@ public class QuoteSliceTools {
 				}
 				
 				else {
-					Co.println("No tickPriceField matched: " + resultRow.tickPriceField.name());
+//					Co.println("No tickPriceField matched: " + resultRow.tickPriceField.name());
 				}
 			}
 			
@@ -67,9 +70,5 @@ public class QuoteSliceTools {
 		}
 		
 		return quoteSlice;
-	}
-	
-	public static void mergeQuoteSlices(QuoteSlice quoteSliceA, QuoteSlice quoteSliceB){
-		
 	}
 }

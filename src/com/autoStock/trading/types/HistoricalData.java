@@ -26,6 +26,7 @@ public class HistoricalData implements Cloneable {
 		this.duration = (endDate.getTime() / 1000 - startDate.getTime() / 1000);
 	}
 	
+	@Override
 	public HistoricalData clone(){
 		try {
 			return (HistoricalData) super.clone();

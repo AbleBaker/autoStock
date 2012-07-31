@@ -5,13 +5,15 @@ package com.autoStock.types;
 
 import java.util.Date;
 
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.trading.types.HistoricalData;
 
 /**
  * @author Kevin Kowalewski
  *
  */
-public class QuoteSlice {
+public class QuoteSlice implements Cloneable {
 	public String symbol;
 	public double priceOpen;
 	public double priceHigh;
@@ -37,5 +39,16 @@ public class QuoteSlice {
 		this.priceAsk = priceAsk;
 		this.sizeVolume = sizeVolume;
 		this.dateTime = dateTime;
+	}
+	
+	@Override
+	public QuoteSlice clone(){
+		try {
+			return (QuoteSlice) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			ApplicationStates.shutdown();
+			return null;
+		}
 	}
 }
