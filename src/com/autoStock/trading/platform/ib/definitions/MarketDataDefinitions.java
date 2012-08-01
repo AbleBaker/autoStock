@@ -29,6 +29,7 @@ public class MarketDataDefinitions {
 		field_week_26_high(18),
 		field_week_52_high(19),
 		field_week_52_low(20),
+		field_auction_price(35),
 		;
 		
 		public int field;
@@ -55,6 +56,8 @@ public class MarketDataDefinitions {
 		field_last(5),
 		field_volume(8),
 		field_avg_volume(21),
+		field_action_volume(34),
+		field_auction_imbalance(36),
 		;
 		
 		public int field;

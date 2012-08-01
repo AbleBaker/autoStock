@@ -96,8 +96,10 @@ public class IbExchangeInstance {
 	public void getScanner(RequestHolder requestHolder){
 		ScannerSubscription scanner = new ScannerSubscription();
 		scanner.numberOfRows(50);
-		scanner.instrument("STOCK.HK");
-		scanner.locationCode("STK.HK.ASX");
+//		scanner.instrument("STOCK.HK");
+//		scanner.locationCode("STK.HK.ASX");
+		scanner.instrument("STK");
+		scanner.locationCode("STK.NYSE");
 		scanner.scanCode("TOP_OPEN_PERC_GAIN");
 		scanner.aboveVolume(10000);
 		scanner.abovePrice(3.00);

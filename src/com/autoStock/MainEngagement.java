@@ -90,7 +90,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		Co.println("--> Got new state: " + exchangeState.name());
 		if (exchangeState == ExchangeState.status_open){
 			engagementStart();
-		}else if (exchangeState == ExchangeState.status_close_future){
+		}else if (exchangeState == ExchangeState.status_close_future || exchangeState == ExchangeState.status_open_future){
 			engagementWarn(exchangeState);
 		}else if (exchangeState == ExchangeState.status_closed){
 			engagementStop();

@@ -74,7 +74,9 @@ public class AlgorithmManager {
 			listOfDisplayRows.add(columnValues);
 		}
 		
-		new TableController().displayTable(AsciiTables.algorithm_manager, listOfDisplayRows);
+		if (listOfDisplayRows.size() > 0){
+			new TableController().displayTable(AsciiTables.algorithm_manager, listOfDisplayRows);
+		}
 	}
 	
 	public void warnAll(ExchangeState exchangeState){
