@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.algorithm.ActiveAlgorithmContainer;
+import com.autoStock.algorithm.AlgorithmManager;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.ExchangeStatusListener;
@@ -19,6 +20,7 @@ import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
+import com.autoStock.finance.Account;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.position.PositionManager;
@@ -35,8 +37,8 @@ import com.autoStock.types.basic.Time;
 public class MainEngagement implements RequestMarketScannerListener, ExchangeStatusListener {
 	private ExResultSetMarketScanner exResultSetMarketScanner;
 	private Exchange exchange;
-	private ArrayList<ActiveAlgorithmContainer> listOfActiveAlgorithmContainer = new ArrayList<ActiveAlgorithmContainer>();
 	private ExchangeStatusObserver exchangeStatusObserver;
+	private AlgorithmManager algorithmManager = new AlgorithmManager();
 
 	public MainEngagement(Exchange exchange) {
 		Global.callbackLock.requestLock(); 
@@ -45,41 +47,31 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		exchangeStatusObserver = new ExchangeStatusObserver(exchange);
 		exchangeStatusObserver.addListener(this);
 		exchangeStatusObserver.observeExchangeStatus();
+		
+		algorithmManager.initalize();
 	}
 
 	private void engagementStart() {
 		new RequestMarketScanner(new RequestHolder(this));
 	}
 	
-	private void engagementWarn(){
-		
+	private void engagementWarn(ExchangeState exchangeState){
+		Co.println("--> Received warning: " + exchangeState.timeUntilFuture.minutes + ":" + exchangeState.timeUntilFuture.seconds);
+		algorithmManager.warnAll(exchangeState);
 	}
 	
 	private void engagementStop(){
-		
+		Co.println("Balance: " + Account.instance.getBankBalance());
+		Co.println("Trasactions and fees: " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
 	}
 
 	public synchronized void handleCompletedMarketScanner() {
+		ArrayList<String> listOfString = new ArrayList<String>();
 		for (ExResultRowMarketScanner result : exResultSetMarketScanner.listOfExResultRowMarketScanner) {
-			if (getAlgorithmContainerForSymbol(result.symbol) == null){
-				Co.println("Will run algorithm for symbol: " + result.symbol);
-				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol));
-				container.activate();
-				listOfActiveAlgorithmContainer.add(container);
-			}else{
-//				Co.println("--> Already running algorithm on: " + result.symbol);
-			}
-		}
-	}
-	
-	private ActiveAlgorithmContainer getAlgorithmContainerForSymbol(String symbol){
-		for (ActiveAlgorithmContainer container : listOfActiveAlgorithmContainer){
-			if (container.symbol.symbol.equals(symbol)){
-				return container;
-			}
+			listOfString.add(result.symbol);
 		}
 		
-		return null;
+		algorithmManager.setListOfSymbols(listOfString, exchange);
 	}
 
 	@Override
@@ -99,7 +91,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		if (exchangeState == ExchangeState.status_open){
 			engagementStart();
 		}else if (exchangeState == ExchangeState.status_close_future){
-			engagementWarn();
+			engagementWarn(exchangeState);
 		}else if (exchangeState == ExchangeState.status_closed){
 			engagementStop();
 		}

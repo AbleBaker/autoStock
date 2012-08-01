@@ -76,11 +76,13 @@ public class Signal {
 			combinedSignal.shortExit += signalMetric.signalMetricType.pointToSignalShortExit;
 		}
 		
-		combinedSignal.strength = (combinedSignal.strength / listOfSignalMetric.size());
-		combinedSignal.longEntry = (combinedSignal.longEntry / listOfSignalMetric.size());
-		combinedSignal.longExit = (combinedSignal.longExit / listOfSignalMetric.size());
-		combinedSignal.shortEntry = (combinedSignal.shortEntry / listOfSignalMetric.size());
-		combinedSignal.shortExit = (combinedSignal.shortExit / listOfSignalMetric.size());
+		if (listOfSignalMetric.size() > 0){
+			combinedSignal.strength = (combinedSignal.strength / listOfSignalMetric.size());
+			combinedSignal.longEntry = (combinedSignal.longEntry / listOfSignalMetric.size());
+			combinedSignal.longExit = (combinedSignal.longExit / listOfSignalMetric.size());
+			combinedSignal.shortEntry = (combinedSignal.shortEntry / listOfSignalMetric.size());
+			combinedSignal.shortExit = (combinedSignal.shortExit / listOfSignalMetric.size());
+		}
 		
 		combinedSignal.strength = (int) (combinedSignal.strength > 0 ? Math.min(100, combinedSignal.strength) : Math.max(-100, combinedSignal.strength));
 		

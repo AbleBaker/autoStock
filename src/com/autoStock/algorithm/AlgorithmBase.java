@@ -16,6 +16,7 @@ public class AlgorithmBase {
 	public AlgorithmListener algorithmListener;
 	public Exchange exchange;
 	public Symbol symbol;
+	public boolean isActive = true;
 	
 	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol){
 		this.canTrade = canTrade;

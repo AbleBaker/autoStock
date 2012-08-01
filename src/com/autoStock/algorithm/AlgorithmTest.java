@@ -56,8 +56,8 @@ import com.autoStock.types.Symbol;
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	private int periodLength = SignalControl.periodLength;
 	
-	private boolean enableChart = false;
-	private boolean enableTable = false;
+	private boolean enableChart = true;
+	private boolean enableTable = true;
 	
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
 	private AnalysisOfDI analysisOfDI = new AnalysisOfDI(periodLength, false);
@@ -203,5 +203,11 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		if (enableTable){new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);}
 		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
+		
+		try {
+			finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 }
