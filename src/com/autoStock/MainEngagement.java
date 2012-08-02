@@ -51,6 +51,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		Co.println("--> Received stop");
 		algorithmManager.stopAll();
 		algorithmManager.displayEndOfDayStats();
+		Global.callbackLock.releaseLock();
 	}
 
 	public synchronized void handleCompletedMarketScanner() {

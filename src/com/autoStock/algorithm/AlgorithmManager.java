@@ -68,8 +68,9 @@ public class AlgorithmManager {
 	}
 	
 	public void stopAll(){
-		for (ActiveAlgorithmContainer container : listOfActiveAlgorithmContainer){
-			container.algorithm.endOfFeed(container.symbol);
+		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
+			ActiveAlgorithmContainer container = iterator.next();
+			container.deactivate();
 		}
 	}
 	
