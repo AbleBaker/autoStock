@@ -58,7 +58,7 @@ public class ExchangeStatusObserver {
 						Time timeUntilOpen = exchange.getTimeUntil(exchange.getLocalTimeFromForeignTime(exchange.timeOpen, exchange.timeZone));
 						
 						if (timeUntilOpen.isFuture()){
-							if (timeUntilOpen.hours == 0 && timeUntilOpen.minutes < 30){
+							if (timeUntilOpen.hours == 0 && timeUntilOpen.minutes < 60){
 								currentExchangeState = ExchangeState.status_open_future.setTime(timeUntilOpen);
 							}
 						}
