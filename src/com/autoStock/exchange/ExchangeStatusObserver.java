@@ -38,13 +38,13 @@ public class ExchangeStatusObserver {
 					}
 					
 					//Closed - already or just happened
-					else if ((currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_close_future) && exchange.isClosed()){
+					if ((currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_close_future) && exchange.isClosed()){
 						currentExchangeState = ExchangeState.status_closed;
 					}
 					
 					
 					//Open - closing soon
-					else if (currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_close_future){
+					if (currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_close_future){
 						Time timeUntilClose = exchange.getTimeUntil(exchange.getLocalTimeFromForeignTime(exchange.timeClose, exchange.timeZone));
 						if (timeUntilClose.isFuture()){
 							if (timeUntilClose.hours == 0 && timeUntilClose.minutes < 30){
@@ -54,7 +54,7 @@ public class ExchangeStatusObserver {
 					}
 					
 					//Closed - opening soon
-					else if (currentExchangeState == ExchangeState.status_closed || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_open_future){
+					if (currentExchangeState == ExchangeState.status_closed || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_open_future){
 						Time timeUntilOpen = exchange.getTimeUntil(exchange.getLocalTimeFromForeignTime(exchange.timeOpen, exchange.timeZone));
 						
 						if (timeUntilOpen.isFuture()){
