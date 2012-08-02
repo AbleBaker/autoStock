@@ -5,6 +5,7 @@ package com.autoStock.trading.platform.ib;
 
 import java.text.SimpleDateFormat;
 
+import com.autoStock.exchange.ExchangeHelper.ExchangeDesignation;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.internal.Config;
 import com.autoStock.trading.platform.ib.core.Contract;
@@ -12,7 +13,6 @@ import com.autoStock.trading.platform.ib.core.EClientSocket;
 import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.ScannerSubscription;
 import com.autoStock.trading.types.HistoricalData;
-import com.autoStock.trading.types.MarketData;
 import com.autoStock.trading.types.Position;
 import com.autoStock.trading.types.RealtimeData;
 import com.autoStock.types.Exchange;
@@ -93,13 +93,17 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
 	}
 	
-	public void getScanner(RequestHolder requestHolder){
+	public void getScanner(RequestHolder requestHolder, Exchange exchage){
 		ScannerSubscription scanner = new ScannerSubscription();
 		scanner.numberOfRows(50);
-//		scanner.instrument("STOCK.HK");
-//		scanner.locationCode("STK.HK.ASX");
-		scanner.instrument("STK");
-		scanner.locationCode("STK.NYSE");
+		if (exchage.exchangeDesignation == ExchangeDesignation.NYSE){
+			scanner.instrument("STK");
+			scanner.locationCode("STK.NYSE");			
+		}else if (exchage.exchangeDesignation == ExchangeDesignation.ASX){
+			scanner.instrument("STOCK.HK");
+			scanner.locationCode("STK.HK.ASX");
+		}else{throw new UnsupportedOperationException();}
+		
 		scanner.scanCode("TOP_OPEN_PERC_GAIN");
 		scanner.aboveVolume(10000);
 		scanner.abovePrice(3.00);

@@ -1,11 +1,6 @@
 package com.autoStock.adjust;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.autoStock.Co;
-import com.autoStock.tools.StringTools;
 
 /**
  * @author Kevin Kowalewski

@@ -3,9 +3,6 @@
  */
 package com.autoStock.tools;
 
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.NumberFormat;
 
 import org.apache.commons.codec.digest.DigestUtils;

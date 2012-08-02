@@ -2,7 +2,6 @@ package com.autoStock.algorithm.external;
 
 import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;

@@ -5,11 +5,10 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalDefinitions.SignalTrend;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
  * @author Kevin Kowalewski

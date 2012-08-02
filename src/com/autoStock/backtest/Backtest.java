@@ -9,7 +9,6 @@ import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.dataFeed.DataFeedHistoricalPrices;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;

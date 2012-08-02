@@ -2,10 +2,7 @@ package com.autoStock.types;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
-import com.autoStock.Co;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
@@ -13,7 +10,6 @@ import com.autoStock.exchange.ExchangeHelper;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.finance.Currency.CurrencyDefinitions;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
-import com.autoStock.tools.DateTools;
 import com.autoStock.types.basic.Time;
 
 /**
@@ -30,6 +26,7 @@ public class Exchange extends ExchangeHelper {
 	public Date dateLocalOpen;
 	public Date dateLocalClose;
 	public ExchangeState exchangeState = ExchangeState.status_unknown;
+	public ExchangeDesignation exchangeDesignation;
 	
 	/**
 	 * An exchange object. Fields like currency open and close times will automatically be filled from the database.
@@ -46,6 +43,7 @@ public class Exchange extends ExchangeHelper {
 		timeZone = queryResultOfExchange.timeZone;
 		dateLocalOpen = super.getLocalTimeFromForeignTime(timeOpen, timeZone);
 		dateLocalClose = super.getLocalTimeFromForeignTime(timeClose, timeZone);
+		exchangeDesignation = ExchangeDesignation.valueOf(name);
 	}
 	
 	public boolean isOpen(){

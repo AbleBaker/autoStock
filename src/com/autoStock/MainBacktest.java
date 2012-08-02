@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;

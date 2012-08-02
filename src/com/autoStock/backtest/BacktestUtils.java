@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.Signal.CombinedSignal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalMetric;
 

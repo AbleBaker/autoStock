@@ -4,31 +4,18 @@
 package com.autoStock;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import com.autoStock.algorithm.ActiveAlgorithmContainer;
 import com.autoStock.algorithm.AlgorithmManager;
-import com.autoStock.algorithm.AlgorithmTest;
-import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.ExchangeStatusListener;
 import com.autoStock.exchange.ExchangeStatusObserver;
-import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
 import com.autoStock.finance.Account;
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
-import com.autoStock.position.PositionManager;
-import com.autoStock.trading.types.MarketData;
 import com.autoStock.types.Exchange;
-import com.autoStock.types.QuoteSlice;
-import com.autoStock.types.Symbol;
-import com.autoStock.types.basic.Time;
 
 /**
  * @author Kevin Kowalewski
@@ -52,7 +39,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	}
 
 	private void engagementStart() {
-		new RequestMarketScanner(new RequestHolder(this));
+		new RequestMarketScanner(new RequestHolder(this), exchange);
 	}
 	
 	private void engagementWarn(ExchangeState exchangeState){
@@ -61,6 +48,8 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	}
 	
 	private void engagementStop(){
+		Co.println("--> Received stop");
+		algorithmManager.stopAll();
 		Co.println("Balance: " + Account.instance.getBankBalance());
 		Co.println("Trasactions and fees: " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
 	}

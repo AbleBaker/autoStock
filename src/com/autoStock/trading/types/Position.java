@@ -3,8 +3,6 @@
  */
 package com.autoStock.trading.types;
 
-import javax.servlet.UnavailableException;
-
 import com.autoStock.position.PositionDefinitions.PositionType;
 
 

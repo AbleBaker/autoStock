@@ -1,17 +1,10 @@
 package com.autoStock.adjust;
 
-import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 
 import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
-import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.tools.ArrayTools;
-import com.autoStock.tools.ListTools;
-import com.autoStock.tools.StringTools;
 
 /**
  * @author Kevin Kowalewski

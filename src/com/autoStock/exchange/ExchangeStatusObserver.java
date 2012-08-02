@@ -2,7 +2,6 @@ package com.autoStock.exchange;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.basic.Time;
@@ -42,8 +41,9 @@ public class ExchangeStatusObserver {
 						currentExchangeState = ExchangeState.status_closed;
 					}
 					
+					
 					//Open - closing soon
-					if (currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_open_future){
+					if (currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_close_future){
 						Time timeUntilClose = exchange.getTimeUntil(exchange.getLocalTimeFromForeignTime(exchange.timeClose, exchange.timeZone));
 						if (timeUntilClose.isFuture()){
 							if (timeUntilClose.hours == 0 && timeUntilClose.minutes < 30){

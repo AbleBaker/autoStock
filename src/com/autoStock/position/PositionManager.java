@@ -5,7 +5,6 @@ package com.autoStock.position;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;

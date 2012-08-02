@@ -10,6 +10,7 @@ import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
+import com.autoStock.types.Exchange;
 
 /**
  * @author Kevin Kowalewski
@@ -18,13 +19,15 @@ import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketSca
 public class RequestMarketScanner {
 	private ExResultSetMarketScanner exResultSetMarketScanner;
 	private RequestHolder requestHolder;
+	private Exchange exchange;
 	
-	public RequestMarketScanner(RequestHolder requestHolder){
+	public RequestMarketScanner(RequestHolder requestHolder, Exchange exchange){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
+		this.exchange = exchange;
 		this.exResultSetMarketScanner = new ExResultMarketScanner(). new ExResultSetMarketScanner();
 		
-		ExchangeController.getIbExchangeInstance().getScanner(requestHolder);
+		ExchangeController.getIbExchangeInstance().getScanner(requestHolder, exchange);
 	}
 	
 	public synchronized void addResult(ExResultRowMarketScanner exResultRowMarketScanner){

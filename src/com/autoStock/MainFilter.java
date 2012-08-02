@@ -1,6 +1,5 @@
 package com.autoStock;
 
-import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
@@ -33,6 +32,6 @@ public class MainFilter {
 					Co.println("Got market filter information OK");
 				}
 			}
-		));
+		), exchange);
 	}
 }

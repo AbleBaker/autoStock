@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
-import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.position.PositionManager;
 import com.autoStock.tables.TableController;

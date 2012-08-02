@@ -1,14 +1,10 @@
 package com.autoStock.position;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
-import com.autoStock.signal.SignalMetric;
 import com.autoStock.tools.Lock;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;

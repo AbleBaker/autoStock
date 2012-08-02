@@ -3,11 +3,7 @@ package com.autoStock.analysis;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-import com.autoStock.tools.DataExtractor;
 import com.autoStock.types.QuoteSlice;
-import com.lowagie.text.pdf.ExtraEncoding;
 
 /**
  * @author Kevin Kowalewski

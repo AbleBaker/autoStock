@@ -2,7 +2,6 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;

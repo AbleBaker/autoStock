@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import com.autoStock.Co;
-import com.autoStock.tools.DateTools;
 import com.autoStock.types.basic.Time;
 
 /**
@@ -40,6 +38,10 @@ public class ExchangeHelper {
 		time.seconds = (int) (((millisDiff % (1000*60*60)) % (1000*60)) / 1000);
 
 		return time;
-
+	}
+	
+	public static enum ExchangeDesignation {
+		NYSE,
+		ASX,
 	}
 }

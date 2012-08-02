@@ -3,16 +3,10 @@
  */
 package com.autoStock.analysis;
 
-import java.util.ArrayList;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.autoStock.analysis.results.ResultsSTORSI;
 import com.autoStock.taLib.MAType;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
-import com.autoStock.tools.DataExtractor;
-import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
