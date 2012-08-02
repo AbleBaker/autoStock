@@ -13,6 +13,7 @@ import com.autoStock.exchange.results.ExResultMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.tools.QuoteSliceTools;
+import com.autoStock.trading.platform.ib.IbExchangeInstance;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.trading.types.MarketData;
 import com.autoStock.types.Exchange;
@@ -86,5 +87,10 @@ public class RequestMarketData {
 		});
 		
 		this.threadForSliceCollector.start();
+	}
+	
+	public void cancel(){
+		threadForSliceCollector.interrupt();
+		ExchangeController.getIbExchangeInstance().cancelMarketData(requestHolder);
 	}
 }

@@ -5,8 +5,11 @@ import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
+import com.autoStock.position.PositionManager;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
 import com.autoStock.trading.types.MarketData;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -18,7 +21,6 @@ import com.autoStock.types.Symbol;
 public class ActiveAlgorithmContainer {
 	public AlgorithmTest algorithm;
 	private RequestMarketData requestMarketData;
-	private MarketData marketData;
 	public Symbol symbol;
 	public Exchange exchange;
 	
@@ -37,7 +39,9 @@ public class ActiveAlgorithmContainer {
 			
 			@Override
 			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice quoteSlice) {
-				algorithm.receiveQuoteSlice(quoteSlice);
+				if (quoteSlice.priceClose != 0){
+					algorithm.receiveQuoteSlice(quoteSlice);
+				}
 			}
 			
 			@Override
@@ -47,4 +51,20 @@ public class ActiveAlgorithmContainer {
 		}, exchange, symbol, Period.min.duration * 1000);
 	}
 	
+	public void deactivate(){
+		requestMarketData.cancel();
+		algorithm.endOfFeed(symbol);
+		Position position = PositionManager.instance.getPosition(symbol.symbol);
+		if (position != null){
+			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry){
+				PositionManager.instance.suggestPosition(algorithm.currentQuoteSlice, algorithm.signal, PositionType.position_long_exit);
+			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry){
+				PositionManager.instance.suggestPosition(algorithm.currentQuoteSlice, algorithm.signal, PositionType.position_long_exit);	
+			}else{
+				throw new UnsupportedOperationException();
+			}
+		}
+		
+		algorithm = null;
+	}
 }

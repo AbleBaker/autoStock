@@ -3,6 +3,7 @@ package com.autoStock;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
+import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
 import com.autoStock.internal.Global;
 import com.autoStock.types.Exchange;
@@ -30,6 +31,9 @@ public class MainFilter {
 				@Override
 				public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner) {
 					Co.println("Got market filter information OK");
+					for (ExResultRowMarketScanner exResultRowMarketScanner : exResultSetMarketScanner.listOfExResultRowMarketScanner){
+						Co.print("ASX:" + exResultRowMarketScanner.symbol + ", ");
+					}
 				}
 			}
 		), exchange);

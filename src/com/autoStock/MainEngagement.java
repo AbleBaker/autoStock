@@ -50,8 +50,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	private void engagementStop(){
 		Co.println("--> Received stop");
 		algorithmManager.stopAll();
-		Co.println("Balance: " + Account.instance.getBankBalance());
-		Co.println("Trasactions and fees: " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
+		algorithmManager.displayEndOfDayStats();
 	}
 
 	public synchronized void handleCompletedMarketScanner() {
@@ -61,6 +60,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		}
 		
 		algorithmManager.setListOfSymbols(listOfString, exchange);
+		algorithmManager.pruneListOfSymbols(listOfString, exchange);
 	}
 
 	@Override

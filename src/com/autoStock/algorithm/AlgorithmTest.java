@@ -48,7 +48,7 @@ import com.autoStock.types.Symbol;
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	private int periodLength = SignalControl.periodLength;
 	
-	private boolean enableChart = true;
+	private boolean enableChart = false;
 	private boolean enableTable = true;
 	
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
@@ -64,6 +64,9 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private PositionGovernor positionGovener = new PositionGovernor();
 	private ChartForAlgorithmTest chart;
 	
+	public QuoteSlice firstQuoteSlice;
+	public QuoteSlice currentQuoteSlice;
+	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol) {
 		super(canTrade, exchange, symbol);
 		if (enableChart){chart = new ChartForAlgorithmTest();}
@@ -73,6 +76,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + MathTools.round(quoteSlice.priceClose));
 		
+		if (firstQuoteSlice == null){firstQuoteSlice = quoteSlice;}
+		currentQuoteSlice = quoteSlice;
 		listOfQuoteSlice.add(quoteSlice);
 	
 		if (listOfQuoteSlice.size() > (periodLength)){
@@ -195,11 +200,5 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 //		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		if (enableTable){new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);}
 		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
-		
-		try {
-			finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 	}
 }

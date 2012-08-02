@@ -113,10 +113,6 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(requestHolder.requestId, scanner);
 	}
 	
-	public void cancelScanner(RequestHolder requestHolder){
-		ibExchangeClientSocket.eClientSocket.cancelScannerSubscription(requestHolder.requestId);
-	}
-	
 	public void getRealtimeData(RealtimeData typeRealtimeData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
@@ -147,5 +143,13 @@ public class IbExchangeInstance {
 		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(typeHistoricalData.endDate) + " est";
 		String duration = String.valueOf(typeHistoricalData.duration) + " S";
 		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, typeHistoricalData.resolution.barSize, "TRADES", 1, 2);
+	}
+	
+	public void cancelScanner(RequestHolder requestHolder){
+		ibExchangeClientSocket.eClientSocket.cancelScannerSubscription(requestHolder.requestId);
+	}
+	
+	public void cancelMarketData(RequestHolder requestHolder){
+		ibExchangeClientSocket.eClientSocket.cancelMktData(requestHolder.requestId);
 	}
 }

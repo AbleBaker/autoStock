@@ -11,7 +11,7 @@ public class TableDefinitions {
 		stock_historical_price_db(new AsciiColumns[]{AsciiColumns.id, AsciiColumns.symbol, AsciiColumns.priceOpen, AsciiColumns.priceHigh, AsciiColumns.priceLow, AsciiColumns.priceClose, AsciiColumns.sizeVolume, AsciiColumns.dateTime}),
 		analysis_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.priceClose, AsciiColumns.derivedChange, AsciiColumns.derivedChange, AsciiColumns.signal , AsciiColumns.PPC, AsciiColumns.ADX, AsciiColumns.CCI, AsciiColumns.BBUpper, AsciiColumns.BBLower, AsciiColumns.MACDHistogram, AsciiColumns.STORSIK, AsciiColumns.STORISD}),
 		algorithm_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.derivedChange, AsciiColumns.signalPPC, AsciiColumns.signalDI, AsciiColumns.signalCCI, AsciiColumns.signalRSI, AsciiColumns.signalMACD, AsciiColumns.signalTRIX, AsciiColumns.signalTotal, AsciiColumns.inducedAction, AsciiColumns.transactionDetails, AsciiColumns.bankBalance, AsciiColumns.peakDetect}),
-		algorithm_manager(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.signal, AsciiColumns.position}),
+		algorithm_manager(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.signal, AsciiColumns.position, AsciiColumns.price, AsciiColumns.priceClose, AsciiColumns.percentChange}),
 		;
 		
 		AsciiColumns[] arrayOfColumns;
@@ -87,5 +87,6 @@ public class TableDefinitions {
 		transactionDetails,
 		peakDetect,
 		position,
+		percentChange,
 	}
 }

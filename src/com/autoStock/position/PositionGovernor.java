@@ -56,50 +56,6 @@ public class PositionGovernor {
 		}
 	}
 	
-//	@SuppressWarnings("unused")
-//	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
-//		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
-//		Position typePosition = positionManager.getPosition(quoteSlice.symbol);
-//		
-//		signal.currentSignalType = SignalDefinitions.getSignalType(signal);
-//		positionManager.updatePositionPrice(quoteSlice, typePosition);
-//		
-//		if (typePosition == null){
-//			if (!AlgorithmCondition.canTradeOnDate(quoteSlice, exchange)){
-//				return positionGovernorResponse;
-//			}
-//			
-//			if ((signal.getCombinedSignal().strength >= signal.getCombinedSignal().longEntry) && canGoLong){
-//				//Enter long
-//				governLongEntry(quoteSlice, null, signal, positionGovernorResponse);
-//				positionGovernorResponse.changedPosition = true;
-//			}
-//			else if ((signal.getCombinedSignal().strength <= signal.getCombinedSignal().shortEntry) && canGoShort){
-//				// Enter short
-//				governShortEntry(quoteSlice, null, signal, positionGovernorResponse);
-//				positionGovernorResponse.changedPosition = true;
-//			}
-//		}else{
-//			if (typePosition.positionType == PositionType.position_long_entry || typePosition.positionType == PositionType.position_long){
-//				if (signal.getCombinedSignal().strength <= signal.getCombinedSignal().longExit){
-//					// Exit long
-//					governLongExit(quoteSlice, typePosition, signal, positionGovernorResponse);
-//					positionGovernorResponse.changedPosition = true;
-//				}
-//			}
-//			
-//			if (typePosition.positionType == PositionType.position_short_entry || typePosition.positionType == PositionType.position_short){
-//				if (signal.getCombinedSignal().strength >= signal.getCombinedSignal().shortExit){
-//					//Exit short
-//					governShortExit(quoteSlice, typePosition, signal, positionGovernorResponse);
-//					positionGovernorResponse.changedPosition = true;
-//				}
-//			}
-//		}
-//		
-//		return positionGovernorResponse;
-//	}
-	
 	private void governLongEntry(QuoteSlice quoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
 		if (typePosition != null && (typePosition.positionType == PositionType.position_long || typePosition.positionType == PositionType.position_long_entry)){
 			return;

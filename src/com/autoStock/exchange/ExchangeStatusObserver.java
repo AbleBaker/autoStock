@@ -2,6 +2,7 @@ package com.autoStock.exchange;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.basic.Time;
@@ -43,7 +44,7 @@ public class ExchangeStatusObserver {
 					
 					
 					//Open - closing soon
-					if (currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_close_future){
+					else if (currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_close_future){
 						Time timeUntilClose = exchange.getTimeUntil(exchange.getLocalTimeFromForeignTime(exchange.timeClose, exchange.timeZone));
 						if (timeUntilClose.isFuture()){
 							if (timeUntilClose.hours == 0 && timeUntilClose.minutes < 30){
@@ -53,7 +54,7 @@ public class ExchangeStatusObserver {
 					}
 					
 					//Closed - opening soon
-					if (currentExchangeState == ExchangeState.status_closed || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_open_future){
+					else if (currentExchangeState == ExchangeState.status_closed || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_open_future){
 						Time timeUntilOpen = exchange.getTimeUntil(exchange.getLocalTimeFromForeignTime(exchange.timeOpen, exchange.timeZone));
 						
 						if (timeUntilOpen.isFuture()){
@@ -68,7 +69,8 @@ public class ExchangeStatusObserver {
 						notifyListeners(currentExchangeState);
 					}
 					
-					try {Thread.sleep(observeDelayMs);}catch(InterruptedException e){return;}
+					Co.println("--> Tick... " + currentExchangeState);
+					try {Thread.sleep(observeDelayMs);}catch(InterruptedException e){throw new IllegalStateException();}
 				}
 			}
 		});
