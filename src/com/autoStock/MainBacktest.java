@@ -33,7 +33,7 @@ import com.autoStock.types.Symbol;
  */
 public class MainBacktest implements ListenerOfBacktestCompleted {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
-	private BacktestType backtestType = BacktestType.backtest_default;
+	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
@@ -79,7 +79,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 		
 		initBacktestContainers();
-//		runNextBacktestOnContainers(listOfHistoricalDataList.get(0));
 		runNextBacktest();
 	}
 	
@@ -121,11 +120,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	public boolean runNextBacktest(){
 		if (listOfHistoricalDataList.size() == currentBacktestDayIndex){
 			if (backtestType == BacktestType.backtest_default){Global.callbackLock.releaseLock(); return false;}
-			
-			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
-				metricBestAccountBalance = Account.instance.getBankBalance();
-			}
 						
 			if (adjustmentCampaign.runAdjustment()) {
 				currentBacktestDayIndex = 0;
@@ -157,6 +151,12 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				Co.println("--> All called back...");
 				
 				PositionManager.instance.executeSellAll();
+				
+				if (Account.instance.getBankBalance() > metricBestAccountBalance){
+					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
+					metricBestAccountBalance = Account.instance.getBankBalance();
+				}
+	
 				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + "\n\n");
 				
 				if (runNextBacktest() == false && backtestType == BacktestType.backtest_default){
