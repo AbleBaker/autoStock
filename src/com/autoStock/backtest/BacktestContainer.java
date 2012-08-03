@@ -2,8 +2,10 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 
+import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
+import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
@@ -22,19 +24,19 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private ArrayList<DbStockHistoricalPrice> listOfDbHistoricalPrices = new ArrayList<DbStockHistoricalPrice>();
 	private ListenerOfBacktestCompleted listener; 
 	private Backtest backtest;
+	private BacktestType backtestType;
 	
-	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener){
+	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, BacktestType backtestType){
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.listener = listener;
-		
-		algorithm = new AlgorithmTest(false, exchange, symbol);
+		this.backtestType = backtestType;
 	}
 	
 	public void setBacktestData(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, HistoricalData historicalData){
 		this.listOfDbHistoricalPrices = listOfDbStockHistoricalPrice;
 		this.historicalData = historicalData;
-//		Co.println("--> Data was received... " + listOfDbStockHistoricalPrice.size() + ", " + symbol.symbol);
+		algorithm = new AlgorithmTest(false, exchange, symbol, backtestType == BacktestType.backtest_default ? AlgorithmMode.mode_backtest : AlgorithmMode.mode_backtest_with_adjustment);
 	}
 	
 	public void runBacktest(){

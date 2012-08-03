@@ -6,8 +6,19 @@ package com.autoStock.algorithm;
  */
 public class AlgorithmDefinitions {
 	public static enum AlgorithmMode {
-		mode_backtest,
-		mode_backtest_with_adjustment,
-		mode_engagement,
+		mode_backtest(false, false, false),
+		mode_backtest_with_adjustment(false, false, false),
+		mode_engagement(false, true, true),
+		;
+		
+		boolean displayChart;
+		boolean displayTable;
+		boolean displayMessages;
+		
+		AlgorithmMode(boolean displayChart, boolean displayTable, boolean displayMessages){
+			this.displayChart = displayChart;
+			this.displayTable = displayTable;
+			this.displayMessages = displayMessages;
+		}
 	}
 }

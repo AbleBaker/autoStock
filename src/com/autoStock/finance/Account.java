@@ -10,10 +10,10 @@ package com.autoStock.finance;
  */
 public class Account {
 	private final double bankBalanceDefault = 100000.00;
+	private double bankBalance = bankBalanceDefault;
 	private final double transactionFeesDefault = 0;
-	private volatile double bankBalance = 100000.00;
-	private volatile double transactionFeesPaid = 0;
-	private volatile int transactions = 0;
+	private double transactionFeesPaid = 0;
+	private int transactions = 0;
 	public static Account instance = new Account();
 	
 	public double getBankBalance(){

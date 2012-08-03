@@ -28,7 +28,6 @@ public class SignalDefinitions {
 		short_entry,
 		short_exit,
 		none,
-		
 		; 
 		
 		public int occurences;
@@ -39,7 +38,7 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 2500);}},
 				48, 44, 0, 0),
 		metric_di(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}},
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 3);}},
 				5, -24, 0, 0),
 		metric_cci(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}},
@@ -48,11 +47,11 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 2000);}},
 				0, 0, 0, 0),
 		metric_rsi(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input);}},
-				0, 0, 0, 0),
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 2);}},
+				36, -23, 0, 0),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 1000);}},
-				29, -23, 0, 0),
+				33, -20, 0, 0),
 		metric_storsi(null,0,0,0,0),
 		;
 		

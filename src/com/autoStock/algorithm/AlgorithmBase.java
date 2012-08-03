@@ -3,6 +3,7 @@
  */
 package com.autoStock.algorithm;
 
+import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -16,12 +17,14 @@ public class AlgorithmBase {
 	public AlgorithmListener algorithmListener;
 	public Exchange exchange;
 	public Symbol symbol;
+	public AlgorithmMode algorithmMode;
 	public boolean isActive = true;
 	
-	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol){
+	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode){
 		this.canTrade = canTrade;
 		this.exchange = exchange;
 		this.symbol = symbol;
+		this.algorithmMode = algorithmMode;
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){

@@ -17,7 +17,7 @@ import com.autoStock.types.QuoteSlice;
 public class PositionGenerator {
 	
 	private Account account;
-	private final int MAX_PURCHASE = 10000;
+	private final int positionMaximumPrice = 10000;
 	
 	public PositionGenerator(Account account){
 		this.account = account;
@@ -39,8 +39,11 @@ public class PositionGenerator {
 		double accountBalance = account.getBankBalance();
 		double units = 0;
 
-		if (accountBalance <= 0){Co.println("Insufficient account blanace for trade"); return 0;}				
-		units = Math.min(MAX_PURCHASE / price, account.getBankBalance() / price);
+		if (accountBalance <= 0){
+			Co.println("Insufficient account blanace for trade");
+			return 0;
+		}				
+		units = Math.min(positionMaximumPrice / price, account.getBankBalance() / price);
 		
 		return units;
 	}

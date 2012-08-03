@@ -4,6 +4,7 @@
 package com.autoStock.algorithm;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
@@ -16,7 +17,7 @@ import com.autoStock.types.Symbol;
  */
 public class AlgorithmForCiprian extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	public AlgorithmForCiprian(boolean canTrade, Exchange exchange) {
-		super(canTrade, exchange, null);
+		super(canTrade, exchange, null, AlgorithmMode.mode_backtest);
 	}
 
 	@Override

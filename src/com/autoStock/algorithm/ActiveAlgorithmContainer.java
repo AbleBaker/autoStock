@@ -1,6 +1,7 @@
 package com.autoStock.algorithm;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
@@ -27,7 +28,7 @@ public class ActiveAlgorithmContainer {
 	public ActiveAlgorithmContainer(boolean canTrade, Exchange exchange, Symbol symbol){
 		this.symbol = symbol;
 		this.exchange = exchange;
-		algorithm = new AlgorithmTest(canTrade, exchange, symbol);
+		algorithm = new AlgorithmTest(canTrade, exchange, symbol, AlgorithmMode.mode_engagement);
 	}
 	
 	public void activate(){

@@ -5,6 +5,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
@@ -17,7 +18,7 @@ import com.autoStock.signal.SignalDefinitions.SignalTrend;
 public class Signal {
 	public SignalSource signalSource;
 	public SignalTrend lastSignalType = SignalTrend.type_none;
-	public SignalTrend currentSignalType = SignalTrend.type_none;
+	public SignalTrend currentSignalTrend = SignalTrend.type_none;
 	public SignalPoint currentSignalPoint = SignalPoint.none;
 	private ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	
@@ -41,15 +42,15 @@ public class Signal {
 		return null;
 	}
 	
-	public SignalPoint getSignalPointMajority(boolean havePosition){
+	public SignalPoint getSignalPointMajority(boolean havePosition, PositionType positionType){
 		int occurences = 0;
 		SignalPoint signalPoint = SignalPoint.none;
 
-		for (SignalMetric signalMetric : listOfSignalMetric){signalMetric.getSignalPoint(havePosition).occurences++;}
+		for (SignalMetric signalMetric : listOfSignalMetric){signalMetric.getSignalPoint(havePosition, positionType).occurences++;}
 		
 		for (SignalMetric signalMetric : listOfSignalMetric){
-			if (signalMetric.getSignalPoint(havePosition).occurences > occurences){
-				signalPoint = signalMetric.getSignalPoint(havePosition);
+			if (signalMetric.getSignalPoint(havePosition, positionType).occurences > occurences && signalMetric.getSignalPoint(havePosition, positionType) != SignalPoint.none){
+				signalPoint = signalMetric.getSignalPoint(havePosition, positionType);
 			}
 		}
 		

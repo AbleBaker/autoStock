@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal;
 
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
 
@@ -20,7 +21,7 @@ public class SignalMetric {
 		this.signalMetricType = signalTypeMetric;
 	}
 	
-	public SignalPoint getSignalPoint(boolean havePosition){
+	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
 		if (!havePosition){
 			if (strength >= signalMetricType.pointToSignalLongEntry){
 				return SignalPoint.long_entry;
@@ -28,9 +29,9 @@ public class SignalMetric {
 				return SignalPoint.short_entry;
 			}
 		}else{
-			if (strength <= signalMetricType.pointToSignalLongExit){
+			if (strength <= signalMetricType.pointToSignalLongExit && (positionType == PositionType.position_long_entry || positionType == PositionType.position_long)){
 				return SignalPoint.long_exit;
-			}else if (strength >= signalMetricType.pointToSignalShortExit){
+			}else if (strength >= signalMetricType.pointToSignalShortExit && (positionType == PositionType.position_short_entry || positionType == PositionType.position_short)){
 				return SignalPoint.short_exit;
 			}
 		}

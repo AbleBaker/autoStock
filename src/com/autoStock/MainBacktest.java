@@ -23,6 +23,7 @@ import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.HistoricalDataList;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 
@@ -32,8 +33,7 @@ import com.autoStock.types.Symbol;
  */
 public class MainBacktest implements ListenerOfBacktestCompleted {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
-	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
-//	private ArrayList<DbStockHistoricalPrice> listOfResults; 
+	private BacktestType backtestType = BacktestType.backtest_default;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
@@ -79,14 +79,14 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 		
 		initBacktestContainers();
-		runNextBacktestOnContainers(listOfHistoricalDataList.get(currentBacktestDayIndex++));
+		runNextBacktestOnContainers(listOfHistoricalDataList.get(0));
 	}
 	
 	private void initBacktestContainers(){
 		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
 		
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
-			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol), exchange, this));
+			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol), exchange, this, backtestType));
 		}
 	}
 	
@@ -94,7 +94,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		
 		callbacks.set(listOfBacktestContainer.size());
 		
-		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%)");
+		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%): " + currentBacktestDayIndex);
 		
 		for (BacktestContainer backtestContainer : listOfBacktestContainer){
 			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbol);
@@ -147,13 +147,15 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	@Override
 	public void backtestCompleted(Symbol symbol) {	
 		synchronized (lock){
-			Co.println("--> Backtest completed... " + symbol.symbol + ", " + callbacks.get() + ", " + Thread.currentThread().getId());
+			Position position = PositionManager.instance.getPosition(symbol.symbol);
+			
+			Co.println("--> Backtest completed... " + symbol.symbol + ", " + callbacks.get());
 					
 			if (callbacks.decrementAndGet() == 0){
-				Co.println("--> All called back...\n\n");
+				Co.println("--> All called back...");
 				
 				PositionManager.instance.executeSellAll();
-				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions());
+				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + "\n\n");
 				
 				if (runNextBacktest() == false && backtestType == BacktestType.backtest_default){
 					Co.println("Algorithm has ended: Fees: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", Trans: " + Account.instance.getTransactions() + ", Balance: " + MathTools.round(Account.instance.getBankBalance()));

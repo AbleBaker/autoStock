@@ -1,5 +1,6 @@
 package com.autoStock.position;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
@@ -25,28 +26,28 @@ public class PositionGovernor {
 			PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 			Position position = positionManager.getPosition(quoteSlice.symbol);
 			
-			signal.currentSignalType = SignalDefinitions.getSignalType(signal);
+			signal.currentSignalTrend = SignalDefinitions.getSignalType(signal);
 			positionManager.updatePositionPrice(quoteSlice, position);
 			
 			if (position == null){ //No position
 				if (!AlgorithmCondition.canTradeOnDate(quoteSlice, exchange)){return positionGovernorResponse;}
 				
-				if (signal.getSignalPointMajority(false) == SignalPoint.long_entry && canGoLong){
+				if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){
 					governLongEntry(quoteSlice, position, signal, positionGovernorResponse);
-				}else if (signal.getSignalPointMajority(false) == SignalPoint.short_entry && canGoShort){
+				}else if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.short_entry && canGoShort){
 					governShortEntry(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			} else { // Have position
-	//			Co.println("--> Signal point majority: " + signal.getSignalPointMajority(true));
+//				Co.println("--> Signal point majority: " + signal.getSignalPointMajority(true, position.positionType));
 	
 				if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
-					if (signal.getSignalPointMajority(true) == SignalPoint.long_exit) {
+					if (signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) {
 						governLongExit(quoteSlice, position, signal, positionGovernorResponse);
 					}
 				}
 	
 				else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
-					if (signal.getSignalPointMajority(true) == SignalPoint.short_exit) {
+					if (signal.getSignalPointMajority(true, position.positionType) == SignalPoint.short_exit) {
 						governShortExit(quoteSlice, position, signal, positionGovernorResponse);
 					}
 				}
