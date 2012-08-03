@@ -43,7 +43,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	}
 	
 	private void engagementWarn(ExchangeState exchangeState){
-		Co.println("--> Received warning: " + exchangeState.timeUntilFuture.minutes + ":" + exchangeState.timeUntilFuture.seconds);
+		Co.println("--> Received warning: " + exchangeState.timeUntilFuture.hours + ":" + exchangeState.timeUntilFuture.minutes + ":" + exchangeState.timeUntilFuture.seconds);
 		algorithmManager.warnAll(exchangeState);
 	}
 	
