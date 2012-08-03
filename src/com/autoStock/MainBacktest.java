@@ -33,7 +33,7 @@ import com.autoStock.types.Symbol;
  */
 public class MainBacktest implements ListenerOfBacktestCompleted {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
-	private BacktestType backtestType = BacktestType.backtest_default;
+	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
@@ -138,8 +138,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			
 			return false;
 		}else{
-			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex++);
+			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex);
 			runNextBacktestOnContainers(historicalDataList);
+			currentBacktestDayIndex++;
 			return true;
 		}
 	}

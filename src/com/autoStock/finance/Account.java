@@ -17,7 +17,9 @@ public class Account {
 	public static Account instance = new Account();
 	
 	public double getBankBalance(){
-		return this.bankBalance;
+		synchronized (this) {
+			return this.bankBalance;	
+		}
 	}
 	
 	public double getTransactionFeesPaid(){
@@ -28,15 +30,17 @@ public class Account {
 		return this.transactions;
 	}
 	
-	public void changeBankBalance(double amount){
+	private void changeBankBalance(double amount){
 		this.bankBalance += amount;
 	}
 	
 	public void changeBankBalance(double positionCost, double transactionCost){
-		bankBalance += positionCost;
-		bankBalance -= transactionCost;
-		transactionFeesPaid += transactionCost;
-		transactions++;
+		synchronized (this) {
+			bankBalance += positionCost;
+			bankBalance -= transactionCost;
+			transactionFeesPaid += transactionCost;
+			transactions++;
+		}
 	}
 	
 	public double getTransactionCost(int units, double price){
@@ -51,8 +55,10 @@ public class Account {
 	}
 	
 	public void resetAccount(){
-		bankBalance = bankBalanceDefault;
-		transactionFeesPaid = transactionFeesDefault;
-		transactions = 0;
+		synchronized(this){
+			bankBalance = bankBalanceDefault;
+			transactionFeesPaid = transactionFeesDefault;
+			transactions = 0;
+		}
 	}
 }
