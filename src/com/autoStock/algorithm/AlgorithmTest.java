@@ -121,7 +121,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signal.reset();
 //			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
 //			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfTRIX.getSignal(), signalOfCCI.getSignal());
-			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfRSI.getSignal()); //, signalOfRSI.getSignal()
+			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfTRIX.getSignal()); //, signalOfRSI.getSignal()
 			
 			if (algorithmMode.displayChart){
 				chart.listOfDate.add(quoteSlice.dateTime);

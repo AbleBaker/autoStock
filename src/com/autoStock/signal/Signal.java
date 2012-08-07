@@ -5,6 +5,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
@@ -49,8 +50,9 @@ public class Signal {
 		for (SignalMetric signalMetric : listOfSignalMetric){signalMetric.getSignalPoint(havePosition, positionType).occurences++;}
 		
 		for (SignalMetric signalMetric : listOfSignalMetric){
-			if (signalMetric.getSignalPoint(havePosition, positionType).occurences > occurences && signalMetric.getSignalPoint(havePosition, positionType) != SignalPoint.none){
+			if (signalMetric.getSignalPoint(havePosition, positionType) != SignalPoint.none){ //signalMetric.getSignalPoint(havePosition, positionType).occurences > occurences &&
 				signalPoint = signalMetric.getSignalPoint(havePosition, positionType);
+				Co.println("--> Have signal at: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", " + signalPoint.name());
 			}
 		}
 		
