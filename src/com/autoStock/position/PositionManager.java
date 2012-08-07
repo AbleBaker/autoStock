@@ -53,9 +53,7 @@ public class PositionManager {
 		account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
 		listOfPosition.add(typePosition);
 		PositionCallback.setPositionSuccess(typePosition);
-		
-		//Co.println("\n-------> Long position entry (symbol, units, price, total, cost): " + typePosition.symbol + ", " + typePosition.units + ", " + typePosition.price + ", " + (typePosition.price * typePosition.units) + ", " + account.getTransactionCost(typePosition.units, typePosition.price));
-		//Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+
 		return typePosition;
 	}
 	

@@ -34,4 +34,8 @@ public class AlgorithmBase {
 	public ReceiverOfQuoteSlice getReceiver(){
 		return (ReceiverOfQuoteSlice) this;
 	}
+	
+	public void exitPosition(){
+		
+	}
 }
