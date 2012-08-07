@@ -56,6 +56,7 @@ public class Signal {
 			}
 		}
 		
+		currentSignalPoint = signalPoint;
 		return signalPoint;
 	}
 	

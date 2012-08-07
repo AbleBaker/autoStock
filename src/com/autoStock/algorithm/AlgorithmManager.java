@@ -30,9 +30,9 @@ public class AlgorithmManager {
 		threadForDisplay = new Thread(new Runnable(){
 			@Override
 			public void run() {
-				try{Thread.sleep(1000 * 5);}catch(InterruptedException e){return;}
+				try{Thread.sleep(1000 * 5);}catch(InterruptedException e){}
 				while (true){
-					try{Thread.sleep(1000 * Resolution.min.seconds);}catch(InterruptedException e){return;}
+					try{Thread.sleep(1000 * Resolution.min.seconds);}catch(InterruptedException e){throw new IllegalStateException();}
 					displayAlgorithmTable();
 				}
 			}
@@ -87,7 +87,9 @@ public class AlgorithmManager {
 	public void displayAlgorithmTable(){
 		ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 		
-		for (ActiveAlgorithmContainer container : listOfActiveAlgorithmContainer){
+		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
+			ActiveAlgorithmContainer container = iterator.next();
+			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			Position position = PositionManager.instance.getPosition(container.symbol.symbol);
 			

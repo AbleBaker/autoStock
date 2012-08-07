@@ -8,21 +8,21 @@ package com.autoStock.signal;
  *
  */
 public class SignalDefinitions {
-	public static enum SignalSource{
+	public enum SignalSource{
 		from_analysis,
 		from_market_trend,
 		from_news,
 		from_manual,
 	}
 	
-	public static enum SignalTrend {
+	public enum SignalTrend {
 		type_trend_up,
 		type_trend_down,
 		type_trend_flat,
 		type_none,
 	}
 	
-	public static enum SignalPoint {
+	public enum SignalPoint {
 		long_entry,
 		long_exit,
 		short_entry,
@@ -74,7 +74,7 @@ public class SignalDefinitions {
 		} 
 	}
 	
-	public static SignalTrend getSignalType(Signal signal){
+	public static synchronized SignalTrend getSignalType(Signal signal){
 		if (signal.getCombinedSignal().strength > signal.getCombinedSignal().longEntry){
 			return SignalTrend.type_trend_up;
 		}else if (signal.getCombinedSignal().strength < signal.getCombinedSignal().shortEntry){

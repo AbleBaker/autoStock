@@ -23,7 +23,7 @@ public class PositionManager {
 	private ArrayList<Position> listOfPosition = new ArrayList<Position>();
 	private Lock lock = new Lock();
 	
-	public Position suggestPosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
+	public synchronized Position suggestPosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
 		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry){
 				return executeLongEntry(quoteSlice, signal, positionType);
@@ -85,9 +85,11 @@ public class PositionManager {
 		return position;
 	}		
 	
-	public void updatePositionPrice(QuoteSlice quoteSlice, Position typePosition){
-		if (typePosition != null){
-			typePosition.lastKnownPrice = quoteSlice.priceClose;
+	public synchronized void updatePositionPrice(QuoteSlice quoteSlice, Position typePosition){
+		synchronized (lock) {
+			if (typePosition != null){
+				typePosition.lastKnownPrice = quoteSlice.priceClose;
+			}
 		}
 	}
 	
@@ -110,7 +112,7 @@ public class PositionManager {
 		}
 	}
 	
-	public Position getPosition(String symbol){
+	public synchronized Position getPosition(String symbol){
 		synchronized(lock){
 			for (Position typePosition : listOfPosition){
 				if (typePosition.symbol.equals(symbol)){

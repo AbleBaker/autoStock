@@ -3,6 +3,7 @@ package com.autoStock.algorithm.external;
 import java.util.Date;
 
 import com.autoStock.tools.DateTools;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 
@@ -21,5 +22,14 @@ public class AlgorithmCondition {
 		}
 		
 		return true;
+	}
+	
+	public static boolean shouldRequestExit(QuoteSlice quoteSlice, Exchange exchange, Position position){
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeClose), AlgorithmConditionDefintions.maxPositionExitTime);		
+		if (quoteSlice.dateTime.getHours() > dateForLastExecution.getHours() || (
+			quoteSlice.dateTime.getHours() >= dateForLastExecution.getHours() && quoteSlice.dateTime.getMinutes() >= dateForLastExecution.getMinutes())){
+			return true;
+		}
+		return false;
 	}
 }

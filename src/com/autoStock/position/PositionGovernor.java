@@ -19,42 +19,41 @@ public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.instance;
 	private static boolean canGoLong = true;
 	private static boolean canGoShort = false;
-	private Lock lock = new Lock();
 	
-	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
-		synchronized (lock) {
-			PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
-			Position position = positionManager.getPosition(quoteSlice.symbol);
+	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
+		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
+		Position position = positionManager.getPosition(quoteSlice.symbol);
+		
+		signal.currentSignalTrend = SignalDefinitions.getSignalType(signal);
+		positionManager.updatePositionPrice(quoteSlice, position);
+		
+		if (position == null){ //No position
+			if (!AlgorithmCondition.canTradeOnDate(quoteSlice, exchange)){
+				return positionGovernorResponse;
+			}
 			
-			signal.currentSignalTrend = SignalDefinitions.getSignalType(signal);
-			positionManager.updatePositionPrice(quoteSlice, position);
-			
-			if (position == null){ //No position
-				if (!AlgorithmCondition.canTradeOnDate(quoteSlice, exchange)){return positionGovernorResponse;}
-				
-				if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){
-					governLongEntry(quoteSlice, position, signal, positionGovernorResponse);
-				}else if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.short_entry && canGoShort){
-					governShortEntry(quoteSlice, position, signal, positionGovernorResponse);
-				}
-			} else { // Have position
-//				Co.println("--> Signal point majority: " + signal.getSignalPointMajority(true, position.positionType));
-	
-				if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
-					if (signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) {
-						governLongExit(quoteSlice, position, signal, positionGovernorResponse);
-					}
-				}
-	
-				else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
-					if (signal.getSignalPointMajority(true, position.positionType) == SignalPoint.short_exit) {
-						governShortExit(quoteSlice, position, signal, positionGovernorResponse);
-					}
+			if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){
+				governLongEntry(quoteSlice, position, signal, positionGovernorResponse);
+			}else if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.short_entry && canGoShort){
+				governShortEntry(quoteSlice, position, signal, positionGovernorResponse);
+			}
+		} else { // Have position
+			boolean algorithmConditionExit = AlgorithmCondition.shouldRequestExit(quoteSlice, exchange, position);
+
+			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
+				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {
+					governLongExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			}
-	
-			return positionGovernorResponse;
+
+			else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
+				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.short_exit) || algorithmConditionExit) {
+					governShortExit(quoteSlice, position, signal, positionGovernorResponse);
+				}
+			}
 		}
+
+		return positionGovernorResponse;
 	}
 	
 	private void governLongEntry(QuoteSlice quoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){

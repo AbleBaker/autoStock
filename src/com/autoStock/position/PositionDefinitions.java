@@ -8,7 +8,7 @@ package com.autoStock.position;
  *
  */
 public class PositionDefinitions {
-	public static enum PositionType {
+	public enum PositionType {
 		position_long_entry,
 		position_short_entry,
 		position_long,

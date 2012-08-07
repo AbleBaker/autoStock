@@ -141,7 +141,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	}
 	
 	@Override
-	public void backtestCompleted(Symbol symbol) {	
+	public synchronized void backtestCompleted(Symbol symbol) {	
 		synchronized (lock){
 			Position position = PositionManager.instance.getPosition(symbol.symbol);
 			

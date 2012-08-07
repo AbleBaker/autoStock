@@ -2,6 +2,8 @@ package com.autoStock.algorithm;
 
 import java.util.ArrayList;
 
+import javax.sound.midi.Receiver;
+
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
@@ -177,7 +179,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			if (algorithmMode.displayTable){
 				if (positionGovenorResponse.changedPosition){
-					columnValues.add(signal.currentSignalTrend.name() + ", " + positionGovenorResponse.typePosition.positionType.name());
+					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.typePosition.positionType.name());
 					columnValues.add(positionGovenorResponse.typePosition.units + ", " + positionGovenorResponse.typePosition.lastKnownPrice + ", " + (positionGovenorResponse.typePosition.units * positionGovenorResponse.typePosition.lastKnownPrice));
 					columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 				}else{
