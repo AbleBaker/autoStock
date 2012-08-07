@@ -9,12 +9,12 @@ package com.autoStock.finance;
  *
  */
 public class Account {
+	public static Account instance = new Account();
 	private final double bankBalanceDefault = 100000.00;
 	private double bankBalance = bankBalanceDefault;
 	private final double transactionFeesDefault = 0;
 	private double transactionFeesPaid = 0;
 	private int transactions = 0;
-	public static Account instance = new Account();
 	
 	public double getBankBalance(){
 		synchronized (this) {
