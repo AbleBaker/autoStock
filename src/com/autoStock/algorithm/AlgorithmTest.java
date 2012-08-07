@@ -61,7 +61,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public Signal signal = new Signal(SignalSource.from_analysis);
-	private PositionGovernor positionGovener = new PositionGovernor();
+	private PositionGovernor positionGovener = PositionGovernor.instance;
 	private ChartForAlgorithmTest chart;
 	
 	public QuoteSlice firstQuoteSlice;

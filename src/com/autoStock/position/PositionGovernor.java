@@ -16,6 +16,7 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class PositionGovernor {
+	public static PositionGovernor instance = new PositionGovernor();
 	private PositionManager positionManager = PositionManager.instance;
 	private static boolean canGoLong = true;
 	private static boolean canGoShort = false;
@@ -56,16 +57,16 @@ public class PositionGovernor {
 		return positionGovernorResponse;
 	}
 	
-	private void governLongEntry(QuoteSlice quoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
-		if (typePosition != null && (typePosition.positionType == PositionType.position_long || typePosition.positionType == PositionType.position_long_entry)){
+	private void governLongEntry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
+		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry)){
 			return;
 		}
 		positionGovernorResponse.typePosition = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_long_entry);
 		positionGovernorResponse.changedPosition = true;
 	}
 	
-	private void governShortEntry(QuoteSlice quoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
-		if (typePosition != null && (typePosition.positionType == PositionType.position_short || typePosition.positionType == PositionType.position_short_entry)){
+	private void governShortEntry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
+		if (position != null && (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry)){
 			return;
 		}
 		positionGovernorResponse.typePosition = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_short_entry);
@@ -80,8 +81,8 @@ public class PositionGovernor {
 		positionGovernorResponse.changedPosition = true;
 	}
 	
-	private void governShortExit(QuoteSlice quoteSlice, Position typePosition, Signal signal, PositionGovernorResponse positionGovernorResponse){
-		if (typePosition != null && (typePosition.positionType == PositionType.position_short_exit)){
+	private void governShortExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
+		if (position != null && (position.positionType == PositionType.position_short_exit)){
 			return;
 		}
 		positionGovernorResponse.typePosition = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_short_exit);

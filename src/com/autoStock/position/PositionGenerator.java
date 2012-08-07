@@ -24,15 +24,15 @@ public class PositionGenerator {
 	}
 	
 	public Position generatePosition(QuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
-		Position typePosition = new Position();
-		typePosition.symbol = typeQuoteSlice.symbol;
-		typePosition.price = typeQuoteSlice.priceClose;
-		typePosition.lastKnownPrice = typeQuoteSlice.priceClose;
-		typePosition.securityType = "STK";
-		typePosition.units = (int) getPositionUnits(typePosition.price, signal);
-		typePosition.positionType = positionType;
+		Position position = new Position();
+		position.symbol = typeQuoteSlice.symbol;
+		position.price = typeQuoteSlice.priceClose;
+		position.lastKnownPrice = typeQuoteSlice.priceClose;
+		position.securityType = "STK";
+		position.units = (int) getPositionUnits(position.price, signal);
+		position.positionType = positionType;
 		
-		return typePosition;
+		return position;
 	}
 	
 	private double getPositionUnits(double price, Signal signal){

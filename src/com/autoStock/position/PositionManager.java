@@ -32,15 +32,15 @@ public class PositionManager {
 				return executeShortEntry(quoteSlice, signal, positionType);
 			}
 			else if (positionType == PositionType.position_long_exit){
-				Position typePosition = executeLongExit(getPosition(quoteSlice.symbol)).clone();
+				Position position = executeLongExit(getPosition(quoteSlice.symbol)).clone();
 				listOfPosition.remove(getPosition(quoteSlice.symbol));
-				return typePosition;
+				return position;
 				
 			}
 			else if (positionType == PositionType.position_short_exit){
-				Position typePosition = executeShortExit(getPosition(quoteSlice.symbol), positionType).clone();
+				Position position = executeShortExit(getPosition(quoteSlice.symbol), positionType).clone();
 				listOfPosition.remove(getPosition(quoteSlice.symbol));
-				return typePosition;
+				return position;
 			}
 			else {
 				throw new UnsupportedOperationException();
@@ -49,21 +49,21 @@ public class PositionManager {
 	}
 	
 	private Position executeLongEntry(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
-		Position typePosition = positionGenerator.generatePosition(quoteSlice, signal, positionType);
-		account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
-		listOfPosition.add(typePosition);
-		PositionCallback.setPositionSuccess(typePosition);
+		Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType);
+		account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+		listOfPosition.add(position);
+		PositionCallback.setPositionSuccess(position);
 
-		return typePosition;
+		return position;
 	}
 	
 	private Position executeShortEntry(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
-		Position typePosition = positionGenerator.generatePosition(quoteSlice, signal, positionType);
-		account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
-		listOfPosition.add(typePosition);
-		PositionCallback.setPositionSuccess(typePosition);
+		Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType);
+		account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+		listOfPosition.add(position);
+		PositionCallback.setPositionSuccess(position);
 		
-		return typePosition;
+		return position;
 	}
 	
 	private Position executeLongExit(Position position){

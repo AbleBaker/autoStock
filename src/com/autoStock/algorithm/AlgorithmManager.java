@@ -93,11 +93,18 @@ public class AlgorithmManager {
 			ArrayList<String> columnValues = new ArrayList<String>();
 			Position position = PositionManager.instance.getPosition(container.symbol.symbol);
 			
-			double percentGain = 0;
+			double percentGainFromAlgorithm = 0;
+			double percentGainFromPosition = 0;
 			
 			if (container.algorithm.firstQuoteSlice != null && container.algorithm.currentQuoteSlice != null){
 				if (container.algorithm.firstQuoteSlice.priceClose != 0 && container.algorithm.currentQuoteSlice.priceClose != 0){
-					percentGain = (container.algorithm.currentQuoteSlice.priceClose / container.algorithm.firstQuoteSlice.priceClose) -1d;
+					percentGainFromAlgorithm = (container.algorithm.currentQuoteSlice.priceClose / container.algorithm.firstQuoteSlice.priceClose) -1d;
+				}
+			}
+			
+			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
+				if (position.price != 0 && position.lastKnownPrice != 0){
+					percentGainFromPosition = (position.lastKnownPrice / position.price);
 				}
 			}
 			
@@ -107,7 +114,8 @@ public class AlgorithmManager {
 			columnValues.add(position == null ? "-" : position.positionType.name());
 			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.firstQuoteSlice.priceClose)));
 			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.currentQuoteSlice.priceClose)));
-			columnValues.add(String.valueOf(percentGain));
+			columnValues.add(String.valueOf(percentGainFromAlgorithm));
+			columnValues.add(String.valueOf(percentGainFromPosition));
 			
 			listOfDisplayRows.add(columnValues);
 		}
