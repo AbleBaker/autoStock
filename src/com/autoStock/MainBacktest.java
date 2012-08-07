@@ -16,6 +16,10 @@ import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalSource;
+import com.autoStock.signal.SignalMetric;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.Lock;
@@ -33,7 +37,7 @@ import com.autoStock.types.Symbol;
  */
 public class MainBacktest implements ListenerOfBacktestCompleted {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
-	private BacktestType backtestType = BacktestType.backtest_default;
+	private BacktestType backtestType = BacktestType.backtest_with_adjustment;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
@@ -153,14 +157,16 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				PositionManager.instance.executeSellAll();
 				
 				if (Account.instance.getBankBalance() > metricBestAccountBalance){
-					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
+					Signal signal = new Signal(SignalSource.from_manual);
+					signal.addSignalMetrics(new SignalMetric(0, SignalMetricType.metric_rsi));
+					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(signal));
 					metricBestAccountBalance = Account.instance.getBankBalance();
 				}
 	
-				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + "\n\n");
+				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + MathTools.round(Account.instance.getTransactionFeesPaid()) + "\n\n");
 				
-				if (runNextBacktest() == false && backtestType == BacktestType.backtest_default){
-					Co.println("Algorithm has ended: Fees: " + MathTools.round(Account.instance.getTransactionFeesPaid()) + ", Trans: " + Account.instance.getTransactions() + ", Balance: " + MathTools.round(Account.instance.getBankBalance()));
+				if (runNextBacktest() == false){
+					Co.println("--> Finished backtest");
 				}
 			}
 		}

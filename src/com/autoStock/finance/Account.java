@@ -34,7 +34,7 @@ public class Account {
 		this.bankBalance += amount;
 	}
 	
-	public void changeBankBalance(double positionCost, double transactionCost){
+	public synchronized void changeBankBalance(double positionCost, double transactionCost){
 		synchronized (this) {
 			bankBalance += positionCost;
 			bankBalance -= transactionCost;
@@ -43,7 +43,7 @@ public class Account {
 		}
 	}
 	
-	public double getTransactionCost(int units, double price){
+	public synchronized double getTransactionCost(int units, double price){
 		double cost = 0;
 		if (units <= 500){
 			cost = Math.max(1.30, units * 0.013);	
@@ -54,7 +54,7 @@ public class Account {
 		return Math.min(cost, units * price * 0.005);
 	}
 	
-	public void resetAccount(){
+	public synchronized void resetAccount(){
 		synchronized(this){
 			bankBalance = bankBalanceDefault;
 			transactionFeesPaid = transactionFeesDefault;
