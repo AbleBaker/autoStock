@@ -59,9 +59,8 @@ public class PositionManager {
 	
 	private Position executeShortEntry(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
 		Position typePosition = positionGenerator.generatePosition(quoteSlice, signal, positionType);
-		listOfPosition.add(typePosition);
-		
 		account.changeBankBalance(-1 * (typePosition.units * typePosition.price), account.getTransactionCost(typePosition.units, typePosition.price));
+		listOfPosition.add(typePosition);
 		PositionCallback.setPositionSuccess(typePosition);
 		
 		return typePosition;
