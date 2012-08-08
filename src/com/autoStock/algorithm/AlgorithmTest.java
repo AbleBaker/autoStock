@@ -147,20 +147,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			ArrayList<String> columnValues = new ArrayList<String>();
 			
-//			columnValues.add(DateTools.getPrettyDate(typeQuoteSlice.dateTime));
-//			columnValues.add(String.valueOf(typeQuoteSlice.priceClose));
-//			columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.roundToTwoDecimalPlaces(typeQuoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
-//			columnValues.add(String.valueOf(signalOfMACD.getValue()));
-//			columnValues.add(String.valueOf(signalOfMACD.getSignal().strength + "," + signalOfMACD.getSignal().signalTypeMetric.name()));
-//			columnValues.add(String.valueOf(signalOfPPC.getValue()));
-//			columnValues.add(String.valueOf((analysisOfDIResultPlus - analysisOfDIResultMinus)));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfCCIResult)));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultUpper)));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfBBResultLower)));
-//			columnValues.add(String.valueOf(analysisOfMACDResult));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultK)));
-//			columnValues.add(String.valueOf(MathTools.roundToTwoDecimalPlaces(analysisOfSTORSIResultD)));
-			
 			if (algorithmMode.displayTable){
 				columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
 				columnValues.add(String.valueOf(quoteSlice.priceClose));
@@ -174,9 +160,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				columnValues.add(String.valueOf(signal.getCombinedSignal().strength));
 			}
 			
-			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange);
-			
 			if (algorithmMode.displayTable){
+				
+				PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange);
+				
 				if (positionGovenorResponse.changedPosition){
 					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.position.positionType.name());
 					columnValues.add(positionGovenorResponse.position.units + ", " + positionGovenorResponse.position.lastKnownPrice + ", " + (positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
@@ -196,7 +183,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	@Override
 	public void endOfFeed(Symbol symbol) {
 		if (algorithmMode.displayChart){chart.display();}
-//		new TableController().displayTable(AsciiTables.analysis_test, listOfDisplayRows);
 		if (algorithmMode.displayTable){new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);}
 		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
 	}
