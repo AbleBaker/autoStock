@@ -113,9 +113,9 @@ public class PositionManager {
 	
 	public synchronized Position getPosition(String symbol){
 		synchronized(lock){
-			for (Position typePosition : listOfPosition){
-				if (typePosition.symbol.equals(symbol)){
-					return typePosition;
+			for (Position position : listOfPosition){
+				if (position.symbol.equals(symbol)){
+					return position;
 				}
 			}
 		}

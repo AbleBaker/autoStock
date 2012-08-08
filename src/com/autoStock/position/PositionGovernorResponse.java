@@ -11,10 +11,10 @@ import com.autoStock.trading.types.Position;
  */
 public class PositionGovernorResponse {
 	public boolean changedPosition = false;
-	public Position typePosition = new Position();
+	public Position position = new Position();
 	
-	public void setResponse(boolean changedPosition, Position typePosition){
+	public void setResponse(boolean changedPosition, Position position){
 		this.changedPosition = changedPosition;
-		this.typePosition =  typePosition;
+		this.position =  position;
 	}
 }
