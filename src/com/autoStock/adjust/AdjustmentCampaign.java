@@ -11,8 +11,11 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class AdjustmentCampaign {
 	private static AdjustmentCampaign instance = new AdjustmentCampaign();
-	private int adjustmentRun = 0;
 	private Permutation permutation = new Permutation();
+	
+	public static AdjustmentCampaign getInstance(){
+		return instance;
+	}
 	
 	public AdjustmentCampaign(){
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_ppc_long_entry, SignalMetricType.metric_ppc));
@@ -27,10 +30,8 @@ public class AdjustmentCampaign {
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_trix_long_entry, SignalMetricType.metric_trix));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_trix_long_exit, SignalMetricType.metric_trix));
 //		
-		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_rsi_long_entry, SignalMetricType.metric_rsi));
-		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_rsi_long_exit, SignalMetricType.metric_rsi));
-		
-
+		permutation.addIteration(new Permutation(). new Iteration(AdjustmentDefinitions.algo_signal_metric_rsi_long_entry, SignalMetricType.metric_rsi));
+		permutation.addIteration(new Permutation(). new Iteration(AdjustmentDefinitions.algo_signal_metric_rsi_long_exit, SignalMetricType.metric_rsi));
 		
 		//
 //		permutation.addIteration(new Iteration(
@@ -104,10 +105,6 @@ public class AdjustmentCampaign {
 //				AdjustmentDefinitions.algo_signal_weight_trix));
 	
 		permutation.prepare();
-	}
-	
-	public static AdjustmentCampaign getInstance(){
-		return instance;
 	}
 	
 	public enum AdjustmentDefinitions {
@@ -185,7 +182,7 @@ public class AdjustmentCampaign {
 		
 		public int startValue;
 		public int endValue;
-		public int currentValue;
+		public volatile int currentValue;
 		
 		private AdjustmentDefinitions(int start, int end) {
 			this.startValue = start;
@@ -194,7 +191,7 @@ public class AdjustmentCampaign {
 		}
 	}
 
-	public boolean runAdjustment(){
+	public synchronized boolean runAdjustment(){
 		boolean ranPermutation = permutation.iterate();
 		
 		setAdjustmentValues();
@@ -320,11 +317,11 @@ public class AdjustmentCampaign {
 		Co.println("\n");
 	}
 	
-	public int getAdjustmentValueOfInt(AdjustmentDefinitions adjustment){
+	public synchronized int getAdjustmentValueOfInt(AdjustmentDefinitions adjustment){
 		return adjustment.currentValue;
 	}
 	
-	public double getPercentComplete(){
+	public synchronized double getPercentComplete(){
 		return permutation.getPercentComplete();
 	}
 }

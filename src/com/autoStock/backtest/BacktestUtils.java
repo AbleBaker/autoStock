@@ -13,24 +13,6 @@ import com.autoStock.signal.SignalMetric;
  * 
  */
 public class BacktestUtils {
-//
-//	public static String getCurrentBacktestValueGroup(CombinedSignal combinedSignal) {
-//		return "--------> Best backtest results: \n" + 
-//			"Long entry: " + combinedSignal.longEntry + "\n" + 
-//			"Long exit: " + combinedSignal.longExit + "\n" + 
-//			"Short entry: " + combinedSignal.shortEntry + "\n" +
-//			"Short exit: " + combinedSignal.shortExit + "\n" +
-//			"Period Length: " + SignalControl.periodLength + "\n" + 
-//			"Period Average PPC: " + SignalControl.periodAverageForPPC + "\n" + 
-//			"Period Average DI: " + SignalControl.periodAverageForDI + "\n" + 
-//			"Period Average CCI: " + SignalControl.periodAverageForCCI + "\n" + 
-//			"Period Average MACD: " + SignalControl.periodAverageForMACD + "\n" + 
-//			"Period Average TRIX: " + SignalControl.periodAverageForTRIX + "\n" +
-//			"Total transactions: " + Account.instance.getTransactions() + "\n" + 
-//			"Bank account balance: " + Account.instance.getBankBalance() + "\n";
-//	}
-//	
-	
 	public static String getCurrentBacktestValueGroup(Signal signal){
 		String string = "******** ........ Backtest results ........ ********\n";
 		

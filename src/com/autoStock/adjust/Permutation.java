@@ -11,13 +11,13 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  *
  */
 public class Permutation {
-	private ArrayList<Iteration> listOfIteration = new ArrayList<Iteration>();
-	private boolean prepared;
-	private PermutationCore permutationCore;
+	private volatile ArrayList<Iteration> listOfIteration = new ArrayList<Iteration>();
+	private volatile boolean prepared;
+	private volatile PermutationCore permutationCore;
 	private int min = Integer.MAX_VALUE;
 	private int max = Integer.MIN_VALUE;
-	private int count = 0;
-	private String[][] arrayOfStringResults;
+	private volatile int count = 0;
+	private volatile String[][] arrayOfStringResults;
 	
 	public void addIteration(Iteration iteration){
 		if (prepared){throw new IllegalStateException("Permuation is already prepared. Create a new instance to add new items");}
@@ -42,13 +42,11 @@ public class Permutation {
 		
 		prepared = true;
 		
-//		Co.println("Min/max: " + min + "," + max);
-		
 		arrayOfStringResults = permutationCore.getVariations();
 
 	}
 
-	public boolean iterate(){
+	public synchronized boolean iterate(){
 		LABEL : {
 			int i = 0;
 			
@@ -75,7 +73,7 @@ public class Permutation {
 		return true;
 	}
 	
-	public Iteration getIteration(Object request) {
+	public synchronized Iteration getIteration(Object request) {
 		for (Iteration iteration : listOfIteration){
 			if (iteration.adjustment == request){
 				return iteration;
@@ -89,10 +87,10 @@ public class Permutation {
 		return listOfIteration;
 	}
 	
-	public static class Iteration{
+	public class Iteration{
 		private int start;
 		private int end;
-		private int current;
+		private volatile int current;
 		private AdjustmentDefinitions adjustment;
 		public SignalMetricType signalTypeMetric;
 		
@@ -109,7 +107,7 @@ public class Permutation {
 			this.signalTypeMetric = signalTypeMetric;
 		}
 		
-		public double getCurrentValue(){
+		public synchronized double getCurrentValue(){
 			return this.current;
 		}
 		

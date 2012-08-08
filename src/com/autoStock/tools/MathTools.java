@@ -9,8 +9,8 @@ package com.autoStock.tools;
  *
  */
 public class MathTools {
-	public static String round(double value){
-		return String.valueOf(Math.round(value*100.0)/100.0);
+	public static double round(double value){
+		return Math.round(value*100.0)/100.0;
 	}
 	
 	public static double getAverage(double[] arrayOfDouble){

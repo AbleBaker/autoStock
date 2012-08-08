@@ -3,6 +3,8 @@
  */
 package com.autoStock.finance;
 
+import com.autoStock.tools.MathTools;
+
 
 /**
  * @author Kevin Kowalewski
@@ -11,14 +13,14 @@ package com.autoStock.finance;
 public class Account {
 	public static Account instance = new Account();
 	private final double bankBalanceDefault = 100000.00;
-	private double bankBalance = bankBalanceDefault;
 	private final double transactionFeesDefault = 0;
-	private double transactionFeesPaid = 0;
-	private int transactions = 0;
+	private volatile double bankBalance = bankBalanceDefault;
+	private volatile double transactionFeesPaid = 0;
+	private volatile int transactions = 0;
 	
-	public double getBankBalance(){
+	public synchronized double getBankBalance(){
 		synchronized (this) {
-			return this.bankBalance;	
+			return MathTools.round(bankBalance);
 		}
 	}
 	
@@ -31,7 +33,7 @@ public class Account {
 	}
 	
 	private void changeBankBalance(double amount){
-		this.bankBalance += amount;
+		bankBalance += amount;
 	}
 	
 	public synchronized void changeBankBalance(double positionCost, double transactionCost){

@@ -56,10 +56,10 @@ public class SignalDefinitions {
 		;
 		
 		CalculateInterface calculateInterface;
-		public int pointToSignalLongEntry = 0;
-		public int pointToSignalLongExit = 0;
-		public int pointToSignalShortEntry = 0;
-		public int pointToSignalShortExit = 0;
+		public volatile int pointToSignalLongEntry = 0;
+		public volatile int pointToSignalLongExit = 0;
+		public volatile int pointToSignalShortEntry = 0;
+		public volatile int pointToSignalShortExit = 0;
 		
 		private SignalMetricType(CalculateInterface calculateInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
 			this.calculateInterface = calculateInterface;
@@ -69,7 +69,7 @@ public class SignalDefinitions {
 			this.pointToSignalShortExit = pointToSignalShortExit;
 		}
 
-		public int getSignalStrength(double input) {
+		public synchronized int getSignalStrength(double input) {
 			return this.calculateInterface.calculate(input);
 		} 
 	}

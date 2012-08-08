@@ -20,6 +20,14 @@ public class StringTools {
 		}
 	}
 	
+	public static String addPlusToPositiveNumbers(double number){
+		if (number > 0){
+			return "+" + number;
+		}else{
+			return String.valueOf(number);
+		}
+	}
+	
 	public static String addPlusToPositiveNumbers(float number){
 		if (number > 0){
 			return "+" + number;

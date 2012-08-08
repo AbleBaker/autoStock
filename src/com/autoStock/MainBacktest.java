@@ -16,6 +16,7 @@ import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
 import com.autoStock.position.PositionManager;
+import com.autoStock.queue.QueueOfSimple;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
@@ -42,12 +43,11 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
 	private int currentBacktestDayIndex = 0;
-	private double metricBestAccountBalance = 0;
+	private volatile double metricBestAccountBalance = 0;
 	private Benchmark bench = new Benchmark();
 	private Lock lock = new Lock();
-	private AtomicInteger callbacks = new AtomicInteger();
-	
-	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>(0);
+	private AtomicInteger callbacks = new AtomicInteger();	
+	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>();
 
 	@SuppressWarnings("deprecation")
 	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
@@ -94,20 +94,17 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 	}
 	
-	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList){
-		
-		callbacks.set(listOfBacktestContainer.size());
-		
+	private void runNextBacktestOnContainer(HistoricalDataList historicalDataList, int container){
 		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%): " + currentBacktestDayIndex);
 		
-		for (BacktestContainer backtestContainer : listOfBacktestContainer){
-			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbol);
-			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
+		BacktestContainer backtestContainer = listOfBacktestContainer.get(container);
+		
+		HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbol);
+		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
 
-			if (listOfResults.size() > 0){	
-				backtestContainer.setBacktestData(listOfResults, historicalData);
-				backtestContainer.runBacktest();
-			}
+		if (listOfResults.size() > 0){	
+			backtestContainer.setBacktestData(listOfResults, historicalData);
+			backtestContainer.runBacktest();
 		}
 	}
 	
@@ -138,36 +135,40 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			return false;
 		}else{
 			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex);
-			runNextBacktestOnContainers(historicalDataList);
-			currentBacktestDayIndex++;
+			callbacks.set(listOfBacktestContainer.size());
+			runNextBacktestOnContainer(historicalDataList, callbacks.get()-1);
 			return true;
 		}
+	}
+	
+	private void handleBacktestCompleted(){
+		Co.println("--> All called back... " + Thread.currentThread().getId());
+		
+		PositionManager.instance.executeSellAll();
+		
+		if (Account.instance.getBankBalance() > metricBestAccountBalance){
+			Signal signal = new Signal(SignalSource.from_manual);
+			signal.addSignalMetrics(new SignalMetric(0, SignalMetricType.metric_rsi));
+			
+			listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(signal));
+			metricBestAccountBalance = Account.instance.getBankBalance();
+		}
+
+		Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + "," + MathTools.round(Account.instance.getTransactionFeesPaid()) + "\n\n");
+		
+		currentBacktestDayIndex++;
+		
+		runNextBacktest();
 	}
 	
 	@Override
 	public synchronized void backtestCompleted(Symbol symbol) {	
 		synchronized (lock){
-			Position position = PositionManager.instance.getPosition(symbol.symbol);
-			
-			Co.println("--> Backtest completed... " + symbol.symbol + ", " + callbacks.get());
-					
+			Co.println("--> Backtest completed... " + symbol.symbol + ", " + callbacks.get() + ", " + currentBacktestDayIndex);
 			if (callbacks.decrementAndGet() == 0){
-				Co.println("--> All called back...");
-				
-				PositionManager.instance.executeSellAll();
-				
-				if (Account.instance.getBankBalance() > metricBestAccountBalance){
-					Signal signal = new Signal(SignalSource.from_manual);
-					signal.addSignalMetrics(new SignalMetric(0, SignalMetricType.metric_rsi));
-					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(signal));
-					metricBestAccountBalance = Account.instance.getBankBalance();
-				}
-	
-				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + MathTools.round(Account.instance.getTransactionFeesPaid()) + "\n\n");
-				
-				if (runNextBacktest() == false){
-					Co.println("--> Finished backtest");
-				}
+				handleBacktestCompleted();
+			}else {
+				runNextBacktestOnContainer(listOfHistoricalDataList.get(currentBacktestDayIndex), callbacks.get()-1);
 			}
 		}
 	}
