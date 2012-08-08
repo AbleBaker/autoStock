@@ -1,5 +1,7 @@
 package com.autoStock.position;
 
+import java.nio.channels.IllegalSelectorException;
+
 import com.autoStock.Co;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
@@ -17,7 +19,7 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionGovernor {
 	public static PositionGovernor instance = new PositionGovernor();
-	private PositionManager positionManager = PositionManager.instance;
+	private volatile PositionManager positionManager = PositionManager.instance;
 	private static boolean canGoLong = true;
 	private static boolean canGoShort = false;
 	
@@ -28,9 +30,13 @@ public class PositionGovernor {
 		signal.currentSignalTrend = SignalDefinitions.getSignalType(signal);
 		positionManager.updatePositionPrice(quoteSlice, position);
 		
-		if (position == null){ //No position
-			if (!AlgorithmCondition.canTradeOnDate(quoteSlice, exchange)){
+		if (position == null){
+			if (!new AlgorithmCondition().canTradeOnDate(quoteSlice, exchange)){
 				return positionGovernorResponse;
+			}
+		
+			for (Position positionInPositionManager : positionManager.listOfPosition){
+				Co.println("--> Holding position already: " + positionInPositionManager.symbol);
 			}
 			
 			if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){
@@ -38,8 +44,8 @@ public class PositionGovernor {
 			}else if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.short_entry && canGoShort){
 				governShortEntry(quoteSlice, position, signal, positionGovernorResponse);
 			}
-		} else { // Have position
-			boolean algorithmConditionExit = AlgorithmCondition.shouldRequestExit(quoteSlice, exchange, position);
+		} else {
+			boolean algorithmConditionExit = new AlgorithmCondition().shouldRequestExit(quoteSlice, exchange, position);
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {
@@ -51,6 +57,8 @@ public class PositionGovernor {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.short_exit) || algorithmConditionExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
+			}else {
+				throw new IllegalStateException();
 			}
 		}
 

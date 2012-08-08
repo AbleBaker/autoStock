@@ -11,13 +11,13 @@ import com.autoStock.types.QuoteSlice;
  */
 public class CommonAnlaysisData {
 	
-	public static double[] arrayOfPriceOpen;
-	public static double[] arrayOfPriceHigh;
-	public static double[] arrayOfPriceLow;
-	public static double[] arrayOfPriceClose;
-	public static Date[] arrayOfDates;
+	public double[] arrayOfPriceOpen;
+	public double[] arrayOfPriceHigh;
+	public double[] arrayOfPriceLow;
+	public double[] arrayOfPriceClose;
+	public Date[] arrayOfDates;
 	
-	public static void setAnalysisData(ArrayList<QuoteSlice> listOfQuoteSlice){		
+	public void setAnalysisData(ArrayList<QuoteSlice> listOfQuoteSlice){		
 		arrayOfPriceOpen = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceOpen");
 		arrayOfPriceHigh = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceHigh");
 		arrayOfPriceLow = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceLow");
@@ -25,7 +25,7 @@ public class CommonAnlaysisData {
 		arrayOfDates = extractDateFromQuoteSlice(listOfQuoteSlice, "dateTime");
 	}
 	
-	private static Date[] extractDateFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field){
+	private Date[] extractDateFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field){
 		Date[] arrayOfDate = new Date[listOfQuoteSlice.size()];
 		
 		int i = 0;
@@ -41,7 +41,7 @@ public class CommonAnlaysisData {
 		return arrayOfDate;
 	}
 	
-	private static double[] extractDoubleFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field){
+	private double[] extractDoubleFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field){
 		double[] arrayOfDouble = new double[listOfQuoteSlice.size()];
 		int i = 0;
 		

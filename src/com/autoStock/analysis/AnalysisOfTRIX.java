@@ -14,15 +14,15 @@ import com.autoStock.taLib.RetCode;
 public class AnalysisOfTRIX extends AnalysisBase {
 	public ResultsTRIX results;
 	
-	public AnalysisOfTRIX(int periodLength, boolean preceedDataset) {
-		super(periodLength, preceedDataset);
+	public AnalysisOfTRIX(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	
 	public ResultsTRIX analyize(){
 		results = new ResultsTRIX(endIndex+1);
 		
-		results.arrayOfDates = CommonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = CommonAnlaysisData.arrayOfPriceClose;
+		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
 		
 		if (preceedDataset){
 			preceedDatasetWithPeriod();

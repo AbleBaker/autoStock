@@ -18,9 +18,9 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionManager {
 	public static PositionManager instance = new PositionManager();
-	private Account account = Account.instance;
-	private PositionGenerator positionGenerator = new PositionGenerator(account);
-	private ArrayList<Position> listOfPosition = new ArrayList<Position>();
+	private volatile Account account = Account.instance;
+	private volatile PositionGenerator positionGenerator = new PositionGenerator(account);
+	public volatile ArrayList<Position> listOfPosition = new ArrayList<Position>();
 	private Lock lock = new Lock();
 	
 	public synchronized Position suggestPosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType){

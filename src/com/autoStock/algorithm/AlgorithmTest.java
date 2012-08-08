@@ -50,20 +50,19 @@ import com.autoStock.types.Symbol;
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	private int periodLength = SignalControl.periodLength;
-	
-	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false);
-	private AnalysisOfDI analysisOfDI = new AnalysisOfDI(periodLength, false);
-	private AnalysisOfMACD analysisOfMACD = new AnalysisOfMACD(periodLength, false);
-	private AnalysisOfBB analysisOfBB = new AnalysisOfBB(periodLength, false);
-	private AnalysisOfTRIX analysisOfTRIX = new AnalysisOfTRIX(periodLength, false);
-	private AnalysisOfRSI analysisOfRSI = new AnalysisOfRSI(periodLength, false);
+	private PositionGovernor positionGovener = PositionGovernor.instance;
+	private CommonAnlaysisData commonAnlaysisData = new CommonAnlaysisData();
+	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false, commonAnlaysisData);
+	private AnalysisOfDI analysisOfDI = new AnalysisOfDI(periodLength, false, commonAnlaysisData);
+	private AnalysisOfMACD analysisOfMACD = new AnalysisOfMACD(periodLength, false, commonAnlaysisData);
+	private AnalysisOfBB analysisOfBB = new AnalysisOfBB(periodLength, false, commonAnlaysisData);
+	private AnalysisOfTRIX analysisOfTRIX = new AnalysisOfTRIX(periodLength, false, commonAnlaysisData);
+	private AnalysisOfRSI analysisOfRSI = new AnalysisOfRSI(periodLength, false, commonAnlaysisData);
 	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public Signal signal = new Signal(SignalSource.from_analysis);
-	private PositionGovernor positionGovener = PositionGovernor.instance;
 	private ChartForAlgorithmTest chart;
-	
 	public QuoteSlice firstQuoteSlice;
 	public QuoteSlice currentQuoteSlice;
 	
@@ -73,7 +72,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	}
 
 	@Override
-	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
+	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		if (algorithmMode.displayMessages){Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + MathTools.round(quoteSlice.priceClose));}
 		
 		if (firstQuoteSlice == null){firstQuoteSlice = quoteSlice;}
@@ -87,7 +86,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				listOfQuoteSlice.remove(0);
 			}
 			
-			CommonAnlaysisData.setAnalysisData(listOfQuoteSlice);
+			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
 			
 			analysisOfCCI.setDataSet(listOfQuoteSlice);
 			analysisOfDI.setDataSet(listOfQuoteSlice);
@@ -103,7 +102,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
 			
-			double[] arrayOfPriceClose = CommonAnlaysisData.arrayOfPriceClose;
+			double[] arrayOfPriceClose = commonAnlaysisData.arrayOfPriceClose;
 			double analysisOfCCIResult = resultsCCI.arrayOfCCI[0];
 			double analysisOfDIResultPlus = resultsDI.arrayOfDIPlus[0];
 			double analysisOfDIResultMinus = resultsDI.arrayOfDIMinus[0];
@@ -123,7 +122,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signal.reset();
 //			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
 //			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfTRIX.getSignal(), signalOfCCI.getSignal());
-			signal.addSignalMetrics(signalOfRSI.getSignal()); // signalOfTRIX.getSignal()
+			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfTRIX.getSignal()); // 
 			
 			if (algorithmMode.displayChart){
 				chart.listOfDate.add(quoteSlice.dateTime);

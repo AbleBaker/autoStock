@@ -15,14 +15,14 @@ import com.autoStock.taLib.RetCode;
 public class AnalysisOfSTORSI extends AnalysisBase {
 	public ResultsSTORSI results;
 	
-	public AnalysisOfSTORSI(int periodLength, boolean preceedDataset) {
-		super(periodLength, preceedDataset);
+	public AnalysisOfSTORSI(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	
 	public ResultsSTORSI analyize(){
 		results = new ResultsSTORSI(endIndex+1);
 		
-		results.arrayOfDates = CommonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		if (preceedDataset){
 			preceedDatasetWithPeriod();

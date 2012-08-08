@@ -24,6 +24,7 @@ public abstract class AnalysisBase {
 	public Object dataSource;
 	public Type dataSourceType;
 	public DataExtractor dataExtractor;
+	public CommonAnlaysisData commonAnlaysisData;
 	
 	public int periodLength;
 	public int datasetLength;
@@ -34,9 +35,10 @@ public abstract class AnalysisBase {
 	public boolean preceedDataset;
 	public int endIndex;
 	
-	public AnalysisBase(int periodLength, boolean preceedDataset){
+	public AnalysisBase(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData){
 		this.periodLength = periodLength;
 		this.preceedDataset = preceedDataset;
+		this.commonAnlaysisData = commonAnlaysisData;
 	}
 	
 	public Core getTaLibCore(){
@@ -57,10 +59,10 @@ public abstract class AnalysisBase {
 		this.dataSourceType = listOfQuoteSlice.getClass();
 		this.endIndex = preceedDataset ? (periodLength + datasetLength -1) : datasetLength -1;
 		
-		arrayOfPriceOpen = CommonAnlaysisData.arrayOfPriceOpen;
-		arrayOfPriceHigh = CommonAnlaysisData.arrayOfPriceHigh;
-		arrayOfPriceLow = CommonAnlaysisData.arrayOfPriceLow;
-		arrayOfPriceClose = CommonAnlaysisData.arrayOfPriceClose;
+		arrayOfPriceOpen = commonAnlaysisData.arrayOfPriceOpen;
+		arrayOfPriceHigh = commonAnlaysisData.arrayOfPriceHigh;
+		arrayOfPriceLow = commonAnlaysisData.arrayOfPriceLow;
+		arrayOfPriceClose = commonAnlaysisData.arrayOfPriceClose;
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){

@@ -13,7 +13,7 @@ import com.autoStock.types.QuoteSlice;
  */
 public class AlgorithmCondition {	
 	@SuppressWarnings("deprecation")
-	public static boolean canTradeOnDate(QuoteSlice quoteSlice, Exchange exchange){
+	public boolean canTradeOnDate(QuoteSlice quoteSlice, Exchange exchange){
 		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeClose), AlgorithmConditionDefintions.maxPositionEntryTime);		
 	
 		if (quoteSlice.dateTime.getHours() > dateForLastExecution.getHours() || (
@@ -24,7 +24,7 @@ public class AlgorithmCondition {
 		return true;
 	}
 	
-	public static boolean shouldRequestExit(QuoteSlice quoteSlice, Exchange exchange, Position position){
+	public boolean shouldRequestExit(QuoteSlice quoteSlice, Exchange exchange, Position position){
 		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeClose), AlgorithmConditionDefintions.maxPositionExitTime);		
 		if (quoteSlice.dateTime.getHours() > dateForLastExecution.getHours() || (
 			quoteSlice.dateTime.getHours() >= dateForLastExecution.getHours() && quoteSlice.dateTime.getMinutes() >= dateForLastExecution.getMinutes())){

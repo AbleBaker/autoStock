@@ -17,14 +17,14 @@ public class AnalysisOfBB extends AnalysisBase {
 	public int optionDeviationUp = 8;
 	public int optionDeviationDown = 8;
 	
-	public AnalysisOfBB(int periodLength, boolean preceedDataset) {
-		super(periodLength, preceedDataset);
+	public AnalysisOfBB(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	
 	public ResultsBB analyize(MAType manalysisType){	
 		results = new ResultsBB(endIndex+1);
 		
-		results.arrayOfDates = CommonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		if (preceedDataset){
 			preceedDatasetWithPeriod();

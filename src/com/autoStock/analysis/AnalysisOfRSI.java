@@ -14,15 +14,15 @@ import com.autoStock.taLib.RetCode;
 public class AnalysisOfRSI extends AnalysisBase{
 	public ResultsRSI results;
 	
-	public AnalysisOfRSI(int periodLength, boolean preceedDataset) {
-		super(periodLength, preceedDataset);
+	public AnalysisOfRSI(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	
 	public ResultsRSI analyize(){
 		results = new ResultsRSI(endIndex+1);
 		
-		results.arrayOfDates = CommonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = CommonAnlaysisData.arrayOfPriceClose;
+		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
 		
 		if (preceedDataset){
 			preceedDatasetWithPeriod();

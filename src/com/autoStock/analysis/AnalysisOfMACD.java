@@ -11,15 +11,15 @@ import com.autoStock.taLib.RetCode;
 public class AnalysisOfMACD extends AnalysisBase {
 	public ResultsMACD results;
 	
-	public AnalysisOfMACD(int periodLength, boolean preceedDataset) {
-		super(periodLength, preceedDataset);
+	public AnalysisOfMACD(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	
 	public ResultsMACD analize(){
 		results = new ResultsMACD(endIndex+1);
 
-		results.arrayOfDates = CommonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = CommonAnlaysisData.arrayOfPriceClose;
+		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
 		
 		if (preceedDataset){
 			preceedDatasetWithPeriod();
