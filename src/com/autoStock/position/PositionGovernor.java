@@ -1,14 +1,10 @@
 package com.autoStock.position;
 
-import java.nio.channels.IllegalSelectorException;
-
-import com.autoStock.Co;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
-import com.autoStock.tools.Lock;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -33,10 +29,6 @@ public class PositionGovernor {
 		if (position == null){
 			if (!new AlgorithmCondition().canTradeOnDate(quoteSlice, exchange)){
 				return positionGovernorResponse;
-			}
-		
-			for (Position positionInPositionManager : positionManager.listOfPosition){
-				Co.println("--> Holding position already: " + positionInPositionManager.symbol);
 			}
 			
 			if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){

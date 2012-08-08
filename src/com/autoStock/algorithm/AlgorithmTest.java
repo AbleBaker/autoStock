@@ -122,7 +122,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signal.reset();
 //			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
 //			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfTRIX.getSignal(), signalOfCCI.getSignal());
-			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfTRIX.getSignal()); // 
+			signal.addSignalMetrics(signalOfRSI.getSignal()); //  signalOfTRIX.getSignal() 
 			
 			if (algorithmMode.displayChart){
 				chart.listOfDate.add(quoteSlice.dateTime);
@@ -160,10 +160,9 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				columnValues.add(String.valueOf(signal.getCombinedSignal().strength));
 			}
 			
-			if (algorithmMode.displayTable){
-				
-				PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange);
-				
+			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange);
+			
+			if (algorithmMode.displayTable){				
 				if (positionGovenorResponse.changedPosition){
 					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.position.positionType.name());
 					columnValues.add(positionGovenorResponse.position.units + ", " + positionGovenorResponse.position.lastKnownPrice + ", " + (positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
