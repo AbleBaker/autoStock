@@ -4,7 +4,6 @@
 package com.autoStock;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.autoStock.algorithm.AlgorithmManager;
 import com.autoStock.exchange.ExchangeStatusListener;
@@ -14,12 +13,8 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
-import com.autoStock.finance.Account;
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
-import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
-import com.autoStock.types.basic.Time;
 
 /**
  * @author Kevin Kowalewski

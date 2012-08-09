@@ -51,7 +51,9 @@ public class PositionManager {
 	
 	private Position executeLongEntry(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
 		Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType);
-		account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+		if (position.units > 0){
+			account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+		}
 		listOfPosition.add(position);
 		PositionCallback.setPositionSuccess(position);
 
@@ -60,7 +62,9 @@ public class PositionManager {
 	
 	private Position executeShortEntry(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
 		Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType);
-		account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+		if (position.units > 0){
+			account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+		}
 		listOfPosition.add(position);
 		PositionCallback.setPositionSuccess(position);
 		

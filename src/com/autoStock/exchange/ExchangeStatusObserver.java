@@ -70,7 +70,7 @@ public class ExchangeStatusObserver {
 						notifyListeners(currentExchangeState);
 					}
 					
-					Co.println("--> Tick... " + currentExchangeState);
+//					Co.println("--> Tick... " + currentExchangeState);
 					try {Thread.sleep(observeDelayMs);}catch(InterruptedException e){throw new IllegalStateException();}
 				}
 			}

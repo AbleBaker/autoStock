@@ -35,7 +35,7 @@ public class Position implements Cloneable {
 		try {
 			return (Position) super.clone();
 		} catch (CloneNotSupportedException e) {
-			throw new UnknownError();
+			throw new IllegalStateException();
 		}
 	}
 }

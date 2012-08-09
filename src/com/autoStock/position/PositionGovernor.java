@@ -16,7 +16,7 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionGovernor {
 	public static PositionGovernor instance = new PositionGovernor();
-	private volatile PositionManager positionManager = PositionManager.instance;
+	private PositionManager positionManager = PositionManager.instance;
 	private static boolean canGoLong = true;
 	private static boolean canGoShort = false;
 	
@@ -32,6 +32,8 @@ public class PositionGovernor {
 				return positionGovernorResponse;
 			}
 			
+			Co.println("--> Position is null for : " + quoteSlice.symbol + ", " + signal.getSignalPointMajority(false, PositionType.position_none).name());
+			
 			if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){
 				governLongEntry(quoteSlice, position, signal, positionGovernorResponse);
 			}else if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.short_entry && canGoShort){
@@ -39,6 +41,8 @@ public class PositionGovernor {
 			}
 		} else {
 			boolean algorithmConditionExit = new AlgorithmCondition().shouldRequestExit(quoteSlice.dateTime, exchange, position);
+			
+			Co.println("--> Exiting position!!!");
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {

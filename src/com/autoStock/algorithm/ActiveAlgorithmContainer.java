@@ -6,10 +6,9 @@ import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
-import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionManager;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
-import com.autoStock.trading.types.MarketData;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -23,7 +22,7 @@ public class ActiveAlgorithmContainer {
 	public AlgorithmTest algorithm;
 	private RequestMarketData requestMarketData;
 	public Symbol symbol;
-	public Exchange exchange;
+	private Exchange exchange;
 	
 	public ActiveAlgorithmContainer(boolean canTrade, Exchange exchange, Symbol symbol){
 		this.symbol = symbol;
@@ -63,7 +62,7 @@ public class ActiveAlgorithmContainer {
 			}else if (position.positionType == PositionType.position_short){
 				PositionManager.instance.suggestPosition(algorithm.currentQuoteSlice, algorithm.signal, PositionType.position_short_exit);	
 			}else{
-				throw new UnsupportedOperationException();
+				throw new IllegalStateException();
 			}
 		}
 		
