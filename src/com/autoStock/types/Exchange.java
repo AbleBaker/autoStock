@@ -42,8 +42,8 @@ public class Exchange extends ExchangeHelper {
 		timeCloseForeign = queryResultOfExchange.timeClose;
 		timeOffset = queryResultOfExchange.timeOffset;
 		timeZone = queryResultOfExchange.timeZone;
-		dateOpenLocal = DateTools.getLocalTimeFromForeignTime(timeOpenForeign, timeZone);
-		dateCloseLocal = DateTools.getLocalTimeFromForeignTime(timeCloseForeign, timeZone);
+		dateOpenLocal = DateTools.getLocalDateFromForeignTime(timeOpenForeign, timeZone);
+		dateCloseLocal = DateTools.getLocalDateFromForeignTime(timeCloseForeign, timeZone);
 		exchangeDesignation = ExchangeDesignation.valueOf(name);
 	}
 	

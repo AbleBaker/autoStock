@@ -108,7 +108,7 @@ public class AlgorithmManager {
 				}
 			}
 			
-			columnValues.add(DateTools.getPrettyDate(new Date())); 
+			columnValues.add(container.algorithm.currentQuoteSlice.dateTime != null ? DateTools.getPrettyDate(container.algorithm.currentQuoteSlice.dateTime) : "?"); 
 			columnValues.add(container.symbol.symbol);
 			columnValues.add(container.algorithm.signal.currentSignalPoint.name() + ", " + container.algorithm.signal.getCombinedSignal().strength);
 			columnValues.add(position == null ? "-" : position.positionType.name());

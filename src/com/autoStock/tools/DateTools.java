@@ -120,7 +120,7 @@ public class DateTools {
 		return listOfDate;
 	}
 	
-	public static Date getLocalTimeFromForeignTime(Time time, String timeZone) {
+	public static Date getLocalDateFromForeignTime(Time time, String timeZone) {
 		GregorianCalendar calendarForForeign = new GregorianCalendar(TimeZone.getTimeZone(timeZone));
 		calendarForForeign.set(Calendar.HOUR_OF_DAY, time.hours);
 		calendarForForeign.set(Calendar.MINUTE, time.minutes);
@@ -132,7 +132,7 @@ public class DateTools {
 		return new Date(calendarForLocal.getTimeInMillis());
 	}
 	
-	public static Date getForeignTimeFromLocalTime(Time time, String timeZone) {
+	public static Date getForeignDateFromLocalTime(Time time, String timeZone) {
 		GregorianCalendar calendarForForeign = new GregorianCalendar(TimeZone.getTimeZone(timeZone));
 		Date date = new Date();
 		
@@ -153,6 +153,14 @@ public class DateTools {
 		time.minutes = (int) ((millisDiff % (1000*60*60)) / (1000*60));
 		time.seconds = (int) (((millisDiff % (1000*60*60)) % (1000*60)) / 1000);
 
+		return time;
+	}
+	
+	public static Time getTimeFromDate(Date date){
+		Time time = new Time();
+		time.hours = date.getHours();
+		time.minutes = date.getMinutes();
+		time.seconds = date.getSeconds();
 		return time;
 	}
 }

@@ -14,7 +14,7 @@ import com.autoStock.types.QuoteSlice;
 public class AlgorithmCondition {	
 	@SuppressWarnings("deprecation")
 	public boolean canTradeOnDate(Date date, Exchange exchange){
-		Date dateForLastExecution = DateTools.getChangedDate(exchange.dateCloseLocal, AlgorithmConditionDefintions.maxPositionEntryTime);		
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), AlgorithmConditionDefintions.maxPositionEntryTime);		
 	
 		if (date.getHours() > dateForLastExecution.getHours() || (
 			date.getHours() >= dateForLastExecution.getHours() && 

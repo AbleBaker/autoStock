@@ -12,6 +12,7 @@ import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.results.ExResultMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.IbExchangeInstance;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
@@ -74,7 +75,7 @@ public class RequestMarketData {
 					synchronized(RequestMarketData.this){
 						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData, symbol);
 	
-						//
+						quoteSlice.dateTime = DateTools.getForeignDateFromLocalTime(DateTools.getTimeFromDate(new Date()), exchange.timeZone);
 						
 						if (exResultSetMarketData.listOfExResultRowMarketData.size() > 60){ //hack
 							exResultSetMarketData.listOfExResultRowMarketData.remove(0);
