@@ -2,6 +2,7 @@ package com.autoStock.algorithm.external;
 
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -19,6 +20,7 @@ public class AlgorithmCondition {
 		if (date.getHours() > dateForLastExecution.getHours() || (
 			date.getHours() >= dateForLastExecution.getHours() && 
 			date.getMinutes() >= dateForLastExecution.getMinutes())){
+			
 			return false;
 		}
 		

@@ -29,7 +29,6 @@ public class PositionGovernor {
 		
 		if (position == null){
 			if (new AlgorithmCondition().canTradeOnDate(quoteSlice.dateTime, exchange) == false){
-				Co.println("Cannot trade on date...");
 				return positionGovernorResponse;
 			}
 			
