@@ -52,7 +52,7 @@ public class Signal {
 		for (SignalMetric signalMetric : listOfSignalMetric){
 			if (signalMetric.getSignalPoint(havePosition, positionType) != SignalPoint.none){ //signalMetric.getSignalPoint(havePosition, positionType).occurences > occurences &&
 				signalPoint = signalMetric.getSignalPoint(havePosition, positionType);
-//				Co.println("--> Have signal at: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", " + signalPoint.name());
+				Co.println("--> Have signal at: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", " + signalPoint.name());
 			}
 		}
 		

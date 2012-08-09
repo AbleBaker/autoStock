@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
+import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.basic.Time;
 
@@ -45,7 +46,7 @@ public class ExchangeStatusObserver {
 					
 					//Open - closing soon
 					if (currentExchangeState == ExchangeState.status_open || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_close_future){
-						Time timeUntilClose = exchange.getTimeUntil(exchange.getLocalTimeFromForeignTime(exchange.timeClose, exchange.timeZone));
+						Time timeUntilClose = DateTools.getTimeUntil(DateTools.getLocalTimeFromForeignTime(exchange.timeCloseForeign, exchange.timeZone));
 						if (timeUntilClose.isFuture()){
 							if (timeUntilClose.hours == 0 && timeUntilClose.minutes < 30){
 								currentExchangeState = ExchangeState.status_close_future.setTime(timeUntilClose);
@@ -55,7 +56,7 @@ public class ExchangeStatusObserver {
 					
 					//Closed - opening soon
 					if (currentExchangeState == ExchangeState.status_closed || currentExchangeState == ExchangeState.status_unknown || currentExchangeState == ExchangeState.status_open_future){
-						Time timeUntilOpen = exchange.getTimeUntil(exchange.getLocalTimeFromForeignTime(exchange.timeOpen, exchange.timeZone));
+						Time timeUntilOpen = DateTools.getTimeUntil(DateTools.getLocalTimeFromForeignTime(exchange.timeOpenForeign, exchange.timeZone));
 						
 						if (timeUntilOpen.isFuture()){
 							if (timeUntilOpen.hours <= 3 && timeUntilOpen.minutes < 60){

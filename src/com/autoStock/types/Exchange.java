@@ -10,6 +10,7 @@ import com.autoStock.exchange.ExchangeHelper;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.finance.Currency.CurrencyDefinitions;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
+import com.autoStock.tools.DateTools;
 import com.autoStock.types.basic.Time;
 
 /**
@@ -19,12 +20,12 @@ import com.autoStock.types.basic.Time;
 public class Exchange extends ExchangeHelper {
 	public String name;
 	public CurrencyDefinitions currency;
-	public Time timeOpen;
-	public Time timeClose;
+	public Time timeOpenForeign;
+	public Time timeCloseForeign;
 	public Time timeOffset;
+	public Date dateOpenLocal;
+	public Date dateCloseLocal;
 	public String timeZone;
-	public Date dateLocalOpen;
-	public Date dateLocalClose;
 	public ExchangeState exchangeState = ExchangeState.status_unknown;
 	public ExchangeDesignation exchangeDesignation;
 	
@@ -37,27 +38,17 @@ public class Exchange extends ExchangeHelper {
 		DbExchange queryResultOfExchange = listOfQrExchange.get(0);
 		this.name = name;
 		currency = CurrencyDefinitions.valueOf(queryResultOfExchange.currency);
-		timeOpen = queryResultOfExchange.timeOpen;
-		timeClose = queryResultOfExchange.timeClose;
+		timeOpenForeign = queryResultOfExchange.timeOpen;
+		timeCloseForeign = queryResultOfExchange.timeClose;
 		timeOffset = queryResultOfExchange.timeOffset;
 		timeZone = queryResultOfExchange.timeZone;
-		dateLocalOpen = super.getLocalTimeFromForeignTime(timeOpen, timeZone);
-		dateLocalClose = super.getLocalTimeFromForeignTime(timeClose, timeZone);
+		dateOpenLocal = DateTools.getLocalTimeFromForeignTime(timeOpenForeign, timeZone);
+		dateCloseLocal = DateTools.getLocalTimeFromForeignTime(timeCloseForeign, timeZone);
 		exchangeDesignation = ExchangeDesignation.valueOf(name);
 	}
 	
 	public boolean isOpen(){
-		boolean isOpen = new Date().after(dateLocalOpen) && new Date().before(dateLocalClose);
-//		Co.println("--> Exchange opens at (foreign): " + DateTools.getPrettyDate(DateTools.getDateFromTime(timeOpen)));
-//		Co.println("--> Exchange closes at (foreign): " + DateTools.getPrettyDate(DateTools.getDateFromTime(timeClose)));
-//		
-//		Co.println("--> Exchange opens at (local): " + DateTools.getPrettyDate(dateLocalOpen));
-//		Co.println("--> Exchange closes at (local): " + DateTools.getPrettyDate(dateLocalClose));
-//		
-//		Co.println("--> Current local time is: " + DateTools.getPrettyDate(new Date()));		
-//		Co.println("--> Exchange is open: " + isOpen);
-		
-		return isOpen;
+		return new Date().after(dateOpenLocal) && new Date().before(dateCloseLocal);
 	}
 	
 	public boolean isClosed(){

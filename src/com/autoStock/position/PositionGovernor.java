@@ -1,5 +1,6 @@
 package com.autoStock.position;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
@@ -27,7 +28,8 @@ public class PositionGovernor {
 		positionManager.updatePositionPrice(quoteSlice, position);
 		
 		if (position == null){
-			if (!new AlgorithmCondition().canTradeOnDate(quoteSlice, exchange)){
+			if (new AlgorithmCondition().canTradeOnDate(quoteSlice.dateTime, exchange) == false){
+				Co.println("Cannot trade on date...");
 				return positionGovernorResponse;
 			}
 			
@@ -37,7 +39,7 @@ public class PositionGovernor {
 				governShortEntry(quoteSlice, position, signal, positionGovernorResponse);
 			}
 		} else {
-			boolean algorithmConditionExit = new AlgorithmCondition().shouldRequestExit(quoteSlice, exchange, position);
+			boolean algorithmConditionExit = new AlgorithmCondition().shouldRequestExit(quoteSlice.dateTime, exchange, position);
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {

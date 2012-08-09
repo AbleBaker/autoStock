@@ -21,8 +21,8 @@ public class SignalMetric {
 		this.signalMetricType = signalTypeMetric;
 	}
 	
-	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
-		if (!havePosition){
+	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
+		if (havePosition == false){
 			if (strength >= signalMetricType.pointToSignalLongEntry){
 				return SignalPoint.long_entry;
 			}else if (strength <= signalMetricType.pointToSignalShortEntry){
@@ -39,11 +39,7 @@ public class SignalMetric {
 		return SignalPoint.none;
 	}
 	
-	public SignalPoint getSignalPointExit(){		
-		return SignalPoint.none;
-	}
-	
-	public void applyStength(double input){
+	public synchronized void applyStength(double input){
 		strength = signalMetricType.getSignalStrength(input);
 	}
 }

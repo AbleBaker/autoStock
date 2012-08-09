@@ -59,8 +59,10 @@ public class QuoteSliceTools {
 				}
 			}
 			
-			if (resultRow.date != null){
-				quoteSlice.dateTime = resultRow.date;
+			else if (resultRow.tickType == TickTypes.type_string){
+				if (resultRow.tickStringValue != null){
+					//Parse date
+				}
 			}
 			
 			else {

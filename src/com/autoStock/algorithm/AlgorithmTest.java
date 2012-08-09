@@ -6,6 +6,7 @@ import javax.sound.midi.Receiver;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.analysis.AnalysisOfBB;
 import com.autoStock.analysis.AnalysisOfCCI;
@@ -75,14 +76,20 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		if (algorithmMode.displayMessages){Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + MathTools.round(quoteSlice.priceClose));}
 		
+		if (new AlgorithmCondition().canTradeOnDate(quoteSlice.dateTime, exchange)){
+			Co.println("--> Can trade now...");
+		}else{
+			Co.println("--> Can't trade now...");
+		}
+		
 		if (firstQuoteSlice == null){firstQuoteSlice = quoteSlice;}
 		currentQuoteSlice = quoteSlice;
 		listOfQuoteSlice.add(quoteSlice);
 	
-		if (listOfQuoteSlice.size() > (periodLength)){
+		if (listOfQuoteSlice.size() > periodLength){
 			double analysisPrice = quoteSlice.priceClose;
 			
-			if (listOfQuoteSlice.size() > (periodLength)){
+			if (listOfQuoteSlice.size() > periodLength){
 				listOfQuoteSlice.remove(0);
 			}
 			
@@ -180,7 +187,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	}
 
 	@Override
-	public void endOfFeed(Symbol symbol) {
+	public synchronized void endOfFeed(Symbol symbol) {
 		if (algorithmMode.displayChart){chart.display();}
 		if (algorithmMode.displayTable){new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);}
 		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}

@@ -59,10 +59,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		
 		HistoricalData baseHistoricalData = new HistoricalData(null, "STK", dateStart, dateEnd, Resolution.min);
 
-		baseHistoricalData.startDate.setHours(exchange.timeOpen.hours);
-		baseHistoricalData.startDate.setMinutes(exchange.timeOpen.minutes);
-		baseHistoricalData.endDate.setHours(exchange.timeClose.hours);
-		baseHistoricalData.endDate.setMinutes(exchange.timeClose.minutes);
+		baseHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
+		baseHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
+		baseHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
+		baseHistoricalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
 
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate);
 		
@@ -74,8 +74,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			HistoricalDataList historicalDataList = new HistoricalDataList();
 			for (String symbol : listOfSymbols){
 				HistoricalData dayHistoricalData = new HistoricalData(symbol, baseHistoricalData.securityType, (Date)date.clone(), (Date)date.clone(), baseHistoricalData.resolution);
-				dayHistoricalData.startDate.setHours(exchange.timeOpen.hours);
-				dayHistoricalData.endDate.setHours(exchange.timeClose.hours);
+				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
+				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
 				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
 			}
 			

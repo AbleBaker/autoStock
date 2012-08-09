@@ -73,6 +73,8 @@ public class RequestMarketData {
 					
 					synchronized(RequestMarketData.this){
 						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData, symbol);
+	
+						//
 						
 						if (exResultSetMarketData.listOfExResultRowMarketData.size() > 60){ //hack
 							exResultSetMarketData.listOfExResultRowMarketData.remove(0);
