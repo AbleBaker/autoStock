@@ -21,7 +21,7 @@ public class PositionManager {
 	public static PositionManager instance = new PositionManager();
 	private volatile Account account = Account.instance;
 	private volatile PositionGenerator positionGenerator = new PositionGenerator(account);
-	public volatile ArrayList<Position> listOfPosition = new ArrayList<Position>();
+	private volatile ArrayList<Position> listOfPosition = new ArrayList<Position>();
 	private Lock lock = new Lock();
 	
 	public synchronized Position suggestPosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
@@ -53,9 +53,9 @@ public class PositionManager {
 		Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType);
 		if (position.units > 0){
 			account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+			listOfPosition.add(position);
+			PositionCallback.setPositionSuccess(position);
 		}
-		listOfPosition.add(position);
-		PositionCallback.setPositionSuccess(position);
 
 		return position;
 	}
@@ -64,9 +64,9 @@ public class PositionManager {
 		Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType);
 		if (position.units > 0){
 			account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+			listOfPosition.add(position);
+			PositionCallback.setPositionSuccess(position);
 		}
-		listOfPosition.add(position);
-		PositionCallback.setPositionSuccess(position);
 		
 		return position;
 	}

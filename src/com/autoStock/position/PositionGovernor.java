@@ -42,7 +42,7 @@ public class PositionGovernor {
 		} else {
 			boolean algorithmConditionExit = new AlgorithmCondition().shouldRequestExit(quoteSlice.dateTime, exchange, position);
 			
-			Co.println("--> Exiting position!!!");
+			Co.println("--> Existing position! " + position.positionType.name());
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {
@@ -67,7 +67,9 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_long_entry);
-		positionGovernorResponse.changedPosition = true;
+		if (positionGovernorResponse.position.units > 0){
+			positionGovernorResponse.changedPosition = true;
+		}
 	}
 	
 	private void governShortEntry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
@@ -75,7 +77,9 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_short_entry);
-		positionGovernorResponse.changedPosition = true;
+		if (positionGovernorResponse.position.units > 0){
+			positionGovernorResponse.changedPosition = true;
+		}
 	}
 	
 	private void governLongExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
