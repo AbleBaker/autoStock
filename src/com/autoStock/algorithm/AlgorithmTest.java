@@ -76,12 +76,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		if (algorithmMode.displayMessages){Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + MathTools.round(quoteSlice.priceClose));}
 		
-		if (new AlgorithmCondition().canTradeOnDate(quoteSlice.dateTime, exchange)){
-			Co.println("--> Can trade now...");
-		}else{
-			Co.println("--> Can't trade now...");
-		}
-		
 		if (firstQuoteSlice == null){firstQuoteSlice = quoteSlice;}
 		currentQuoteSlice = quoteSlice;
 		listOfQuoteSlice.add(quoteSlice);
