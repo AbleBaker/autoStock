@@ -68,9 +68,14 @@ public class AlgorithmManager {
 	}
 	
 	public void stopAll(){
+		Co.println("--> STOP ALL!!!");
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();
 			container.deactivate();
+		}
+		
+		if (PositionManager.instance.getPositionListSize() > 0){
+			throw new IllegalStateException("Position manager still has: " + PositionManager.instance.getPositionListSize() + " positions...");
 		}
 	}
 	
@@ -128,6 +133,6 @@ public class AlgorithmManager {
 	public void displayEndOfDayStats(){
 		ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 		
-		Co.println("--> Account balance, transactions, fees paid" + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
+		Co.println("--> Account balance, transactions, fees paid: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
 	}
 }

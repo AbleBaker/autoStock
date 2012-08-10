@@ -3,7 +3,10 @@
  */
 package com.autoStock.finance;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.autoStock.tools.MathTools;
+import com.google.common.util.concurrent.AtomicDouble;
 
 
 /**
@@ -14,34 +17,38 @@ public class Account {
 	public static Account instance = new Account();
 	private final double bankBalanceDefault = 100000.00;
 	private final double transactionFeesDefault = 0;
-	private volatile double bankBalance = bankBalanceDefault;
-	private volatile double transactionFeesPaid = 0;
-	private volatile int transactions = 0;
+	private AtomicDouble bankBalance = new AtomicDouble();
+	private AtomicDouble transactionFeesPaid = new AtomicDouble();
+	private AtomicInteger transactions = new AtomicInteger();
+	
+	private Account(){
+		resetAccount();
+	}
 	
 	public synchronized double getBankBalance(){
 		synchronized (this) {
-			return MathTools.round(bankBalance);
+			return MathTools.round(bankBalance.get());
 		}
 	}
 	
 	public double getTransactionFeesPaid(){
-		return this.transactionFeesPaid;
+		return MathTools.round(transactionFeesPaid.get());
 	}
 	
 	public int getTransactions(){
-		return this.transactions;
+		return transactions.get();
 	}
 	
 	private void changeBankBalance(double amount){
-		bankBalance += amount;
+		bankBalance.addAndGet(amount);
 	}
 	
 	public synchronized void changeBankBalance(double positionCost, double transactionCost){
 		synchronized (this) {
-			bankBalance += positionCost;
-			bankBalance -= transactionCost;
-			transactionFeesPaid += transactionCost;
-			transactions++;
+			bankBalance.addAndGet(positionCost);
+			bankBalance.addAndGet(transactionCost *-1);
+			transactionFeesPaid.getAndAdd(transactionCost);
+			transactions.incrementAndGet();
 		}
 	}
 	
@@ -58,9 +65,9 @@ public class Account {
 	
 	public synchronized void resetAccount(){
 		synchronized(this){
-			bankBalance = bankBalanceDefault;
-			transactionFeesPaid = transactionFeesDefault;
-			transactions = 0;
+			bankBalance.set(bankBalanceDefault);
+			transactionFeesPaid.set(transactionFeesDefault);
+			transactions.set(0);
 		}
 	}
 }

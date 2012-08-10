@@ -127,4 +127,8 @@ public class PositionManager {
 		
 		return null;
 	}
+	
+	public synchronized int getPositionListSize(){
+		return listOfPosition.size();
+	}
 }

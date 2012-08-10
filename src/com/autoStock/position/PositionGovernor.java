@@ -32,8 +32,6 @@ public class PositionGovernor {
 				return positionGovernorResponse;
 			}
 			
-			Co.println("--> Position is null for : " + quoteSlice.symbol + ", " + signal.getSignalPointMajority(false, PositionType.position_none).name());
-			
 			if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){
 				governLongEntry(quoteSlice, position, signal, positionGovernorResponse);
 			}else if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.short_entry && canGoShort){
@@ -41,8 +39,6 @@ public class PositionGovernor {
 			}
 		} else {
 			boolean algorithmConditionExit = new AlgorithmCondition().shouldRequestExit(quoteSlice.dateTime, exchange, position);
-			
-			Co.println("--> Existing position! " + position.positionType.name());
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {

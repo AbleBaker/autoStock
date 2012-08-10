@@ -2,7 +2,9 @@ package com.autoStock.algorithm;
 
 import java.util.ArrayList;
 
+import javax.annotation.PostConstruct;
 import javax.sound.midi.Receiver;
+import javax.xml.crypto.dsig.keyinfo.PGPData;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
@@ -23,6 +25,8 @@ import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsTRIX;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
+import com.autoStock.internal.ApplicationStates;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.signal.Signal;
@@ -166,7 +170,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			if (algorithmMode.displayTable){				
 				if (positionGovenorResponse.changedPosition){
 					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.position.positionType.name());
-					columnValues.add(positionGovenorResponse.position.units + ", " + positionGovenorResponse.position.lastKnownPrice + ", " + (positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
+					columnValues.add(positionGovenorResponse.position.units + ", " + MathTools.round(positionGovenorResponse.position.lastKnownPrice) + ", " + MathTools.round(positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
 					columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 				}else{
 					columnValues.add("");
