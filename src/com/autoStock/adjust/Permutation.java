@@ -87,7 +87,7 @@ public class Permutation {
 		return listOfIteration;
 	}
 	
-	public class Iteration{
+	public static class Iteration{
 		private int start;
 		private int end;
 		private volatile int current;

@@ -48,10 +48,10 @@ public class SignalDefinitions {
 				0, 0, 0, 0),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 2);}},
-				29, 1, 0, 0),
+				33, 10, 0, 0),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 1000);}},
-				33, -20, 0, 0),
+				26, -20, 0, 0),
 		metric_storsi(null,0,0,0,0),
 		;
 		

@@ -27,11 +27,11 @@ public class AdjustmentCampaign {
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_cci_long_entry, SignalMetricType.metric_cci));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_cci_long_exit, SignalMetricType.metric_cci));
 		
-//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_trix_long_entry, SignalMetricType.metric_trix));
-//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_trix_long_exit, SignalMetricType.metric_trix));
+		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_trix_long_entry, SignalMetricType.metric_trix));
+		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_trix_long_exit, SignalMetricType.metric_trix));
 //		
-		permutation.addIteration(new Permutation(). new Iteration(AdjustmentDefinitions.algo_signal_metric_rsi_long_entry, SignalMetricType.metric_rsi));
-		permutation.addIteration(new Permutation(). new Iteration(AdjustmentDefinitions.algo_signal_metric_rsi_long_exit, SignalMetricType.metric_rsi));
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_rsi_long_entry, SignalMetricType.metric_rsi));
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_rsi_long_exit, SignalMetricType.metric_rsi));
 		
 		//
 //		permutation.addIteration(new Iteration(

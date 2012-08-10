@@ -158,12 +158,12 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				
 				if (Account.instance.getBankBalance() > metricBestAccountBalance){
 					Signal signal = new Signal(SignalSource.from_manual);
-					signal.addSignalMetrics(new SignalMetric(0, SignalMetricType.metric_rsi));
+					signal.addSignalMetrics(new SignalMetric(0, SignalMetricType.metric_trix));
 					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(signal));
 					metricBestAccountBalance = Account.instance.getBankBalance();
 				}
 	
-				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + MathTools.round(Account.instance.getTransactionFeesPaid()) + "\n\n");
+				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getTransactionFeesPaid()) + "\n\n");
 				
 				if (runNextBacktest() == false){
 					Co.println("--> Finished backtest");
