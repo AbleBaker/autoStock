@@ -62,7 +62,7 @@ public class PositionGovernor {
 		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry)){
 			return;
 		}
-		positionGovernorResponse.position = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_long_entry);
+		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_entry);
 		if (positionGovernorResponse.position.units > 0){
 			positionGovernorResponse.changedPosition = true;
 		}
@@ -72,7 +72,7 @@ public class PositionGovernor {
 		if (position != null && (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry)){
 			return;
 		}
-		positionGovernorResponse.position = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_short_entry);
+		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_short_entry);
 		if (positionGovernorResponse.position.units > 0){
 			positionGovernorResponse.changedPosition = true;
 		}
@@ -82,7 +82,7 @@ public class PositionGovernor {
 		if (position != null && (position.positionType == PositionType.position_long_exit)){
 			return;
 		}
-		positionGovernorResponse.position = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_long_exit);
+		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_exit);
 		positionGovernorResponse.changedPosition = true;
 	}
 	
@@ -90,7 +90,7 @@ public class PositionGovernor {
 		if (position != null && (position.positionType == PositionType.position_short_exit)){
 			return;
 		}
-		positionGovernorResponse.position = positionManager.suggestPosition(quoteSlice, signal, PositionType.position_short_exit);
+		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_short_exit);
 		positionGovernorResponse.changedPosition = true;
 	}
 }

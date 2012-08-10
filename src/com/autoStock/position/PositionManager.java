@@ -24,7 +24,7 @@ public class PositionManager {
 	private volatile ArrayList<Position> listOfPosition = new ArrayList<Position>();
 	private Lock lock = new Lock();
 	
-	public synchronized Position suggestPosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
+	public synchronized Position executePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType){
 		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry){
 				return executeLongEntry(quoteSlice, signal, positionType);
@@ -99,9 +99,6 @@ public class PositionManager {
 	
 	public void executeSellAll(){
 		synchronized(lock){
-//			Co.println("Exiting all positions");
-//			if (listOfPosition.size() == 0){Co.println("Not holding any positions...");}
-			
 			for (Position typePosition : listOfPosition){
 				if (typePosition.positionType == PositionType.position_long){
 					executeLongExit(typePosition);

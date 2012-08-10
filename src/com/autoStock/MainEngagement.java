@@ -6,6 +6,7 @@ package com.autoStock;
 import java.util.ArrayList;
 
 import com.autoStock.algorithm.AlgorithmManager;
+import com.autoStock.algorithm.external.ExternalConditionDefintions;
 import com.autoStock.exchange.ExchangeStatusListener;
 import com.autoStock.exchange.ExchangeStatusObserver;
 import com.autoStock.exchange.request.RequestMarketScanner;
@@ -21,6 +22,8 @@ import com.autoStock.types.Exchange;
  * 
  */
 public class MainEngagement implements RequestMarketScannerListener, ExchangeStatusListener {
+	private RequestMarketScanner requestMarketScanner;
+	private RequestHolder requestHolder;
 	private ExResultSetMarketScanner exResultSetMarketScanner;
 	private Exchange exchange;
 	private ExchangeStatusObserver exchangeStatusObserver;
@@ -38,11 +41,18 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	}
 
 	private void engagementStart() {
-		new RequestMarketScanner(new RequestHolder(this), exchange);
+		requestHolder = new RequestHolder(this);
+		requestMarketScanner = new RequestMarketScanner(requestHolder, exchange);
 	}
 	
 	private void engagementWarn(ExchangeState exchangeState){
 		Co.println("--> Received warning: " + exchangeState.timeUntilFuture.hours + ":" + exchangeState.timeUntilFuture.minutes + ":" + exchangeState.timeUntilFuture.seconds);
+		if (exchangeState == ExchangeState.status_close_future && exchangeState.timeUntilFuture.hours == 0 && exchangeState.timeUntilFuture.minutes <= ExternalConditionDefintions.maxScannerRunTime){
+			if (requestMarketScanner != null){
+				requestMarketScanner.cancel();
+				requestMarketScanner = null;
+			}
+		}
 		algorithmManager.warnAll(exchangeState);
 	}
 	

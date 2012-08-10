@@ -42,4 +42,8 @@ public class RequestMarketScanner {
 	public void clearResults() {
 		exResultSetMarketScanner.listOfExResultRowMarketScanner.clear();
 	}
+	
+	public void cancel(){
+		ExchangeController.getIbExchangeInstance().cancelScanner(requestHolder);
+	}
 }
