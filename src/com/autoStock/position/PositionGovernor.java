@@ -63,7 +63,7 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_entry);
-		if (positionGovernorResponse.position.units > 0){
+		if (positionGovernorResponse.position.positionType != PositionType.position_failed){
 			positionGovernorResponse.changedPosition = true;
 		}
 	}
@@ -73,7 +73,7 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_short_entry);
-		if (positionGovernorResponse.position.units > 0){
+		if (positionGovernorResponse.position.positionType != PositionType.position_failed){
 			positionGovernorResponse.changedPosition = true;
 		}
 	}

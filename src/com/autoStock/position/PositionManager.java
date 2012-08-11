@@ -55,6 +55,8 @@ public class PositionManager {
 			account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
 			listOfPosition.add(position);
 			PositionCallback.setPositionSuccess(position);
+		}else{
+			position.positionType = PositionType.position_failed;
 		}
 
 		return position;
@@ -66,6 +68,8 @@ public class PositionManager {
 			account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
 			listOfPosition.add(position);
 			PositionCallback.setPositionSuccess(position);
+		}else{
+			position.positionType = PositionType.position_failed;
 		}
 		
 		return position;
