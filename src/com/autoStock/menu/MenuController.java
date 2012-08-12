@@ -20,21 +20,27 @@ public class MenuController {
 	public void displayMenu(MenuStructures menuStructure){
 		if (menuStructure == MenuStructures.menu_main){
 			for (MenuStructures menuStructureEntry : MenuStructures.values()){
-				Co.print("\n" + StringTools.removePrefix(menuStructureEntry.name(),"_") + "\n --> ");
-				for (MenuArguments menuArgumentsEntry : menuStructureEntry.arrayOfMenuArguments){
-					Co.print(StringTools.removePrefix(menuArgumentsEntry.name(), "_") + "[");
-					for (MenuArgumentTypes menuArgumentTypesEntry : menuArgumentsEntry.arrayOfArgumentTypes){
-						if (menuArgumentsEntry.arrayOfArgumentTypes.length-1 == MiscTools.getArrayIndex(menuArgumentsEntry.arrayOfArgumentTypes, menuArgumentTypesEntry)){
-							Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + "");
-						}else{
-							Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + " | ");
-						}
-					}
-					Co.print("] ");
-				}
-				Co.print("\n");
+				displayMenuStructure(menuStructureEntry);
 			}
+		}else{
+			displayMenuStructure(menuStructure);
 		}
+	}
+	
+	private void displayMenuStructure(MenuStructures menuStructure){
+		Co.print("\n" + StringTools.removePrefix(menuStructure.name(),"_") + "\n --> ");
+		for (MenuArguments menuArgumentsEntry : menuStructure.arrayOfMenuArguments){
+			Co.print(StringTools.removePrefix(menuArgumentsEntry.name(), "_") + "[");
+			for (MenuArgumentTypes menuArgumentTypesEntry : menuArgumentsEntry.arrayOfArgumentTypes){
+				if (menuArgumentsEntry.arrayOfArgumentTypes.length-1 == MiscTools.getArrayIndex(menuArgumentsEntry.arrayOfArgumentTypes, menuArgumentTypesEntry)){
+					Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + "");
+				}else{
+					Co.print(StringTools.removePrefix(menuArgumentTypesEntry.name(), "_") + " | ");
+				}
+			}
+			Co.print("] ");
+		}
+		Co.print("\n");
 	}
 	
 	public MenuStructures getRelatedMenu(String[] arguments){
@@ -47,10 +53,6 @@ public class MenuController {
 		}
 		
 		return null;
-	}
-	
-	public void getArgument(){
-		
 	}
 
 	public void handleMenuStructure(MenuStructures menuStructure, String[] args) {
@@ -70,7 +72,8 @@ public class MenuController {
 			try {
 				menuArgument.value = args[index];
 			}catch (IndexOutOfBoundsException e){
-				Co.println("\nError: Insufficient arguments supplied...");
+				Co.println("\nError: Insufficient arguments supplied. Run this application with the following signature:");
+				displayMenu(menuStructure);
 				ApplicationStates.shutdown();
 				return;
 			}

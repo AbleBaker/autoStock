@@ -14,6 +14,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
@@ -81,6 +82,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			}
 			
 			listOfHistoricalDataList.add(historicalDataList);
+		}
+		
+		if (backtestType == BacktestType.backtest_adjustment){
+			adjustmentCampaign.runAdjustment();
 		}
 		
 		initBacktestContainers();
@@ -158,9 +163,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				PositionManager.instance.executeSellAll();
 				
 				if (Account.instance.getBankBalance() > metricBestAccountBalance){
-					Signal signal = new Signal(SignalSource.from_manual);
-					signal.addSignalMetrics(new SignalMetric(0, SignalMetricType.metric_trix));
-					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(signal));
+					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
 					metricBestAccountBalance = Account.instance.getBankBalance();
 				}
 	

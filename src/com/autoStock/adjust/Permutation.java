@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.tools.ArrayTools;
+import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski
@@ -45,6 +48,26 @@ public class Permutation {
 		arrayOfStringResults = permutationCore.getVariations();
 
 	}
+	
+	private void filterArray(){
+		for (int indexForPermutation = 0; indexForPermutation < arrayOfStringResults.length; indexForPermutation++){
+			for (int indexForIteration = 0; indexForIteration < arrayOfStringResults[indexForPermutation].length; indexForIteration++){
+				Iteration iteration = listOfIteration.get(indexForIteration);
+				int value = Integer.valueOf(arrayOfStringResults[indexForPermutation][indexForIteration]);
+				
+//				Co.print("--> " + iteration.adjustment.name() + ", " + value + "     ");
+				if (value > iteration.end || value < iteration.start){
+//					Co.println("--> Should remove. Out of range of: " + iteration.adjustment.name() + ", " + iteration.start + ", " + iteration.end);
+				}
+			}
+			
+//			Co.println("");
+			
+			if (indexForPermutation > 0){
+				Co.println("--> Filtering: " + MathTools.round(((double)indexForPermutation / (double)arrayOfStringResults.length) * 100));
+			}
+		}		
+	}
 
 	public synchronized boolean iterate(){
 		LABEL : {
@@ -58,7 +81,7 @@ public class Permutation {
 				int currentValue = Integer.valueOf(arrayOfStringResults[count][i]);
 				
 				if (currentValue > iteration.end || currentValue < iteration.start){ // || currentValue %2 != 0
-					Co.println("Failed at: " + iteration.start + "," + iteration.end + " / " + currentValue);
+					Co.println("Failed at: " + iteration.adjustment.name() + ", " + iteration.start + "," + iteration.end + " / " + currentValue);
 					count++;
 					break LABEL;
 				}
@@ -88,8 +111,8 @@ public class Permutation {
 	}
 	
 	public static class Iteration{
-		private int start;
-		private int end;
+		public int start;
+		public int end;
 		private volatile int current;
 		private AdjustmentDefinitions adjustment;
 		public SignalMetricType signalTypeMetric;
