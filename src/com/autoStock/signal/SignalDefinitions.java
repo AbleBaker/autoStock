@@ -44,10 +44,10 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}},
 				42, -23, 0, 0),
 		metric_macd(
-			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 2000);}},
+			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 1000);}},
 				0, 0, 0, 0),
 		metric_rsi(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 2);}},
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input);}},
 				33, 10, 0, 0),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 1000);}},

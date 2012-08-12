@@ -37,7 +37,7 @@ import com.autoStock.types.Symbol;
  */
 public class MainBacktest implements ListenerOfBacktestCompleted {
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
-	private BacktestType backtestType = BacktestType.backtest_default;
+	private BacktestType backtestType;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
@@ -50,8 +50,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>(0);
 
 	@SuppressWarnings("deprecation")
-	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
+	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType) {
 		this.exchange = exchange;
+		this.backtestType = backtestType;
 		Global.callbackLock.requestLock();
 		System.gc();
 		

@@ -10,6 +10,6 @@ package com.autoStock.backtest;
 public class BacktestDefinitions {
 	public static enum BacktestType {
 		backtest_default,
-		backtest_with_adjustment,
+		backtest_adjustment,
 	}
 }

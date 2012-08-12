@@ -6,6 +6,7 @@ package com.autoStock.menu;
 import com.autoStock.MainBacktest;
 import com.autoStock.MainEngagement;
 import com.autoStock.MainFilter;
+import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
 import com.autoStock.display.DisplayMarketData;
@@ -85,7 +86,8 @@ public class MenuLauncher {
 				new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
 				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
-				ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " ")
+				ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "),
+				BacktestType.valueOf(menuStructure.getArgument(MenuArguments.arg_backtest_type).value)
 			);
 		}
 		
