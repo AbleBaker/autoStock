@@ -65,7 +65,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisOfRSI analysisOfRSI = new AnalysisOfRSI(periodLength, false, commonAnlaysisData);
 	
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
-	private ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
+	public ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public Signal signal = new Signal(SignalSource.from_analysis);
 	private ChartForAlgorithmTest chart;
 	public QuoteSlice firstQuoteSlice;
@@ -85,8 +85,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		listOfQuoteSlice.add(quoteSlice);
 	
 		if (listOfQuoteSlice.size() > periodLength){
-			double analysisPrice = quoteSlice.priceClose;
-			
 			if (listOfQuoteSlice.size() > periodLength){
 				listOfQuoteSlice.remove(0);
 			}

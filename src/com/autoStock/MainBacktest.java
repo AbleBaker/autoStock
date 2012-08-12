@@ -159,6 +159,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					
 			if (callbacks.decrementAndGet() == 0){
 				Co.println("--> All called back...");
+				bench.printTick("Backtested");
 				
 				PositionManager.instance.executeSellAll();
 				
