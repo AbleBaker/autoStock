@@ -120,7 +120,7 @@ public class AlgorithmManager {
 			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.firstQuoteSlice.priceClose)));
 			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.currentQuoteSlice.priceClose)));
 			columnValues.add(String.valueOf(percentGainFromAlgorithm));
-			columnValues.add(String.valueOf(percentGainFromPosition));
+			columnValues.add(String.valueOf(percentGainFromPosition == 1 ? "-" : percentGainFromPosition));
 			
 			listOfDisplayRows.add(columnValues);
 		}
