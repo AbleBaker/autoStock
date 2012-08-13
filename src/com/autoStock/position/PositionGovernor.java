@@ -63,9 +63,7 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_entry);
-		if (positionGovernorResponse.position.positionType != PositionType.position_failed){
-			positionGovernorResponse.changedPosition = true;
-		}
+		positionGovernorResponse.changedPosition = true;
 	}
 	
 	private void governShortEntry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
@@ -73,9 +71,7 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_short_entry);
-		if (positionGovernorResponse.position.positionType != PositionType.position_failed){
-			positionGovernorResponse.changedPosition = true;
-		}
+		positionGovernorResponse.changedPosition = true;
 	}
 	
 	private void governLongExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
