@@ -18,7 +18,7 @@ public class PositionGovernor {
 	public static PositionGovernor instance = new PositionGovernor();
 	private PositionManager positionManager = PositionManager.instance;
 	private static boolean canGoLong = true;
-	private static boolean canGoShort = true;
+	private static boolean canGoShort = false;
 	
 	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
