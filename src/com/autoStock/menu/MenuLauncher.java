@@ -6,6 +6,7 @@ package com.autoStock.menu;
 import com.autoStock.MainBacktest;
 import com.autoStock.MainEngagement;
 import com.autoStock.MainFilter;
+import com.autoStock.MainMarketOrder;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
@@ -13,6 +14,7 @@ import com.autoStock.display.DisplayMarketData;
 import com.autoStock.display.DisplayRealtimeData;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -54,6 +56,10 @@ public class MenuLauncher {
 							menuStructure.getArgument(MenuArguments.arg_security_type).value
 							)
 					).display();
+		}
+		
+		else if (menuStructure == MenuStructures.menu_request_market_order){
+			new MainMarketOrder(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), PositionType.valueOf(menuStructure.getArgument(MenuArguments.arg_position_type).value) , menuStructure.getArgument(MenuArguments.arg_symbol).value, Integer.valueOf(menuStructure.getArgument(MenuArguments.arg_position_units).value));
 		}
 		
 		else if (menuStructure == MenuStructures.menu_test_market_data){

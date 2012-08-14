@@ -48,46 +48,61 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqOpenOrders();
 	}
 	
-	public void placeBuyOrder(Position typePosition, RequestHolder requestHolder){
+	public void placeLongEntry(Position typePosition, RequestHolder requestHolder, Exchange exchange){
 		Contract contract = new Contract();
 		Order order = new Order();
-		contract.m_exchange = "NYSE";
+		contract.m_exchange = exchange.name;
 		contract.m_symbol = typePosition.symbol;
 		contract.m_secType = "STK";
-		contract.m_currency = "USD";
+		contract.m_currency = exchange.currency.name();
 		order.m_action = "BUY";
 		order.m_orderType = "MKT";
-		order.m_auxPrice = 0.01;
+		order.m_auxPrice = 0;
 		order.m_totalQuantity = typePosition.units;
 		
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
 	}
 	
-	public void placeSellOrder(Position typePosition, RequestHolder requestHolder){
+	public void placeLongExit(Position typePosition, RequestHolder requestHolder, Exchange exchange){
 		Contract contract = new Contract();
 		Order order = new Order();
-		contract.m_exchange = "NYSE";
+		contract.m_exchange = exchange.name;
 		contract.m_symbol = typePosition.symbol;
 		contract.m_secType = "STK";
-		contract.m_currency = "USD";
+		contract.m_currency = exchange.currency.name();
 		order.m_action = "SELL";
 		order.m_orderType = "MKT";
-		order.m_auxPrice = 0.1;
+		order.m_auxPrice = 0;
 		order.m_totalQuantity = typePosition.units;
 		
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
 	}
 	
-	public void placeShortOrder(Position typePosition, RequestHolder requestHolder){
+	public void placeShortEntry(Position typePosition, RequestHolder requestHolder, Exchange exchange){
 		Contract contract = new Contract();
 		Order order = new Order();
-		contract.m_exchange = "NYSE";
+		contract.m_exchange = exchange.name;
 		contract.m_symbol = typePosition.symbol;
 		contract.m_secType = "STK";
-		contract.m_currency = "USD";
+		contract.m_currency = exchange.currency.name();
 		order.m_action = "SELL";
 		order.m_orderType = "MKT";
-		order.m_auxPrice = 0.1;
+		order.m_auxPrice = 0;
+		order.m_totalQuantity = typePosition.units;
+		
+		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
+	}
+	
+	public void placeShortExit(Position typePosition, RequestHolder requestHolder, Exchange exchange){
+		Contract contract = new Contract();
+		Order order = new Order();
+		contract.m_exchange = exchange.name;
+		contract.m_symbol = typePosition.symbol;
+		contract.m_secType = "STK";
+		contract.m_currency = exchange.currency.name();
+		order.m_action = "BUY";
+		order.m_orderType = "MKT";
+		order.m_auxPrice = 0;
 		order.m_totalQuantity = typePosition.units;
 		
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);

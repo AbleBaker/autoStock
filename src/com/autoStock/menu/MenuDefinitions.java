@@ -13,6 +13,7 @@ public class MenuDefinitions {
 		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol, MenuArguments.arg_resolution, MenuArguments.arg_start_date, MenuArguments.arg_end_date}),
 		menu_request_market_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),
 		menu_request_realtime_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),
+		menu_request_market_order(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol, MenuArguments.arg_position_type, MenuArguments.arg_position_units}),
 		menu_test_realtime_data(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_test_market_data(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_internal_build_database_definitions(new MenuArguments[]{MenuArguments.arg_none}),
@@ -47,6 +48,8 @@ public class MenuDefinitions {
 		arg_algorithm(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Algorithm"),
 		arg_exchange(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Exchange"),
 		arg_backtest_type(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Backtest Type"),
+		arg_position_units(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Shares"),
+		arg_position_type(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Position Type"),
 		;
 		
 		public MenuArgumentTypes[] arrayOfArgumentTypes;
