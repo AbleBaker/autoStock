@@ -56,6 +56,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.backtestType = backtestType;
 		Global.callbackLock.requestLock();
 		System.gc();
+		Global.callbackLock.requestLock();
+
 		
 		Co.println("Main backtest...");
 		

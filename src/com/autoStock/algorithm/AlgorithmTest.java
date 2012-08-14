@@ -152,7 +152,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			if (algorithmMode.displayTable){
 				columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
-				columnValues.add(String.valueOf(quoteSlice.priceClose));
+				columnValues.add(String.valueOf(MathTools.round(quoteSlice.priceClose)));
 				columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
 				columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
