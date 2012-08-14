@@ -48,22 +48,17 @@ public class Signal {
 	public SignalPoint getSignalPointMajority(boolean havePosition, PositionType positionType){
 		SignalPoint signalPoint = SignalPoint.none;
 
-//		for (SignalMetric signalMetric : listOfSignalMetric){signalMetric.getSignalPoint(havePosition, positionType).occurences++;}
-//		
-//		for (SignalMetric signalMetric : listOfSignalMetric){
-//			if (signalMetric.getSignalPoint(havePosition, positionType) != SignalPoint.none){
-//				signalPoint = signalMetric.getSignalPoint(havePosition, positionType);
-//			}
-//		}
+		for (SignalMetric signalMetric : listOfSignalMetric){signalMetric.getSignalPoint(havePosition, positionType).occurences++;}
 		
-		if (listOfSignalMetric.get(0).getSignalPoint(havePosition, positionType) == listOfSignalMetric.get(1).getSignalPoint(havePosition, positionType)){
-			signalPoint = listOfSignalMetric.get(0).getSignalPoint(havePosition, positionType);
+		for (SignalMetric signalMetric : listOfSignalMetric){
+			if (signalMetric.getSignalPoint(havePosition, positionType) != SignalPoint.none){ //signalMetric.getSignalPoint(havePosition, positionType).occurences > occurences &&
+				signalPoint = signalMetric.getSignalPoint(havePosition, positionType);
+//				Co.println("--> Have signal at: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", " + signalPoint.name());
+			}
 		}
 		
 		currentSignalPoint = signalPoint;
 		return signalPoint;
-		
-//		Co.println("--> Have signal at: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", " + signalPoint.name());
 	}
 	
 	public ArrayList<SignalMetric> getListOfSignalMetric(){
