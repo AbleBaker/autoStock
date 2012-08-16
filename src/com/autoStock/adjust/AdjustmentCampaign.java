@@ -33,10 +33,10 @@ public class AdjustmentCampaign {
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_macd));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_macd));
 //		
-		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_rsi));
-		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_rsi));
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_rsi));
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_rsi));
 		
-		
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_control_stop_loss, SignalMetricType.metric_none));
 //		
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_short_entry, SignalMetricType.metric_rsi));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_short_exit, SignalMetricType.metric_rsi));
@@ -49,6 +49,7 @@ public class AdjustmentCampaign {
 		long_exit,
 		short_entry,
 		short_exit,
+		signal_control,
 	}
 	
 	public enum AdjustmentDefinitions {		
@@ -58,6 +59,8 @@ public class AdjustmentCampaign {
 		algo_signal_metric_short_exit(-50, 50, AdjustmentType.short_exit),
 //		
 //		algo_signal_period_length(15, 60),
+		
+//		algo_signal_control_stop_loss(-50, 0, AdjustmentType.signal_control);
 //		
 //		algo_signal_period_average_ppc(0,8),
 //		algo_signal_period_average_di(0,8),
@@ -113,7 +116,11 @@ public class AdjustmentCampaign {
 			else if (iteration.signalTypeMetric != null && adjustment.adjustmentType == AdjustmentType.short_exit){
 				iteration.signalTypeMetric.pointToSignalShortExit = (int) permutation.getIteration(adjustment).getCurrentValue();
 			}
-						
+			
+			else if (iteration.signalTypeMetric != null && adjustment.adjustmentType == AdjustmentType.signal_control){
+				SignalControl.maxStopLossValue = (int) permutation.getIteration(adjustment).getCurrentValue();
+			}
+		
 			else {
 				throw new UnsupportedOperationException("Undefined condition: " + adjustment.name());
 			}

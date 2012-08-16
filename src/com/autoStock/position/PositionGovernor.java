@@ -1,8 +1,13 @@
 package com.autoStock.position;
 
+import javax.annotation.PostConstruct;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
 import com.autoStock.Co;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorReason;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
@@ -17,10 +22,11 @@ import com.autoStock.types.QuoteSlice;
 public class PositionGovernor {
 	public static PositionGovernor instance = new PositionGovernor();
 	private PositionManager positionManager = PositionManager.instance;
+	private AlgorithmCondition algorithmCondition = new AlgorithmCondition(); 
 	private static boolean canGoLong = true;
 	private static boolean canGoShort = false;
 	
-	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange){
+	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, int transactions, PositionGovernorResponse positionGovernorResponsePrevious){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		Position position = positionManager.getPosition(quoteSlice.symbol);
 		
@@ -28,17 +34,31 @@ public class PositionGovernor {
 		positionManager.updatePositionPrice(quoteSlice, position);
 		
 		if (position == null){
-			if (new AlgorithmCondition().canTradeOnDate(quoteSlice.dateTime, exchange) == false){
-				return positionGovernorResponse;
+			if (algorithmCondition.canTradeOnDate(quoteSlice.dateTime, exchange) == false){
+				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_time);
+			}
+
+			if (algorithmCondition.canTadeAfterTransactions(transactions) == false){
+				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_trans);
 			}
 			
 			if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){
-				governLongEntry(quoteSlice, position, signal, positionGovernorResponse);
+				governLongEntry(quoteSlice, signal, positionGovernorResponse);
 			}else if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.short_entry && canGoShort){
-				governShortEntry(quoteSlice, position, signal, positionGovernorResponse);
+				governShortEntry(quoteSlice, signal, positionGovernorResponse);
 			}
 		} else {
-			boolean algorithmConditionExit = new AlgorithmCondition().shouldRequestExit(quoteSlice.dateTime, exchange, position);
+			boolean algorithmConditionExit = false;
+			
+			if (algorithmCondition.shouldRequestExitOnDate(quoteSlice.dateTime, exchange, position)){
+				positionGovernorResponse.status.reason = PositionGovernorReason.failed_algorithm_condition_time;
+				algorithmConditionExit = true;
+			}
+			
+			if (algorithmCondition.shouldStopLoss(position)){
+				positionGovernorResponse.status.reason = PositionGovernorReason.failed_algorithm_condition_stoploss;
+				algorithmConditionExit = true;
+			}
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {
@@ -58,20 +78,24 @@ public class PositionGovernor {
 		return positionGovernorResponse;
 	}
 	
-	private void governLongEntry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
-		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry)){
-			return;
+	private void governLongEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse){
+		Position position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_entry);
+		if (position == null){
+			positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_insufficient_funds);
+		}else{
+			positionGovernorResponse.position = position;
+			positionGovernorResponse.status = PositionGovernorResponseStatus.status_changed_long_entry;
 		}
-		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_entry);
-		positionGovernorResponse.changedPosition = true;
 	}
 	
-	private void governShortEntry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
-		if (position != null && (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry)){
-			return;
+	private void governShortEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse){
+		Position position = positionManager.executePosition(quoteSlice, signal, PositionType.position_short_entry);
+		if (position == null){
+			positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_insufficient_funds);
+		}else{
+			positionGovernorResponse.position = position;
+			positionGovernorResponse.status = PositionGovernorResponseStatus.status_changed_short_entry;
 		}
-		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_short_entry);
-		positionGovernorResponse.changedPosition = true;
 	}
 	
 	private void governLongExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
@@ -79,7 +103,7 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_exit);
-		positionGovernorResponse.changedPosition = true;
+		positionGovernorResponse.status = PositionGovernorResponseStatus.status_changed_long_exit;
 	}
 	
 	private void governShortExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
@@ -87,6 +111,6 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_short_exit);
-		positionGovernorResponse.changedPosition = true;
+		positionGovernorResponse.status = PositionGovernorResponseStatus.status_change_short_exit;
 	}
 }

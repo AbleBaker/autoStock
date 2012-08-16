@@ -54,6 +54,7 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
 				3, -30, 0, 0),
 		metric_storsi(null,0,0,0,0),
+		metric_none(null, 0, 0, 0, 0),
 		;
 		
 		CalculateInterface calculateInterface;

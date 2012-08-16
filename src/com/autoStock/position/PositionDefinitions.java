@@ -27,5 +27,6 @@ public class PositionDefinitions {
 		position_exited,
 		position_failed,
 		position_none,
+		;
 	}
 }

@@ -27,6 +27,7 @@ import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.signal.Signal;
@@ -51,7 +52,7 @@ import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
- *
+ * 
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	private int periodLength = SignalControl.periodLength;
@@ -63,53 +64,54 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private AnalysisOfBB analysisOfBB = new AnalysisOfBB(periodLength, false, commonAnlaysisData);
 	private AnalysisOfTRIX analysisOfTRIX = new AnalysisOfTRIX(periodLength, false, commonAnlaysisData);
 	private AnalysisOfRSI analysisOfRSI = new AnalysisOfRSI(periodLength, false, commonAnlaysisData);
-	
+
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	public ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public Signal signal = new Signal(SignalSource.from_analysis);
 	private ChartForAlgorithmTest chart;
 	public QuoteSlice firstQuoteSlice;
 	public QuoteSlice currentQuoteSlice;
-	
+
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode) {
 		super(canTrade, exchange, symbol, algorithmMode);
-		if (algorithmMode.displayChart){chart = new ChartForAlgorithmTest();}
+		if (algorithmMode.displayChart) {
+			chart = new ChartForAlgorithmTest();
+		}
 	}
 
 	@Override
 	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
-		if (algorithmMode.displayMessages){Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " +
-				"O,H,L,C: " + 
-				+ MathTools.round(quoteSlice.priceOpen) + ", " 
-				+ MathTools.round(quoteSlice.priceHigh) + ", " 
-				+ MathTools.round(quoteSlice.priceLow) + ", " 
-				+ MathTools.round(quoteSlice.priceClose));}
-		
-		if (firstQuoteSlice == null){firstQuoteSlice = quoteSlice;}
+		if (algorithmMode.displayMessages) {
+			Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + "O,H,L,C: " + +MathTools.round(quoteSlice.priceOpen) + ", " + MathTools.round(quoteSlice.priceHigh) + ", " + MathTools.round(quoteSlice.priceLow) + ", " + MathTools.round(quoteSlice.priceClose));
+		}
+
+		if (firstQuoteSlice == null) {
+			firstQuoteSlice = quoteSlice;
+		}
 		currentQuoteSlice = quoteSlice;
 		listOfQuoteSlice.add(quoteSlice);
-	
-		if (listOfQuoteSlice.size() > periodLength){
-			if (listOfQuoteSlice.size() > periodLength){
+
+		if (listOfQuoteSlice.size() > periodLength) {
+			if (listOfQuoteSlice.size() > periodLength) {
 				listOfQuoteSlice.remove(0);
 			}
-			
+
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
-			
+
 			analysisOfCCI.setDataSet(listOfQuoteSlice);
 			analysisOfDI.setDataSet(listOfQuoteSlice);
 			analysisOfBB.setDataSet(listOfQuoteSlice);
 			analysisOfMACD.setDataSet(listOfQuoteSlice);
 			analysisOfRSI.setDataSet(listOfQuoteSlice);
 			analysisOfTRIX.setDataSet(listOfQuoteSlice);
-			
+
 			ResultsCCI resultsCCI = analysisOfCCI.analyize();
 			ResultsDI resultsDI = analysisOfDI.analize();
 			ResultsBB resultsBB = analysisOfBB.analyize(MAType.Ema);
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
-			
+
 			double[] arrayOfPriceClose = commonAnlaysisData.arrayOfPriceClose;
 			double analysisOfCCIResult = resultsCCI.arrayOfCCI[0];
 			double analysisOfDIResultPlus = resultsDI.arrayOfDIPlus[0];
@@ -119,20 +121,24 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			double analysisOfMACDResult = resultsMACD.arrayOfMACDSignal[0];
 			double analysisOfRSIResult = resultsRSI.arrayOfRSI[0];
 			double analysisOfTrixResult = resultsTRIX.arrayOfTRIX[0];
-			
+
 			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(arrayOfPriceClose, 0, periodLength), SignalControl.periodAverageForPPC);
 			SignalOfDI signalOfDI = new SignalOfDI(ArrayTools.subArray(resultsDI.arrayOfDIPlus, 0, 1), ArrayTools.subArray(resultsDI.arrayOfDIMinus, 0, 1), SignalControl.periodAverageForDI);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, 1), SignalControl.periodAverageForCCI);
 			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDSignal, 0, 1), SignalControl.periodAverageForMACD);
 			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
-			
+
 			signal.reset();
-//			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfCCI.getSignal(), signalOfMACD.getSignal(), signalOfTRIX.getSignal());
-//			signal.addSignalMetrics(signalOfPPC.getSignal(), signalOfDI.getSignal(), signalOfTRIX.getSignal(), signalOfCCI.getSignal());
-			signal.addSignalMetrics(signalOfRSI.getSignal()); 
-			
-			if (algorithmMode.displayChart){
+			// signal.addSignalMetrics(signalOfDI.getSignal(),
+			// signalOfCCI.getSignal(), signalOfMACD.getSignal(),
+			// signalOfTRIX.getSignal());
+			// signal.addSignalMetrics(signalOfPPC.getSignal(),
+			// signalOfDI.getSignal(), signalOfTRIX.getSignal(),
+			// signalOfCCI.getSignal());
+			signal.addSignalMetrics(signalOfRSI.getSignal());
+
+			if (algorithmMode.displayChart) {
 				chart.listOfDate.add(quoteSlice.dateTime);
 				chart.listOfPrice.add(quoteSlice.priceClose);
 				chart.listOfSignalDI.add(signalOfDI.getSignal().strength);
@@ -141,24 +147,24 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
 				chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
 				chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
-				chart.listOfSignalTotal.add((int)signal.getCombinedSignal().strength);
-				
+				chart.listOfSignalTotal.add((int) signal.getCombinedSignal().strength);
+
 				chart.listOfDI.add(analysisOfDIResultPlus - analysisOfDIResultMinus);
 				chart.listOfCCI.add(analysisOfCCIResult);
 				chart.listOfMACD.add(analysisOfMACDResult);
 				chart.listOfRSI.add(analysisOfRSIResult);
 			}
-			
-			if (algorithmListener != null){
+
+			if (algorithmListener != null) {
 				algorithmListener.recieveSignal(signal, quoteSlice);
 			}
-			
+
 			ArrayList<String> columnValues = new ArrayList<String>();
-			
-			if (algorithmMode.displayTable){
+
+			if (algorithmMode.displayTable) {
 				columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
 				columnValues.add(String.valueOf(MathTools.round(quoteSlice.priceClose)));
-				columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size()-2).priceClose))));
+				columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
 				columnValues.add(String.valueOf(signalOfPPC.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfDI.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfCCI.getSignal().strength));
@@ -167,30 +173,50 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
 				columnValues.add(String.valueOf(signal.getCombinedSignal().strength));
 			}
-			
-			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange);
-			
-			if (algorithmMode.displayTable){				
-				if (positionGovenorResponse.changedPosition){
+
+			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange, transactions, positionGovernorResponsePrevious);
+
+			if (algorithmMode.displayTable) {
+				if (positionGovenorResponse.status == PositionGovernorResponseStatus.failed){
+					if (positionGovenorResponse.status != positionGovernorResponsePrevious.status && positionGovenorResponse.status.reason != positionGovernorResponsePrevious.status.reason){
+						columnValues.add(positionGovenorResponse.status.reason.name());
+						columnValues.add("");
+						columnValues.add("");
+					}else{
+						columnValues.add("");
+						columnValues.add("");
+						columnValues.add("");
+					}
+				} else if (positionGovenorResponse.status != PositionGovernorResponseStatus.no_change && positionGovenorResponse.status != PositionGovernorResponseStatus.none) {
 					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.position.positionType.name());
 					columnValues.add(positionGovenorResponse.position.units + ", " + MathTools.round(positionGovenorResponse.position.lastKnownPrice) + ", " + MathTools.round(positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
 					columnValues.add(String.valueOf(Account.instance.getBankBalance()));
-				}else{
+					
+					handlePositionChange();
+				} else {
 					columnValues.add("");
 					columnValues.add("");
 					columnValues.add("");
 				}
-				
+
 				columnValues.add("");
 				listOfDisplayRows.add(columnValues);
-			}	
+			}
+			
+			positionGovernorResponsePrevious = positionGovenorResponse;
 		}
 	}
 
 	@Override
 	public synchronized void endOfFeed(Symbol symbol) {
-		if (algorithmMode.displayChart){chart.display();}
-		if (algorithmMode.displayTable){new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);}
-		if (algorithmListener != null){algorithmListener.endOfAlgorithm();}
+		if (algorithmMode.displayChart) {
+			chart.display();
+		}
+		if (algorithmMode.displayTable) {
+			new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		}
+		if (algorithmListener != null) {
+			algorithmListener.endOfAlgorithm();
+		}
 	}
 }
