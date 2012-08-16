@@ -24,8 +24,8 @@ public class AdjustmentCampaign {
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_di));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_di));
 		
-		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_cci));
-		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_cci));
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_cci));
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_cci));
 		
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_trix));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_trix));
@@ -33,8 +33,8 @@ public class AdjustmentCampaign {
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_macd));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_macd));
 //		
-//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_rsi));
-//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_rsi));
+		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_rsi));
+		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_rsi));
 		
 		
 //		

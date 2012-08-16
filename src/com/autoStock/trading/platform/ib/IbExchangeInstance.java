@@ -144,7 +144,8 @@ public class IbExchangeInstance {
 		contract.m_symbol = symbol.symbol;
 		contract.m_secType = "STK";
 		contract.m_currency = exchange.currency.name();
-		ibExchangeClientSocket.eClientSocket.reqMktData(requestHolder.requestId, contract, "104,165,225", false);
+		contract.m_includeExpired = true;
+		ibExchangeClientSocket.eClientSocket.reqMktData(requestHolder.requestId, contract, "100,101,104,105,106,107,165,236,293,294,295,411", false);
 	}
 	
 	public void getHistoricalPrice(HistoricalData typeHistoricalData, RequestHolder requestHolder){

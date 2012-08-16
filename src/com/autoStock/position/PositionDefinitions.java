@@ -8,6 +8,14 @@ package com.autoStock.position;
  *
  */
 public class PositionDefinitions {
+	
+	public enum PositionReason {
+		reason_signal_threshold,
+		reason_algorith_condition,
+		reason_time,
+		reason_none,
+	}
+	
 	public enum PositionType {
 		position_long_entry,
 		position_short_entry,

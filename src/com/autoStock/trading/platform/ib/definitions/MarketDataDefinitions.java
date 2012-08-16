@@ -1,5 +1,6 @@
 package com.autoStock.trading.platform.ib.definitions;
 
+import com.autoStock.Co;
 import com.autoStock.trading.platform.ib.core.TickType;
 
 /**
@@ -40,16 +41,6 @@ public class MarketDataDefinitions {
 		}
 	}
 	
-	public static TickPriceFields getTickPriceField(int field){
-		for (TickPriceFields tickPriceField : TickPriceFields.values()){
-			if (tickPriceField.field == field){
-				return tickPriceField;
-			}
-		}
-		
-		throw new UnsatisfiedLinkError("Could not find field for: " + TickType.getField(field) + "," + field);
-	}
-	
 	public static enum TickSizeFields {
 		field_bid(0),
 		field_ask(3),
@@ -58,6 +49,10 @@ public class MarketDataDefinitions {
 		field_avg_volume(21),
 		field_action_volume(34),
 		field_auction_imbalance(36),
+		field_option_call_volume(29),
+		field_option_call_open_interest(27),
+		field_option_put_volume(30),
+		field_option_put_open_interest(28),
 		;
 		
 		public int field;
@@ -65,6 +60,16 @@ public class MarketDataDefinitions {
 		TickSizeFields(int field){
 			this.field = field;
 		}
+	}
+	
+	public static TickPriceFields getTickPriceField(int field){
+		for (TickPriceFields tickPriceField : TickPriceFields.values()){
+			if (tickPriceField.field == field){
+				return tickPriceField;
+			}
+		}
+		
+		throw new UnsatisfiedLinkError("Could not find field for: " + TickType.getField(field) + "," + field);
 	}
 	
 	public static TickSizeFields getTickSizeField(int field){

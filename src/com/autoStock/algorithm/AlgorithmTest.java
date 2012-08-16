@@ -78,7 +78,12 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 
 	@Override
 	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
-		if (algorithmMode.displayMessages){Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + MathTools.round(quoteSlice.priceClose));}
+		if (algorithmMode.displayMessages){Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " +
+				"O,H,L,C: " + 
+				+ MathTools.round(quoteSlice.priceOpen) + ", " 
+				+ MathTools.round(quoteSlice.priceHigh) + ", " 
+				+ MathTools.round(quoteSlice.priceLow) + ", " 
+				+ MathTools.round(quoteSlice.priceClose));}
 		
 		if (firstQuoteSlice == null){firstQuoteSlice = quoteSlice;}
 		currentQuoteSlice = quoteSlice;

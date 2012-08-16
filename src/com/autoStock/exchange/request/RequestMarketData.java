@@ -55,11 +55,8 @@ public class RequestMarketData {
 				receivedTimestamp = Long.valueOf(exResultRowMarketData.tickStringValue);
 				runThreadForSliceCollector(sliceMilliseconds);
 			}
-		}else if (receivedTimestamp != 0){
-			synchronized(RequestMarketData.this){
-				exResultSetMarketData.listOfExResultRowMarketData.add(exResultRowMarketData);
-			}
-		} 
+		}
+		exResultSetMarketData.listOfExResultRowMarketData.add(exResultRowMarketData);
 	}
 	
 	public void runThreadForSliceCollector(final int sliceMilliseconds){
@@ -77,7 +74,7 @@ public class RequestMarketData {
 	
 						quoteSlice.dateTime = DateTools.getForeignDateFromLocalTime(DateTools.getTimeFromDate(new Date()), exchange.timeZone);
 						
-						if (exResultSetMarketData.listOfExResultRowMarketData.size() > 60){ //hack
+						if (exResultSetMarketData.listOfExResultRowMarketData.size() > 60){ //TODO: Fix this hack
 							exResultSetMarketData.listOfExResultRowMarketData.remove(0);
 						}
 						

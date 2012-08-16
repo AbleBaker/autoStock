@@ -12,15 +12,16 @@ import com.autoStock.types.QuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public class AlgorithmCondition {	
-	@SuppressWarnings("deprecation")
+public class AlgorithmCondition {
+	
+	// public boolean canTadeAfterTransactions(int transactions)
+	// public boolean shouldTakeProfit(Position position, QuoteSlice quoteSlice)
+	// public boolean shouldStopLoss(Position position, QuoteSlice quoteSlice)
+	
 	public boolean canTradeOnDate(Date date, Exchange exchange){
 		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), ExternalConditionDefintions.maxPositionEntryTime);		
 	
-		if (date.getHours() > dateForLastExecution.getHours() || (
-			date.getHours() >= dateForLastExecution.getHours() && 
-			date.getMinutes() >= dateForLastExecution.getMinutes())){
-			
+		if (date.getHours() > dateForLastExecution.getHours() || ( date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
 			return false;
 		}
 		
@@ -29,10 +30,10 @@ public class AlgorithmCondition {
 	
 	public boolean shouldRequestExit(Date date, Exchange exchange, Position position){
 		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), ExternalConditionDefintions.maxPositionExitTime);		
-		if (date.getHours() > dateForLastExecution.getHours() || (
-			date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
+		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
 			return true;
 		}
+		
 		return false;
 	}
 }
