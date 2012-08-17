@@ -31,6 +31,7 @@ public class PositionGovernor {
 		Position position = positionManager.getPosition(quoteSlice.symbol);
 		
 		signal.currentSignalTrend = SignalDefinitions.getSignalType(signal);
+		
 		positionManager.updatePositionPrice(quoteSlice, position);
 		
 		if (position == null){
@@ -74,7 +75,7 @@ public class PositionGovernor {
 		}
 
 		return positionGovernorResponse;
-	}
+	} 
 	
 	private void governLongEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse){
 		Position position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_entry);

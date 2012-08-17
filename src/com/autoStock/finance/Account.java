@@ -57,7 +57,7 @@ public class Account {
 		if (units <= 500){
 			cost = Math.max(1.30, units * 0.013);	
 		}else{
-			cost = Math.max(1.30, units * 0.008);
+			cost = (500 * 0.013) + ((units - 500) * 0.008);
 		}
 		
 		return Math.min(cost, units * price * 0.005);

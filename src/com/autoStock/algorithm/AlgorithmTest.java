@@ -179,7 +179,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			if (algorithmMode.displayTable) {
 				if (positionGovenorResponse.status == PositionGovernorResponseStatus.failed){
 					if (positionGovenorResponse.status != positionGovernorResponsePrevious.status && positionGovenorResponse.status.reason != positionGovernorResponsePrevious.status.reason){
-						columnValues.add(positionGovenorResponse.status.reason.name());
+						columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status.reason.name());
 						columnValues.add("");
 						columnValues.add("");
 					}else{
