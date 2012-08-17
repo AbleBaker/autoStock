@@ -75,14 +75,4 @@ public class SignalDefinitions {
 			return this.calculateInterface.calculate(input);
 		} 
 	}
-	
-	public static synchronized SignalTrend getSignalType(Signal signal){
-		if (signal.getCombinedSignal().strength > signal.getCombinedSignal().longEntry){
-			return SignalTrend.type_trend_up;
-		}else if (signal.getCombinedSignal().strength < signal.getCombinedSignal().shortEntry){
-			return SignalTrend.type_trend_down;
-		}else{
-			return SignalTrend.type_trend_flat;
-		}
-	}
 }

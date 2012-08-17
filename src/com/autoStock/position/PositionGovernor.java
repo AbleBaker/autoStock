@@ -1,16 +1,12 @@
 package com.autoStock.position;
 
-import javax.annotation.PostConstruct;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
-import com.autoStock.Co;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorReason;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
+import com.autoStock.signal.SignalTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -30,7 +26,7 @@ public class PositionGovernor {
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		Position position = positionManager.getPosition(quoteSlice.symbol);
 		
-		signal.currentSignalTrend = SignalDefinitions.getSignalType(signal);
+		signal.currentSignalTrend = SignalTools.getSignalType(signal);
 		
 		positionManager.updatePositionPrice(quoteSlice, position);
 		

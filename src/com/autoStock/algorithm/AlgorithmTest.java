@@ -39,6 +39,7 @@ import com.autoStock.signal.SignalOfMACD;
 import com.autoStock.signal.SignalOfPPC;
 import com.autoStock.signal.SignalOfRSI;
 import com.autoStock.signal.SignalOfTRIX;
+import com.autoStock.signal.SignalTools;
 import com.autoStock.taLib.MAType;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -147,7 +148,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				chart.listOfSignalMACD.add(signalOfMACD.getSignal().strength);
 				chart.listOfSignalRSI.add(signalOfRSI.getSignal().strength);
 				chart.listOfSignalTRIX.add(signalOfTRIX.getSignal().strength);
-				chart.listOfSignalTotal.add((int) signal.getCombinedSignal().strength);
+				chart.listOfSignalTotal.add((int) SignalTools.getCombinedSignal(signal).strength);
 
 				chart.listOfDI.add(analysisOfDIResultPlus - analysisOfDIResultMinus);
 				chart.listOfCCI.add(analysisOfCCIResult);
@@ -171,7 +172,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				columnValues.add(String.valueOf(signalOfRSI.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfMACD.getSignal().strength));
 				columnValues.add(String.valueOf(signalOfTRIX.getSignal().strength));
-				columnValues.add(String.valueOf(signal.getCombinedSignal().strength));
+				columnValues.add(String.valueOf(SignalTools.getCombinedSignal(signal).strength));
 			}
 
 			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange, transactions, positionGovernorResponsePrevious);
@@ -198,8 +199,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 					columnValues.add("");
 					columnValues.add("");
 				}
-
-				columnValues.add("");
+				
 				listOfDisplayRows.add(columnValues);
 			}
 			
