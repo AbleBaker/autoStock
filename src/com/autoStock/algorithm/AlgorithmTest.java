@@ -188,7 +188,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 						columnValues.add("");
 					}
 				} else if (positionGovenorResponse.status != PositionGovernorResponseStatus.no_change && positionGovenorResponse.status != PositionGovernorResponseStatus.none) {
-					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.position.positionType.name());
+					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status.reason + ", " + positionGovenorResponse.position.positionType.name());
 					columnValues.add(positionGovenorResponse.position.units + ", " + MathTools.round(positionGovenorResponse.position.lastKnownPrice) + ", " + MathTools.round(positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
 					columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 					

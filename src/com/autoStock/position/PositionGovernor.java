@@ -64,9 +64,7 @@ public class PositionGovernor {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
-			}
-
-			else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
+			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
 				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.short_exit) || algorithmConditionExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
