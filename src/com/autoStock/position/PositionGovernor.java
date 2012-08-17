@@ -5,7 +5,9 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorReason;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
+import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.signal.SignalTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -21,16 +23,18 @@ public class PositionGovernor {
 	private AlgorithmCondition algorithmCondition = new AlgorithmCondition(); 
 	private static boolean canGoLong = true;
 	private static boolean canGoShort = false;
+	private SignalPointTactic signalPointTactic = SignalPointTactic.tatic_change;
 	
 	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, int transactions, PositionGovernorResponse positionGovernorResponsePrevious){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		Position position = positionManager.getPosition(quoteSlice.symbol);
 		
 		signal.currentSignalTrend = SignalTools.getSignalType(signal);
-		
 		positionManager.updatePositionPrice(quoteSlice, position);
 		
 		if (position == null){
+			SignalPoint signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, signalPointTactic);
+
 			if (algorithmCondition.canTradeOnDate(quoteSlice.dateTime, exchange) == false){
 				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_time);
 			}
@@ -39,13 +43,17 @@ public class PositionGovernor {
 				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_trans);
 			}
 			
-			if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.long_entry && canGoLong){
+			if (signalPoint == SignalPoint.long_entry && canGoLong){
 				governLongEntry(quoteSlice, signal, positionGovernorResponse);
-			}else if (signal.getSignalPointMajority(false, PositionType.position_none) == SignalPoint.short_entry && canGoShort){
+			}else if (signalPoint == SignalPoint.short_entry && canGoShort){
 				governShortEntry(quoteSlice, signal, positionGovernorResponse);
 			}
+			
+			signal.currentSignalPoint = signalPoint;
+			
 		} else {
 			boolean algorithmConditionExit = false;
+			SignalPoint signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, signalPointTactic);
 			
 			if (algorithmCondition.shouldRequestExitOnDate(quoteSlice.dateTime, exchange, position)){
 				positionGovernorResponse.status.reason = PositionGovernorReason.failed_algorithm_condition_time;
@@ -58,16 +66,18 @@ public class PositionGovernor {
 			}
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
-				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.long_exit) || algorithmConditionExit) {
+				if (signalPoint == SignalPoint.long_exit || algorithmConditionExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
-				if ((signal.getSignalPointMajority(true, position.positionType) == SignalPoint.short_exit) || algorithmConditionExit) {
+				if (signalPoint == SignalPoint.short_exit || algorithmConditionExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			}else {
 				throw new IllegalStateException();
 			}
+			
+			signal.currentSignalPoint = signalPoint;
 		}
 
 		return positionGovernorResponse;

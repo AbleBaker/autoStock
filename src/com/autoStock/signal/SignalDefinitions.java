@@ -40,16 +40,16 @@ public class SignalDefinitions {
 				48, 44, 0, 0),
 		metric_di(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 3);}},
-				5, -24, 0, 0),
+				5, -24, -100, -100),
 		metric_cci(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}},
-				42, -23, 0, 0),
+				42, -23, -100, -100),
 		metric_macd(
 			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 1000);}},
 				0, 0, 0, 0),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 2);}},
-				33, 16, 0, 0),
+				33, 16, -100, -100),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
 				3, -30, 0, 0),

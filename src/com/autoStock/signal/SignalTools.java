@@ -2,7 +2,6 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
-import com.autoStock.signal.Signal.CombinedSignal;
 import com.autoStock.signal.SignalDefinitions.SignalTrend;
 
 /**
