@@ -2,13 +2,8 @@ package com.autoStock.algorithm;
 
 import java.util.ArrayList;
 
-import javax.annotation.PostConstruct;
-import javax.sound.midi.Receiver;
-import javax.xml.crypto.dsig.keyinfo.PGPData;
-
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
-import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.analysis.AnalysisOfBB;
 import com.autoStock.analysis.AnalysisOfCCI;
@@ -25,11 +20,9 @@ import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsTRIX;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
-import com.autoStock.internal.ApplicationStates;
-import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponse;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
