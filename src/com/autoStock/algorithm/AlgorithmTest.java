@@ -119,13 +119,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfPPC signalOfPPC = new SignalOfPPC(ArrayTools.subArray(arrayOfPriceClose, 0, periodLength), SignalControl.periodAverageForPPC);
 			SignalOfDI signalOfDI = new SignalOfDI(ArrayTools.subArray(resultsDI.arrayOfDIPlus, 0, 1), ArrayTools.subArray(resultsDI.arrayOfDIMinus, 0, 1), SignalControl.periodAverageForDI);
 			SignalOfCCI signalOfCCI = new SignalOfCCI(ArrayTools.subArray(resultsCCI.arrayOfCCI, 0, 1), SignalControl.periodAverageForCCI);
-			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDSignal, 0, 1), SignalControl.periodAverageForMACD);
+			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, 1), SignalControl.periodAverageForMACD);
 			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 
 			signal.reset();
-//			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfDI.getSignal()); 
-			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfMACD.getSignal(), signalOfDI.getSignal());
+			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfRSI.getSignal(), signalOfDI.getSignal()); 
+//			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfMACD.getSignal(), signalOfDI.getSignal());
 
 			if (algorithmMode.displayChart) {
 				chart.listOfDate.add(quoteSlice.dateTime);
@@ -177,7 +177,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 						columnValues.add("");
 					}
 				} else if (positionGovenorResponse.status != PositionGovernorResponseStatus.no_change && positionGovenorResponse.status != PositionGovernorResponseStatus.none) {
-					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status.reason + ", " + positionGovenorResponse.position.positionType.name());
+					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status.reason + ", " + positionGovenorResponse.position.positionType.name() + ", " + signal.currentSignalPoint.signalMetricType.name());
 					columnValues.add(positionGovenorResponse.position.units + ", " + MathTools.round(positionGovenorResponse.position.lastKnownPrice) + ", " + MathTools.round(positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
 					columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 					

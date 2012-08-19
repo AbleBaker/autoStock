@@ -32,6 +32,7 @@ public abstract class AnalysisBase {
 	public double[] arrayOfPriceHigh;
 	public double[] arrayOfPriceLow;
 	public double[] arrayOfPriceClose;
+	public int[] arrayOfSizeVolume;
 	public boolean preceedDataset;
 	public int endIndex;
 	
@@ -63,6 +64,7 @@ public abstract class AnalysisBase {
 		arrayOfPriceHigh = commonAnlaysisData.arrayOfPriceHigh;
 		arrayOfPriceLow = commonAnlaysisData.arrayOfPriceLow;
 		arrayOfPriceClose = commonAnlaysisData.arrayOfPriceClose;
+		arrayOfSizeVolume = commonAnlaysisData.arrayOfSizeVolume;
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){

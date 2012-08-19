@@ -56,6 +56,7 @@ public class SignalPointMethod {
 			if (metricSignalPoint != currentSignalPoint && metricSignalPoint != SignalPoint.none){
 //				Co.println("--> SignalPointChange metric, current signal, metric signal point: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", "  + currentSignalPoint.name() + ", " + metricSignalPoint.name());
 				signalPoint = metricSignalPoint;
+				signalPoint.signalMetricType = signalMetric.signalMetricType;
 				break;
 			}
 		}

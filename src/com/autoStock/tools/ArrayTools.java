@@ -59,6 +59,14 @@ public class ArrayTools {
 		return ret;
 	}
 	
+	public static double[] convertDoubles(int[] arrayOfInt) {
+		double[] ret = new double[arrayOfInt.length];
+		for (int i = 0; i < ret.length; i++) {
+			ret[i] = Double.valueOf(arrayOfInt[i]);
+		}
+		return ret;
+	}
+	
 	public static Date[] convertDates(ArrayList<Date> dates){
 		Date[] ret = new Date[dates.size()];
 		for (int i = 0; i < ret.length; i++) {

@@ -16,6 +16,7 @@ public class CommonAnlaysisData {
 	public double[] arrayOfPriceHigh;
 	public double[] arrayOfPriceLow;
 	public double[] arrayOfPriceClose;
+	public int[] arrayOfSizeVolume;
 	public Date[] arrayOfDates;
 	
 	public void setAnalysisData(ArrayList<QuoteSlice> listOfQuoteSlice){		
@@ -23,6 +24,7 @@ public class CommonAnlaysisData {
 		arrayOfPriceHigh = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceHigh");
 		arrayOfPriceLow = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceLow");
 		arrayOfPriceClose = extractDoubleFromQuoteSlice(listOfQuoteSlice, "priceClose");
+		arrayOfSizeVolume = extractIntFromQuoteSlice(listOfQuoteSlice, "sizeVolume");
 		arrayOfDates = extractDateFromQuoteSlice(listOfQuoteSlice, "dateTime");
 		
 		isInitialized = true;
@@ -81,10 +83,21 @@ public class CommonAnlaysisData {
 			if (field.equals("priceHigh")){arrayOfDouble[i] = quoteSlice.priceHigh;}
 			if (field.equals("priceLow")){arrayOfDouble[i] = quoteSlice.priceLow;}
 			if (field.equals("priceClose")){arrayOfDouble[i] = quoteSlice.priceClose;}
-			
 			i++;
 		}
 
 		return arrayOfDouble;
+	}
+	
+	private int[] extractIntFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field){
+		int[] arrayOfInt = new int[listOfQuoteSlice.size()];
+		int i = 0;
+		
+		for (QuoteSlice quoteSlice : listOfQuoteSlice){
+			if (field.equals("sizeVolume")){arrayOfInt[i] = quoteSlice.sizeVolume;}
+			i++;
+		}
+
+		return arrayOfInt;
 	}
 }

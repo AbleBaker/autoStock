@@ -39,9 +39,9 @@ public class PositionGovernor {
 				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_time);
 			}
 
-			if (algorithmCondition.canTadeAfterTransactions(transactions) == false){
-				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_trans);
-			}
+//			if (algorithmCondition.canTadeAfterTransactions(transactions) == false){
+//				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_trans);
+//			}
 			
 			if (signalPoint == SignalPoint.long_entry && canGoLong){
 				governLongEntry(quoteSlice, signal, positionGovernorResponse);
@@ -60,10 +60,10 @@ public class PositionGovernor {
 				algorithmConditionExit = true;
 			}
 			
-			if (algorithmCondition.shouldStopLoss(position)){
-				positionGovernorResponse.status.reason = PositionGovernorReason.failed_algorithm_condition_stoploss;
-				algorithmConditionExit = true;
-			}
+//			if (algorithmCondition.shouldStopLoss(position)){
+//				positionGovernorResponse.status.reason = PositionGovernorReason.failed_algorithm_condition_stoploss;
+//				algorithmConditionExit = true;
+//			}
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint == SignalPoint.long_exit || algorithmConditionExit) {
