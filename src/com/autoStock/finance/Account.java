@@ -31,16 +31,16 @@ public class Account {
 		}
 	}
 	
-	public double getTransactionFeesPaid(){
-		return MathTools.round(transactionFeesPaid.get());
+	public synchronized double getTransactionFeesPaid(){
+		synchronized (this) {
+			return MathTools.round(transactionFeesPaid.get());
+		}
 	}
 	
-	public int getTransactions(){
-		return transactions.get();
-	}
-	
-	private void changeBankBalance(double amount){
-		bankBalance.addAndGet(amount);
+	public synchronized int getTransactions(){
+		synchronized (this) {
+			return transactions.get();	
+		}
 	}
 	
 	public synchronized void changeBankBalance(double positionCost, double transactionCost){
@@ -53,14 +53,16 @@ public class Account {
 	}
 	
 	public synchronized double getTransactionCost(int units, double price){
-		double cost = 0;
-		if (units <= 500){
-			cost = Math.max(1.30, units * 0.013);	
-		}else{
-			cost = (500 * 0.013) + ((units - 500) * 0.008);
+		synchronized (this) {
+			double cost = 0;
+			if (units <= 500){
+				cost = Math.max(1.30, units * 0.013);	
+			}else{
+				cost = (500 * 0.013) + ((units - 500) * 0.008);
+			}
+			
+			return Math.min(cost, units * price * 0.005);
 		}
-		
-		return Math.min(cost, units * price * 0.005);
 	}
 	
 	public synchronized void resetAccount(){

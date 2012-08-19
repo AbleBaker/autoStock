@@ -124,7 +124,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 
 			signal.reset();
-			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfDI.getSignal()); 
+//			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfDI.getSignal()); 
+			signal.addSignalMetrics(signalOfRSI.getSignal(), signalOfMACD.getSignal(), signalOfDI.getSignal());
 
 			if (algorithmMode.displayChart) {
 				chart.listOfDate.add(quoteSlice.dateTime);

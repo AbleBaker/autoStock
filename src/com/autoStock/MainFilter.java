@@ -32,7 +32,6 @@ public class MainFilter {
 				public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner) {
 					Co.println("Got market filter information OK");
 					for (ExResultRowMarketScanner exResultRowMarketScanner : exResultSetMarketScanner.listOfExResultRowMarketScanner){
-						Co.print("ASX:" + exResultRowMarketScanner.symbol + ", ");
 //						Co.println("--> Market scanner: " + exResultRowMarketScanner.symbol);
 					}
 				}
