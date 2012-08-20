@@ -41,19 +41,19 @@ public class SignalDefinitions {
 				48, 44, 0, 0),
 		metric_di(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}},
-				42, -30, -100, -100),
+				42, -44, -100, -100),
 		metric_cci(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}},
 				42, -23, -100, -100),
 		metric_macd(
 			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 1000);}},
-				37, -38, 0, 0),
+				7, -50, 0, 0),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 2);}},
 				33, 9, -100, -100),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
-				3, -30, 0, 0),
+				11, -33, 0, 0),
 		metric_storsi(null,0,0,0,0),
 		metric_none(null, 0, 0, 0, 0),
 		;
