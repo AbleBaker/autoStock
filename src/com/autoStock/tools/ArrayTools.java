@@ -89,4 +89,14 @@ public class ArrayTools {
 	public static double getLastElement(double[] arrayOfDouble){
 		return arrayOfDouble[arrayOfDouble.length-1];
 	}
+	
+	public static double[] getDoubleArray(ArrayList<Double> listOfDouble){
+		double[] arrayOfDouble = new double[listOfDouble.size()];
+		
+		for (int i=0; i<listOfDouble.size()-1; i++){
+			arrayOfDouble[i] = listOfDouble.get(i);
+		}
+		
+		return arrayOfDouble;
+	}
 }

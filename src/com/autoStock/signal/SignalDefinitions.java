@@ -38,7 +38,7 @@ public class SignalDefinitions {
 	public enum SignalMetricType {
 		metric_ppc(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 3000);}},
-				48, 44, 0, 0),
+				48, 44, -100, -100),
 		metric_di(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}},
 				42, -44, -100, -100),
@@ -47,7 +47,7 @@ public class SignalDefinitions {
 				42, -23, -100, -100),
 		metric_macd(
 			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 1000);}},
-				7, -50, 0, 0),
+				7, -50, -100, -100),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 2);}},
 				33, 9, -100, -100),

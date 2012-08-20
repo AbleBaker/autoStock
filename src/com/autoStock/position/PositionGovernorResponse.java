@@ -17,10 +17,10 @@ public class PositionGovernorResponse {
 	
 	public enum PositionGovernorReason{
 		failed_insufficient_funds,
-		failed_algorithm_condition_time,
-		failed_algorithm_condition_trans,
-		failed_algorithm_condition_profit,
-		failed_algorithm_condition_stoploss,
+		algorithm_condition_time,
+		algorithm_condition_trans,
+		algorithm_condition_profit,
+		algorithm_condition_stoploss,
 		none
 	}
 	

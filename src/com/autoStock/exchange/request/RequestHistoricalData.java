@@ -36,13 +36,13 @@ public class RequestHistoricalData {
 		//Co.println("Best res: " + HistoricalData.getBestResolution(this.typeHistoricalData.duration));
 		
 		if (HistoricalDataDefinitions.getBestResolution(this.typeHistoricalData.duration) != this.typeHistoricalData.resolution){		
-			int neededCalls = (int)(this.typeHistoricalData.duration / HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration) + 1;
+			int neededCalls = (int)(this.typeHistoricalData.duration / HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).seconds) + 1;
 			
 			requestHolder.mulitpleRequests = neededCalls;
 			
 			long neededDuration = this.typeHistoricalData.duration;
 			long callStartTime = this.typeHistoricalData.startDate.getTime() / 1000;
-			long callEndTime = (this.typeHistoricalData.startDate.getTime() / 1000) + HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration;
+			long callEndTime = (this.typeHistoricalData.startDate.getTime() / 1000) + HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).seconds;
 			
 			for (int i=0; i<neededCalls; i++){
 				if (i == neededCalls-1){
@@ -63,9 +63,9 @@ public class RequestHistoricalData {
 				
 				ExchangeController.getIbExchangeInstance().getHistoricalPrice(tempTypeHistoricalData, requestHolder);
 				
-				neededDuration -= HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration;
-				callStartTime += HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration + 1;
-				callEndTime += HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).duration + 1;			
+				neededDuration -= HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).seconds;
+				callStartTime += HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).seconds + 1;
+				callEndTime += HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).seconds + 1;			
 			}
 		}else{
 			ExchangeController.getIbExchangeInstance().getHistoricalPrice(typeHistoricalData, requestHolder);

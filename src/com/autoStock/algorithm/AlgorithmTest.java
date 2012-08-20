@@ -172,9 +172,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 						columnValues.add("");
 						columnValues.add("");
 					}else{
-						columnValues.add("");
-						columnValues.add("");
-						columnValues.add("");
+						columnValues.add(""); columnValues.add(""); columnValues.add("");
 					}
 				} else if (positionGovenorResponse.status != PositionGovernorResponseStatus.no_change && positionGovenorResponse.status != PositionGovernorResponseStatus.none) {
 					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status.reason + ", " + positionGovenorResponse.position.positionType.name() + ", " + signal.currentSignalPoint.signalMetricType.name());
@@ -183,9 +181,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 					
 					handlePositionChange();
 				} else {
-					columnValues.add("");
-					columnValues.add("");
-					columnValues.add("");
+					columnValues.add(""); columnValues.add(""); columnValues.add("");
 				}
 				
 				listOfDisplayRows.add(columnValues);

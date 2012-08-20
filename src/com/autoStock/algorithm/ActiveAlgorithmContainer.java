@@ -48,7 +48,7 @@ public class ActiveAlgorithmContainer {
 			public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
 				Co.println("--> Completed?");
 			}
-		}, exchange, symbol, Period.min.duration * 1000);
+		}, exchange, symbol, Period.min.seconds * 1000);
 	}
 	
 	public void deactivate(){

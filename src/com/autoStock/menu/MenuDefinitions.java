@@ -15,7 +15,7 @@ public class MenuDefinitions {
 		menu_request_realtime_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),
 		menu_request_market_order(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol, MenuArguments.arg_position_type, MenuArguments.arg_position_units}),
 		menu_test_realtime_data(new MenuArguments[]{MenuArguments.arg_none}),
-		menu_test_market_data(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_test_market_data(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol}),
 		menu_internal_build_database_definitions(new MenuArguments[]{MenuArguments.arg_none}),
 		;
 		

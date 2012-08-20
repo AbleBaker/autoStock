@@ -8,19 +8,25 @@ import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
+import com.autoStock.internal.ApplicationStates;
+import com.autoStock.internal.Global;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.MarketData;
+import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class DisplayMarketData {
+	private MarketData marketData;
 	
-	private MarketData typeMarketData;
-	
-	public DisplayMarketData(MarketData typeMarketData){
-		this.typeMarketData = typeMarketData;
+	public DisplayMarketData(MarketData marketData){
+		this.marketData = marketData;
+		Global.callbackLock.requestLock();
 	}
 	
 	public void display(){
@@ -41,6 +47,6 @@ public class DisplayMarketData {
 				// TODO Auto-generated method stub
 				
 			}
-		}, null, null, 0);
+		}, marketData.exchange, marketData.symbol, Period.min.seconds * 1000);
 	}
 }

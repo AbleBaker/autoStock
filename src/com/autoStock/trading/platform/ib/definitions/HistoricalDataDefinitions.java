@@ -24,11 +24,11 @@ public class HistoricalDataDefinitions {
 		;
 		
 		public Resolution[] arrayOfResolution;
-		public int duration;
+		public int seconds;
 		
 		Period(Resolution[] arrayOfResolution, int duration){
 			this.arrayOfResolution = arrayOfResolution;
-			this.duration = duration;
+			this.seconds = duration;
 		}
 	}
 	
@@ -58,7 +58,7 @@ public class HistoricalDataDefinitions {
 	public static Resolution getBestResolution(long duration){
 		Period bestPeriod = Period.year;
 		for (Period period : Period.values()){
-			if (period.duration >= duration){
+			if (period.seconds >= duration){
 				bestPeriod = period;
 			}
 		}

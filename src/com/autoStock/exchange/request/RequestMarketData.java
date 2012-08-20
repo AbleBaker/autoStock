@@ -6,6 +6,7 @@ package com.autoStock.exchange.request;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
@@ -33,9 +34,9 @@ public class RequestMarketData {
 	private Thread threadForSliceCollector;
 	private int sliceMilliseconds;
 	private long receivedTimestamp = 0;
-	private ArrayList<QuoteSlice> listOfQuoteSliceRecall = new ArrayList<QuoteSlice>();
 	private Exchange exchange;
 	private Symbol symbol;
+	private QuoteSlice quoteSlicePrevious = new QuoteSlice();
 
 	public RequestMarketData(RequestHolder requestHolder, RequestMarketDataListener requestMarketDataListener, Exchange exchange, Symbol symbol, int sliceMilliseconds) {
 		this.requestHolder = requestHolder;
@@ -71,15 +72,13 @@ public class RequestMarketData {
 					
 					synchronized(RequestMarketData.this){
 						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData, symbol);
-	
+						new QuoteSliceTools().mergeQuoteSlices(quoteSlicePrevious, quoteSlice);
 						quoteSlice.dateTime = DateTools.getForeignDateFromLocalTime(DateTools.getTimeFromDate(new Date()), exchange.timeZone);
 						
-						if (exResultSetMarketData.listOfExResultRowMarketData.size() > 60){ //TODO: Fix this hack
-							exResultSetMarketData.listOfExResultRowMarketData.remove(0);
-						}
+						quoteSlicePrevious = quoteSlice;
 						
-//						exResultSetMarketData.listOfExResultRowMarketData.clear();
-						//Co.println("O,H,L,C" + typeQuoteSlice.priceOpen + "," + typeQuoteSlice.priceHigh + "," + typeQuoteSlice.priceLow + "," + typeQuoteSlice.priceClose + "," + typeQuoteSlice.sizeVolume);	
+						exResultSetMarketData.listOfExResultRowMarketData.clear();
+						Co.println("O,H,L,C,V: " + quoteSlice.priceOpen + ", " + quoteSlice.priceHigh + ", " + quoteSlice.priceLow + ", " + quoteSlice.priceClose + ", " + quoteSlice.sizeVolume);
 						requestMarketDataListener.receiveQuoteSlice(requestHolder, quoteSlice);
 					}
 				}

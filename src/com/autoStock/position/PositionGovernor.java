@@ -36,11 +36,11 @@ public class PositionGovernor {
 			SignalPoint signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, signalPointTactic);
 
 			if (algorithmCondition.canTradeOnDate(quoteSlice.dateTime, exchange) == false){
-				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_time);
+				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.algorithm_condition_time);
 			}
 
 			if (algorithmCondition.canTadeAfterTransactions(transactions) == false){
-				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.failed_algorithm_condition_trans);
+				return positionGovernorResponse.getFailedResponse(PositionGovernorReason.algorithm_condition_trans);
 			}
 			
 			if (signalPoint == SignalPoint.long_entry && canGoLong){
@@ -56,12 +56,17 @@ public class PositionGovernor {
 			SignalPoint signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, signalPointTactic);
 			
 			if (algorithmCondition.shouldRequestExitOnDate(quoteSlice.dateTime, exchange, position)){
-				positionGovernorResponse.status.reason = PositionGovernorReason.failed_algorithm_condition_time;
+				positionGovernorResponse.status.reason = PositionGovernorReason.algorithm_condition_time;
 				algorithmConditionExit = true;
 			}
 			
 			if (algorithmCondition.shouldStopLoss(position)){
-				positionGovernorResponse.status.reason = PositionGovernorReason.failed_algorithm_condition_stoploss;
+				positionGovernorResponse.status.reason = PositionGovernorReason.algorithm_condition_stoploss;
+				algorithmConditionExit = true;
+			}
+			
+			if (algorithmCondition.shouldTakeProfit(position, quoteSlice)){
+				positionGovernorResponse.status.reason = PositionGovernorReason.algorithm_condition_stoploss;
 				algorithmConditionExit = true;
 			}
 

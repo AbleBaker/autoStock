@@ -6,6 +6,7 @@ package com.autoStock.algorithm;
 import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.position.PositionGovernorResponse;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorReason;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 
@@ -40,5 +41,9 @@ public class AlgorithmBase {
 	
 	public void handlePositionChange(){
 		transactions++;
+	}
+	
+	public void deactivate(PositionGovernorReason positionGovernorReason){
+		isActive = false;
 	}
 }

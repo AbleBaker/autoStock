@@ -17,7 +17,7 @@ import com.autoStock.types.QuoteSlice;
  */
 public class AlgorithmCondition {
 	private static final int maxTransactionsDay = 4;
-	private static final double minTakeProfitExit = 1.015d;
+	private static final double minTakeProfitExit = 1.02d;
 	private static final int maxStopLossValue = -35;
 	
 	public boolean canTadeAfterTransactions(int transactions){
@@ -27,6 +27,7 @@ public class AlgorithmCondition {
 		
 		return true;
 	}
+	
 	public boolean shouldTakeProfit(Position position, QuoteSlice quoteSlice){
 		double percentGainFromPosition = 0;
 				
