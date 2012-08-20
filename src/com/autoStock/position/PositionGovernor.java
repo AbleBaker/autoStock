@@ -29,7 +29,6 @@ public class PositionGovernor {
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		Position position = positionManager.getPosition(quoteSlice.symbol);
 		
-		signal.currentSignalTrend = SignalTools.getSignalType(signal);
 		positionManager.updatePositionPrice(quoteSlice, position);
 		
 		if (position == null){

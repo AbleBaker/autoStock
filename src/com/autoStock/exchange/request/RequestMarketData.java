@@ -78,7 +78,7 @@ public class RequestMarketData {
 						quoteSlicePrevious = quoteSlice;
 						
 						exResultSetMarketData.listOfExResultRowMarketData.clear();
-						Co.println("O,H,L,C,V: " + quoteSlice.priceOpen + ", " + quoteSlice.priceHigh + ", " + quoteSlice.priceLow + ", " + quoteSlice.priceClose + ", " + quoteSlice.sizeVolume);
+//						Co.println("O,H,L,C,V: " + quoteSlice.priceOpen + ", " + quoteSlice.priceHigh + ", " + quoteSlice.priceLow + ", " + quoteSlice.priceClose + ", " + quoteSlice.sizeVolume);
 						requestMarketDataListener.receiveQuoteSlice(requestHolder, quoteSlice);
 					}
 				}

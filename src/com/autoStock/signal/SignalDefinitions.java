@@ -15,13 +15,6 @@ public class SignalDefinitions {
 		from_manual,
 	}
 	
-	public enum SignalTrend {
-		type_trend_up,
-		type_trend_down,
-		type_trend_flat,
-		type_none,
-	}
-	
 	public enum SignalPoint {
 		long_entry,
 		long_exit,

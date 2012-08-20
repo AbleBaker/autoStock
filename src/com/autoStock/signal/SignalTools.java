@@ -2,26 +2,11 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
-import com.autoStock.signal.SignalDefinitions.SignalTrend;
-
 /**
  * @author Kevin Kowalewski
  *
  */
 public class SignalTools {
-	
-	public static synchronized SignalTrend getSignalType(Signal signal){
-		CombinedSignal combinedSignal = getCombinedSignal(signal);
-		
-		if (combinedSignal.strength > combinedSignal.longEntry){
-			return SignalTrend.type_trend_up;
-		}else if (combinedSignal.strength < combinedSignal.shortEntry){
-			return SignalTrend.type_trend_down;
-		}else{
-			return SignalTrend.type_trend_flat;
-		}
-	}
-	
 	public static synchronized CombinedSignal getCombinedSignal(Signal signal){
 		ArrayList<SignalMetric> listOfSignalMetric = signal.listOfSignalMetric;
 		CombinedSignal combinedSignal = new CombinedSignal();

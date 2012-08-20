@@ -5,12 +5,9 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
-import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
-import com.autoStock.signal.SignalDefinitions.SignalTrend;
 
 /**
  * @author Kevin Kowalewski
@@ -18,8 +15,6 @@ import com.autoStock.signal.SignalDefinitions.SignalTrend;
  */
 public class Signal {
 	public SignalSource signalSource;
-	public SignalTrend lastSignalType = SignalTrend.type_none;
-	public SignalTrend currentSignalTrend = SignalTrend.type_none;
 	public SignalPoint currentSignalPoint = SignalPoint.none;
 	public ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	

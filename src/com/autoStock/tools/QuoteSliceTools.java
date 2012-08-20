@@ -45,9 +45,9 @@ public class QuoteSliceTools {
 					listOfPriceAsk.add(resultRow.value);
 				}
 				
-//				else {
-////					Co.println("No tickPriceField matched: " + resultRow.tickPriceField.name());
-//				}
+				else {
+//					Co.println("No tickPriceField matched: " + resultRow.tickPriceField.name());
+				}
 			}
 			
 			else if (resultRow.tickType == TickTypes.type_size){
