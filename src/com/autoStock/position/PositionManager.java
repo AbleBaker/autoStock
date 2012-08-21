@@ -99,6 +99,11 @@ public class PositionManager {
 	
 	public void executeSellAll(){
 		synchronized(lock){
+			
+			if (listOfPosition.size() == 0){
+				Co.println("--> No positions to sell");
+			}
+			
 			for (Position typePosition : listOfPosition){
 				if (typePosition.positionType == PositionType.position_long){
 					executeLongExit(typePosition);

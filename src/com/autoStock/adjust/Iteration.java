@@ -11,7 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 public class Iteration{
 	public int start;
 	public int end;
-	private AtomicInteger current;
+	private AtomicInteger current = new AtomicInteger();
 	public AdjustmentDefinitions adjustment;
 	public SignalMetricType signalTypeMetric;
 	

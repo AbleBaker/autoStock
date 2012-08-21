@@ -52,8 +52,8 @@ public class AdjustmentCampaign {
 	}
 	
 	public enum AdjustmentDefinitions {		
-		algo_signal_metric_long_entry(-50, 50, AdjustmentType.long_entry),
-		algo_signal_metric_long_exit(-50, 50, AdjustmentType.long_exit),
+		algo_signal_metric_long_entry(-14, 16, AdjustmentType.long_entry),
+		algo_signal_metric_long_exit(-14, 16, AdjustmentType.long_exit),
 		algo_signal_metric_short_entry(-50, 50, AdjustmentType.short_entry),
 		algo_signal_metric_short_exit(-50, 50, AdjustmentType.short_exit),
 //		

@@ -18,6 +18,7 @@ import com.autoStock.analysis.results.ResultsDI;
 import com.autoStock.analysis.results.ResultsMACD;
 import com.autoStock.analysis.results.ResultsRSI;
 import com.autoStock.analysis.results.ResultsTRIX;
+import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionGovernor;
@@ -26,6 +27,7 @@ import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseS
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
+import com.autoStock.signal.SignalMetric;
 import com.autoStock.signal.SignalOfCCI;
 import com.autoStock.signal.SignalOfDI;
 import com.autoStock.signal.SignalOfMACD;
@@ -124,8 +126,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 
 			signal.reset();
-//			signal.addSignalMetrics(signalOfDI.getSignal());
-			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfRSI.getSignal(), signalOfTRIX.getSignal()); 
+			signal.addSignalMetrics(signalOfDI.getSignal());
+//			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfRSI.getSignal(), signalOfTRIX.getSignal()); 
 
 			if (algorithmMode.displayChart) {
 				chart.listOfDate.add(quoteSlice.dateTime);
@@ -197,7 +199,12 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			chart.display();
 		}
 		if (algorithmMode.displayTable) {
+			Co.println("--> TABLE *******: " + symbol.symbol + ", " + DateTools.getPrettyDate(currentQuoteSlice.dateTime));
+			Co.println("--> VALUES ********: " + BacktestUtils.getCurrentBacktestValueGroup(signal));
 			new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+//			for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
+//				if (signalMetric.)
+//			}
 		}
 		if (algorithmListener != null) {
 			algorithmListener.endOfAlgorithm();

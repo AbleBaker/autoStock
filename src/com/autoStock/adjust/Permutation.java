@@ -27,11 +27,13 @@ public class Permutation {
 		String[] arrayOfString;
 		
 		for (Iteration iteration : listOfIteration){
-			if (iteration.end > max){max = iteration.end;}
-			if (iteration.start < min){min = iteration.start;}
+			if (iteration.end >= max){max = iteration.end;}
+			if (iteration.start <= min){min = iteration.start;}
 		}
 		
-		arrayOfString = new String[max-min+1];
+		if (max <= min){throw new IllegalArgumentException();}
+		
+		arrayOfString = new String[(max-min)+1];
 		
 		for (int i=0; i<arrayOfString.length; i++){
 			arrayOfString[i] = String.valueOf(min+i);
@@ -102,7 +104,7 @@ public class Permutation {
 		return null;
 	}
 	
-	public ArrayList<Iteration> getListOfIterations(){
+	public synchronized ArrayList<Iteration> getListOfIterations(){
 		return listOfIteration;
 	}
 	

@@ -13,7 +13,7 @@ import com.autoStock.signal.SignalMetric;
  * 
  */
 public class BacktestUtils {
-	public static String getCurrentBacktestValueGroup(Signal signal){
+	public synchronized static String getCurrentBacktestValueGroup(Signal signal){
 		String string = "******** ........ Backtest results ........ ********\n";
 		
 		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){

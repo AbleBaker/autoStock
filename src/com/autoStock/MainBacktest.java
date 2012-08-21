@@ -57,7 +57,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		Global.callbackLock.requestLock();
 		System.gc();
 		
-		Co.println("Main backtest...");
+		Co.println("Main backtest...\n\n");
 		
 		HistoricalData baseHistoricalData = new HistoricalData(null, "STK", dateStart, dateEnd, Resolution.min);
 
@@ -89,7 +89,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 		
 		initBacktestContainers();
-		runNextBacktest();
+		runNextBacktestForDays();
 	}
 	
 	private void initBacktestContainers(){
@@ -127,14 +127,22 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		throw new IllegalStateException();
 	}
 	
-	public boolean runNextBacktest(){
-		if (listOfHistoricalDataList.size() == currentBacktestDayIndex){
+	public synchronized boolean runNextBacktestForDays(){
+		if (currentBacktestDayIndex == listOfHistoricalDataList.size()){
 			if (backtestType == BacktestType.backtest_default){Global.callbackLock.releaseLock(); return false;}
+			
+			PositionManager.instance.executeSellAll();
+			
+			if (Account.instance.getBankBalance() > metricBestAccountBalance){
+				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
+				metricBestAccountBalance = Account.instance.getBankBalance();
+			}
 						
 			if (adjustmentCampaign.runAdjustment()) {
 				currentBacktestDayIndex = 0;
+				
 				Account.instance.resetAccount();
-				runNextBacktest();
+				runNextBacktestForDays();
 			}else{
 				Co.println("******** End of backtest and adjustment ********");
 				BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
@@ -158,19 +166,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			Co.println("--> Backtest completed... " + symbol.symbol + ", " + callbacks.get());
 					
 			if (callbacks.decrementAndGet() == 0){
-				Co.println("--> All called back...");
-				bench.printTick("Backtested");
+				Co.println("--> All called back...\n\n");
+//				bench.printTick("Backtested");
 				
-				PositionManager.instance.executeSellAll();
-				
-				if (Account.instance.getBankBalance() > metricBestAccountBalance){
-					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
-					metricBestAccountBalance = Account.instance.getBankBalance();
-				}
-	
-				Co.println("Account balance: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + ", " + MathTools.round(Account.instance.getTransactionFeesPaid()) + "\n\n");
-				
-				if (runNextBacktest() == false){
+				if (runNextBacktestForDays() == false){
+					if (backtestType == BacktestType.backtest_default){
+						Co.println(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
+					}
 					Co.println("--> Finished backtest");
 				}
 			}
