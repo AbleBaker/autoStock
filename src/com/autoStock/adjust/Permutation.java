@@ -3,10 +3,6 @@ package com.autoStock.adjust;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
-import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
-import com.autoStock.internal.ApplicationStates;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
 
 /**
@@ -86,7 +82,7 @@ public class Permutation {
 					break LABEL;
 				}
 				
-				iteration.current = currentValue;
+				iteration.setCurrentValue(currentValue);
 				i++;
 			}
 			
@@ -108,35 +104,6 @@ public class Permutation {
 	
 	public ArrayList<Iteration> getListOfIterations(){
 		return listOfIteration;
-	}
-	
-	public static class Iteration{
-		public int start;
-		public int end;
-		private volatile int current;
-		private AdjustmentDefinitions adjustment;
-		public SignalMetricType signalTypeMetric;
-		
-		public Iteration(int start, int end, AdjustmentDefinitions adjustment){
-			this.start = start;
-			this.end = end;
-			this.adjustment = adjustment;
-		}
-		
-		public Iteration(AdjustmentDefinitions adjustment, SignalMetricType signalTypeMetric){
-			this.start = adjustment.startValue;
-			this.end = adjustment.endValue;
-			this.adjustment = adjustment;
-			this.signalTypeMetric = signalTypeMetric;
-		}
-		
-		public synchronized double getCurrentValue(){
-			return this.current;
-		}
-		
-		public Object getRequest(){
-			return this.adjustment;
-		}
 	}
 	
 	public double getPercentComplete(){
