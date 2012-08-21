@@ -166,8 +166,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			Co.println("--> Backtest completed... " + symbol.symbol + ", " + callbacks.get());
 					
 			if (callbacks.decrementAndGet() == 0){
-				Co.println("--> All called back...\n\n");
-//				bench.printTick("Backtested");
+				Co.println("--> All called back...\n");
+				bench.printTick("Backtested");
 				
 				if (runNextBacktestForDays() == false){
 					if (backtestType == BacktestType.backtest_default){
