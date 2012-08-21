@@ -23,6 +23,7 @@ import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponse;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseReason;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
@@ -126,8 +127,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 
 			signal.reset();
-			signal.addSignalMetrics(signalOfDI.getSignal());
-//			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfRSI.getSignal(), signalOfTRIX.getSignal()); 
+//			signal.addSignalMetrics(signalOfMACD.getSignal());
+			signal.addSignalMetrics(signalOfDI.getSignal(), signalOfRSI.getSignal()); 
 
 			if (algorithmMode.displayChart) {
 				chart.listOfDate.add(quoteSlice.dateTime);
@@ -165,19 +166,19 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				columnValues.add(String.valueOf(SignalTools.getCombinedSignal(signal).strength));
 			}
 
-			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange, transactions, positionGovernorResponsePrevious);
+			PositionGovernorResponse positionGovenorResponse = positionGovener.informGovener(quoteSlice, signal, exchange, transactions, positionGovernorResponsePrevious, isDisabled);
 
 			if (algorithmMode.displayTable) {
 				if (positionGovenorResponse.status == PositionGovernorResponseStatus.failed){
-					if (positionGovenorResponse.status != positionGovernorResponsePrevious.status && positionGovenorResponse.status.reason != positionGovernorResponsePrevious.status.reason){
-						columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status.reason.name());
+					if (positionGovenorResponse.status != positionGovernorResponsePrevious.status && positionGovenorResponse.reason != positionGovernorResponsePrevious.reason){
+						columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.reason.name());
 						columnValues.add("");
 						columnValues.add("");
 					}else{
 						columnValues.add(""); columnValues.add(""); columnValues.add("");
 					}
-				} else if (positionGovenorResponse.status != PositionGovernorResponseStatus.no_change && positionGovenorResponse.status != PositionGovernorResponseStatus.none) {
-					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status.reason + ", " + positionGovenorResponse.position.positionType.name() + ", " + signal.currentSignalPoint.signalMetricType.name());
+				} else if (positionGovenorResponse.status != PositionGovernorResponseStatus.none) {
+					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status + ", " + positionGovenorResponse.reason + ", " + positionGovenorResponse.position.positionType.name() + ", " + signal.currentSignalPoint.signalMetricType.name());
 					columnValues.add(positionGovenorResponse.position.units + ", " + MathTools.round(positionGovenorResponse.position.lastKnownPrice) + ", " + MathTools.round(positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
 					columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 					
@@ -190,6 +191,11 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			}
 			
 			positionGovernorResponsePrevious = positionGovenorResponse;
+			if (positionGovenorResponse.status == PositionGovernorResponseStatus.failed && positionGovenorResponse.reason != PositionGovernorResponseReason.failed_insufficient_funds){
+				if (algorithmListener != null){
+					disable(positionGovenorResponse);
+				}
+			}
 		}
 	}
 
@@ -199,12 +205,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			chart.display();
 		}
 		if (algorithmMode.displayTable) {
-			Co.println("--> TABLE *******: " + symbol.symbol + ", " + DateTools.getPrettyDate(currentQuoteSlice.dateTime));
-			Co.println("--> VALUES ********: " + BacktestUtils.getCurrentBacktestValueGroup(signal));
 			new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
-//			for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
-//				if (signalMetric.)
-//			}
 		}
 		if (algorithmListener != null) {
 			algorithmListener.endOfAlgorithm();

@@ -6,7 +6,7 @@ package com.autoStock.algorithm;
 import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.position.PositionGovernorResponse;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorReason;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseReason;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 
@@ -20,9 +20,9 @@ public class AlgorithmBase {
 	public Exchange exchange;
 	public Symbol symbol;
 	public AlgorithmMode algorithmMode;
-	public boolean isActive = true;
 	public int transactions = 0;
 	public PositionGovernorResponse positionGovernorResponsePrevious = new PositionGovernorResponse();
+	public boolean isDisabled = false;
 	
 	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode){
 		this.canTrade = canTrade;
@@ -43,7 +43,7 @@ public class AlgorithmBase {
 		transactions++;
 	}
 	
-	public void deactivate(PositionGovernorReason positionGovernorReason){
-		isActive = false;
+	public void disable(PositionGovernorResponse positionGovernorResponse){
+		isDisabled = true;
 	}
 }

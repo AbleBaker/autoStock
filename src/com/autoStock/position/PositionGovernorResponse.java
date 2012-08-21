@@ -3,8 +3,6 @@
  */
 package com.autoStock.position;
 
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorReason;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.trading.types.Position;
 
 /**
@@ -14,13 +12,15 @@ import com.autoStock.trading.types.Position;
 public class PositionGovernorResponse {
 	public Position position;
 	public PositionGovernorResponseStatus status = PositionGovernorResponseStatus.none;
+	public PositionGovernorResponseReason reason = PositionGovernorResponseReason.none;
 	
-	public enum PositionGovernorReason{
+	public enum PositionGovernorResponseReason{
 		failed_insufficient_funds,
 		algorithm_condition_time,
 		algorithm_condition_trans,
 		algorithm_condition_profit,
 		algorithm_condition_stoploss,
+		algorithm_is_disabled,
 		none
 	}
 	
@@ -31,25 +31,13 @@ public class PositionGovernorResponse {
 		status_change_short_exit,
 		
 		failed,
-		no_change,
 		none,
-		
 		;
-		
-		public PositionGovernorReason reason = PositionGovernorReason.none;
-		
-		private PositionGovernorResponseStatus(PositionGovernorReason reason){
-			this.reason = reason;
-		}
-		
-		private PositionGovernorResponseStatus(){
-			
-		}
 	}
 	
-	public PositionGovernorResponse getFailedResponse(PositionGovernorReason reason){
-		this.status = PositionGovernorResponseStatus.failed;
-		this.status.reason = reason;
+	public PositionGovernorResponse getFailedResponse(PositionGovernorResponseReason reason){
+		status = PositionGovernorResponseStatus.failed;
+		this.reason = reason;
 		return this;
 	}
 }
