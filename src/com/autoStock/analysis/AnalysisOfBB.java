@@ -21,7 +21,7 @@ public class AnalysisOfBB extends AnalysisBase {
 		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	
-	public ResultsBB analyize(MAType manalysisType){	
+	public ResultsBB analyize(){	
 		results = new ResultsBB(endIndex+1);
 		
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
@@ -30,7 +30,7 @@ public class AnalysisOfBB extends AnalysisBase {
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().bbands(0, endIndex, arrayOfPriceClose,periodLength, optionDeviationUp, optionDeviationDown, manalysisType, new MInteger(), new MInteger(), results.arrayOfUpperBand, results.arrayOfMiddleBand, results.arrayOfLowerBand);
+		RetCode returnCode = getTaLibCore().bbands(0, endIndex, arrayOfPriceClose,periodLength, optionDeviationUp, optionDeviationDown, MAType.Kama, new MInteger(), new MInteger(), results.arrayOfUpperBand, results.arrayOfMiddleBand, results.arrayOfLowerBand);
 		handleAnalysisResult(returnCode);
 		
 		return results;

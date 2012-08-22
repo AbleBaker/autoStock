@@ -5,7 +5,5 @@ package com.autoStock.algorithm.external;
  *
  */
 public class ExternalConditionDefintions {
-	public static int maxPositionEntryTime = 60;
-	public static int maxPositionExitTime = 10;
-	public static int maxScannerExitTime = 30;
+	public static final int maxScannerExitMinutes = 30;
 }

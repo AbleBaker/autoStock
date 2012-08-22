@@ -47,7 +47,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	
 	private void engagementWarn(ExchangeState exchangeState){
 		Co.println("--> Received warning: " + exchangeState.timeUntilFuture.hours + ":" + exchangeState.timeUntilFuture.minutes + ":" + exchangeState.timeUntilFuture.seconds);
-		if (exchangeState == ExchangeState.status_close_future && exchangeState.timeUntilFuture.hours == 0 && exchangeState.timeUntilFuture.minutes <= ExternalConditionDefintions.maxScannerExitTime){
+		if (exchangeState == ExchangeState.status_close_future && exchangeState.timeUntilFuture.hours == 0 && exchangeState.timeUntilFuture.minutes <= ExternalConditionDefintions.maxScannerExitMinutes){
 			if (requestMarketScanner != null){
 				requestMarketScanner.cancel();
 				requestMarketScanner = null;
@@ -58,8 +58,9 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	
 	private void engagementStop(){
 		Co.println("--> Received stop");
+		ArrayList<ArrayList<String>> listOfAlgorithmManagerRows = algorithmManager.getAlgorithmTable();
 		algorithmManager.stopAll();
-		algorithmManager.displayEndOfDayStats();
+		algorithmManager.displayEndOfDayStats(listOfAlgorithmManagerRows);
 		Global.callbackLock.releaseLock();
 	}
 

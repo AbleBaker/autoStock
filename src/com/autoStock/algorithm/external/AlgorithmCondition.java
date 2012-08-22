@@ -1,5 +1,6 @@
 package com.autoStock.algorithm.external;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
@@ -18,7 +19,10 @@ import com.autoStock.types.QuoteSlice;
 public class AlgorithmCondition {
 	private static final int maxTransactionsDay = 4;
 	private static final double minTakeProfitExit = 1.02d;
-	private static final int maxStopLossValue = -40;
+	private static final int maxStopLossValue = -30;
+	private static final int maxNilChanges = 6;
+	public static final int maxPositionEntryTime = 60;
+	public static final int maxPositionExitTime = 10;
 	
 	public boolean canTadeAfterTransactions(int transactions){
 		if (transactions >= maxTransactionsDay){
@@ -28,7 +32,26 @@ public class AlgorithmCondition {
 		return true;
 	}
 	
-	public boolean shouldTakeProfit(Position position, QuoteSlice quoteSlice){
+	public boolean canTradeOnDate(Date date, Exchange exchange){
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionEntryTime);		
+	
+		if (date.getHours() > dateForLastExecution.getHours() || ( date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean taperPeriodLengthLower(Date date, Exchange exchange){
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionExitTime);		
+		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean takeProfit(Position position, QuoteSlice quoteSlice){
 		double percentGainFromPosition = 0;
 				
 		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
@@ -40,7 +63,7 @@ public class AlgorithmCondition {
 		return percentGainFromPosition >= minTakeProfitExit;
 	}
 	
-	public boolean shouldStopLoss(Position position){
+	public boolean stopLoss(Position position){
 		double transactionCostTotal = 0;
 		double valueGainFromPosition = 0;
 		
@@ -55,22 +78,27 @@ public class AlgorithmCondition {
 		return valueGainFromPosition < maxStopLossValue;
 	}
 	
-	public boolean canTradeOnDate(Date date, Exchange exchange){
-		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), ExternalConditionDefintions.maxPositionEntryTime);		
-	
-		if (date.getHours() > dateForLastExecution.getHours() || ( date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public boolean shouldRequestExitOnDate(Date date, Exchange exchange, Position position){
-		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), ExternalConditionDefintions.maxPositionExitTime);		
+	public boolean requestExitOnDate(Date date, Exchange exchange, Position position){
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionExitTime);		
 		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
 			return true;
 		}
 		
 		return false;
+	}
+
+	public boolean disableAfterNilChanges(ArrayList<QuoteSlice> listOfQuoteSlice) {
+		int countOfNilChanges = 0;
+		for (int i=0; i < listOfQuoteSlice.size() -2; i++){
+			QuoteSlice curremtQuoteSlice = listOfQuoteSlice.get(i);
+			QuoteSlice nextQuoteSlice = listOfQuoteSlice.get(i+1);
+			
+			if (curremtQuoteSlice.priceClose == nextQuoteSlice.priceClose){
+				countOfNilChanges++;
+			}else{
+				countOfNilChanges = 0;
+			}
+		}
+		return countOfNilChanges > maxNilChanges;
 	}
 }

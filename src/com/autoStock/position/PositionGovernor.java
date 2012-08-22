@@ -58,17 +58,17 @@ public class PositionGovernor {
 			boolean algorithmConditionExit = false;
 			SignalPoint signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, signalPointTactic);
 			
-			if (algorithmCondition.shouldRequestExitOnDate(quoteSlice.dateTime, exchange, position)){
+			if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, exchange, position)){
 				positionGovernorResponse.reason = PositionGovernorResponseReason.algorithm_condition_time;
 				algorithmConditionExit = true;
 			}
 			
-			if (algorithmCondition.shouldStopLoss(position)){
+			if (algorithmCondition.stopLoss(position)){
 				positionGovernorResponse.reason = PositionGovernorResponseReason.algorithm_condition_stoploss;
 				algorithmConditionExit = true;
 			}
 			
-			if (algorithmCondition.shouldTakeProfit(position, quoteSlice)){
+			if (algorithmCondition.takeProfit(position, quoteSlice)){
 				positionGovernorResponse.reason = PositionGovernorResponseReason.algorithm_condition_stoploss;
 				algorithmConditionExit = true;
 			}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.analysis.AnalysisOfBB;
 import com.autoStock.analysis.AnalysisOfCCI;
@@ -39,6 +40,7 @@ import com.autoStock.signal.SignalTools;
 import com.autoStock.taLib.MAType;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.AnalysisTools;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
@@ -52,7 +54,7 @@ import com.autoStock.types.Symbol;
  * 
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
-	private int periodLength = SignalControl.periodLength;
+	private int periodLength = SignalControl.periodLengthStart;
 	private PositionGovernor positionGovener = PositionGovernor.instance;
 	private CommonAnlaysisData commonAnlaysisData = new CommonAnlaysisData();
 	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false, commonAnlaysisData);
@@ -87,13 +89,19 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		}
 		currentQuoteSlice = quoteSlice;
 		listOfQuoteSlice.add(quoteSlice);
+		
+		if (new AlgorithmCondition().disableAfterNilChanges(listOfQuoteSlice)){
+			disable();
+		}
 
-		if (listOfQuoteSlice.size() > periodLength) {
+		if (listOfQuoteSlice.size() > periodLength) {			
 			if (listOfQuoteSlice.size() > periodLength) {
 				listOfQuoteSlice.remove(0);
 			}
 
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
+			
+			AnalysisTools.setAnalysisPeriodLength(periodLength, analysisOfCCI, analysisOfDI, analysisOfBB, analysisOfMACD, analysisOfRSI, analysisOfTRIX);
 
 			analysisOfCCI.setDataSet(listOfQuoteSlice);
 			analysisOfDI.setDataSet(listOfQuoteSlice);
@@ -101,10 +109,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			analysisOfMACD.setDataSet(listOfQuoteSlice);
 			analysisOfRSI.setDataSet(listOfQuoteSlice);
 			analysisOfTRIX.setDataSet(listOfQuoteSlice);
-
+	
 			ResultsCCI resultsCCI = analysisOfCCI.analyize();
 			ResultsDI resultsDI = analysisOfDI.analize();
-			ResultsBB resultsBB = analysisOfBB.analyize(MAType.Ema);
+			ResultsBB resultsBB = analysisOfBB.analyize();
 			ResultsMACD resultsMACD = analysisOfMACD.analize();
 			ResultsRSI resultsRSI = analysisOfRSI.analyize();
 			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
@@ -125,6 +133,16 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfMACD signalOfMACD = new SignalOfMACD(ArrayTools.subArray(resultsMACD.arrayOfMACDHistogram, 0, 1), SignalControl.periodAverageForMACD);
 			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
+			
+			Co.println("--> Period Length: " + symbol.symbol + "," + periodLength);
+			
+			if (new AlgorithmCondition().taperPeriodLengthLower(quoteSlice.dateTime, exchange)){
+				if (periodLength > SignalControl.periodLengthStart){
+					periodLength--;
+				}
+			}else if (periodLength < SignalControl.periodLengthEnd){
+				periodLength++;
+			}
 
 			signal.reset();
 //			signal.addSignalMetrics(signalOfMACD.getSignal());
@@ -179,7 +197,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 					}
 				} else if (positionGovenorResponse.status != PositionGovernorResponseStatus.none) {
 					columnValues.add(signal.currentSignalPoint.name() + ", " + positionGovenorResponse.status + ", " + positionGovenorResponse.reason + ", " + positionGovenorResponse.position.positionType.name() + ", " + signal.currentSignalPoint.signalMetricType.name());
-					columnValues.add(positionGovenorResponse.position.units + ", " + MathTools.round(positionGovenorResponse.position.lastKnownPrice) + ", " + MathTools.round(positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
+					columnValues.add(positionGovenorResponse.position.units + ", " + MathTools.round(positionGovenorResponse.position.lastKnownPrice) + ", " + Account.instance.getTransactionCost(positionGovenorResponse.position.units, positionGovenorResponse.position.lastKnownPrice) + ", " + MathTools.round(positionGovenorResponse.position.units * positionGovenorResponse.position.lastKnownPrice));
 					columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 					
 					handlePositionChange();

@@ -91,6 +91,10 @@ public class AlgorithmManager {
 	}
 	
 	public void displayAlgorithmTable(){
+		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
+	}
+	
+	public ArrayList<ArrayList<String>> getAlgorithmTable(){
 		ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 		
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
@@ -126,14 +130,10 @@ public class AlgorithmManager {
 			listOfDisplayRows.add(columnValues);
 		}
 		
-		if (listOfDisplayRows.size() > 0){
-			new TableController().displayTable(AsciiTables.algorithm_manager, listOfDisplayRows);
-		}
+		return listOfDisplayRows;
 	}
 	
-	public void displayEndOfDayStats(){
-		ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
-		
+	public void displayEndOfDayStats(ArrayList<ArrayList<String>> listOfAlgorithmDisplayRows){
 		Co.println("--> Account balance, transactions, fees paid: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
 	}
 }

@@ -43,6 +43,10 @@ public class AlgorithmBase {
 		transactions++;
 	}
 	
+	public void disable(){
+		isDisabled = true;
+	}
+	
 	public void disable(PositionGovernorResponse positionGovernorResponse){
 		isDisabled = true;
 	}

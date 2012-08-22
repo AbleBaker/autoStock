@@ -24,7 +24,7 @@ public class BacktestUtils {
 			string += "  Short exit: " + signalMetric.signalMetricType.pointToSignalShortExit + "\n";
 		}
 		
-		string += "\nPeriod length: " + SignalControl.periodLength + "\n";
+		string += "\nPeriod length: " + SignalControl.periodLengthStart + "\n";
 		string += "Transactions: " + Account.instance.getTransactions() + "\n";
 		string += "Fees: " + Account.instance.getTransactionFeesPaid() + "\n";
 		string += "Balance: " + Account.instance.getBankBalance() + "\n";
