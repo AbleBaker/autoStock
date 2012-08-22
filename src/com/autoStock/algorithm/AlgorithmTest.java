@@ -94,12 +94,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			disable();
 		}
 
-		if (listOfQuoteSlice.size() > periodLength) {			
+		if (listOfQuoteSlice.size() >= periodLength) {
 			if (listOfQuoteSlice.size() > periodLength) {
 				listOfQuoteSlice.remove(0);
 			}
 
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
+			
+//			Co.println("--> Size, periodLength: " + listOfQuoteSlice.size() + ", " + periodLength);
 			
 			AnalysisTools.setAnalysisPeriodLength(periodLength, analysisOfCCI, analysisOfDI, analysisOfBB, analysisOfMACD, analysisOfRSI, analysisOfTRIX);
 
@@ -134,13 +136,11 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			SignalOfRSI signalOfRSI = new SignalOfRSI(ArrayTools.subArray(resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);
 			SignalOfTRIX signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
 			
-			Co.println("--> Period Length: " + symbol.symbol + "," + periodLength);
-			
 			if (new AlgorithmCondition().taperPeriodLengthLower(quoteSlice.dateTime, exchange)){
 				if (periodLength > SignalControl.periodLengthStart){
 					periodLength--;
 				}
-			}else if (periodLength < SignalControl.periodLengthEnd){
+			}else if (periodLength< SignalControl.periodLengthEnd){
 				periodLength++;
 			}
 

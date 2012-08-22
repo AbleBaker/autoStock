@@ -21,8 +21,9 @@ public class AlgorithmCondition {
 	private static final double minTakeProfitExit = 1.02d;
 	private static final int maxStopLossValue = -30;
 	private static final int maxNilChanges = 6;
-	public static final int maxPositionEntryTime = 60;
-	public static final int maxPositionExitTime = 10;
+	public static final int maxPositionEntryTime = 45;
+	public static final int maxPositionExitTime = 15;
+	public static final int maxPositionTaperTime = 45;
 	
 	public boolean canTadeAfterTransactions(int transactions){
 		if (transactions >= maxTransactionsDay){
