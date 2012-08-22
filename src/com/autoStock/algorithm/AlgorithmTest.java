@@ -210,9 +210,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			positionGovernorResponsePrevious = positionGovenorResponse;
 			if (positionGovenorResponse.status == PositionGovernorResponseStatus.failed && positionGovenorResponse.reason != PositionGovernorResponseReason.failed_insufficient_funds){
-				if (algorithmListener != null){
-					disable(positionGovenorResponse);
-				}
+				disable(positionGovenorResponse);
 			}
 		}
 	}
