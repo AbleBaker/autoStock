@@ -43,7 +43,7 @@ public class SignalDefinitions {
 				21, -40, -100, -100),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 2);}},
-				35, 14, -100, -100),
+				35, 12, -100, -100),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
 				11, -33, 0, 0),
