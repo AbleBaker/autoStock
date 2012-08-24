@@ -122,7 +122,8 @@ public class IbExchangeInstance {
 		scanner.scanCode("TOP_OPEN_PERC_GAIN");
 		scanner.aboveVolume(10000);
 		scanner.abovePrice(4.00);
-		scanner.averageOptionVolumeAbove(10);
+		scanner.belowPrice(100.00);
+		scanner.averageOptionVolumeAbove(1);
 		scanner.stockTypeFilter("STOCK");
 		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(requestHolder.requestId, scanner);
 	}
