@@ -121,7 +121,7 @@ public class AlgorithmManager {
 			columnValues.add(container.algorithm.currentQuoteSlice != null && container.algorithm.currentQuoteSlice.dateTime != null ? DateTools.getPrettyDate(container.algorithm.currentQuoteSlice.dateTime) : "?"); 
 			columnValues.add(container.symbol.symbol);
 			columnValues.add(container.algorithm.signal.currentSignalPoint.name() + ", " + SignalTools.getCombinedSignal(container.algorithm.signal).strength);
-			columnValues.add(position == null ? "-" : position.positionType.name());
+			columnValues.add(position == null ? "-" : position.positionType.name() + ", " + ((position.units * position.price) - (position.units * position.lastKnownPrice)));
 			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.firstQuoteSlice.priceClose)));
 			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.currentQuoteSlice.priceClose)));
 			columnValues.add(String.valueOf(percentGainFromAlgorithm));
@@ -135,5 +135,6 @@ public class AlgorithmManager {
 	
 	public void displayEndOfDayStats(ArrayList<ArrayList<String>> listOfAlgorithmDisplayRows){
 		Co.println("--> Account balance, transactions, fees paid: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
+		new TableController().displayTable(AsciiTables.algorithm_manager, listOfAlgorithmDisplayRows);
 	}
 }

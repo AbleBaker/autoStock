@@ -58,18 +58,20 @@ public class PositionGovernor {
 			boolean algorithmConditionExit = false;
 			SignalPoint signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, signalPointTactic);
 			
+			PositionGovernorResponse tempPositionGovernorResponse = new PositionGovernorResponse();
+			
 			if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, exchange, position)){
-				positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.algorithm_condition_time);
+				tempPositionGovernorResponse = positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.algorithm_condition_time);
 				algorithmConditionExit = true;
 			}
 			
 			if (algorithmCondition.stopLoss(position)){
-				positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.algorithm_condition_stoploss);
+				tempPositionGovernorResponse = positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.algorithm_condition_stoploss);
 				algorithmConditionExit = true;
 			}
 			
 			if (algorithmCondition.takeProfit(position, quoteSlice)){
-				positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.algorithm_condition_profit);
+				tempPositionGovernorResponse = positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.algorithm_condition_profit);
 				algorithmConditionExit = true;
 			}
 
@@ -86,6 +88,10 @@ public class PositionGovernor {
 			}
 			
 			signal.currentSignalPoint = signalPoint;
+			
+			if (tempPositionGovernorResponse.status == PositionGovernorResponseStatus.failed){
+				return tempPositionGovernorResponse;
+			}
 		}
 
 		return positionGovernorResponse;

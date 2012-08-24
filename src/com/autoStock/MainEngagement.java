@@ -14,6 +14,7 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
+import com.autoStock.internal.BranchSTDIO;
 import com.autoStock.internal.Global;
 import com.autoStock.types.Exchange;
 
