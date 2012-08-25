@@ -12,12 +12,12 @@ import com.autoStock.taLib.RetCode;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisOfBB extends AnalysisBase {
+public class IndicatorOfBB extends IndicatorBase {
 	public ResultsBB results;
 	public int optionDeviationUp = 8;
 	public int optionDeviationDown = 8;
 	
-	public AnalysisOfBB(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+	public IndicatorOfBB(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
 		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	

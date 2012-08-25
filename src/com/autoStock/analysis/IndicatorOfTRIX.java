@@ -11,10 +11,10 @@ import com.autoStock.taLib.RetCode;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisOfTRIX extends AnalysisBase {
+public class IndicatorOfTRIX extends IndicatorBase {
 	public ResultsTRIX results;
 	
-	public AnalysisOfTRIX(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+	public IndicatorOfTRIX(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
 		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	

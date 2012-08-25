@@ -6,12 +6,12 @@ import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.analysis.AnalysisOfBB;
-import com.autoStock.analysis.AnalysisOfCCI;
-import com.autoStock.analysis.AnalysisOfDI;
-import com.autoStock.analysis.AnalysisOfMACD;
-import com.autoStock.analysis.AnalysisOfRSI;
-import com.autoStock.analysis.AnalysisOfTRIX;
+import com.autoStock.analysis.IndicatorOfBB;
+import com.autoStock.analysis.IndicatorOfCCI;
+import com.autoStock.analysis.IndicatorOfDI;
+import com.autoStock.analysis.IndicatorOfMACD;
+import com.autoStock.analysis.IndicatorOfRSI;
+import com.autoStock.analysis.IndicatorOfTRIX;
 import com.autoStock.analysis.CommonAnlaysisData;
 import com.autoStock.analysis.results.ResultsBB;
 import com.autoStock.analysis.results.ResultsCCI;
@@ -57,12 +57,12 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	private int periodLength = SignalControl.periodLengthStart;
 	private PositionGovernor positionGovener = PositionGovernor.instance;
 	private CommonAnlaysisData commonAnlaysisData = new CommonAnlaysisData();
-	private AnalysisOfCCI analysisOfCCI = new AnalysisOfCCI(periodLength, false, commonAnlaysisData);
-	private AnalysisOfDI analysisOfDI = new AnalysisOfDI(periodLength, false, commonAnlaysisData);
-	private AnalysisOfMACD analysisOfMACD = new AnalysisOfMACD(periodLength, false, commonAnlaysisData);
-	private AnalysisOfBB analysisOfBB = new AnalysisOfBB(periodLength, false, commonAnlaysisData);
-	private AnalysisOfTRIX analysisOfTRIX = new AnalysisOfTRIX(periodLength, false, commonAnlaysisData);
-	private AnalysisOfRSI analysisOfRSI = new AnalysisOfRSI(periodLength, false, commonAnlaysisData);
+	private IndicatorOfCCI indicatorOfCCI = new IndicatorOfCCI(periodLength, false, commonAnlaysisData);
+	private IndicatorOfDI indicatorOfDI = new IndicatorOfDI(periodLength, false, commonAnlaysisData);
+	private IndicatorOfMACD indicatorOfMACD = new IndicatorOfMACD(periodLength, false, commonAnlaysisData);
+	private IndicatorOfBB indicatorOfBB = new IndicatorOfBB(periodLength, false, commonAnlaysisData);
+	private IndicatorOfTRIX indicatorOfTRIX = new IndicatorOfTRIX(periodLength, false, commonAnlaysisData);
+	private IndicatorOfRSI indicatorOfRSI = new IndicatorOfRSI(periodLength, false, commonAnlaysisData);
 
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	public ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
@@ -103,21 +103,21 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 //			Co.println("--> Size, periodLength: " + listOfQuoteSlice.size() + ", " + periodLength);
 			
-			AnalysisTools.setAnalysisPeriodLength(periodLength, analysisOfCCI, analysisOfDI, analysisOfBB, analysisOfMACD, analysisOfRSI, analysisOfTRIX);
+			AnalysisTools.setAnalysisPeriodLength(periodLength, indicatorOfCCI, indicatorOfDI, indicatorOfBB, indicatorOfMACD, indicatorOfRSI, indicatorOfTRIX);
 
-			analysisOfCCI.setDataSet(listOfQuoteSlice);
-			analysisOfDI.setDataSet(listOfQuoteSlice);
-			analysisOfBB.setDataSet(listOfQuoteSlice);
-			analysisOfMACD.setDataSet(listOfQuoteSlice);
-			analysisOfRSI.setDataSet(listOfQuoteSlice);
-			analysisOfTRIX.setDataSet(listOfQuoteSlice);
+			indicatorOfCCI.setDataSet(listOfQuoteSlice);
+			indicatorOfDI.setDataSet(listOfQuoteSlice);
+			indicatorOfBB.setDataSet(listOfQuoteSlice);
+			indicatorOfMACD.setDataSet(listOfQuoteSlice);
+			indicatorOfRSI.setDataSet(listOfQuoteSlice);
+			indicatorOfTRIX.setDataSet(listOfQuoteSlice);
 	
-			ResultsCCI resultsCCI = analysisOfCCI.analyize();
-			ResultsDI resultsDI = analysisOfDI.analize();
-			ResultsBB resultsBB = analysisOfBB.analyize();
-			ResultsMACD resultsMACD = analysisOfMACD.analize();
-			ResultsRSI resultsRSI = analysisOfRSI.analyize();
-			ResultsTRIX resultsTRIX = analysisOfTRIX.analyize();
+			ResultsCCI resultsCCI = indicatorOfCCI.analyize();
+			ResultsDI resultsDI = indicatorOfDI.analize();
+			ResultsBB resultsBB = indicatorOfBB.analyize();
+			ResultsMACD resultsMACD = indicatorOfMACD.analize();
+			ResultsRSI resultsRSI = indicatorOfRSI.analyize();
+			ResultsTRIX resultsTRIX = indicatorOfTRIX.analyize();
 
 			double[] arrayOfPriceClose = commonAnlaysisData.arrayOfPriceClose;
 			double analysisOfCCIResult = resultsCCI.arrayOfCCI[0];
@@ -210,7 +210,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			positionGovernorResponsePrevious = positionGovenorResponse;
 			if (positionGovenorResponse.status == PositionGovernorResponseStatus.failed && positionGovenorResponse.reason != PositionGovernorResponseReason.failed_insufficient_funds){
-				disable(positionGovenorResponse);
+				disable();
 			}
 		}
 	}

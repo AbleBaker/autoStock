@@ -46,8 +46,4 @@ public class AlgorithmBase {
 	public void disable(){
 		isDisabled = true;
 	}
-	
-	public void disable(PositionGovernorResponse positionGovernorResponse){
-		isDisabled = true;
-	}
 }

@@ -11,10 +11,10 @@ import com.autoStock.taLib.RetCode;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisOfCCI extends AnalysisBase {
+public class IndicatorOfCCI extends IndicatorBase {
 	public ResultsCCI results;
 	
-	public AnalysisOfCCI(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+	public IndicatorOfCCI(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
 		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	

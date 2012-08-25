@@ -11,10 +11,10 @@ import com.autoStock.taLib.RetCode;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisOfDI extends AnalysisBase {
+public class IndicatorOfDI extends IndicatorBase {
 	public ResultsDI results;
 	
-	public AnalysisOfDI(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+	public IndicatorOfDI(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
 		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	

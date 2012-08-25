@@ -9,10 +9,10 @@ import com.autoStock.taLib.RetCode;
  * @author Kevin Kowalewski
  *
  */
-public class AnalysisOfMACD extends AnalysisBase {
+public class IndicatorOfMACD extends IndicatorBase {
 	public ResultsMACD results;
 	
-	public AnalysisOfMACD(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
+	public IndicatorOfMACD(int periodLength, boolean preceedDataset, CommonAnlaysisData commonAnlaysisData) {
 		super(periodLength, preceedDataset, commonAnlaysisData);
 	}
 	
