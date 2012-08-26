@@ -52,7 +52,7 @@ public class AlgorithmTable {
 		String responseString = "-";
 		if (strategyResponse.positionGovernorResponse.position != null){
 			
-			responseString = "(" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() + ")";
+			responseString = "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()) + ")";
 			
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
 				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
@@ -61,10 +61,8 @@ public class AlgorithmTable {
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionCurrentValue(true));
-				responseString += "(" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() + ")";
+				responseString += "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()) + ")";
 			}
-		}else{
-			responseString = "X";
 		}
 		
 		return responseString;
