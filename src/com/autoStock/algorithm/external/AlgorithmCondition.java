@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -15,16 +16,14 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class AlgorithmCondition {
-	private static final int maxTransactionsDay = 4;
-	private static final double minTakeProfitExit = 1.020d;
-	private static final int maxStopLossValue = -50;
-	private static final int maxNilChanges = 15;
-	public static final int maxPositionEntryTime = 30;
-	public static final int maxPositionTaperTime = 30;
-	public static final int maxPositionExitTime = 8;
+	private StrategyOptions strategyOptions;
+	
+	public AlgorithmCondition(StrategyOptions strategyOptions){
+		this.strategyOptions = strategyOptions;
+	}
 	
 	public boolean canTadeAfterTransactions(int transactions){
-		if (transactions >= maxTransactionsDay){
+		if (transactions >= strategyOptions.maxTransactionsDay){
 			return false;
 		}
 		
@@ -32,7 +31,7 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean canTradeOnDate(Date date, Exchange exchange){
-		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionEntryTime);		
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionEntryTime);		
 	
 		if (date.getHours() > dateForLastExecution.getHours() || ( date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
 			return false;
@@ -42,7 +41,7 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean taperPeriodLengthLower(Date date, Exchange exchange){
-		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionTaperTime);		
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionTaperTime);		
 		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
 			return true;
 		}
@@ -59,7 +58,7 @@ public class AlgorithmCondition {
 			}
 		}
 		
-		return percentGainFromPosition >= minTakeProfitExit;
+		return percentGainFromPosition >= strategyOptions.minTakeProfitExit;
 	}
 	
 	public boolean stopLoss(Position position){
@@ -74,11 +73,11 @@ public class AlgorithmCondition {
 		
 //		Co.println("--> Value gain: " + valueGainFromPosition + (valueGainFromPosition < maxStopLossValue));
 		
-		return valueGainFromPosition < maxStopLossValue;
+		return valueGainFromPosition < strategyOptions.maxStopLossValue;
 	}
 	
 	public boolean requestExitOnDate(Date date, Exchange exchange){
-		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionExitTime);		
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionExitTime);		
 		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
 			return true;
 		}
@@ -98,6 +97,6 @@ public class AlgorithmCondition {
 				countOfNilChanges = 0;
 			}
 		}
-		return countOfNilChanges > maxNilChanges;
+		return countOfNilChanges > strategyOptions.maxNilChanges;
 	}
 }

@@ -14,7 +14,7 @@ import com.autoStock.algorithm.core.AlgorithmTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.indicator.CommonAnlaysisData;
 import com.autoStock.indicator.IndicatorGroup;
-import com.autoStock.position.PGResponse;
+import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalGroup;
@@ -39,7 +39,7 @@ public class AlgorithmBase {
 	public AlgorithmTable algorithmTable;
 	public IndicatorGroup indicatorGroup;
 	public SignalGroup signalGroup;
-	public PGResponse PGResponsePrevious = new PGResponse();
+	public PositionGovernorResponse PGResponsePrevious = new PositionGovernorResponse();
 	public final CommonAnlaysisData commonAnlaysisData = new CommonAnlaysisData();
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public QuoteSlice firstQuoteSlice;

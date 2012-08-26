@@ -16,31 +16,13 @@ import com.autoStock.types.Exchange;
  */
 public class StrategyBase {
 	public Signal signal;
-	public SignalPointTactic signalPointTactic;
 	public StrategyOptions strategyOptions;
 	public AlgorithmCondition algorithmCondition;
 	public AlgorithmBase algorithmBase;
 	public final PositionGovernor positionGovener = PositionGovernor.getInstance();
+	public StrategyResponse lastStrategyResponse = new StrategyResponse();
 
 	public StrategyBase(AlgorithmBase algorithmBase) {
 		this.algorithmBase = algorithmBase;
-	}
-
-	public int getUpdatedPeriodLength(Date date, Exchange exchange, int periodLength) {
-		if (strategyOptions.taperPeriodLength == false) {
-			return periodLength;
-		} else {
-			if (algorithmCondition.taperPeriodLengthLower(date, exchange)) {
-				if (periodLength > SignalControl.periodLengthStart) {
-					periodLength--;
-				}
-			} else {
-				if (periodLength < SignalControl.periodLengthEnd) {
-					periodLength++;
-				}
-			}
-		}
-		
-		return periodLength;
 	}
 }

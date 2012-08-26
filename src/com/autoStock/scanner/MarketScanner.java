@@ -15,7 +15,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.position.PGResponse;
+import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.tools.DateTools;
@@ -104,7 +104,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	}
 
 	@Override
-	public void receivePositionGovernorResponse(PGResponse positionGovernorResponse) {
+	public void receivePositionGovernorResponse(PositionGovernorResponse positionGovernorResponse) {
 	
 	}
 }

@@ -2,9 +2,11 @@ package com.autoStock.algorithm.core;
 
 import java.util.ArrayList;
 
+import com.autoStock.finance.Account;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalTools;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
@@ -19,7 +21,7 @@ import com.autoStock.types.QuoteSlice;
 public class AlgorithmTable {
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	
-	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup){
+	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 
@@ -34,9 +36,12 @@ public class AlgorithmTable {
 		columnValues.add(String.valueOf(signalGroup.signalOfTRIX.getSignal().strength));
 		columnValues.add(String.valueOf(SignalTools.getCombinedSignal(signal).strength));
 		
+		columnValues.add(strategyResponse.positionGovernorResponse.status.name());
+		columnValues.add(strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name());
+		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.name());
+		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add("");
-		columnValues.add("");
-		columnValues.add("");
+		columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 		
 		listOfDisplayRows.add(columnValues);
 	}

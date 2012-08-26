@@ -25,7 +25,7 @@ public class SignalDefinitions {
 		; 
 		
 		public int occurences;
-		public SignalMetricType signalMetricType = SignalMetricType.metric_none;
+		public SignalMetricType signalMetricType = SignalMetricType.none;
 	}
 	
 	public enum SignalMetricType {
@@ -48,7 +48,7 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
 				11, -33, 0, 0),
 		metric_storsi(null,0,0,0,0),
-		metric_none(null, 0, 0, 0, 0),
+		none(null, 0, 0, 0, 0),
 		;
 		
 		CalculateInterface calculateInterface;

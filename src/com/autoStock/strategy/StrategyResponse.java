@@ -1,14 +1,15 @@
 package com.autoStock.strategy;
 
-import com.autoStock.position.PGResponse;
+import com.autoStock.position.PositionGovernorResponse;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class StrategyResponse {
-	public PGResponse positionGovernorResponse = new PGResponse();
+	public PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 	public StrategyAction strategyAction = StrategyAction.none;
+	public StrategyActionCause strategyActionCause = StrategyActionCause.none;
 	
 	public enum StrategyAction {
 		algorithm_disable,
@@ -24,9 +25,7 @@ public class StrategyResponse {
 		cease_algorithm_condition_stoploss,
 		cease_algorithm_condition_nilchange,
 		cease_algorithm_disabled,
-		changed_long_entry,
-		changed_long_exit,
-		changed_short_entry,
-		changed_short_exit,
+		proceed_changed,
+		none,
 	}
 }
