@@ -1,7 +1,8 @@
-package com.autoStock.algorithm;
+package com.autoStock.algorithm.core;
 
 import com.autoStock.Co;
-import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.AlgorithmTest;
+import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
@@ -58,9 +59,9 @@ public class ActiveAlgorithmContainer {
 		Position position = PositionManager.instance.getPosition(symbol.symbol);
 		if (position != null){
 			if (position.positionType == PositionType.position_long){
-				PositionManager.instance.executePosition(algorithm.currentQuoteSlice, algorithm.signal, PositionType.position_long_exit);
+				PositionManager.instance.executePosition(algorithm.getCurrentQuoteSlice(), algorithm.strategy.signal, PositionType.position_long_exit);
 			}else if (position.positionType == PositionType.position_short){
-				PositionManager.instance.executePosition(algorithm.currentQuoteSlice, algorithm.signal, PositionType.position_short_exit);	
+				PositionManager.instance.executePosition(algorithm.getCurrentQuoteSlice(), algorithm.strategy.signal, PositionType.position_short_exit);	
 			}else{
 				throw new IllegalStateException();
 			}

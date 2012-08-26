@@ -3,10 +3,8 @@ package com.autoStock.algorithm.external;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.signal.SignalControl;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -44,7 +42,7 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean taperPeriodLengthLower(Date date, Exchange exchange){
-		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionExitTime);		
+		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionTaperTime);		
 		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
 			return true;
 		}
@@ -79,7 +77,7 @@ public class AlgorithmCondition {
 		return valueGainFromPosition < maxStopLossValue;
 	}
 	
-	public boolean requestExitOnDate(Date date, Exchange exchange, Position position){
+	public boolean requestExitOnDate(Date date, Exchange exchange){
 		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), maxPositionExitTime);		
 		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
 			return true;

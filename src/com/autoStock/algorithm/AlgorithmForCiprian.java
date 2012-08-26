@@ -4,7 +4,7 @@
 package com.autoStock.algorithm;
 
 import com.autoStock.Co;
-import com.autoStock.algorithm.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;

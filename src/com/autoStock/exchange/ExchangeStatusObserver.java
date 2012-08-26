@@ -2,7 +2,6 @@ package com.autoStock.exchange;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;

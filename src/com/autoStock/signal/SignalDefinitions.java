@@ -9,7 +9,7 @@ package com.autoStock.signal;
  */
 public class SignalDefinitions {
 	public enum SignalSource{
-		from_analysis,
+		from_algorithm,
 		from_market_trend,
 		from_news,
 		from_manual,

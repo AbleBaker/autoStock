@@ -1,6 +1,5 @@
 package com.autoStock.signal;
 
-import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
 

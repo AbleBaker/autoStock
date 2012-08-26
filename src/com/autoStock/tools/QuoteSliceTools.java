@@ -3,11 +3,8 @@
  */
 package com.autoStock.tools;
 
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickPriceFields;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickSizeFields;

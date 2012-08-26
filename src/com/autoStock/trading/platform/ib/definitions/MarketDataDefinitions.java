@@ -1,6 +1,5 @@
 package com.autoStock.trading.platform.ib.definitions;
 
-import com.autoStock.Co;
 import com.autoStock.trading.platform.ib.core.TickType;
 
 /**

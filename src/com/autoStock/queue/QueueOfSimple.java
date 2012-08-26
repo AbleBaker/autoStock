@@ -1,7 +1,5 @@
 package com.autoStock.queue;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.autoStock.tools.Lock;

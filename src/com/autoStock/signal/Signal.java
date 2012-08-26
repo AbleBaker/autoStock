@@ -18,10 +18,13 @@ public class Signal {
 	public SignalPoint currentSignalPoint = SignalPoint.none;
 	public ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	
-	public static enum SignalMajorityType { majority, whole, change}
-	
 	public Signal(SignalSource signalSource) {
 		this.signalSource = signalSource;
+	}
+	
+	public void resetAndAddSignalMetrics(SignalMetric... arrayOfSignalMetrics){
+		reset();
+		addSignalMetrics(arrayOfSignalMetrics);
 	}
 	
 	public void addSignalMetrics(SignalMetric... signalMetrics){

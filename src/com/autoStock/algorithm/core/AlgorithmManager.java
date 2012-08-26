@@ -1,14 +1,13 @@
-package com.autoStock.algorithm;
+package com.autoStock.algorithm.core;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.finance.Account;
-import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalTools;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -106,9 +105,9 @@ public class AlgorithmManager {
 			double percentGainFromAlgorithm = 0;
 			double percentGainFromPosition = 0;
 			
-			if (container.algorithm.firstQuoteSlice != null && container.algorithm.currentQuoteSlice != null){
-				if (container.algorithm.firstQuoteSlice.priceClose != 0 && container.algorithm.currentQuoteSlice.priceClose != 0){
-					percentGainFromAlgorithm = (container.algorithm.currentQuoteSlice.priceClose / container.algorithm.firstQuoteSlice.priceClose) -1d;
+			if (container.algorithm.firstQuoteSlice != null && container.algorithm.getCurrentQuoteSlice() != null){
+				if (container.algorithm.firstQuoteSlice.priceClose != 0 && container.algorithm.getCurrentQuoteSlice().priceClose != 0){
+					percentGainFromAlgorithm = (container.algorithm.getCurrentQuoteSlice().priceClose / container.algorithm.firstQuoteSlice.priceClose) -1d;
 				}
 			}
 			
@@ -118,12 +117,12 @@ public class AlgorithmManager {
 				}
 			}
 			
-			columnValues.add(container.algorithm.currentQuoteSlice != null && container.algorithm.currentQuoteSlice.dateTime != null ? DateTools.getPrettyDate(container.algorithm.currentQuoteSlice.dateTime) : "?"); 
+			columnValues.add(container.algorithm.getCurrentQuoteSlice() != null && container.algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(container.algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
 			columnValues.add(container.symbol.symbol);
-			columnValues.add(container.algorithm.signal.currentSignalPoint.name() + ", " + SignalTools.getCombinedSignal(container.algorithm.signal).strength);
+			columnValues.add(container.algorithm.strategy.signal.currentSignalPoint.name() + ", " + SignalTools.getCombinedSignal(container.algorithm.strategy.signal).strength);
 			columnValues.add(position == null ? "-" : position.positionType.name() + ", " + ((position.units * position.price) - (position.units * position.lastKnownPrice)));
 			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.firstQuoteSlice.priceClose)));
-			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.currentQuoteSlice.priceClose)));
+			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.getCurrentQuoteSlice().priceClose)));
 			columnValues.add(String.valueOf(percentGainFromAlgorithm));
 			columnValues.add(String.valueOf(percentGainFromPosition == 1 ? "-" : percentGainFromPosition));
 			

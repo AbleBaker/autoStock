@@ -14,13 +14,8 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.position.PositionManager;
-import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalDefinitions.SignalSource;
-import com.autoStock.signal.SignalMetric;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.Lock;
@@ -134,7 +129,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			PositionManager.instance.executeSellAll();
 			
 			if (Account.instance.getBankBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
+				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal));
 				metricBestAccountBalance = Account.instance.getBankBalance();
 			}
 						
@@ -171,7 +166,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				
 				if (runNextBacktestForDays() == false){
 					if (backtestType == BacktestType.backtest_default){
-						Co.println(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.signal));
+						Co.println(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal));
 					}
 					Co.println("--> Finished backtest");
 				}

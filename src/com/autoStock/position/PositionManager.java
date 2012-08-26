@@ -89,10 +89,10 @@ public class PositionManager {
 		return position;
 	}		
 	
-	public synchronized void updatePositionPrice(QuoteSlice quoteSlice, Position typePosition){
+	public synchronized void updatePositionPrice(QuoteSlice quoteSlice, Position position){
 		synchronized (lock) {
-			if (typePosition != null){
-				typePosition.lastKnownPrice = quoteSlice.priceClose;
+			if (position != null){
+				position.lastKnownPrice = quoteSlice.priceClose;
 			}
 		}
 	}

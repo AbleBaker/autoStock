@@ -1,4 +1,4 @@
-package com.autoStock.algorithm;
+package com.autoStock.algorithm.core;
 
 /**
  * @author Kevin Kowalewski
@@ -11,9 +11,9 @@ public class AlgorithmDefinitions {
 		mode_engagement(false, true, true),
 		;
 		
-		boolean displayChart;
-		boolean displayTable;
-		boolean displayMessages;
+		public boolean displayChart;
+		public boolean displayTable;
+		public boolean displayMessages;
 		
 		AlgorithmMode(boolean displayChart, boolean displayTable, boolean displayMessages){
 			this.displayChart = displayChart;

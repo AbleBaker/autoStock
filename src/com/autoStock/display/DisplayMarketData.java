@@ -8,14 +8,10 @@ import com.autoStock.exchange.request.RequestMarketData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
-import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.MarketData;
-import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
-import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski

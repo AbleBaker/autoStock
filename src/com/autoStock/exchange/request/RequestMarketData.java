@@ -3,10 +3,8 @@
  */
 package com.autoStock.exchange.request;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketDataListener;
@@ -15,7 +13,6 @@ import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.QuoteSliceTools;
-import com.autoStock.trading.platform.ib.IbExchangeInstance;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.trading.types.MarketData;
 import com.autoStock.types.Exchange;

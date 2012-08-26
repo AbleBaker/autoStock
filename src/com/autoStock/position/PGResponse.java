@@ -9,7 +9,7 @@ import com.autoStock.trading.types.Position;
  * @author Kevin Kowalewski
  *
  */
-public class PositionGovernorResponse {
+public class PGResponse {
 	public Position position;
 	public PositionGovernorResponseStatus status = PositionGovernorResponseStatus.none;
 	public PositionGovernorResponseReason reason = PositionGovernorResponseReason.none;
@@ -35,7 +35,7 @@ public class PositionGovernorResponse {
 		;
 	}
 	
-	public PositionGovernorResponse getFailedResponse(PositionGovernorResponseReason reason){
+	public PGResponse getFailedResponse(PositionGovernorResponseReason reason){
 		status = PositionGovernorResponseStatus.failed;
 		this.reason = reason;
 		return this;

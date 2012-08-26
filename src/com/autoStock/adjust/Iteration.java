@@ -1,6 +1,7 @@
 package com.autoStock.adjust;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 

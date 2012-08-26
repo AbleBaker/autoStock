@@ -5,7 +5,7 @@ package com.autoStock;
 
 import java.util.ArrayList;
 
-import com.autoStock.algorithm.AlgorithmManager;
+import com.autoStock.algorithm.core.AlgorithmManager;
 import com.autoStock.algorithm.external.ExternalConditionDefintions;
 import com.autoStock.exchange.ExchangeStatusListener;
 import com.autoStock.exchange.ExchangeStatusObserver;
@@ -14,7 +14,6 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
-import com.autoStock.internal.BranchSTDIO;
 import com.autoStock.internal.Global;
 import com.autoStock.types.Exchange;
 
