@@ -15,16 +15,17 @@ public class StrategyResponse {
 		algorithm_disable,
 		algorithm_proceed,
 		algorithm_changed,
+		no_change,
 		none,
 	}
 	
 	public enum StrategyActionCause {
-		cease_external_condition_time,
-		cease_algorithm_condition_trans,
-		cease_algorithm_condition_profit,
-		cease_algorithm_condition_stoploss,
-		cease_algorithm_condition_nilchange,
-		cease_algorithm_disabled,
+		cease_condition_time,
+		cease_condition_trans,
+		cease_condition_profit,
+		cease_condition_stoploss,
+		cease_condition_nilchange,
+		cease_disabled,
 		proceed_changed,
 		none,
 	}

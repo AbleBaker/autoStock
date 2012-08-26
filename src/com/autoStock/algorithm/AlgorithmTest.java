@@ -7,6 +7,7 @@ import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -36,6 +37,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			signalGroup.generateSignals(commonAnlaysisData, indicatorGroup, periodLength);
 
 			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice);
+		
+			if (strategyResponse.strategyAction == StrategyAction.algorithm_disable){
+				disable();
+			}else if (strategyResponse.strategyAction == StrategyAction.algorithm_changed){
+				//
+			}else if (strategyResponse.strategyAction == StrategyAction.algorithm_proceed){
+				//
+			}
 
 			if (algorithmMode.displayChart) {
 				algorithmChart.addChartPointData(quoteSlice, strategy.signal, signalGroup);

@@ -25,6 +25,10 @@ public class PositionGovernor {
 	}
 	
 	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions){
+		return informGovener(quoteSlice, signal, exchange, strategyOptions, false);
+	}
+	
+	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		Position position = positionManager.getPosition(quoteSlice.symbol);
 		SignalPoint signalPoint = SignalPoint.none;
@@ -39,17 +43,16 @@ public class PositionGovernor {
 			}
 			
 		} else {
-			boolean algorithmConditionExit = false;
 			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTactic);
 			
 			PositionGovernorResponse tempPositionGovernorResponse = new PositionGovernorResponse();
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
-				if (signalPoint == SignalPoint.long_exit || algorithmConditionExit) {
+				if (signalPoint == SignalPoint.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
-				if (signalPoint == SignalPoint.short_exit || algorithmConditionExit) {
+				if (signalPoint == SignalPoint.short_exit || requestExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			}else {
@@ -61,6 +64,7 @@ public class PositionGovernor {
 			}
 		}
 		
+		positionGovernorResponse.position = position;
 		positionGovernorResponse.signalPoint = signalPoint;
 		signal.currentSignalPoint = signalPoint;
 
@@ -73,7 +77,7 @@ public class PositionGovernor {
 			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
 		}else{
 			positionGovernorResponse.position = position;
-			positionGovernorResponse.status = PositionGovernorResponseStatus.status_changed_long_entry;
+			positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_entry;
 		}
 	}
 	
@@ -83,7 +87,7 @@ public class PositionGovernor {
 			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
 		}else{
 			positionGovernorResponse.position = position;
-			positionGovernorResponse.status = PositionGovernorResponseStatus.status_changed_short_entry;
+			positionGovernorResponse.status = PositionGovernorResponseStatus.changed_short_entry;
 		}
 	}
 	
@@ -92,7 +96,7 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_long_exit);
-		positionGovernorResponse.status = PositionGovernorResponseStatus.status_changed_long_exit;
+		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_exit;
 	}
 	
 	private void governShortExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse){
@@ -100,6 +104,6 @@ public class PositionGovernor {
 			return;
 		}
 		positionGovernorResponse.position = positionManager.executePosition(quoteSlice, signal, PositionType.position_short_exit);
-		positionGovernorResponse.status = PositionGovernorResponseStatus.status_changed_short_exit;
+		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_short_exit;
 	}
 }

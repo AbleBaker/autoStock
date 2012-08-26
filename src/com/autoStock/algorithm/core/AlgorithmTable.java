@@ -3,10 +3,12 @@ package com.autoStock.algorithm.core;
 import java.util.ArrayList;
 
 import com.autoStock.finance.Account;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalTools;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
@@ -37,13 +39,35 @@ public class AlgorithmTable {
 		columnValues.add(String.valueOf(SignalTools.getCombinedSignal(signal).strength));
 		
 		columnValues.add(strategyResponse.positionGovernorResponse.status.name());
-		columnValues.add(strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name());
+		columnValues.add(strategyResponse.strategyAction == StrategyAction.no_change ? "-" : (strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name()));
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
-		columnValues.add("");
+		columnValues.add(getTransactionDetails(strategyResponse));
 		columnValues.add(String.valueOf(Account.instance.getBankBalance()));
 		
 		listOfDisplayRows.add(columnValues);
+	}
+	
+	public String getTransactionDetails(StrategyResponse strategyResponse){ 
+		String responseString = "-";
+		if (strategyResponse.positionGovernorResponse.position != null){
+			
+			responseString = "(" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() + ")";
+			
+			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
+				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
+				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionCurrentPrice(true));
+				
+			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
+				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionCurrentValue(true));
+				responseString += "(" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() + ")";
+			}
+		}else{
+			responseString = "X";
+		}
+		
+		return responseString;
 	}
 
 	public void display() {

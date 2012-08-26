@@ -27,10 +27,10 @@ public class PositionGovernorResponse {
 	}
 	
 	public enum PositionGovernorResponseStatus {
-		status_changed_long_entry,
-		status_changed_short_entry,
-		status_changed_long_exit,
-		status_changed_short_exit,
+		changed_long_entry,
+		changed_short_entry,
+		changed_long_exit,
+		changed_short_exit,
 		
 		failed,
 		none,

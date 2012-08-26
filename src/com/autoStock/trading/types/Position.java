@@ -3,7 +3,9 @@
  */
 package com.autoStock.trading.types;
 
+import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.tools.MathTools;
 
 
 /**
@@ -28,6 +30,26 @@ public class Position implements Cloneable {
 		this.symbol = symbol;
 		this.securityType = securityType;
 		this.price = averagePrice;
+	}
+	
+	public double getPositionEntryPrice(boolean includeTransactionFees){
+		return MathTools.round(units * price + (includeTransactionFees ? Account.instance.getTransactionCost(units, price) : 0));
+	}
+	
+	public double getPositionCurrentPrice(boolean includeTransactionFees){		
+		return MathTools.round((units * lastKnownPrice) + (includeTransactionFees ? Account.instance.getTransactionCost(units, lastKnownPrice) : 0));
+	}
+	
+	public double getPositionEntryValue(boolean includeTransactionFees){
+		return MathTools.round(units * price - (includeTransactionFees ? Account.instance.getTransactionCost(units, price) : 0));
+	}
+	
+	public double getPositionCurrentValue(boolean includeTransactionFees){
+		return MathTools.round((units * lastKnownPrice) - (includeTransactionFees ? Account.instance.getTransactionCost(units, lastKnownPrice) : 0));
+	}
+	
+	public double getPositionProfitLossAfterComission(){
+		return MathTools.round(getPositionCurrentValue(true) - getPositionEntryPrice(true));
 	}
 	
 	@Override

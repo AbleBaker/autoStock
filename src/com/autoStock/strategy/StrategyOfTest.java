@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
@@ -38,12 +39,12 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.signalPointTactic = SignalPointTactic.tatic_change;
 		
 		strategyOptions.maxTransactionsDay = 4;
-		strategyOptions.minTakeProfitExit = 1.020d;
+		strategyOptions.minTakeProfitExit = 1.030d;
 		strategyOptions.maxStopLossValue = -35;
 		strategyOptions.maxNilChanges = 16;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxPositionExitTime = 8;
+		strategyOptions.maxPositionExitTime = 10;
 	}
 	
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice){
@@ -53,75 +54,76 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal.resetAndAddSignalMetrics(signalGroup.signalOfDI.getSignal(), signalGroup.signalOfRSI.getSignal());
 		
-		if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
-			strategyResponse = cease(StrategyActionCause.cease_algorithm_condition_nilchange, quoteSlice, position, strategyResponse);
-		}
-		
-		else if (algorithmCondition.canTradeOnDate(quoteSlice.dateTime, algorithmBase.exchange) == false){
-			strategyResponse = cease(StrategyActionCause.cease_external_condition_time, quoteSlice, position, strategyResponse);
+		if (position != null){
+			if (algorithmCondition.stopLoss(position)){ //Cond stop loss
+				cease(StrategyActionCause.cease_condition_stoploss, quoteSlice, position, strategyResponse);
+			}if (algorithmCondition.takeProfit(position, quoteSlice)){ //Cond profit
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_profit, quoteSlice, position, strategyResponse);
+			}if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, algorithmBase.exchange)){  //Cond time
+				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time, quoteSlice, position, strategyResponse);
+			}else{
+				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
+			}
+		}else{
+			if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilchange, quoteSlice, position, strategyResponse);
+			}else if (algorithmCondition.canTradeOnDate(quoteSlice.dateTime, algorithmBase.exchange) == false){
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_time, quoteSlice, position, strategyResponse);
+			}else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false){
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_trans, quoteSlice, position, strategyResponse);
+			}else if (algorithmBase.algorithmState.isDisabled){
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);
+			}else{
+				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
+			}
 		}
 
-		else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false){
-			strategyResponse = cease(StrategyActionCause.cease_algorithm_condition_trans, quoteSlice, position, strategyResponse);
-		}
-		
-		else if (algorithmBase.algorithmState.isDisabled){
-			strategyResponse = cease(StrategyActionCause.cease_algorithm_disabled, quoteSlice, position, strategyResponse);
-		}
-		
-		else if (position != null){
-			if (algorithmCondition.stopLoss(position)){ //Cond stop loss
-				cease(StrategyActionCause.cease_algorithm_condition_stoploss, quoteSlice, position, strategyResponse);
-			}
-			
-			if (algorithmCondition.takeProfit(position, quoteSlice)){ //Cond profit
-				cease(StrategyActionCause.cease_algorithm_condition_profit, quoteSlice, position, strategyResponse);
-			}
-			
-			if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, algorithmBase.exchange)){  //Cond time
-				exit();
-			}
-		}
-		
-		else{
-			strategyResponse.positionGovernorResponse = proceed(quoteSlice);
-		}
-		
 		return formulateStrategyResponse(strategyResponse);
 	}
 	
 	public StrategyResponse formulateStrategyResponse(StrategyResponse strategyResponse){
 		if (strategyResponse.positionGovernorResponse.status != PositionGovernorResponseStatus.none){
-			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.status_changed_long_entry
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.status_changed_long_exit
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.status_changed_short_entry
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.status_changed_short_exit){
+			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
+					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
+					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
+					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 				
-				strategyResponse.strategyAction = StrategyAction.algorithm_proceed;
-				
+				strategyResponse.strategyAction = StrategyAction.algorithm_changed;
 			}
 		}
-		
-		lastStrategyResponse = strategyResponse;
-		
-		return strategyResponse;
+				
+		if (strategyResponse.strategyAction == lastStrategyResponse.strategyAction && strategyResponse.strategyActionCause == strategyResponse.strategyActionCause){
+			strategyResponse.strategyAction = StrategyAction.no_change;
+			strategyResponse.strategyActionCause = StrategyActionCause.none;
+			return strategyResponse;
+		}else{
+			lastStrategyResponse = strategyResponse;
+			return strategyResponse;	
+		}
 	}
 	
-	public PositionGovernorResponse proceed(QuoteSlice quoteSlice){ //Allowed to inform Governor
+	public PositionGovernorResponse proceed(QuoteSlice quoteSlice){
 		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions);
 		return positionGovernorResponse;
 	}
 	
-	public StrategyResponse cease(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){ //Disable and/or exit
-		strategyResponse.strategyAction = StrategyAction.algorithm_disable;
-		
-		if (strategyResponse.strategyAction != lastStrategyResponse.strategyAction || strategyActionCause != lastStrategyResponse.strategyActionCause){
-			strategyResponse.strategyActionCause = strategyActionCause;
+	public PositionGovernorResponse cease(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
+		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
+		if (position != null){
+			positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true);
 		}
-		return strategyResponse;
+		strategyResponse.strategyAction = StrategyAction.algorithm_disable;
+		strategyResponse.strategyActionCause = strategyActionCause;
+		
+		return positionGovernorResponse;
 	}
 	
-	public void exit(){
+	public PositionGovernorResponse exit(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
+		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true);
 		
+		strategyResponse.strategyAction = StrategyAction.algorithm_changed;
+		strategyResponse.strategyActionCause = strategyActionCause;
+		
+		return positionGovernorResponse;
 	}
 }
