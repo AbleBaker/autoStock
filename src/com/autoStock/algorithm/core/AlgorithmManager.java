@@ -107,13 +107,13 @@ public class AlgorithmManager {
 			
 			if (container.algorithm.firstQuoteSlice != null && container.algorithm.getCurrentQuoteSlice() != null){
 				if (container.algorithm.firstQuoteSlice.priceClose != 0 && container.algorithm.getCurrentQuoteSlice().priceClose != 0){
-					percentGainFromAlgorithm = MathTools.roundPrecision(container.algorithm.getCurrentQuoteSlice().priceClose / container.algorithm.firstQuoteSlice.priceClose) -1d;
+					percentGainFromAlgorithm = (container.algorithm.getCurrentQuoteSlice().priceClose / container.algorithm.firstQuoteSlice.priceClose) -1d;
 				}
 			}
 			
 			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
 				if (position.price != 0 && position.lastKnownPrice != 0){
-					percentGainFromPosition = MathTools.roundPrecision(position.lastKnownPrice / position.price);
+					percentGainFromPosition = (position.lastKnownPrice / position.price);
 				}
 			}
 			

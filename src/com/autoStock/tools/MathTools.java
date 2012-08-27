@@ -3,6 +3,8 @@
  */
 package com.autoStock.tools;
 
+import java.text.DecimalFormat;
+
 
 /**
  * @author Kevin Kowalewski
@@ -11,10 +13,6 @@ package com.autoStock.tools;
 public class MathTools {
 	public static double round(double value){
 		return Math.round(value*100.0)/100.0;
-	}
-	
-	public static double roundPrecision(double value){
-		return Math.round(value*1000.0)/1000.0;
 	}
 	
 	public static double getAverage(double[] arrayOfDouble){
