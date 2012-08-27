@@ -125,6 +125,7 @@ public class AlgorithmManager {
 			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.getCurrentQuoteSlice().priceClose)));
 			columnValues.add(String.valueOf(percentGainFromAlgorithm));
 			columnValues.add(String.valueOf(percentGainFromPosition == 1 ? "-" : percentGainFromPosition));
+			columnValues.add(String.valueOf(position == null ? "-" : position.getPositionProfitLossAfterComission()));
 			
 			listOfDisplayRows.add(columnValues);
 		}

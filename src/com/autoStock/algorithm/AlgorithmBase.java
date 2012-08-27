@@ -108,7 +108,7 @@ public class AlgorithmBase {
 	}
 	
 	public QuoteSlice getCurrentQuoteSlice(){
-		return listOfQuoteSlice.get(listOfQuoteSlice.size());
+		return listOfQuoteSlice.size() == 0 ? null : listOfQuoteSlice.get(listOfQuoteSlice.size());
 	}
 	
 	public QuoteSlice getFirstQuoteSlice(){
