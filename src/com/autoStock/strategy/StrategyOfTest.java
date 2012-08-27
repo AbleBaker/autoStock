@@ -55,11 +55,11 @@ public class StrategyOfTest extends StrategyBase {
 		signal.resetAndAddSignalMetrics(signalGroup.signalOfDI.getSignal(), signalGroup.signalOfRSI.getSignal());
 		
 		if (position != null){
-			if (algorithmCondition.stopLoss(position)){ //Cond stop loss
-				cease(StrategyActionCause.cease_condition_stoploss, quoteSlice, position, strategyResponse);
-			}if (algorithmCondition.takeProfit(position, quoteSlice)){ //Cond profit
+			if (algorithmCondition.stopLoss(position)){
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_stoploss, quoteSlice, position, strategyResponse);
+			}else if (algorithmCondition.takeProfit(position, quoteSlice)){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_profit, quoteSlice, position, strategyResponse);
-			}if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, algorithmBase.exchange)){  //Cond time
+			}else if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, algorithmBase.exchange)){
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time, quoteSlice, position, strategyResponse);
 			}else{
 				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
@@ -108,6 +108,7 @@ public class StrategyOfTest extends StrategyBase {
 	}
 	
 	public PositionGovernorResponse cease(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
+//		Co.println("--> Asked to cease: " + strategyActionCause.name());
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		if (position != null){
 			positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true);
