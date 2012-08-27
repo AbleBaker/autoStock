@@ -13,6 +13,10 @@ public class MathTools {
 		return Math.round(value*100.0)/100.0;
 	}
 	
+	public static double roundPrecision(double value){
+		return Math.round(value*1000.0)/1000.0;
+	}
+	
 	public static double getAverage(double[] arrayOfDouble){
 		double average = 0;
 		
