@@ -30,7 +30,7 @@ public class AlgorithmCondition {
 		return true;
 	}
 	
-	public boolean canTradeOnDate(Date date, Exchange exchange){
+	public boolean canEnterTradeOnDate(Date date, Exchange exchange){
 		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionEntryTime);		
 	
 		if (date.getHours() > dateForLastExecution.getHours() || ( date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){

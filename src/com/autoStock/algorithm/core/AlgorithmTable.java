@@ -28,6 +28,7 @@ public class AlgorithmTable {
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 
 		columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
+		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
 		columnValues.add(String.valueOf(MathTools.round(quoteSlice.priceClose)));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
 		columnValues.add(String.valueOf(signalGroup.signalOfPPC.getSignal().strength));
@@ -49,16 +50,14 @@ public class AlgorithmTable {
 	}
 	
 	public String getTransactionDetails(StrategyResponse strategyResponse){ 
-		String responseString = "-";
+		String responseString = "none";
 		if (strategyResponse.positionGovernorResponse.position != null){
 			responseString = StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission());
 			
-			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
-				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
+			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionCurrentPrice(true));
 				
-			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
-				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionCurrentValue(true));
 				responseString += "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()) + ")";
 			}

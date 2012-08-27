@@ -42,7 +42,6 @@ public class PositionGovernor {
 			}else if (signalPoint == SignalPoint.short_entry && strategyOptions.canGoShort){
 				position = governShortEntry(quoteSlice, signal, positionGovernorResponse);
 			}
-			
 		} else {
 			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTactic);
 

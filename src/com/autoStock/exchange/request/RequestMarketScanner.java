@@ -36,7 +36,7 @@ public class RequestMarketScanner {
 	
 	public synchronized void finished(){
 		((RequestMarketScannerListener)requestHolder.callback).completed(requestHolder, exResultSetMarketScanner);
-		Co.println("Finished market scanner...");
+		Co.println("Finished market scanner. Result size:" + exResultSetMarketScanner.listOfExResultRowMarketScanner.size());
 	}
 
 	public void clearResults() {

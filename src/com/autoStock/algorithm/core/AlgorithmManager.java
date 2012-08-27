@@ -91,6 +91,7 @@ public class AlgorithmManager {
 	
 	public void displayAlgorithmTable(){
 		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
+		Co.println("--> Current P&L: " + PositionManager.instance.getCurrentProfitLossIncludingFees());
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){
@@ -119,10 +120,10 @@ public class AlgorithmManager {
 			
 			columnValues.add(container.algorithm.getCurrentQuoteSlice() != null && container.algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(container.algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
 			columnValues.add(container.symbol.symbol);
-			columnValues.add(container.algorithm.strategy.signal.currentSignalPoint.name() + ", " + SignalTools.getCombinedSignal(container.algorithm.strategy.signal).strength);
-			columnValues.add(position == null ? "-" : position.positionType.name() + ", " + ((position.units * position.price) - (position.units * position.lastKnownPrice)));
-			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.firstQuoteSlice.priceClose)));
-			columnValues.add(String.valueOf(container.algorithm.firstQuoteSlice == null ? 0 : MathTools.round(container.algorithm.getCurrentQuoteSlice().priceClose)));
+			columnValues.add(container.algorithm.strategy.lastStrategyResponse == null ? "-" : (container.algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.name() + ", " + container.algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
+			columnValues.add(position == null ? "-" : position.positionType.name() + ", " + position.getPositionProfitLossAfterComission());
+			columnValues.add(String.valueOf(container.algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(container.algorithm.getFirstQuoteSlice().priceClose)));
+			columnValues.add(String.valueOf(container.algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(container.algorithm.getCurrentQuoteSlice().priceClose)));
 			columnValues.add(String.valueOf(percentGainFromAlgorithm));
 			columnValues.add(String.valueOf(percentGainFromPosition == 1 ? "-" : percentGainFromPosition));
 			columnValues.add(String.valueOf(position == null ? "-" : position.getPositionProfitLossAfterComission()));

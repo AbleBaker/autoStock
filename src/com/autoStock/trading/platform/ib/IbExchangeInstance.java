@@ -110,7 +110,7 @@ public class IbExchangeInstance {
 	
 	public void getScanner(RequestHolder requestHolder, Exchange exchage){
 		ScannerSubscription scanner = new ScannerSubscription();
-		scanner.numberOfRows(50);
+		scanner.numberOfRows(100);
 		if (exchage.exchangeDesignation == ExchangeDesignation.NYSE){
 			scanner.instrument("STK");
 			scanner.locationCode("STK.NYSE");			
@@ -121,10 +121,10 @@ public class IbExchangeInstance {
 		
 		scanner.scanCode("TOP_OPEN_PERC_GAIN");
 		scanner.aboveVolume(10000);
-		scanner.abovePrice(4.00);
+		scanner.abovePrice(3.00);
 		scanner.belowPrice(100.00);
-		scanner.averageOptionVolumeAbove(1);
-		scanner.stockTypeFilter("STOCK");
+		scanner.averageOptionVolumeAbove(0);
+		scanner.stockTypeFilter("ALL");
 		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(requestHolder.requestId, scanner);
 	}
 	
