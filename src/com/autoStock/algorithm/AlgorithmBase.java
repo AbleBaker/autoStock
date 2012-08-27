@@ -18,6 +18,8 @@ import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalGroup;
+import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.Exchange;
@@ -69,6 +71,16 @@ public class AlgorithmBase {
 	
 	public void handlePositionChange(){
 		algorithmState.transactions++;
+	}
+	
+	public void handleStrategyResponse(StrategyResponse strategyResponse){
+		if (strategyResponse.strategyAction == StrategyAction.algorithm_disable){
+			disable();
+		}else if (strategyResponse.strategyAction == StrategyAction.algorithm_changed){
+			handlePositionChange();
+		}else if (strategyResponse.strategyAction == StrategyAction.algorithm_proceed){
+			//
+		}
 	}
 	
 	public void disable(){

@@ -82,7 +82,10 @@ public class StrategyOfTest extends StrategyBase {
 	}
 	
 	public StrategyResponse formulateStrategyResponse(StrategyResponse strategyResponse){
-		if (strategyResponse.positionGovernorResponse.status != PositionGovernorResponseStatus.none){
+		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.failed){
+			strategyResponse.strategyAction = StrategyAction.algorithm_changed;
+			strategyResponse.strategyActionCause = StrategyActionCause.position_governor_failure;
+		} else if (strategyResponse.positionGovernorResponse.status != PositionGovernorResponseStatus.none){
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry

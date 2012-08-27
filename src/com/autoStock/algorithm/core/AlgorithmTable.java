@@ -51,7 +51,7 @@ public class AlgorithmTable {
 	public String getTransactionDetails(StrategyResponse strategyResponse){ 
 		String responseString = "-";
 		if (strategyResponse.positionGovernorResponse.position != null){
-			responseString = "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()) + ")";
+			responseString = StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission());
 			
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
 				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
@@ -62,8 +62,6 @@ public class AlgorithmTable {
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionCurrentValue(true));
 				responseString += "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()) + ")";
 			}
-		}else{
-			responseString = "null";
 		}
 		
 		return responseString;
