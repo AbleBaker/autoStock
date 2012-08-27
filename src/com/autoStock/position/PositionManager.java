@@ -11,6 +11,7 @@ import com.autoStock.finance.Currency;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.tools.Lock;
+import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.QuoteSlice;
 
@@ -134,7 +135,7 @@ public class PositionManager {
 				currentProfitLoss += position.getPositionProfitLossAfterComission();
 			}
 			
-			return currentProfitLoss;
+			return MathTools.round(currentProfitLoss);
 		}
 	}
 
