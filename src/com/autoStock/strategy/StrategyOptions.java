@@ -16,8 +16,9 @@ public class StrategyOptions {
 	public int maxTransactionsDay = 4;
 	public double minTakeProfitExit = 1.020d;
 	public int maxStopLossValue = -35;
-	public int maxNilChanges = 16;
+	public int maxNilChangePrice = 15;
+	public int maxNilChangeVolume = 10;
 	public int maxPositionEntryTime = 30;
 	public int maxPositionTaperTime = 30;
-	public int maxPositionExitTime = 8;
+	public int maxPositionExitTime = 5;
 }

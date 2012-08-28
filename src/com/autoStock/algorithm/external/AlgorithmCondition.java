@@ -87,16 +87,32 @@ public class AlgorithmCondition {
 
 	public boolean disableAfterNilChanges(ArrayList<QuoteSlice> listOfQuoteSlice) {
 		int countOfNilChanges = 0;
-		for (int i=0; i < listOfQuoteSlice.size() -2; i++){
-			QuoteSlice curremtQuoteSlice = listOfQuoteSlice.get(i);
-			QuoteSlice nextQuoteSlice = listOfQuoteSlice.get(i+1);
+		double price = 0;
+		
+		for (QuoteSlice quoteSlice : listOfQuoteSlice){
+			if (price == quoteSlice.priceClose){
+				countOfNilChanges++;
+			}else{
+				countOfNilChanges = 0;
+			}
 			
-			if (curremtQuoteSlice.priceClose == nextQuoteSlice.priceClose){
+			price = quoteSlice.priceClose;
+		}
+		
+		return countOfNilChanges >= strategyOptions.maxNilChangePrice;
+	}
+	
+	public boolean disableAfterNilVolume(ArrayList<QuoteSlice> listOfQuoteSlice){
+		int countOfNilChanges = 0;
+		
+		for (QuoteSlice quoteSlice : listOfQuoteSlice){
+			if (quoteSlice.sizeVolume < 100){
 				countOfNilChanges++;
 			}else{
 				countOfNilChanges = 0;
 			}
 		}
-		return countOfNilChanges > strategyOptions.maxNilChanges;
+		
+		return countOfNilChanges >= strategyOptions.maxNilChangePrice;
 	}
 }

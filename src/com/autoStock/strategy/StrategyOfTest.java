@@ -41,7 +41,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxTransactionsDay = 4;
 		strategyOptions.minTakeProfitExit = 1.030d;
 		strategyOptions.maxStopLossValue = -35;
-		strategyOptions.maxNilChanges = 15;
+		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionTaperTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
@@ -56,6 +56,8 @@ public class StrategyOfTest extends StrategyBase {
 		
 		if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
 			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilchange, quoteSlice, position, strategyResponse);
+		}else if (algorithmCondition.disableAfterNilVolume(listOfQuoteSlice)){
+			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilvolume, quoteSlice, position, strategyResponse);
 		}else if (position != null){
 			if (algorithmCondition.stopLoss(position)){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_stoploss, quoteSlice, position, strategyResponse);

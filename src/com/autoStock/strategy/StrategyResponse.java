@@ -25,6 +25,7 @@ public class StrategyResponse {
 		cease_condition_profit,
 		cease_condition_stoploss,
 		cease_condition_nilchange,
+		cease_condition_nilvolume,
 		cease_disabled,
 		position_governor_failure,
 		proceed_changed,
