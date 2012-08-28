@@ -17,6 +17,7 @@ import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.R
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.google.gson.Gson;
 
 /**
  * @author Kevin Kowalewski
@@ -24,6 +25,7 @@ import com.autoStock.types.Symbol;
  */
 public class AlgorithmManager {
 	private ArrayList<ActiveAlgorithmContainer> listOfActiveAlgorithmContainer = new ArrayList<ActiveAlgorithmContainer>();
+	private AlgorithmInfoManager algorithmInfoManager = new AlgorithmInfoManager();
 	private Thread threadForDisplay;
 	
 	public void initalize() {
@@ -48,6 +50,7 @@ public class AlgorithmManager {
 				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(symbol));
 				container.activate();
 				listOfActiveAlgorithmContainer.add(container);
+				algorithmInfoManager.activatedSymbol(symbol);
 			}
 		}
 	}
@@ -58,6 +61,7 @@ public class AlgorithmManager {
 			if (listOfSymbols.contains(container.symbol.symbol) == false){
 				Co.println("--> No longer want: " + container.symbol.symbol);
 				container.deactivate();
+				algorithmInfoManager.deactivatedSymbol(container.symbol.symbol);
 				iterator.remove();
 			}
 		}
@@ -137,5 +141,7 @@ public class AlgorithmManager {
 	public void displayEndOfDayStats(ArrayList<ArrayList<String>> listOfAlgorithmDisplayRows){
 		Co.println("--> Account balance, transactions, fees paid: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
 		new TableController().displayTable(AsciiTables.algorithm_manager, listOfAlgorithmDisplayRows);
+		
+		Co.println(new Gson().toJson(algorithmInfoManager.listOfAlgorithmInfo));
 	}
 }
