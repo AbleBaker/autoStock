@@ -78,8 +78,16 @@ public class EClientSocket {
 	// 51 = can receive smartComboRoutingParams in openOrder
 	// 52 = can receive deltaNeutralConId, deltaNeutralSettlingFirm, deltaNeutralClearingAccount and deltaNeutralClearingIntent in openOrder
 	// 53 = can receive orderRef in execution
+	// 54 = can receive scale order fields (PriceAdjustValue, PriceAdjustInterval, ProfitOffset, AutoReset, 
+	//      InitPosition, InitFillQty and RandomPercent) in openOrder
+	// 55 = can receive orderComboLegs (price) in openOrder
+	// 56 = can receive trailingPercent in openOrder
+	// 57 = can receive commissionReport message
+	// 58 = can receive CUSIP/ISIN/etc. in contractDescription/bondContractDescription
+	// 59 = can receive evRule, evMultiplier in contractDescription/bondContractDescription/executionDetails
+	//      can receive multiplier in executionDetails
 
-    private static final int CLIENT_VERSION = 53;
+    private static final int CLIENT_VERSION = 59;
     private static final int SERVER_VERSION = 38;
     private static final byte[] EOL = {0};
     private static final String BAG_SEC_TYPE = "BAG";
@@ -168,8 +176,11 @@ public class EClientSocket {
     private static final int MIN_SERVER_VER_OPT_OUT_SMART_ROUTING = 56;
     private static final int MIN_SERVER_VER_SMART_COMBO_ROUTING_PARAMS = 57;
     private static final int MIN_SERVER_VER_DELTA_NEUTRAL_CONID = 58;
+    private static final int MIN_SERVER_VER_SCALE_ORDERS3 = 60;
+    private static final int MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE = 61;
+    private static final int MIN_SERVER_VER_TRAILING_PERCENT = 62;
 
-    public AnyWrapper 			m_anyWrapper;	// msg handler
+    private AnyWrapper 			m_anyWrapper;	// msg handler
     private DataOutputStream 	m_dos;      // the socket output stream
     private boolean 			m_connected;// true if we are connected
     private EReader 			m_reader;   // thread which reads msgs from socket
@@ -242,10 +253,10 @@ public class EClientSocket {
 
         // check server version
         m_serverVersion = m_reader.readInt();
-       // System.out.println("Server Version:" + m_serverVersion);
+        System.out.println("Server Version:" + m_serverVersion);
         if ( m_serverVersion >= 20 ){
             m_TwsTime = m_reader.readStr();
-            //System.out.println("TWS Time at connection:" + m_TwsTime);
+            System.out.println("TWS Time at connection:" + m_TwsTime);
         }
         if( m_serverVersion < SERVER_VERSION) {
         	eDisconnect();
@@ -1018,8 +1029,46 @@ public class EClientSocket {
         	}
         }
         
+        if (m_serverVersion < MIN_SERVER_VER_SCALE_ORDERS3) {
+        	if (order.m_scalePriceIncrement > 0 && order.m_scalePriceIncrement != Double.MAX_VALUE) {
+        		if (order.m_scalePriceAdjustValue != Double.MAX_VALUE ||
+        			order.m_scalePriceAdjustInterval != Integer.MAX_VALUE ||
+        			order.m_scaleProfitOffset != Double.MAX_VALUE ||
+        			order.m_scaleAutoReset ||
+        			order.m_scaleInitPosition != Integer.MAX_VALUE ||
+        			order.m_scaleInitFillQty != Integer.MAX_VALUE ||
+        			order.m_scaleRandomPercent) {
+        			error(id, EClientErrors.UPDATE_TWS,
+        				"  It does not support Scale order parameters: PriceAdjustValue, PriceAdjustInterval, " +
+        				"ProfitOffset, AutoReset, InitPosition, InitFillQty and RandomPercent");
+        			return;
+        		}
+        	}
+        }
         
-        int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 35;
+        if (m_serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE && BAG_SEC_TYPE.equalsIgnoreCase(contract.m_secType)) {
+        	if (!order.m_orderComboLegs.isEmpty()) {
+        		OrderComboLeg orderComboLeg;
+        		for (int i = 0; i < order.m_orderComboLegs.size(); ++i) {
+        			orderComboLeg = (OrderComboLeg)order.m_orderComboLegs.get(i);
+        			if (orderComboLeg.m_price != Double.MAX_VALUE) {
+        			error(id, EClientErrors.UPDATE_TWS,
+        				"  It does not support per-leg prices for order combo legs.");
+        			return;
+        			}
+        		}
+        	}
+        }
+        
+        if (m_serverVersion < MIN_SERVER_VER_TRAILING_PERCENT) {
+        	if (order.m_trailingPercent != Double.MAX_VALUE) {
+        		error(id, EClientErrors.UPDATE_TWS,
+        			"  It does not support trailing percent parameter");
+        		return;
+        	}
+        }
+        
+        int VERSION = (m_serverVersion < MIN_SERVER_VER_NOT_HELD) ? 27 : 38;
         
         // send place order msg
         try {
@@ -1056,8 +1105,18 @@ public class EClientSocket {
             send( order.m_action);
             send( order.m_totalQuantity);
             send( order.m_orderType);
-            send( order.m_lmtPrice);
-            send( order.m_auxPrice);
+            if (m_serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE) {
+                send( order.m_lmtPrice == Double.MAX_VALUE ? 0 : order.m_lmtPrice);
+            }
+            else {
+                sendMax( order.m_lmtPrice);
+            }
+            if (m_serverVersion < MIN_SERVER_VER_TRAILING_PERCENT) {
+                send( order.m_auxPrice == Double.MAX_VALUE ? 0 : order.m_auxPrice);
+            }
+            else {
+                sendMax( order.m_auxPrice);
+            }
 
             // send extended order fields
             send( order.m_tif);
@@ -1113,6 +1172,21 @@ public class EClientSocket {
                         if (m_serverVersion >= MIN_SERVER_VER_SSHORTX_OLD) { 
                             send( comboLeg.m_exemptCode);
                         }
+                    }
+                }
+            }
+            
+            // Send order combo legs for BAG requests
+            if(m_serverVersion >= MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE && BAG_SEC_TYPE.equalsIgnoreCase(contract.m_secType)) {
+                if ( order.m_orderComboLegs == null ) {
+                    send( 0);
+                }
+                else {
+                    send( order.m_orderComboLegs.size());
+
+                    for (int i = 0; i < order.m_orderComboLegs.size(); i++) {
+                        OrderComboLeg orderComboLeg = (OrderComboLeg)order.m_orderComboLegs.get(i);
+                        sendMax( orderComboLeg.m_price);
                     }
                 }
             }
@@ -1224,6 +1298,10 @@ public class EClientSocket {
                sendMax( order.m_trailStopPrice);
            }
            
+           if( m_serverVersion >= MIN_SERVER_VER_TRAILING_PERCENT){
+               sendMax( order.m_trailingPercent);
+           }
+           
            if (m_serverVersion >= MIN_SERVER_VER_SCALE_ORDERS) {
         	   if (m_serverVersion >= MIN_SERVER_VER_SCALE_ORDERS2) {
         		   sendMax (order.m_scaleInitLevelSize);
@@ -1235,6 +1313,16 @@ public class EClientSocket {
         		   
         	   }
         	   sendMax (order.m_scalePriceIncrement);
+           }
+
+           if (m_serverVersion >= MIN_SERVER_VER_SCALE_ORDERS3 && order.m_scalePriceIncrement > 0.0 && order.m_scalePriceIncrement != Double.MAX_VALUE) {
+               sendMax (order.m_scalePriceAdjustValue);
+               sendMax (order.m_scalePriceAdjustInterval);
+               sendMax (order.m_scaleProfitOffset);
+               send (order.m_scaleAutoReset);
+               sendMax (order.m_scaleInitPosition);
+               sendMax (order.m_scaleInitFillQty);
+               send (order.m_scaleRandomPercent);
            }
 
            if (m_serverVersion >= MIN_SERVER_VER_HEDGE_ORDERS) {

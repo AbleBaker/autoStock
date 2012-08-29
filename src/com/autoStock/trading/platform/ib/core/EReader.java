@@ -46,6 +46,7 @@ public class EReader extends Thread {
     static final int DELTA_NEUTRAL_VALIDATION = 56;
     static final int TICK_SNAPSHOT_END = 57;
     static final int MARKET_DATA_TYPE = 58;
+    static final int COMMISSION_REPORT = 59;
 
     private EClientSocket 	m_parent;
     private DataInputStream m_dis;
@@ -63,8 +64,7 @@ public class EReader extends Thread {
         m_dis = dis;
     }
 
-    @Override
-	public void run() {
+    public void run() {
         try {
             // loop until thread is terminated
             while( !isInterrupted() && processMsg(readInt()));
@@ -362,8 +362,18 @@ public class EReader extends Thread {
                 order.m_action = readStr();
                 order.m_totalQuantity = readInt();
                 order.m_orderType = readStr();
-                order.m_lmtPrice = readDouble();
-                order.m_auxPrice = readDouble();
+                if (version < 29) { 
+                    order.m_lmtPrice = readDouble();
+                }
+                else {
+                    order.m_lmtPrice = readDoubleMax();
+                }
+                if (version < 30) { 
+                    order.m_auxPrice = readDouble();
+                }
+                else {
+                    order.m_auxPrice = readDoubleMax();
+                }
                 order.m_tif = readStr();
                 order.m_ocaGroup = readStr();
                 order.m_account = readStr();
@@ -410,7 +420,7 @@ public class EReader extends Thread {
 
                 if ( version >= 9) {
                     order.m_rule80A = readStr();
-                    order.m_percentOffset = readDouble();
+                    order.m_percentOffset = readDoubleMax();
                     order.m_settlingFirm = readStr();
                     order.m_shortSaleSlot = readInt();
                     order.m_designatedLocation = readStr();
@@ -421,11 +431,11 @@ public class EReader extends Thread {
                     	order.m_exemptCode = readInt();
                     }
                     order.m_auctionStrategy = readInt();
-                    order.m_startingPrice = readDouble();
-                    order.m_stockRefPrice = readDouble();
-                    order.m_delta = readDouble();
-                    order.m_stockRangeLower = readDouble();
-                    order.m_stockRangeUpper = readDouble();
+                    order.m_startingPrice = readDoubleMax();
+                    order.m_stockRefPrice = readDoubleMax();
+                    order.m_delta = readDoubleMax();
+                    order.m_stockRangeLower = readDoubleMax();
+                    order.m_stockRangeUpper = readDoubleMax();
                     order.m_displaySize = readInt();
                     if ( version < 18) {
                         // will never happen
@@ -434,11 +444,11 @@ public class EReader extends Thread {
                     order.m_blockOrder = readBoolFromInt();
                     order.m_sweepToFill = readBoolFromInt();
                     order.m_allOrNone = readBoolFromInt();
-                    order.m_minQty = readInt();
+                    order.m_minQty = readIntMax();
                     order.m_ocaType = readInt();
                     order.m_eTradeOnly = readBoolFromInt();
                     order.m_firmQuoteOnly = readBoolFromInt();
-                    order.m_nbboPriceCap = readDouble();
+                    order.m_nbboPriceCap = readDoubleMax();
                 }
 
                 if ( version >= 10) {
@@ -447,14 +457,14 @@ public class EReader extends Thread {
                 }
 
                 if (version >= 11) {
-                    order.m_volatility = readDouble();
+                    order.m_volatility = readDoubleMax();
                     order.m_volatilityType = readInt();
                     if (version == 11) {
                     	int receivedInt = readInt();
                     	order.m_deltaNeutralOrderType = ( (receivedInt == 0) ? "NONE" : "MKT" ); 
                     } else { // version 12 and up
                     	order.m_deltaNeutralOrderType = readStr();
-                    	order.m_deltaNeutralAuxPrice = readDouble();
+                    	order.m_deltaNeutralAuxPrice = readDoubleMax();
 
                         if (version >= 27 && !Util.StringIsEmpty(order.m_deltaNeutralOrderType)) {
                             order.m_deltaNeutralConId = readInt();
@@ -472,13 +482,49 @@ public class EReader extends Thread {
                 }
                 
                 if (version >= 13) {
-                	order.m_trailStopPrice = readDouble();
+                	order.m_trailStopPrice = readDoubleMax();
+                }
+
+                if (version >= 30) {
+                	order.m_trailingPercent = readDoubleMax();
                 }
 
                 if (version >= 14) {
-                	order.m_basisPoints = readDouble();
-                	order.m_basisPointsType = readInt();
+                	order.m_basisPoints = readDoubleMax();
+                	order.m_basisPointsType = readIntMax();
                 	contract.m_comboLegsDescrip = readStr();
+                }
+                
+                if (version >= 29) {
+                	int comboLegsCount = readInt();
+                	if (comboLegsCount > 0) {
+                		contract.m_comboLegs = new Vector(comboLegsCount);
+                		for (int i = 0; i < comboLegsCount; ++i) {
+                			int conId = readInt();
+                			int ratio = readInt();
+                			String action = readStr();
+                			String exchange = readStr();
+                			int openClose = readInt();
+                			int shortSaleSlot = readInt();
+                			String designatedLocation = readStr();
+                			int exemptCode = readInt();
+                			
+                			ComboLeg comboLeg = new ComboLeg(conId, ratio, action, exchange, openClose, 
+                					shortSaleSlot, designatedLocation, exemptCode);
+                			contract.m_comboLegs.add(comboLeg);
+                		}
+                	}
+                	
+                	int orderComboLegsCount = readInt();
+                	if (orderComboLegsCount > 0) {
+                		order.m_orderComboLegs = new Vector(orderComboLegsCount);
+                		for (int i = 0; i < orderComboLegsCount; ++i) {
+                			double price = readDoubleMax(); 
+                			
+                			OrderComboLeg orderComboLeg = new OrderComboLeg(price);
+                			order.m_orderComboLegs.add(orderComboLeg);
+                		}
+                	}
                 }
                 
                 if (version >= 26) {
@@ -504,6 +550,16 @@ public class EReader extends Thread {
                 		order.m_scaleInitLevelSize = readIntMax();
                 	}
                 	order.m_scalePriceIncrement = readDoubleMax();
+                }
+                
+                if (version >= 28 && order.m_scalePriceIncrement > 0.0 && order.m_scalePriceIncrement != Double.MAX_VALUE) {
+                    order.m_scalePriceAdjustValue = readDoubleMax();
+                    order.m_scalePriceAdjustInterval = readIntMax();
+                    order.m_scaleProfitOffset = readDoubleMax();
+                    order.m_scaleAutoReset = readBoolFromInt();
+                    order.m_scaleInitPosition = readIntMax();
+                    order.m_scaleInitFillQty = readIntMax();
+                    order.m_scaleRandomPercent = readBoolFromInt();
                 }
                 
                 if (version >= 24) {
@@ -657,6 +713,23 @@ public class EReader extends Thread {
                     contract.m_tradingHours = readStr();
                     contract.m_liquidHours = readStr();
                  }
+                if (version >= 8) {
+                    contract.m_evRule = readStr();
+                    contract.m_evMultiplier = readDouble();
+                }
+                if (version >= 7) {
+                    int secIdListCount = readInt();
+                        if (secIdListCount  > 0) {
+                            contract.m_secIdList = new Vector(secIdListCount);
+                            for (int i = 0; i < secIdListCount; ++i) {
+                                TagValue tagValue = new TagValue();
+                                tagValue.m_tag = readStr();
+                                tagValue.m_value = readStr();
+                                contract.m_secIdList.add(tagValue);
+                            }
+                        }
+                }
+
                 eWrapper().contractDetails( reqId, contract);
                 break;
             }
@@ -700,6 +773,23 @@ public class EReader extends Thread {
                 if( version >= 4) {
                    contract.m_longName = readStr();
                 }
+                if ( version >= 6) {
+                    contract.m_evRule = readStr();
+                    contract.m_evMultiplier = readDouble();
+                }
+                if (version >= 5) {
+                    int secIdListCount = readInt();
+                        if (secIdListCount  > 0) {
+                            contract.m_secIdList = new Vector(secIdListCount);
+                            for (int i = 0; i < secIdListCount; ++i) {
+                                TagValue tagValue = new TagValue();
+                                tagValue.m_tag = readStr();
+                                tagValue.m_value = readStr();
+                                contract.m_secIdList.add(tagValue);
+                            }
+                        }
+                }
+
                 eWrapper().bondContractDetails( reqId, contract);
                 break;
             }
@@ -723,6 +813,9 @@ public class EReader extends Thread {
                 contract.m_expiry = readStr();
                 contract.m_strike = readDouble();
                 contract.m_right = readStr();
+                if (version >= 9) {
+                    contract.m_multiplier = readStr();
+                }
                 contract.m_exchange = readStr();
                 contract.m_currency = readStr();
                 contract.m_localSymbol = readStr();
@@ -752,6 +845,11 @@ public class EReader extends Thread {
                 if (version >= 8) {
                     exec.m_orderRef = readStr();
                 }
+                if (version >= 9) {
+                    exec.m_evRule = readStr();
+                    exec.m_evMultiplier = readDouble();
+                }
+                
                 eWrapper().execDetails( reqId, contract, exec);
                 break;
             }
@@ -925,7 +1023,21 @@ public class EReader extends Thread {
                 eWrapper().marketDataType( reqId, marketDataType);
                 break;
             }
-            
+            case COMMISSION_REPORT: {
+                /*int version =*/ readInt();
+
+                CommissionReport commissionReport = new CommissionReport();
+                commissionReport.m_execId = readStr();
+                commissionReport.m_commission = readDouble();
+                commissionReport.m_currency = readStr();
+                commissionReport.m_realizedPNL = readDouble();
+                commissionReport.m_yield = readDouble();
+                commissionReport.m_yieldRedemptionDate = readInt();
+
+                eWrapper().commissionReport( commissionReport);
+                break;
+            }
+
             default: {
                 m_parent.error( EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg());
                 return false;

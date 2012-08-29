@@ -53,8 +53,7 @@ public class ComboLeg {
         m_exemptCode = p_exemptCode;
     }
 
-    @Override
-	public boolean equals(Object p_other) {
+    public boolean equals(Object p_other) {
         if ( this == p_other ) {
             return true;
         }

@@ -67,8 +67,8 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         " exchange=" + contract.m_exchange +
         " secType=" + contract.m_secType +
         " type=" + order.m_orderType +
-        " lmtPrice=" + order.m_lmtPrice +
-        " auxPrice=" + order.m_auxPrice +
+        " lmtPrice=" + Util.DoubleMaxString(order.m_lmtPrice) +
+        " auxPrice=" + Util.DoubleMaxString(order.m_auxPrice) +
         " TIF=" + order.m_tif +
         " localSymbol=" + contract.m_localSymbol +
         " client Id=" + order.m_clientId +
@@ -77,6 +77,7 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         " outsideRth=" + order.m_outsideRth +
         " hidden=" + order.m_hidden +
         " discretionaryAmt=" + order.m_discretionaryAmt +
+        " displaySize=" + order.m_displaySize +
         " triggerMethod=" + order.m_triggerMethod +
         " goodAfterTime=" + order.m_goodAfterTime +
         " goodTillDate=" + order.m_goodTillDate +
@@ -91,32 +92,40 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         " ocaType=" + order.m_ocaType +
         " rule80A=" + order.m_rule80A +
         " allOrNone=" + order.m_allOrNone +
-        " minQty=" + order.m_minQty +
-        " percentOffset=" + order.m_percentOffset +
+        " minQty=" + Util.IntMaxString(order.m_minQty) +
+        " percentOffset=" + Util.DoubleMaxString(order.m_percentOffset) +
         " eTradeOnly=" + order.m_eTradeOnly +
         " firmQuoteOnly=" + order.m_firmQuoteOnly +
-        " nbboPriceCap=" + order.m_nbboPriceCap +
+        " nbboPriceCap=" + Util.DoubleMaxString(order.m_nbboPriceCap) +
         " optOutSmartRouting=" + order.m_optOutSmartRouting +
         " auctionStrategy=" + order.m_auctionStrategy +
-        " startingPrice=" + order.m_startingPrice +
-        " stockRefPrice=" + order.m_stockRefPrice +
-        " delta=" + order.m_delta +
-        " stockRangeLower=" + order.m_stockRangeLower +
-        " stockRangeUpper=" + order.m_stockRangeUpper +
-        " volatility=" + order.m_volatility +
+        " startingPrice=" + Util.DoubleMaxString(order.m_startingPrice) +
+        " stockRefPrice=" + Util.DoubleMaxString(order.m_stockRefPrice) +
+        " delta=" + Util.DoubleMaxString(order.m_delta) +
+        " stockRangeLower=" + Util.DoubleMaxString(order.m_stockRangeLower) +
+        " stockRangeUpper=" + Util.DoubleMaxString(order.m_stockRangeUpper) +
+        " volatility=" + Util.DoubleMaxString(order.m_volatility) +
         " volatilityType=" + order.m_volatilityType +
         " deltaNeutralOrderType=" + order.m_deltaNeutralOrderType +
-        " deltaNeutralAuxPrice=" + order.m_deltaNeutralAuxPrice +
+        " deltaNeutralAuxPrice=" + Util.DoubleMaxString(order.m_deltaNeutralAuxPrice) +
         " deltaNeutralConId=" + order.m_deltaNeutralConId +
         " deltaNeutralSettlingFirm=" + order.m_deltaNeutralSettlingFirm +
         " deltaNeutralClearingAccount=" + order.m_deltaNeutralClearingAccount +
         " deltaNeutralClearingIntent=" + order.m_deltaNeutralClearingIntent +
         " continuousUpdate=" + order.m_continuousUpdate +
         " referencePriceType=" + order.m_referencePriceType +
-        " trailStopPrice=" + order.m_trailStopPrice +
+        " trailStopPrice=" + Util.DoubleMaxString(order.m_trailStopPrice) +
+        " trailingPercent=" + Util.DoubleMaxString(order.m_trailingPercent) +
         " scaleInitLevelSize=" + Util.IntMaxString(order.m_scaleInitLevelSize) +
         " scaleSubsLevelSize=" + Util.IntMaxString(order.m_scaleSubsLevelSize) +
         " scalePriceIncrement=" + Util.DoubleMaxString(order.m_scalePriceIncrement) +
+        " scalePriceAdjustValue=" + Util.DoubleMaxString(order.m_scalePriceAdjustValue) +
+        " scalePriceAdjustInterval=" + Util.IntMaxString(order.m_scalePriceAdjustInterval) +
+        " scaleProfitOffset=" + Util.DoubleMaxString(order.m_scaleProfitOffset) +
+        " scaleAutoReset=" + order.m_scaleAutoReset +
+        " scaleInitPosition=" + Util.IntMaxString(order.m_scaleInitPosition) +
+        " scaleInitFillQty=" + Util.IntMaxString(order.m_scaleInitFillQty) +
+        " scaleRandomPercent=" + order.m_scaleRandomPercent +
         " hedgeType=" + order.m_hedgeType +
         " hedgeParam=" + order.m_hedgeParam +
         " account=" + order.m_account +
@@ -131,9 +140,32 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         	if (contract.m_comboLegsDescrip != null) {
         		msg += " comboLegsDescrip=" + contract.m_comboLegsDescrip;
         	}
+        	
+           	msg += " comboLegs={";
+            if (contract.m_comboLegs != null) {
+            	for (int i = 0; i < contract.m_comboLegs.size(); ++i) {
+            		ComboLeg comboLeg = (ComboLeg)contract.m_comboLegs.get(i);
+            		msg += " leg " + (i+1) + ": "; 
+            		msg += "conId=" +  comboLeg.m_conId;
+            		msg += " ratio=" +  comboLeg.m_ratio;
+            		msg += " action=" +  comboLeg.m_action;
+            		msg += " exchange=" +  comboLeg.m_exchange;
+            		msg += " openClose=" +  comboLeg.m_openClose;
+            		msg += " shortSaleSlot=" +  comboLeg.m_shortSaleSlot;
+            		msg += " designatedLocation=" +  comboLeg.m_designatedLocation;
+            		msg += " exemptCode=" +  comboLeg.m_exemptCode;
+            		if (order.m_orderComboLegs != null && contract.m_comboLegs.size() == order.m_orderComboLegs.size()) {
+            			OrderComboLeg orderComboLeg = (OrderComboLeg)order.m_orderComboLegs.get(i);
+            			msg += " price=" +  Util.DoubleMaxString(orderComboLeg.m_price);
+            		}
+            		msg += ";";
+            	}
+            }
+           	msg += "}";
+           	
         	if (order.m_basisPoints != Double.MAX_VALUE) {
-        		msg += " basisPoints=" + order.m_basisPoints;
-        		msg += " basisPointsType=" + order.m_basisPointsType;
+        		msg += " basisPoints=" + Util.DoubleMaxString(order.m_basisPoints);
+        		msg += " basisPointsType=" + Util.IntMaxString(order.m_basisPointsType);
         	}
         }
         
@@ -244,7 +276,10 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         + "subcategory = " + contractDetails.m_subcategory + "\n"
         + "timeZoneId = " + contractDetails.m_timeZoneId + "\n"
         + "tradingHours = " + contractDetails.m_tradingHours + "\n"
-        + "liquidHours = " + contractDetails.m_liquidHours + "\n";
+        + "liquidHours = " + contractDetails.m_liquidHours + "\n"
+        + "evRule = " + contractDetails.m_evRule + "\n"
+        + "evMultiplier = " + contractDetails.m_evMultiplier + "\n"
+        + contractDetailsSecIdList(contractDetails);
     	return msg;
     }
     
@@ -293,10 +328,29 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         + "nextOptionPartial = " + contractDetails.m_nextOptionPartial + "\n"
         + "notes = " + contractDetails.m_notes + "\n"
         + "longName = " + contractDetails.m_longName + "\n"
+        + "evRule = " + contractDetails.m_evRule + "\n"
+        + "evMultiplier = " + contractDetails.m_evMultiplier + "\n"
+        + contractDetailsSecIdList(contractDetails)
         + " ---- Bond Contract Details End ----\n";
         return msg;
     }
     
+    static public String contractDetailsSecIdList(ContractDetails contractDetails) {
+        String msg = "secIdList={";
+        if (contractDetails.m_secIdList != null) {
+            Vector secIdList = contractDetails.m_secIdList;
+            for (int i = 0; i < secIdList.size(); ++i) {
+                TagValue param = (TagValue)secIdList.elementAt(i);
+                if (i > 0) {
+                    msg += ",";
+                }
+                msg += param.m_tag + "=" + param.m_value;
+            }
+        }
+        msg += "}\n";
+        return msg;
+    }
+
     static public String contractDetailsEnd(int reqId) {
     	return "reqId = " + reqId + " =============== end ===============";
     }
@@ -311,6 +365,7 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         + "expiry = " + contract.m_expiry + "\n"
         + "strike = " + contract.m_strike + "\n"
         + "right = " + contract.m_right + "\n"
+        + "multiplier = " + contract.m_multiplier + "\n"
         + "contractExchange = " + contract.m_exchange + "\n"
         + "currency = " + contract.m_currency + "\n"
         + "localSymbol = " + contract.m_localSymbol + "\n"
@@ -326,6 +381,8 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
         + "cumQty = " + execution.m_cumQty + "\n"
         + "avgPrice = " + execution.m_avgPrice + "\n"
         + "orderRef = " + execution.m_orderRef + "\n"
+        + "evRule = " + execution.m_evRule + "\n"
+        + "evMultiplier = " + execution.m_evMultiplier + "\n"
         + " ---- Execution Details end ----\n";
         return msg;
     }
@@ -433,5 +490,16 @@ public class EWrapperMsgGenerator extends AnyWrapperMsgGenerator {
     
     static public String marketDataType(int reqId, int marketDataType){
     	return "id=" + reqId + " marketDataType = " + MarketDataType.getField(marketDataType);
+    }
+    
+    static public String commissionReport( CommissionReport commissionReport) {
+        String msg = "commission report:" +
+        " execId=" + commissionReport.m_execId +
+        " commission=" + Util.DoubleMaxString(commissionReport.m_commission) +
+        " currency=" + commissionReport.m_currency +
+        " realizedPNL=" + Util.DoubleMaxString(commissionReport.m_realizedPNL) +
+        " yield=" + Util.DoubleMaxString(commissionReport.m_yield) +
+        " yieldRedemptionDate=" + Util.IntMaxString(commissionReport.m_yieldRedemptionDate);
+        return msg;
     }
 }

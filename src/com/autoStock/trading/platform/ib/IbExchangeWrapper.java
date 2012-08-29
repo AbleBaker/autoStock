@@ -15,6 +15,7 @@ import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
+import com.autoStock.trading.platform.ib.core.CommissionReport;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
 import com.autoStock.trading.platform.ib.core.EWrapper;
@@ -250,6 +251,11 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void marketDataType(int reqId, int marketDataType) {
 		Co.log("Got marketDataType");
+		
+	}
+
+	@Override
+	public void commissionReport(CommissionReport commissionReport) {
 		
 	}
 }

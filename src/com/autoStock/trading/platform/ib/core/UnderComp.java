@@ -17,8 +17,7 @@ public class UnderComp {
 		m_price = 0;
 	}
 	
-    @Override
-	public boolean equals(Object p_other) {
+    public boolean equals(Object p_other) {
 
     	if (this == p_other) {
     		return true;

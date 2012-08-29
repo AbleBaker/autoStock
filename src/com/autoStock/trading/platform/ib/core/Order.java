@@ -52,6 +52,7 @@ public class Order {
     public int      m_minQty;
     public double   m_percentOffset;    // REL orders only
     public double   m_trailStopPrice;   // for TRAILLIMIT orders only
+    public double   m_trailingPercent;
 
     // Financial advisors only 
     public String   m_faGroup;
@@ -105,6 +106,13 @@ public class Order {
     public int      m_scaleInitLevelSize;
     public int      m_scaleSubsLevelSize;
     public double   m_scalePriceIncrement;
+    public double   m_scalePriceAdjustValue;
+    public int      m_scalePriceAdjustInterval;
+    public double   m_scaleProfitOffset;
+    public boolean  m_scaleAutoReset;
+    public int      m_scaleInitPosition;
+    public int      m_scaleInitFillQty;
+    public boolean  m_scaleRandomPercent;
 
     // HEDGE ORDERS ONLY
     public String   m_hedgeType; // 'D' - delta, 'B' - beta, 'F' - FX, 'P' - pair
@@ -129,7 +137,12 @@ public class Order {
     // Smart combo routing params
     public Vector<TagValue> m_smartComboRoutingParams;
     
+    // order combo legs
+    public Vector<OrderComboLeg> m_orderComboLegs = new Vector<OrderComboLeg>();
+    
     public Order() {
+        m_lmtPrice = Double.MAX_VALUE;
+        m_auxPrice = Double.MAX_VALUE;
     	m_outsideRth = false;
         m_openClose	= "O";
         m_origin = CUSTOMER;
@@ -155,17 +168,24 @@ public class Order {
         m_deltaNeutralClearingIntent = EMPTY_STR;
         m_referencePriceType = Integer.MAX_VALUE;
         m_trailStopPrice = Double.MAX_VALUE;
+        m_trailingPercent = Double.MAX_VALUE;
         m_basisPoints = Double.MAX_VALUE;
         m_basisPointsType = Integer.MAX_VALUE;
         m_scaleInitLevelSize = Integer.MAX_VALUE;
         m_scaleSubsLevelSize = Integer.MAX_VALUE;
         m_scalePriceIncrement = Double.MAX_VALUE;
+        m_scalePriceAdjustValue = Double.MAX_VALUE;
+        m_scalePriceAdjustInterval = Integer.MAX_VALUE;
+        m_scaleProfitOffset = Double.MAX_VALUE;
+        m_scaleAutoReset = false;
+        m_scaleInitPosition = Integer.MAX_VALUE;
+        m_scaleInitFillQty = Integer.MAX_VALUE;
+        m_scaleRandomPercent = false;
         m_whatIf = false;
         m_notHeld = false;
     }
 
-    @Override
-	public boolean equals(Object p_other) {
+    public boolean equals(Object p_other) {
 
         if ( this == p_other )
             return true;
@@ -198,6 +218,7 @@ public class Order {
         	m_minQty != l_theOther.m_minQty ||
         	m_percentOffset != l_theOther.m_percentOffset ||
         	m_trailStopPrice != l_theOther.m_trailStopPrice ||
+        	m_trailingPercent != l_theOther.m_trailingPercent ||
         	m_origin != l_theOther.m_origin ||
         	m_shortSaleSlot != l_theOther.m_shortSaleSlot ||
         	m_discretionaryAmt != l_theOther.m_discretionaryAmt ||
@@ -222,6 +243,13 @@ public class Order {
         	m_scaleInitLevelSize != l_theOther.m_scaleInitLevelSize ||
         	m_scaleSubsLevelSize != l_theOther.m_scaleSubsLevelSize ||
         	m_scalePriceIncrement != l_theOther.m_scalePriceIncrement ||
+        	m_scalePriceAdjustValue != l_theOther.m_scalePriceAdjustValue ||
+        	m_scalePriceAdjustInterval != l_theOther.m_scalePriceAdjustInterval ||
+        	m_scaleProfitOffset != l_theOther.m_scaleProfitOffset ||
+        	m_scaleAutoReset != l_theOther.m_scaleAutoReset ||
+        	m_scaleInitPosition != l_theOther.m_scaleInitPosition ||
+        	m_scaleInitFillQty != l_theOther.m_scaleInitFillQty ||
+        	m_scaleRandomPercent != l_theOther.m_scaleRandomPercent ||
         	m_whatIf != l_theOther.m_whatIf ||
         	m_notHeld != l_theOther.m_notHeld ||
         	m_exemptCode != l_theOther.m_exemptCode) {
@@ -261,6 +289,11 @@ public class Order {
         }
 
         if (!Util.VectorEqualsUnordered(m_smartComboRoutingParams, l_theOther.m_smartComboRoutingParams)) {
+        	return false;
+        }
+
+    	// compare order combo legs
+        if (!Util.VectorEqualsUnordered(m_orderComboLegs, l_theOther.m_orderComboLegs)) {
         	return false;
         }
         
