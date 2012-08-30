@@ -86,7 +86,9 @@ public class RequestMarketData {
 	}
 	
 	public void cancel(){
-		threadForSliceCollector.interrupt();
-		ExchangeController.getIbExchangeInstance().cancelMarketData(requestHolder);
+		if (threadForSliceCollector != null){
+			threadForSliceCollector.interrupt();
+			ExchangeController.getIbExchangeInstance().cancelMarketData(requestHolder);
+		}
 	}
 }

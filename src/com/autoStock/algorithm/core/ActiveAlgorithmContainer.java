@@ -54,7 +54,7 @@ public class ActiveAlgorithmContainer {
 	
 	public void deactivate(){
 		Co.println("--> Deactivating: " + symbol.symbol);
-		requestMarketData.cancel();
+		if (requestMarketData != null){requestMarketData.cancel();}
 		algorithm.endOfFeed(symbol);
 		Position position = PositionManager.instance.getPosition(symbol.symbol);
 		if (position != null){
@@ -66,7 +66,5 @@ public class ActiveAlgorithmContainer {
 				throw new IllegalStateException();
 			}
 		}
-		
-		algorithm = null;
 	}
 }

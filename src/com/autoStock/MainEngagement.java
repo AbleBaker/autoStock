@@ -59,7 +59,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	
 	private void engagementStop(){
 		Co.println("--> Received stop");
-		ArrayList<ArrayList<String>> listOfAlgorithmManagerRows = algorithmManager.getAlgorithmTable();
+		ArrayList<ArrayList<String>> listOfAlgorithmManagerRows = (ArrayList<ArrayList<String>>) algorithmManager.getAlgorithmTable().clone();
 		algorithmManager.stopAll();
 		algorithmManager.displayEndOfDayStats(listOfAlgorithmManagerRows);
 		Global.callbackLock.releaseLock();
