@@ -44,7 +44,7 @@ public class AlgorithmTable {
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add(getTransactionDetails(strategyResponse));
-		columnValues.add(String.valueOf(Account.instance.getBankBalance()));
+		columnValues.add(String.valueOf(Account.instance.getAccountBalance()));
 		
 		listOfDisplayRows.add(columnValues);
 	}

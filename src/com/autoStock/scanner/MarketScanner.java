@@ -97,7 +97,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 		Co.println("End of algo: " + endOfAlgorithmCount + "," + listOfAlgorithmTest.size());
 		if (endOfAlgorithmCount == listOfAlgorithmTest.size()-1){
 			PositionManager.instance.executeSellAll();
-			Co.println("Account balance: " + Account.instance.getBankBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+			Co.println("Account balance: " + Account.instance.getAccountBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
 		}
 		
 		endOfAlgorithmCount++;

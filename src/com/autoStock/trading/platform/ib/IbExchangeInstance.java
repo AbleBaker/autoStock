@@ -120,7 +120,7 @@ public class IbExchangeInstance {
 		}else{throw new UnsupportedOperationException();}
 		
 		scanner.scanCode("TOP_OPEN_PERC_GAIN");
-		scanner.aboveVolume(10000);
+		scanner.aboveVolume(100000);
 		scanner.abovePrice(3.00);
 		scanner.belowPrice(100.00);
 		scanner.averageOptionVolumeAbove(0);

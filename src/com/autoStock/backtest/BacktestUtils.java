@@ -27,7 +27,7 @@ public class BacktestUtils {
 		string += "\nPeriod length: " + SignalControl.periodLengthStart + "\n";
 		string += "Transactions: " + Account.instance.getTransactions() + "\n";
 		string += "Fees: " + Account.instance.getTransactionFeesPaid() + "\n";
-		string += "Balance: " + Account.instance.getBankBalance() + "\n";
+		string += "Balance: " + Account.instance.getAccountBalance() + "\n";
 		
 		return string;
 	}

@@ -13,6 +13,7 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.tools.StringTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -96,6 +97,7 @@ public class AlgorithmManager {
 	public void displayAlgorithmTable(){
 		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
 		Co.println("--> Current P&L: " + PositionManager.instance.getCurrentProfitLossIncludingFees());
+		Co.println("--> Current account balance: " + Account.instance.getAccountBalance());
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){
@@ -125,12 +127,12 @@ public class AlgorithmManager {
 			columnValues.add(container.algorithm.getCurrentQuoteSlice() != null && container.algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(container.algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
 			columnValues.add(container.symbol.symbol);
 			columnValues.add(container.algorithm.strategy.lastStrategyResponse == null ? "-" : (container.algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.name() + ", " + container.algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
-			columnValues.add(position == null ? "-" : position.positionType.name() + ", " + position.getPositionProfitLossAfterComission());
+			columnValues.add(position == null ? "-" : position.positionType.name());
 			columnValues.add(String.valueOf(container.algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(container.algorithm.getFirstQuoteSlice().priceClose)));
 			columnValues.add(String.valueOf(container.algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(container.algorithm.getCurrentQuoteSlice().priceClose)));
 			columnValues.add(String.valueOf(percentGainFromAlgorithm));
 			columnValues.add(String.valueOf(percentGainFromPosition == 1 ? "-" : percentGainFromPosition));
-			columnValues.add(String.valueOf(position == null ? "-" : position.getPositionProfitLossAfterComission()));
+			columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission()))));
 			
 			listOfDisplayRows.add(columnValues);
 		}
@@ -139,7 +141,7 @@ public class AlgorithmManager {
 	}
 	
 	public void displayEndOfDayStats(ArrayList<ArrayList<String>> listOfAlgorithmDisplayRows){
-		Co.println("--> Account balance, transactions, fees paid: " + Account.instance.getBankBalance() + ", " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
+		Co.println("--> Account balance, transactions, fees paid: " + Account.instance.getAccountBalance() + ", " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
 		new TableController().displayTable(AsciiTables.algorithm_manager, listOfAlgorithmDisplayRows);
 		
 		Co.println(new Gson().toJson(algorithmInfoManager.listOfAlgorithmInfo));

@@ -36,14 +36,14 @@ public class PositionGenerator {
 	}
 	
 	private double getPositionUnits(double price, Signal signal){
-		double accountBalance = account.getBankBalance();
+		double accountBalance = account.getAccountBalance();
 		double units = 0;
 
 		if (accountBalance <= 0){
 			Co.println("Insufficient account blanace for trade");
 			return 0;
 		}				
-		units = Math.min(positionMaximumPrice / price, account.getBankBalance() / price);
+		units = Math.min(positionMaximumPrice / price, account.getAccountBalance() / price);
 		
 		return units;
 	}

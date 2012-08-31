@@ -128,9 +128,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			
 			PositionManager.instance.executeSellAll();
 			
-			if (Account.instance.getBankBalance() > metricBestAccountBalance){
+			if (Account.instance.getAccountBalance() > metricBestAccountBalance){
 				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal));
-				metricBestAccountBalance = Account.instance.getBankBalance();
+				metricBestAccountBalance = Account.instance.getAccountBalance();
 			}
 						
 			if (adjustmentCampaign.runAdjustment()) {

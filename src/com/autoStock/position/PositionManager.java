@@ -50,7 +50,7 @@ public class PositionManager {
 	private Position executeLongEntry(QuoteSlice quoteSlice, Signal signal, PositionType positionType) {
 		Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType);
 		if (position.units > 0) {
-			account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+			account.changeAccountBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
 			listOfPosition.add(position);
 			PositionCallback.setPositionSuccess(position);
 			return position;
@@ -61,7 +61,7 @@ public class PositionManager {
 	private Position executeShortEntry(QuoteSlice quoteSlice, Signal signal, PositionType positionType) {
 		Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType);
 		if (position.units > 0) {
-			account.changeBankBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
+			account.changeAccountBalance(-1 * (position.units * position.price), account.getTransactionCost(position.units, position.price));
 			listOfPosition.add(position);
 			PositionCallback.setPositionSuccess(position);
 			return position;
@@ -72,7 +72,7 @@ public class PositionManager {
 	private Position executeLongExit(Position position) {
 		position.positionType = PositionType.position_long_exit;
 
-		account.changeBankBalance(position.units * position.lastKnownPrice, account.getTransactionCost(position.units, position.price));
+		account.changeAccountBalance(position.units * position.lastKnownPrice, account.getTransactionCost(position.units, position.price));
 		PositionCallback.setPositionSuccess(position);
 
 		return position;
@@ -81,7 +81,7 @@ public class PositionManager {
 	private Position executeShortExit(Position position, PositionType positionType) {
 		position.positionType = PositionType.position_short_exit;
 
-		account.changeBankBalance(position.units * position.price, account.getTransactionCost(position.units, position.price));
+		account.changeAccountBalance(position.units * position.price, account.getTransactionCost(position.units, position.price));
 		PositionCallback.setPositionSuccess(position);
 
 		return position;

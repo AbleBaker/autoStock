@@ -25,7 +25,7 @@ public class Account {
 		resetAccount();
 	}
 	
-	public synchronized double getBankBalance(){
+	public synchronized double getAccountBalance(){
 		synchronized (this) {
 			return MathTools.round(bankBalance.get());
 		}
@@ -43,7 +43,7 @@ public class Account {
 		}
 	}
 	
-	public synchronized void changeBankBalance(double positionCost, double transactionCost){
+	public synchronized void changeAccountBalance(double positionCost, double transactionCost){
 		synchronized (this) {
 			bankBalance.addAndGet(positionCost);
 			bankBalance.addAndGet(transactionCost *-1);
