@@ -71,7 +71,7 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 			listOfString.add(result.symbol);
 		}
 		
-		algorithmManager.pruneListOfSymbols(listOfString, exchange);
+//		algorithmManager.pruneListOfSymbols(listOfString, exchange);
 		algorithmManager.setListOfSymbols(listOfString, exchange);
 	}
 
