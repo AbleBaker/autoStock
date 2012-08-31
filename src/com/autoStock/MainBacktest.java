@@ -54,7 +54,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		
 		Co.println("Main backtest...\n\n");
 		
-		HistoricalData baseHistoricalData = new HistoricalData(null, "STK", dateStart, dateEnd, Resolution.min);
+		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, "STK", dateStart, dateEnd, Resolution.min);
 
 		baseHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
 		baseHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
@@ -70,7 +70,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		for (Date date : listOfBacktestDates) {
 			HistoricalDataList historicalDataList = new HistoricalDataList();
 			for (String symbol : listOfSymbols){
-				HistoricalData dayHistoricalData = new HistoricalData(symbol, baseHistoricalData.securityType, (Date)date.clone(), (Date)date.clone(), baseHistoricalData.resolution);
+				HistoricalData dayHistoricalData = new HistoricalData(exchange, new Symbol(symbol), baseHistoricalData.securityType, (Date)date.clone(), (Date)date.clone(), baseHistoricalData.resolution);
 				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
 				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
 				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
@@ -91,7 +91,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
 		
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
-			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol), exchange, this, backtestType));
+			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol.symbol), exchange, this, backtestType));
 		}
 	}
 	
@@ -103,7 +103,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		
 		for (BacktestContainer backtestContainer : listOfBacktestContainer){
 			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbol);
-			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
+			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbol), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
 
 			if (listOfResults.size() > 0){	
 				backtestContainer.setBacktestData(listOfResults, historicalData);

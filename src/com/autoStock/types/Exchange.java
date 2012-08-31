@@ -35,6 +35,9 @@ public class Exchange extends ExchangeHelper {
 	 */
 	public Exchange(String name){
 		ArrayList<DbExchange> listOfQrExchange = (ArrayList<DbExchange>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_exchange_info, QueryArgs.exchange.setValue(name));
+		if (listOfQrExchange.size() == 0){
+			throw new UnsupportedOperationException("No exchange matched: " + name);
+		}
 		DbExchange queryResultOfExchange = listOfQrExchange.get(0);
 		this.name = name;
 		currency = CurrencyDefinitions.valueOf(queryResultOfExchange.currency);

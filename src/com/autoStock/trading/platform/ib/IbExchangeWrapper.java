@@ -66,15 +66,17 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
-//		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketDataDefinitions.getTickPriceField(field).name());
+		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketDataDefinitions.getTickPriceField(field).name());
 		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickPriceField(field), price));
 	}
 
 	@Override
 	public void tickSize(int tickerId, int field, int size) {
 		if (MarketDataDefinitions.getTickSizeField(field) == TickSizeFields.field_volume){
-//			Co.log("Got tickSize: " + tickerId + ", " + field + ", " + size + ", " + MarketDataDefinitions.getTickSizeField(field));
+			size *= 100;
 		}
+		
+		Co.log("Got tickSize: " + tickerId + ", " + MarketDataDefinitions.getTickSizeField(field).name() + ", " + size + ", " + MarketDataDefinitions.getTickSizeField(field));
 		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickSizeField(field), size));
 	}
 
@@ -197,7 +199,8 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void historicalData(int requestId, String date, double open, double high, double low, double close, int volume, int count, double WAP, boolean hasGaps) {
-		//Co.log("Got historicalData:" + requestId + date + "," + open + "," + high + "," + low + "," + close + "," + volume + "," + count + "," + WAP + "," + hasGaps);
+		Co.log("Got historicalData:" + requestId + ", " + date + "," + open + "," + high + "," + low + "," + close + ", -->" + volume + ", -->" + count + "," + WAP + "," + hasGaps);
+		volume *= 100;
 		if (date.contains("finished")){
 			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).finished();
 		}else{

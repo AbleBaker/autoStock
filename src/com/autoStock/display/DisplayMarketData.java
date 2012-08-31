@@ -39,8 +39,8 @@ public class DisplayMarketData {
 			}
 
 			@Override
-			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice typeQuoteSlice) {
-				// TODO Auto-generated method stub
+			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice quoteSlice) {
+				Co.println("--> Quote: " + quoteSlice.priceOpen + ", " + quoteSlice.priceHigh + ", " + quoteSlice.priceLow + ", " + quoteSlice.priceClose + ", " + quoteSlice.sizeVolume);
 				
 			}
 		}, marketData.exchange, marketData.symbol, Period.min.seconds * 1000);

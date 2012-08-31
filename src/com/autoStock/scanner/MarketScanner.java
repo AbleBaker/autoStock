@@ -46,19 +46,19 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	public void startScan(){
 		Co.println("Fetching symbol historical data...");
 		for (ShorlistOfStock shortlistedStock : listOfShortlistedStocks){
-			HistoricalData typeHistoricalData = new HistoricalData(shortlistedStock.symbol, "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 15:30:00"), Resolution.min);
-			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
-					BasicQueries.basic_historical_price_range,
-					QueryArgs.symbol.setValue(typeHistoricalData.symbol),
-					QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
-					QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
+//			HistoricalData typeHistoricalData = new HistoricalData(shortlistedStock.symbol, "STK", DateTools.getDateFromString("2011-01-05 09:30:00"), DateTools.getDateFromString("2011-01-05 15:30:00"), Resolution.min);
+//			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(
+//					BasicQueries.basic_historical_price_range,
+//					QueryArgs.symbol.setValue(typeHistoricalData.symbol),
+//					QueryArgs.startDate.setValue(DateTools.getSqlDate(typeHistoricalData.startDate)),
+//					QueryArgs.endDate.setValue(DateTools.getSqlDate(typeHistoricalData.endDate)));
 					
-			Backtest backtest = new Backtest(typeHistoricalData, listOfResults, null);
+//			Backtest backtest = new Backtest(typeHistoricalData, listOfResults, null);
 		
-			if (listOfResults.size() != 0){
-				Co.println("Has size: " + listOfResults.size());
-				listOfBacktest.add(backtest);
-			}
+//			if (listOfResults.size() != 0){
+//				Co.println("Has size: " + listOfResults.size());
+//				listOfBacktest.add(backtest);
+//			}
 		}
 		
 		Co.println("Initializing backtests... ");

@@ -43,7 +43,7 @@ public class MarketDataDefinitions {
 	public static enum TickSizeFields {
 		field_bid(0),
 		field_ask(3),
-		field_last(5),
+		field_last_size(5),
 		field_volume(8),
 		field_avg_volume(21),
 		field_action_volume(34),

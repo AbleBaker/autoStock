@@ -153,7 +153,7 @@ public class IbExchangeInstance {
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
 		contract.m_exchange = "Smart";
-		contract.m_symbol = typeHistoricalData.symbol;
+		contract.m_symbol = typeHistoricalData.symbol.symbol;
 		contract.m_secType = typeHistoricalData.securityType;
 		contract.m_currency = "USD";
 		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(typeHistoricalData.endDate) + " est";

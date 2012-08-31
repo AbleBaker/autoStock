@@ -4,21 +4,25 @@ import java.util.Date;
 
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.types.Exchange;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class HistoricalData implements Cloneable {
+	public Exchange exchange;
+	public Symbol symbol;
 	public Date startDate;
 	public Date endDate;
-	public String symbol;
 	public Resolution resolution;
 	public String securityType;
 	public long duration;
 	
-	public HistoricalData(String symbol, String securityType, Date startDate, Date endDate, Resolution resolution){
-		if (symbol != null){this.symbol = symbol.toUpperCase();}
+	public HistoricalData(Exchange exchange, Symbol symbol, String securityType, Date startDate, Date endDate, Resolution resolution){
+		this.exchange = exchange;
+		this.symbol = symbol;
 		this.securityType = securityType.toUpperCase();
 		this.startDate = startDate;
 		this.endDate = endDate;

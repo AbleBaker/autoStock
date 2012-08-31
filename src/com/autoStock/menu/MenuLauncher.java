@@ -33,8 +33,9 @@ public class MenuLauncher {
 		if (menuStructure == MenuStructures.menu_request_historical_prices){
 			new DisplayHistoricalPrices(
 					new HistoricalData(
-							menuStructure.getArgument(MenuArguments.arg_symbol).value, 
-							menuStructure.getArgument(MenuArguments.arg_security_type).value,
+							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
+							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value), 
+							"STK",
 							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
 							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
 							Resolution.valueOf(menuStructure.getArgument(MenuArguments.arg_resolution).value)

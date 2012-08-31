@@ -42,7 +42,7 @@ public class DateTools {
 	
 	public static Date getDateFromString(String date){
 		try {
-			return new SimpleDateFormat("yyyy/MM/dd.HH:mm.a").parse(date);
+			return new SimpleDateFormat("MM/dd/yyyy_HH:mm.a").parse(date);
 		}catch (ParseException e1){
 			try {
 				return new SimpleDateFormat("yyyy/MM/dd.HH:mm:ss.a").parse(date);
