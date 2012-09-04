@@ -73,5 +73,7 @@ public class MultipleRequestMarketScanner implements RequestMarketScannerListene
 		for (RequestMarketScanner requestMarketScanner : listOfRequestmarketScanner){
 			requestMarketScanner.cancel();
 		}
+		
+		listOfRequestmarketScanner.clear();
 	}
 }
