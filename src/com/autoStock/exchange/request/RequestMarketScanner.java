@@ -20,14 +20,28 @@ public class RequestMarketScanner {
 	private ExResultSetMarketScanner exResultSetMarketScanner;
 	private RequestHolder requestHolder;
 	private Exchange exchange;
+	private MarketScannerType marketScannerType;
 	
-	public RequestMarketScanner(RequestHolder requestHolder, Exchange exchange){
+	public enum MarketScannerType{
+		type_percent_gain_open,
+		type_percent_loss_open,
+		type_percent_gain,
+		type_most_active,
+		type_top_trade_rate,
+		type_top_volume_rate,
+		type_high_volume,
+		type_hot_by_price,
+		none,
+	}
+	
+	public RequestMarketScanner(RequestHolder requestHolder, Exchange exchange, MarketScannerType marketScannerType){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.exchange = exchange;
 		this.exResultSetMarketScanner = new ExResultMarketScanner(). new ExResultSetMarketScanner();
+		this.marketScannerType = marketScannerType;
 		
-		ExchangeController.getIbExchangeInstance().getScanner(requestHolder, exchange);
+		ExchangeController.getIbExchangeInstance().getScanner(requestHolder, exchange, marketScannerType);
 	}
 	
 	public synchronized void addResult(ExResultRowMarketScanner exResultRowMarketScanner){
@@ -35,8 +49,8 @@ public class RequestMarketScanner {
 	}
 	
 	public synchronized void finished(){
-		((RequestMarketScannerListener)requestHolder.callback).completed(requestHolder, exResultSetMarketScanner);
-		Co.println("Finished market scanner. Result size:" + exResultSetMarketScanner.listOfExResultRowMarketScanner.size());
+		((RequestMarketScannerListener)requestHolder.callback).completed(requestHolder, exResultSetMarketScanner, marketScannerType);
+//		Co.println("Finished market scanner. Result size:" + exResultSetMarketScanner.listOfExResultRowMarketScanner.size());
 	}
 
 	public void clearResults() {

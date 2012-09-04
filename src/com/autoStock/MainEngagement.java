@@ -9,11 +9,16 @@ import com.autoStock.algorithm.core.AlgorithmManager;
 import com.autoStock.algorithm.external.ExternalConditionDefintions;
 import com.autoStock.exchange.ExchangeStatusListener;
 import com.autoStock.exchange.ExchangeStatusObserver;
+import com.autoStock.exchange.request.MultipleRequestMarketScanner;
 import com.autoStock.exchange.request.RequestMarketScanner;
+import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
+import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListener;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
+import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
+import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
 import com.autoStock.internal.BranchSTDIO;
 import com.autoStock.internal.Global;
 import com.autoStock.types.Exchange;
@@ -22,13 +27,11 @@ import com.autoStock.types.Exchange;
  * @author Kevin Kowalewski
  * 
  */
-public class MainEngagement implements RequestMarketScannerListener, ExchangeStatusListener {
-	private RequestMarketScanner requestMarketScanner;
-	private RequestHolder requestHolder;
-	private ExResultSetMarketScanner exResultSetMarketScanner;
+public class MainEngagement implements MultipleRequestMarketScannerListener, ExchangeStatusListener {
 	private Exchange exchange;
 	private ExchangeStatusObserver exchangeStatusObserver;
 	private AlgorithmManager algorithmManager = new AlgorithmManager();
+	private MultipleRequestMarketScanner multipleRequestMarketScanner = new MultipleRequestMarketScanner(this);
 
 	public MainEngagement(Exchange exchange) {
 		Global.callbackLock.requestLock();
@@ -42,17 +45,19 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	}
 
 	private void engagementStart() {
-		requestHolder = new RequestHolder(this);
-		requestMarketScanner = new RequestMarketScanner(requestHolder, exchange);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain_open);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_top_trade_rate);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_most_active);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_price);
+		
+		multipleRequestMarketScanner.startScanners();
 	}
 	
 	private void engagementWarn(ExchangeState exchangeState){
 		Co.println("--> Received warning: " + exchangeState.timeUntilFuture.hours + ":" + exchangeState.timeUntilFuture.minutes + ":" + exchangeState.timeUntilFuture.seconds);
 		if (exchangeState == ExchangeState.status_close_future && exchangeState.timeUntilFuture.hours == 0 && exchangeState.timeUntilFuture.minutes <= ExternalConditionDefintions.maxScannerExitMinutes){
-			if (requestMarketScanner != null){
-				requestMarketScanner.cancel();
-				requestMarketScanner = null;
-			}
+			multipleRequestMarketScanner.stopScanner();
 		}
 		algorithmManager.warnAll(exchangeState);
 	}
@@ -65,9 +70,10 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		Global.callbackLock.releaseLock();
 	}
 
-	public synchronized void handleCompletedMarketScanner() {
+	public synchronized void handleCompletedMarketScanner(MultipleResultSetMarketScanner multipleResultSetMarketScanner) {
 		ArrayList<String> listOfString = new ArrayList<String>();
-		for (ExResultRowMarketScanner result : exResultSetMarketScanner.listOfExResultRowMarketScanner) {
+		for (MultipleResultRowMarketScanner result : multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner){
+			Co.println("Scanner retrieved: " + result.marketScannerType.name() + ", " + result.symbol);
 			listOfString.add(result.symbol);
 		}
 		
@@ -81,12 +87,6 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 	}
 
 	@Override
-	public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner) {
-		MainEngagement.this.exResultSetMarketScanner = exResultSetMarketScanner;
-		handleCompletedMarketScanner();
-	}
-
-	@Override
 	public void stateChanged(ExchangeState exchangeState) {
 		Co.println("--> Got new state: " + exchangeState.name());
 		if (exchangeState == ExchangeState.status_open){
@@ -96,5 +96,10 @@ public class MainEngagement implements RequestMarketScannerListener, ExchangeSta
 		}else if (exchangeState == ExchangeState.status_closed){
 			engagementStop();
 		}
+	}
+
+	@Override
+	public void completed(MultipleResultSetMarketScanner multipleResultSetMarketScanner) {
+		handleCompletedMarketScanner(multipleResultSetMarketScanner);
 	}
 }

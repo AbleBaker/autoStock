@@ -1,6 +1,7 @@
 package com.autoStock;
 
 import com.autoStock.exchange.request.RequestMarketScanner;
+import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
@@ -29,7 +30,7 @@ public class MainFilter {
 				}
 
 				@Override
-				public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner) {
+				public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner, MarketScannerType marketScannerType) {
 					Co.println("Got market filter information OK");
 					for (ExResultRowMarketScanner exResultRowMarketScanner : exResultSetMarketScanner.listOfExResultRowMarketScanner){
 						Co.println("--> Market scanner: " + exResultRowMarketScanner.symbol);
@@ -38,6 +39,6 @@ public class MainFilter {
 					Global.callbackLock.releaseLock();
 				}
 			}
-		), exchange);
+		), exchange, MarketScannerType.type_percent_gain_open);
 	}
 }
