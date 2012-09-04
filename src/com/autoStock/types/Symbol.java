@@ -5,9 +5,9 @@ package com.autoStock.types;
  *
  */
 public class Symbol {
-	public String symbol;
+	public String symbolName;
 
 	public Symbol(String symbol) {
-		this.symbol = symbol;
+		this.symbolName = symbol;
 	}	
 }

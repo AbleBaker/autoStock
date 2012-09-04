@@ -120,9 +120,9 @@ public class IbExchangeInstance {
 		}else{throw new UnsupportedOperationException();}
 		
 		scanner.scanCode("TOP_OPEN_PERC_GAIN");
-		scanner.aboveVolume(50000);
-		scanner.abovePrice(3.00);
-		scanner.belowPrice(100.00);
+		scanner.aboveVolume(100*1000);
+		scanner.abovePrice(4.00);
+		scanner.belowPrice(1000.00);
 		scanner.averageOptionVolumeAbove(0);
 		scanner.stockTypeFilter("ALL");
 		ibExchangeClientSocket.eClientSocket.reqScannerSubscription(requestHolder.requestId, scanner);
@@ -142,7 +142,7 @@ public class IbExchangeInstance {
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
 		contract.m_exchange = exchange.name;
-		contract.m_symbol = symbol.symbol;
+		contract.m_symbol = symbol.symbolName;
 		contract.m_secType = "STK";
 		contract.m_currency = exchange.currency.name();
 		contract.m_includeExpired = true;
@@ -152,10 +152,10 @@ public class IbExchangeInstance {
 	public void getHistoricalPrice(HistoricalData typeHistoricalData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = "Smart";
-		contract.m_symbol = typeHistoricalData.symbol.symbol;
+		contract.m_exchange = "ASX";
+		contract.m_symbol = typeHistoricalData.symbol.symbolName;
 		contract.m_secType = typeHistoricalData.securityType;
-		contract.m_currency = "USD";
+		contract.m_currency = "AUD";
 		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(typeHistoricalData.endDate) + " est";
 		String duration = String.valueOf(typeHistoricalData.duration) + " S";
 		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, typeHistoricalData.resolution.barSize, "TRADES", 1, 2);

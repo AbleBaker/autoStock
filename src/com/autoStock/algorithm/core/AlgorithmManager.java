@@ -59,10 +59,10 @@ public class AlgorithmManager {
 	public void pruneListOfSymbols(ArrayList<String> listOfSymbols, Exchange exchange){
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();
-			if (listOfSymbols.contains(container.symbol.symbol) == false){
-				Co.println("--> No longer want: " + container.symbol.symbol);
+			if (listOfSymbols.contains(container.symbol.symbolName) == false){
+				Co.println("--> No longer want: " + container.symbol.symbolName);
 				container.deactivate();
-				algorithmInfoManager.deactivatedSymbol(container.symbol.symbol);
+				algorithmInfoManager.deactivatedSymbol(container.symbol.symbolName);
 				iterator.remove();
 			}
 		}
@@ -77,6 +77,7 @@ public class AlgorithmManager {
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();
 			container.deactivate();
+			algorithmInfoManager.deactivatedSymbol(container.symbol.symbolName);
 		}
 		
 		if (PositionManager.instance.getPositionListSize() > 0){
@@ -86,7 +87,7 @@ public class AlgorithmManager {
 	
 	private ActiveAlgorithmContainer getAlgorithmContainerForSymbol(String symbol){
 		for (ActiveAlgorithmContainer container : listOfActiveAlgorithmContainer){
-			if (container.symbol.symbol.equals(symbol)){
+			if (container.symbol.symbolName.equals(symbol)){
 				return container;
 			}
 		}
@@ -107,7 +108,7 @@ public class AlgorithmManager {
 			ActiveAlgorithmContainer container = iterator.next();
 			
 			ArrayList<String> columnValues = new ArrayList<String>();
-			Position position = PositionManager.instance.getPosition(container.symbol.symbol);
+			Position position = PositionManager.instance.getPosition(container.symbol.symbolName);
 			
 			double percentGainFromAlgorithm = 0;
 			double percentGainFromPosition = 0;
@@ -125,7 +126,7 @@ public class AlgorithmManager {
 			}
 			
 			columnValues.add(container.algorithm.getCurrentQuoteSlice() != null && container.algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(container.algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
-			columnValues.add(container.symbol.symbol);
+			columnValues.add(container.symbol.symbolName);
 			columnValues.add(container.algorithm.strategy.lastStrategyResponse == null ? "-" : (container.algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.name() + ", " + container.algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
 			columnValues.add(position == null ? "-" : position.positionType.name());
 			columnValues.add(String.valueOf(container.algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(container.algorithm.getFirstQuoteSlice().priceClose)));

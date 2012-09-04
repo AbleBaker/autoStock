@@ -17,6 +17,7 @@ public class MenuDefinitions {
 		menu_test_realtime_data(new MenuArguments[]{MenuArguments.arg_none}),
 		menu_test_market_data(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol}),
 		menu_internal_build_database_definitions(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_internal_build_replay_from_file(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_file_name}),
 		;
 		
 		public MenuArguments[] arrayOfMenuArguments;
@@ -50,6 +51,7 @@ public class MenuDefinitions {
 		arg_backtest_type(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Backtest Type"),
 		arg_position_units(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Shares"),
 		arg_position_type(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Position Type"),
+		arg_file_name(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "File Name"),
 		;
 		
 		public MenuArgumentTypes[] arrayOfArgumentTypes;

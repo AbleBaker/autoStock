@@ -15,6 +15,7 @@ import com.autoStock.display.DisplayRealtimeData;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.replay.BuildReplayData;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -108,6 +109,10 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){
 			new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
+		}
+		
+		else if (menuStructure == MenuStructures.menu_internal_build_replay_from_file){
+			new BuildReplayData().buildFromTextFile(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), menuStructure.getArgument(MenuArguments.arg_file_name).value);
 		}
 		
 		else {

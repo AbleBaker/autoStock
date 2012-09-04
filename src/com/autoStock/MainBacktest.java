@@ -91,7 +91,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
 		
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
-			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol.symbol), exchange, this, backtestType));
+			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol.symbolName), exchange, this, backtestType));
 		}
 	}
 	
@@ -102,8 +102,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%): " + currentBacktestDayIndex);
 		
 		for (BacktestContainer backtestContainer : listOfBacktestContainer){
-			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbol);
-			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbol), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
+			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
+			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
 
 			if (listOfResults.size() > 0){	
 				backtestContainer.setBacktestData(listOfResults, historicalData);
@@ -113,13 +113,16 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	}
 	
 	private HistoricalData getHistoricalDataForSymbol(HistoricalDataList historicalDataList, String symbol){
+		if (historicalDataList.listOfHistoricalData.size() == 0){
+			throw new IllegalStateException("Historical data list size is 0 for symbol: " + symbol);
+		}
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
-			if (historicalData.symbol.equals(symbol)){
+			if (historicalData.symbol.symbolName.equals(symbol)){
 				return historicalData;
 			}
 		}
 		
-		throw new IllegalStateException();
+		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
 	}
 	
 	public synchronized boolean runNextBacktestForDays(){
@@ -156,9 +159,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	@Override
 	public synchronized void backtestCompleted(Symbol symbol) {	
 		synchronized (lock){
-			Position position = PositionManager.instance.getPosition(symbol.symbol);
+			Position position = PositionManager.instance.getPosition(symbol.symbolName);
 			
-			Co.println("--> Backtest completed... " + symbol.symbol + ", " + callbacks.get());
+			Co.println("--> Backtest completed... " + symbol.symbolName + ", " + callbacks.get());
 					
 			if (callbacks.decrementAndGet() == 0){
 				Co.println("--> All called back...\n");

@@ -47,7 +47,7 @@ public class DisplayHistoricalPrices {
 				
 				for (ExResultRowHistoricalData exResultRowHistoricalData : exResultSetHistoricalData.listOfExResultRowHistoricalData){
 					ArrayList<String> listOfColumnValues = new ArrayList<String>();
-					listOfColumnValues.add(exResultSetHistoricalData.typeHistoricalData.symbol.symbol);
+					listOfColumnValues.add(exResultSetHistoricalData.typeHistoricalData.symbol.symbolName);
 					listOfColumnValues.add(DateTools.getPrettyDate(exResultRowHistoricalData.date));
 					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.price));
 					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.volume));

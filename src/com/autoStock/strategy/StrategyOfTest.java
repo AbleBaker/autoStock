@@ -42,6 +42,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.minTakeProfitExit = 1.030d;
 		strategyOptions.maxStopLossValue = -35;
 		strategyOptions.maxNilChangePrice = 15;
+		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionTaperTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
@@ -50,16 +51,15 @@ public class StrategyOfTest extends StrategyBase {
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice){
 		StrategyResponse strategyResponse = new StrategyResponse();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
-		Position position = PositionManager.instance.getPosition(algorithmBase.symbol.symbol);
+		Position position = PositionManager.instance.getPosition(algorithmBase.symbol.symbolName);
 		
 		signal.resetAndAddSignalMetrics(signalGroup.signalOfRSI.getSignal()); 
 		
 		if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
 			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilchange, quoteSlice, position, strategyResponse);
-		} //else if (algorithmCondition.disableAfterNilVolume(listOfQuoteSlice)){
-//			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilvolume, quoteSlice, position, strategyResponse);
-//		}else
-		else if (position != null){
+		}else if (algorithmCondition.disableAfterNilVolume(listOfQuoteSlice)){
+			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilvolume, quoteSlice, position, strategyResponse);
+		}else if (position != null){
 			if (algorithmCondition.stopLoss(position)){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_stoploss, quoteSlice, position, strategyResponse);
 			}else if (algorithmCondition.takeProfit(position, quoteSlice)){

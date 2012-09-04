@@ -17,10 +17,10 @@ import com.autoStock.types.Symbol;
  *
  */
 public class QuoteSliceTools {
-	public QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData, Symbol symbol){
+	public synchronized QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData, Symbol symbol){
 		
 		QuoteSlice quoteSlice = new QuoteSlice();
-		quoteSlice.symbol = symbol.symbol;
+		quoteSlice.symbol = symbol.symbolName;
 			
 		ArrayList<Double> listOfPriceLast = new ArrayList<Double>();
 		ArrayList<Double> listOfPriceBid = new ArrayList<Double>();
@@ -119,9 +119,7 @@ public class QuoteSliceTools {
 		return listOfDouble.size() > 0 ? listOfDouble.get(listOfDouble.size()-1) : 0;
 	}
 	
-	private int getSizeVolume(ArrayList<Integer> listOfInteger){
-		if (listOfInteger.size() <= 2){return 0;}
-		
-		return listOfInteger.get(listOfInteger.size()-1) - listOfInteger.get(0);
+	private int getSizeVolume(ArrayList<Integer> listOfInteger){		
+		return MathTools.getMaxInt(listOfInteger) - MathTools.getMinInt(listOfInteger);
 	}
 }

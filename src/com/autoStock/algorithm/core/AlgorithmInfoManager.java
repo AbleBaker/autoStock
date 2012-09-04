@@ -19,18 +19,18 @@ public class AlgorithmInfoManager {
 	public void deactivatedSymbol(String symbol){
 		for (AlgorithmInfo algorithmInfo : listOfAlgorithmInfo){
 			if (algorithmInfo.symbol.equals(symbol)){
-				algorithmInfo.departureDate = new Date();
+				algorithmInfo.dateDeactivated = new Date();
 			}
 		}
 	}
 	
 	public static class AlgorithmInfo{
-		public Date arrivalDate;
-		public Date departureDate;
+		public Date dateActivated;
+		public Date dateDeactivated;
 		public String symbol;
 		
 		public AlgorithmInfo(Date arrivalDate, String symbol){
-			this.arrivalDate = arrivalDate;
+			this.dateActivated = arrivalDate;
 			this.symbol = symbol;
 		}
 	}

@@ -4,6 +4,7 @@
 package com.autoStock.tools;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 
 /**
@@ -55,5 +56,49 @@ public class MathTools {
 		}
 		
 		return returnValue;
+	}
+	
+	public static double getMaxDouble(ArrayList<Double> listOfDouble){
+		double returnValue = Double.MIN_VALUE;
+		for (double number : listOfDouble){
+			if (number > returnValue){
+				returnValue = number;
+			}
+		}
+		
+		return returnValue;
+	}
+	
+	public static double getMinDouble(ArrayList<Double> listOfDouble){
+		double returnValue = Double.MAX_VALUE;
+		for (double number : listOfDouble){
+			if (number < returnValue){
+				returnValue = number;
+			}
+		}
+		
+		return returnValue;
+	}
+	
+	public static int getMaxInt(ArrayList<Integer> listOfInteger){
+		int returnValue = Integer.MIN_VALUE;
+		for (int number : listOfInteger){
+			if (number > returnValue){
+				returnValue = number;
+			}
+		}
+		
+		return returnValue == Integer.MIN_VALUE ? 0 : returnValue;
+	}
+	
+	public static int getMinInt(ArrayList<Integer> listOfInteger){
+		int returnValue = Integer.MAX_VALUE;
+		for (int number : listOfInteger){
+			if (number < returnValue){
+				returnValue = number;
+			}
+		}
+		
+		return returnValue == Integer.MAX_VALUE ? 0 : returnValue;
 	}
 }

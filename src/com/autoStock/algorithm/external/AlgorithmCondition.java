@@ -106,7 +106,7 @@ public class AlgorithmCondition {
 		int countOfNilChanges = 0;
 		
 		for (QuoteSlice quoteSlice : listOfQuoteSlice){
-			if (quoteSlice.sizeVolume < 100){
+			if (quoteSlice.sizeVolume == 0){
 				countOfNilChanges++;
 			}else{
 				countOfNilChanges = 0;

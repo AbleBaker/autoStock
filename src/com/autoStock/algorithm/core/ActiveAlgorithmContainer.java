@@ -53,10 +53,10 @@ public class ActiveAlgorithmContainer {
 	}
 	
 	public void deactivate(){
-		Co.println("--> Deactivating: " + symbol.symbol);
+		Co.println("--> Deactivating: " + symbol.symbolName);
 		if (requestMarketData != null){requestMarketData.cancel();}
 		algorithm.endOfFeed(symbol);
-		Position position = PositionManager.instance.getPosition(symbol.symbol);
+		Position position = PositionManager.instance.getPosition(symbol.symbolName);
 		if (position != null){
 			if (position.positionType == PositionType.position_long){
 				PositionManager.instance.executePosition(algorithm.getCurrentQuoteSlice(), algorithm.strategy.signal, PositionType.position_long_exit);
