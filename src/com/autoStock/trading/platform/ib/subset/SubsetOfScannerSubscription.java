@@ -10,12 +10,12 @@ import com.autoStock.types.Exchange;
  * 
  */
 public class SubsetOfScannerSubscription {
-//	public static final int maxCombinedResults = 200;
+	public static final int maxResults = 25;
 
 	public ScannerSubscription getScanner(Exchange exchange, MarketScannerType marketScannerType) {
 		ScannerSubscription scannerSubscription = new ScannerSubscription();
 
-		scannerSubscription.numberOfRows(100);
+		scannerSubscription.numberOfRows(maxResults);
 		scannerSubscription.stockTypeFilter("ALL");
 		scannerSubscription.averageOptionVolumeAbove(0);
 
