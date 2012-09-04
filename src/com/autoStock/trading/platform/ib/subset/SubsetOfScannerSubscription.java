@@ -61,7 +61,14 @@ public class SubsetOfScannerSubscription {
 		else if (marketScannerType == MarketScannerType.type_hot_by_price) {
 			scannerSubscription.scanCode("HOT_BY_PRICE");
 			scannerSubscription.aboveVolume(100 * 1000);
-		} else {
+		} 
+		
+		else if (marketScannerType == MarketScannerType.type_hot_by_volume) {
+			scannerSubscription.scanCode("HOT_BY_VOLUME");
+			scannerSubscription.aboveVolume(100 * 1000);
+		} 
+		
+		else {
 			throw new UnsupportedOperationException();
 		}
 	}

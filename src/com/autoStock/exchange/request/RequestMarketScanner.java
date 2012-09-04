@@ -31,6 +31,7 @@ public class RequestMarketScanner {
 		type_top_volume_rate,
 		type_high_volume,
 		type_hot_by_price,
+		type_hot_by_volume,
 		none,
 	}
 	
