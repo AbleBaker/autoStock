@@ -54,7 +54,7 @@ public class SubsetOfScannerSubscription {
 		}
 
 		else if (marketScannerType == MarketScannerType.type_most_active) {
-			scannerSubscription.scanCode("MOST_ACTIVE");
+			scannerSubscription.scanCode("MOST_ACTIVE_USD");
 			scannerSubscription.aboveVolume(100 * 1000);
 		}
 
