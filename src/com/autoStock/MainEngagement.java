@@ -74,7 +74,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 	public synchronized void handleCompletedMarketScanner(MultipleResultSetMarketScanner multipleResultSetMarketScanner) {
 		ArrayList<String> listOfString = new ArrayList<String>();
 		for (MultipleResultRowMarketScanner result : multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner){
-			Co.println("Scanner retrieved: " + result.marketScannerType.name() + ", " + result.symbol);
+//			Co.println("Scanner retrieved: " + result.marketScannerType.name() + ", " + result.symbol);
 			listOfString.add(result.symbol);
 		}
 		
