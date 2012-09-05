@@ -34,6 +34,7 @@ public class RequestMarketData {
 	private Exchange exchange;
 	private Symbol symbol;
 	private QuoteSlice quoteSlicePrevious = new QuoteSlice();
+	private boolean isCancelled = false;
 
 	public RequestMarketData(RequestHolder requestHolder, RequestMarketDataListener requestMarketDataListener, Exchange exchange, Symbol symbol, int sliceMilliseconds) {
 		this.requestHolder = requestHolder;
@@ -86,9 +87,10 @@ public class RequestMarketData {
 	}
 	
 	public void cancel(){
-		if (threadForSliceCollector != null){
+		if (threadForSliceCollector != null && isCancelled == false){
 			threadForSliceCollector.interrupt();
 			ExchangeController.getIbExchangeInstance().cancelMarketData(requestHolder);
+			isCancelled = true;
 		}
 	}
 }

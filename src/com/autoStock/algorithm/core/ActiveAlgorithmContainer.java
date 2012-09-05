@@ -21,7 +21,7 @@ import com.autoStock.types.Symbol;
  */
 public class ActiveAlgorithmContainer {
 	public AlgorithmTest algorithm;
-	private RequestMarketData requestMarketData;
+	public RequestMarketData requestMarketData;
 	public Symbol symbol;
 	private Exchange exchange;
 	

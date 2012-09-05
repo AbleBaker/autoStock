@@ -68,6 +68,14 @@ public class AlgorithmManager {
 		}
 	}
 	
+	public void algorithmSweep(){
+		for (ActiveAlgorithmContainer activeAlgorithmContainer : listOfActiveAlgorithmContainer){
+			if (activeAlgorithmContainer.algorithm.algorithmState.isDisabled){
+				activeAlgorithmContainer.requestMarketData.cancel();
+			}
+		}
+	}
+	
 	public void warnAll(ExchangeState exchangeState){
 		//No-op
 	}
