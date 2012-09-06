@@ -93,7 +93,6 @@ public class StrategyOfTest extends StrategyBase {
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-				
 				if (strategyResponse.strategyAction == StrategyAction.none){
 					strategyResponse.strategyActionCause = StrategyActionCause.proceed_changed;
 					strategyResponse.strategyAction = StrategyAction.algorithm_changed;
@@ -107,7 +106,7 @@ public class StrategyOfTest extends StrategyBase {
 			return strategyResponse;
 		}else{
 			lastStrategyResponse = strategyResponse;
-			return strategyResponse;	
+			return strategyResponse;
 		}
 	}
 	

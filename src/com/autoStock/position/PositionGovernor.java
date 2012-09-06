@@ -34,6 +34,8 @@ public class PositionGovernor {
 		Position position = positionManager.getPosition(quoteSlice.symbol);
 		SignalPoint signalPoint = SignalPoint.none;
 		
+//		Co.println("--> Symbol: " + quoteSlice.symbol);
+		
 		if (position == null){
 			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			
@@ -61,6 +63,12 @@ public class PositionGovernor {
 		positionGovernorResponse.position = position;
 		positionGovernorResponse.signalPoint = signalPoint;
 		signal.currentSignalPoint = signalPoint;
+		
+		if (requestExit){
+			Co.println("--> Requested exit: " + quoteSlice.symbol);
+		}else{
+			Co.println("--> PGR: " + quoteSlice.symbol + ", " + positionGovernorResponse.status.name() + ", " + positionGovernorResponse.reason.name() + ", " + positionGovernorResponse.signalPoint.name());
+		}
 
 		return positionGovernorResponse;
 	} 

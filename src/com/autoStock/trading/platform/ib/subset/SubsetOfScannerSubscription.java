@@ -15,7 +15,6 @@ public class SubsetOfScannerSubscription {
 	public ScannerSubscription getScanner(Exchange exchange, MarketScannerType marketScannerType) {
 		ScannerSubscription scannerSubscription = new ScannerSubscription();
 
-		scannerSubscription.numberOfRows(maxResults);
 		scannerSubscription.stockTypeFilter("ALL");
 		scannerSubscription.averageOptionVolumeAbove(0);
 
@@ -29,7 +28,7 @@ public class SubsetOfScannerSubscription {
 			throw new UnsupportedOperationException();
 		}
 
-		scannerSubscription.abovePrice(4.00);
+		scannerSubscription.abovePrice(7.00);
 		scannerSubscription.belowPrice(1000.00);
 
 		modifyScannerWithType(scannerSubscription, marketScannerType);
@@ -41,31 +40,37 @@ public class SubsetOfScannerSubscription {
 		if (marketScannerType == MarketScannerType.type_percent_gain_open) {
 			scannerSubscription.scanCode("TOP_OPEN_PERC_GAIN");
 			scannerSubscription.aboveVolume(100 * 1000);
+			scannerSubscription.numberOfRows(50);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_percent_gain) {
 			scannerSubscription.scanCode("TOP_PERC_GAIN");
 			scannerSubscription.aboveVolume(100 * 1000);
+			scannerSubscription.numberOfRows(25);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_top_trade_rate) {
 			scannerSubscription.scanCode("TOP_TRADE_RATE");
 			scannerSubscription.aboveVolume(100 * 1000);
+			scannerSubscription.numberOfRows(25);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_most_active) {
 			scannerSubscription.scanCode("MOST_ACTIVE_USD");
 			scannerSubscription.aboveVolume(100 * 1000);
+			scannerSubscription.numberOfRows(25);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_hot_by_price) {
 			scannerSubscription.scanCode("HOT_BY_PRICE");
 			scannerSubscription.aboveVolume(100 * 1000);
+			scannerSubscription.numberOfRows(25);
 		} 
 		
 		else if (marketScannerType == MarketScannerType.type_hot_by_volume) {
 			scannerSubscription.scanCode("HOT_BY_VOLUME");
 			scannerSubscription.aboveVolume(100 * 1000);
+			scannerSubscription.numberOfRows(25);
 		} 
 		
 		else {

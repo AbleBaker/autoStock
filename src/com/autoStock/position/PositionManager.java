@@ -36,7 +36,6 @@ public class PositionManager {
 				Position position = executeLongExit(getPosition(quoteSlice.symbol)).clone();
 				listOfPosition.remove(getPosition(quoteSlice.symbol));
 				return position;
-
 			} else if (positionType == PositionType.position_short_exit) {
 				Position position = executeShortExit(getPosition(quoteSlice.symbol), positionType).clone();
 				listOfPosition.remove(getPosition(quoteSlice.symbol));
