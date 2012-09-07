@@ -88,7 +88,7 @@ public class StrategyOfTest extends StrategyBase {
 		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.failed){
 			strategyResponse.strategyAction = StrategyAction.algorithm_changed;
 			strategyResponse.strategyActionCause = StrategyActionCause.position_governor_failure;
-		} else if (strategyResponse.positionGovernorResponse.status != PositionGovernorResponseStatus.none){
+		} else if (strategyResponse.positionGovernorResponse.status != PositionGovernorResponseStatus.none && strategyResponse.strategyAction != StrategyAction.algorithm_disable){
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
@@ -96,6 +96,8 @@ public class StrategyOfTest extends StrategyBase {
 				if (strategyResponse.strategyAction == StrategyAction.none){
 					strategyResponse.strategyActionCause = StrategyActionCause.proceed_changed;
 					strategyResponse.strategyAction = StrategyAction.algorithm_changed;
+				}else{
+					//?
 				}
 			}
 		}

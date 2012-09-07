@@ -63,12 +63,6 @@ public class PositionGovernor {
 		positionGovernorResponse.position = position;
 		positionGovernorResponse.signalPoint = signalPoint;
 		signal.currentSignalPoint = signalPoint;
-		
-		if (requestExit){
-			Co.println("--> Requested exit: " + quoteSlice.symbol);
-		}else{
-			Co.println("--> PGR: " + quoteSlice.symbol + ", " + positionGovernorResponse.status.name() + ", " + positionGovernorResponse.reason.name() + ", " + positionGovernorResponse.signalPoint.name());
-		}
 
 		return positionGovernorResponse;
 	} 
