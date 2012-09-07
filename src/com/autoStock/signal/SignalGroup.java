@@ -15,6 +15,8 @@ public class SignalGroup {
 	public SignalOfMACD signalOfMACD;
 	public SignalOfRSI signalOfRSI;
 	public SignalOfTRIX signalOfTRIX;
+	public SignalOfROC signalOfROC;
+	public SignalOfMFI signalOfMFI;
 	
 	public void generateSignals(CommonAnlaysisData commonAnlaysisData, IndicatorGroup indicatorGroup, int periodLength){
 		signalOfPPC = new SignalOfPPC(ArrayTools.subArray(commonAnlaysisData.arrayOfPriceClose, 0, periodLength-1), SignalControl.periodAverageForPPC);
@@ -23,5 +25,7 @@ public class SignalGroup {
 		signalOfMACD = new SignalOfMACD(ArrayTools.subArray(indicatorGroup.resultsMACD.arrayOfMACDHistogram, 0, 1), SignalControl.periodAverageForMACD);
 		signalOfRSI = new SignalOfRSI(ArrayTools.subArray(indicatorGroup.resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);
 		signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(indicatorGroup.resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
+		signalOfROC = new SignalOfROC(ArrayTools.subArray(indicatorGroup.resultsROC.arrayOfROC, 0, 1), 0);
+		signalOfMFI = new SignalOfMFI(ArrayTools.subArray(indicatorGroup.resultsMFI.arrayOfMFI, 0, 1), 0);
 	}
 }

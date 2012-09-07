@@ -12,7 +12,9 @@ import com.autoStock.exchange.results.ExResultHistoricalData.ExResultRowHistoric
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.tools.ReflectiveComparator;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
 import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.types.Exchange;
 
 /**
  * @author Kevin Kowalewski
@@ -24,7 +26,7 @@ public class RequestHistoricalData {
 	public HistoricalData typeHistoricalData;
 	public ExResultSetHistoricalData exResultSetHistoricalData;
 	
-	public RequestHistoricalData(RequestHolder requestHolder, RequestHistoricalDataListener requestListener, HistoricalData typeHistoricalData){
+	public RequestHistoricalData(RequestHolder requestHolder, RequestHistoricalDataListener requestListener, Exchange exchange, HistoricalData typeHistoricalData){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestHistoricalDataListener = requestListener;
@@ -53,9 +55,9 @@ public class RequestHistoricalData {
 				tempTypeHistoricalData.duration = callEndTime - callStartTime;
 				
 				if (tempTypeHistoricalData.duration < HistoricalDataDefinitions.MIN_PERIOD){
-					Log.w("Period is too short, using MIN_PERIOD instead");
-					callEndTime += (HistoricalDataDefinitions.MIN_PERIOD - tempTypeHistoricalData.duration);
-					tempTypeHistoricalData.duration = HistoricalDataDefinitions.MIN_PERIOD;
+					Log.w("Period is too short, using entier day instead");
+					callEndTime += Period.day.seconds; // (HistoricalDataDefinitions.MIN_PERIOD - tempTypeHistoricalData.duration);
+					tempTypeHistoricalData.duration = Period.day.seconds; //HistoricalDataDefinitions.MIN_PERIOD;
 				}
 								
 				tempTypeHistoricalData.startDate = new Date(callStartTime*1000);

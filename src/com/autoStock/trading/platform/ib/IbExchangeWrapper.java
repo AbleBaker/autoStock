@@ -72,9 +72,9 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void tickSize(int tickerId, int field, int size) {
-//		if (MarketDataDefinitions.getTickSizeField(field) == TickSizeFields.field_volume){
-//			size *= 100;
-//		}
+		if (MarketDataDefinitions.getTickSizeField(field) == TickSizeFields.field_volume){
+			size *= 100;
+		}
 //		Co.log("Got tickSize: " + tickerId + ", " + MarketDataDefinitions.getTickSizeField(field).name() + ", " + size + ", " + MarketDataDefinitions.getTickSizeField(field));
 		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickSizeField(field), size));
 	}

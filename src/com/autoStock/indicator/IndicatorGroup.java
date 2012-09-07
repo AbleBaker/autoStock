@@ -6,6 +6,8 @@ import com.autoStock.indicator.results.ResultsBB;
 import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.indicator.results.ResultsDI;
 import com.autoStock.indicator.results.ResultsMACD;
+import com.autoStock.indicator.results.ResultsMFI;
+import com.autoStock.indicator.results.ResultsROC;
 import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.tools.AnalysisTools;
@@ -22,6 +24,8 @@ public class IndicatorGroup {
 	public IndicatorOfBB indicatorOfBB;
 	public IndicatorOfTRIX indicatorOfTRIX;
 	public IndicatorOfRSI indicatorOfRSI;
+	public IndicatorOfROC indicatorOfROC;
+	public IndicatorOfMFI indicatorOfMFI;
 
 	public ResultsCCI resultsCCI;
 	public ResultsDI resultsDI;
@@ -29,6 +33,8 @@ public class IndicatorGroup {
 	public ResultsMACD resultsMACD;
 	public ResultsRSI resultsRSI;
 	public ResultsTRIX resultsTRIX;
+	public ResultsROC resultsROC;
+	public ResultsMFI resultsMFI;
 
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 
@@ -39,15 +45,19 @@ public class IndicatorGroup {
 		indicatorOfDI = new IndicatorOfDI(periodLength, commonAnlaysisData);
 		indicatorOfMACD = new IndicatorOfMACD(periodLength, commonAnlaysisData);
 		indicatorOfBB = new IndicatorOfBB(periodLength, commonAnlaysisData);
-		indicatorOfTRIX = new IndicatorOfTRIX(periodLength, commonAnlaysisData);
 		indicatorOfRSI = new IndicatorOfRSI(periodLength, commonAnlaysisData);
+		indicatorOfTRIX = new IndicatorOfTRIX(periodLength, commonAnlaysisData);
+		indicatorOfROC = new IndicatorOfROC(periodLength, commonAnlaysisData);
+		indicatorOfMFI = new IndicatorOfMFI(periodLength, commonAnlaysisData);
 		
 		listOfIndicatorBase.add(indicatorOfCCI);
 		listOfIndicatorBase.add(indicatorOfDI);
 		listOfIndicatorBase.add(indicatorOfMACD);
 		listOfIndicatorBase.add(indicatorOfBB);
-		listOfIndicatorBase.add(indicatorOfTRIX);
 		listOfIndicatorBase.add(indicatorOfRSI);
+		listOfIndicatorBase.add(indicatorOfTRIX);
+		listOfIndicatorBase.add(indicatorOfROC);
+		listOfIndicatorBase.add(indicatorOfMFI);
 	}
 	
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice, int periodLength){
@@ -64,6 +74,8 @@ public class IndicatorGroup {
 		resultsMACD = indicatorOfMACD.analize();
 		resultsRSI = indicatorOfRSI.analyize();
 		resultsTRIX = indicatorOfTRIX.analyize();
+		resultsROC = indicatorOfROC.analyize();
+		resultsMFI = indicatorOfMFI.analyize();
 	}
 	
 	public ArrayList<IndicatorBase> getListOfIndicatorBase(){

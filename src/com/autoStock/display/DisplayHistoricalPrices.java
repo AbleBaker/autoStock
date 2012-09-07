@@ -17,6 +17,7 @@ import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.types.Exchange;
 
 /**
  * @author Kevin Kowalewski
@@ -63,6 +64,6 @@ public class DisplayHistoricalPrices {
 				new TableController().displayTable(AsciiTables.stock_historical_price_live, listOfRows);
 				Co.println("Completed!!! " + volume * 100);
 			}
-		}, typeHistoricalData);
+		}, typeHistoricalData.exchange, typeHistoricalData);
 	}
 }

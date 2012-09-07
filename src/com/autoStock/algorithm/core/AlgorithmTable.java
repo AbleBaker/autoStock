@@ -37,6 +37,8 @@ public class AlgorithmTable {
 		columnValues.add(String.valueOf(signalGroup.signalOfRSI.getSignal().strength));
 		columnValues.add(String.valueOf(signalGroup.signalOfMACD.getSignal().strength));
 		columnValues.add(String.valueOf(signalGroup.signalOfTRIX.getSignal().strength));
+		columnValues.add(String.valueOf(signalGroup.signalOfROC.getSignal().strength));
+		columnValues.add(String.valueOf(signalGroup.signalOfMFI.getSignal().strength));
 		columnValues.add(String.valueOf(SignalTools.getCombinedSignal(signal).strength));
 		
 		columnValues.add(strategyResponse.positionGovernorResponse.status.name());

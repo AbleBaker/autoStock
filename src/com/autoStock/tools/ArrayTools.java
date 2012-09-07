@@ -43,7 +43,7 @@ public class ArrayTools {
 		return arrayOfDouble;
 	}
 
-	public static int[] convertIntegers(ArrayList<Integer> integers) {
+	public static int[] getArrayFromListOfInt(ArrayList<Integer> integers) {
 		int[] ret = new int[integers.size()];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = integers.get(i).intValue();
@@ -51,7 +51,7 @@ public class ArrayTools {
 		return ret;
 	}
 	
-	public static double[] convertDoubles(ArrayList<Double> doubles) {
+	public static double[] getArrayFromListOfDouble(ArrayList<Double> doubles) {
 		double[] ret = new double[doubles.size()];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = doubles.get(i).doubleValue();
@@ -59,7 +59,7 @@ public class ArrayTools {
 		return ret;
 	}
 	
-	public static double[] convertDoubles(int[] arrayOfInt) {
+	public static double[] convertToDouble(int[] arrayOfInt) {
 		double[] ret = new double[arrayOfInt.length];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = Double.valueOf(arrayOfInt[i]);
@@ -67,7 +67,7 @@ public class ArrayTools {
 		return ret;
 	}
 	
-	public static Date[] convertDates(ArrayList<Date> dates){
+	public static Date[] getArrayFromListOfDates(ArrayList<Date> dates){
 		Date[] ret = new Date[dates.size()];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = dates.get(i);

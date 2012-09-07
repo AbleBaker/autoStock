@@ -136,16 +136,16 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqMktData(requestHolder.requestId, contract, "100,101,104,105,106,107,165,236,293,294,295,411", false);
 	}
 	
-	public void getHistoricalPrice(HistoricalData typeHistoricalData, RequestHolder requestHolder){
+	public void getHistoricalPrice(HistoricalData historicalData, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = "ASX";
-		contract.m_symbol = typeHistoricalData.symbol.symbolName;
-		contract.m_secType = typeHistoricalData.securityType;
-		contract.m_currency = "AUD";
-		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(typeHistoricalData.endDate) + " est";
-		String duration = String.valueOf(typeHistoricalData.duration) + " S";
-		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, typeHistoricalData.resolution.barSize, "TRADES", 1, 2);
+		contract.m_exchange = historicalData.exchange.name;
+		contract.m_symbol = historicalData.symbol.symbolName;
+		contract.m_secType = historicalData.securityType;
+		contract.m_currency = historicalData.exchange.currency.name();
+		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(historicalData.endDate) + " est";
+		String duration = String.valueOf(historicalData.duration) + " S";
+		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, "1 day", "TRADES", 0, 2);
 	}
 	
 	public void cancelScanner(RequestHolder requestHolder){
