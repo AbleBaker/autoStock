@@ -53,7 +53,7 @@ public class StrategyOfTest extends StrategyBase {
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 		Position position = PositionManager.instance.getPosition(algorithmBase.symbol.symbolName);
 		
-		signal.resetAndAddSignalMetrics(signalGroup.signalOfRSI.getSignal()); 
+		signal.resetAndAddSignalMetrics(signalGroup.signalOfRSI.getSignal(), signalGroup.signalOfDI.getSignal(), signalGroup.signalOfROC.getSignal()); 
 		
 		if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
 			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilchange, quoteSlice, position, strategyResponse);

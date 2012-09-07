@@ -50,10 +50,10 @@ public class SignalDefinitions {
 		metric_storsi(null,0,0,0,0),
 		metric_roc(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 100);}},
-				0,0,0,0),
+				50,-38, 0, 0),
 		metric_mfi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 0.5);}},
-				0,0,0,0),
+				43,-40, 0, 0),
 		none(null, 0, 0, 0, 0),
 		;
 		
