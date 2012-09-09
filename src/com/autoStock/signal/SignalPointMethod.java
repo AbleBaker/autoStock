@@ -1,5 +1,6 @@
 package com.autoStock.signal;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
 
@@ -48,17 +49,18 @@ public class SignalPointMethod {
 	
 	private static SignalPoint getSignalPointChange(boolean havePosition, PositionType positionType, Signal signal){
 		SignalPoint signalPoint = SignalPoint.none;
-		SignalPoint currentSignalPoint = signal.currentSignalPoint;
 		
 		for (SignalMetric signalMetric : signal.listOfSignalMetric){
 			SignalPoint metricSignalPoint = signalMetric.getSignalPoint(havePosition, positionType);
-			if (metricSignalPoint != currentSignalPoint && metricSignalPoint != SignalPoint.none){
-//				Co.println("--> SignalPointChange metric, current signal, metric signal point: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", "  + currentSignalPoint.name() + ", " + metricSignalPoint.name());
+			if (metricSignalPoint != SignalPoint.none){
+				Co.println("--> SignalPointChange metric, current signal, metric signal point: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", " + metricSignalPoint.name());
 				signalPoint = metricSignalPoint;
 				signalPoint.signalMetricType = signalMetric.signalMetricType;
 				break;
 			}
 		}
+		
+		Co.println("--> Returned signalPoint: " + signalPoint.name());
 		
 		return signalPoint;
 	}

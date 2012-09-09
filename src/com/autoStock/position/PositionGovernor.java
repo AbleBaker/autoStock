@@ -5,6 +5,7 @@ import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseR
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
@@ -34,8 +35,6 @@ public class PositionGovernor {
 		Position position = positionManager.getPosition(quoteSlice.symbol);
 		SignalPoint signalPoint = SignalPoint.none;
 		
-//		Co.println("--> Symbol: " + quoteSlice.symbol);
-		
 		if (position == null){
 			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			
@@ -59,9 +58,16 @@ public class PositionGovernor {
 				throw new IllegalStateException();
 			}
 		}
+		
+		Co.println("--> Signal point is: " + signalPoint.name());
 
 		positionGovernorResponse.position = position;
-		positionGovernorResponse.signalPoint = signalPoint;
+		if (signal.currentSignalPoint == signalPoint){
+			positionGovernorResponse.signalPoint = SignalPoint.no_change;
+			positionGovernorResponse.signalPoint.signalMetricType = SignalMetricType.no_change;
+		}else{
+			positionGovernorResponse.signalPoint = signalPoint;
+		}
 		signal.currentSignalPoint = signalPoint;
 
 		return positionGovernorResponse;

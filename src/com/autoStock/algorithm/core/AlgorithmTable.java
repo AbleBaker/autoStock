@@ -7,6 +7,8 @@ import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseS
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalTools;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tables.TableController;
@@ -39,12 +41,13 @@ public class AlgorithmTable {
 		columnValues.add(String.valueOf(signalGroup.signalOfTRIX.getSignal().strength));
 		columnValues.add(String.valueOf(signalGroup.signalOfROC.getSignal().strength));
 		columnValues.add(String.valueOf(signalGroup.signalOfMFI.getSignal().strength));
+		columnValues.add(String.valueOf(signalGroup.signalOfWILLR.getSignal().strength));
 		columnValues.add(String.valueOf(SignalTools.getCombinedSignal(signal).strength));
 		
 		columnValues.add(strategyResponse.positionGovernorResponse.status.name());
 		columnValues.add(strategyResponse.strategyAction == StrategyAction.no_change ? "-" : (strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name()));
-		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.name());
-		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
+		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint == SignalPoint.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.name());
+		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add(getTransactionDetails(strategyResponse));
 		columnValues.add(String.valueOf(Account.instance.getAccountBalance()));
 		
