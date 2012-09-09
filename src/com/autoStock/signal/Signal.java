@@ -47,6 +47,10 @@ public class Signal {
 		return this.listOfSignalMetric;
 	}
 	
+	public SignalMetric[] getArrayOfSignalMetric(){
+		return (SignalMetric[]) this.listOfSignalMetric.toArray();
+	}
+	
 	public void reset(){
 		listOfSignalMetric.clear();
 	}

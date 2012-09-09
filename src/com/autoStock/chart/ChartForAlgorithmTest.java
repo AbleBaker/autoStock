@@ -23,6 +23,9 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Integer> listOfSignalSTORSI = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalRSI = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalTRIX = new ArrayList<Integer>();
+	public ArrayList<Integer> listOfSignalMFI = new ArrayList<Integer>();
+	public ArrayList<Integer> listOfSignalROC = new ArrayList<Integer>();
+	public ArrayList<Integer> listOfSignalWILLR = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalTotal = new ArrayList<Integer>();
 	//public ArrayList<Integer> listOfSignalSTORSID = new ArrayList<Integer>();
 	
@@ -36,7 +39,7 @@ public class ChartForAlgorithmTest {
 
 	public void display() {
 		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
+//		TimeSeriesCollection timeSeriesCollection2 = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollection3 = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollection4 = new TimeSeriesCollection();
 		timeSeriesCollection4.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal Total", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalTotal))));
@@ -47,12 +50,15 @@ public class ChartForAlgorithmTest {
 		//timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal STORSI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalSTORSI))));
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal RSI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalRSI))));
 		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal TRIX", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalTRIX))));
-		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("DI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDI))));
-		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfCCI))));
-		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfMACD))));
-		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("RSI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfRSI))));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal MFI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalMFI))));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal ROC", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalROC))));
+		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal WILLR", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalWILLR))));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("DI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDI))));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfCCI))));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfMACD))));
+//		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("RSI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfRSI))));
 		timeSeriesCollection3.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPrice))));
-		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection4, timeSeriesCollection1, timeSeriesCollection2, timeSeriesCollection3);
+		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection4, timeSeriesCollection1, timeSeriesCollection3);
 		// //new LineChart(). new LineChartDisplay(timeSeriesCollection1);
 	}
 }

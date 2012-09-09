@@ -58,8 +58,6 @@ public class PositionGovernor {
 				throw new IllegalStateException();
 			}
 		}
-		
-		Co.println("--> Signal point is: " + signalPoint.name());
 
 		positionGovernorResponse.position = position;
 		if (signal.currentSignalPoint == signalPoint){
@@ -67,8 +65,8 @@ public class PositionGovernor {
 			positionGovernorResponse.signalPoint.signalMetricType = SignalMetricType.no_change;
 		}else{
 			positionGovernorResponse.signalPoint = signalPoint;
+			signal.currentSignalPoint = signalPoint;
 		}
-		signal.currentSignalPoint = signalPoint;
 
 		return positionGovernorResponse;
 	} 

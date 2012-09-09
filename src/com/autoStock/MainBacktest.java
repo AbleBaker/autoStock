@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
@@ -42,6 +43,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private Benchmark bench = new Benchmark();
 	private Lock lock = new Lock();
 	private AtomicInteger callbacks = new AtomicInteger();
+	private AlgorithmMode algorithmMode;
 	
 	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>(0);
 
@@ -49,8 +51,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType) {
 		this.exchange = exchange;
 		this.backtestType = backtestType;
+		this.algorithmMode = backtestType == BacktestType.backtest_default ? AlgorithmMode.mode_backtest : AlgorithmMode.mode_backtest_with_adjustment;
 		Global.callbackLock.requestLock();
 		System.gc();
+		
+		if (algorithmMode.displayChart){
+			Global.callbackLock.requestLock();
+		}
 		
 		Co.println("Main backtest...\n\n");
 		
@@ -91,7 +98,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
 		
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
-			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol.symbolName), exchange, this, backtestType));
+			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol.symbolName), exchange, this, algorithmMode));
 		}
 	}
 	

@@ -24,19 +24,19 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private ArrayList<DbStockHistoricalPrice> listOfDbHistoricalPrices = new ArrayList<DbStockHistoricalPrice>();
 	private ListenerOfBacktestCompleted listener; 
 	private Backtest backtest;
-	private BacktestType backtestType;
+	private AlgorithmMode algorithmMode;
 	
-	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, BacktestType backtestType){
+	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, AlgorithmMode algorithmMode){
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.listener = listener;
-		this.backtestType = backtestType;
+		this.algorithmMode = algorithmMode;
 	}
 	
 	public void setBacktestData(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, HistoricalData historicalData){
 		this.listOfDbHistoricalPrices = listOfDbStockHistoricalPrice;
 		this.historicalData = historicalData;
-		algorithm = new AlgorithmTest(false, exchange, symbol, backtestType == BacktestType.backtest_default ? AlgorithmMode.mode_backtest : AlgorithmMode.mode_backtest_with_adjustment);
+		algorithm = new AlgorithmTest(false, exchange, symbol, algorithmMode);
 	}
 	
 	public synchronized void runBacktest(){

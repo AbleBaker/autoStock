@@ -43,7 +43,7 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 1000);}},
 				21, -40, -100, -100),
 		metric_rsi(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 2);}},
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) Math.pow(input / 2, 1.25) - 50;}},
 				40, 19, -100, -100),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
@@ -52,15 +52,16 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 100);}},
 				50,-20, 0, 0),
 		metric_mfi(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 0.5);}},
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (Math.pow(input, 1.3) * 0.25) - 50;}},
 				43,-40, 0, 0),
 		metric_willr(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 0.5);}},
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input + 40 * 1.0);}},
 				50, -30, 0, 0),				
 				
 		metric_storsi(null,0,0,0,0),
-		none(null, 0, 0, 0, 0),
-		no_change(null, 0, 0, 0, 0),
+		
+		none,
+		no_change,
 		;
 		
 		CalculateInterface calculateInterface;
@@ -68,6 +69,10 @@ public class SignalDefinitions {
 		public volatile int pointToSignalLongExit = 0;
 		public volatile int pointToSignalShortEntry = 0;
 		public volatile int pointToSignalShortExit = 0;
+		
+		private SignalMetricType(){
+			
+		}
 		
 		private SignalMetricType(CalculateInterface calculateInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
 			this.calculateInterface = calculateInterface;

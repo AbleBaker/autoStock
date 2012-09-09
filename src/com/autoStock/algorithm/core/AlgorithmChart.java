@@ -26,6 +26,9 @@ public class AlgorithmChart {
 		chart.listOfSignalMACD.add(signalGroup.signalOfMACD.getSignal().strength);
 		chart.listOfSignalRSI.add(signalGroup.signalOfRSI.getSignal().strength);
 		chart.listOfSignalTRIX.add(signalGroup.signalOfTRIX.getSignal().strength);
+		chart.listOfSignalMFI.add(signalGroup.signalOfMFI.getSignal().strength);
+		chart.listOfSignalROC.add(signalGroup.signalOfROC.getSignal().strength);
+		chart.listOfSignalWILLR.add(signalGroup.signalOfWILLR.getSignal().strength);
 		chart.listOfSignalTotal.add((int) SignalTools.getCombinedSignal(signal).strength);
 	}
 	
