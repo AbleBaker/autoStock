@@ -10,6 +10,7 @@ import com.autoStock.indicator.results.ResultsMFI;
 import com.autoStock.indicator.results.ResultsROC;
 import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
+import com.autoStock.indicator.results.ResultsWILLR;
 import com.autoStock.tools.AnalysisTools;
 import com.autoStock.types.QuoteSlice;
 
@@ -26,6 +27,7 @@ public class IndicatorGroup {
 	public IndicatorOfRSI indicatorOfRSI;
 	public IndicatorOfROC indicatorOfROC;
 	public IndicatorOfMFI indicatorOfMFI;
+	public IndicatorOfWILLR indicatorOfWILLR;
 
 	public ResultsCCI resultsCCI;
 	public ResultsDI resultsDI;
@@ -35,6 +37,7 @@ public class IndicatorGroup {
 	public ResultsTRIX resultsTRIX;
 	public ResultsROC resultsROC;
 	public ResultsMFI resultsMFI;
+	public ResultsWILLR resultsWILLR;
 
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 
@@ -49,6 +52,7 @@ public class IndicatorGroup {
 		indicatorOfTRIX = new IndicatorOfTRIX(periodLength, commonAnlaysisData);
 		indicatorOfROC = new IndicatorOfROC(periodLength, commonAnlaysisData);
 		indicatorOfMFI = new IndicatorOfMFI(periodLength, commonAnlaysisData);
+		indicatorOfWILLR = new IndicatorOfWILLR(periodLength, commonAnlaysisData);
 		
 		listOfIndicatorBase.add(indicatorOfCCI);
 		listOfIndicatorBase.add(indicatorOfDI);
@@ -58,6 +62,7 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfTRIX);
 		listOfIndicatorBase.add(indicatorOfROC);
 		listOfIndicatorBase.add(indicatorOfMFI);
+		listOfIndicatorBase.add(indicatorOfWILLR);
 	}
 	
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice, int periodLength){
@@ -76,6 +81,7 @@ public class IndicatorGroup {
 		resultsTRIX = indicatorOfTRIX.analyize();
 		resultsROC = indicatorOfROC.analyize();
 		resultsMFI = indicatorOfMFI.analyize();
+		resultsWILLR = indicatorOfWILLR.analyize();
 	}
 	
 	public ArrayList<IndicatorBase> getListOfIndicatorBase(){
