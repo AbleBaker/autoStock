@@ -55,7 +55,11 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal.resetAndAddSignalMetrics(signalGroup.signalOfRSI.getSignal(), signalGroup.signalOfDI.getSignal(), signalGroup.signalOfROC.getSignal()); 
 		
-		if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
+		if (algorithmBase.algorithmState.isDisabled){
+			strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
+			strategyResponse.strategyAction = StrategyAction.algorithm_disable;
+			strategyResponse.strategyActionCause = StrategyActionCause.cease_disabled;
+		}else if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
 			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilchange, quoteSlice, position, strategyResponse);
 		}else if (algorithmCondition.disableAfterNilVolume(listOfQuoteSlice)){
 			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilvolume, quoteSlice, position, strategyResponse);
