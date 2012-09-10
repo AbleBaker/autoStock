@@ -2,6 +2,7 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
@@ -52,11 +53,11 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal.resetAndAddSignalMetrics(
 				signalGroup.signalOfRSI.getSignal(),
-				signalGroup.signalOfDI.getSignal(),
-				signalGroup.signalOfMACD.getSignal()
+//				signalGroup.signalOfDI.getSignal()
+//				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfCCI.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
-//				signalGroup.signalOfTRIX.getSignal()
+				signalGroup.signalOfTRIX.getSignal()
 //				signalGroup.signalOfROC.getSignal()
 //				signalGroup.signalOfWILLR.getSignal()
 				);   
@@ -99,10 +100,7 @@ public class StrategyOfTest extends StrategyBase {
 			strategyResponse.strategyAction = StrategyAction.algorithm_changed;
 			strategyResponse.strategyActionCause = StrategyActionCause.position_governor_failure;
 		} else if (strategyResponse.positionGovernorResponse.status != PositionGovernorResponseStatus.none){
-			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+			if (didPositionGovernorChangePosition(strategyResponse.positionGovernorResponse)){
 				if (strategyResponse.strategyAction == StrategyAction.none){
 					strategyResponse.strategyActionCause = StrategyActionCause.proceed_changed;
 					strategyResponse.strategyAction = StrategyAction.algorithm_changed;
@@ -115,7 +113,7 @@ public class StrategyOfTest extends StrategyBase {
 //		Co.println("--> Last: " + lastStrategyResponse.strategyAction + ", " + lastStrategyResponse.strategyActionCause + ", " + lastStrategyResponse.positionGovernorResponse.signalPoint.name());
 //		Co.println("--> Current: " + strategyResponse.strategyAction + ", " + strategyResponse.strategyActionCause + ", " + strategyResponse.positionGovernorResponse.signalPoint.name());
 //				
-		if (strategyResponse.strategyAction == lastStrategyResponse.strategyAction && strategyResponse.strategyActionCause == strategyResponse.strategyActionCause){
+		if (strategyResponse.strategyAction == lastStrategyResponse.strategyAction && strategyResponse.strategyActionCause == strategyResponse.strategyActionCause && didPositionGovernorChangePosition(strategyResponse.positionGovernorResponse) == false){
 			strategyResponse.strategyAction = StrategyAction.no_change;
 			strategyResponse.strategyActionCause = StrategyActionCause.none;
 			return strategyResponse;
@@ -151,5 +149,16 @@ public class StrategyOfTest extends StrategyBase {
 		strategyResponse.strategyActionCause = strategyActionCause;
 		
 		return positionGovernorResponse;
+	}
+	
+	private boolean didPositionGovernorChangePosition(PositionGovernorResponse positionGovernorResponse){
+		if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
+				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
+				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
+				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

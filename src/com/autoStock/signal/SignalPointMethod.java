@@ -60,9 +60,10 @@ public class SignalPointMethod {
 
 		for (SignalMetric signalMetric : signal.listOfSignalMetric){signalMetric.getSignalPoint(havePosition, positionType).occurences++;}
 		
-		for (SignalMetric signalMetric : signal.listOfSignalMetric){
-			if (signalMetric.getSignalPoint(havePosition, positionType).occurences >= occurenceCount){
+		for (SignalMetric signalMetric : signal.listOfSignalMetric){			
+			if (signalMetric.getSignalPoint(havePosition, positionType).occurences > occurenceCount){
 				signalPoint = signalMetric.signalPoint;
+				occurenceCount = signalMetric.getSignalPoint(havePosition, positionType).occurences;
 			}
 		}
 	
