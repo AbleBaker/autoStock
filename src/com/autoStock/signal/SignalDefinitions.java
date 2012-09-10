@@ -35,28 +35,28 @@ public class SignalDefinitions {
 				48, 44, -100, -100),
 		metric_di(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 2);}},
-				43, -12, -100, -100),
+				45, -15, -100, -100),
 		metric_cci(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 4);}},
-				42, -23, -100, -100),
+				48, 12, -100, -100),
 		metric_macd(
 			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 1000);}},
-				21, -40, -100, -100),
+				10, -28, -100, -100),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) Math.pow(input / 2, 1.25) - 50;}},
-				40, 19, -100, -100),
+				40, -25, -100, -100),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
-				11, -33, 0, 0),
+				45, 20, 0, 0),
 		metric_roc(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 100);}},
-				50,-20, 0, 0),
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 50);}},
+				35, -20, 0, 0),
 		metric_mfi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (Math.pow(input, 1.3) * 0.25) - 50;}},
-				43,-40, 0, 0),
+				40, -24, 0, 0),
 		metric_willr(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input + 40 * 1.0);}},
-				50, -30, 0, 0),				
+				30, -40, 0, 0),				
 				
 		metric_storsi(null,0,0,0,0),
 		

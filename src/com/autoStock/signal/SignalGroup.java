@@ -21,13 +21,13 @@ public class SignalGroup {
 	
 	public void generateSignals(CommonAnlaysisData commonAnlaysisData, IndicatorGroup indicatorGroup, int periodLength){
 		signalOfPPC = new SignalOfPPC(ArrayTools.subArray(commonAnlaysisData.arrayOfPriceClose, 0, periodLength-1), SignalControl.periodAverageForPPC);
-		signalOfDI = new SignalOfDI(ArrayTools.subArray(indicatorGroup.resultsDI.arrayOfDIPlus, 0, 1), ArrayTools.subArray(indicatorGroup.resultsDI.arrayOfDIMinus, 0, 1), SignalControl.periodAverageForDI);
-		signalOfCCI = new SignalOfCCI(ArrayTools.subArray(indicatorGroup.resultsCCI.arrayOfCCI, 0, 1), SignalControl.periodAverageForCCI);
-		signalOfMACD = new SignalOfMACD(ArrayTools.subArray(indicatorGroup.resultsMACD.arrayOfMACDHistogram, 0, 1), SignalControl.periodAverageForMACD);
-		signalOfRSI = new SignalOfRSI(ArrayTools.subArray(indicatorGroup.resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);
-		signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(indicatorGroup.resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);
-		signalOfROC = new SignalOfROC(ArrayTools.subArray(indicatorGroup.resultsROC.arrayOfROC, 0, 1), 0);
-		signalOfMFI = new SignalOfMFI(ArrayTools.subArray(indicatorGroup.resultsMFI.arrayOfMFI, 0, 1), 0);
-		signalOfWILLR = new SignalOfWILLR(ArrayTools.subArray(indicatorGroup.resultsWILLR.arrayOfWILLR, 0, 1), 0);
+		if (indicatorGroup.resultsDI != null){signalOfDI = new SignalOfDI(ArrayTools.subArray(indicatorGroup.resultsDI.arrayOfDIPlus, 0, 1), ArrayTools.subArray(indicatorGroup.resultsDI.arrayOfDIMinus, 0, 1), SignalControl.periodAverageForDI);}
+		if (indicatorGroup.resultsCCI != null){signalOfCCI = new SignalOfCCI(ArrayTools.subArray(indicatorGroup.resultsCCI.arrayOfCCI, 0, 1), SignalControl.periodAverageForCCI);}
+		if (indicatorGroup.resultsMACD != null){signalOfMACD = new SignalOfMACD(ArrayTools.subArray(indicatorGroup.resultsMACD.arrayOfMACDHistogram, 0, 1), SignalControl.periodAverageForMACD);}
+		if (indicatorGroup.resultsRSI != null){signalOfRSI = new SignalOfRSI(ArrayTools.subArray(indicatorGroup.resultsRSI.arrayOfRSI, 0, 1), SignalControl.periodAverageForRSI);}
+		if (indicatorGroup.resultsTRIX != null){signalOfTRIX = new SignalOfTRIX(ArrayTools.subArray(indicatorGroup.resultsTRIX.arrayOfTRIX, 0, 1), SignalControl.periodAverageForTRIX);}
+		if (indicatorGroup.resultsROC != null){signalOfROC = new SignalOfROC(ArrayTools.subArray(indicatorGroup.resultsROC.arrayOfROC, 0, 1), 0);}
+		if (indicatorGroup.resultsMFI != null){signalOfMFI = new SignalOfMFI(ArrayTools.subArray(indicatorGroup.resultsMFI.arrayOfMFI, 0, 1), 0);}
+		if (indicatorGroup.resultsWILLR != null){signalOfWILLR = new SignalOfWILLR(ArrayTools.subArray(indicatorGroup.resultsWILLR.arrayOfWILLR, 0, 1), 0);}
 	}
 }

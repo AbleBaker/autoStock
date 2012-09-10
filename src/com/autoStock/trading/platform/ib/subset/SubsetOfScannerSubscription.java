@@ -28,7 +28,7 @@ public class SubsetOfScannerSubscription {
 			throw new UnsupportedOperationException();
 		}
 
-		scannerSubscription.abovePrice(7.00);
+		scannerSubscription.abovePrice(5.00);
 		scannerSubscription.belowPrice(1000.00);
 
 		modifyScannerWithType(scannerSubscription, marketScannerType);

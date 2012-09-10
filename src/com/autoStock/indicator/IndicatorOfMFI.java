@@ -21,9 +21,7 @@ public class IndicatorOfMFI extends IndicatorBase{
 	
 	public ResultsMFI analyize(){
 		results = new ResultsMFI(endIndex+1);
-		
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
 		
 		RetCode returnCode = getTaLibCore().mfi(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, ArrayTools.convertToDouble(arrayOfSizeVolume), periodLength-1, new MInteger(), new MInteger(), results.arrayOfMFI);
 		handleAnalysisResult(returnCode);

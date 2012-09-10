@@ -20,9 +20,7 @@ public class IndicatorOfROC extends IndicatorBase{
 	
 	public ResultsROC analyize(){
 		results = new ResultsROC(endIndex+1);
-		
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
 		
 		RetCode returnCode = getTaLibCore().roc(0, endIndex, arrayOfPriceClose, periodLength-1, new MInteger(), new MInteger(), results.arrayOfROC);
 		handleAnalysisResult(returnCode);

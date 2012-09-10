@@ -2,9 +2,6 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
-import javax.annotation.PostConstruct;
-
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
@@ -54,22 +51,21 @@ public class StrategyOfTest extends StrategyBase {
 		Position position = PositionManager.instance.getPosition(algorithmBase.symbol.symbolName);
 		
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfCCI.getSignal(),
 				signalGroup.signalOfRSI.getSignal(),
 				signalGroup.signalOfDI.getSignal(),
-				signalGroup.signalOfMACD.getSignal(),
-				signalGroup.signalOfMFI.getSignal(),
-				signalGroup.signalOfTRIX.getSignal(),
-				signalGroup.signalOfROC.getSignal(),
-				signalGroup.signalOfWILLR.getSignal()
+				signalGroup.signalOfMACD.getSignal()
+//				signalGroup.signalOfCCI.getSignal()
+//				signalGroup.signalOfMFI.getSignal()
+//				signalGroup.signalOfTRIX.getSignal()
+//				signalGroup.signalOfROC.getSignal()
+//				signalGroup.signalOfWILLR.getSignal()
 				);   
 		
-//		if (algorithmBase.algorithmState.isDisabled){
-//			strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
-//			strategyResponse.strategyAction = StrategyAction.algorithm_disable;
-//			strategyResponse.strategyActionCause = StrategyActionCause.cease_disabled;
-//		}else
-		if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
+		if (algorithmBase.algorithmState.isDisabled){
+			strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
+			strategyResponse.strategyAction = StrategyAction.algorithm_disable;
+			strategyResponse.strategyActionCause = StrategyActionCause.cease_disabled;
+		}else if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)){
 			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilchange, quoteSlice, position, strategyResponse);
 		}else if (algorithmCondition.disableAfterNilVolume(listOfQuoteSlice)){
 			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilvolume, quoteSlice, position, strategyResponse);
@@ -116,9 +112,9 @@ public class StrategyOfTest extends StrategyBase {
 			}
 		}
 		
-		Co.println("--> Last: " + lastStrategyResponse.strategyAction + ", " + lastStrategyResponse.strategyActionCause + ", " + lastStrategyResponse.positionGovernorResponse.signalPoint.name());
-		Co.println("--> Current: " + strategyResponse.strategyAction + ", " + strategyResponse.strategyActionCause + ", " + strategyResponse.positionGovernorResponse.signalPoint.name());
-				
+//		Co.println("--> Last: " + lastStrategyResponse.strategyAction + ", " + lastStrategyResponse.strategyActionCause + ", " + lastStrategyResponse.positionGovernorResponse.signalPoint.name());
+//		Co.println("--> Current: " + strategyResponse.strategyAction + ", " + strategyResponse.strategyActionCause + ", " + strategyResponse.positionGovernorResponse.signalPoint.name());
+//				
 		if (strategyResponse.strategyAction == lastStrategyResponse.strategyAction && strategyResponse.strategyActionCause == strategyResponse.strategyActionCause){
 			strategyResponse.strategyAction = StrategyAction.no_change;
 			strategyResponse.strategyActionCause = StrategyActionCause.none;
@@ -130,13 +126,13 @@ public class StrategyOfTest extends StrategyBase {
 	}
 	
 	public PositionGovernorResponse proceed(QuoteSlice quoteSlice){
-		Co.println("--> Asked to proceed");
+//		Co.println("--> Asked to proceed");
 		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions);
 		return positionGovernorResponse;
 	}
 	
 	public PositionGovernorResponse cease(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
-		Co.println("--> Asked to cease: " + strategyActionCause.name());
+//		Co.println("--> Asked to cease: " + strategyActionCause.name());
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		if (position != null){
 			positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true);
@@ -148,7 +144,7 @@ public class StrategyOfTest extends StrategyBase {
 	}
 	
 	public PositionGovernorResponse exit(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
-		Co.println("--> Asked to exit");
+//		Co.println("--> Asked to exit");
 		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true);
 		
 		strategyResponse.strategyAction = StrategyAction.algorithm_changed;

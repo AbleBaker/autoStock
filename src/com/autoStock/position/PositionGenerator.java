@@ -15,7 +15,6 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class PositionGenerator {
-	
 	private Account account;
 	private final int positionMaximumPrice = 5000;
 	

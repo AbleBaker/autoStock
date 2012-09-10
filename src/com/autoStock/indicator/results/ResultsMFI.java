@@ -10,14 +10,11 @@ import java.util.Date;
  *
  */
 public class ResultsMFI extends ResultsBase {
-	
 	public Date[] arrayOfDates;
 	public double[] arrayOfMFI;
-	public double[] arrayOfPrice;
 	
 	public ResultsMFI(int length){
 		this.arrayOfDates = new Date[length];
 		this.arrayOfMFI = new double[length];
-		this.arrayOfPrice = new double[length];
 	}
 }

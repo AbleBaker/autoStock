@@ -26,7 +26,7 @@ public class IndicatorOfMACD extends IndicatorBase {
 			preceedDatasetWithPeriod();
 		}
 		
-		RetCode returnCode = getTaLibCore().macdExt(0, endIndex, arrayOfPriceClose, periodLength/3, MAType.Kama, periodLength/2, MAType.Kama, periodLength/2, MAType.Ema, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		RetCode returnCode = getTaLibCore().macdExt(0, endIndex, arrayOfPriceClose, periodLength/4, MAType.Kama, periodLength/2, MAType.Kama, periodLength/2, MAType.Ema, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		handleAnalysisResult(returnCode);
 		
 		return results;

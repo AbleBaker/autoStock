@@ -20,9 +20,7 @@ public class IndicatorOfCCI extends IndicatorBase {
 	
 	public ResultsCCI analyize(){
 		results = new ResultsCCI(endIndex+1);
-		
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
 		
 		RetCode returnCode = getTaLibCore().cci(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfCCI);
 		handleAnalysisResult(returnCode);
