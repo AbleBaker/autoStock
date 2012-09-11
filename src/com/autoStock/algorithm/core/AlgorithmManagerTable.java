@@ -20,9 +20,8 @@ public class AlgorithmManagerTable {
 	
 	public void addRow(AlgorithmTest algorithm, ArrayList<QuoteSlice> listOfQuoteSlice){
 		ArrayList<String> columnValues = new ArrayList<String>();
-		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 		
-		Position position = PositionManager.instance.getPosition(quoteSlice.symbol);
+		Position position = PositionManager.instance.getPosition(algorithm.symbol.symbolName);
 		
 		double percentGainFromAlgorithm = 0;
 		double percentGainFromPosition = 0;
@@ -40,7 +39,7 @@ public class AlgorithmManagerTable {
 		}
 		
 		columnValues.add(algorithm.getCurrentQuoteSlice() != null && algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
-		columnValues.add(quoteSlice.symbol);
+		columnValues.add(algorithm.symbol.symbolName);
 		columnValues.add(algorithm.strategy.lastStrategyResponse == null ? "-" : (algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.name() + ", " + algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
 		columnValues.add(position == null ? "-" : position.positionType.name());
 		columnValues.add(String.valueOf(algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(algorithm.getFirstQuoteSlice().priceClose)));
