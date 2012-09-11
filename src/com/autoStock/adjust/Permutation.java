@@ -109,6 +109,9 @@ public class Permutation {
 	}
 	
 	public double getPercentComplete(){
+		if (permutationCore == null){
+			return 0;
+		}
 		return (double)count / (double)permutationCore.getPermutationCount();
 	}
 }

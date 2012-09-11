@@ -73,15 +73,15 @@ public class IndicatorGroup {
 	}
 
 	public void analyize() {
-//		resultsCCI = indicatorOfCCI.analyize();
-//		resultsDI = indicatorOfDI.analize();
-//		resultsBB = indicatorOfBB.analyize();
-//		resultsMACD = indicatorOfMACD.analize();
+		resultsCCI = indicatorOfCCI.analyize();
+		resultsDI = indicatorOfDI.analize();
+		resultsBB = indicatorOfBB.analyize();
+		resultsMACD = indicatorOfMACD.analize();
 		resultsRSI = indicatorOfRSI.analyize();
-//		resultsTRIX = indicatorOfTRIX.analyize();
-//		resultsROC = indicatorOfROC.analyize();
-//		resultsMFI = indicatorOfMFI.analyize();
-//		resultsWILLR = indicatorOfWILLR.analyize();
+		resultsTRIX = indicatorOfTRIX.analyize();
+		resultsROC = indicatorOfROC.analyize();
+		resultsMFI = indicatorOfMFI.analyize();
+		resultsWILLR = indicatorOfWILLR.analyize();
 	}
 	
 	public ArrayList<IndicatorBase> getListOfIndicatorBase(){
