@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 public class AlgorithmManager {
 	private ArrayList<ActiveAlgorithmContainer> listOfActiveAlgorithmContainer = new ArrayList<ActiveAlgorithmContainer>();
 	private AlgorithmInfoManager algorithmInfoManager = new AlgorithmInfoManager();
+	private AlgorithmManagerTable algorithmManagerTable = new AlgorithmManagerTable();
 	private Thread threadForDisplay;
 	
 	public void initalize() {
@@ -110,43 +111,15 @@ public class AlgorithmManager {
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){
-		ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
+		algorithmManagerTable.clear();
 		
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();
 			
-			ArrayList<String> columnValues = new ArrayList<String>();
-			Position position = PositionManager.instance.getPosition(container.symbol.symbolName);
-			
-			double percentGainFromAlgorithm = 0;
-			double percentGainFromPosition = 0;
-			
-			if (container.algorithm.firstQuoteSlice != null && container.algorithm.getCurrentQuoteSlice() != null){
-				if (container.algorithm.firstQuoteSlice.priceClose != 0 && container.algorithm.getCurrentQuoteSlice().priceClose != 0){
-					percentGainFromAlgorithm = (container.algorithm.getCurrentQuoteSlice().priceClose / container.algorithm.firstQuoteSlice.priceClose) -1d;
-				}
-			}
-			
-			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
-				if (position.price != 0 && position.lastKnownPrice != 0){
-					percentGainFromPosition = (position.lastKnownPrice / position.price);
-				}
-			}
-			
-			columnValues.add(container.algorithm.getCurrentQuoteSlice() != null && container.algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(container.algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
-			columnValues.add(container.symbol.symbolName);
-			columnValues.add(container.algorithm.strategy.lastStrategyResponse == null ? "-" : (container.algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.name() + ", " + container.algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
-			columnValues.add(position == null ? "-" : position.positionType.name());
-			columnValues.add(String.valueOf(container.algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(container.algorithm.getFirstQuoteSlice().priceClose)));
-			columnValues.add(String.valueOf(container.algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(container.algorithm.getCurrentQuoteSlice().priceClose)));
-			columnValues.add(String.valueOf(percentGainFromAlgorithm));
-			columnValues.add(String.valueOf(percentGainFromPosition == 1 ? "-" : percentGainFromPosition));
-			columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission()))));
-			
-			listOfDisplayRows.add(columnValues);
+			algorithmManagerTable.addRow(container.algorithm, container.algorithm.listOfQuoteSlice);
 		}
 		
-		return listOfDisplayRows;
+		return algorithmManagerTable.getListOfDisplayRows();
 	}
 	
 	public void displayEndOfDayStats(ArrayList<ArrayList<String>> listOfAlgorithmDisplayRows){

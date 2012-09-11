@@ -52,12 +52,12 @@ public class StrategyOfTest extends StrategyBase {
 		Position position = PositionManager.instance.getPosition(algorithmBase.symbol.symbolName);
 		
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal(),
+				signalGroup.signalOfRSI.getSignal()
 //				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfCCI.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
-				signalGroup.signalOfTRIX.getSignal()
+//				signalGroup.signalOfTRIX.getSignal()
 //				signalGroup.signalOfROC.getSignal()
 //				signalGroup.signalOfWILLR.getSignal()
 				);   

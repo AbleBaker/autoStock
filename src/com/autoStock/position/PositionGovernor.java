@@ -60,13 +60,13 @@ public class PositionGovernor {
 		}
 
 		positionGovernorResponse.position = position;
-		if (signal.currentSignalPoint == signalPoint){
-			positionGovernorResponse.signalPoint = SignalPoint.no_change;
-			positionGovernorResponse.signalPoint.signalMetricType = SignalMetricType.no_change;
-		}else{
+//		if (signal.currentSignalPoint == signalPoint){
+//			positionGovernorResponse.signalPoint = SignalPoint.no_change;
+//			positionGovernorResponse.signalPoint.signalMetricType = SignalMetricType.no_change;
+//		}else{
 			positionGovernorResponse.signalPoint = signalPoint;
 			signal.currentSignalPoint = signalPoint;
-		}
+//		}
 
 		return positionGovernorResponse;
 	} 
