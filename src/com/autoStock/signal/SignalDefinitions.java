@@ -43,8 +43,8 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 1000);}},
 				10, -28, -100, -100),
 		metric_rsi(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) Math.pow(input / 2, 1.25) - 50;}},
-				40, -25, -100, -100),
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) Math.pow(input / 2, 1.20) - 40;}},
+				44, -40, -100, -100),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
 				45, 20, 0, 0),

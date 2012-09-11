@@ -76,7 +76,7 @@ public class SignalPointMethod {
 		for (SignalMetric signalMetric : signal.listOfSignalMetric){
 			SignalPoint metricSignalPoint = signalMetric.getSignalPoint(havePosition, positionType);
 			if (metricSignalPoint != SignalPoint.none){
-				Co.println("--> SignalPointChange metric, current signal, metric signal point: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", " + metricSignalPoint.name());
+//				Co.println("--> SignalPointChange metric, current signal, metric signal point: " + signalMetric.signalMetricType.name() + ", " + signalMetric.strength + ", " + metricSignalPoint.name());
 				signalPoint = metricSignalPoint;
 				signalPoint.signalMetricType = signalMetric.signalMetricType;
 				break;

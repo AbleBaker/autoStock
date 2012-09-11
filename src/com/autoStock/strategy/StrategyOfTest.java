@@ -42,8 +42,8 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
-		strategyOptions.maxPositionTaperTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
+		strategyOptions.maxPositionTaperTime = 45;
 	}
 	
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice){
@@ -52,13 +52,13 @@ public class StrategyOfTest extends StrategyBase {
 		Position position = PositionManager.instance.getPosition(algorithmBase.symbol.symbolName);
 		
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal(),
-				signalGroup.signalOfDI.getSignal(),
-				signalGroup.signalOfMACD.getSignal(),
-				signalGroup.signalOfMFI.getSignal(),
-				signalGroup.signalOfTRIX.getSignal(),
-				signalGroup.signalOfROC.getSignal(),
-				signalGroup.signalOfWILLR.getSignal()
+				signalGroup.signalOfRSI.getSignal()
+//				signalGroup.signalOfDI.getSignal(),
+//				signalGroup.signalOfMACD.getSignal(),
+//				signalGroup.signalOfMFI.getSignal(),
+//				signalGroup.signalOfTRIX.getSignal(),
+//				signalGroup.signalOfROC.getSignal(),
+//				signalGroup.signalOfWILLR.getSignal()
 				);   
 		
 		if (algorithmBase.algorithmState.isDisabled){
