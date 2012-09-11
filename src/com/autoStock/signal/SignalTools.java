@@ -10,6 +10,7 @@ public class SignalTools {
 	public static synchronized CombinedSignal getCombinedSignal(Signal signal){
 		ArrayList<SignalMetric> listOfSignalMetric = signal.listOfSignalMetric;
 		CombinedSignal combinedSignal = new CombinedSignal();
+		int listOfSignalMetricSize = listOfSignalMetric.size();
 		
 		for (SignalMetric signalMetric : listOfSignalMetric){
 			combinedSignal.strength += signalMetric.strength;
@@ -19,12 +20,12 @@ public class SignalTools {
 			combinedSignal.shortExit += signalMetric.signalMetricType.pointToSignalShortExit;
 		}
 		
-		if (listOfSignalMetric.size() > 0){
-			combinedSignal.strength = (combinedSignal.strength / listOfSignalMetric.size());
-			combinedSignal.longEntry = (combinedSignal.longEntry / listOfSignalMetric.size());
-			combinedSignal.longExit = (combinedSignal.longExit / listOfSignalMetric.size());
-			combinedSignal.shortEntry = (combinedSignal.shortEntry / listOfSignalMetric.size());
-			combinedSignal.shortExit = (combinedSignal.shortExit / listOfSignalMetric.size());
+		if (listOfSignalMetricSize > 0){ 
+			combinedSignal.strength = combinedSignal.strength / listOfSignalMetricSize;
+			combinedSignal.longEntry = combinedSignal.longEntry / listOfSignalMetricSize;
+			combinedSignal.longExit = combinedSignal.longExit / listOfSignalMetricSize;
+			combinedSignal.shortEntry = combinedSignal.shortEntry / listOfSignalMetricSize;
+			combinedSignal.shortExit = combinedSignal.shortExit / listOfSignalMetricSize;
 		}
 		
 		combinedSignal.strength = (int) (combinedSignal.strength > 0 ? Math.min(100, combinedSignal.strength) : Math.max(-100, combinedSignal.strength));

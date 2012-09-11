@@ -22,7 +22,6 @@ public class IndicatorOfCCI extends IndicatorBase {
 		results = new ResultsCCI(endIndex+1);
 		
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
 		
 		if (preceedDataset){
 			preceedDatasetWithPeriod();

@@ -49,7 +49,7 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
 				45, 20, 0, 0),
 		metric_roc(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 50);}},
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 30);}},
 				35, -20, 0, 0),
 		metric_mfi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (Math.pow(input, 1.3) * 0.25) - 50;}},
