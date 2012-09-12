@@ -10,6 +10,7 @@ import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
@@ -35,13 +36,13 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTactic = SignalPointTactic.tatic_change;
-		
+
 		strategyOptions.maxTransactionsDay = 4;
 		strategyOptions.minTakeProfitExit = 1.10d;
 		strategyOptions.maxStopLossValue = -35;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
-		strategyOptions.maxPositionEntryTime = 30;
+		strategyOptions.maxPositionEntryTime = 45;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 45;
 	}
@@ -57,7 +58,7 @@ public class StrategyOfTest extends StrategyBase {
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal(),
-//				signalGroup.signalOfROC.getSignal(),
+//				signalGroup.signalOfROC.getSignal()
 //				signalGroup.signalOfWILLR.getSignal()
 				);   
 		
@@ -75,13 +76,13 @@ public class StrategyOfTest extends StrategyBase {
 			}else if (algorithmCondition.takeProfit(position, quoteSlice)){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_profit, quoteSlice, position, strategyResponse);
 			}else if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, algorithmBase.exchange)){
-				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time, quoteSlice, position, strategyResponse);
+				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_exit, quoteSlice, position, strategyResponse);
 			}else{
 				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
 			}
 		}else{
 			if (algorithmCondition.canEnterTradeOnDate(quoteSlice.dateTime, algorithmBase.exchange) == false){
-				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_time, quoteSlice, position, strategyResponse);
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_time_entry, quoteSlice, position, strategyResponse);
 			}else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_trans, quoteSlice, position, strategyResponse);
 			}else if (algorithmBase.algorithmState.isDisabled){

@@ -61,8 +61,8 @@ public class PositionGovernor {
 
 		positionGovernorResponse.position = position;
 //		if (signal.currentSignalPoint == signalPoint){
-//			positionGovernorResponse.signalPoint = SignalPoint.no_change;
-//			positionGovernorResponse.signalPoint.signalMetricType = SignalMetricType.no_change;
+//			positionGovernorResponse.signalPoint = SignalPoint.none;
+//			positionGovernorResponse.signalPoint.signalMetricType = SignalMetricType.none;
 //		}else{
 			positionGovernorResponse.signalPoint = signalPoint;
 			signal.currentSignalPoint = signalPoint;

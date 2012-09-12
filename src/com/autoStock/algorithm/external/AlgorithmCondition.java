@@ -90,7 +90,7 @@ public class AlgorithmCondition {
 		double price = 0;
 		
 		for (QuoteSlice quoteSlice : listOfQuoteSlice){
-			if (price == quoteSlice.priceClose){
+			if (quoteSlice.priceClose == price){
 				countOfNilChanges++;
 			}else{
 				countOfNilChanges = 0;

@@ -20,7 +20,8 @@ public class StrategyResponse {
 	}
 	
 	public enum StrategyActionCause {
-		cease_condition_time,
+		cease_condition_time_entry,
+		cease_condition_time_exit,
 		cease_condition_trans,
 		cease_condition_profit,
 		cease_condition_stoploss,

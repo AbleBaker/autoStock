@@ -5,7 +5,6 @@ package com.autoStock.trading.platform.ib;
 
 import java.text.SimpleDateFormat;
 
-import com.autoStock.exchange.ExchangeHelper.ExchangeDesignation;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.internal.Config;
