@@ -49,10 +49,10 @@ public class AlgorithmManager {
 		for (String symbol : listOfSymbols){
 			if (getAlgorithmContainerForSymbol(symbol) == null){
 				Co.println("Will run algorithm for symbol: " + symbol);
+				algorithmInfoManager.activatedSymbol(symbol);
 				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(symbol));
 				container.activate();
 				listOfActiveAlgorithmContainer.add(container);
-				algorithmInfoManager.activatedSymbol(symbol);
 			}
 		}
 	}
@@ -62,8 +62,8 @@ public class AlgorithmManager {
 			ActiveAlgorithmContainer container = iterator.next();
 			if (listOfSymbols.contains(container.symbol.symbolName) == false){
 				Co.println("--> No longer want: " + container.symbol.symbolName);
-				container.deactivate();
 				algorithmInfoManager.deactivatedSymbol(container.symbol.symbolName);
+				container.deactivate();
 				iterator.remove();
 			}
 		}

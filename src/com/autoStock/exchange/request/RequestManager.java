@@ -1,6 +1,7 @@
 package com.autoStock.exchange.request;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.exchange.request.base.RequestHolder;
 
@@ -9,12 +10,11 @@ import com.autoStock.exchange.request.base.RequestHolder;
  *
  */
 public class RequestManager {
-	private static volatile int requestId;
+	private static AtomicInteger atomicRequestId = new AtomicInteger();
 	private static ArrayList<RequestHolder> listOfRequestHolder = new ArrayList<RequestHolder>();
 	
 	public static synchronized int getNewRequestId(){
-		requestId++;
-		return requestId;
+		return atomicRequestId.incrementAndGet();
 	}
 	
 	public static synchronized void addRequestHolder(RequestHolder requestHolder){
