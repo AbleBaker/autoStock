@@ -47,7 +47,9 @@ public class AlgorithmManager {
 	
 	public void setListOfSymbols(ArrayList<String> listOfSymbols, Exchange exchange){
 		for (String symbol : listOfSymbols){
-			if (getAlgorithmContainerForSymbol(symbol) == null){
+			if (listOfActiveAlgorithmContainer.size() >= 100){
+				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + symbol);
+			}else if (getAlgorithmContainerForSymbol(symbol) == null){
 				Co.println("Will run algorithm for symbol: " + symbol);
 				algorithmInfoManager.activatedSymbol(symbol);
 				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(symbol));
