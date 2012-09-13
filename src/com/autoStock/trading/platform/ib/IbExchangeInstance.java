@@ -127,10 +127,10 @@ public class IbExchangeInstance {
 	public void getMarketData(Exchange exchange, Symbol symbol, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = exchange.name;
+		contract.m_exchange = "SMART";
 		contract.m_symbol = symbol.symbolName;
-		contract.m_secType = "STK";
 		contract.m_currency = exchange.currency.name();
+		contract.m_secType = "STK";
 		contract.m_includeExpired = true;
 		ibExchangeClientSocket.eClientSocket.reqMktData(requestHolder.requestId, contract, "100,101,104,105,106,107,165,236,293,294,295,411", false);
 	}
