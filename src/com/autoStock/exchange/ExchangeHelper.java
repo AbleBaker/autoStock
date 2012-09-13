@@ -9,5 +9,6 @@ public class ExchangeHelper {
 	public static enum ExchangeDesignation {
 		NYSE,
 		ASX,
+		NASDAQ,
 	}
 }

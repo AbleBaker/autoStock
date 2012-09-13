@@ -21,6 +21,9 @@ public class SubsetOfScannerSubscription {
 		if (exchange.exchangeDesignation == ExchangeDesignation.NYSE) {
 			scannerSubscription.instrument("STK");
 			scannerSubscription.locationCode("STK.NYSE");
+		} else if (exchange.exchangeDesignation == ExchangeDesignation.NASDAQ){
+			scannerSubscription.instrument("STK");
+			scannerSubscription.locationCode("STK.NASDAQ");
 		} else if (exchange.exchangeDesignation == ExchangeDesignation.ASX) {
 			scannerSubscription.instrument("STOCK.HK");
 			scannerSubscription.locationCode("STK.HK.ASX");
