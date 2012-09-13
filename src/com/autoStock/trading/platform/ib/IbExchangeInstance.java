@@ -5,6 +5,7 @@ package com.autoStock.trading.platform.ib;
 
 import java.text.SimpleDateFormat;
 
+import com.autoStock.exchange.ExchangeHelper.ExchangeDesignation;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.internal.Config;
@@ -127,7 +128,7 @@ public class IbExchangeInstance {
 	public void getMarketData(Exchange exchange, Symbol symbol, RequestHolder requestHolder){
 		//Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = "SMART";
+		contract.m_exchange = exchange.exchangeDesignation == ExchangeDesignation.ASX ? "ASX" : "SMART";
 		contract.m_symbol = symbol.symbolName;
 		contract.m_currency = exchange.currency.name();
 		contract.m_secType = "STK";
