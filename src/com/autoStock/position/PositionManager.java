@@ -141,4 +141,15 @@ public class PositionManager {
 	public synchronized int getPositionListSize() {
 		return listOfPosition.size();
 	}
+
+	public double getAllPositionValueIncludingFees() {
+		synchronized(lock){
+			double valueOfAllPositions = 0; 
+			for (Position position : listOfPosition){
+				valueOfAllPositions += position.getPositionCurrentValue(true);
+			}
+			
+			return valueOfAllPositions;
+		}
+	}
 }
