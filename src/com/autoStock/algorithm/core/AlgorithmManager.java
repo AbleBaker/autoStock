@@ -109,7 +109,10 @@ public class AlgorithmManager {
 	public void displayAlgorithmTable(){
 		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
 		Co.println("--> Current P&L: " + PositionManager.instance.getCurrentProfitLossIncludingFees());
-		Co.println("--> Current account balance: " + Account.instance.getAccountBalance() + ", " + PositionManager.instance.getAllPositionValueIncludingFees() + ", " + (Account.instance.getAccountBalance() + PositionManager.instance.getAllPositionValueIncludingFees()));
+		Co.println("--> Current account balance: " + Account.instance.getAccountBalance() + ", " 
+		+ PositionManager.instance.getAllPositionValueIncludingFees() + ", " 
+		+ (Account.instance.getAccountBalance() + PositionManager.instance.getAllPositionValueIncludingFees()) + ", [" 
+		+ ((Account.instance.getAccountBalance() + PositionManager.instance.getAllPositionValueIncludingFees()) - Account.instance.bankBalanceDefault) + "]");
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){
