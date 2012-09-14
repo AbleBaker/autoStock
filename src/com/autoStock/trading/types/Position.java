@@ -40,10 +40,12 @@ public class Position implements Cloneable {
 		return MathTools.round((units * lastKnownPrice) + (includeTransactionFees ? Account.instance.getTransactionCost(units, lastKnownPrice) : 0));
 	}
 	
+	//TODO: Fix this
 	public double getPositionEntryValue(boolean includeTransactionFees){
 		return MathTools.round(units * price - (includeTransactionFees ? Account.instance.getTransactionCost(units, price) : 0));
 	}
 	
+	//TODO: fix this too 
 	public double getPositionCurrentValue(boolean includeTransactionFees){
 		return MathTools.round((units * lastKnownPrice) - (includeTransactionFees ? Account.instance.getTransactionCost(units, lastKnownPrice) : 0));
 	}

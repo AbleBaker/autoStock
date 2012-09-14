@@ -4,6 +4,8 @@
 package com.autoStock.menu;
 
 import com.autoStock.MainBacktest;
+import com.autoStock.MainClusteredBacktest;
+import com.autoStock.MainClusteredBacktestClient;
 import com.autoStock.MainEngagement;
 import com.autoStock.MainFilter;
 import com.autoStock.MainMarketOrder;
@@ -97,6 +99,17 @@ public class MenuLauncher {
 				ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "),
 				BacktestType.valueOf(menuStructure.getArgument(MenuArguments.arg_backtest_type).value)
 			);
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_clustered_backtest){
+			new MainClusteredBacktest(
+				new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
+				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
+				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
+				ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " ")
+			);
+		}else if (menuStructure == MenuStructures.menu_main_clustered_backtest_client){
+			new MainClusteredBacktestClient();
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_engage){
