@@ -1,6 +1,5 @@
 package com.autoStock;
 
-import com.autoStock.types.Exchange;
 
 /**
  * @author Kevin Kowalewski

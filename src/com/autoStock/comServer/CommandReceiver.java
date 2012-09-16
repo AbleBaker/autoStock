@@ -5,7 +5,9 @@ package com.autoStock.comServer;
 
 import java.lang.reflect.Type;
 
+import com.autoStock.Co;
 import com.autoStock.com.CommandHolder;
+import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -14,11 +16,12 @@ import com.google.gson.reflect.TypeToken;
  *
  */
 public class CommandReceiver {
-	public void receiveGsonString(String string){
-		//Co.println("Received GSON String: " + string);
-		
+	public CommandHolder receiveGsonString(String string){
+		Co.println("Received GSON String: " + string);
 		Type type = new TypeToken<CommandHolder>(){}.getType();
-		Runnable runnable = new Gson().fromJson(string, type);
-		runnable.run();
+		CommandHolder commandHolder = new Gson().fromJson(string, type);
+		Co.println("--> Received Command: " + commandHolder.command.name());
+		
+		return commandHolder;
 	}
 }

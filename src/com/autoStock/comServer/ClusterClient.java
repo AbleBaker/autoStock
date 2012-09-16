@@ -7,14 +7,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.Socket;
 
 import com.autoStock.Co;
-import com.autoStock.com.CommandDefinitions.Command;
+import com.autoStock.cluster.ComputeUnitForBacktest;
 import com.autoStock.com.CommandHolder;
-import com.autoStock.comClient.CommandSender;
-import com.autoStock.comServer.ConnectionServer;
+import com.autoStock.com.ListenerOfCommandHolderResult;
+import com.autoStock.comServer.CommunicationDefinitions.Command;
+import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommands;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,33 +25,22 @@ import com.google.gson.reflect.TypeToken;
  *
  */
 public class ClusterClient {
-	public static final String EndCommunication = "QUIT";
-	public static final String EndCommand = "END";
 	private Socket clientSocket;
-	private PrintWriter printWriter;
+	public PrintWriter printWriter;
+	private ListenerOfCommandHolderResult listener;
+	
+	public ClusterClient(ListenerOfCommandHolderResult listener){
+		this.listener = listener;
+	}
 	
 	public void startClient(){
 	    try {this.clientSocket = new Socket(InetAddress.getByName("127.0.0.1"), 8888);}catch (Exception e){e.printStackTrace();}
-	    try {this.printWriter = new PrintWriter(clientSocket.getOutputStream(), false);}catch (Exception e){e.printStackTrace();}
+	    try {this.printWriter = new PrintWriter(clientSocket.getOutputStream(), true);}catch (Exception e){e.printStackTrace();}
 	}
 	
 	public void stop(){
 		try {this.printWriter.flush();}catch(Exception e){e.printStackTrace();}
 		try {this.clientSocket.close();}catch(Exception e){e.printStackTrace();}
-	}
-	
-	public void sendSerializedCommand(Command command){
-		String string = new Gson().toJson(new CommandSender().sendCommand(command), new TypeToken<CommandHolder>(){}.getType());
-		this.printWriter.println(string);
-		this.printWriter.println(ConnectionServer.EndCommand);
-		this.printWriter.flush();
-	}
-	
-	public void sendSerializedCommand(Command command, Object... params){
-		String string = new Gson().toJson(new CommandSender().sendCommand(command, params), new TypeToken<CommandHolder>(){}.getType());
-		this.printWriter.println(string);
-		this.printWriter.println(ConnectionServer.EndCommand);
-		this.printWriter.flush();
 	}
 	
 	public void listenForResponse(){
@@ -66,20 +57,28 @@ public class ClusterClient {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				// System.out.println("Got line: " + receivedLine);
-				if (receivedLine == null) {
-					break;
-				}
-				if (receivedLine.trim().equals(EndCommunication)) {
+				
+				Co.println("Got line: " + receivedLine);
+				
+				if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
 					Co.println("End communication!");
 					return;
-				} else if (receivedLine.trim().equals(EndCommand)) {
-					Co.println("End command!");
+				} else if (receivedLine.trim().equals(CommunicationCommands.com_end_command.command)) {
+					CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
+					
+					if (commandHolderGeneric.command == Command.compute_unit_backtest){
+						Type type = new TypeToken<CommandHolder<ComputeUnitForBacktest>>(){}.getType();
+						CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
+						listener.receivedCommand(commandHolderTyped);
+					}
+//					printWriter.println(CommunicationCommands.com_ok_command.command);
 					receivedString = new String();
 				} else {
 					receivedString = receivedString.concat(receivedLine);
 				}
 			}
-		}catch(Exception e){}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
 	}
 }

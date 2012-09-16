@@ -10,16 +10,11 @@ import com.autoStock.algorithm.external.ExternalConditionDefintions;
 import com.autoStock.exchange.ExchangeStatusListener;
 import com.autoStock.exchange.ExchangeStatusObserver;
 import com.autoStock.exchange.request.MultipleRequestMarketScanner;
-import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListener;
-import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
-import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
-import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
-import com.autoStock.internal.BranchSTDIO;
 import com.autoStock.internal.Global;
 import com.autoStock.types.Exchange;
 

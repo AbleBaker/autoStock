@@ -11,8 +11,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 import com.autoStock.Co;
-import com.autoStock.com.CommandDefinitions.Command;
 import com.autoStock.com.CommandHolder;
+import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.comServer.ConnectionServer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,14 +40,14 @@ public class ConnectionClient {
 	}
 	
 	public void sendSerializedCommand(Command command){
-		String string = new Gson().toJson(new CommandSender().sendCommand(command), new TypeToken<CommandHolder>(){}.getType());
+		String string = new Gson().toJson(new CommandHolder(command), new TypeToken<CommandHolder>(){}.getType());
 		this.printWriter.println(string);
 		this.printWriter.println(ConnectionServer.EndCommand);
 		this.printWriter.flush();
 	}
 	
 	public void sendSerializedCommand(Command command, Object... params){
-		String string = new Gson().toJson(new CommandSender().sendCommand(command, params), new TypeToken<CommandHolder>(){}.getType());
+		String string = new Gson().toJson(new CommandHolder(command), new TypeToken<CommandHolder>(){}.getType());
 		this.printWriter.println(string);
 		this.printWriter.println(ConnectionServer.EndCommand);
 		this.printWriter.flush();

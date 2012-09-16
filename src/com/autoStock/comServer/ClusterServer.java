@@ -7,33 +7,39 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import com.autoStock.Co;
+import com.autoStock.cluster.ComputeResultForBacktest;
+import com.autoStock.cluster.ComputeUnitForBacktest;
+import com.autoStock.com.CommandHolder;
+import com.autoStock.com.ListenerOfCommandHolderResult;
+import com.autoStock.comServer.CommunicationDefinitions.Command;
+import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommands;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Kevin Kowalewski
  * 
  */
 public class ClusterServer {
-	public static enum CommunicationCommands {
-		com_end_communication("COM_END_COMMUNICATION"),
-		com_end_command("COM_END_COMMAND"),
-		;
-		
-		public String command;
-		
-		CommunicationCommands(String command){
-			this.command = command;
-		}
+	private ListenerOfCommandHolderResult listener;
+	
+	public ClusterServer(ListenerOfCommandHolderResult listener){
+		this.listener = listener;
 	}
 
 	public void startServer() {
+		Co.println("--> Starting server...");
 		ServerSocket server = null;
 		Socket incoming = null;
 
 		try {
-			server = new ServerSocket(8888, 128, InetAddress.getByName("127.0.0.1"));
+			server = new ServerSocket(8888, 8, InetAddress.getByName("127.0.0.1"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,6 +52,8 @@ public class ClusterServer {
 			}
 			ClientThread cs = new ClientThread(incoming);
 			cs.run();
+			
+			try {Thread.sleep(3000);}catch(Exception e){}
 		}
 	}
 
@@ -55,7 +63,6 @@ public class ClusterServer {
 		public ClientThread(Socket socket) {
 			super();
 			this.socket = socket;
-			start();
 		}
 
 		@Override
@@ -64,6 +71,8 @@ public class ClusterServer {
 			PrintWriter out = null;
 			String receivedLine = new String();
 			String receivedString = new String();
+			 
+			Co.println("Instnace: " + socket.toString());
 
 			try {
 				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -74,28 +83,33 @@ public class ClusterServer {
 				out = new PrintWriter(socket.getOutputStream(), true);
 			} catch (Exception e) {
 				e.printStackTrace();
-
 			}
 
-			while (true) {
-				try {
-					receivedLine = in.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
+			try {
+				while ((receivedLine = in.readLine()) != null) {
+					Co.println("Got line: " + receivedLine + ", " + receivedString);
+
+					if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
+						return;
+					} else if (receivedLine.trim().equals(CommunicationCommands.com_end_command.command)) {
+						CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
+						
+						if (commandHolderGeneric.command == Command.accept_unit){
+							new CommandResponder().receivedCommand(commandHolderGeneric, out);
+						}else if (commandHolderGeneric.command == Command.backtest_results){
+							Type type = new TypeToken<CommandHolder<ComputeResultForBacktest>>(){}.getType();
+							CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
+							listener.receivedCommand(commandHolderTyped);
+						}
+						receivedString = new String();
+					} else {
+						receivedString = receivedString.concat(receivedLine);
+					}
 				}
-				System.out.println("Got line: " + receivedLine);
-				if (receivedLine == null) {
-					break;
-				}
-				if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
-					return;
-				} else if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
-					new CommandReceiver().receiveGsonString(receivedString);
-					out.println(CommunicationCommands.com_end_command.command);
-					receivedString = new String();
-				} else {
-					receivedString = receivedString.concat(receivedLine);
-				}
+			}catch(Exception e){
+				e.printStackTrace();
+				Co.println("--> Client disconnected abruptly...");
+				try {socket.close();}catch(Exception ex){}
 			}
 		}
 	}

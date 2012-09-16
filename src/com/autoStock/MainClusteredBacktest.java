@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.cluster.ClusterNode;
 import com.autoStock.cluster.ComputeResultForBacktest;
+import com.autoStock.com.CommandHolder;
+import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterServer;
 import com.autoStock.internal.Global;
 import com.autoStock.types.Exchange;
@@ -15,7 +16,7 @@ import com.autoStock.types.Exchange;
  * @author Kevin Kowalewski
  *
  */
-public class MainClusteredBacktest {
+public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private ArrayList<ClusterNode> listOfClusterNode = new ArrayList<ClusterNode>();
 	private ArrayList<ComputeResultForBacktest> listOfComputeResultForBacktest = new ArrayList<ComputeResultForBacktest>();
 	private AdjustmentCampaign adjustmentCampaign = new AdjustmentCampaign();
@@ -34,16 +35,32 @@ public class MainClusteredBacktest {
 		
 		Global.callbackLock.requestLock();
 		
+		Co.println("--> Waiting for clients...");
+		
 		startRequestServer();
+		//Generate compute units
+		//Receive results here
+		
 	}
 	
 	private void startRequestServer(){
 		threadForRequestServer = new Thread(new Runnable(){
 			@Override
 			public void run() {
-				clusterServer = new ClusterServer();
+				clusterServer = new ClusterServer(MainClusteredBacktest.this);
 				clusterServer.startServer();
 			}
 		});
+		
+		threadForRequestServer.start();
 	}
+
+	@Override
+	public synchronized void receivedCommand(CommandHolder commandHolder) {
+		Co.println("--> X");
+		ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
+		Co.println("--> X: " + computeResult.yield);
+	}
+	
+	//public void receiveComputeUnitResult
 }

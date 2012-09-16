@@ -8,6 +8,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ComputeUnitSupplier {
 	private AtomicInteger atomicIntForRequestId = new AtomicInteger();
+	private static ComputeUnitSupplier instance = new ComputeUnitSupplier();
+	
+	public static ComputeUnitSupplier getInstance(){
+		return instance;
+	}
 	
 	public ComputeUnitForBacktest getNextComputeUnit(){
 		ComputeUnitForBacktest computeUnitForBacktest = new ComputeUnitForBacktest();
