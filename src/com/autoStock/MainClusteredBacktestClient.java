@@ -1,6 +1,7 @@
 package com.autoStock;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.cluster.ComputeResultForBacktest;
 import com.autoStock.cluster.ComputeUnitForBacktest;
@@ -9,6 +10,7 @@ import com.autoStock.com.CommandSerializer;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
+import com.autoStock.internal.Global;
 
 /**
  * @author Kevin Kowalewski
@@ -16,9 +18,11 @@ import com.autoStock.comServer.CommunicationDefinitions.Command;
  */
 public class MainClusteredBacktestClient implements ListenerOfCommandHolderResult {
 	private ClusterClient clusterClient;
-	private AtomicBoolean atomicBooleanCompletedBacktest = new AtomicBoolean(false);
-	
+	private AtomicInteger atomicIntForCount = new AtomicInteger();
+
 	public MainClusteredBacktestClient() {
+		Global.callbackLock.requestLock();
+		
 		clusterClient = new ClusterClient(this);
 		clusterClient.startClient();
 		
@@ -27,12 +31,10 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	
 	public void requestNextUnit(){
 		CommandSerializer.sendSerializedCommand(Command.accept_unit, clusterClient.printWriter);
-		clusterClient.listenForResponse();
 	}
 
 	@Override
 	public void receivedCommand(CommandHolder commandHolder) {
-		Co.println("--> X: " + commandHolder.command.name());
 		ComputeUnitForBacktest computeUnit = (ComputeUnitForBacktest) commandHolder.commandParameters;
 		
 		backtestCompleted();
@@ -40,7 +42,8 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	}
 	
 	public void backtestCompleted(){
-		CommandHolder commandHolder = new CommandHolder(Command.backtest_results, new ComputeResultForBacktest());
+		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(atomicIntForCount.getAndIncrement()));
 		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
+		Co.println("--> X");
 	}
 }

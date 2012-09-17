@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class CommandResponder {	
 	public void receivedCommand(CommandHolder commandHolder, PrintWriter printWriter){
-		Co.println("--> Responding to command: " + commandHolder.command.name());
+//		Co.println("--> Responding to command: " + commandHolder.command.name());
 		
 		if (commandHolder.command == Command.accept_unit){
 			CommandSerializer.sendSerializedCommand(new CommandHolder(Command.compute_unit_backtest, ComputeUnitSupplier.getInstance().getNextComputeUnit()), printWriter);

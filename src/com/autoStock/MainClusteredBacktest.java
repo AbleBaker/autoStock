@@ -57,7 +57,6 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 
 	@Override
 	public synchronized void receivedCommand(CommandHolder commandHolder) {
-		Co.println("--> X");
 		ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
 		Co.println("--> X: " + computeResult.yield);
 	}

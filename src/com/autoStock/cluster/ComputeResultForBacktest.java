@@ -6,4 +6,7 @@ package com.autoStock.cluster;
  */
 public class ComputeResultForBacktest {
 	public double yield = 50.88;
+	public ComputeResultForBacktest(int value){
+		yield = value;
+	}
 }

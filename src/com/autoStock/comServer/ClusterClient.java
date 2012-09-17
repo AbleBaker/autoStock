@@ -36,6 +36,8 @@ public class ClusterClient {
 	public void startClient(){
 	    try {this.clientSocket = new Socket(InetAddress.getByName("127.0.0.1"), 8888);}catch (Exception e){e.printStackTrace();}
 	    try {this.printWriter = new PrintWriter(clientSocket.getOutputStream(), true);}catch (Exception e){e.printStackTrace();}
+	    
+	    listenForResponse();
 	}
 	
 	public void stop(){
@@ -43,42 +45,50 @@ public class ClusterClient {
 		try {this.clientSocket.close();}catch(Exception e){e.printStackTrace();}
 	}
 	
-	public void listenForResponse(){
-		BufferedReader in = null;
-		String receivedString = new String();
-		String receivedLine = new String();
-
-		try {
-			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			
-			while (true) {
+	private void listenForResponse(){
+		Thread thread = new Thread(new Runnable(){
+			@Override
+			public void run() {
+				BufferedReader in = null;
+				String receivedString = new String();
+				String receivedLine = new String();
+				
 				try {
-					receivedLine = in.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				Co.println("Got line: " + receivedLine);
-				
-				if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
-					Co.println("End communication!");
-					return;
-				} else if (receivedLine.trim().equals(CommunicationCommands.com_end_command.command)) {
-					CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
+					in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 					
-					if (commandHolderGeneric.command == Command.compute_unit_backtest){
-						Type type = new TypeToken<CommandHolder<ComputeUnitForBacktest>>(){}.getType();
-						CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
-						listener.receivedCommand(commandHolderTyped);
+					while (true) {
+						try {
+							receivedLine = in.readLine();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
+//						Co.println("Got line: " + receivedLine);
+						
+						if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
+							Co.println("End communication!");
+							return;
+						} else if (receivedLine.trim().equals(CommunicationCommands.com_end_command.command)) {
+							CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
+							
+							if (commandHolderGeneric.command == Command.compute_unit_backtest){
+								Type type = new TypeToken<CommandHolder<ComputeUnitForBacktest>>(){}.getType();
+								CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
+								listener.receivedCommand(commandHolderTyped);
+							}
+//							printWriter.println(CommunicationCommands.com_ok_command.command);
+							receivedString = new String();
+						} else {
+							receivedString = receivedString.concat(receivedLine);
+						}
 					}
-//					printWriter.println(CommunicationCommands.com_ok_command.command);
-					receivedString = new String();
-				} else {
-					receivedString = receivedString.concat(receivedLine);
-				}
+				}catch(Exception e){
+					e.printStackTrace();
+				}	
 			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}	
+				
+		});
+		
+		thread.start();
 	}
 }

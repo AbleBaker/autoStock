@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class CommandReceiver {
 	public CommandHolder receiveGsonString(String string){
-		Co.println("Received GSON String: " + string);
+//		Co.println("Received GSON String: " + string);
 		Type type = new TypeToken<CommandHolder>(){}.getType();
 		CommandHolder commandHolder = new Gson().fromJson(string, type);
 		Co.println("--> Received Command: " + commandHolder.command.name());

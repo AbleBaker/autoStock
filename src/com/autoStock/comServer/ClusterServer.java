@@ -87,7 +87,7 @@ public class ClusterServer {
 
 			try {
 				while ((receivedLine = in.readLine()) != null) {
-					Co.println("Got line: " + receivedLine + ", " + receivedString);
+//					Co.println("Got line: " + receivedLine + ", " + receivedString);
 
 					if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
 						return;
