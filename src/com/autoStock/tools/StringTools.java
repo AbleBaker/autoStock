@@ -3,6 +3,8 @@
  */
 package com.autoStock.tools;
 
+import java.util.ArrayList;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -59,6 +61,16 @@ public class StringTools {
 		String returnString = new String();
 		
 		for (String string : arrayOfString){
+			returnString = returnString.concat(string);
+		}
+		
+		return returnString;
+	}
+	
+	public static String listOfStringToString(ArrayList<String> listOfString){
+		String returnString = new String();
+		
+		for (String string : listOfString){
 			returnString = returnString.concat(string);
 		}
 		

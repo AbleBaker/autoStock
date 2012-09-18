@@ -10,6 +10,7 @@ import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.ListenerOfBacktestCompleted;
+import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
@@ -44,14 +45,14 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private Lock lock = new Lock();
 	private AtomicInteger callbacks = new AtomicInteger();
 	private AlgorithmMode algorithmMode;
-	
 	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>(0);
-
-	@SuppressWarnings("deprecation")
-	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType) {
+	private ListenerOfMainBacktestCompleted listenerOfMainBacktestCompleted;
+	
+	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted) {
 		this.exchange = exchange;
 		this.backtestType = backtestType;
-		this.algorithmMode = backtestType == BacktestType.backtest_default ? AlgorithmMode.mode_backtest : AlgorithmMode.mode_backtest_with_adjustment;
+		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
+		this.listenerOfMainBacktestCompleted = listerListenerOfMainBacktestCompleted;
 		Global.callbackLock.requestLock();
 		System.gc();
 		
@@ -59,7 +60,28 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			Global.callbackLock.requestLock();
 		}
 		
+		runMainBacktest(dateStart, dateEnd, listOfSymbols);
+	}
+
+	@SuppressWarnings("deprecation")
+	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType) {
+		this.exchange = exchange;
+		this.backtestType = backtestType;
+		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
+		Global.callbackLock.requestLock();
+		System.gc();
+		
+		if (algorithmMode.displayChart){
+			Global.callbackLock.requestLock();
+		}
+		
+		runMainBacktest(dateStart, dateEnd, listOfSymbols);
+	}
+	
+	private void runMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols){
 		Co.println("Main backtest...\n\n");
+		
+		adjustmentCampaign.prepare();
 		
 		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, "STK", dateStart, dateEnd, Resolution.min);
 
@@ -134,7 +156,16 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	
 	public synchronized boolean runNextBacktestForDays(){
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()){
-			if (backtestType == BacktestType.backtest_default){Global.callbackLock.releaseLock(); return false;}
+			if (backtestType == BacktestType.backtest_default){
+				Global.callbackLock.releaseLock();
+				return false;
+			}else if (backtestType == BacktestType.backtest_clustered_client){
+				Global.callbackLock.releaseLock();
+				if (listenerOfMainBacktestCompleted != null){
+					listenerOfMainBacktestCompleted.backtestCompleted();
+				}
+				return false;
+			}
 			
 			PositionManager.instance.executeSellAll();
 			
@@ -166,8 +197,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	@Override
 	public synchronized void backtestCompleted(Symbol symbol) {	
 		synchronized (lock){
-			Position position = PositionManager.instance.getPosition(symbol.symbolName);
-			
 			Co.println("--> Backtest completed... " + symbol.symbolName + ", " + callbacks.get());
 					
 			if (callbacks.decrementAndGet() == 0){

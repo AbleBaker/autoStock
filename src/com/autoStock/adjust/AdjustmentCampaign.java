@@ -1,5 +1,7 @@
 package com.autoStock.adjust;
 
+import java.util.ArrayList;
+
 import com.autoStock.Co;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -48,10 +50,14 @@ public class AdjustmentCampaign {
 		
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_willr));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_willr));
-		
-		if (permutation.getListOfIterations().size() != 0){
-			permutation.prepare();
-		}
+	}
+	
+	public void prepare(){
+		permutation.prepare();
+	}
+	
+	public ArrayList<Iteration> getListOfIterations(){
+		return permutation.getListOfIterations();
 	}
 	
 	public enum AdjustmentType{

@@ -9,6 +9,7 @@ public class CommunicationDefinitions {
 		accept_unit,
 		compute_unit_backtest,
 		backtest_results,
+		no_units_left,
 	}
 	
 	public static enum CommunicationCommands {

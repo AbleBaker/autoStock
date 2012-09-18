@@ -4,17 +4,12 @@
 package com.autoStock.comServer;
 
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 
-import com.autoStock.Co;
+import com.autoStock.MainClusteredBacktest;
 import com.autoStock.cluster.ComputeUnitForBacktest;
-import com.autoStock.cluster.ComputeUnitSupplier;
 import com.autoStock.com.CommandHolder;
 import com.autoStock.com.CommandSerializer;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
-import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommands;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Kevin Kowalewski
@@ -25,7 +20,12 @@ public class CommandResponder {
 //		Co.println("--> Responding to command: " + commandHolder.command.name());
 		
 		if (commandHolder.command == Command.accept_unit){
-			CommandSerializer.sendSerializedCommand(new CommandHolder(Command.compute_unit_backtest, ComputeUnitSupplier.getInstance().getNextComputeUnit()), printWriter);
+			ComputeUnitForBacktest computeUnitForBacktest = MainClusteredBacktest.getInstance().getNextComputeUnit();
+			if (computeUnitForBacktest == null){
+				CommandSerializer.sendSerializedCommand(new CommandHolder(Command.no_units_left), printWriter);
+			}else{
+				CommandSerializer.sendSerializedCommand(new CommandHolder(Command.compute_unit_backtest, computeUnitForBacktest), printWriter);
+			}
 		}
 		
 		printWriter.flush();

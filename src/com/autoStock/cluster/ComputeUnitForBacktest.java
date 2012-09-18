@@ -3,6 +3,7 @@ package com.autoStock.cluster;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.Iteration;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.types.Exchange;
@@ -12,11 +13,18 @@ import com.autoStock.types.Exchange;
  *
  */
 public class ComputeUnitForBacktest {
-	private Exchange exchange;
-	private ArrayList<String> listOfSymbols = new ArrayList<String>();
-	private BacktestType backtestType;
-	private Date dateStart;
-	private Date dateEnd;
+	public Exchange exchange;
+	public ArrayList<String> listOfSymbols = new ArrayList<String>();
+	public BacktestType backtestType = BacktestType.backtest_clustered_client;
+	public Date dateStart;
+	public Date dateEnd;
+	public ArrayList<Iteration> listOfIteration = new ArrayList<Iteration>();
 	
-	private ArrayList<Iteration> listOfIteration = new ArrayList<Iteration>();
+	public ComputeUnitForBacktest(ArrayList<Iteration> listOfIteration, Exchange exchange, ArrayList<String> listOfSymbols, Date dateStart, Date dateEnd) {
+		this.exchange = exchange;
+		this.listOfSymbols = listOfSymbols;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+		this.listOfIteration = listOfIteration;
+	}
 }

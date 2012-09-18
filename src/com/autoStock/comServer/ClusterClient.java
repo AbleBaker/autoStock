@@ -61,12 +61,12 @@ public class ClusterClient {
 							receivedLine = in.readLine();
 						} catch (IOException e) {
 							e.printStackTrace();
+							return;
 						}
 						
 //						Co.println("Got line: " + receivedLine);
 						
 						if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
-							Co.println("End communication!");
 							return;
 						} else if (receivedLine.trim().equals(CommunicationCommands.com_end_command.command)) {
 							CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
@@ -75,6 +75,8 @@ public class ClusterClient {
 								Type type = new TypeToken<CommandHolder<ComputeUnitForBacktest>>(){}.getType();
 								CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
 								listener.receivedCommand(commandHolderTyped);
+							}else if (commandHolderGeneric.command == Command.no_units_left){
+								clientSocket.close();
 							}
 //							printWriter.println(CommunicationCommands.com_ok_command.command);
 							receivedString = new String();

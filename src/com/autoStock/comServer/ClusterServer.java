@@ -28,33 +28,41 @@ import com.google.gson.reflect.TypeToken;
  */
 public class ClusterServer {
 	private ListenerOfCommandHolderResult listener;
+	private Thread threadForRequestServer;
 	
 	public ClusterServer(ListenerOfCommandHolderResult listener){
 		this.listener = listener;
 	}
 
 	public void startServer() {
-		Co.println("--> Starting server...");
-		ServerSocket server = null;
-		Socket incoming = null;
-
-		try {
-			server = new ServerSocket(8888, 8, InetAddress.getByName("127.0.0.1"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		while (true) {
-			try {
-				incoming = server.accept();
-			} catch (Exception e) {
-				e.printStackTrace();
+		threadForRequestServer = new Thread(new Runnable(){
+			@Override
+			public void run() {
+				Co.println("--> Starting server...");
+				ServerSocket server = null;
+				Socket incoming = null;
+		
+				try {
+					server = new ServerSocket(8888, 8, InetAddress.getByName("127.0.0.1"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		
+				while (true) {
+					try {
+						incoming = server.accept();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					ClientThread cs = new ClientThread(incoming);
+					cs.run();
+					
+					try {Thread.sleep(3000);}catch(Exception e){}
+				}
 			}
-			ClientThread cs = new ClientThread(incoming);
-			cs.run();
-			
-			try {Thread.sleep(3000);}catch(Exception e){}
-		}
+		});
+		
+		threadForRequestServer.start();
 	}
 
 	private class ClientThread extends Thread {
@@ -106,7 +114,7 @@ public class ClusterServer {
 						receivedString = receivedString.concat(receivedLine);
 					}
 				}
-			}catch(Exception e){
+			}catch(IOException e){
 				e.printStackTrace();
 				Co.println("--> Client disconnected abruptly...");
 				try {socket.close();}catch(Exception ex){}
