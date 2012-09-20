@@ -44,7 +44,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		algorithm = new AlgorithmTest(false, exchange, symbol, algorithmMode);
 	}
 
-	public synchronized void runBacktest(){
+	public void runBacktest(){
 		if (listOfDbHistoricalPrices.size() == 0){
 			endOfFeed(symbol);
 		}

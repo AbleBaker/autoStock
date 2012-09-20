@@ -12,7 +12,10 @@ import com.autoStock.cluster.ComputeUnitForBacktest;
 import com.autoStock.com.CommandHolder;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterServer;
+import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.internal.Global;
+import com.autoStock.tools.Benchmark;
+import com.autoStock.tools.MathTools;
 import com.autoStock.types.Exchange;
 
 /**
@@ -31,6 +34,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private Date dateStart;
 	private Date dateEnd;
 	private final int computeUnitIterationSize = 32;
+	private Benchmark bench = new Benchmark();
 	
 	public MainClusteredBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
 		this.exchange = exchange;;
@@ -45,23 +49,6 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		startRequestServer();
 	}
 	
-	public ComputeUnitForBacktest getNextComputeUnit(){
-		ArrayList<ArrayList<Iteration>> listOfIteration = new ArrayList<ArrayList<Iteration>>();
-		
-		Co.println("--> Generating unit...");
-		
-		for (int i=0; i<computeUnitIterationSize; i++){
-			if (adjustmentCampaign.runAdjustment()){
-				listOfIteration.add(adjustmentCampaign.getListOfIterations());
-			}
-		}
-		
-		if (listOfIteration.size() > 0){
-			return new ComputeUnitForBacktest(listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
-		}else{
-			return null;
-		}
-	}
 	
 	public static MainClusteredBacktest getInstance(){
 		return instance;
@@ -71,10 +58,35 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		clusterServer = new ClusterServer(MainClusteredBacktest.this);
 		clusterServer.startServer();
 	}
+	
+	public synchronized ComputeUnitForBacktest getNextComputeUnit(){
+		ArrayList<ArrayList<Iteration>> listOfIteration = new ArrayList<ArrayList<Iteration>>();
+		
+		Co.println("--> Generating unit...");
+		
+		for (int i=0; i<computeUnitIterationSize; i++){
+			if (adjustmentCampaign.runAdjustment()){
+				listOfIteration.add(adjustmentCampaign.getListOfClonedIterations());
+			}else{
+				break;
+			}
+		}
+		
+		Co.println("--> Percent complete: %" + MathTools.round(adjustmentCampaign.getPercentComplete()));
+		bench.tick();
+		
+		if (listOfIteration.size() > 0){
+			return new ComputeUnitForBacktest(listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
+		}else{
+			return null;
+		}
+	}
 
 	@Override
 	public synchronized void receivedCommand(CommandHolder commandHolder) {
-		ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
-		Co.println("--> X: " + computeResult.yield);
+		if (commandHolder.command == Command.backtest_results){
+			ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
+			Co.println("--> X: " + computeResult.accountBalance + ", " + computeResult.transactions);
+		}
 	}
 }

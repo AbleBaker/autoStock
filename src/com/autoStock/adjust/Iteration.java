@@ -4,17 +4,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.tools.Lock;
 
 /**
  * @author Kevin Kowalewski
  *
  */
-public class Iteration {
+public class Iteration implements Cloneable{
 	public int start;
 	public int end;
-	private AtomicInteger current = new AtomicInteger();
+	private volatile int current;
 	public AdjustmentDefinitions adjustment;
 	public SignalMetricType signalTypeMetric;
+	public Lock lock = new Lock();
 	
 	public Iteration(int start, int end, AdjustmentDefinitions adjustment){
 		this.start = start;
@@ -30,14 +32,26 @@ public class Iteration {
 	}
 	
 	public synchronized int getCurrentValue(){
-		return this.current.get();
+		synchronized (lock){
+			return current;
+		}
 	}
 	
 	public synchronized void setCurrentValue(int value){
-		this.current.set(value);
+		synchronized (lock){
+			this.current = value;
+		}
 	}
 	
 	public Object getRequest(){
 		return this.adjustment;
+	}
+	
+	@Override
+	public Iteration clone(){
+		try {
+			return (Iteration) super.clone();
+		}catch(CloneNotSupportedException e){}
+		return null;
 	}
 }

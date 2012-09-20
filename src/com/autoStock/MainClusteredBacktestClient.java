@@ -15,6 +15,7 @@ import com.autoStock.com.CommandSerializer;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
+import com.autoStock.finance.Account;
 import com.autoStock.internal.Global;
 import com.autoStock.tools.StringTools;
 
@@ -24,7 +25,8 @@ import com.autoStock.tools.StringTools;
  */
 public class MainClusteredBacktestClient implements ListenerOfCommandHolderResult, ListenerOfMainBacktestCompleted {
 	private ClusterClient clusterClient;
-	private AtomicInteger atomicIntForCount = new AtomicInteger();
+	private AtomicInteger atomicIntBacktestIndex = new AtomicInteger(0);
+	private ComputeUnitForBacktest computeUnitForBacktest;
 
 	public MainClusteredBacktestClient() {
 		Global.callbackLock.requestLock();
@@ -38,34 +40,56 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	public void requestNextUnit(){
 		CommandSerializer.sendSerializedCommand(Command.accept_unit, clusterClient.printWriter);
 	}
+	
+	public void runNextBacktest(){
+		int backtestIndex = atomicIntBacktestIndex.getAndIncrement();
+		
+		if (backtestIndex == computeUnitForBacktest.listOfIteration.size()){
+			allBacktestsCompleted();
+		}else{
+			ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(backtestIndex);
+			applyIterations(listOfIteration);
+			new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this);
+		}
+	}
+	
+	public void applyIterations(ArrayList<Iteration> listOfIteration){
+		AdjustmentCampaign.getInstance().setAdjustmentValuesFromIterationList(listOfIteration);
+	}
+	
+	public void allBacktestsCompleted(){
+		Account.instance.resetAccount();
+		atomicIntBacktestIndex.set(0);
+		requestNextUnit();
+	}
+	
+	public void sendBacktestResult(){
+		ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(atomicIntBacktestIndex.get()-1);
+		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(listOfIteration, Account.instance.getAccountBalance(), Account.instance.getTransactions()));
+		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
+	}
 
 	@Override
 	public void receivedCommand(CommandHolder commandHolder) {
-		ComputeUnitForBacktest computeUnitForBacktest = (ComputeUnitForBacktest) commandHolder.commandParameters;
-		
-		Co.println("--> Compute unit: " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
-		Co.println("--> Compute unit symbols: " + computeUnitForBacktest.listOfSymbols.size());
-		Co.println("--> Compute unit iteration: ");
-		
-		for (ArrayList<Iteration> listOfIteration : computeUnitForBacktest.listOfIteration){
-			for (Iteration iteration : listOfIteration){
-				Co.println("--> Iteration: " + iteration.start + ", " + iteration.end + ", " + iteration.adjustment.name() + ", " + iteration.signalTypeMetric.name() + ", " + iteration.getCurrentValue());
+		if (commandHolder.command == Command.compute_unit_backtest){
+			computeUnitForBacktest = (ComputeUnitForBacktest) commandHolder.commandParameters;
+			
+			Co.println("--> Compute unit: " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
+			Co.println("--> Compute unit symbols: " + computeUnitForBacktest.listOfSymbols.size());
+			Co.println("--> Compute unit iteration: " + computeUnitForBacktest.listOfIteration.size());
+			
+			if (atomicIntBacktestIndex.get() != 0){
+				throw new IllegalStateException();
 			}
+			
+			runNextBacktest();
 		}
-		
-//		for (ArrayList<ArrayList<Iteration>> listOfIteration : computeUnitForBacktest.listOfIteration){
-////			Co.println("--> Iteration: " + iteration.start + ", " + iteration.end + ", " + iteration.adjustment.name() + ", " + iteration.signalTypeMetric.name() + ", " + iteration.getCurrentValue());
-//
-//		}
-		
-		new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this);
 	}
 	
 	@Override
 	public void backtestCompleted(){
-		Co.println("--> X");
-		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(atomicIntForCount.getAndIncrement()));
-		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
-		requestNextUnit();
+		Co.println("--> Backtesting completed: " + atomicIntBacktestIndex.get());
+		sendBacktestResult();
+		runNextBacktest();
 	}
 }

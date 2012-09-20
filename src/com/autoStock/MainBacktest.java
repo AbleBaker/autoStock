@@ -94,8 +94,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		
 		if (listOfBacktestDates.size() == 0){
 			throw new IllegalArgumentException();
-		}else{
-			Co.println("--> ListOfBacktestDates size: " + listOfBacktestDates.size());
 		}
 		
 		for (Date date : listOfBacktestDates) {

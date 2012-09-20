@@ -60,6 +60,16 @@ public class AdjustmentCampaign {
 		return permutation.getListOfIterations();
 	}
 	
+	public ArrayList<Iteration> getListOfClonedIterations(){
+		ArrayList<Iteration> listOfIteration = new ArrayList<Iteration>();
+		
+		for (Iteration iteration : permutation.getListOfIterations()){
+			listOfIteration.add(iteration.clone());
+		}
+		
+		return listOfIteration;
+	}
+	
 	public enum AdjustmentType{
 		long_entry,
 		long_exit,
@@ -112,34 +122,38 @@ public class AdjustmentCampaign {
 	}
 	
 	private void setAdjustmentValues(){
-		for (Iteration iteration : permutation.getListOfIterations()){
+		setAdjustmentValuesFromIterationList(permutation.getListOfIterations());
+	}
+	
+	public void setAdjustmentValuesFromIterationList(ArrayList<Iteration> listOfIteration){
+		for (Iteration iteration : listOfIteration){
 			AdjustmentDefinitions adjustment = (AdjustmentDefinitions) iteration.getRequest();
 			
 			if (iteration.signalTypeMetric != null && adjustment.adjustmentType == AdjustmentType.long_entry){
-				iteration.signalTypeMetric.pointToSignalLongEntry = permutation.getIteration(adjustment).getCurrentValue();
+				iteration.signalTypeMetric.pointToSignalLongEntry = iteration.getCurrentValue();
 			}
 			
 			else if (iteration.signalTypeMetric != null && adjustment.adjustmentType == AdjustmentType.long_exit){
-				iteration.signalTypeMetric.pointToSignalLongExit = permutation.getIteration(adjustment).getCurrentValue();
+				iteration.signalTypeMetric.pointToSignalLongExit = iteration.getCurrentValue();
 			}
 			
 			else if (iteration.signalTypeMetric != null && adjustment.adjustmentType == AdjustmentType.short_entry){
-				iteration.signalTypeMetric.pointToSignalShortEntry = permutation.getIteration(adjustment).getCurrentValue();
+				iteration.signalTypeMetric.pointToSignalShortEntry = iteration.getCurrentValue();
 			}
 			
 			else if (iteration.signalTypeMetric != null && adjustment.adjustmentType == AdjustmentType.short_exit){
-				iteration.signalTypeMetric.pointToSignalShortExit = permutation.getIteration(adjustment).getCurrentValue();
+				iteration.signalTypeMetric.pointToSignalShortExit = iteration.getCurrentValue();
 			}
 			
 			else if (iteration.signalTypeMetric != null && adjustment.adjustmentType == AdjustmentType.signal_control){
-				SignalControl.maxStopLossValue =  permutation.getIteration(adjustment).getCurrentValue();
+				SignalControl.maxStopLossValue =  iteration.getCurrentValue();
 			}
 		
 			else {
 				throw new UnsupportedOperationException("Undefined condition: " + adjustment.name());
 			}
 			
-			Co.println("******** Changed " + iteration.signalTypeMetric.name() + " - " + adjustment.name() + " to " + permutation.getIteration(adjustment).getCurrentValue());
+			Co.println("******** Changed " + iteration.signalTypeMetric.name() + " - " + adjustment.name() + " to " + iteration.getCurrentValue());
 
 		}
 		
