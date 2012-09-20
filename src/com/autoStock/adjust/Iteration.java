@@ -9,7 +9,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  * @author Kevin Kowalewski
  *
  */
-public class Iteration{
+public class Iteration {
 	public int start;
 	public int end;
 	private AtomicInteger current = new AtomicInteger();

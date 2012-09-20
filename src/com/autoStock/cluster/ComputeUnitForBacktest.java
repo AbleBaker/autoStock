@@ -18,9 +18,9 @@ public class ComputeUnitForBacktest {
 	public BacktestType backtestType = BacktestType.backtest_clustered_client;
 	public Date dateStart;
 	public Date dateEnd;
-	public ArrayList<Iteration> listOfIteration = new ArrayList<Iteration>();
+	public ArrayList<ArrayList<Iteration>> listOfIteration = new ArrayList<ArrayList<Iteration>>();
 	
-	public ComputeUnitForBacktest(ArrayList<Iteration> listOfIteration, Exchange exchange, ArrayList<String> listOfSymbols, Date dateStart, Date dateEnd) {
+	public ComputeUnitForBacktest(ArrayList<ArrayList<Iteration>> listOfIteration, Exchange exchange, ArrayList<String> listOfSymbols, Date dateStart, Date dateEnd) {
 		this.exchange = exchange;
 		this.listOfSymbols = listOfSymbols;
 		this.dateStart = dateStart;

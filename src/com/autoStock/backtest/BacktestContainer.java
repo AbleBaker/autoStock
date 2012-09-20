@@ -2,6 +2,7 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmManagerTable;
@@ -30,8 +31,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private AlgorithmMode algorithmMode;
 	private AlgorithmManagerTable algorithmManagerTable = new AlgorithmManagerTable();
 	
-	private int tempCountReceived = 0;
-	
 	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, AlgorithmMode algorithmMode){
 		this.symbol = symbol;
 		this.exchange = exchange;
@@ -44,24 +43,17 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		this.historicalData = historicalData;
 		algorithm = new AlgorithmTest(false, exchange, symbol, algorithmMode);
 	}
-	
+
 	public synchronized void runBacktest(){
+		if (listOfDbHistoricalPrices.size() == 0){
+			endOfFeed(symbol);
+		}
 		backtest = new Backtest(historicalData, listOfDbHistoricalPrices, symbol);
 		backtest.performBacktest(this);
 	}
 	
 	@Override
 	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
-		
-//		tempCountReceived++;
-//		
-//		if (tempCountReceived >= 30){
-//			algorithmManagerTable.addRow(algorithm, algorithm.listOfQuoteSlice);
-//			new TableController().displayTable(AsciiTables.algorithm_manager, algorithmManagerTable.getListOfDisplayRows());
-//			algorithmManagerTable.clear();
-//			tempCountReceived = 0;
-//		}
-		
 		algorithm.receiveQuoteSlice(quoteSlice);
 	}
 	

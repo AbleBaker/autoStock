@@ -1,5 +1,6 @@
 package com.autoStock;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -45,9 +46,17 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		Co.println("--> Compute unit: " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
 		Co.println("--> Compute unit symbols: " + computeUnitForBacktest.listOfSymbols.size());
 		Co.println("--> Compute unit iteration: ");
-		for (Iteration iteration : computeUnitForBacktest.listOfIteration){
-			Co.println("--> Iteration: " + iteration.start + ", " + iteration.end + ", " + iteration.adjustment.name() + ", " + iteration.signalTypeMetric.name() + ", " + iteration.getCurrentValue());
+		
+		for (ArrayList<Iteration> listOfIteration : computeUnitForBacktest.listOfIteration){
+			for (Iteration iteration : listOfIteration){
+				Co.println("--> Iteration: " + iteration.start + ", " + iteration.end + ", " + iteration.adjustment.name() + ", " + iteration.signalTypeMetric.name() + ", " + iteration.getCurrentValue());
+			}
 		}
+		
+//		for (ArrayList<ArrayList<Iteration>> listOfIteration : computeUnitForBacktest.listOfIteration){
+////			Co.println("--> Iteration: " + iteration.start + ", " + iteration.end + ", " + iteration.adjustment.name() + ", " + iteration.signalTypeMetric.name() + ", " + iteration.getCurrentValue());
+//
+//		}
 		
 		new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this);
 	}

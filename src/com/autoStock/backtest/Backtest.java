@@ -34,6 +34,11 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 	public void performBacktest(ReceiverOfQuoteSlice reciever){
 		receiverOfQuoteSlice = reciever;
 		dataFeedHistoricalPrices.addListener(this);
+		
+		if (listOfPrices.size() == 0){
+			endOfFeed();
+		}
+		
 		dataFeedHistoricalPrices.startFeed(0, 0);
 	}
 

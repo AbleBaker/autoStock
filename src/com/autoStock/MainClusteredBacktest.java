@@ -30,6 +30,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private AtomicInteger atomicIntForRequestId = new AtomicInteger();
 	private Date dateStart;
 	private Date dateEnd;
+	private final int computeUnitIterationSize = 32;
 	
 	public MainClusteredBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
 		this.exchange = exchange;;
@@ -45,8 +46,17 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public ComputeUnitForBacktest getNextComputeUnit(){
-		if (adjustmentCampaign.runAdjustment()){
-			ArrayList<Iteration> listOfIteration = adjustmentCampaign.getListOfIterations();
+		ArrayList<ArrayList<Iteration>> listOfIteration = new ArrayList<ArrayList<Iteration>>();
+		
+		Co.println("--> Generating unit...");
+		
+		for (int i=0; i<computeUnitIterationSize; i++){
+			if (adjustmentCampaign.runAdjustment()){
+				listOfIteration.add(adjustmentCampaign.getListOfIterations());
+			}
+		}
+		
+		if (listOfIteration.size() > 0){
 			return new ComputeUnitForBacktest(listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
 		}else{
 			return null;

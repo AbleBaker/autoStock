@@ -94,6 +94,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		
 		if (listOfBacktestDates.size() == 0){
 			throw new IllegalArgumentException();
+		}else{
+			Co.println("--> ListOfBacktestDates size: " + listOfBacktestDates.size());
 		}
 		
 		for (Date date : listOfBacktestDates) {
@@ -113,7 +115,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 		
 		initBacktestContainers();
-		runNextBacktestForDays();
+		runNextBacktestForDays(false);
 	}
 	
 	private void initBacktestContainers(){
@@ -125,10 +127,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	}
 	
 	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList){
-		
 		callbacks.set(listOfBacktestContainer.size());
-		
 		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%): " + currentBacktestDayIndex);
+		
+		boolean backtestContainedNoData = false;
 		
 		for (BacktestContainer backtestContainer : listOfBacktestContainer){
 			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
@@ -137,7 +139,16 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			if (listOfResults.size() > 0){	
 				backtestContainer.setBacktestData(listOfResults, historicalData);
 				backtestContainer.runBacktest();
+			}else{
+				Co.println("--> No backtest data");
+				backtestContainedNoData = true;
+				break;
 			}
+		}
+		
+		if (backtestContainedNoData){
+			currentBacktestDayIndex++;
+			runNextBacktestForDays(true);
 		}
 	}
 	
@@ -154,7 +165,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
 	}
 	
-	public synchronized boolean runNextBacktestForDays(){
+	public synchronized boolean runNextBacktestForDays(boolean skippedDay){
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()){
 			if (backtestType == BacktestType.backtest_default){
 				Global.callbackLock.releaseLock();
@@ -178,7 +189,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				currentBacktestDayIndex = 0;
 				
 				Account.instance.resetAccount();
-				runNextBacktestForDays();
+				runNextBacktestForDays(false);
 			}else{
 				Co.println("******** End of backtest and adjustment ********");
 				BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
@@ -189,27 +200,25 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}else{
 			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex);
 			runNextBacktestOnContainers(historicalDataList);
-			currentBacktestDayIndex++;
+			if (skippedDay == false){currentBacktestDayIndex++;}
 			return true;
 		}
 	}
 	
 	@Override
 	public synchronized void backtestCompleted(Symbol symbol) {	
-		synchronized (lock){
-			Co.println("--> Backtest completed... " + symbol.symbolName + ", " + callbacks.get());
-					
-			if (callbacks.decrementAndGet() == 0){
-				Co.println("--> All called back...\n");
-				bench.printTick("Backtested");
+		Co.println("--> Backtest completed... " + symbol.symbolName + ", " + callbacks.get());
 				
-				if (runNextBacktestForDays() == false){
-					if (backtestType == BacktestType.backtest_default){
-						Co.println(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal));
-					}
-					Co.println("--> Finished backtest");
+		if (callbacks.decrementAndGet() == 0){
+			Co.println("--> All called back...\n");
+			bench.printTick("Backtested");
+			
+			if (runNextBacktestForDays(false) == false){
+				if (backtestType == BacktestType.backtest_default){
+					Co.println(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal));
 				}
+				Co.println("--> Finished backtest");
 			}
 		}
-	}
+}
 }

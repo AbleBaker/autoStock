@@ -95,7 +95,7 @@ public class StrategyOfTest extends StrategyBase {
 		return formulateStrategyResponse(strategyResponse);
 	}
 	
-	public StrategyResponse formulateStrategyResponse(StrategyResponse strategyResponse){
+	private StrategyResponse formulateStrategyResponse(StrategyResponse strategyResponse){
 		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.failed){
 			strategyResponse.strategyAction = StrategyAction.algorithm_changed;
 			strategyResponse.strategyActionCause = StrategyActionCause.position_governor_failure;
@@ -123,13 +123,13 @@ public class StrategyOfTest extends StrategyBase {
 		}
 	}
 	
-	public PositionGovernorResponse proceed(QuoteSlice quoteSlice){
+	private PositionGovernorResponse proceed(QuoteSlice quoteSlice){
 //		Co.println("--> Asked to proceed");
 		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions);
 		return positionGovernorResponse;
 	}
 	
-	public PositionGovernorResponse cease(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
+	private PositionGovernorResponse cease(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
 //		Co.println("--> Asked to cease: " + strategyActionCause.name());
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		if (position != null){
@@ -141,7 +141,7 @@ public class StrategyOfTest extends StrategyBase {
 		return positionGovernorResponse;
 	}
 	
-	public PositionGovernorResponse exit(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
+	private PositionGovernorResponse exit(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
 //		Co.println("--> Asked to exit");
 		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true);
 		

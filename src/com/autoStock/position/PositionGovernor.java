@@ -55,7 +55,7 @@ public class PositionGovernor {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			}else {
-				throw new IllegalStateException();
+				throw new IllegalStateException("Position type did not match: " + position.positionType.name());
 			}
 		}
 
