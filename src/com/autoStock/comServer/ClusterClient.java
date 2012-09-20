@@ -34,7 +34,7 @@ public class ClusterClient {
 	}
 	
 	public void startClient(){
-	    try {this.clientSocket = new Socket(InetAddress.getByName("127.0.0.1"), 8888);}catch (Exception e){e.printStackTrace();}
+	    try {this.clientSocket = new Socket(InetAddress.getByName("192.168.1.150"), 8888);}catch (Exception e){e.printStackTrace();}
 	    try {this.printWriter = new PrintWriter(clientSocket.getOutputStream(), true);}catch (Exception e){e.printStackTrace();}
 	    
 	    listenForResponse();

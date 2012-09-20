@@ -112,6 +112,6 @@ public class Permutation {
 		if (permutationCore == null){
 			return 0;
 		}
-		return (double)count / (double)permutationCore.getPermutationCount();
+		return ((double)count / (double)permutationCore.getPermutationCount()) * 100;
 	}
 }

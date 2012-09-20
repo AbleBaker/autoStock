@@ -54,7 +54,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		this.listenerOfMainBacktestCompleted = listerListenerOfMainBacktestCompleted;
 		Global.callbackLock.requestLock();
-		System.gc();
 		
 		if (algorithmMode.displayChart){
 			Global.callbackLock.requestLock();
@@ -69,7 +68,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		Global.callbackLock.requestLock();
-		System.gc();
 		
 		if (algorithmMode.displayChart){
 			Global.callbackLock.requestLock();
@@ -126,7 +124,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	
 	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList){
 		callbacks.set(listOfBacktestContainer.size());
-		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()*100) + "%): " + currentBacktestDayIndex);
+		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()) + "%): " + currentBacktestDayIndex);
 		
 		boolean backtestContainedNoData = false;
 		

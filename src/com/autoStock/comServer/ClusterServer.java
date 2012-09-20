@@ -43,7 +43,7 @@ public class ClusterServer {
 				Socket incoming = null;
 		
 				try {
-					server = new ServerSocket(8888, 8, InetAddress.getByName("127.0.0.1"));
+					server = new ServerSocket(8888, 8, InetAddress.getByName("0.0.0.0"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -55,7 +55,7 @@ public class ClusterServer {
 						e.printStackTrace();
 					}
 					ClientThread cs = new ClientThread(incoming);
-					cs.run();
+					cs.start();
 					
 					try {Thread.sleep(3000);}catch(Exception e){}
 				}
