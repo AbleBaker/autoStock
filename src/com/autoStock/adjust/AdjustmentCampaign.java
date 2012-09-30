@@ -79,8 +79,8 @@ public class AdjustmentCampaign {
 	}
 	
 	public enum AdjustmentDefinitions {		
-		algo_signal_metric_long_entry(-40, 50, AdjustmentType.long_entry),
-		algo_signal_metric_long_exit(-40, 50, AdjustmentType.long_exit),
+		algo_signal_metric_long_entry(-10, 10, AdjustmentType.long_entry),
+		algo_signal_metric_long_exit(-10, 10, AdjustmentType.long_exit),
 		algo_signal_metric_short_entry(-50, 50, AdjustmentType.short_entry),
 		algo_signal_metric_short_exit(-50, 50, AdjustmentType.short_exit),
 //		
@@ -116,7 +116,9 @@ public class AdjustmentCampaign {
 	public synchronized boolean runAdjustment(){
 		boolean ranPermutation = permutation.iterate();
 		
-		setAdjustmentValues();
+		if (ranPermutation){
+			setAdjustmentValues();
+		}
 		
 		return ranPermutation;
 	}
@@ -162,5 +164,9 @@ public class AdjustmentCampaign {
 	
 	public synchronized double getPercentComplete(){
 		return permutation.getPercentComplete();
+	}
+	
+	public int getPermutationCount(){
+		return permutation.getPermutationCount();
 	}
 }

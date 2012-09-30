@@ -12,9 +12,13 @@ import com.autoStock.finance.Account;
 public class ComputeResultForBacktest {
 	public double accountBalance;
 	public int transactions;
-	public ArrayList<Iteration> listOfIteration;	
+	public ArrayList<Iteration> listOfIteration;
+	public int requestId;
+	public int unitId;
 	
-	public ComputeResultForBacktest(ArrayList<Iteration> listOfIteration, double accountBalance, int transactions){
+	public ComputeResultForBacktest(int requestId, int unitId, ArrayList<Iteration> listOfIteration, double accountBalance, int transactions){
+		this.requestId = requestId;
+		this.unitId = unitId;
 		this.listOfIteration = listOfIteration;
 		this.accountBalance = accountBalance;
 		this.transactions = transactions;

@@ -114,4 +114,8 @@ public class Permutation {
 		}
 		return ((double)count / (double)permutationCore.getPermutationCount()) * 100;
 	}
+	
+	public int getPermutationCount(){
+		return permutationCore.getPermutationCount();
+	}
 }

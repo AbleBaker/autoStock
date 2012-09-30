@@ -19,8 +19,10 @@ public class ComputeUnitForBacktest {
 	public Date dateStart;
 	public Date dateEnd;
 	public ArrayList<ArrayList<Iteration>> listOfIteration = new ArrayList<ArrayList<Iteration>>();
+	public int requestId;
 	
-	public ComputeUnitForBacktest(ArrayList<ArrayList<Iteration>> listOfIteration, Exchange exchange, ArrayList<String> listOfSymbols, Date dateStart, Date dateEnd) {
+	public ComputeUnitForBacktest(int requestId, ArrayList<ArrayList<Iteration>> listOfIteration, Exchange exchange, ArrayList<String> listOfSymbols, Date dateStart, Date dateEnd) {
+		this.requestId = requestId;
 		this.exchange = exchange;
 		this.listOfSymbols = listOfSymbols;
 		this.dateStart = dateStart;

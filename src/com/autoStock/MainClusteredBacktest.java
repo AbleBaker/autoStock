@@ -76,7 +76,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		bench.tick();
 		
 		if (listOfIteration.size() > 0){
-			return new ComputeUnitForBacktest(listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
+			return new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
 		}else{
 			return null;
 		}
@@ -86,7 +86,11 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	public synchronized void receivedCommand(CommandHolder commandHolder) {
 		if (commandHolder.command == Command.backtest_results){
 			ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
-			Co.println("--> X: " + computeResult.accountBalance + ", " + computeResult.transactions);
+			listOfComputeResultForBacktest.add(computeResult);
+			Co.println("--> X: " + computeResult.requestId + ", " + computeResult.unitId +", " + computeResult.accountBalance + ", " + computeResult.transactions);
+			if ((computeResult.requestId * computeUnitIterationSize) + computeResult.unitId+1 == adjustmentCampaign.getPermutationCount()){
+				Co.println("--> All done!");
+			}
 		}
 	}
 }

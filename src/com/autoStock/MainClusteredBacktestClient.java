@@ -65,7 +65,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	
 	public void sendBacktestResult(){
 		ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(atomicIntBacktestIndex.get()-1);
-		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(listOfIteration, Account.instance.getAccountBalance(), Account.instance.getTransactions()));
+		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.instance.getAccountBalance(), Account.instance.getTransactions()));
 		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
 	}
 
@@ -74,7 +74,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		if (commandHolder.command == Command.compute_unit_backtest){
 			computeUnitForBacktest = (ComputeUnitForBacktest) commandHolder.commandParameters;
 			
-			Co.println("--> Compute unit: " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
+			Co.println("--> Compute unit: " + computeUnitForBacktest.requestId + ", " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
 			Co.println("--> Compute unit symbols: " + computeUnitForBacktest.listOfSymbols.size());
 			Co.println("--> Compute unit iteration: " + computeUnitForBacktest.listOfIteration.size());
 			
