@@ -1,6 +1,7 @@
 package com.autoStock;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,6 +17,9 @@ import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.internal.Global;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.MathTools;
+import com.autoStock.tools.ReflectiveComparator;
+import com.autoStock.tools.ReflectiveComparator.ListComparator;
+import com.autoStock.tools.ReflectiveComparator.ListComparator.SortDirection;
 import com.autoStock.types.Exchange;
 
 /**
@@ -81,15 +85,24 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			return null;
 		}
 	}
+	
+	public void displayResultTable(){
+		Collections.sort(listOfComputeResultForBacktest, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_descending));
+		
+		for (ComputeResultForBacktest computeUnit : listOfComputeResultForBacktest.subList(0, Math.min(listOfComputeResultForBacktest.size()-1, 10))){
+			Co.println(computeUnit.resultDetails);
+		}
+	}
 
 	@Override
 	public synchronized void receivedCommand(CommandHolder commandHolder) {
 		if (commandHolder.command == Command.backtest_results){
 			ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
 			listOfComputeResultForBacktest.add(computeResult);
-			Co.println("--> X: " + computeResult.requestId + ", " + computeResult.unitId +", " + computeResult.accountBalance + ", " + computeResult.transactions);
+//			Co.println("--> X: " + computeResult.requestId + ", " + computeResult.unitId +", " + computeResult.accountBalance + ", " + computeResult.transactions);
 			if ((computeResult.requestId * computeUnitIterationSize) + computeResult.unitId+1 == adjustmentCampaign.getPermutationCount()){
 				Co.println("--> All done!");
+				displayResultTable();
 			}
 		}
 	}

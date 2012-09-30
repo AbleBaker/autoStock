@@ -15,12 +15,14 @@ public class ComputeResultForBacktest {
 	public ArrayList<Iteration> listOfIteration;
 	public int requestId;
 	public int unitId;
+	public String resultDetails;
 	
-	public ComputeResultForBacktest(int requestId, int unitId, ArrayList<Iteration> listOfIteration, double accountBalance, int transactions){
+	public ComputeResultForBacktest(int requestId, int unitId, ArrayList<Iteration> listOfIteration, double accountBalance, int transactions, String resultDetails){
 		this.requestId = requestId;
 		this.unitId = unitId;
 		this.listOfIteration = listOfIteration;
 		this.accountBalance = accountBalance;
 		this.transactions = transactions;
+		this.resultDetails = resultDetails;
 	}
 }

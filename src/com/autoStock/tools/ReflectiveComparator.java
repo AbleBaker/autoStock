@@ -33,11 +33,18 @@ public class ReflectiveComparator{
 		}
 	}
 	
-	public class ListComparator implements Comparator<Object> {
+	public static class ListComparator implements Comparator<Object> {
 	    private String fieldName;
+	    private SortDirection sortDirection;
+	    
+	    public static enum SortDirection {
+	    	order_ascending,
+	    	order_descending,
+	    }
 
-	    public ListComparator(String fieldName) {
+	    public ListComparator(String fieldName, SortDirection sortDirection) {
 	        this.fieldName = fieldName;
+	        this.sortDirection = sortDirection;
 	    }
 
 	    @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -55,7 +62,15 @@ public class ReflectiveComparator{
 	            
 	            if (o1FieldValue == null){ return -1;}
 	            if (o2FieldValue == null){ return 1;}
-	            return o1FieldValue.compareTo(o2FieldValue);
+	            
+	            if (sortDirection == SortDirection.order_ascending){
+		            return o1FieldValue.compareTo(o2FieldValue);    	
+	            }else if (sortDirection == SortDirection.order_descending){
+		            return o2FieldValue.compareTo(o1FieldValue);
+	            }else{
+	            	throw new UnsupportedOperationException();
+	            }
+	        
 	        } catch (NoSuchFieldException e) {
 	            throw new IllegalStateException("Field doesn't exist", e);
 	        } catch (IllegalAccessException e) {

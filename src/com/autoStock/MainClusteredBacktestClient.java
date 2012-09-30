@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.Iteration;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.cluster.ComputeResultForBacktest;
 import com.autoStock.cluster.ComputeUnitForBacktest;
@@ -17,6 +18,7 @@ import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.finance.Account;
 import com.autoStock.internal.Global;
+import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.tools.StringTools;
 
 /**
@@ -27,6 +29,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	private ClusterClient clusterClient;
 	private AtomicInteger atomicIntBacktestIndex = new AtomicInteger(0);
 	private ComputeUnitForBacktest computeUnitForBacktest;
+	private MainBacktest mainBacktest;
 
 	public MainClusteredBacktestClient() {
 		Global.callbackLock.requestLock();
@@ -49,7 +52,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		}else{
 			ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(backtestIndex);
 			applyIterations(listOfIteration);
-			new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this);
+			mainBacktest = new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this);
 		}
 	}
 	
@@ -65,7 +68,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	
 	public void sendBacktestResult(){
 		ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(atomicIntBacktestIndex.get()-1);
-		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.instance.getAccountBalance(), Account.instance.getTransactions()));
+		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.instance.getAccountBalance(), Account.instance.getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions)));
 		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
 	}
 

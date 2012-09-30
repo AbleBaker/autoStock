@@ -7,6 +7,8 @@ import com.autoStock.finance.Account;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalMetric;
+import com.autoStock.strategy.StrategyOptions;
+import com.autoStock.tools.MiscTools;
 
 /**
  * @author Kevin Kowalewski
@@ -28,6 +30,40 @@ public class BacktestUtils {
 		string += "Transactions: " + Account.instance.getTransactions() + "\n";
 		string += "Fees: " + Account.instance.getTransactionFeesPaid() + "\n";
 		string += "Balance: " + Account.instance.getAccountBalance() + "\n";
+		
+		return string;
+	}
+	
+	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions){
+		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.instance.getAccountBalance()) + " ********";
+		
+		string += "\n --> Balance: " + MiscTools.getCommifiedValue(Account.instance.getAccountBalance());
+		string += "\n --> Transactions: " + Account.instance.getTransactions();
+		string += "\n --> Fees: " + MiscTools.getCommifiedValue(Account.instance.getTransactionFeesPaid());
+		
+		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
+			string += "\n\n --> Signal metric: " + signalMetric.signalMetricType.name() + "\n";
+			string += " +Long entry: " + signalMetric.signalMetricType.pointToSignalLongEntry + "\n";
+			string += " +Long exit: " + signalMetric.signalMetricType.pointToSignalLongExit + "\n";
+			string += " +Short entry: " + signalMetric.signalMetricType.pointToSignalShortEntry + "\n";
+			string += " +Short exit: " + signalMetric.signalMetricType.pointToSignalShortExit + "\n";
+		}
+		
+		string += "\n Can go long: " + strategyOptions.canGoLong;
+		string += "\n Can go short: " + strategyOptions.canGoShort;
+		string += "\n Disable after nil changes: " + strategyOptions.disableAfterNilChanges;
+		string += "\n Disable after nil changes in price: " + strategyOptions.maxNilChangePrice;
+		string += "\n Disable after nil changes in volume: " + strategyOptions.maxNilChangeVolume;
+		string += "\n Max position entry time: " + strategyOptions.maxPositionEntryTime;
+		string += "\n Max position exit time: " + strategyOptions.maxPositionExitTime;
+		string += "\n Max position taper time: " + strategyOptions.maxPositionTaperTime;
+		string += "\n Max stop loss value ($): " +  strategyOptions.maxStopLossValue;
+		string += "\n Max transactions per day: " + strategyOptions.maxTransactionsDay;
+		string += "\n Min take profit exit: " + strategyOptions.minTakeProfitExit;
+		string += "\n Signal point tactic: " + strategyOptions.signalPointTactic.name();
+		string += "\n Taper period length: " + strategyOptions.taperPeriodLength;
+		
+		string += "\n\n";
 		
 		return string;
 	}

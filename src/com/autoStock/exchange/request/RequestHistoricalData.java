@@ -11,6 +11,7 @@ import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultRowHistoricalData;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.tools.ReflectiveComparator;
+import com.autoStock.tools.ReflectiveComparator.ListComparator.SortDirection;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
 import com.autoStock.trading.types.HistoricalData;
@@ -81,7 +82,7 @@ public class RequestHistoricalData {
 	public synchronized void finished(){
 		this.requestHolder.mulitpleRequests--;
 		if (this.requestHolder.mulitpleRequests <= 0){
-			Collections.sort(exResultSetHistoricalData.listOfExResultRowHistoricalData, new ReflectiveComparator(). new ListComparator("date"));
+			Collections.sort(exResultSetHistoricalData.listOfExResultRowHistoricalData, new ReflectiveComparator.ListComparator("date", SortDirection.order_ascending));
 			this.requestHistoricalDataListener.completed(requestHolder, exResultSetHistoricalData);
 		}
 	}

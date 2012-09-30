@@ -4,15 +4,15 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.autoStock.tools.ReflectiveComparator.ListComparator.SortDirection;
+
 /**
  * @author Kevin Kowalewski
  *
  */
 public class ListComparator {
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public boolean compareTwoLists(ArrayList firstArrayList, ArrayList secondArrayList, String field){
-		
 		int largestSize = 0;
 		
 		if (firstArrayList == null && secondArrayList != null){return true;}
@@ -26,8 +26,8 @@ public class ListComparator {
 		if (firstArrayList.size() >= secondArrayList.size()){largestSize = firstArrayList.size();}
 		else{largestSize = secondArrayList.size();}
 		
-		Collections.sort(firstArrayList, new ReflectiveComparator(). new ListComparator(field));
-		Collections.sort(secondArrayList, new ReflectiveComparator(). new ListComparator(field));
+		Collections.sort(firstArrayList, new ReflectiveComparator.ListComparator(field, SortDirection.order_ascending));
+		Collections.sort(secondArrayList, new ReflectiveComparator.ListComparator(field, SortDirection.order_ascending));
 		
 		for (int i=0; i<largestSize; i++){
 			if (firstArrayList.get(i) == null && secondArrayList.get(i) != null){return true;}
@@ -49,8 +49,8 @@ public class ListComparator {
 		if (firstArrayList == null && secondArrayList != null ){return secondArrayList;}
 		if (firstArrayList != null && secondArrayList == null){return firstArrayList;}
 		
-		Collections.sort(firstArrayList, new ReflectiveComparator(). new ListComparator(fieldName));
-		Collections.sort(secondArrayList, new ReflectiveComparator(). new ListComparator(fieldName));
+		Collections.sort(firstArrayList, new ReflectiveComparator.ListComparator(fieldName, SortDirection.order_ascending));
+		Collections.sort(secondArrayList, new ReflectiveComparator.ListComparator(fieldName, SortDirection.order_ascending));
 		
 		for (Object object : firstArrayList){
 			Field field = null;			
