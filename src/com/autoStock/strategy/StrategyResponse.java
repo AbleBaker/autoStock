@@ -1,15 +1,22 @@
 package com.autoStock.strategy;
 
+import java.util.Date;
+
 import com.autoStock.position.PositionGovernorResponse;
+import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalGroup;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  *
  */
-public class StrategyResponse {
+public class StrategyResponse implements Cloneable {
 	public PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 	public StrategyAction strategyAction = StrategyAction.none;
 	public StrategyActionCause strategyActionCause = StrategyActionCause.none;
+	public QuoteSlice quoteSlice;
+	public Signal signal;
 	
 	public enum StrategyAction {
 		algorithm_disable,

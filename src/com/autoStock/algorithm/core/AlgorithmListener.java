@@ -5,6 +5,7 @@ package com.autoStock.algorithm.core;
 
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.signal.Signal;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -12,7 +13,7 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public interface AlgorithmListener {
-	public void receivePositionGovernorResponse(PositionGovernorResponse positionGovernorResponse);
-	public void recieveSignal(Signal signal, QuoteSlice typeQuoteSlice);
+	public void receiveStrategyResponse(StrategyResponse strategyResponse);
+	public void receiveChangedStrategyResponse(StrategyResponse strategyResponse);
 	public void endOfAlgorithm();
 }

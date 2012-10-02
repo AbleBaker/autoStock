@@ -13,6 +13,7 @@ import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
+import com.autoStock.signal.SignalMetric;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
@@ -26,8 +27,6 @@ import com.autoStock.types.QuoteSlice;
 public class StrategyOfTest extends StrategyBase {
 	public StrategyOfTest(AlgorithmBase algorithmBase){
 		super(algorithmBase);
-		
-		signal = new Signal(SignalSource.from_algorithm);
 		strategyOptions = new StrategyOptions();
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
 		
@@ -52,6 +51,7 @@ public class StrategyOfTest extends StrategyBase {
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 		Position position = PositionManager.instance.getPosition(algorithmBase.symbol.symbolName);
 		
+		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
 				signalGroup.signalOfRSI.getSignal()
 //				signalGroup.signalOfDI.getSignal()
@@ -91,6 +91,9 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
 			}
 		}
+		
+		strategyResponse.signal = signal;
+		strategyResponse.quoteSlice = quoteSlice;
 
 		return formulateStrategyResponse(strategyResponse);
 	}

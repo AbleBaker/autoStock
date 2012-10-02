@@ -44,6 +44,7 @@ public class AlgorithmBase {
 	public PositionGovernorResponse PGResponsePrevious = new PositionGovernorResponse();
 	public final CommonAnlaysisData commonAnlaysisData = new CommonAnlaysisData();
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
+	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	public QuoteSlice firstQuoteSlice;
 	
 	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode){
@@ -75,11 +76,21 @@ public class AlgorithmBase {
 	
 	public void handleStrategyResponse(StrategyResponse strategyResponse){
 		if (strategyResponse.strategyAction == StrategyAction.algorithm_disable){
-			disable();
+			if (algorithmState.isDisabled == false){
+				disable();
+				if (algorithmListener != null){
+					algorithmListener.receiveChangedStrategyResponse(strategyResponse);
+				}
+				listOfStrategyResponse.add(strategyResponse);
+			}
 		}else if (strategyResponse.strategyAction == StrategyAction.algorithm_changed){
 			handlePositionChange();
+			if (algorithmListener != null){
+				algorithmListener.receiveChangedStrategyResponse(strategyResponse);
+			}
+			listOfStrategyResponse.add(strategyResponse);
 		}else if (strategyResponse.strategyAction == StrategyAction.algorithm_proceed){
-			//
+			algorithmListener.receiveStrategyResponse(strategyResponse);
 		}
 	}
 	

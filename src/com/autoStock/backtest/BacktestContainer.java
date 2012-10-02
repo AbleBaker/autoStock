@@ -9,6 +9,7 @@ import com.autoStock.algorithm.core.AlgorithmManagerTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.trading.types.HistoricalData;
@@ -60,6 +61,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	@Override
 	public synchronized void endOfFeed(Symbol symbol) {
 		algorithm.endOfFeed(symbol);
-		listener.backtestCompleted(symbol);
+		listener.backtestCompleted(symbol, algorithm);
 	}
 }

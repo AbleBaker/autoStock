@@ -18,6 +18,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -82,29 +83,41 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	}
 
 	@Override
-	public void recieveSignal(Signal signal, QuoteSlice typeQuoteSlice) {
-//		if (signal.getCombinedSignal() > 50){
-//			//Co.println("Recieved buy signal: " + signal.getCombinedSignal());
-//			positionManager.suggestPosition(typeQuoteSlice, signal);
-//		}else if (signal.getCombinedSignal() < 50){
-//			//Co.println("Recieved sell signal: " + signal.getCombinedSignal());
-//			positionManager.suggestPosition(typeQuoteSlice, signal);
-//		}
+	public void receiveStrategyResponse(StrategyResponse strategyResponse) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void receiveChangedStrategyResponse(StrategyResponse strategyResponse) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void endOfAlgorithm() {
-		Co.println("End of algo: " + endOfAlgorithmCount + "," + listOfAlgorithmTest.size());
-		if (endOfAlgorithmCount == listOfAlgorithmTest.size()-1){
-			PositionManager.instance.executeSellAll();
-			Co.println("Account balance: " + Account.instance.getAccountBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
-		}
+		// TODO Auto-generated method stub
 		
-		endOfAlgorithmCount++;
 	}
 
-	@Override
-	public void receivePositionGovernorResponse(PositionGovernorResponse positionGovernorResponse) {
-	
-	}
+//	@Override
+//	public void recieveSignal(Signal signal, QuoteSlice typeQuoteSlice) {
+//
+//	}
+
+//	@Override
+//	public void endOfAlgorithm() {
+//		Co.println("End of algo: " + endOfAlgorithmCount + "," + listOfAlgorithmTest.size());
+//		if (endOfAlgorithmCount == listOfAlgorithmTest.size()-1){
+//			PositionManager.instance.executeSellAll();
+//			Co.println("Account balance: " + Account.instance.getAccountBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+//		}
+//		
+//		endOfAlgorithmCount++;
+//	}
+//
+//	@Override
+//	public void receiveStrategyResponse(PositionGovernorResponse positionGovernorResponse) {
+//	
+//	}
 }

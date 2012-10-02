@@ -1,5 +1,6 @@
 package com.autoStock.backtest;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.types.Symbol;
 
 /**
@@ -7,5 +8,5 @@ import com.autoStock.types.Symbol;
  *
  */
 public interface ListenerOfBacktestCompleted {
-	public void backtestCompleted(Symbol symbol);
+	public void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase);
 }

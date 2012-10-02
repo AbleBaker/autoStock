@@ -4,6 +4,7 @@ import com.autoStock.Co;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.indicator.IndicatorGroup;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
@@ -48,10 +49,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			if (algorithmMode.displayTable) {
 				algorithmTable.addTableRow(listOfQuoteSlice, strategy.signal, signalGroup, strategyResponse);
-			}
-
-			if (algorithmListener != null) {
-				algorithmListener.recieveSignal(strategy.signal, quoteSlice);
 			}
 			
 			finishedReceiverOfQuoteSlice();

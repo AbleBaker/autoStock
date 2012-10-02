@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
@@ -18,7 +19,12 @@ import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalMetric;
 import com.autoStock.strategy.StrategyOfTest;
+import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tables.TableController;
+import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.Lock;
@@ -68,6 +74,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.exchange = exchange;
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
+		Global.callbackLock.requestLock();
 		Global.callbackLock.requestLock();
 		
 		if (algorithmMode.displayChart){
@@ -203,7 +210,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	}
 	
 	@Override
-	public synchronized void backtestCompleted(Symbol symbol) {
+	public synchronized void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
 		Co.println("--> Backtest completed... " + symbol.symbolName + ", " + callbacks.get());
 
 		if (callbacks.decrementAndGet() == 0) {
@@ -212,8 +219,33 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 			if (runNextBacktestForDays(false) == false) {
 				if (backtestType == BacktestType.backtest_default) {
-					Co.println(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal));
-				}
+					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions));
+					
+					for (BacktestContainer backtestContainer : listOfBacktestContainer){
+						Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
+						ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
+
+						for (StrategyResponse strategyResponse : backtestContainer.algorithm.listOfStrategyResponse){
+							ArrayList<String> listOfString = new ArrayList<String>();
+							listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
+							listOfString.add(backtestContainer.symbol.symbolName);
+							listOfString.add(String.valueOf(strategyResponse.quoteSlice.priceClose));
+							listOfString.add(strategyResponse.positionGovernorResponse.status.name());
+							
+							String stringForSignal = new String();
+							
+							for (SignalMetric signalMetric : strategyResponse.signal.listOfSignalMetric){
+								stringForSignal += signalMetric.signalMetricType.name() + ", " + signalMetric.strength;
+							}
+							
+							listOfString.add(stringForSignal);
+							listOfDisplayRows.add(listOfString);
+						}
+						
+						new TableController().displayTable(AsciiTables.backtest_strategy_response, listOfDisplayRows);
+
+					}
+				} 
 				Co.println("--> Finished backtest");
 			}
 		}
