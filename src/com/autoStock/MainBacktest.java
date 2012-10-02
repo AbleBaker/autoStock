@@ -230,6 +230,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 							listOfString.add(backtestContainer.symbol.symbolName);
 							listOfString.add(String.valueOf(strategyResponse.quoteSlice.priceClose));
+							listOfString.add(strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name());
 							listOfString.add(strategyResponse.positionGovernorResponse.status.name());
 							
 							String stringForSignal = new String();
