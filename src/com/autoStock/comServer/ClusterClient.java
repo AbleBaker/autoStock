@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 import com.autoStock.Co;
 import com.autoStock.cluster.ComputeUnitForBacktest;
@@ -17,6 +18,7 @@ import com.autoStock.com.CommandHolder;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommands;
+import com.autoStock.internal.ApplicationStates;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,8 +36,16 @@ public class ClusterClient {
 	}
 	
 	public void startClient(){
-	    try {this.clientSocket = new Socket(InetAddress.getByName("192.168.1.150"), 8888);}catch (Exception e){e.printStackTrace();}
-	    try {this.printWriter = new PrintWriter(clientSocket.getOutputStream(), true);}catch (Exception e){e.printStackTrace();}
+		while (clientSocket == null || printWriter == null){
+			try {
+				clientSocket = new Socket(InetAddress.getByName("192.168.1.150"), 8888);
+				printWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+			}catch (Exception e){
+				Co.println("--> Failed to connect");
+			}
+			
+			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
+		}
 	    
 	    listenForResponse();
 	}
@@ -59,6 +69,9 @@ public class ClusterClient {
 					while (true) {
 						try {
 							receivedLine = in.readLine();
+						} catch (SocketException socketException){
+							Co.println("--> Socket closed...");
+							return;
 						} catch (IOException e) {
 							e.printStackTrace();
 							return;
@@ -76,7 +89,12 @@ public class ClusterClient {
 								CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
 								listener.receivedCommand(commandHolderTyped);
 							}else if (commandHolderGeneric.command == Command.no_units_left){
+								listener.receivedCommand(commandHolderGeneric);
+							}else if (commandHolderGeneric.command == Command.restart_node){
+								Co.println("--> Restart!");
+								printWriter.close();
 								clientSocket.close();
+								ApplicationStates.shutdown();
 							}
 //							printWriter.println(CommunicationCommands.com_ok_command.command);
 							receivedString = new String();

@@ -82,6 +82,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		if (listOfIteration.size() > 0){
 			return new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
 		}else{
+			Co.println("--> No units left...");
 			return null;
 		}
 	}

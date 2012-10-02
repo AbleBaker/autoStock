@@ -10,6 +10,7 @@ public class CommunicationDefinitions {
 		compute_unit_backtest,
 		backtest_results,
 		no_units_left,
+		restart_node,
 	}
 	
 	public static enum CommunicationCommands {

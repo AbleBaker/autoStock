@@ -86,6 +86,10 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 			}
 			
 			runNextBacktest();
+		}else if(commandHolder.command == Command.no_units_left){
+			Co.println("--> No units left... sleeping");
+			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
+			requestNextUnit();
 		}
 	}
 	
