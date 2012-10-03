@@ -1,5 +1,7 @@
 package com.autoStock.signal;
 
+import java.util.ArrayList;
+
 import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -63,18 +65,28 @@ public class SignalPointMethod {
 		SignalPoint signalPoint = new SignalPoint();
 		int occurenceCount = 0;
 		boolean isEvenNumberOfMetrics = MathTools.isEven(signal.listOfSignalMetric.size());
-
-		for (SignalMetric signalMetric : signal.listOfSignalMetric){signalMetric.getSignalPoint(havePosition, positionType).occurences = 0;}
-		for (SignalMetric signalMetric : signal.listOfSignalMetric){signalMetric.getSignalPoint(havePosition, positionType).occurences++;}
+		
+		ArrayList<SignalPointPair> listOfSignalPointPair = new ArrayList<SignalPointPair>();
 		
 		for (SignalMetric signalMetric : signal.listOfSignalMetric){
 			SignalPoint signalPointLocal = signalMetric.getSignalPoint(havePosition, positionType);
-			if (signalPointLocal.occurences > occurenceCount || (isEvenNumberOfMetrics && signalPointLocal.signalPointType != SignalPointType.none)){
-				signalPoint = signalPointLocal;
-				occurenceCount = signalPointLocal.occurences;
+			SignalPointPair signalPointPair = getPairForType(signalPointLocal.signalPointType, listOfSignalPointPair);
+			
+			if (signalPointPair == null){
+				listOfSignalPointPair.add(new SignalPointPair(signalPointLocal.signalPointType));
+			}else{
+				signalPointPair.occurences++;
 			}
 		}
-//		Co.println("--> Majority is: " + signalPoint.name() + ", " + occurenceCount);
+		
+		for (SignalPointPair signalPointPair : listOfSignalPointPair){
+			if (signalPointPair.occurences > occurenceCount || (isEvenNumberOfMetrics && signalPointPair.signalPointType != SignalPointType.none)){
+				signalPoint = new SignalPoint(signalPointPair.signalPointType, SignalMetricType.mixed);
+				occurenceCount = signalPointPair.occurences;
+			}
+		}
+		
+//		Co.println("--> Majority is: " + signalPoint.signalPointType.name() + ", " + occurenceCount);
 		return signalPoint;
 	} 
 	
@@ -93,5 +105,24 @@ public class SignalPointMethod {
 //		Co.println("--> Change is: " + signalPoint.name() + ", " + signalPoint.signalMetricType.name());
 		
 		return signalPoint;
+	}
+	
+	private static SignalPointPair getPairForType(SignalPointType signalPointType, ArrayList<SignalPointPair> listOfSignalPointPair){
+		for (SignalPointPair signalPointPair : listOfSignalPointPair){
+			if (signalPointPair.signalPointType == signalPointType){
+				return signalPointPair;
+			}
+		}
+		
+		return null;
+	}
+	
+	public static class SignalPointPair {
+		public int occurences = 1;
+		public SignalPointType signalPointType;
+		
+		public SignalPointPair(SignalPointType signalPointType){
+			this.signalPointType = signalPointType;
+		}
 	}
 }

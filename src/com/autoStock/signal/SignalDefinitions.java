@@ -71,6 +71,7 @@ public class SignalDefinitions {
 		
 		none,
 		no_change,
+		mixed,
 		;
 		
 		CalculateInterface calculateInterface;
