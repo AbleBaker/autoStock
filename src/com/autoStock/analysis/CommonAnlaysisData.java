@@ -3,7 +3,6 @@ package com.autoStock.analysis;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.types.QuoteSlice;
 
 /**

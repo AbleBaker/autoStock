@@ -41,11 +41,11 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 
 	private void engagementStart() {
 		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain_open);
-//		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain);
 		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_price);
 		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_most_active);
-		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_top_trade_rate);
-//		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_volume);
+//		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_top_trade_rate);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_volume);
 		
 		multipleRequestMarketScanner.startScanners();
 	}

@@ -3,10 +3,7 @@
  */
 package com.autoStock.algorithm.core;
 
-import com.autoStock.position.PositionGovernorResponse;
-import com.autoStock.signal.Signal;
 import com.autoStock.strategy.StrategyResponse;
-import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski

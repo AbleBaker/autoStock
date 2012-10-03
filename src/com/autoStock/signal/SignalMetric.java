@@ -5,7 +5,6 @@ package com.autoStock.signal;
 
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 
 /**
@@ -37,9 +36,5 @@ public class SignalMetric {
 		}
 		
 		return new SignalPoint();
-	}
-	
-	public synchronized void applyStength(double input){
-		strength = signalMetricType.getSignalStrength(input);
 	}
 }

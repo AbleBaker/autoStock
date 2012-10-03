@@ -3,8 +3,6 @@ package com.autoStock.algorithm.core;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.types.Symbol;
-
 /**
  * @author Kevin Kowalewski
  *

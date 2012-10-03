@@ -1,7 +1,6 @@
 package com.autoStock;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
@@ -18,8 +17,6 @@ import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.finance.Account;
 import com.autoStock.internal.Global;
-import com.autoStock.strategy.StrategyOfTest;
-import com.autoStock.tools.StringTools;
 
 /**
  * @author Kevin Kowalewski

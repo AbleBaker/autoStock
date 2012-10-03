@@ -3,7 +3,6 @@ package com.autoStock.cluster;
 import java.util.ArrayList;
 
 import com.autoStock.adjust.Iteration;
-import com.autoStock.finance.Account;
 
 /**
  * @author Kevin Kowalewski

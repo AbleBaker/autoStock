@@ -1,6 +1,5 @@
 package com.autoStock.algorithm.core;
 
-import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 
 /**

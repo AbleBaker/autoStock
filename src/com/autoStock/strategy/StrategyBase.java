@@ -1,14 +1,9 @@
 package com.autoStock.strategy;
 
-import java.util.Date;
-
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalControl;
-import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
-import com.autoStock.types.Exchange;
 
 /**
  * @author Kevin Kowalewski

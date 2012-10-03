@@ -25,19 +25,6 @@ public class SignalDefinitions {
 		none
 	}
 	
-	public static class SignalPoint {
-		public int occurences;
-		public SignalPointType signalPointType = SignalPointType.none;
-		public SignalMetricType signalMetricType = SignalMetricType.none;
-		
-		public SignalPoint(){}
-		
-		public SignalPoint(SignalPointType signalPointType, SignalMetricType signalMetricType){
-			this.signalPointType = signalPointType;
-			this.signalMetricType = signalMetricType;
-		}
-	}
-	
 	public enum SignalMetricType {
 		metric_ppc(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 3000);}},

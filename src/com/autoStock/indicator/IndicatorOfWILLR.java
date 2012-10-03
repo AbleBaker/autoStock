@@ -6,7 +6,6 @@ package com.autoStock.indicator;
 import com.autoStock.indicator.results.ResultsWILLR;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
-import com.autoStock.tools.ArrayTools;
 
 /**
  * @author Kevin Kowalewski

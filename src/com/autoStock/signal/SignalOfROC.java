@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfROC{
 	private double rocValue = 0;
+	private SignalMetricType signalMetricType = SignalMetricType.metric_roc;
 	
 	public SignalOfROC(double[] arrayOfROC, int periodAverage){
 		if (arrayOfROC.length < 1){throw new IllegalArgumentException();}
@@ -29,11 +30,7 @@ public class SignalOfROC{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_roc);
-		
-		signalMetric.applyStength(rocValue);
-		
-		return signalMetric;
+		return new SignalMetric(signalMetricType.getSignalStrength(rocValue), signalMetricType);
 	}
 	
 	public double getValue(){

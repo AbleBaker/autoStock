@@ -1,15 +1,12 @@
 package com.autoStock.position;
 
-import com.autoStock.Co;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseReason;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
-import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalDefinitions.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.SignalPointMethod;
-import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;

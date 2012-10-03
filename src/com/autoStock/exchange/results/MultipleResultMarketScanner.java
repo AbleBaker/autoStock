@@ -3,7 +3,6 @@ package com.autoStock.exchange.results;
 import java.util.ArrayList;
 
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
-import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 
 /**
  * @author Kevin Kowalewski

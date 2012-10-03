@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfTRIX{
 	private double trixValue = 0;
+	private SignalMetricType signalMetricType = SignalMetricType.metric_trix;
 	
 	public SignalOfTRIX(double[] arrayOfTRIX, int periodAverage){
 		if (arrayOfTRIX.length < 1){throw new IllegalArgumentException();}
@@ -29,11 +30,7 @@ public class SignalOfTRIX{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_trix);
-		
-		signalMetric.applyStength(trixValue);
-		
-		return signalMetric;
+		return new SignalMetric(signalMetricType.getSignalStrength(trixValue), signalMetricType);
 	}
 	
 	public double getValue(){

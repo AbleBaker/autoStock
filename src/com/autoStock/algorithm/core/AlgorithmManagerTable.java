@@ -3,8 +3,8 @@ package com.autoStock.algorithm.core;
 import java.util.ArrayList;
 
 import com.autoStock.algorithm.AlgorithmTest;
-import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionManager;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;

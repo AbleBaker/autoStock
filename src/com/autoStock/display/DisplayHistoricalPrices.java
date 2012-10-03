@@ -17,7 +17,6 @@ import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.HistoricalData;
-import com.autoStock.types.Exchange;
 
 /**
  * @author Kevin Kowalewski

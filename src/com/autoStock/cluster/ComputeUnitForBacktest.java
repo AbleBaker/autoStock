@@ -3,7 +3,6 @@ package com.autoStock.cluster;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.Iteration;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.types.Exchange;

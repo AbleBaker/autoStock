@@ -1,10 +1,7 @@
 package com.autoStock.strategy;
 
-import java.util.Date;
-
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalGroup;
 import com.autoStock.types.QuoteSlice;
 
 /**

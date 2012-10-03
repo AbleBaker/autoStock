@@ -3,13 +3,7 @@
  */
 package com.autoStock.com;
 
-import java.lang.reflect.Type;
-
-import com.autoStock.Co;
-import com.autoStock.MainServer;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
-import com.autoStock.internal.ApplicationStates;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Kevin Kowalewski

@@ -3,7 +3,7 @@
  */
 package com.autoStock.position;
 
-import com.autoStock.signal.SignalDefinitions.SignalPoint;
+import com.autoStock.signal.SignalPoint;
 import com.autoStock.trading.types.Position;
 
 /**

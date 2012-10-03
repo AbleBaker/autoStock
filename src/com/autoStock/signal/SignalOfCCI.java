@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfCCI{
 	private double cciValue = 0;
+	private SignalMetricType signalMetricType = SignalMetricType.metric_cci;
 	
 	public SignalOfCCI(double[] arrayOfCCI, int periodAverage){
 		if (arrayOfCCI.length < 1){throw new IllegalArgumentException();}
@@ -29,11 +30,7 @@ public class SignalOfCCI{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_cci);
-	
-		signalMetric.applyStength(cciValue);
-		
-		return signalMetric;
+		return new SignalMetric(signalMetricType.getSignalStrength(cciValue), signalMetricType);
 	}
 	
 	public double getValue(){

@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfWILLR{
 	private double willrValue = 0;
+	private SignalMetricType signalMetricType = SignalMetricType.metric_willr;
 	
 	public SignalOfWILLR(double[] arrayOfWILLR, int periodAverage){
 		if (arrayOfWILLR.length < 1){throw new IllegalArgumentException();}
@@ -29,11 +30,7 @@ public class SignalOfWILLR{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_willr);
-		
-		signalMetric.applyStength(willrValue);
-		
-		return signalMetric;
+		return new SignalMetric(signalMetricType.getSignalStrength(willrValue), signalMetricType);
 	}
 	
 	public double getValue(){

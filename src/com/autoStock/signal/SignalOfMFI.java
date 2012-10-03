@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfMFI{
 	private double mfiValue = 0;
+	private SignalMetricType signalMetricType = SignalMetricType.metric_mfi;
 	
 	public SignalOfMFI(double[] arrayOfMFI, int periodAverage){
 		if (arrayOfMFI.length < 1){throw new IllegalArgumentException();}
@@ -29,11 +30,7 @@ public class SignalOfMFI{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_mfi);
-		
-		signalMetric.applyStength(mfiValue);
-		
-		return signalMetric;
+		return new SignalMetric(signalMetricType.getSignalStrength(mfiValue), signalMetricType);
 	}
 	
 	public double getValue(){

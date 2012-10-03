@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfRSI{
 	private double rsiValue = 0;
+	private SignalMetricType signalMetricType = SignalMetricType.metric_rsi;
 	
 	public SignalOfRSI(double[] arrayOfRSI, int periodAverage){
 		if (arrayOfRSI.length < 1){throw new IllegalArgumentException();}
@@ -29,11 +30,7 @@ public class SignalOfRSI{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_rsi);
-	
-		signalMetric.applyStength(rsiValue);
-		
-		return signalMetric;
+		return new SignalMetric(signalMetricType.getSignalStrength(rsiValue), signalMetricType);
 	}
 	
 	public double getValue(){

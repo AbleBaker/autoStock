@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfDI{
 	private double diValue = 0;
+	private SignalMetricType signalMetricType = SignalMetricType.metric_di;
 	
 	public SignalOfDI(double[] arrayOfDIPlus, double[] arrayOfDIMinus, int periodAverage){
 
@@ -36,11 +37,7 @@ public class SignalOfDI{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_di);
-		
-		signalMetric.applyStength(diValue);
-		
-		return signalMetric;
+		return new SignalMetric(signalMetricType.getSignalStrength(diValue), signalMetricType);
 	}
 	
 	public double getValue(){

@@ -14,7 +14,6 @@ import java.net.Socket;
 
 import com.autoStock.Co;
 import com.autoStock.cluster.ComputeResultForBacktest;
-import com.autoStock.cluster.ComputeUnitForBacktest;
 import com.autoStock.com.CommandHolder;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.CommunicationDefinitions.Command;

@@ -6,16 +6,10 @@ import java.util.Iterator;
 import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.finance.Account;
-import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
-import com.autoStock.signal.SignalTools;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
-import com.autoStock.tools.DateTools;
-import com.autoStock.tools.MathTools;
-import com.autoStock.tools.StringTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
-import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 import com.google.gson.Gson;
@@ -47,7 +41,7 @@ public class AlgorithmManager {
 	
 	public void setListOfSymbols(ArrayList<String> listOfSymbols, Exchange exchange){
 		for (String symbol : listOfSymbols){
-			if (listOfActiveAlgorithmContainer.size() >= 100){
+			if (listOfActiveAlgorithmContainer.size() >= 300){
 				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + symbol);
 			}else if (getAlgorithmContainerForSymbol(symbol) == null){
 				Co.println("Will run algorithm for symbol: " + symbol);

@@ -18,7 +18,6 @@ import com.autoStock.internal.Global;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.ReflectiveComparator;
-import com.autoStock.tools.ReflectiveComparator.ListComparator;
 import com.autoStock.tools.ReflectiveComparator.ListComparator.SortDirection;
 import com.autoStock.types.Exchange;
 

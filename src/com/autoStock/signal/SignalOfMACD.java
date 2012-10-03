@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfMACD{
 	private double macdValue = 0;
+	private SignalMetricType signalMetricType = SignalMetricType.metric_macd;
 	
 	public SignalOfMACD(double[] arrayOfMACD, int periodAverage){
 		if (arrayOfMACD.length < 1){throw new IllegalArgumentException();}
@@ -29,10 +30,7 @@ public class SignalOfMACD{
 	}
 	
 	public SignalMetric getSignal(){
-		SignalMetric signalMetric = new SignalMetric(0, SignalMetricType.metric_macd);
-		signalMetric.applyStength(macdValue);
-		
-		return signalMetric;
+		return new SignalMetric(signalMetricType.getSignalStrength(macdValue), signalMetricType);
 	}
 	
 	public double getValue(){

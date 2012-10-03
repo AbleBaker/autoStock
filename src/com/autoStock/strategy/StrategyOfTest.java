@@ -2,7 +2,6 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
@@ -10,10 +9,8 @@ import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
-import com.autoStock.signal.SignalMetric;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
@@ -34,7 +31,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.canGoShort = false;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.taperPeriodLength = true;
-		strategyOptions.signalPointTactic = SignalPointTactic.tatic_combined;
+		strategyOptions.signalPointTactic = SignalPointTactic.tatic_change;
 
 		strategyOptions.maxTransactionsDay = 4;
 		strategyOptions.minTakeProfitExit = 1.10d;
@@ -53,8 +50,8 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal(),
-				signalGroup.signalOfDI.getSignal(),
+//				signalGroup.signalOfRSI.getSignal()
+//				signalGroup.signalOfDI.getSignal(),
 				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal(),
