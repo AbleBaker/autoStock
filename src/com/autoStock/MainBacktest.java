@@ -142,7 +142,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				backtestContainer.setBacktestData(listOfResults, historicalData);
 				backtestContainer.runBacktest();
 			}else{
-				Co.println("--> No backtest data");
+				Co.println("--> No backtest data! " + backtestContainer.symbol.symbolName);
 				backtestContainedNoData = true;
 				break;
 			}

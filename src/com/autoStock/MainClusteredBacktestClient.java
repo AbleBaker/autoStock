@@ -1,6 +1,7 @@
 package com.autoStock;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
@@ -17,6 +18,8 @@ import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.finance.Account;
 import com.autoStock.internal.Global;
+import com.autoStock.strategy.StrategyOfTest;
+import com.autoStock.tools.StringTools;
 
 /**
  * @author Kevin Kowalewski
@@ -44,6 +47,8 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	public void runNextBacktest(){
 		int backtestIndex = atomicIntBacktestIndex.getAndIncrement();
 		
+		Account.instance.resetAccount();
+		
 		if (backtestIndex == computeUnitForBacktest.listOfIteration.size()){
 			allBacktestsCompleted();
 		}else{
@@ -58,13 +63,13 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	}
 	
 	public void allBacktestsCompleted(){
-		Account.instance.resetAccount();
+		Co.println("--> All backtests completed...");
 		atomicIntBacktestIndex.set(0);
 		requestNextUnit();
 	}
 	
 	public void sendBacktestResult(){
-		ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(atomicIntBacktestIndex.get()-1);
+		ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(atomicIntBacktestIndex.get()-1);		
 		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.instance.getAccountBalance(), Account.instance.getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions)));
 		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
 	}
