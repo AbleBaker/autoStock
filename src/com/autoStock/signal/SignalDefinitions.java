@@ -64,7 +64,7 @@ public class SignalDefinitions {
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (Math.pow(input, 1.2) * 0.30) - 25;}},
 				40, -24, 0, 0),
 		metric_willr(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input + 30 * 1.0);}},
+			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input + 30 * 0.8);}},
 				30, -40, 0, 0),				
 				
 		metric_storsi(null,0,0,0,0),

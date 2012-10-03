@@ -27,13 +27,14 @@ import org.jfree.ui.RefineryUtilities;
  * 
  */
 public class CombinedLineChart {
-	
 	public int usedColor = -1;
 
 	public class LineChartDisplay extends ApplicationFrame {
-
-		public LineChartDisplay(TimeSeriesCollection... timeSeriesCollections) {
-			super("autoStock - Chart");
+		public String title;
+		public LineChartDisplay(String title, TimeSeriesCollection... timeSeriesCollections) {
+			super("autoStock - Chart - " + title);
+			
+			this.title = title;
 
 			ChartPanel chartPanel = (ChartPanel) createPanel(timeSeriesCollections);
 			chartPanel.setPreferredSize(new java.awt.Dimension(500*2, 250* timeSeriesCollections.length));
@@ -76,7 +77,7 @@ public class CombinedLineChart {
 			DateAxis axis = (DateAxis) plot.getDomainAxis();
 			axis.setDateFormatOverride(new SimpleDateFormat("HH:mm"));
 			
-			JFreeChart chart = new JFreeChart("autoStock - Analysis", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+			JFreeChart chart = new JFreeChart("autoStock - Analysis - " + title, JFreeChart.DEFAULT_TITLE_FONT, plot, true);
 
 			chart.setBackgroundPaint(Color.white);
 

@@ -16,6 +16,7 @@ import com.autoStock.tools.ResultsTools;
  * 
  */
 public class ChartForAlgorithmTest {
+	private String title;
 	public ArrayList<Integer> listOfSignalPPC = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalDI = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalCCI = new ArrayList<Integer>();
@@ -36,6 +37,10 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Double> listOfDI = new ArrayList<Double>();
 	public ArrayList<Double> listOfCCI = new ArrayList<Double>();
 	public ArrayList<Double> listOfRSI = new ArrayList<Double>();
+	
+	public ChartForAlgorithmTest(String title){
+		this.title = title;
+	}
 
 	public void display() {
 		TimeSeriesCollection timeSeriesCollection1 = new TimeSeriesCollection();
@@ -58,7 +63,7 @@ public class ChartForAlgorithmTest {
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfMACD))));
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("RSI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfRSI))));
 		timeSeriesCollection3.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPrice))));
-		new CombinedLineChart().new LineChartDisplay(timeSeriesCollection4, timeSeriesCollection1, timeSeriesCollection3);
+		new CombinedLineChart().new LineChartDisplay(title, timeSeriesCollection4, timeSeriesCollection1, timeSeriesCollection3);
 		// //new LineChart(). new LineChartDisplay(timeSeriesCollection1);
 	}
 }

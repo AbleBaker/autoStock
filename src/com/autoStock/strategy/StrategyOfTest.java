@@ -34,7 +34,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.canGoShort = false;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.taperPeriodLength = true;
-		strategyOptions.signalPointTactic = SignalPointTactic.tatic_mixed;
+		strategyOptions.signalPointTactic = SignalPointTactic.tatic_combined;
 
 		strategyOptions.maxTransactionsDay = 4;
 		strategyOptions.minTakeProfitExit = 1.10d;

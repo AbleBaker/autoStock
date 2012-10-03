@@ -54,7 +54,7 @@ public class AlgorithmBase {
 		this.algorithmMode = algorithmMode;
 		
 		if (algorithmMode.displayChart) {
-			algorithmChart = new AlgorithmChart();
+			algorithmChart = new AlgorithmChart(symbol.symbolName);
 		}
 		
 		if (algorithmMode.displayTable){

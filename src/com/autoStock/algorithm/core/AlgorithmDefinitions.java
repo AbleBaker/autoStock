@@ -9,7 +9,7 @@ import com.autoStock.backtest.BacktestDefinitions.BacktestType;
  */
 public class AlgorithmDefinitions {
 	public static enum AlgorithmMode {
-		mode_backtest(false, true, false),
+		mode_backtest(true, true, false),
 		mode_backtest_with_adjustment(false, false, false),
 		mode_engagement(false, true, false),
 		;

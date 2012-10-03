@@ -13,8 +13,8 @@ import com.autoStock.types.QuoteSlice;
 public class AlgorithmChart {
 	private ChartForAlgorithmTest chart;
 	
-	public AlgorithmChart(){
-		chart = new ChartForAlgorithmTest();
+	public AlgorithmChart(String title){
+		chart = new ChartForAlgorithmTest(title);
 	}
 	
 	public void addChartPointData(QuoteSlice quoteSlice, Signal signal, SignalGroup signalGroup){
