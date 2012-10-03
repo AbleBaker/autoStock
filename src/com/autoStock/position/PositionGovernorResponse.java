@@ -14,7 +14,7 @@ public class PositionGovernorResponse {
 	public Position position;
 	public PositionGovernorResponseStatus status = PositionGovernorResponseStatus.none;
 	public PositionGovernorResponseReason reason = PositionGovernorResponseReason.none;
-	public SignalPoint signalPoint = SignalPoint.none;
+	public SignalPoint signalPoint = new SignalPoint();
 	
 	public enum PositionGovernorResponseReason{
 		failed_insufficient_funds,

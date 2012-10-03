@@ -41,7 +41,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private Benchmark bench = new Benchmark();
 	
 	public MainClusteredBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
-		this.exchange = exchange;;
+		this.exchange = exchange;
 		this.listOfSymbols = listOfSymbols;
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;

@@ -34,7 +34,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.canGoShort = false;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.taperPeriodLength = true;
-		strategyOptions.signalPointTactic = SignalPointTactic.tatic_change;
+		strategyOptions.signalPointTactic = SignalPointTactic.tatic_combined;
 
 		strategyOptions.maxTransactionsDay = 4;
 		strategyOptions.minTakeProfitExit = 1.10d;
@@ -53,8 +53,8 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal()
-//				signalGroup.signalOfDI.getSignal()
+				signalGroup.signalOfRSI.getSignal(),
+				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal(),

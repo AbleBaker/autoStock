@@ -12,21 +12,30 @@ public class SignalDefinitions {
 		from_algorithm,
 		from_market_trend,
 		from_news,
-		from_manual,
+		from_manual
 	}
 	
-	public enum SignalPoint {
+	public enum SignalPointType {
 		long_entry,
 		long_exit,
 		short_entry,
 		short_exit,
 		no_change,
 		undefined,
-		none,
-		; 
-		
+		none
+	}
+	
+	public static class SignalPoint {
 		public int occurences;
+		public SignalPointType signalPointType = SignalPointType.none;
 		public SignalMetricType signalMetricType = SignalMetricType.none;
+		
+		public SignalPoint(){}
+		
+		public SignalPoint(SignalPointType signalPointType, SignalMetricType signalMetricType){
+			this.signalPointType = signalPointType;
+			this.signalMetricType = signalMetricType;
+		}
 	}
 	
 	public enum SignalMetricType {
@@ -44,7 +53,7 @@ public class SignalDefinitions {
 				20, -36, -100, -100),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) Math.pow(input / 2, 1.20) - 50;}},
-				31, -10, -100, -100),
+				30, -10, -100, -100),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 600);}},
 				45, 20, 0, 0),

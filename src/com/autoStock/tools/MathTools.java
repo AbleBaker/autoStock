@@ -101,4 +101,12 @@ public class MathTools {
 		
 		return returnValue == Integer.MAX_VALUE ? 0 : returnValue;
 	}
+	
+	public static boolean isOdd(int number){
+		return number % 2 == 0 ? false : true;
+	}
+	
+	public static boolean isEven(int number){
+		return number % 2 == 0 ? true : false;
+	}
 }

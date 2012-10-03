@@ -6,6 +6,7 @@ package com.autoStock.signal;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
+import com.autoStock.signal.SignalDefinitions.SignalPointType;
 
 /**
  * @author Kevin Kowalewski
@@ -14,7 +15,6 @@ import com.autoStock.signal.SignalDefinitions.SignalPoint;
 public class SignalMetric {
 	public int strength;
 	public SignalMetricType signalMetricType;
-	public SignalPoint signalPoint = SignalPoint.none;
 	
 	public SignalMetric(int strength, SignalMetricType signalTypeMetric) {
 		this.strength = strength;
@@ -24,19 +24,19 @@ public class SignalMetric {
 	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
 		if (havePosition == false){
 			if (strength >= signalMetricType.pointToSignalLongEntry){
-				return SignalPoint.long_entry;
+				return new SignalPoint(SignalPointType.long_entry, signalMetricType);
 			}else if (strength <= signalMetricType.pointToSignalShortEntry){
-				return SignalPoint.short_entry;
+				return new SignalPoint(SignalPointType.short_entry, signalMetricType);
 			}
 		}else{
 			if (strength <= signalMetricType.pointToSignalLongExit && (positionType == PositionType.position_long_entry || positionType == PositionType.position_long)){
-				return SignalPoint.long_exit;
+				return new SignalPoint(SignalPointType.long_exit, signalMetricType);
 			}else if (strength >= signalMetricType.pointToSignalShortExit && (positionType == PositionType.position_short_entry || positionType == PositionType.position_short)){
-				return SignalPoint.short_exit;
+				return new SignalPoint(SignalPointType.short_exit, signalMetricType);
 			}
 		}
 		
-		return SignalPoint.none;
+		return new SignalPoint();
 	}
 	
 	public synchronized void applyStength(double input){

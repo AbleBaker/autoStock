@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalTools;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -46,7 +47,7 @@ public class AlgorithmTable {
 		
 		columnValues.add(strategyResponse.positionGovernorResponse.status.name());
 		columnValues.add(strategyResponse.strategyAction == StrategyAction.no_change ? "-" : (strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name()));
-		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint == SignalPoint.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.name());
+		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalPointType == SignalPointType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalPointType.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add(getTransactionDetails(strategyResponse));
 		columnValues.add(String.valueOf(Account.instance.getAccountBalance()));

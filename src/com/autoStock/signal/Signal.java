@@ -15,7 +15,7 @@ import com.autoStock.signal.SignalDefinitions.SignalSource;
  */
 public class Signal {
 	public SignalSource signalSource;
-	public SignalPoint currentSignalPoint = SignalPoint.none;
+	public SignalPoint currentSignalPoint = new SignalPoint();
 	public ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	
 	public Signal(SignalSource signalSource) {

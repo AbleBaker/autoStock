@@ -7,6 +7,7 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPoint;
+import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.strategy.StrategyOptions;
@@ -33,25 +34,25 @@ public class PositionGovernor {
 	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		Position position = positionManager.getPosition(quoteSlice.symbol);
-		SignalPoint signalPoint = SignalPoint.none;
+		SignalPoint signalPoint = new SignalPoint();
 		
 		if (position == null){
 			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			
-			if (signalPoint == SignalPoint.long_entry && strategyOptions.canGoLong){
+			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
 				position = governLongEntry(quoteSlice, signal, positionGovernorResponse);
-			}else if (signalPoint == SignalPoint.short_entry && strategyOptions.canGoShort){
+			}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort){
 				position = governShortEntry(quoteSlice, signal, positionGovernorResponse);
 			}
 		} else {
 			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTactic);
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
-				if (signalPoint == SignalPoint.long_exit || requestExit) {
+				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
-				if (signalPoint == SignalPoint.short_exit || requestExit) {
+				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse);
 				}
 			}else {
