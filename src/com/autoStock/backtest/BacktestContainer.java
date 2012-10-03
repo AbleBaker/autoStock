@@ -1,7 +1,9 @@
 package com.autoStock.backtest;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmManagerTable;
@@ -34,9 +36,21 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		this.algorithmMode = algorithmMode;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void setBacktestData(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, HistoricalData historicalData){
 		this.listOfDbHistoricalPrices = listOfDbStockHistoricalPrice;
 		this.historicalData = historicalData;
+		
+		Iterator<DbStockHistoricalPrice> iterator = this.listOfDbHistoricalPrices.iterator();
+		
+		while (iterator.hasNext()){
+			DbStockHistoricalPrice dbStockHistoricalPrice = iterator.next();
+			
+			if (dbStockHistoricalPrice.dateTime.getHours() >= exchange.timeCloseForeign.hours && dbStockHistoricalPrice.dateTime.getMinutes() > exchange.timeCloseForeign.minutes){
+				iterator.remove();
+			}
+		}
+		
 		algorithm = new AlgorithmTest(false, exchange, symbol, algorithmMode);
 	}
 
