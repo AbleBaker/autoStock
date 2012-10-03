@@ -36,7 +36,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private AtomicInteger atomicIntForRequestId = new AtomicInteger();
 	private Date dateStart;
 	private Date dateEnd;
-	private final int computeUnitIterationSize = 256;
+	private final int computeUnitIterationSize = 128;
 	private Benchmark bench = new Benchmark();
 	
 	public MainClusteredBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
@@ -100,7 +100,10 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
 			listOfComputeResultForBacktest.add(computeResult);
 //			Co.println("--> X: " + computeResult.requestId + ", " + computeResult.unitId +", " + computeResult.accountBalance + ", " + computeResult.transactions);
-			if ((computeResult.requestId * computeUnitIterationSize) + computeResult.unitId+1 == adjustmentCampaign.getPermutationCount()){
+			
+			Co.println("--> X: " + listOfComputeResultForBacktest.size() + ", " + adjustmentCampaign.getPermutationCount());
+
+			if (listOfComputeResultForBacktest.size() == adjustmentCampaign.getPermutationCount()){
 				Co.println("--> All done!");
 				displayResultTable();
 			}
