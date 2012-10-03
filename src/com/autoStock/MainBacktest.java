@@ -18,6 +18,8 @@ import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
+import com.autoStock.position.PositionGovernorResponse;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalMetric;
 import com.autoStock.strategy.StrategyOfTest;
@@ -238,6 +240,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							}
 							
 							listOfString.add(stringForSignal);
+							
+							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
+								listOfString.add("$ " + String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()));
+							}else{
+								listOfString.add("-");
+							}
+							
 							listOfDisplayRows.add(listOfString);
 						}
 						
