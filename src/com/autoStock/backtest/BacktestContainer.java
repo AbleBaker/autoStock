@@ -3,7 +3,6 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmManagerTable;
