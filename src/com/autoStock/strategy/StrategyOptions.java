@@ -9,6 +9,7 @@ import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 public class StrategyOptions {
 	public boolean canGoLong;
 	public boolean canGoShort;
+	public boolean canReenter;
 	public boolean disableAfterNilChanges;
 	public boolean taperPeriodLength;
 	public SignalPointTactic signalPointTactic;
@@ -21,4 +22,6 @@ public class StrategyOptions {
 	public int maxPositionEntryTime = 30;
 	public int maxPositionTaperTime = 30;
 	public int maxPositionExitTime = 5;
+	public int maxReenterTimes = 5;
+	public int intervalForReentry = 5;
 }

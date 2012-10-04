@@ -29,16 +29,17 @@ public class StrategyOfTest extends StrategyBase {
 		
 		strategyOptions.canGoLong = true;
 		strategyOptions.canGoShort = false;
+		strategyOptions.canReenter = true;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTactic = SignalPointTactic.tatic_change;
 
 		strategyOptions.maxTransactionsDay = 4;
 		strategyOptions.minTakeProfitExit = 1.98d;
-		strategyOptions.maxStopLossValue = -50;
+		strategyOptions.maxStopLossValue = -100;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
-		strategyOptions.maxPositionEntryTime = 45;
+		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
 	}

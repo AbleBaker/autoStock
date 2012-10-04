@@ -20,10 +20,8 @@ public class Position implements Cloneable {
 	public double lastKnownPrice;
 	public PositionType positionType = PositionType.position_none;
 	
-	public Position(){
-		
-	}
-
+	public Position(){}
+	
 	public Position(PositionType positionType, int units, String symbol, String securityType, double averagePrice) {
 		this.positionType = positionType;
 		this.units = units;

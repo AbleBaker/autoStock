@@ -8,7 +8,14 @@ import com.autoStock.trading.types.Position;
  *
  */
 public class OrderManager {
-	public void submitOrder(Position position, Order order){
+	private static OrderManager instance = new OrderManager();
+	
+	public static OrderManager getInstance(){
+		return instance;
+	}
+	
+	
+	public synchronized void submitOrder(Position position, Order order){
 		
 	}
 }
