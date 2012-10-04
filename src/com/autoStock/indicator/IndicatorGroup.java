@@ -11,6 +11,7 @@ import com.autoStock.indicator.results.ResultsROC;
 import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsWILLR;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.tools.AnalysisTools;
 import com.autoStock.types.QuoteSlice;
 
@@ -72,16 +73,16 @@ public class IndicatorGroup {
 		}
 	}
 
-	public void analyize() {
-		resultsCCI = indicatorOfCCI.analyize();
-		resultsDI = indicatorOfDI.analize();
-		resultsBB = indicatorOfBB.analyize();
-		resultsMACD = indicatorOfMACD.analize();
-		resultsRSI = indicatorOfRSI.analyize();
-		resultsTRIX = indicatorOfTRIX.analyize();
-		resultsROC = indicatorOfROC.analyize();
-		resultsMFI = indicatorOfMFI.analyize();
-		resultsWILLR = indicatorOfWILLR.analyize();
+	public void analyize(ArrayList<SignalMetricType> listOfSignalMetricType) {
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_cci)){resultsCCI = indicatorOfCCI.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_di)){resultsDI = indicatorOfDI.analize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_macd)){resultsMACD = indicatorOfMACD.analize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_rsi)){resultsRSI = indicatorOfRSI.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_trix)){resultsTRIX = indicatorOfTRIX.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_roc)){resultsROC = indicatorOfROC.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_mfi)){resultsMFI = indicatorOfMFI.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
+//		if (listOfSignalMetricType.contains(SignalMetricType.metric_)){resultsBB = indicatorOfBB.analyize();}
 	}
 	
 	public ArrayList<IndicatorBase> getListOfIndicatorBase(){

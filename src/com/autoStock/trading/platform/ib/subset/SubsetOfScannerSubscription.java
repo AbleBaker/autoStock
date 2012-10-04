@@ -17,6 +17,8 @@ public class SubsetOfScannerSubscription {
 
 		scannerSubscription.stockTypeFilter("ALL");
 		scannerSubscription.averageOptionVolumeAbove(0);
+		scannerSubscription.abovePrice(4.00);
+		scannerSubscription.belowPrice(1000.00);
 
 		if (exchange.exchangeDesignation == ExchangeDesignation.NYSE) {
 			scannerSubscription.instrument("STK");
@@ -30,9 +32,6 @@ public class SubsetOfScannerSubscription {
 		} else {
 			throw new UnsupportedOperationException();
 		}
-
-		scannerSubscription.abovePrice(3.00);
-		scannerSubscription.belowPrice(1000.00);
 
 		modifyScannerWithType(scannerSubscription, marketScannerType);
 

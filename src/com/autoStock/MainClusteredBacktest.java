@@ -99,9 +99,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		if (commandHolder.command == Command.backtest_results){
 			ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
 			listOfComputeResultForBacktest.add(computeResult);
-//			Co.println("--> X: " + computeResult.requestId + ", " + computeResult.unitId +", " + computeResult.accountBalance + ", " + computeResult.transactions);
 			
-			Co.println("--> X: " + listOfComputeResultForBacktest.size() + ", " + adjustmentCampaign.getPermutationCount());
+			Co.println("--> Progress: " + listOfComputeResultForBacktest.size() + ", " + adjustmentCampaign.getPermutationCount());
 
 			if (listOfComputeResultForBacktest.size() == adjustmentCampaign.getPermutationCount()){
 				Co.println("--> All done!");

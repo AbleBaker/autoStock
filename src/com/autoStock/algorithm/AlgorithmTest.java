@@ -1,8 +1,11 @@
 package com.autoStock.algorithm;
 
+import java.util.ArrayList;
+
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.indicator.IndicatorGroup;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
@@ -17,12 +20,15 @@ import com.autoStock.types.Symbol;
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	public StrategyOfTest strategy = new StrategyOfTest(this);
+	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode) {
 		super(canTrade, exchange, symbol, algorithmMode);
 		
 		indicatorGroup = new IndicatorGroup(periodLength, commonAnlaysisData);
 		signalGroup = new SignalGroup();
+		
+		listOfSignalMetricType.add(SignalMetricType.metric_rsi);
 	}
 
 	@Override
@@ -32,7 +38,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		if (listOfQuoteSlice.size() >= periodLength) {
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet(listOfQuoteSlice, periodLength);
-			indicatorGroup.analyize();
+			indicatorGroup.analyize(listOfSignalMetricType);
 			signalGroup.generateSignals(commonAnlaysisData, indicatorGroup, periodLength);
 
 			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice);
