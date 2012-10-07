@@ -39,15 +39,15 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxStopLossValue = -100;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
-		strategyOptions.maxPositionEntryTime = 30;
-		strategyOptions.maxPositionExitTime = 10;
+		strategyOptions.maxPositionEntryTime = 45;
+		strategyOptions.maxPositionExitTime = 5;
 		strategyOptions.maxPositionTaperTime = 30;
 	}
 	
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice){
 		StrategyResponse strategyResponse = new StrategyResponse();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
-		Position position = PositionManager.instance.getPosition(algorithmBase.symbol.symbolName);
+		Position position = PositionManager.getInstance().getPosition(algorithmBase.symbol);
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(

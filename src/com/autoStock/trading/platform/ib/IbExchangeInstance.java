@@ -5,17 +5,16 @@ package com.autoStock.trading.platform.ib;
 
 import java.text.SimpleDateFormat;
 
-import com.autoStock.exchange.ExchangeHelper.ExchangeDesignation;
+import com.autoStock.exchange.ExchangeDefinitions.ExchangeDesignation;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.internal.Config;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
-import com.autoStock.trading.platform.ib.core.Order;
 import com.autoStock.trading.platform.ib.core.ScannerSubscription;
 import com.autoStock.trading.platform.ib.subset.SubsetOfScannerSubscription;
 import com.autoStock.trading.types.HistoricalData;
-import com.autoStock.trading.types.Position;
+import com.autoStock.trading.types.Order;
 import com.autoStock.trading.types.RealtimeData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -50,64 +49,64 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqOpenOrders();
 	}
 	
-	public void placeLongEntry(Position typePosition, RequestHolder requestHolder, Exchange exchange){
+	public void placeLongEntry(Order order, RequestHolder requestHolder){
 		Contract contract = new Contract();
-		Order order = new Order();
-		contract.m_exchange = exchange.name;
-		contract.m_symbol = typePosition.symbol;
+		com.autoStock.trading.platform.ib.core.Order ibOrder = new com.autoStock.trading.platform.ib.core.Order();
+		contract.m_exchange = order.exchange.name;
+		contract.m_symbol = order.symbol.symbolName;
+		contract.m_currency = order.exchange.currency.name();
 		contract.m_secType = "STK";
-		contract.m_currency = exchange.currency.name();
-		order.m_action = "BUY";
-		order.m_orderType = "MKT";
-		order.m_auxPrice = 0;
-		order.m_totalQuantity = typePosition.units;
+		ibOrder.m_action = "BUY";
+		ibOrder.m_orderType = "MKT";
+		ibOrder.m_auxPrice = 0;
+		ibOrder.m_totalQuantity = order.getUnitsRequested();
 		
-		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
+		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, ibOrder);
 	}
 	
-	public void placeLongExit(Position typePosition, RequestHolder requestHolder, Exchange exchange){
+	public void placeLongExit(Order order, RequestHolder requestHolder){
 		Contract contract = new Contract();
-		Order order = new Order();
-		contract.m_exchange = exchange.name;
-		contract.m_symbol = typePosition.symbol;
+		com.autoStock.trading.platform.ib.core.Order ibOrder = new com.autoStock.trading.platform.ib.core.Order();
+		contract.m_exchange = order.exchange.name;
+		contract.m_symbol = order.symbol.symbolName;
 		contract.m_secType = "STK";
-		contract.m_currency = exchange.currency.name();
-		order.m_action = "SELL";
-		order.m_orderType = "MKT";
-		order.m_auxPrice = 0;
-		order.m_totalQuantity = typePosition.units;
+		contract.m_currency = order.exchange.currency.name();
+		ibOrder.m_action = "SELL";
+		ibOrder.m_orderType = "MKT";
+		ibOrder.m_auxPrice = 0;
+		ibOrder.m_totalQuantity = order.getUnitsRequested();
 		
-		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
+		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, ibOrder);
 	}
 	
-	public void placeShortEntry(Position typePosition, RequestHolder requestHolder, Exchange exchange){
+	public void placeShortEntry(Order order, RequestHolder requestHolder){
 		Contract contract = new Contract();
-		Order order = new Order();
-		contract.m_exchange = exchange.name;
-		contract.m_symbol = typePosition.symbol;
+		com.autoStock.trading.platform.ib.core.Order ibOrder = new com.autoStock.trading.platform.ib.core.Order();
+		contract.m_exchange = order.exchange.name;
+		contract.m_symbol = order.symbol.symbolName;
 		contract.m_secType = "STK";
-		contract.m_currency = exchange.currency.name();
-		order.m_action = "SELL";
-		order.m_orderType = "MKT";
-		order.m_auxPrice = 0;
-		order.m_totalQuantity = typePosition.units;
+		contract.m_currency = order.exchange.currency.name();
+		ibOrder.m_action = "SELL";
+		ibOrder.m_orderType = "MKT";
+		ibOrder.m_auxPrice = 0;
+		ibOrder.m_totalQuantity = order.getUnitsRequested();
 		
-		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
+		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, ibOrder);
 	}
 	
-	public void placeShortExit(Position typePosition, RequestHolder requestHolder, Exchange exchange){
+	public void placeShortExit(Order order, RequestHolder requestHolder){
 		Contract contract = new Contract();
-		Order order = new Order();
-		contract.m_exchange = exchange.name;
-		contract.m_symbol = typePosition.symbol;
+		com.autoStock.trading.platform.ib.core.Order ibOrder = new com.autoStock.trading.platform.ib.core.Order();
+		contract.m_exchange = order.exchange.name;
+		contract.m_symbol = order.symbol.symbolName;
 		contract.m_secType = "STK";
-		contract.m_currency = exchange.currency.name();
-		order.m_action = "BUY";
-		order.m_orderType = "MKT";
-		order.m_auxPrice = 0;
-		order.m_totalQuantity = typePosition.units;
+		contract.m_currency = order.exchange.currency.name();
+		ibOrder.m_action = "BUY";
+		ibOrder.m_orderType = "MKT";
+		ibOrder.m_auxPrice = 0;
+		ibOrder.m_totalQuantity = order.getUnitsRequested();
 		
-		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, order);
+		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, ibOrder);
 	}
 	
 	public void getScanner(RequestHolder requestHolder, Exchange exchange, MarketScannerType marketScannerType){
@@ -154,5 +153,9 @@ public class IbExchangeInstance {
 	
 	public void cancelMarketData(RequestHolder requestHolder){
 		ibExchangeClientSocket.eClientSocket.cancelMktData(requestHolder.requestId);
+	}
+	
+	public void cancelMarketOrder(RequestHolder requestHolder){
+		ibExchangeClientSocket.eClientSocket.cancelOrder(requestHolder.requestId);
 	}
 }

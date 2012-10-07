@@ -20,7 +20,7 @@ public class QuoteSliceTools {
 	public synchronized QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData, Symbol symbol){
 		
 		QuoteSlice quoteSlice = new QuoteSlice();
-		quoteSlice.symbol = symbol.symbolName;
+		quoteSlice.symbol = symbol;
 			
 		ArrayList<Double> listOfPriceLast = new ArrayList<Double>();
 		ArrayList<Double> listOfPriceBid = new ArrayList<Double>();

@@ -109,7 +109,7 @@ public class AlgorithmBase {
 		
 		listOfQuoteSlice.add(quoteSlice);
 		
-		PositionManager.instance.updatePositionPrice(quoteSlice, PositionManager.instance.getPosition(quoteSlice.symbol));
+		PositionManager.getInstance().updatePositionPrice(quoteSlice, PositionManager.getInstance().getPosition(quoteSlice.symbol));
 	}
 	
 	public void finishedReceiverOfQuoteSlice(){

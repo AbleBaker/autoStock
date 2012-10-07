@@ -8,6 +8,7 @@ import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.trading.types.Position;
+import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -15,22 +16,11 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class PositionGenerator {
-	private Account account;
+	private Account account = Account.getInstance();
 	private final int positionMaximumPrice = 5000;
 	
-	public PositionGenerator(Account account){
-		this.account = account;
-	}
-	
-	public Position generatePosition(QuoteSlice typeQuoteSlice, Signal signal, PositionType positionType){
-		Position position = new Position();
-		position.symbol = typeQuoteSlice.symbol;
-		position.price = typeQuoteSlice.priceClose;
-		position.lastKnownPrice = typeQuoteSlice.priceClose;
-		position.securityType = "STK";
-		position.units = (int) getPositionUnits(position.price, signal);
-		position.positionType = positionType;
-		
+	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange){
+		Position position = new Position(positionType, (int) getPositionUnits(quoteSlice.priceClose, signal), quoteSlice.symbol, exchange, "STK", quoteSlice.priceClose);
 		return position;
 	}
 	

@@ -56,12 +56,12 @@ public class ActiveAlgorithmContainer {
 		Co.println("--> Deactivating: " + symbol.symbolName);
 		if (requestMarketData != null){requestMarketData.cancel();}
 		algorithm.endOfFeed(symbol);
-		Position position = PositionManager.instance.getPosition(symbol.symbolName);
+		Position position = PositionManager.getInstance().getPosition(symbol);
 		if (position != null){
 			if (position.positionType == PositionType.position_long){
-				PositionManager.instance.executePosition(algorithm.getCurrentQuoteSlice(), algorithm.strategy.signal, PositionType.position_long_exit);
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_long_exit);
 			}else if (position.positionType == PositionType.position_short){
-				PositionManager.instance.executePosition(algorithm.getCurrentQuoteSlice(), algorithm.strategy.signal, PositionType.position_short_exit);	
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_short_exit);	
 			}else{
 				throw new IllegalStateException();
 			}

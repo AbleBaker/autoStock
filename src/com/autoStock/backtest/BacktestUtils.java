@@ -27,19 +27,19 @@ public class BacktestUtils {
 		}
 		
 		string += "\nPeriod length: " + SignalControl.periodLengthStart + "\n";
-		string += "Transactions: " + Account.instance.getTransactions() + "\n";
-		string += "Fees: " + Account.instance.getTransactionFeesPaid() + "\n";
-		string += "Balance: " + Account.instance.getAccountBalance() + "\n";
+		string += "Transactions: " + Account.getInstance().getTransactions() + "\n";
+		string += "Fees: " + Account.getInstance().getTransactionFeesPaid() + "\n";
+		string += "Balance: " + Account.getInstance().getAccountBalance() + "\n";
 		
 		return string;
 	}
 	
 	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions){
-		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.instance.getAccountBalance()) + " ********";
+		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance()) + " ********";
 		
-		string += "\n --> Balance: " + MiscTools.getCommifiedValue(Account.instance.getAccountBalance());
-		string += "\n --> Transactions: " + Account.instance.getTransactions();
-		string += "\n --> Fees: " + MiscTools.getCommifiedValue(Account.instance.getTransactionFeesPaid());
+		string += "\n --> Balance: " + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance());
+		string += "\n --> Transactions: " + Account.getInstance().getTransactions();
+		string += "\n --> Fees: " + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
 		
 		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
 			string += "\n\n --> Signal metric: " + signalMetric.signalMetricType.name() + "\n";
@@ -51,6 +51,7 @@ public class BacktestUtils {
 		
 		string += "\n Can go long: " + strategyOptions.canGoLong;
 		string += "\n Can go short: " + strategyOptions.canGoShort;
+		string += "\n Can reenter: " + strategyOptions.canReenter;
 		string += "\n Disable after nil changes: " + strategyOptions.disableAfterNilChanges;
 		string += "\n Disable after nil changes in price: " + strategyOptions.maxNilChangePrice;
 		string += "\n Disable after nil changes in volume: " + strategyOptions.maxNilChangeVolume;

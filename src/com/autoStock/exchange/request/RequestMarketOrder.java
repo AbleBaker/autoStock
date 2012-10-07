@@ -10,8 +10,8 @@ import com.autoStock.exchange.request.listener.RequestMarketOrderListener;
 import com.autoStock.exchange.results.ExResultMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
-import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.trading.types.Position;
+import com.autoStock.order.OrderDefinitions.OrderType;
+import com.autoStock.trading.types.Order;
 import com.autoStock.types.Exchange;
 
 /**
@@ -21,33 +21,37 @@ import com.autoStock.types.Exchange;
 public class RequestMarketOrder {
 	private ExResultSetMarketOrder exResultSetMarketOrder;
 	private RequestHolder requestHolder;
-	private Position typePosition;
+	private Order order;
 	
-	public RequestMarketOrder(RequestHolder requestHolder, Position typePosition, Exchange exchange){
+	public RequestMarketOrder(RequestHolder requestHolder, Order order, Exchange exchange){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
-		this.typePosition = typePosition;
-		this.exResultSetMarketOrder = new ExResultMarketOrder(). new ExResultSetMarketOrder(typePosition);
+		this.order = order;
+		this.exResultSetMarketOrder = new ExResultMarketOrder(). new ExResultSetMarketOrder(order);
 		
-		if (typePosition.positionType == PositionType.position_long_entry){
-			ExchangeController.getIbExchangeInstance().placeLongEntry(typePosition, requestHolder, exchange);
-		}else if (typePosition.positionType == PositionType.position_long_exit){
-			ExchangeController.getIbExchangeInstance().placeLongExit(typePosition, requestHolder, exchange);
-		}else if (typePosition.positionType == PositionType.position_short_entry){
-			 ExchangeController.getIbExchangeInstance().placeShortEntry(typePosition, requestHolder, exchange);
-		}else if (typePosition.positionType == PositionType.position_short_exit){
-			 ExchangeController.getIbExchangeInstance().placeShortExit(typePosition, requestHolder, exchange);
+		if (order.orderType == OrderType.order_long_entry){
+			ExchangeController.getIbExchangeInstance().placeLongEntry(order, requestHolder);
+		}else if (order.orderType == OrderType.order_long_exit){
+			ExchangeController.getIbExchangeInstance().placeLongExit(order, requestHolder);
+		}else if (order.orderType == OrderType.order_short_entry){
+			 ExchangeController.getIbExchangeInstance().placeShortEntry(order, requestHolder);
+		}else if (order.orderType == OrderType.order_short_exit){
+			 ExchangeController.getIbExchangeInstance().placeShortExit(order, requestHolder);
 		}else{
 			throw new UnsupportedOperationException();
 		}
 	}
 	
 	public synchronized void addResult(ExResultRowMarketOrder exResultRowMarketOrder){
-		((RequestMarketOrderListener)requestHolder.callback).completed(requestHolder, exResultSetMarketOrder);
-		this.exResultSetMarketOrder.listOfExResultRowMarketOrder.add(exResultRowMarketOrder);
+		exResultSetMarketOrder.listOfExResultRowMarketOrder.add(exResultRowMarketOrder);
+		((RequestMarketOrderListener)requestHolder.callback).receivedChange(requestHolder, exResultRowMarketOrder);
 	}
 	
 	public synchronized void finished(){
-		Co.println("Finished market order...");
+		((RequestMarketOrderListener)requestHolder.callback).completed(requestHolder, exResultSetMarketOrder);
+	}
+	
+	public void cancel(){
+		ExchangeController.getIbExchangeInstance().cancelMarketOrder(requestHolder);
 	}
 }

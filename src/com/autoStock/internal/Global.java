@@ -9,7 +9,7 @@ package com.autoStock.internal;
  */
 public class Global {
 	private static Mode mode;
-	public static CallbackLock callbackLock = new CallbackLock(); 
+	public static CallbackLock callbackLock = new CallbackLock();
 	
 	public static Mode getMode() {return mode;}
 	public static void setMode(Mode mode) {Global.mode = mode;}

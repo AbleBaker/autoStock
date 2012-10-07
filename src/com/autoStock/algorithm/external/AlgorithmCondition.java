@@ -52,28 +52,37 @@ public class AlgorithmCondition {
 	public boolean takeProfit(Position position, QuoteSlice quoteSlice){
 		double percentGainFromPosition = 0;
 		
-		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
-			if (position.price != 0 && position.lastKnownPrice != 0){
-				percentGainFromPosition = (position.lastKnownPrice / position.price);
+		if (position.isFilled()){
+			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
+				if (position.getAveragePrice() != 0 && position.lastKnownPrice != 0){
+					percentGainFromPosition = (position.lastKnownPrice / position.getAveragePrice());
+				}
 			}
+			
+			return percentGainFromPosition >= strategyOptions.minTakeProfitExit;
 		}
 		
-		return percentGainFromPosition >= strategyOptions.minTakeProfitExit;
+		return false;
 	}
 	
+	//TODO: This is inaccurate
 	public boolean stopLoss(Position position){
-		double transactionCostTotal = 0;
-		double valueGainFromPosition = 0;
+		if (position.isFilled()){
+			double transactionCostTotal = 0;
+			double valueGainFromPosition = 0;
+			
+			transactionCostTotal += Account.getInstance().getTransactionCost(position.getUnitsFilled(), position.getAveragePrice());
+			transactionCostTotal += Account.getInstance().getTransactionCost(position.getUnitsFilled(), position.lastKnownPrice);
+			
+			valueGainFromPosition = (position.lastKnownPrice * position.getUnitsFilled()) - (position.getAveragePrice() * position.getUnitsFilled());
+			valueGainFromPosition -= transactionCostTotal;
+			
+//			Co.println("--> Value gain: " + valueGainFromPosition + (valueGainFromPosition < maxStopLossValue));
 		
-		transactionCostTotal += Account.instance.getTransactionCost(position.units, position.price);
-		transactionCostTotal += Account.instance.getTransactionCost(position.units, position.lastKnownPrice);
+			return valueGainFromPosition < strategyOptions.maxStopLossValue;
+		}
 		
-		valueGainFromPosition = (position.lastKnownPrice * position.units) - (position.price * position.units);
-		valueGainFromPosition -= transactionCostTotal;
-		
-//		Co.println("--> Value gain: " + valueGainFromPosition + (valueGainFromPosition < maxStopLossValue));
-		
-		return valueGainFromPosition < strategyOptions.maxStopLossValue;
+		return false;
 	}
 	
 	public boolean requestExitOnDate(Date date, Exchange exchange){

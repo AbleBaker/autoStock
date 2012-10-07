@@ -10,6 +10,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -54,7 +55,7 @@ public class DataFeedHistoricalPrices {
 	
 	private void feed(DbStockHistoricalPrice price){
 		for (DataFeedListenerOfQuoteSlice listener : listOfListener){
-			listener.receivedQuoteSlice(new QuoteSlice(price.symbol, price.priceOpen, price.priceHigh, price.priceLow, price.priceClose, -1, -1, price.sizeVolume, price.dateTime, resolution));
+			listener.receivedQuoteSlice(new QuoteSlice(new Symbol(price.symbol), price.priceOpen, price.priceHigh, price.priceLow, price.priceClose, -1, -1, price.sizeVolume, price.dateTime, resolution));
 		}
 	}
 	

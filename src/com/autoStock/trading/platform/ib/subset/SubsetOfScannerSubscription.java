@@ -1,6 +1,6 @@
 package com.autoStock.trading.platform.ib.subset;
 
-import com.autoStock.exchange.ExchangeHelper.ExchangeDesignation;
+import com.autoStock.exchange.ExchangeDefinitions.ExchangeDesignation;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.trading.platform.ib.core.ScannerSubscription;
 import com.autoStock.types.Exchange;

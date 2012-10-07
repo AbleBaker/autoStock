@@ -13,7 +13,7 @@ import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.R
  *
  */
 public class QuoteSlice implements Cloneable {
-	public String symbol;
+	public Symbol symbol;
 	public double priceOpen;
 	public double priceHigh;
 	public double priceLow;
@@ -28,7 +28,7 @@ public class QuoteSlice implements Cloneable {
 		
 	}
 	
-	public QuoteSlice(String symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, double priceBid, double priceAsk, int sizeVolume, Date dateTime, Resolution resolution) {
+	public QuoteSlice(Symbol symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, double priceBid, double priceAsk, int sizeVolume, Date dateTime, Resolution resolution) {
 		this.symbol = symbol;
 		this.priceOpen = priceOpen;
 		this.priceHigh = priceHigh;

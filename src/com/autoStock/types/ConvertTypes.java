@@ -17,7 +17,7 @@ public class ConvertTypes {
 		
 		for (DbStockHistoricalPrice dbStockHistoricalPrice : listOfDbStockHistoricalPrice){
 			QuoteSlice typeQuoteSlice = new QuoteSlice();
-			typeQuoteSlice.symbol = dbStockHistoricalPrice.symbol;
+			typeQuoteSlice.symbol = new Symbol(dbStockHistoricalPrice.symbol);
 			typeQuoteSlice.dateTime = dbStockHistoricalPrice.dateTime;
 			typeQuoteSlice.priceOpen = dbStockHistoricalPrice.priceOpen;
 			typeQuoteSlice.priceHigh = dbStockHistoricalPrice.priceHigh;

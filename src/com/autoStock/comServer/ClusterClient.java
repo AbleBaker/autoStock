@@ -71,6 +71,7 @@ public class ClusterClient {
 							receivedLine = in.readLine();
 						} catch (SocketException socketException){
 							Co.println("--> Socket closed...");
+							ApplicationStates.shutdown();
 							return;
 						} catch (IOException e) {
 							e.printStackTrace();

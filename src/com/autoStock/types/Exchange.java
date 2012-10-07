@@ -6,7 +6,7 @@ import java.util.Date;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
-import com.autoStock.exchange.ExchangeHelper;
+import com.autoStock.exchange.ExchangeDefinitions;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.finance.Currency.CurrencyDefinitions;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
@@ -17,7 +17,7 @@ import com.autoStock.types.basic.Time;
  * @author Kevin Kowalewski 
  */
 
-public class Exchange extends ExchangeHelper {
+public class Exchange extends ExchangeDefinitions {
 	public String name;
 	public CurrencyDefinitions currency;
 	public Time timeOpenForeign;

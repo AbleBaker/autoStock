@@ -14,7 +14,7 @@ import com.google.common.util.concurrent.AtomicDouble;
  *
  */
 public class Account {
-	public static Account instance = new Account();
+	private static Account instance = new Account();
 	public final double bankBalanceDefault = 100000.00;
 	private final double transactionFeesDefault = 0;
 	private AtomicDouble bankBalance = new AtomicDouble();
@@ -23,6 +23,10 @@ public class Account {
 	
 	private Account(){
 		resetAccount();
+	}
+	
+	public static Account getInstance(){
+		return instance;
 	}
 	
 	public synchronized double getAccountBalance(){
@@ -52,7 +56,7 @@ public class Account {
 		}
 	}
 	
-	public synchronized double getTransactionCost(int units, double price){
+	public synchronized double getTransactionCost(int units, double price){ //TODO: SecurityType securityType, Exchange exchange
 		synchronized (this) {
 			double cost = 0;
 			if (units <= 500){

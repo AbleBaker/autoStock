@@ -49,7 +49,7 @@ public class AlgorithmTable {
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalPointType == SignalPointType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalPointType.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add(getTransactionDetails(strategyResponse));
-		columnValues.add(String.valueOf(Account.instance.getAccountBalance()));
+		columnValues.add(String.valueOf(Account.getInstance().getAccountBalance()));
 		
 		listOfDisplayRows.add(columnValues);
 	}

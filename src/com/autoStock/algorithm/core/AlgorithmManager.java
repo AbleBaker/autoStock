@@ -85,8 +85,8 @@ public class AlgorithmManager {
 			algorithmInfoManager.deactivatedSymbol(container.symbol.symbolName);
 		}
 		
-		if (PositionManager.instance.getPositionListSize() > 0){
-			throw new IllegalStateException("Position manager still has: " + PositionManager.instance.getPositionListSize() + " positions...");
+		if (PositionManager.getInstance().getPositionListSize() > 0){
+			throw new IllegalStateException("Position manager still has: " + PositionManager.getInstance().getPositionListSize() + " positions...");
 		}
 	}
 	
@@ -102,11 +102,11 @@ public class AlgorithmManager {
 	
 	public void displayAlgorithmTable(){
 		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
-		Co.println("--> Current P&L: " + PositionManager.instance.getCurrentProfitLossIncludingFees());
-		Co.println("--> Current account balance: " + Account.instance.getAccountBalance() + ", " 
-		+ PositionManager.instance.getAllPositionValueIncludingFees() + ", " 
-		+ (Account.instance.getAccountBalance() + PositionManager.instance.getAllPositionValueIncludingFees()) + ", [" 
-		+ ((Account.instance.getAccountBalance() + PositionManager.instance.getAllPositionValueIncludingFees()) - Account.instance.bankBalanceDefault) + "]");
+		Co.println("--> Current P&L: " + PositionManager.getInstance().getCurrentProfitLossIncludingFees());
+		Co.println("--> Current account balance: " + Account.getInstance().getAccountBalance() + ", " 
+		+ PositionManager.getInstance().getAllPositionValueIncludingFees() + ", " 
+		+ (Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) + ", [" 
+		+ ((Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) - Account.getInstance().bankBalanceDefault) + "]");
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){
@@ -122,7 +122,7 @@ public class AlgorithmManager {
 	}
 	
 	public void displayEndOfDayStats(ArrayList<ArrayList<String>> listOfAlgorithmDisplayRows){
-		Co.println("--> Account balance, transactions, fees paid: " + Account.instance.getAccountBalance() + ", " + Account.instance.getTransactions() + ", " + Account.instance.getTransactionFeesPaid());
+		Co.println("--> Account balance, transactions, fees paid: " + Account.getInstance().getAccountBalance() + ", " + Account.getInstance().getTransactions() + ", " + Account.getInstance().getTransactionFeesPaid());
 		new TableController().displayTable(AsciiTables.algorithm_manager, listOfAlgorithmDisplayRows);
 		
 		Co.println(new Gson().toJson(algorithmInfoManager.listOfAlgorithmInfo));

@@ -21,7 +21,7 @@ public class AlgorithmManagerTable {
 	public void addRow(AlgorithmTest algorithm, ArrayList<QuoteSlice> listOfQuoteSlice){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		
-		Position position = PositionManager.instance.getPosition(algorithm.symbol.symbolName);
+		Position position = PositionManager.getInstance().getPosition(algorithm.symbol);
 		
 		double percentGainFromAlgorithm = 0;
 		double percentGainFromPosition = 0;
@@ -33,8 +33,8 @@ public class AlgorithmManagerTable {
 		}
 		
 		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
-			if (position.price != 0 && position.lastKnownPrice != 0){
-				percentGainFromPosition = (position.lastKnownPrice / position.price);
+			if (position.getAveragePrice() != 0 && position.lastKnownPrice != 0){
+				percentGainFromPosition = (position.lastKnownPrice / position.getAveragePrice());
 			}
 		}
 		

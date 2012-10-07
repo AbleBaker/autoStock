@@ -18,7 +18,6 @@ import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
-import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalMetric;
@@ -74,7 +73,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.exchange = exchange;
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
-		Global.callbackLock.requestLock();
 		Global.callbackLock.requestLock();
 		
 		if (algorithmMode.displayChart){
@@ -182,17 +180,17 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				return false;
 			}
 			
-			PositionManager.instance.executeSellAll();
+			PositionManager.getInstance().executeExitAll();
 			
-			if (Account.instance.getAccountBalance() > metricBestAccountBalance){
+			if (Account.getInstance().getAccountBalance() > metricBestAccountBalance){
 				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal));
-				metricBestAccountBalance = Account.instance.getAccountBalance();
+				metricBestAccountBalance = Account.getInstance().getAccountBalance();
 			}
 						
 			if (adjustmentCampaign.runAdjustment()) {
 				currentBacktestDayIndex = 0;
 				
-				Account.instance.resetAccount();
+				Account.getInstance().resetAccount();
 				runNextBacktestForDays(false);
 			}else{
 				Co.println("******** End of backtest and adjustment ********");

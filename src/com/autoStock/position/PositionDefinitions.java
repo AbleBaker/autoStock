@@ -9,14 +9,14 @@ package com.autoStock.position;
  */
 public class PositionDefinitions {
 	
-	public enum PositionReason {
+	public static enum PositionReason {
 		reason_signal_threshold,
 		reason_algorith_condition,
 		reason_time,
 		reason_none,
 	}
 	
-	public enum PositionType {
+	public static enum PositionType {
 		position_long_entry,
 		position_short_entry,
 		position_long,
@@ -24,9 +24,16 @@ public class PositionDefinitions {
 		position_long_exit,
 		position_short_exit,
 		
+		position_cancelling,
+		position_canceled,
 		position_exited,
 		position_failed,
 		position_none,
 		;
+	}
+	
+	public static enum PositionReality {
+		reality_synthesized,
+		reality_submit,
 	}
 }

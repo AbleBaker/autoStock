@@ -1,8 +1,6 @@
 package com.autoStock.strategy;
 
-import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.trading.types.Position;
 
 /**

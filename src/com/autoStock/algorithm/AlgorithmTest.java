@@ -1,7 +1,10 @@
 package com.autoStock.algorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.adjust.Iteration;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.indicator.IndicatorGroup;
@@ -28,7 +31,13 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		indicatorGroup = new IndicatorGroup(periodLength, commonAnlaysisData);
 		signalGroup = new SignalGroup();
 		
-		listOfSignalMetricType.add(SignalMetricType.metric_rsi);
+		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
+			for (Iteration iteration : AdjustmentCampaign.getInstance().getListOfIterations()){
+				listOfSignalMetricType.add(iteration.signalTypeMetric);
+			}
+		}else{
+			listOfSignalMetricType.addAll(Arrays.asList(SignalMetricType.values()));	
+		}
 	}
 
 	@Override

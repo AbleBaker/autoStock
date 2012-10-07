@@ -15,6 +15,7 @@ import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
+import com.autoStock.order.OrderDefinitions.IbOrderStatus;
 import com.autoStock.trading.platform.ib.core.CommissionReport;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.ContractDetails;
@@ -106,8 +107,11 @@ public class IbExchangeWrapper implements EWrapper {
 		
 		if (status.equals("Filled")){
 			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).finished();
+		}else if (status.equals("Cancelled")){
+			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).addResult(new ExResultRowMarketOrder(avgFillPrice, lastFillPrice, 0, filled, remaining, filled-remaining, IbOrderStatus.getIbOrderStatus(status)));
+			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).finished();
 		}else{
-			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).addResult(new ExResultRowMarketOrder(avgFillPrice, lastFillPrice, 0, filled, remaining, filled-remaining, status));
+			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).addResult(new ExResultRowMarketOrder(avgFillPrice, lastFillPrice, 0, filled, remaining, filled-remaining, IbOrderStatus.getIbOrderStatus(status)));
 		}
 	}
 

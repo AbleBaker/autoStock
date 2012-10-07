@@ -5,7 +5,7 @@ package com.autoStock.exchange;
  * @author Kevin Kowalewski
  * 
  */
-public class ExchangeHelper {	
+public class ExchangeDefinitions {	
 	public static enum ExchangeDesignation {
 		NYSE,
 		ASX,

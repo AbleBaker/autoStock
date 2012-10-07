@@ -25,7 +25,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	private ArrayList<Backtest> listOfBacktest = new ArrayList<Backtest>();
 	private ArrayList<AlgorithmTest> listOfAlgorithmTest = new ArrayList<AlgorithmTest>();
 	private Shortlist shortlist = new Shortlist("NYSE");
-	private PositionManager positionManager = PositionManager.instance;
+	private PositionManager positionManager = PositionManager.getInstance();
 	private int endOfAlgorithmCount = 0;
 	
 	public MarketScanner(){
@@ -99,8 +99,8 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 //	public void endOfAlgorithm() {
 //		Co.println("End of algo: " + endOfAlgorithmCount + "," + listOfAlgorithmTest.size());
 //		if (endOfAlgorithmCount == listOfAlgorithmTest.size()-1){
-//			PositionManager.instance.executeSellAll();
-//			Co.println("Account balance: " + Account.instance.getAccountBalance() + " Fees paid: " + Account.instance.getTransactionFeesPaid());
+//			PositionManager.getInstance().executeSellAll();
+//			Co.println("Account balance: " + Account.getInstance().getAccountBalance() + " Fees paid: " + Account.getInstance().getTransactionFeesPaid());
 //		}
 //		
 //		endOfAlgorithmCount++;
