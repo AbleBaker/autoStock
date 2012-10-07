@@ -119,7 +119,7 @@ public class PositionManager implements PositionStatusListener {
 		synchronized(lock){
 			double valueOfAllPositions = 0; 
 			for (Position position : listOfPosition){
-				valueOfAllPositions += position.getPositionCurrentValue(true);
+				valueOfAllPositions += position.getCurrentValue(true);
 			}
 			
 			return valueOfAllPositions;
@@ -127,9 +127,14 @@ public class PositionManager implements PositionStatusListener {
 	}
 
 	@Override
-	public void positionStatusChange(Position position) {
-		if (position.positionType == PositionType.position_exited){
-			listOfPosition.remove(position);
+	public synchronized void positionStatusChange(Position position) {
+		synchronized(lock){
+			Co.println("--> PositionManager, position status change: " + position.positionType.name());
+			if (position.positionType == PositionType.position_exited){
+				listOfPosition.remove(position);
+				position = null; //?
+				Co.println("--> Removed... " + listOfPosition.size());
+			}
 		}
 	}
 }

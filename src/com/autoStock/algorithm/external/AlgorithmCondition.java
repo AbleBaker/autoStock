@@ -3,6 +3,7 @@ package com.autoStock.algorithm.external;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.strategy.StrategyOptions;
@@ -54,8 +55,8 @@ public class AlgorithmCondition {
 		
 		if (position.isFilled()){
 			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
-				if (position.getAveragePrice() != 0 && position.lastKnownPrice != 0){
-					percentGainFromPosition = (position.lastKnownPrice / position.getAveragePrice());
+				if (position.lastKnownPrice != 0){
+					percentGainFromPosition = position.getCurrentValue(true) / position.getEntryValue(true);
 				}
 			}
 			
@@ -68,16 +69,18 @@ public class AlgorithmCondition {
 	//TODO: This is inaccurate
 	public boolean stopLoss(Position position){
 		if (position.isFilled()){
-			double transactionCostTotal = 0;
+//			double transactionCostTotal = 0;
 			double valueGainFromPosition = 0;
 			
-			transactionCostTotal += Account.getInstance().getTransactionCost(position.getUnitsFilled(), position.getAveragePrice());
-			transactionCostTotal += Account.getInstance().getTransactionCost(position.getUnitsFilled(), position.lastKnownPrice);
+//			transactionCostTotal += Account.getInstance().getTransactionCost(position.getUnitsFilled(), position.getAveragePrice());
+//			transactionCostTotal += Account.getInstance().getTransactionCost(position.getUnitsFilled(), position.lastKnownPrice);
+//			
+//			valueGainFromPosition = (position.lastKnownPrice * position.getUnitsFilled()) - (position.getAveragePrice() * position.getUnitsFilled());
+//			valueGainFromPosition -= transactionCostTotal;
 			
-			valueGainFromPosition = (position.lastKnownPrice * position.getUnitsFilled()) - (position.getAveragePrice() * position.getUnitsFilled());
-			valueGainFromPosition -= transactionCostTotal;
+			valueGainFromPosition = position.getCurrentValue(true) - position.getEntryValue(true);
 			
-//			Co.println("--> Value gain: " + valueGainFromPosition + (valueGainFromPosition < maxStopLossValue));
+//			Co.println("--> Value gain: " + valueGainFromPosition + (valueGainFromPosition < strategyOptions.maxStopLossValue));
 		
 			return valueGainFromPosition < strategyOptions.maxStopLossValue;
 		}

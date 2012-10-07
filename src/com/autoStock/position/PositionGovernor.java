@@ -37,7 +37,7 @@ public class PositionGovernor {
 		if (position == null){
 			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			
-			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
+			if (signalPoint.signalPointType == SignalPointType.long_entry  && strategyOptions.canGoLong){
 				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange);
 			}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort){
 				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange);
@@ -53,19 +53,16 @@ public class PositionGovernor {
 				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
 				}
+			}else if (position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
+				Co.println("--> Position is not yet removed");
 			}else {
-				throw new IllegalStateException("Position type did not match: " + position.positionType.name());
+				throw new IllegalStateException("Position type did not match: " + position.positionType.name() + ", " + positionManager.getPositionListSize());
 			}
 		}
 
 		positionGovernorResponse.position = position;
-//		if (signal.currentSignalPoint == signalPoint){
-//			positionGovernorResponse.signalPoint = SignalPoint.none;
-//			positionGovernorResponse.signalPoint.signalMetricType = SignalMetricType.none;
-//		}else{
-			positionGovernorResponse.signalPoint = signalPoint;
-			signal.currentSignalPoint = signalPoint;
-//		}
+		positionGovernorResponse.signalPoint = signalPoint;
+		signal.currentSignalPoint = signalPoint;
 
 		return positionGovernorResponse;
 	} 

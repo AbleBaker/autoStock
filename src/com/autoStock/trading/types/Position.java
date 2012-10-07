@@ -117,44 +117,50 @@ public class Position implements OrderStatusListener {
 	}
 
 	public double getAveragePrice() {
-		return 1;
+		double averagePriceFilled = 0;
+		
+		for (Order order : listOfOrder){
+			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
+				averagePriceFilled += order.getValue();
+			}
+		}
+		
+		return averagePriceFilled;
 	}
 
 	public boolean isFilled() {
 		if (positionType == PositionType.position_long || positionType == PositionType.position_short) {
-
-			Co.println("--> Position is filled: " + getUnitsRequested() + ", " + getUnitsFilled() + ", " + firstKnownPrice + ", " + lastKnownPrice);
-
+			//Co.println("--> Position is filled: " + getUnitsRequested() + ", " + getUnitsFilled() + ", " + firstKnownPrice + ", " + lastKnownPrice);
 			return true;
 		}
 		return false;
 	}
 
-	public double getPositionEntryPrice(boolean includeTransactionFees) {
+	public double getEntryPrice(boolean includeTransactionFees) {
 		return MathTools.round(units * firstKnownPrice + (includeTransactionFees ? Account.getInstance().getTransactionCost(units, firstKnownPrice) : 0));
 	}
 
-	public double getPositionCurrentPrice(boolean includeTransactionFees) {
+	public double getCurrentPrice(boolean includeTransactionFees) {
 		return MathTools.round((units * lastKnownPrice) + (includeTransactionFees ? Account.getInstance().getTransactionCost(units, lastKnownPrice) : 0));
 	}
 
 	// TODO: Fix this
-	public double getPositionEntryValue(boolean includeTransactionFees) {
+	public double getEntryValue(boolean includeTransactionFees) {
 		return MathTools.round(units * firstKnownPrice - (includeTransactionFees ? Account.getInstance().getTransactionCost(units, firstKnownPrice) : 0));
 	}
 
 	// TODO: fix this too
-	public double getPositionCurrentValue(boolean includeTransactionFees) {
+	public double getCurrentValue(boolean includeTransactionFees) {
 		return MathTools.round((units * lastKnownPrice) - (includeTransactionFees ? Account.getInstance().getTransactionCost(units, lastKnownPrice) : 0));
 	}
 
 	public double getPositionProfitLossAfterComission() {
-		return MathTools.round(getPositionCurrentValue(true) - getPositionEntryPrice(true));
+		return MathTools.round(getCurrentValue(true) - getEntryPrice(true));
 	}
 
 	@Override
 	public void orderStatusChanged(Order order, OrderStatus orderStatus) {
-		Co.println("--> Received order status change: " + orderStatus.name());
+		Co.println("--> Received order status change: " + order.orderType.name() + ", " + orderStatus.name());
 		if (orderStatus == OrderStatus.status_filled) {
 			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
 				PositionCallback.setPositionSuccess(this);
