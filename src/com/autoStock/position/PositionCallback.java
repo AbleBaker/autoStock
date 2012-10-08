@@ -21,9 +21,9 @@ public class PositionCallback {
 
 	public static void affectBankBalance(Order order){
 		if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
-			Account.getInstance().changeAccountBalance(order.getValue(), Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getPrice()));
+			Account.getInstance().changeAccountBalance(order.getOrderValue().valueFilled, Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 		}else if (order.orderType == OrderType.order_long_exited || order.orderType == OrderType.order_short_exited){
-			Account.getInstance().changeAccountBalance(-1 * order.getValue(), Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getPrice()));
+			Account.getInstance().changeAccountBalance(-1 * order.getOrderValue().valueFilled, Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 		}else{
 			throw new IllegalStateException("Order type is: " + order.orderType.name());
 		}

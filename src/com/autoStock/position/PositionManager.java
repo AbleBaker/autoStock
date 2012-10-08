@@ -62,7 +62,7 @@ public class PositionManager implements PositionStatusListener {
 	public synchronized void updatePositionPrice(QuoteSlice quoteSlice, Position position) {
 		synchronized (lock) {
 			if (position != null) {
-				position.lastKnownPrice = quoteSlice.priceClose;
+				position.updatePositionUnitPrice(quoteSlice.priceClose);
 			}
 		}
 	}
@@ -119,7 +119,7 @@ public class PositionManager implements PositionStatusListener {
 		synchronized(lock){
 			double valueOfAllPositions = 0; 
 			for (Position position : listOfPosition){
-				valueOfAllPositions += position.getCurrentValue(true);
+				valueOfAllPositions += position.getPositionValue().priceCurrentWithFees;
 			}
 			
 			return valueOfAllPositions;

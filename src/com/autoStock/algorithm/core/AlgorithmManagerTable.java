@@ -33,8 +33,8 @@ public class AlgorithmManagerTable {
 		}
 		
 		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
-			if (position.getAveragePrice() != 0 && position.lastKnownPrice != 0){
-				percentGainFromPosition = (position.lastKnownPrice / position.getAveragePrice());
+			if (position.getPositionValue().unitPriceCurrent != 0 && position.getPositionValue().unitPriceFilled != 0){
+				percentGainFromPosition = position.getPositionValue().valueFilled / position.getPositionValue().valueCurrent;
 			}
 		}
 		

@@ -60,10 +60,10 @@ public class AlgorithmTable {
 			responseString = StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission());
 			
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
-				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getCurrentPrice(true));
+				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFees);
 				
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getCurrentValue(true));
+				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFees);
 				responseString += "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()) + ")";
 			}
 		}

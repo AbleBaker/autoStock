@@ -3,7 +3,6 @@
  */
 package com.autoStock.trading.types;
 
-import java.io.ObjectInputStream.GetField;
 import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 
@@ -13,8 +12,10 @@ import com.autoStock.order.OrderDefinitions.OrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderStatusListener;
 import com.autoStock.position.PositionCallback;
-import com.autoStock.position.PositionStatusListener;
+import com.autoStock.position.PositionUtils;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionStatusListener;
+import com.autoStock.position.PositionValue;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.Exchange;
@@ -29,11 +30,12 @@ public class Position implements OrderStatusListener {
 	public Symbol symbol;
 	public Exchange exchange;
 	public String securityType;
-	private double firstKnownPrice;
-	public double lastKnownPrice;
+	private final double unitPriceFirstKnown;
+	private double unitPriceLastKnown;
 	public PositionType positionType = PositionType.position_none;
 	private ArrayList<Order> listOfOrder = new ArrayList<Order>();
 	private PositionStatusListener positionStatusListener;
+	private PositionUtils positionUtils;
 	private Lock lock = new Lock();
 
 	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, String securityType, double currentPrice) {
@@ -42,8 +44,10 @@ public class Position implements OrderStatusListener {
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.securityType = securityType;
-		this.firstKnownPrice = currentPrice;
-		this.lastKnownPrice = currentPrice;
+		this.unitPriceFirstKnown = currentPrice;
+		this.unitPriceLastKnown = currentPrice;
+		
+		positionUtils = new PositionUtils(this, listOfOrder, lock);
 	}
 
 	public void setPositionListener(PositionStatusListener positionStatusListener) {
@@ -53,18 +57,18 @@ public class Position implements OrderStatusListener {
 	public void executePosition() {
 		synchronized (lock){
 			if (positionType == PositionType.position_long_entry) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, units, lastKnownPrice, this);
+				Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, units, unitPriceLastKnown, this);
 				order.executeOrder();
 				listOfOrder.add(order);
 			} else if (positionType == PositionType.position_short_entry) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, units, lastKnownPrice, this);
+				Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, units, unitPriceLastKnown, this);
 				order.executeOrder();
 				listOfOrder.add(order);
 			} else if (positionType == PositionType.position_long_exit) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, getUnitsFilled(), lastKnownPrice, this);
+				Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, positionUtils.getOrderUnitsFilled(), unitPriceLastKnown, this);
 				order.executeOrder();
 			} else if (positionType == PositionType.position_short_exit) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, getUnitsFilled(), lastKnownPrice, this);
+				Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, positionUtils.getOrderUnitsFilled(), unitPriceLastKnown, this);
 				order.executeOrder();
 			} else {
 				throw new IllegalStateException("PositionType: " + positionType.name());
@@ -90,72 +94,39 @@ public class Position implements OrderStatusListener {
 		}		
 	}
 
-	public int getUnitsFilled() {
-		synchronized (lock) {
-			int units = 0;
-			for (Order order : listOfOrder) {
-				if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
-					units += order.getUnitsFilled();
-				}
-			}
-			return units;
-		}
-	}
-
-	public int getUnitsRequested() {
-		synchronized (lock) {
-			int units = 0;
-
-			for (Order order : listOfOrder) {
-				if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
-					units += order.getUnitsRequested();
-				}
-			}
-
-			return units;
-		}
-	}
-
-	public double getAveragePrice() {
-		double averagePriceFilled = 0;
-		
-		for (Order order : listOfOrder){
-			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
-				averagePriceFilled += order.getValue();
-			}
-		}
-		
-		return averagePriceFilled;
-	}
-
 	public boolean isFilled() {
 		if (positionType == PositionType.position_long || positionType == PositionType.position_short) {
-			//Co.println("--> Position is filled: " + getUnitsRequested() + ", " + getUnitsFilled() + ", " + firstKnownPrice + ", " + lastKnownPrice);
 			return true;
 		}
 		return false;
 	}
 
-	public double getEntryPrice(boolean includeTransactionFees) {
-		return MathTools.round(units * firstKnownPrice + (includeTransactionFees ? Account.getInstance().getTransactionCost(units, firstKnownPrice) : 0));
-	}
-
-	public double getCurrentPrice(boolean includeTransactionFees) {
-		return MathTools.round((units * lastKnownPrice) + (includeTransactionFees ? Account.getInstance().getTransactionCost(units, lastKnownPrice) : 0));
-	}
-
-	// TODO: Fix this
-	public double getEntryValue(boolean includeTransactionFees) {
-		return MathTools.round(units * firstKnownPrice - (includeTransactionFees ? Account.getInstance().getTransactionCost(units, firstKnownPrice) : 0));
-	}
-
-	// TODO: fix this too
-	public double getCurrentValue(boolean includeTransactionFees) {
-		return MathTools.round((units * lastKnownPrice) - (includeTransactionFees ? Account.getInstance().getTransactionCost(units, lastKnownPrice) : 0));
-	}
-
 	public double getPositionProfitLossAfterComission() {
-		return MathTools.round(getCurrentValue(true) - getEntryPrice(true));
+		return MathTools.round(positionUtils.getOrderValueIntrinsic(true) - positionUtils.getOrderValueRequested(true));
+	}
+	
+	public double getFirstKnownUnitPrice(){
+		return unitPriceFirstKnown;
+	}
+	
+	public double getLastKnownUnitPrice(){
+		return unitPriceLastKnown;
+	}
+	
+	public void updatePositionUnitPrice(double priceClose){
+		unitPriceLastKnown = priceClose;
+	}
+	
+	public PositionValue getPositionValue(){
+		return new PositionValue(
+			positionUtils.getOrderValueRequested(false), positionUtils.getOrderValueFilled(false), positionUtils.getOrderValueIntrinsic(false),  
+			positionUtils.getOrderValueRequested(true), positionUtils.getOrderValueFilled(true), positionUtils.getOrderValueIntrinsic(true), 
+			positionUtils.getOrderPriceRequested(true), positionUtils.getOrderPriceFilled(true), positionUtils.getOrderPriceIntrinsic(true),
+			positionUtils.getPositionValueCurrent(false), positionUtils.getPositionValueCurrent(false),
+			positionUtils.getPositionPriceCurrent(true), positionUtils.getPositionPriceCurrent(true),
+			positionUtils.getOrderUnitPriceRequested(), positionUtils.getOrderUnitPriceFilled(), positionUtils.getOrderUnitPriceIntrinsic(),
+			getLastKnownUnitPrice()
+		);
 	}
 
 	@Override

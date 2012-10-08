@@ -1,6 +1,5 @@
 package com.autoStock.trading.types;
 
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.Co;
@@ -9,6 +8,7 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketOrderListener;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
+import com.autoStock.finance.Account;
 import com.autoStock.order.OrderDefinitions.IbOrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.order.OrderDefinitions.OrderStatus;
@@ -16,6 +16,7 @@ import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderSimulator;
 import com.autoStock.order.OrderStatusListener;
 import com.autoStock.order.OrderTools;
+import com.autoStock.order.OrderValue;
 import com.autoStock.position.PositionManager;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -28,20 +29,20 @@ public class Order {
 	public Symbol symbol;
 	public Exchange exchange;
 	public Position position;
-	public final int unitsRequested;
-	public final double priceSubmitted;
+	private final int unitsRequested;
+	private final double priceRequested;
 	private OrderStatus orderStatus = OrderStatus.none;
 	public OrderType orderType = OrderType.none;
 	private RequestMarketOrder requestMarketOrder;
 	private OrderStatusListener orderStatusListener;
 	private AtomicInteger atomicIntForUnitsFilled = new AtomicInteger();
 	
-	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, int unitsRequested, double submittedPrice, OrderStatusListener orderStatusListener){
+	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, int unitsRequested, double priceRequested, OrderStatusListener orderStatusListener){
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.position = position;
 		this.unitsRequested = unitsRequested;
-		this.priceSubmitted = submittedPrice;
+		this.priceRequested = priceRequested;
 		this.orderType = orderType;
 		this.orderStatusListener = orderStatusListener;
 	}
@@ -110,14 +111,68 @@ public class Order {
 		}
 	}
 	
-	
-	public double getPrice(){
-		return priceSubmitted;
+	public OrderValue getOrderValue(){
+		//units requested, units filled, price requested, price filled
+		return new OrderValue(
+				getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), 
+				getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), 
+				getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true),
+				getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(),
+				Account.getInstance().getTransactionCost(getUnitsIntrinsic(), priceRequested)
+				);
 	}
 	
-	//TODO: this is inaccurate 
-	public double getValue(){
-		return priceSubmitted * unitsRequested;
+	//TODO: fix this
+	private double getFilledPrice(boolean includeTransactionFees){
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
+		double positionValue = getUnitsFilled() * priceRequested;
+		double total = positionValue + (includeTransactionFees ? transactionFees : 0);
+		
+		return total;
+	}
+	
+	private double getFilledValue(boolean includeTransactionFees){
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
+		double positionValue = getUnitsFilled() * priceRequested;
+		double total = positionValue - (includeTransactionFees ? transactionFees : 0);
+		
+		return total;
+	}
+	
+	private double getRequestedPrice(boolean includeTransactionFees){
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
+		double positionValue = getUnitsFilled() * priceRequested;
+		double total = positionValue + (includeTransactionFees ? transactionFees : 0);
+		
+		return total;
+	}
+	
+	private double getRequestedValue(boolean includeTransactionFees){
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
+		double positionValue = getUnitsFilled() * priceRequested;
+		double total = positionValue - (includeTransactionFees ? transactionFees : 0);
+		
+		return total;
+	}
+	
+	private double getIntrinsicPrice(boolean includeTransactionFees){
+		if (orderStatus == OrderStatus.status_filled){
+			return getFilledPrice(includeTransactionFees);
+		}else if (orderStatus == OrderStatus.status_filled_partially){
+			return getRequestedPrice(includeTransactionFees);
+		}else {
+			return getRequestedPrice(includeTransactionFees);
+		}
+	}
+	
+	private double getIntrinsicValue(boolean includeTransactionFees){
+		if (orderStatus == OrderStatus.status_filled){
+			return getFilledValue(includeTransactionFees);
+		}else if (orderStatus == OrderStatus.status_filled_partially){
+			return getRequestedValue(includeTransactionFees);
+		}else {
+			return getRequestedValue(includeTransactionFees);
+		}
 	}
 	
 	public int getUnitsRequested(){
@@ -126,5 +181,25 @@ public class Order {
 	
 	public int getUnitsFilled(){
 		return atomicIntForUnitsFilled.get();
+	}
+	
+	public int getUnitsIntrinsic(){
+		return unitsRequested;
+	}
+	
+	public double getUnitPriceRequested(){
+		return priceRequested;
+	}
+	
+	public double getUnitPriceFilled(){
+		return priceRequested;
+	}
+	
+	private double getUnitPriceIntrinsic(){
+		return priceRequested;
+	}
+	
+	public double getTransactionFees(){
+		return Account.getInstance().getTransactionCost(unitsRequested, priceRequested);
 	}
 }

@@ -5,6 +5,7 @@ package com.autoStock.dataFeed;
 
 import java.util.ArrayList;
 
+import com.autoStock.backtest.BacktestRevolverListener;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -16,7 +17,7 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class DataFeedHistoricalPrices {
+public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 	private int feedInterval;
 	private HistoricalData typeHistoricalData;
 	private ArrayList<DataFeedListenerOfQuoteSlice> listOfListener = new ArrayList<DataFeedListenerOfQuoteSlice>();
@@ -65,5 +66,10 @@ public class DataFeedHistoricalPrices {
 	
 	public void removeListener(DataFeedListenerOfQuoteSlice listener){
 		listOfListener.remove(listener);
+	}
+
+	@Override
+	public void proceedFeed() {
+		
 	}
 }
