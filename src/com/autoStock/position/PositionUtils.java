@@ -3,6 +3,7 @@ package com.autoStock.position;
 import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.tools.Lock;
@@ -109,7 +110,7 @@ public class PositionUtils {
 		synchronized (lock){
 			double priceTotal = 0;
 			for (Order order : listOfOrder){
-				priceTotal += includeTransactionFees ? order.getOrderValue().valueFilledWithFees : order.getOrderValue().valueFilledWithFees;
+				priceTotal += includeTransactionFees ? order.getOrderValue().valueFilledWithFees : order.getOrderValue().valueFilled;
 			}
 			return priceTotal;
 		}
@@ -119,7 +120,7 @@ public class PositionUtils {
 		synchronized (lock){
 			double priceTotal = 0;
 			for (Order order : listOfOrder){
-				priceTotal += includeTransactionFees ? order.getOrderValue().valueIntrinsic : order.getOrderValue().valueIntrinsicWithFees;
+				priceTotal += includeTransactionFees ? order.getOrderValue().valueIntrinsicWithFees : order.getOrderValue().valueIntrinsic;
 			}
 			return priceTotal;
 		}

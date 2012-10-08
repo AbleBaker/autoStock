@@ -16,6 +16,7 @@ import com.autoStock.position.PositionUtils;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionStatusListener;
 import com.autoStock.position.PositionValue;
+import com.autoStock.position.PositionValueTable;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.Exchange;
@@ -102,7 +103,7 @@ public class Position implements OrderStatusListener {
 	}
 
 	public double getPositionProfitLossAfterComission() {
-		return MathTools.round(positionUtils.getOrderValueIntrinsic(true) - positionUtils.getOrderValueRequested(true));
+		return MathTools.round(positionUtils.getPositionValueCurrent(true) - positionUtils.getOrderValueIntrinsic(true));
 	}
 	
 	public double getFirstKnownUnitPrice(){
@@ -118,15 +119,19 @@ public class Position implements OrderStatusListener {
 	}
 	
 	public PositionValue getPositionValue(){
-		return new PositionValue(
+		PositionValue positionValue = new PositionValue(
 			positionUtils.getOrderValueRequested(false), positionUtils.getOrderValueFilled(false), positionUtils.getOrderValueIntrinsic(false),  
 			positionUtils.getOrderValueRequested(true), positionUtils.getOrderValueFilled(true), positionUtils.getOrderValueIntrinsic(true), 
 			positionUtils.getOrderPriceRequested(true), positionUtils.getOrderPriceFilled(true), positionUtils.getOrderPriceIntrinsic(true),
-			positionUtils.getPositionValueCurrent(false), positionUtils.getPositionValueCurrent(false),
-			positionUtils.getPositionPriceCurrent(true), positionUtils.getPositionPriceCurrent(true),
+			positionUtils.getPositionValueCurrent(false), positionUtils.getPositionValueCurrent(true),
+			positionUtils.getPositionPriceCurrent(false), positionUtils.getPositionPriceCurrent(true),
 			positionUtils.getOrderUnitPriceRequested(), positionUtils.getOrderUnitPriceFilled(), positionUtils.getOrderUnitPriceIntrinsic(),
 			getLastKnownUnitPrice()
 		);
+		
+//		new PositionValueTable().printTable(positionValue);
+		
+		return positionValue;
 	}
 
 	@Override
@@ -134,7 +139,11 @@ public class Position implements OrderStatusListener {
 		Co.println("--> Received order status change: " + order.orderType.name() + ", " + orderStatus.name());
 		if (orderStatus == OrderStatus.status_filled) {
 			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
-				PositionCallback.setPositionSuccess(this);
+				if (positionType != PositionType.position_canceled && positionType != PositionType.position_cancelling){
+					PositionCallback.setPositionSuccess(this);
+				}else{
+					Co.println("--> Got order success while being canceled...");
+				}
 			}else if (order.orderType == OrderType.order_long_exited || order.orderType == OrderType.order_short_exited){
 				positionType = PositionType.position_exited;
 			}else{
@@ -143,7 +152,7 @@ public class Position implements OrderStatusListener {
 			PositionCallback.affectBankBalance(order);
 			positionStatusListener.positionStatusChange(this);	
 		}else if (orderStatus == OrderStatus.status_cancelled){
-			positionType = PositionType.position_failed;
+			positionType = PositionType.position_canceled;
 		}
 	}
 }

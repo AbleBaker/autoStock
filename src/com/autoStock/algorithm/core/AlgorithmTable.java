@@ -2,7 +2,9 @@ package com.autoStock.algorithm.core;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.finance.Account;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -17,6 +19,7 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -24,7 +27,12 @@ import com.autoStock.types.QuoteSlice;
  */
 public class AlgorithmTable {
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
+	private Symbol symbol;
 	
+	public AlgorithmTable(Symbol symbol) {
+		this.symbol = symbol;
+	}
+
 	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
@@ -62,7 +70,14 @@ public class AlgorithmTable {
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFees);
 				
-			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+			}else if (
+					strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit 
+					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit
+					
+					|| strategyResponse.positionGovernorResponse.position.positionType == PositionType.position_long_exit
+					|| strategyResponse.positionGovernorResponse.position.positionType == PositionType.position_short_exit
+					
+					){
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFees);
 				responseString += "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()) + ")";
 			}
@@ -72,6 +87,7 @@ public class AlgorithmTable {
 	}
 
 	public void display() {
+		Co.println("--> Symbol " + symbol.symbolName);
 		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
 	}
 }

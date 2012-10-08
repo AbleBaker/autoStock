@@ -58,7 +58,7 @@ public class AlgorithmBase {
 		}
 		
 		if (algorithmMode.displayTable){
-			algorithmTable = new AlgorithmTable();
+			algorithmTable = new AlgorithmTable(symbol);
 		}
 	}
 	

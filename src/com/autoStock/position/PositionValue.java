@@ -1,5 +1,7 @@
 package com.autoStock.position;
 
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -45,10 +47,6 @@ public class PositionValue {
 		this.unitPriceRequested = unitPriceRequested;
 		this.unitPriceIntrinsic = unitPriceIntrinsic;
 		this.unitPriceFilled = unitPriceFilled;
-		this.unitPriceCurrent = unitPriceCurrent;
-	}
-	
-
-
-	
+		this.unitPriceCurrent = unitPriceCurrent;	
+	}	
 }

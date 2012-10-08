@@ -88,9 +88,10 @@ public class Order {
 	public void cancelOrder(){
 		orderStatus = OrderStatus.status_cancelled;
 		if (requestMarketOrder == null){
-			throw new IllegalStateException();
+			//Could be a problem, depends if order is simulated
+		}else{
+			requestMarketOrder.cancel();
 		}
-		requestMarketOrder.cancel();
 	}
 	
 	public void orderUnitFilled(double priceAverageFill, int units){
@@ -122,7 +123,7 @@ public class Order {
 				);
 	}
 	
-	//TODO: fix this
+	//TODO: fix this - price is requested
 	private double getFilledPrice(boolean includeTransactionFees){
 		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
 		double positionValue = getUnitsFilled() * priceRequested;

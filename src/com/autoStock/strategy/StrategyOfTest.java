@@ -40,7 +40,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 45;
-		strategyOptions.maxPositionExitTime = 5;
+		strategyOptions.maxPositionExitTime = 15;
 		strategyOptions.maxPositionTaperTime = 30;
 	}
 	
