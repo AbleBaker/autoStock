@@ -53,7 +53,7 @@ public class PositionGovernor {
 				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
 				}
-			}else if (position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
+			}else if (position.positionType == PositionType.position_canceled || position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
 				Co.println("--> Position is not yet removed");
 			}else {
 				throw new IllegalStateException("Position type did not match: " + position.positionType.name() + ", " + positionManager.getPositionListSize());
