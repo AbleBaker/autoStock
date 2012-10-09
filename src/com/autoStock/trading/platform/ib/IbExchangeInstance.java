@@ -58,7 +58,7 @@ public class IbExchangeInstance {
 		contract.m_secType = "STK";
 		ibOrder.m_action = "BUY";
 		ibOrder.m_orderType = "MTL";
-		ibOrder.m_lmtPrice = order.getUnitPriceRequested();
+		ibOrder.m_lmtPrice = order.getUnitPriceRequested() - 10;
 		ibOrder.m_auxPrice = 0;
 		ibOrder.m_totalQuantity = order.getUnitsRequested();
 		
