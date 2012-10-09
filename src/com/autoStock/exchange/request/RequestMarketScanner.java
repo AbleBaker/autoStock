@@ -25,6 +25,8 @@ public class RequestMarketScanner {
 		type_percent_gain_open,
 		type_percent_loss_open,
 		type_percent_gain,
+		type_high_open_gap,
+		type_implied_volatility_gain,
 		type_most_active,
 		type_top_trade_rate,
 		type_top_volume_rate,

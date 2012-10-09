@@ -52,7 +52,9 @@ public class MultipleRequestMarketScanner implements RequestMarketScannerListene
 	public synchronized void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner, MarketScannerType marketScannerType) {
 //		Co.println("--> Received: " + atomicIntegerForScannerCount.get() + "," + exResultSetMarketScanner.listOfExResultRowMarketScanner.size());
 		for (ExResultRowMarketScanner exResultRowMarketScanner : exResultSetMarketScanner.listOfExResultRowMarketScanner){
-			multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner.add(new MultipleResultRowMarketScanner(exResultRowMarketScanner.symbol, marketScannerType));
+			if (containsSymbol(exResultRowMarketScanner.symbol) == false){
+				multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner.add(new MultipleResultRowMarketScanner(exResultRowMarketScanner.symbol, marketScannerType));
+			}
 		}
 		
 		if (atomicIntegerForScannerCount.decrementAndGet() == 0){
@@ -76,5 +78,15 @@ public class MultipleRequestMarketScanner implements RequestMarketScannerListene
 		}
 		
 		listOfRequestmarketScanner.clear();
+	}
+	
+	private boolean containsSymbol(String symbol){
+		for (MultipleResultRowMarketScanner result : multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner){
+			if (result.symbol.equals(symbol)){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

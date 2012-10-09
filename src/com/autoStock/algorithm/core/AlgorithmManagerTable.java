@@ -1,5 +1,7 @@
 package com.autoStock.algorithm.core;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.algorithm.AlgorithmTest;
@@ -28,13 +30,13 @@ public class AlgorithmManagerTable {
 		
 		if (algorithm.firstQuoteSlice != null && algorithm.getCurrentQuoteSlice() != null){
 			if (algorithm.firstQuoteSlice.priceClose != 0 && algorithm.getCurrentQuoteSlice().priceClose != 0){
-				percentGainFromAlgorithm = (algorithm.getCurrentQuoteSlice().priceClose / algorithm.firstQuoteSlice.priceClose) -1d;
+				percentGainFromAlgorithm = ((algorithm.getCurrentQuoteSlice().priceClose / algorithm.firstQuoteSlice.priceClose) -1) * 100;
 			}
 		}
 		
 		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
 			if (position.getPositionValue().unitPriceCurrent != 0 && position.getPositionValue().unitPriceFilled != 0){
-				percentGainFromPosition = position.getPositionValue().valueFilled / position.getPositionValue().valueCurrent;
+				percentGainFromPosition = ((position.getPositionValue().valueFilled / position.getPositionValue().valueCurrent) -1) * 100;
 			}
 		}
 		
@@ -44,8 +46,8 @@ public class AlgorithmManagerTable {
 		columnValues.add(position == null ? "-" : position.positionType.name());
 		columnValues.add(String.valueOf(algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(algorithm.getFirstQuoteSlice().priceClose)));
 		columnValues.add(String.valueOf(algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(algorithm.getCurrentQuoteSlice().priceClose)));
-		columnValues.add(String.valueOf(percentGainFromAlgorithm));
-		columnValues.add(String.valueOf(percentGainFromPosition == 1 ? "-" : percentGainFromPosition));
+		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
+		columnValues.add(String.valueOf(percentGainFromPosition == 0 ? "-" : new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
 		columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission()))));
 		
 		listOfDisplayRows.add(columnValues);

@@ -5,6 +5,7 @@ package com.autoStock.finance;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.autoStock.Co;
 import com.autoStock.tools.MathTools;
 import com.google.common.util.concurrent.AtomicDouble;
 
@@ -49,6 +50,9 @@ public class Account {
 	
 	public synchronized void changeAccountBalance(double positionCost, double transactionCost){
 		synchronized (this) {
+			
+			Co.println("--> Changing account balance by: " + positionCost + ", " + transactionCost + ", " + (positionCost + transactionCost));
+			
 			bankBalance.addAndGet(positionCost);
 			bankBalance.addAndGet(transactionCost *-1);
 			transactionFeesPaid.getAndAdd(transactionCost);

@@ -42,11 +42,23 @@ public class SubsetOfScannerSubscription {
 		if (marketScannerType == MarketScannerType.type_percent_gain_open) {
 			scannerSubscription.scanCode("TOP_OPEN_PERC_GAIN");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(50);
+			scannerSubscription.numberOfRows(75);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_percent_gain) {
 			scannerSubscription.scanCode("TOP_PERC_GAIN");
+			scannerSubscription.aboveVolume(100 * 1000);
+			scannerSubscription.numberOfRows(50);
+		}
+
+		else if (marketScannerType == MarketScannerType.type_high_open_gap) {
+			scannerSubscription.scanCode("HIGH_OPEN_GAP");
+			scannerSubscription.aboveVolume(100 * 1000);
+			scannerSubscription.numberOfRows(50);
+		}
+		
+		else if (marketScannerType == MarketScannerType.type_implied_volatility_gain) {
+			scannerSubscription.scanCode("TOP_OPT_IMP_VOLAT_GAIN");
 			scannerSubscription.aboveVolume(100 * 1000);
 			scannerSubscription.numberOfRows(25);
 		}
