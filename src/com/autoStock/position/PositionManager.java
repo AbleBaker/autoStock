@@ -119,7 +119,7 @@ public class PositionManager implements PositionStatusListener {
 		synchronized(lock){
 			double valueOfAllPositions = 0; 
 			for (Position position : listOfPosition){
-				valueOfAllPositions += position.getPositionValue().priceCurrentWithFees;
+				valueOfAllPositions += position.getPositionValue().valueCurrentWithFees;
 			}
 			
 			return valueOfAllPositions;
