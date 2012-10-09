@@ -104,11 +104,11 @@ public class AlgorithmManager {
 	
 	public void displayAlgorithmTable(){
 		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
-		Co.println("--> Current P&L: " + PositionManager.getInstance().getCurrentProfitLossIncludingFees());
-		Co.println("--> Current account balance: " + Account.getInstance().getAccountBalance() + ", " 
-		+ PositionManager.getInstance().getAllPositionValueIncludingFees() + ", " 
-		+ (Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) + ", [" 
-		+ ((Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) - Account.getInstance().bankBalanceDefault) + "]");
+		Co.println("--> Current entered position P&L: " + PositionManager.getInstance().getCurrentProfitLossIncludingFees());
+		Co.println("--> Current account balance: " + Account.getInstance().getAccountBalance());
+		Co.println("--> All posiiton value including fees: " + PositionManager.getInstance().getAllPositionValueIncludingFees()); 
+		Co.println("--> Account Blanace + All position value including fees: " + (Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()));
+		Co.println("--> Complete gain from starting account balance: " + ((Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) - Account.getInstance().bankBalanceDefault));
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){
