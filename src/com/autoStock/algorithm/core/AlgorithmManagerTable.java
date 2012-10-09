@@ -47,7 +47,7 @@ public class AlgorithmManagerTable {
 		columnValues.add(String.valueOf(algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(algorithm.getFirstQuoteSlice().priceClose)));
 		columnValues.add(String.valueOf(algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(algorithm.getCurrentQuoteSlice().priceClose)));
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
-		columnValues.add(String.valueOf(percentGainFromPosition == 0 ? "-" : new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
+		columnValues.add(String.valueOf(percentGainFromPosition == 0 ? "-" : new DecimalFormat("#.###").format(percentGainFromPosition)));
 		columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission()))));
 		
 		listOfDisplayRows.add(columnValues);

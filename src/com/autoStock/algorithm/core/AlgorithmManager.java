@@ -51,6 +51,8 @@ public class AlgorithmManager {
 				listOfActiveAlgorithmContainer.add(container);
 			}
 		}
+		
+		Co.println("Active algorithm count: " + listOfActiveAlgorithmContainer.size());
 	}
 	
 	public void pruneListOfSymbols(ArrayList<String> listOfSymbols, Exchange exchange){

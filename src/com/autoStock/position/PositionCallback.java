@@ -25,11 +25,11 @@ public class PositionCallback {
 		if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
 			Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + order.getOrderValue().valueFilled + ", " + Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 			
-			Account.getInstance().changeAccountBalance(order.getOrderValue().valueFilled, Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+			Account.getInstance().changeAccountBalance(-1 * order.getOrderValue().valueFilled, Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 		}else if (order.orderType == OrderType.order_long_exited || order.orderType == OrderType.order_short_exited){
 			Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (-1 * order.getOrderValue().valueFilled) + ", " + Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 			
-			Account.getInstance().changeAccountBalance(-1 * order.getOrderValue().valueFilled, Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+			Account.getInstance().changeAccountBalance(order.getOrderValue().valueFilled, Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 		}else{
 			throw new IllegalStateException("Order type is: " + order.orderType.name());
 		}
