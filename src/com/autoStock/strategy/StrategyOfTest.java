@@ -44,7 +44,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionTaperTime = 30;
 	}
 	
-	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice){
+	public synchronized StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice){
 		StrategyResponse strategyResponse = new StrategyResponse();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 		Position position = PositionManager.getInstance().getPosition(algorithmBase.symbol);

@@ -74,13 +74,13 @@ public class Position implements OrderStatusListener {
 			} else {
 				throw new IllegalStateException("PositionType: " + positionType.name());
 			}
-		}
 		
-		Co.println("--> Executed position: " + positionType.name());
+//		Co.println("--> Executed position: " + positionType.name());
+		}
 	}
 	
 	public void cancelEntry(){
-		synchronized (lock){
+		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry || positionType == PositionType.position_short_entry){
 				positionType = PositionType.position_cancelling; 
 			}else{
@@ -92,7 +92,7 @@ public class Position implements OrderStatusListener {
 			}
 			
 			positionType = PositionType.position_canceled;
-		}		
+		}
 	}
 
 	public boolean isFilled() {
@@ -126,17 +126,15 @@ public class Position implements OrderStatusListener {
 			positionUtils.getPositionValueCurrent(false), positionUtils.getPositionValueCurrent(true),
 			positionUtils.getPositionPriceCurrent(false), positionUtils.getPositionPriceCurrent(true),
 			positionUtils.getOrderUnitPriceRequested(), positionUtils.getOrderUnitPriceFilled(), positionUtils.getOrderUnitPriceIntrinsic(),
-			getLastKnownUnitPrice()
+			unitPriceLastKnown
 		);
-		
-//		new PositionValueTable().printTable(positionValue);
 		
 		return positionValue;
 	}
 
 	@Override
 	public void orderStatusChanged(Order order, OrderStatus orderStatus) {
-		Co.println("--> Received order status change: " + order.orderType.name() + ", " + orderStatus.name());
+//		Co.println("--> Received order status change: " + order.orderType.name() + ", " + orderStatus.name());
 		if (orderStatus == OrderStatus.status_filled) {
 			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
 				if (positionType != PositionType.position_canceled && positionType != PositionType.position_cancelling){

@@ -50,7 +50,7 @@ public class Order {
 	}
 	
 	public void executeOrder(){
-		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
+//		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
 		
 		if (orderStatus == OrderStatus.none){
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
@@ -118,7 +118,7 @@ public class Order {
 	
 	public void orderUnitsFilled(double priceAverageFill, int units){
 		atomicIntForUnitsFilled.addAndGet(units);
-		Co.println("--> Order units filled: " + units + " of " + unitsRequested);
+//		Co.println("--> Order units filled: " + units + " of " + unitsRequested);
 		
 		if (atomicIntForUnitsFilled.get() == unitsRequested){
 			orderStatus = OrderStatus.status_filled;

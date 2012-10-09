@@ -48,7 +48,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private int currentBacktestDayIndex = 0;
 	private double metricBestAccountBalance = 0;
 	private Benchmark bench = new Benchmark();
-	private Lock lock = new Lock();
 	private AtomicInteger callbacks = new AtomicInteger();
 	private AlgorithmMode algorithmMode;
 	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>(0);

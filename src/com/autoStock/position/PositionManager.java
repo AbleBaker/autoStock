@@ -129,11 +129,11 @@ public class PositionManager implements PositionStatusListener {
 	@Override
 	public synchronized void positionStatusChange(Position position) {
 		synchronized(lock){
-			Co.println("--> PositionManager, position status change: " + position.positionType.name());
+//			Co.println("--> PositionManager, position status change: " + position.positionType.name());
 			if (position.positionType == PositionType.position_exited){
 				listOfPosition.remove(position);
 				position = null; //?
-				Co.println("--> Removed... " + listOfPosition.size());
+//				Co.println("--> Removed... " + listOfPosition.size());
 			}
 		}
 	}
