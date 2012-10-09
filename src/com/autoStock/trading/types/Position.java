@@ -66,10 +66,10 @@ public class Position implements OrderStatusListener {
 				order.executeOrder();
 				listOfOrder.add(order);
 			} else if (positionType == PositionType.position_long_exit) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, positionUtils.getOrderUnitsFilled(), unitPriceLastKnown, this);
+				Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : units, unitPriceLastKnown, this);
 				order.executeOrder();
 			} else if (positionType == PositionType.position_short_exit) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, positionUtils.getOrderUnitsFilled(), unitPriceLastKnown, this);
+				Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : units, unitPriceLastKnown, this);
 				order.executeOrder();
 			} else {
 				throw new IllegalStateException("PositionType: " + positionType.name());

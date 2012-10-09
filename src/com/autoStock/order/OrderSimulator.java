@@ -19,7 +19,7 @@ public class OrderSimulator {
 		threadForOrderSimulator = new Thread(new Runnable(){
 			@Override
 			public void run() {
-				order.orderUnitFilled(order.getUnitPriceRequested(), order.getUnitsRequested());
+				order.orderUnitsFilled(order.getUnitPriceRequested(), order.getUnitsRequested());
 			}
 		});
 		

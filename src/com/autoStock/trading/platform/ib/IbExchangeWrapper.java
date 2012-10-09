@@ -103,9 +103,10 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void orderStatus(int orderId, String status, int filled, int remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, String whyHeld) {
-		Co.log("Got orderStatus: " + orderId +", " + status + ", " + filled + ", " + remaining + ", " + avgFillPrice + ", " + lastFillPrice + ", " + whyHeld);
+		Co.log("Got orderStatus: orderId: " + orderId +", status: " + status + ", filled: " + filled + ", remaining: " + remaining + ", avgFillPrice: " + avgFillPrice + ", lastFillPrice: " + lastFillPrice + ", whyHeld: " + whyHeld);
 		
 		if (status.equals("Filled")){
+			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).addResult(new ExResultRowMarketOrder(avgFillPrice, lastFillPrice, 0, filled, remaining, filled-remaining, IbOrderStatus.getIbOrderStatus(status)));
 			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).finished();
 		}else if (status.equals("Cancelled")){
 			((RequestMarketOrder)RequestManager.getRequestHolder(orderId).caller).addResult(new ExResultRowMarketOrder(avgFillPrice, lastFillPrice, 0, filled, remaining, filled-remaining, IbOrderStatus.getIbOrderStatus(status)));
@@ -117,7 +118,7 @@ public class IbExchangeWrapper implements EWrapper {
 
 	@Override
 	public void openOrder(int orderId, Contract contract, Order order, OrderState orderState) {
-		Co.log("Got openOrder: " + contract.m_symbol + ", " + orderState.m_commission + ", " + orderState.m_status);
+		Co.log("Got openOrder: symbol: " + contract.m_symbol + ", comission: " + orderState.m_commission + ", status: " + orderState.m_status);
 	}
 
 	@Override

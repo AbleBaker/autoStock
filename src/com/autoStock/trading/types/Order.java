@@ -30,11 +30,13 @@ public class Order {
 	public Exchange exchange;
 	public Position position;
 	private final int unitsRequested;
-	private final double priceRequested;
+	private double priceRequested = 0;
+	private double priceFilled = 0;
 	private OrderStatus orderStatus = OrderStatus.none;
 	public OrderType orderType = OrderType.none;
 	private RequestMarketOrder requestMarketOrder;
 	private OrderStatusListener orderStatusListener;
+	private OrderTools orderTools = new OrderTools();
 	private AtomicInteger atomicIntForUnitsFilled = new AtomicInteger();
 	
 	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, int unitsRequested, double priceRequested, OrderStatusListener orderStatusListener){
@@ -52,6 +54,9 @@ public class Order {
 		
 		if (orderStatus == OrderStatus.none){
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+				
+				orderStatus = OrderStatus.status_presubmit;
+				
 				requestMarketOrder = new RequestMarketOrder(new RequestHolder(new RequestMarketOrderListener(){
 					@Override
 					public void failed(RequestHolder requestHolder) {
@@ -61,12 +66,29 @@ public class Order {
 					@Override
 					public void receivedChange(RequestHolder requestHolder, ExResultRowMarketOrder exResultRowMarketOrder) {
 						Co.println("--> Received order: " + exResultRowMarketOrder.status.name());
+						if (exResultRowMarketOrder.filledUnits > 0 && exResultRowMarketOrder.remainingUnits > 0 && exResultRowMarketOrder.status == IbOrderStatus.status_submitted){
+							orderStatus = OrderStatus.status_filled_partially;
+						}
 					}
 	
 					@Override
 					public void completed(RequestHolder requestHolder, ExResultSetMarketOrder exResultSetMarketOrder) {
-						Co.println("--> Order completed");
-						Co.println("--> Order status: " + new OrderTools().getOrderStatus(exResultSetMarketOrder).name());
+						double unitPriceFilledAverage = orderTools.getOrderAverageFillPrice(exResultSetMarketOrder);
+						int unitsFilled = orderTools.getOrderUnitsFilled(exResultSetMarketOrder);
+						IbOrderStatus ibOrderStatus =  orderTools.getOrderStatus(exResultSetMarketOrder);
+											
+						if (ibOrderStatus == IbOrderStatus.status_filled){
+							if (orderStatus == OrderStatus.status_filled){
+								Co.println("--> Order is already filled!");
+							}else if (orderStatus == OrderStatus.status_presubmit || orderStatus == OrderStatus.status_submitted || orderStatus == OrderStatus.status_filled_partially){
+								Co.println("\n\n--> Order completed at price: " + unitPriceFilledAverage);
+								Co.println("--> Order status: " + ibOrderStatus.name());
+								
+								orderUnitsFilled(unitPriceFilledAverage, unitsFilled);
+							}else{
+								throw new IllegalStateException("Order status did not match: " + orderStatus.name());
+							}
+						}
 					}
 	
 					@Override
@@ -94,7 +116,7 @@ public class Order {
 		}
 	}
 	
-	public void orderUnitFilled(double priceAverageFill, int units){
+	public void orderUnitsFilled(double priceAverageFill, int units){
 		atomicIntForUnitsFilled.addAndGet(units);
 		Co.println("--> Order units filled: " + units + " of " + unitsRequested);
 		
@@ -105,6 +127,11 @@ public class Order {
 			else if (orderType == OrderType.order_long_exit){orderType = OrderType.order_long_exited;}
 			else if (orderType == OrderType.order_short_exit){orderType = OrderType.order_short_exited;}
 			else {throw new IllegalStateException();}
+			
+			priceFilled = priceAverageFill;
+			if (priceRequested == 0){
+				priceRequested = priceFilled;
+			}
 			
 			orderStatusListener.orderStatusChanged(this, orderStatus);
 		}else{
@@ -123,18 +150,17 @@ public class Order {
 				);
 	}
 	
-	//TODO: fix this - price is requested
 	private double getFilledPrice(boolean includeTransactionFees){
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
-		double positionValue = getUnitsFilled() * priceRequested;
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceFilled); 
+		double positionValue = getUnitsFilled() * priceFilled;
 		double total = positionValue + (includeTransactionFees ? transactionFees : 0);
 		
 		return total;
 	}
 	
 	private double getFilledValue(boolean includeTransactionFees){
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
-		double positionValue = getUnitsFilled() * priceRequested;
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceFilled); 
+		double positionValue = getUnitsFilled() * priceFilled;
 		double total = positionValue - (includeTransactionFees ? transactionFees : 0);
 		
 		return total;
@@ -193,11 +219,15 @@ public class Order {
 	}
 	
 	public double getUnitPriceFilled(){
-		return priceRequested;
+		return priceFilled;
 	}
 	
 	private double getUnitPriceIntrinsic(){
-		return priceRequested;
+		if (orderStatus == OrderStatus.status_filled){
+			return priceFilled;
+		}else{
+			return priceRequested;
+		}
 	}
 	
 	public double getTransactionFees(){

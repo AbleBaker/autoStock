@@ -12,6 +12,7 @@ public class OrderValue {
 	public final double valueRequestedWithFees;
 	public final double valueFilledWithFees;
 	public final double valueIntrinsicWithFees;
+	
 	public final double priceRequestedWithFees;
 	public final double priceFilledWithFees;
 	public final double priceIntrinsicWithFees;

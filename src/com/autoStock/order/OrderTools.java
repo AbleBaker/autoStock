@@ -11,12 +11,18 @@ import com.autoStock.order.OrderDefinitions.OrderStatus;
  */
 public class OrderTools {
 	public IbOrderStatus getOrderStatus(ExResultSetMarketOrder exResultSetMarketOrder){
-		for (ExResultRowMarketOrder exResultRowMarketOrder : exResultSetMarketOrder.listOfExResultRowMarketOrder){
-			if (exResultRowMarketOrder.status == IbOrderStatus.status_cancelled){
-				return IbOrderStatus.status_cancelled;
-			}
-		}
-		
-		return IbOrderStatus.unknown;
+		return exResultSetMarketOrder.listOfExResultRowMarketOrder.get(exResultSetMarketOrder.listOfExResultRowMarketOrder.size()-1).status;
+	}
+	
+	public double getOrderAverageFillPrice(ExResultSetMarketOrder exResultSetMarketOrder){
+		return exResultSetMarketOrder.listOfExResultRowMarketOrder.get(exResultSetMarketOrder.listOfExResultRowMarketOrder.size()-1).priceAvgFill;		
+	}
+	
+	public int getOrderUnitsFilled(ExResultSetMarketOrder exResultSetMarketOrder){
+		return exResultSetMarketOrder.listOfExResultRowMarketOrder.get(exResultSetMarketOrder.listOfExResultRowMarketOrder.size()-1).filledUnits;
+	}
+
+	public double getOrderComission(ExResultSetMarketOrder exResultSetMarketOrder) {
+		return exResultSetMarketOrder.listOfExResultRowMarketOrder.get(exResultSetMarketOrder.listOfExResultRowMarketOrder.size()-1).comission;
 	}
 }
