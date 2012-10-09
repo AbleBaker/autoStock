@@ -16,13 +16,15 @@ public class OrderSimulator {
 	}
 	
 	public void simulateOrderFill(){
-		threadForOrderSimulator = new Thread(new Runnable(){
-			@Override
-			public void run() {
-				order.orderUnitsFilled(order.getUnitPriceRequested(), order.getUnitsRequested());
-			}
-		});
 		
-		threadForOrderSimulator.start();
+		order.orderUnitsFilled(order.getUnitPriceRequested(), order.getUnitsRequested());
+		
+//		threadForOrderSimulator = new Thread(new Runnable(){
+//			@Override
+//			public void run() {
+//			}
+//		});
+//		
+//		threadForOrderSimulator.start();
 	}
 }
