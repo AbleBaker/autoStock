@@ -8,6 +8,8 @@ import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.SignalPointMethod;
+import com.autoStock.strategy.ReentrantStrategy;
+import com.autoStock.strategy.ReentrantStrategy.ReentryStatus;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -43,11 +45,19 @@ public class PositionGovernor {
 				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange);
 			}
 		} else {
+			SignalPoint signalPointForReentry = signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTactic);
+//			ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
+				}else if (signalPointForReentry.signalPointType == SignalPointType.long_entry){
+//					Co.println("--> Should re-enter?");
+//					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions) == ReentryStatus.status_reenter){
+//						Co.println("--> yes on re-entry");
+//						positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;
+//					}
 				}
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
 				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {

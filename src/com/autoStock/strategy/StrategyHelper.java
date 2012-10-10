@@ -20,7 +20,7 @@ public class StrategyHelper {
 					periodLength--;
 				}
 			} else {
-				if (periodLength < SignalControl.periodLengthMiddle) {
+				if (periodLength + 1 < SignalControl.periodLengthMiddle) {
 					periodLength++;
 				}
 			}

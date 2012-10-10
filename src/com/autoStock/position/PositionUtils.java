@@ -106,6 +106,7 @@ public class PositionUtils {
 		for (Order order : listOfOrder) {
 			priceTotal += includeTransactionFees ? order.getOrderValue().valueIntrinsicWithFees : order.getOrderValue().valueIntrinsic;
 		}
+		
 		return priceTotal;
 	}
 
@@ -114,7 +115,9 @@ public class PositionUtils {
 		double priceTotal = getOrderUnitsIntrinsic() * unitPriceLastKnown;
 		double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsIntrinsic(), unitPriceLastKnown);
 
-		return priceTotal - (includeTransactionFees ? transactionFees : 0);
+		priceTotal -= (includeTransactionFees ? transactionFees : 0);
+		
+		return priceTotal;
 	}
 
 	public double getPositionPriceCurrent(boolean includeTransactionFees) {

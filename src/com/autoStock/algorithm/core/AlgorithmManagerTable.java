@@ -32,12 +32,18 @@ public class AlgorithmManagerTable {
 		if (algorithm.firstQuoteSlice != null && algorithm.getCurrentQuoteSlice() != null){
 			if (algorithm.firstQuoteSlice.priceClose != 0 && algorithm.getCurrentQuoteSlice().priceClose != 0){
 				percentGainFromAlgorithm = ((algorithm.getCurrentQuoteSlice().priceClose / algorithm.firstQuoteSlice.priceClose) -1) * 100;
+				if (Double.isNaN(percentGainFromAlgorithm)){
+					percentGainFromAlgorithm = 0;
+				}
 			}
 		}
 		
 		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
 			if (position.getPositionValue().unitPriceCurrent != 0 && position.getPositionValue().unitPriceFilled != 0){
-				percentGainFromPosition = ((position.getPositionValue().valueFilled / position.getPositionValue().valueCurrent) -1) * 100;
+				percentGainFromPosition = position.getCurrentPercentGainLoss(false);
+				if (Double.isNaN(percentGainFromPosition)){
+					percentGainFromPosition = 0;
+				}
 			}
 		}
 		
@@ -49,7 +55,7 @@ public class AlgorithmManagerTable {
 		columnValues.add(String.valueOf(position == null ? "-" : position.getPositionValue().unitPriceIntrinsic));
 		columnValues.add(String.valueOf(algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(algorithm.getCurrentQuoteSlice().priceClose)));
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
-		columnValues.add(String.valueOf(percentGainFromPosition == 0 ? "-" : new DecimalFormat("#.###").format(percentGainFromPosition)));
+		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromPosition)));
 		columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission()))));
 		
 		String signalMetrics = new String();

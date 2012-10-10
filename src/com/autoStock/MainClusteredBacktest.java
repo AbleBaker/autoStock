@@ -14,6 +14,7 @@ import com.autoStock.com.CommandHolder;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterServer;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.MathTools;
@@ -107,6 +108,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			if (listOfComputeResultForBacktest.size() == adjustmentCampaign.getPermutationCount()){
 				Co.println("--> All done!");
 				displayResultTable();
+				Global.callbackLock.releaseLock();
 			}
 		}
 	}
