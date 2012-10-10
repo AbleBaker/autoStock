@@ -33,11 +33,11 @@ public class AlgorithmTable {
 		this.symbol = symbol;
 	}
 
-	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse){
+	public void addTableRow(int periodLength, ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 
-		columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
+		columnValues.add(periodLength + "," + DateTools.getPrettyDate(quoteSlice.dateTime));
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
 		columnValues.add(String.valueOf(MathTools.round(quoteSlice.priceClose)));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
