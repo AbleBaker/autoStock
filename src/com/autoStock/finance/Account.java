@@ -49,9 +49,7 @@ public class Account {
 
 	public synchronized void changeAccountBalance(double positionCost, double transactionCost) {
 		synchronized (this) {
-			// Co.println("--> Changing account balance by: " + positionCost +
-			// ", " + transactionCost + ", " + (positionCost +
-			// transactionCost));
+			// Co.println("--> Changing account balance by: " + positionCost + ", " + transactionCost + ", " + (positionCost + transactionCost));
 
 			bankBalance.addAndGet(positionCost);
 			bankBalance.addAndGet(transactionCost * -1);

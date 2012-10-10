@@ -22,8 +22,8 @@ public class AdjustmentCampaign {
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_ppc_long_entry, SignalMetricType.metric_ppc));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_ppc_long_exit, SignalMetricType.metric_ppc));
 		
-//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_di));
-//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_di));
+		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_di));
+		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_di));
 //		
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_cci));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_cci));
@@ -34,8 +34,8 @@ public class AdjustmentCampaign {
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_macd));
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_macd));
 //		
-		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_rsi));
-		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_rsi));
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_entry, SignalMetricType.metric_rsi));
+//		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_metric_long_exit, SignalMetricType.metric_rsi));
 		
 //		permutation.addIteration(new Iteration(AdjustmentDefinitions.algo_signal_control_stop_loss, SignalMetricType.metric_none));
 //		
@@ -79,8 +79,8 @@ public class AdjustmentCampaign {
 	}
 	
 	public enum AdjustmentDefinitions {		
-		algo_signal_metric_long_entry(-20, 50, AdjustmentType.long_entry),
-		algo_signal_metric_long_exit(-20, 50, AdjustmentType.long_exit),
+		algo_signal_metric_long_entry(-50, 50, AdjustmentType.long_entry),
+		algo_signal_metric_long_exit(-50, 50, AdjustmentType.long_exit),
 		algo_signal_metric_short_entry(-50, 50, AdjustmentType.short_entry),
 		algo_signal_metric_short_exit(-50, 50, AdjustmentType.short_exit),
 //		

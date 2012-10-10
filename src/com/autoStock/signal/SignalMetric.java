@@ -19,7 +19,7 @@ public class SignalMetric {
 		this.strength = strength;
 		this.signalMetricType = signalTypeMetric;
 	}
-	
+	 
 	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
 		if (havePosition == false){
 			if (strength >= signalMetricType.pointToSignalLongEntry){
