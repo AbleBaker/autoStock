@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
+import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionManager;
 import com.autoStock.tables.TableController;
@@ -40,14 +41,14 @@ public class AlgorithmManager {
 		threadForDisplay.start();
 	}
 	
-	public void setListOfSymbols(ArrayList<String> listOfSymbols, Exchange exchange){
-		for (String symbol : listOfSymbols){
+	public void setListOfSymbols(ArrayList<MultipleResultRowMarketScanner> listOfMultipleResultRowMarketScanner, Exchange exchange){
+		for (MultipleResultRowMarketScanner result : listOfMultipleResultRowMarketScanner){
 			if (listOfActiveAlgorithmContainer.size() >= 300){
-				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + symbol);
-			}else if (getAlgorithmContainerForSymbol(symbol) == null){
-				Co.println("Will run algorithm for symbol: " + symbol);
-				algorithmInfoManager.activatedSymbol(symbol);
-				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(symbol));
+				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + result.marketScannerType.name() + ", " + result.symbol);
+			}else if (getAlgorithmContainerForSymbol(result.symbol) == null){
+				Co.println("Will run algorithm for symbol: " + result.symbol);
+				algorithmInfoManager.activatedSymbol(result.symbol);
+				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol));
 				container.activate();
 				listOfActiveAlgorithmContainer.add(container);
 			}
