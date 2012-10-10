@@ -70,6 +70,7 @@ public class ClusterServer {
 		public ClientThread(Socket socket) {
 			super();
 			this.socket = socket;
+			Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		}
 
 		@Override
