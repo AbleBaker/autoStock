@@ -59,7 +59,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			}
 			
 			if (algorithmMode.displayTable) {
-				algorithmTable.addTableRow(periodLength, listOfQuoteSlice, strategy.signal, signalGroup, strategyResponse);
+				algorithmTable.addTableRow(listOfQuoteSlice, strategy.signal, signalGroup, strategyResponse);
 			}
 			
 			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
