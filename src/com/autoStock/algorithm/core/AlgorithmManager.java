@@ -46,7 +46,7 @@ public class AlgorithmManager {
 			if (listOfActiveAlgorithmContainer.size() >= 300){
 				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 			}else if (getAlgorithmContainerForSymbol(result.symbol) == null){
-				Co.println("Will run algorithm for symbol: " + result.symbol);
+				Co.println("Will run algorithm for symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				algorithmInfoManager.activatedSymbol(result.symbol);
 				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol));
 				container.activate();

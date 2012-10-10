@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.SignalMetric;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
@@ -45,10 +46,23 @@ public class AlgorithmManagerTable {
 		columnValues.add(algorithm.strategy.lastStrategyResponse == null ? "-" : (algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalPointType.name() + ", " + algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
 		columnValues.add(position == null ? "-" : position.positionType.name());
 		columnValues.add(String.valueOf(algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(algorithm.getFirstQuoteSlice().priceClose)));
+		columnValues.add(String.valueOf(position == null ? "-" : position.getPositionValue().unitPriceIntrinsic));
 		columnValues.add(String.valueOf(algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(algorithm.getCurrentQuoteSlice().priceClose)));
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
 		columnValues.add(String.valueOf(percentGainFromPosition == 0 ? "-" : new DecimalFormat("#.###").format(percentGainFromPosition)));
 		columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission()))));
+		
+		String signalMetrics = new String();
+		
+		if (algorithm.strategy.signal != null){
+			for (SignalMetric signalMetric : algorithm.strategy.signal.getListOfSignalMetric()){
+				signalMetrics += " (" + signalMetric.signalMetricType.name() + ":" + signalMetric.strength + ":" + signalMetric.getSignalPoint(position == null ? false : true, position == null ? PositionType.position_none : position.positionType).signalPointType.name() + ")";
+			}
+		}else{
+			signalMetrics = "?";
+		}
+		
+		columnValues.add(signalMetrics);
 		
 		listOfDisplayRows.add(columnValues);
 	}

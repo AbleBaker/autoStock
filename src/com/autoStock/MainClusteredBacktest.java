@@ -49,6 +49,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		Global.callbackLock.requestLock();
 		adjustmentCampaign.prepare();
 		
+		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+		
 		startRequestServer();
 	}
 	

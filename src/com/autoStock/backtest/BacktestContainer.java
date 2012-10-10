@@ -26,7 +26,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private ListenerOfBacktestCompleted listener; 
 	private Backtest backtest;
 	private AlgorithmMode algorithmMode;
-	private AlgorithmManagerTable algorithmManagerTable = new AlgorithmManagerTable();
 	
 	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, AlgorithmMode algorithmMode){
 		this.symbol = symbol;
