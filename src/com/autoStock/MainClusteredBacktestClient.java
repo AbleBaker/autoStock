@@ -16,6 +16,7 @@ import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.finance.Account;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 
 /**
@@ -86,8 +87,9 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 			
 			runNextBacktest();
 		}else if(commandHolder.command == Command.no_units_left){
-			Co.println("--> No units left... sleeping");
+			Co.println("--> No units left... exiting...");
 			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
+			ApplicationStates.shutdown();
 			requestNextUnit();
 		}
 	}

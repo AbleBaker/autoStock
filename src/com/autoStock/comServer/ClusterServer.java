@@ -115,7 +115,7 @@ public class ClusterServer {
 					}
 				}
 			}catch(IOException e){
-				e.printStackTrace();
+//				e.printStackTrace();
 				Co.println("--> Client disconnected abruptly...");
 				try {socket.close();}catch(Exception ex){}
 			}
