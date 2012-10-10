@@ -41,6 +41,8 @@ public class BacktestUtils {
 		string += "\n --> Transactions: " + Account.getInstance().getTransactions();
 		string += "\n --> Fees: " + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
 		
+		string += "\n --> SignalControl: " + SignalControl.periodLengthStart + ", " + SignalControl.periodLengthMiddle + ", " + SignalControl.periodLengthEnd;
+		
 		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
 			string += "\n\n --> Signal metric: " + signalMetric.signalMetricType.name() + "\n";
 			string += " +Long entry: " + signalMetric.signalMetricType.pointToSignalLongEntry + "\n";
