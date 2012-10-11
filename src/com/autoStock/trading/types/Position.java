@@ -36,7 +36,7 @@ public class Position implements OrderStatusListener {
 	public PositionType positionType = PositionType.position_none;
 	private final ArrayList<Order> listOfOrder = new ArrayList<Order>();
 	private PositionStatusListener positionStatusListener;
-	private PositionUtils positionUtils;
+	public PositionUtils positionUtils;
 	private Lock lock = new Lock();
 
 	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, String securityType, double currentPrice) {
@@ -57,25 +57,28 @@ public class Position implements OrderStatusListener {
 
 	public void executePosition() {
 		synchronized (lock){
-			if (positionType == PositionType.position_long_entry) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, initialUnits, unitPriceLastKnown, this);
-				order.executeOrder();
-				listOfOrder.add(order);
-			} else if (positionType == PositionType.position_short_entry) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, initialUnits, unitPriceLastKnown, this);
-				order.executeOrder();
-				listOfOrder.add(order);
-			} else if (positionType == PositionType.position_long_exit) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
-				order.executeOrder();
-			} else if (positionType == PositionType.position_short_exit) {
-				Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
-				order.executeOrder();
-			} else {
-				throw new IllegalStateException("Position is already executed... PositionType: " + positionType.name());
+			if (initialUnits == 0){
+				Co.println("--> Warning initial units are 0!!!");
+				positionType = PositionType.position_failed;
+			}else{
+				if (positionType == PositionType.position_long_entry) {
+					Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, initialUnits, unitPriceLastKnown, this);
+					order.executeOrder();
+					listOfOrder.add(order);
+				} else if (positionType == PositionType.position_short_entry) {
+					Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, initialUnits, unitPriceLastKnown, this);
+					order.executeOrder();
+					listOfOrder.add(order);
+				} else if (positionType == PositionType.position_long_exit) {
+					Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
+					order.executeOrder();
+				} else if (positionType == PositionType.position_short_exit) {
+					Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
+					order.executeOrder();
+				} else {
+					throw new IllegalStateException("Position is already executed... PositionType: " + positionType.name());
+				}
 			}
-		
-//		Co.println("--> Executed position: " + positionType.name());
 		}
 	}
 	
@@ -125,7 +128,14 @@ public class Position implements OrderStatusListener {
 		double comission = 0;
 		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceFirstKnown);
 		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);
+		
+		Co.println("--> Getting P&L: " + symbol.symbolName + ", " + getLastKnownUnitPrice() + positionUtils.getPositionValueCurrent(false) + ", " + positionUtils.getOrderValueIntrinsic(false));
+		
 		return MathTools.round(positionValue - comission);
+	}
+	
+	public double getCurrentPercentGainLoss(boolean includeTransactionFees){
+		return ((positionUtils.getPositionValueCurrent(false) / positionUtils.getOrderValueFilled(false)) -1) * 100;
 	}
 	
 	public double getFirstKnownUnitPrice(){
@@ -140,10 +150,6 @@ public class Position implements OrderStatusListener {
 		unitPriceLastKnown = priceClose;
 	}
 	
-	public double getCurrentPercentGainLoss(boolean includeTransactionFees){
-		return ((positionUtils.getPositionValueCurrent(false) / positionUtils.getOrderValueFilled(false)) -1) * 100;
-	}
-	
 	public PositionValue getPositionValue(){
 		PositionValue positionValue = new PositionValue(
 			positionUtils.getOrderValueRequested(false), positionUtils.getOrderValueFilled(false), positionUtils.getOrderValueIntrinsic(false),  
@@ -154,6 +160,8 @@ public class Position implements OrderStatusListener {
 			positionUtils.getOrderUnitPriceRequested(), positionUtils.getOrderUnitPriceFilled(), positionUtils.getOrderUnitPriceIntrinsic(),
 			unitPriceLastKnown
 		);
+		
+		new PositionValueTable().printTable(this, positionValue);
 		
 		return positionValue;
 	}

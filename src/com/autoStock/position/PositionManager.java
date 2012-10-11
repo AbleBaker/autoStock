@@ -36,14 +36,19 @@ public class PositionManager implements PositionStatusListener {
 		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry) {
 				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange);
-				position.setPositionListener(this);
-				listOfPosition.add(position);
-				positionExecutor.executeLongEntry(position);
+				if (position != null){
+					position.setPositionListener(this);
+					listOfPosition.add(position);
+					positionExecutor.executeLongEntry(position);
+				}
 				return position;
 			} else if (positionType == PositionType.position_short_entry) {
 				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange);
-				position.setPositionListener(this);
-				positionExecutor.executeShortEntry(position);
+				if (position != null){
+					position.setPositionListener(this);
+					listOfPosition.add(position);
+					positionExecutor.executeShortEntry(position);
+				}
 				return position;
 			} else if (positionType == PositionType.position_long_exit) {
 				Position position = getPosition(quoteSlice.symbol);
@@ -59,11 +64,9 @@ public class PositionManager implements PositionStatusListener {
 		}
 	}
 
-	public synchronized void updatePositionPrice(QuoteSlice quoteSlice, Position position) {
-		synchronized (lock) {
-			if (position != null) {
-				position.updatePositionUnitPrice(quoteSlice.priceClose);
-			}
+	public void updatePositionPrice(QuoteSlice quoteSlice, Position position) {
+		if (position != null) {
+			position.updatePositionUnitPrice(quoteSlice.priceClose);
 		}
 	}
 

@@ -57,6 +57,7 @@ public class AlgorithmManagerTable {
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromPosition)));
 		columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission()))));
+		columnValues.add(String.valueOf(position == null ? "-" : (position.getFirstKnownUnitPrice() + ", " +  position.getLastKnownUnitPrice() + ", " + position.getPositionValue().valueCurrent + ", " + position.getPositionValue().valueIntrinsic + ", " + position.getPositionValue().unitPriceFilled + ", " + position.positionUtils.getOrderUnitsFilled() + ", " + + position.positionUtils.getOrderUnitsIntrinsic())));
 		
 		String signalMetrics = new String();
 		

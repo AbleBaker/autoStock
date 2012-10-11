@@ -20,8 +20,13 @@ public class PositionGenerator {
 	private final int positionMaximumPrice = 5000;
 	
 	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange){
-		Position position = new Position(positionType, (int) getPositionUnits(quoteSlice.priceClose, signal), quoteSlice.symbol, exchange, "STK", quoteSlice.priceClose);
-		return position;
+		int positionUnits = (int) getPositionUnits(quoteSlice.priceClose, signal);
+		
+		if (positionUnits != 0){
+			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, "STK", quoteSlice.priceClose);
+		}
+		
+		return null;
 	}
 	
 	private double getPositionUnits(double price, Signal signal){
@@ -31,7 +36,8 @@ public class PositionGenerator {
 		if (accountBalance <= 0){
 			Co.println("Insufficient account blanace for trade");
 			return 0;
-		}				
+		}
+		
 		units = Math.min(positionMaximumPrice / price, account.getAccountBalance() / price);
 		
 		return units;

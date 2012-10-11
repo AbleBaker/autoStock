@@ -11,7 +11,7 @@ public class TableDefinitions {
 		stock_historical_price_db(new AsciiColumns[]{AsciiColumns.id, AsciiColumns.symbol, AsciiColumns.priceOpen, AsciiColumns.priceHigh, AsciiColumns.priceLow, AsciiColumns.priceClose, AsciiColumns.sizeVolume, AsciiColumns.dateTime}),
 		analysis_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.priceClose, AsciiColumns.derivedChange, AsciiColumns.derivedChange, AsciiColumns.signal , AsciiColumns.PPC, AsciiColumns.ADX, AsciiColumns.CCI, AsciiColumns.BBUpper, AsciiColumns.BBLower, AsciiColumns.MACDHistogram, AsciiColumns.STORSIK, AsciiColumns.STORISD}),
 		algorithm_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.sizeVolume, AsciiColumns.price, AsciiColumns.derivedChange, AsciiColumns.signalPPC, AsciiColumns.signalDI, AsciiColumns.signalCCI, AsciiColumns.signalRSI, AsciiColumns.signalMACD, AsciiColumns.signalTRIX, AsciiColumns.signalROC, AsciiColumns.signalMFI, AsciiColumns.signalWILLR, AsciiColumns.signalTotal, AsciiColumns.positionGovernorResponse, AsciiColumns.strategyResponse, AsciiColumns.signalPoint, AsciiColumns.signalMetric, AsciiColumns.transactionDetails, AsciiColumns.bankBalance}),
-		algorithm_manager(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.signal, AsciiColumns.position, AsciiColumns.priceVisible, AsciiColumns.priceEntered, AsciiColumns.priceClose, AsciiColumns.percentChange, AsciiColumns.percentChange, AsciiColumns.transactionDetails, AsciiColumns.signalMetric}),
+		algorithm_manager(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.signal, AsciiColumns.position, AsciiColumns.priceVisible, AsciiColumns.priceEntered, AsciiColumns.priceClose, AsciiColumns.percentChange, AsciiColumns.percentChange, AsciiColumns.transactionDetails, AsciiColumns.debug, AsciiColumns.signalMetric}),
 		backtest_strategy_response(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.price, AsciiColumns.strategyResponse, AsciiColumns.positionGovernorResponse, AsciiColumns.signal, AsciiColumns.profitLoss}),
 		;
 		
@@ -98,6 +98,7 @@ public class TableDefinitions {
 		strategyResponse,
 		signalPoint,
 		signalMetric,
-		profitLoss,
+		profitLoss, 
+		debug,
 	}
 }

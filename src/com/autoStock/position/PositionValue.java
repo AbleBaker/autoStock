@@ -30,7 +30,13 @@ public class PositionValue {
 	public final double unitPriceFilled;
 	public final double unitPriceCurrent;
 	
-	public PositionValue(double valueRequested, double valueFilled, double valueIntrinsic, double valueRequestedWithFees, double valueFilledWithFees, double valueIntrinsicWithFees, double priceRequestedWithFees, double priceFilledWithFees, double priceIntrinsicWithFees, double valueCurrent, double valueCurrentWithFees, double priceCurrent, double priceCurrentWithFees, double unitPriceRequested, double unitPriceIntrinsic, double unitPriceFilled, double unitPriceCurrent) {
+	public PositionValue(double valueRequested, double valueFilled, double valueIntrinsic, 
+						 double valueRequestedWithFees, double valueFilledWithFees, double valueIntrinsicWithFees, 
+						 double priceRequestedWithFees, double priceFilledWithFees, double priceIntrinsicWithFees, 
+						 double valueCurrent, double valueCurrentWithFees, 
+						 double priceCurrent, double priceCurrentWithFees, 
+						 double unitPriceRequested, double unitPriceIntrinsic, double unitPriceFilled, 
+						 double unitPriceCurrent) {
 		this.valueRequested = valueRequested;
 		this.valueFilled = valueFilled;
 		this.valueIntrinsic = valueIntrinsic;

@@ -1,5 +1,7 @@
 package com.autoStock.position;
 
+import java.util.ArrayList;
+
 import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseReason;
@@ -14,6 +16,8 @@ import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.Symbol;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
@@ -22,6 +26,7 @@ import com.autoStock.types.QuoteSlice;
 public class PositionGovernor {
 	private static PositionGovernor instance = new PositionGovernor();
 	private PositionManager positionManager = PositionManager.getInstance(); 
+	private ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>> listOfPairedResponses = new ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>>();
 	
 	public static PositionGovernor getInstance(){
 		return instance;
@@ -54,7 +59,7 @@ public class PositionGovernor {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
 				}else if (signalPointForReentry.signalPointType == SignalPointType.long_entry){
 //					Co.println("--> Should re-enter?");
-//					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions) == ReentryStatus.status_reenter){
+//					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry) == ReentryStatus.status_reenter){
 //						Co.println("--> yes on re-entry");
 //						positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;
 //					}
@@ -73,6 +78,12 @@ public class PositionGovernor {
 		positionGovernorResponse.position = position;
 		positionGovernorResponse.signalPoint = signalPoint;
 		signal.currentSignalPoint = signalPoint;
+		
+		if (getPair(quoteSlice.symbol) == null){
+//			listOfPairedResponses.add(new Pair<Symbol,ArrayList<PositionGovernorResponse>>(quoteSlice.symbol, new ArrayList<PositionGovernorResponse>()));
+		}
+		
+//		getPair(quoteSlice.symbol).second.add(positionGovernorResponse);
 
 		return positionGovernorResponse;
 	} 
@@ -113,5 +124,15 @@ public class PositionGovernor {
 		}
 		position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_short_exit);
 		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_short_exit;
+	}
+	
+	public Pair<Symbol,ArrayList<PositionGovernorResponse>> getPair(Symbol symbol){
+		for (Pair<Symbol,ArrayList<PositionGovernorResponse>> pair : listOfPairedResponses){
+			if (pair.first.symbolName.equals(symbol.symbolName)){
+				return pair;
+			}
+		}
+		
+		return null;
 	}
 }

@@ -1,14 +1,15 @@
 package com.autoStock.position;
 
 import com.autoStock.Co;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class PositionValueTable {
-	public void printTable(PositionValue positionValue){
-		Co.println("\n\n --> PositionValue...");
+	public synchronized void printTable(Position position, PositionValue positionValue){
+		Co.println("\n\n --> PositionValue... " + position.symbol.symbolName);
 		Co.println(
 				   "\n valueRequested -> " + positionValue.valueRequested //OK
 				   + "\n valueFilled -> " + positionValue.valueFilled //OK

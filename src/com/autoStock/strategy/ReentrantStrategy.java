@@ -19,9 +19,8 @@ public class ReentrantStrategy {
 		status_none,
 	}
 	
-	public ReentryStatus getReentryStatus(Position position, Signal signal, StrategyOptions strategyOptions){
+	public ReentryStatus getReentryStatus(Position position, Signal signal, StrategyOptions strategyOptions, SignalPoint signalPoint){
 		PositionValue positionValue = position.getPositionValue();
-		SignalPoint signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 		double percentGainFromPosition = ((position.getPositionValue().valueCurrent / position.getPositionValue().valueFilled) -1) * 100;
 		
 		if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long){

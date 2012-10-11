@@ -20,6 +20,7 @@ import com.autoStock.order.OrderValue;
 import com.autoStock.position.PositionManager;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 /**
  * @author Kevin Kowalewski
@@ -118,7 +119,7 @@ public class Order {
 	
 	public void orderUnitsFilled(double priceAverageFill, int units){
 		atomicIntForUnitsFilled.addAndGet(units);
-//		Co.println("--> Order units filled: " + units + " of " + unitsRequested);
+		Co.println("--> Order units filled: " + symbol.symbolName + ", " + units + " of " + unitsRequested);
 		
 		if (atomicIntForUnitsFilled.get() == unitsRequested){
 			orderStatus = OrderStatus.status_filled;
@@ -141,13 +142,20 @@ public class Order {
 	
 	public OrderValue getOrderValue(){
 		//units requested, units filled, price requested, price filled
+		
+		if (atomicIntForUnitsFilled.get() == 0){
+			Co.println("--> Warning filled units is 0..." + symbol.symbolName);
+		}
+		
 		return new OrderValue(
 				getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), 
 				getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), 
 				getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true),
 				getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(),
 				Account.getInstance().getTransactionCost(getUnitsIntrinsic(), priceRequested)
-				);
+			);
+		
+		
 	}
 	
 	private double getFilledPrice(boolean includeTransactionFees){

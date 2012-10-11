@@ -23,6 +23,6 @@ public class MainMarketOrder implements PositionStatusListener {
 	@Override
 	public void positionStatusChange(Position position) {
 		Co.println("\n\n--> Position status changed: " + position.positionType.name());
-		new PositionValueTable().printTable(position.getPositionValue());
+		new PositionValueTable().printTable(position, position.getPositionValue());
 	}
 }

@@ -23,7 +23,11 @@ public class OrderValue {
 	
 	public final double transactionFees;
 	
-	public OrderValue(double valueRequested, double valueFilled, double valueIntrinsic, double valueRequestedWithFees, double valueFilledWithFees, double valueIntrinsicWithFees, double priceRequestedWithFees, double priceFilledWithFees, double priceIntrinsicWithFees, double unitPriceRequested, double unitPriceFilled, double unitPriceIntrinsic, double transactionFees) {
+	public OrderValue(double valueRequested, double valueFilled, double valueIntrinsic, 
+					  double valueRequestedWithFees, double valueFilledWithFees, double valueIntrinsicWithFees, 
+					  double priceRequestedWithFees, double priceFilledWithFees, double priceIntrinsicWithFees, 
+					  double unitPriceRequested, double unitPriceFilled, double unitPriceIntrinsic, 
+					  double transactionFees) {
 		this.valueRequested = valueRequested;
 		this.valueFilled = valueFilled;
 		this.valueIntrinsic = valueIntrinsic;

@@ -17,6 +17,10 @@ public class OrderSimulator {
 	
 	public void simulateOrderFill(){
 		
+		if (order.getUnitPriceRequested() == 0 || order.getUnitsRequested() == 0){
+			throw new IllegalStateException("Order: " + order.getUnitPriceRequested() + ", " + order.getUnitsRequested());
+		}
+		
 		order.orderUnitsFilled(order.getUnitPriceRequested(), order.getUnitsRequested());
 		
 //		threadForOrderSimulator = new Thread(new Runnable(){
