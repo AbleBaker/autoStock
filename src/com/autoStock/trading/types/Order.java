@@ -141,21 +141,17 @@ public class Order {
 	}
 	
 	public OrderValue getOrderValue(){
-		//units requested, units filled, price requested, price filled
-		
 		if (atomicIntForUnitsFilled.get() == 0){
 			Co.println("--> Warning filled units is 0..." + symbol.symbolName);
 		}
 		
 		return new OrderValue(
-				getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), 
-				getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), 
-				getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true),
-				getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(),
-				Account.getInstance().getTransactionCost(getUnitsIntrinsic(), priceRequested)
-			);
-		
-		
+			getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), 
+			getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), 
+			getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true),
+			getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(),
+			Account.getInstance().getTransactionCost(getUnitsIntrinsic(), priceRequested)
+		);
 	}
 	
 	private double getFilledPrice(boolean includeTransactionFees){

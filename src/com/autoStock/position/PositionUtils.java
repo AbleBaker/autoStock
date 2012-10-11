@@ -36,7 +36,6 @@ public class PositionUtils {
 	}
 
 	public int getOrderUnitsRequested() {
-
 		int units = 0;
 		for (Order order : listOfOrder) {
 			units += order.getUnitsRequested();
@@ -45,7 +44,6 @@ public class PositionUtils {
 	}
 
 	public int getOrderUnitsIntrinsic() {
-
 		int units = 0;
 		for (Order order : listOfOrder) {
 			units += order.getUnitsIntrinsic();
