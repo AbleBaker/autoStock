@@ -35,7 +35,7 @@ public class ReentrantStrategy {
 		double percentGainFromPosition = position.getCurrentPercentGainLoss(true);
 		Time timeOfLastOccurrenceDifference = DateTools.getTimeUntilDate(quoteSlice.dateTime, positionGovernorResponseLast.dateOccurred);
 		
-		Co.println("--> Time: " + timeOfLastOccurrenceDifference.hours + ", " + timeOfLastOccurrenceDifference.minutes);
+//		Co.println("--> Time: " + timeOfLastOccurrenceDifference.hours + ", " + timeOfLastOccurrenceDifference.minutes);
 		
 		if (timeOfLastOccurrenceDifference.minutes >= 5 || timeOfLastOccurrenceDifference.hours > 0){
 			if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long){

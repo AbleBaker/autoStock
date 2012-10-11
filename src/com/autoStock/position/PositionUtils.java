@@ -1,13 +1,10 @@
 package com.autoStock.position;
 
-import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.finance.Account;
+import com.autoStock.order.OrderValue;
 import com.autoStock.order.OrderDefinitions.OrderType;
-import com.autoStock.tools.Lock;
-import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Order;
 import com.autoStock.trading.types.Position;
 
@@ -18,14 +15,17 @@ import com.autoStock.trading.types.Position;
 public class PositionUtils {
 	private Position position;
 	private ArrayList<Order> listOfOrder;
+	private ArrayList<OrderValue> listOfOrderValue = new ArrayList<OrderValue>();
 
-	public PositionUtils(Position position, ArrayList<Order> listOfOrder, Lock lock) {
+	public PositionUtils(Position position, ArrayList<Order> listOfOrder) {
 		this.position = position;
 		this.listOfOrder = listOfOrder;
+		for (Order order : listOfOrder) {
+			listOfOrderValue.add(order.getOrderValue());
+		}
 	}
 
 	public int getOrderUnitsFilled() {
-
 		int units = 0;
 		for (Order order : listOfOrder) {
 			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short) {
@@ -55,56 +55,56 @@ public class PositionUtils {
 
 	public double getOrderTransactionFeesIntrinsic() {
 		double transactionFees = 0;
-		for (Order order : listOfOrder) {
-			transactionFees += order.getOrderValue().transactionFees;
+		for (OrderValue orderValue : listOfOrderValue){
+			transactionFees += orderValue.transactionFees;
 		}
 		return transactionFees;
 	}
 
 	public double getOrderPriceRequested(boolean includeTransactionFees) {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += includeTransactionFees ? order.getOrderValue().priceRequestedWithFees : order.getOrderValue().valueRequested;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += includeTransactionFees ? orderValue.priceRequestedWithFees : orderValue.valueRequested;
 		}
 		return priceTotal;
 	}
 
 	public double getOrderPriceFilled(boolean includeTransactionFees) {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += includeTransactionFees ? order.getOrderValue().priceFilledWithFees : order.getOrderValue().valueFilled;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += includeTransactionFees ? orderValue.priceFilledWithFees : orderValue.valueFilled;
 		}
 		return priceTotal;
 	}
 
 	public double getOrderPriceIntrinsic(boolean includeTransactionFees) {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += includeTransactionFees ? order.getOrderValue().priceIntrinsicWithFees : order.getOrderValue().valueIntrinsic;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += includeTransactionFees ? orderValue.priceIntrinsicWithFees : orderValue.valueIntrinsic;
 		}
 		return priceTotal;
 	}
 
 	public double getOrderValueRequested(boolean includeTransactionFees) {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += includeTransactionFees ? order.getOrderValue().valueRequestedWithFees : order.getOrderValue().valueRequested;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += includeTransactionFees ? orderValue.valueRequestedWithFees : orderValue.valueRequested;
 		}
 		return priceTotal;
 	}
 
 	public double getOrderValueFilled(boolean includeTransactionFees) {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += includeTransactionFees ? order.getOrderValue().valueFilledWithFees : order.getOrderValue().valueFilled;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += includeTransactionFees ? orderValue.valueFilledWithFees : orderValue.valueFilled;
 		}
 		return priceTotal;
 	}
 
 	public double getOrderValueIntrinsic(boolean includeTransactionFees) {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += includeTransactionFees ? order.getOrderValue().valueIntrinsicWithFees : order.getOrderValue().valueIntrinsic;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += includeTransactionFees ? orderValue.valueIntrinsicWithFees : orderValue.valueIntrinsic;
 		}
 		
 		return priceTotal;
@@ -130,24 +130,24 @@ public class PositionUtils {
 
 	public double getOrderUnitPriceRequested() {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += order.getOrderValue().unitPriceRequested;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += orderValue.unitPriceRequested;
 		}
 		return priceTotal;
 	}
 
 	public double getOrderUnitPriceFilled() {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += order.getOrderValue().unitPriceFilled;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += orderValue.unitPriceFilled;
 		}
 		return priceTotal;
 	}
 
 	public double getOrderUnitPriceIntrinsic() {
 		double priceTotal = 0;
-		for (Order order : listOfOrder) {
-			priceTotal += order.getOrderValue().unitPriceIntrinsic;
+		for (OrderValue orderValue : listOfOrderValue){
+			priceTotal += orderValue.unitPriceIntrinsic;
 		}
 		return priceTotal;
 	}
