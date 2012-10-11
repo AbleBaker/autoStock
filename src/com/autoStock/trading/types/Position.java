@@ -163,7 +163,6 @@ public class Position implements OrderStatusListener {
 //		Co.println("--> Received order status change: " + order.orderType.name() + ", " + orderStatus.name());
 		if (orderStatus == OrderStatus.status_filled) {
 			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
-				
 				if (unitPriceFirstKnown == 0){unitPriceFirstKnown = positionUtils.getOrderUnitPriceFilled();}
 				if (unitPriceLastKnown == 0){unitPriceLastKnown = positionUtils.getOrderUnitPriceFilled();}
 				

@@ -48,43 +48,43 @@ public class SubsetOfScannerSubscription {
 		else if (marketScannerType == MarketScannerType.type_percent_gain) {
 			scannerSubscription.scanCode("TOP_PERC_GAIN");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(100);
+			scannerSubscription.numberOfRows(50);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_high_open_gap) {
 			scannerSubscription.scanCode("HIGH_OPEN_GAP");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(100);
+			scannerSubscription.numberOfRows(50);
 		}
 		
 		else if (marketScannerType == MarketScannerType.type_implied_volatility_gain) {
 			scannerSubscription.scanCode("TOP_OPT_IMP_VOLAT_GAIN");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(100);
+			scannerSubscription.numberOfRows(50);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_top_trade_rate) {
 			scannerSubscription.scanCode("TOP_TRADE_RATE");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(100);
+			scannerSubscription.numberOfRows(50);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_most_active) {
 			scannerSubscription.scanCode("MOST_ACTIVE_USD");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(100);
+			scannerSubscription.numberOfRows(50);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_hot_by_price) {
 			scannerSubscription.scanCode("HOT_BY_PRICE");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(100);
+			scannerSubscription.numberOfRows(50);
 		} 
 		
 		else if (marketScannerType == MarketScannerType.type_hot_by_volume) {
 			scannerSubscription.scanCode("HOT_BY_VOLUME");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(100);
+			scannerSubscription.numberOfRows(50);
 		} 
 		
 		else {

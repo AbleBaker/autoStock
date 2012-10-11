@@ -32,6 +32,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		signalGroup = new SignalGroup();
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
+//		if (false){
 			for (Iteration iteration : AdjustmentCampaign.getInstance().getListOfIterations()){
 				listOfSignalMetricType.add(iteration.signalTypeMetric);
 			}

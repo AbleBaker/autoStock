@@ -78,13 +78,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			Global.callbackLock.requestLock();
 		}
 		
+		adjustmentCampaign.prepare();
+		
 		runMainBacktest(dateStart, dateEnd, listOfSymbols);
 	}
 	
 	private void runMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols){
 		Co.println("Main backtest...\n\n");
-		
-		adjustmentCampaign.prepare();
 		
 		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, "STK", dateStart, dateEnd, Resolution.min);
 
