@@ -3,6 +3,7 @@ package com.autoStock.position;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseReason;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
@@ -107,10 +108,16 @@ public class PositionGovernor {
 	}
 	
 	private void governLongReentry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
-		int reentryUnits = (int) position.getInitialUnitsFilled() / 10;
-		reentryUnits = Math.min(10, reentryUnits);
-		position.executeReentry(reentryUnits, quoteSlice.priceClose);
-		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;
+		int reentryUnits = (int) position.getInitialUnitsFilled() / 2;
+//		reentryUnits = Math.min(Math.max(position.getInitialUnitsFilled(), 100), reentryUnits);
+
+		if (Account.getInstance().getAccountBalance() > ((reentryUnits * quoteSlice.priceClose) + Account.getInstance().getTransactionCost(reentryUnits, quoteSlice.priceClose))){
+//			Co.println("--> Reentry with units: " + position.getInitialUnitsFilled() + ", " + reentryUnits);
+			position.executeReentry(reentryUnits, quoteSlice.priceClose);
+			positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;	
+		}else{
+			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
+		}
 	}
 	
 	private Position governShortEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
