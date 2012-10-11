@@ -128,10 +128,13 @@ public class Position implements OrderStatusListener {
 		double comission = 0;
 		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceFirstKnown);
 		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);
-		
-		Co.println("--> Getting P&L: " + symbol.symbolName + ", " + getLastKnownUnitPrice() + positionUtils.getPositionValueCurrent(false) + ", " + positionUtils.getOrderValueIntrinsic(false));
-		
+//		Co.println("--> Getting P&L: " + symbol.symbolName + ", " + getLastKnownUnitPrice() + positionUtils.getPositionValueCurrent(false) + ", " + positionUtils.getOrderValueIntrinsic(false));		
 		return MathTools.round(positionValue - comission);
+	}
+	
+	public double getPositionProfitLossBeforeComission() {
+		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);		
+		return MathTools.round(positionValue);
 	}
 	
 	public double getCurrentPercentGainLoss(boolean includeTransactionFees){
@@ -161,7 +164,7 @@ public class Position implements OrderStatusListener {
 			unitPriceLastKnown
 		);
 		
-		new PositionValueTable().printTable(this, positionValue);
+//		new PositionValueTable().printTable(this, positionValue);
 		
 		return positionValue;
 	}

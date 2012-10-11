@@ -119,7 +119,7 @@ public class Order {
 	
 	public void orderUnitsFilled(double priceAverageFill, int units){
 		atomicIntForUnitsFilled.addAndGet(units);
-		Co.println("--> Order units filled: " + symbol.symbolName + ", " + units + " of " + unitsRequested);
+//		Co.println("--> Order units filled: " + symbol.symbolName + ", " + units + " of " + unitsRequested);
 		
 		if (atomicIntForUnitsFilled.get() == unitsRequested){
 			orderStatus = OrderStatus.status_filled;

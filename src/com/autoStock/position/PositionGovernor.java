@@ -52,17 +52,17 @@ public class PositionGovernor {
 		} else {
 			SignalPoint signalPointForReentry = signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTactic);
-//			ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
+			ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
 				}else if (signalPointForReentry.signalPointType == SignalPointType.long_entry){
 //					Co.println("--> Should re-enter?");
-//					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry) == ReentryStatus.status_reenter){
-//						Co.println("--> yes on re-entry");
-//						positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;
-//					}
+					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
+						Co.println("--> yes on re-entry");
+						positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;
+					}
 				}
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
 				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
@@ -77,13 +77,22 @@ public class PositionGovernor {
 
 		positionGovernorResponse.position = position;
 		positionGovernorResponse.signalPoint = signalPoint;
+		positionGovernorResponse.dateOccurred = quoteSlice.dateTime;
 		signal.currentSignalPoint = signalPoint;
 		
 		if (getPair(quoteSlice.symbol) == null){
-//			listOfPairedResponses.add(new Pair<Symbol,ArrayList<PositionGovernorResponse>>(quoteSlice.symbol, new ArrayList<PositionGovernorResponse>()));
+			listOfPairedResponses.add(new Pair<Symbol,ArrayList<PositionGovernorResponse>>(quoteSlice.symbol, new ArrayList<PositionGovernorResponse>()));
 		}
 		
-//		getPair(quoteSlice.symbol).second.add(positionGovernorResponse);
+		if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
+			|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry
+			|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
+			|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
+			|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry
+			|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+		}else{
+			getPair(quoteSlice.symbol).second.add(positionGovernorResponse);	
+		}
 
 		return positionGovernorResponse;
 	} 

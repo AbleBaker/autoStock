@@ -3,6 +3,8 @@
  */
 package com.autoStock.position;
 
+import java.util.Date;
+
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.trading.types.Position;
 
@@ -15,6 +17,7 @@ public class PositionGovernorResponse {
 	public PositionGovernorResponseStatus status = PositionGovernorResponseStatus.none;
 	public PositionGovernorResponseReason reason = PositionGovernorResponseReason.none;
 	public SignalPoint signalPoint = new SignalPoint();
+	public Date dateOccurred;
 	
 	public enum PositionGovernorResponseReason{
 		failed_insufficient_funds,

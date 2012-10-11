@@ -8,6 +8,7 @@ import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmManagerTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -26,6 +27,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private ListenerOfBacktestCompleted listener; 
 	private Backtest backtest;
 	private AlgorithmMode algorithmMode;
+	public ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	
 	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, AlgorithmMode algorithmMode){
 		this.symbol = symbol;
@@ -67,6 +69,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	
 	@Override
 	public synchronized void endOfFeed(Symbol symbol) {
+		listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
 		algorithm.endOfFeed(symbol);
 		listener.backtestCompleted(symbol, algorithm);
 	}

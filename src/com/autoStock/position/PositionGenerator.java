@@ -17,10 +17,10 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionGenerator {
 	private Account account = Account.getInstance();
-	private final int positionMaximumPrice = 5000;
+	private final int positionMaximumPrice = 2000;
 	
 	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange){
-		int positionUnits = (int) getPositionUnits(quoteSlice.priceClose, signal);
+		int positionUnits = (int) getPositionInitialUnits(quoteSlice.priceClose, signal);
 		
 		if (positionUnits != 0){
 			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, "STK", quoteSlice.priceClose);
@@ -29,7 +29,7 @@ public class PositionGenerator {
 		return null;
 	}
 	
-	private double getPositionUnits(double price, Signal signal){
+	private double getPositionInitialUnits(double price, Signal signal){
 		double accountBalance = account.getAccountBalance();
 		double units = 0;
 

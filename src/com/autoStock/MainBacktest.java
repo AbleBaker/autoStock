@@ -222,7 +222,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
 						ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 
-						for (StrategyResponse strategyResponse : backtestContainer.algorithm.listOfStrategyResponse){
+						for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse){
 							ArrayList<String> listOfString = new ArrayList<String>();
 							listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 							listOfString.add(backtestContainer.symbol.symbolName);
