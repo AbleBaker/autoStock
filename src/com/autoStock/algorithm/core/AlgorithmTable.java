@@ -1,5 +1,6 @@
 package com.autoStock.algorithm.core;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
@@ -66,6 +67,7 @@ public class AlgorithmTable {
 		String responseString = "none";
 		if (strategyResponse.positionGovernorResponse.position != null){
 			responseString = StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission());
+			responseString += ", %" + new DecimalFormat("#.##").format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true));
 			
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFees);

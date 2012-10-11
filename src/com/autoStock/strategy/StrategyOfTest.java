@@ -154,8 +154,10 @@ public class StrategyOfTest extends StrategyBase {
 	
 	private boolean didPositionGovernorChangePosition(PositionGovernorResponse positionGovernorResponse){
 		if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
+				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
+				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 			return true;
 		}else{

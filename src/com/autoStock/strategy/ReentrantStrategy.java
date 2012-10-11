@@ -32,16 +32,15 @@ public class ReentrantStrategy {
 	public ReentryStatus getReentryStatus(Position position, Signal signal, StrategyOptions strategyOptions, SignalPoint signalPoint, Pair<Symbol, ArrayList<PositionGovernorResponse>> listOfPair, QuoteSlice quoteSlice){
 		PositionValue positionValue = position.getPositionValue();
 		PositionGovernorResponse positionGovernorResponseLast = listOfPair.second.get(listOfPair.second.size()-1);
-		double percentGainFromPosition = ((position.getPositionValue().valueCurrent / position.getPositionValue().valueFilled) -1) * 100;
-		Time timeOfLastOccurrenceDifference = DateTools.getTimeUntilDate(positionGovernorResponseLast.dateOccurred, quoteSlice.dateTime);
+		double percentGainFromPosition = position.getCurrentPercentGainLoss(true);
+		Time timeOfLastOccurrenceDifference = DateTools.getTimeUntilDate(quoteSlice.dateTime, positionGovernorResponseLast.dateOccurred);
 		
-		if (timeOfLastOccurrenceDifference.minutes > 5 || timeOfLastOccurrenceDifference.hours > 0){
+		Co.println("--> Time: " + timeOfLastOccurrenceDifference.hours + ", " + timeOfLastOccurrenceDifference.minutes);
+		
+		if (timeOfLastOccurrenceDifference.minutes >= 5 || timeOfLastOccurrenceDifference.hours > 0){
 			if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long){
 				if (percentGainFromPosition > 0.2){
 					return ReentryStatus.status_reenter;	
-				}else{
-					Co.println("--> autoDesk?: " + position.getPositionValue().valueFilled + ", " + position.getPositionValue().valueCurrent);
-					Co.println("--> Percent gain was insufficient: " + percentGainFromPosition + ", " + position.getPositionProfitLossAfterComission());
 				}
 			}else if (signalPoint.signalPointType == SignalPointType.short_entry && position.positionType == PositionType.position_short){
 				return ReentryStatus.status_reenter;
