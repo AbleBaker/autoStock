@@ -28,6 +28,7 @@ public class PositionGovernor {
 	private static PositionGovernor instance = new PositionGovernor();
 	private PositionManager positionManager = PositionManager.getInstance(); 
 	private ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>> listOfPairedResponses = new ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>>();
+	private ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 	
 	public static PositionGovernor getInstance(){
 		return instance;
@@ -53,7 +54,6 @@ public class PositionGovernor {
 		} else {
 			SignalPoint signalPointForReentry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTactic);
-			ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {

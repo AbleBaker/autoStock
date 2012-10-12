@@ -32,8 +32,8 @@ public class ReentrantStrategy {
 	
 	public ReentryStatus getReentryStatus(Position position, Signal signal, StrategyOptions strategyOptions, SignalPoint signalPoint, Pair<Symbol, ArrayList<PositionGovernorResponse>> listOfPair, QuoteSlice quoteSlice){
 		PositionGovernorResponse positionGovernorResponseLast = listOfPair.second.get(listOfPair.second.size()-1);
-		double percentGainFromPosition = position.getCurrentPercentGainLoss(true);
 		Time timeOfLastOccurrenceDifference = DateTools.getTimeUntilDate(quoteSlice.dateTime, positionGovernorResponseLast.dateOccurred);
+		double percentGainFromPosition = position.getCurrentPercentGainLoss(true);
 		int reenteredCount = 0;
 		
 		for (PositionGovernorResponse positionGovernorResponse : listOfPair.second){
