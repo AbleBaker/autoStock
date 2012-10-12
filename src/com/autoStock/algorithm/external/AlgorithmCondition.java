@@ -6,6 +6,7 @@ import java.util.Date;
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionValue;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
@@ -52,11 +53,12 @@ public class AlgorithmCondition {
 	
 	public boolean takeProfit(Position position, QuoteSlice quoteSlice){
 		double percentGainFromPosition = 0;
+		PositionValue positionValue = position.getPositionValue();
 		
 		if (position.isFilled()){
 			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
 				if (position.getLastKnownUnitPrice() != 0){
-					percentGainFromPosition = position.getPositionValue().valueIntrinsicWithFees / position.getPositionValue().valueCurrentWithFees;
+					percentGainFromPosition = positionValue.valueIntrinsicWithFees / positionValue.valueCurrentWithFees;
 				}
 			}
 			
@@ -70,8 +72,9 @@ public class AlgorithmCondition {
 	public boolean stopLoss(Position position){
 		if (position.isFilled()){
 			double valueGainFromPosition = 0;
+			PositionValue positionValue = position.getPositionValue();
 
-			valueGainFromPosition =  position.getPositionValue().valueCurrentWithFees - position.getPositionValue().valueIntrinsicWithFees;
+			valueGainFromPosition =  positionValue.valueCurrentWithFees - positionValue.valueIntrinsicWithFees;
 			
 //			Co.println("--> Value gain: " + valueGainFromPosition + (valueGainFromPosition < strategyOptions.maxStopLossValue));
 		

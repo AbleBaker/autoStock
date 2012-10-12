@@ -36,6 +36,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			for (Iteration iteration : AdjustmentCampaign.getInstance().getListOfIterations()){
 				listOfSignalMetricType.add(iteration.signalTypeMetric);
 			}
+			
+			listOfSignalMetricType.add(SignalMetricType.metric_di);
 		}else{
 			listOfSignalMetricType.addAll(Arrays.asList(SignalMetricType.values()));	
 		}

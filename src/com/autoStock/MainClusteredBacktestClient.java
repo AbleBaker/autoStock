@@ -18,6 +18,8 @@ import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.finance.Account;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
+import com.autoStock.order.OrderDefinitions.OrderMode;
+import com.autoStock.position.PositionManager;
 
 /**
  * @author Kevin Kowalewski
@@ -31,6 +33,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 
 	public MainClusteredBacktestClient() {
 		Global.callbackLock.requestLock();
+		PositionManager.getInstance().orderMode = OrderMode.mode_simulated;
 		
 		clusterClient = new ClusterClient(this);
 		clusterClient.startClient();

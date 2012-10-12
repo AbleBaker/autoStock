@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
+import com.autoStock.position.PositionValue;
 import com.autoStock.signal.SignalMetric;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
@@ -25,6 +26,7 @@ public class AlgorithmManagerTable {
 		ArrayList<String> columnValues = new ArrayList<String>();
 		
 		Position position = PositionManager.getInstance().getPosition(algorithm.symbol);
+		PositionValue positionValue = position.getPositionValue();
 		
 		double percentGainFromAlgorithm = 0;
 		double percentGainFromPosition = 0;
@@ -39,7 +41,7 @@ public class AlgorithmManagerTable {
 		}
 		
 		if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
-			if (position.getPositionValue().unitPriceCurrent != 0 && position.getPositionValue().unitPriceFilled != 0){
+			if (positionValue.unitPriceCurrent != 0 && positionValue.unitPriceFilled != 0){
 				percentGainFromPosition = position.getCurrentPercentGainLoss(false);
 				if (Double.isNaN(percentGainFromPosition)){
 					percentGainFromPosition = 0;
@@ -52,7 +54,7 @@ public class AlgorithmManagerTable {
 		columnValues.add(algorithm.strategy.lastStrategyResponse == null ? "-" : (algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalPointType.name() + ", " + algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
 		columnValues.add(position == null ? "-" : position.positionType.name());
 		columnValues.add(String.valueOf(algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(algorithm.getFirstQuoteSlice().priceClose)));
-		columnValues.add(String.valueOf(position == null ? "-" : position.getPositionValue().unitPriceIntrinsic));
+		columnValues.add(String.valueOf(position == null ? "-" : positionValue.unitPriceIntrinsic));
 		columnValues.add(String.valueOf(algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(algorithm.getCurrentQuoteSlice().priceClose)));
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromPosition)));

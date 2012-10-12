@@ -56,7 +56,7 @@ public class Order {
 	}
 	
 	public void executeOrder(){
-		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
+//		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
 		
 		if (orderStatus == OrderStatus.none){
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
