@@ -16,6 +16,8 @@ import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListe
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
 import com.autoStock.internal.Global;
+import com.autoStock.order.OrderDefinitions.OrderMode;
+import com.autoStock.position.PositionManager;
 import com.autoStock.types.Exchange;
 
 /**
@@ -35,6 +37,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 		exchangeStatusObserver = new ExchangeStatusObserver(exchange);
 		exchangeStatusObserver.addListener(this);
 		exchangeStatusObserver.observeExchangeStatus();
+		PositionManager.getInstance().orderMode = OrderMode.mode_exchange;
 		
 		algorithmManager.initalize();
 	}

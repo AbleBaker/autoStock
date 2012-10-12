@@ -16,6 +16,8 @@ import com.autoStock.comServer.ClusterServer;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
+import com.autoStock.order.OrderDefinitions.OrderMode;
+import com.autoStock.position.PositionManager;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.ReflectiveComparator;
@@ -48,6 +50,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		
 		instance = this;
 		Global.callbackLock.requestLock();
+		PositionManager.getInstance().orderMode = OrderMode.mode_simulated;
 		adjustmentCampaign.prepare();
 		
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);

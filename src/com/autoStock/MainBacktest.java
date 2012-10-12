@@ -18,6 +18,7 @@ import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
+import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalMetric;
@@ -73,6 +74,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		Global.callbackLock.requestLock();
+		PositionManager.getInstance().orderMode = OrderMode.mode_simulated;
 		
 		if (algorithmMode.displayChart){
 			Global.callbackLock.requestLock();
