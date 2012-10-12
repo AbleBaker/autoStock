@@ -42,7 +42,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 5;
+		strategyOptions.maxReenterTimes = 2;
 		strategyOptions.intervalForReentryMins = 10;
 		strategyOptions.minReentryPercentGain = 0.2;
 	}
@@ -54,7 +54,7 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal(),
+//				signalGroup.signalOfRSI.getSignal(),
 				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
