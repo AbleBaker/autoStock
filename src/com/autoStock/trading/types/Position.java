@@ -124,17 +124,22 @@ public class Position implements OrderStatusListener {
 
 	public double getPositionProfitLossAfterComission() {
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
+		
+		if (positionUtils.getOrderUnitsFilled() == 0){return 0;}
+		
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
 		double comission = 0;
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceFirstKnown);
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);
-//		Co.println("--> Getting P&L: " + symbol.symbolName + ", " + getLastKnownUnitPrice() + positionUtils.getPositionValueCurrent(false) + ", " + positionUtils.getOrderValueIntrinsic(false));		
+		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsFilled(), unitPriceFirstKnown);
+		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsFilled(), unitPriceLastKnown);		
 		return MathTools.round(positionValue - comission);
 	}
 	
 	public double getPositionProfitLossBeforeComission() {
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
-		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);		
+		
+		if (positionUtils.getOrderUnitsFilled() == 0){return 0;}
+		
+		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueFilled(false);		
 		return MathTools.round(positionValue);
 	}
 	
