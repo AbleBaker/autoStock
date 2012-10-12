@@ -201,9 +201,10 @@ public class Position implements OrderStatusListener {
 				throw new IllegalStateException();
 			}
 			PositionCallback.affectBankBalance(order);
-			positionStatusListener.positionStatusChange(this);	
 		}else if (orderStatus == OrderStatus.status_cancelled){
 			positionType = PositionType.position_cancelled;
 		}
+		
+		positionStatusListener.positionStatusChange(this);	
 	}
 }
