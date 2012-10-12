@@ -45,13 +45,13 @@ public class PositionGovernor {
 		if (position == null){
 			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			
-			if (signalPoint.signalPointType == SignalPointType.long_entry  && strategyOptions.canGoLong){
+			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
 				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange);
 			}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort){
 				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange);
 			}
 		} else {
-			SignalPoint signalPointForReentry = signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
+			SignalPoint signalPointForReentry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTactic);
 			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTactic);
 			ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 
