@@ -58,9 +58,8 @@ public class PositionGovernor {
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
-				}else if (signalPointForReentry.signalPointType == SignalPointType.long_entry){
+				}else if (signalPointForReentry.signalPointType == SignalPointType.long_entry && strategyOptions.canReenter){
 					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
-//						Co.println("--> yes on re-entry");
 						governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange);
 					}
 				}
@@ -68,7 +67,7 @@ public class PositionGovernor {
 				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
 				}
-			}else if (position.positionType == PositionType.position_canceled || position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
+			}else if (position.positionType == PositionType.position_cancelled || position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
 				Co.println("--> Position is not yet removed");
 			}else {
 				throw new IllegalStateException("Position type did not match: " + position.positionType.name() + ", " + positionManager.getPositionListSize());

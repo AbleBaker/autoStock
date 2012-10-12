@@ -25,7 +25,7 @@ public class PositionDefinitions {
 		position_short_exit,
 		
 		position_cancelling,
-		position_canceled,
+		position_cancelled,
 		position_exited,
 		position_failed,
 		position_none,

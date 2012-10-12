@@ -6,6 +6,7 @@ import javax.crypto.spec.PSource;
 
 import com.autoStock.Co;
 import com.autoStock.position.PositionGovernorResponse;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionValue;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
@@ -34,13 +35,20 @@ public class ReentrantStrategy {
 		PositionGovernorResponse positionGovernorResponseLast = listOfPair.second.get(listOfPair.second.size()-1);
 		double percentGainFromPosition = position.getCurrentPercentGainLoss(true);
 		Time timeOfLastOccurrenceDifference = DateTools.getTimeUntilDate(quoteSlice.dateTime, positionGovernorResponseLast.dateOccurred);
+		int reenteredCount = 0;
+		
+		for (PositionGovernorResponse positionGovernorResponse : listOfPair.second){
+			if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
+				reenteredCount++;
+			}
+		}
 		
 //		Co.println("--> Time: " + timeOfLastOccurrenceDifference.hours + ", " + timeOfLastOccurrenceDifference.minutes);
 		
-		if (timeOfLastOccurrenceDifference.minutes >= 5 || timeOfLastOccurrenceDifference.hours > 0){
+		if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount <= strategyOptions.maxReenterTimes){
 			if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long){
 				if (percentGainFromPosition > 0.2){
-					return ReentryStatus.status_reenter;	
+					return ReentryStatus.status_reenter;
 				}
 			}else if (signalPoint.signalPointType == SignalPointType.short_entry && position.positionType == PositionType.position_short){
 				return ReentryStatus.status_reenter;

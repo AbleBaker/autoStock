@@ -25,7 +25,7 @@ public class PositionManager implements PositionStatusListener {
 	private volatile PositionGenerator positionGenerator = new PositionGenerator();
 	private volatile PositionExecutor positionExecutor = new PositionExecutor();
 	private volatile ArrayList<Position> listOfPosition = new ArrayList<Position>();
-	public OrderMode orderMode = OrderMode.mode_simulated;
+	public OrderMode orderMode = OrderMode.mode_exchange;
 	private Lock lock = new Lock();
 	
 	public static PositionManager getInstance(){
@@ -103,11 +103,22 @@ public class PositionManager implements PositionStatusListener {
 		return null;
 	}
 
-	public synchronized double getCurrentProfitLossIncludingFees() {
+	public synchronized double getCurrentProfitLossAfterComission() {
 		synchronized (lock) {
 			double currentProfitLoss = 0;
 			for (Position position : listOfPosition) {
 				currentProfitLoss += position.getPositionProfitLossAfterComission();
+			}
+			
+			return MathTools.round(currentProfitLoss);
+		}
+	}
+	
+	public synchronized double getCurrentProfitLossBeforeComission() {
+		synchronized (lock) {
+			double currentProfitLoss = 0;
+			for (Position position : listOfPosition) {
+				currentProfitLoss += position.getPositionProfitLossBeforeComission();
 			}
 			
 			return MathTools.round(currentProfitLoss);
@@ -133,7 +144,7 @@ public class PositionManager implements PositionStatusListener {
 	public synchronized void positionStatusChange(Position position) {
 		synchronized(lock){
 //			Co.println("--> PositionManager, position status change: " + position.positionType.name());
-			if (position.positionType == PositionType.position_exited){
+			if (position.positionType == PositionType.position_exited || position.positionType == PositionType.position_cancelled){
 				listOfPosition.remove(position);
 				position = null; //?
 //				Co.println("--> Removed... " + listOfPosition.size());

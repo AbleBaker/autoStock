@@ -7,6 +7,7 @@ import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
+import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -39,6 +40,8 @@ public class PositionGenerator {
 		}
 		
 		units = Math.min(positionMaximumPrice / price, account.getAccountBalance() / price);
+		units = Math.max(100, units);
+		units = Math.round(units/100)*100;
 		
 		return units;
 	}

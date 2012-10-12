@@ -22,6 +22,6 @@ public class StrategyOptions {
 	public int maxPositionEntryTime = 30;
 	public int maxPositionTaperTime = 30;
 	public int maxPositionExitTime = 5;
-	public int maxReenterTimes = 5;
-	public int intervalForReentry = 5;
+	public int maxReenterTimes = 3;
+	public int intervalForReentryMins = 5;
 }

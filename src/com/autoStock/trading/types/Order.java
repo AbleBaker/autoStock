@@ -1,5 +1,7 @@
 package com.autoStock.trading.types;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.Co;
@@ -15,9 +17,11 @@ import com.autoStock.order.OrderDefinitions.OrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderSimulator;
 import com.autoStock.order.OrderStatusListener;
+import com.autoStock.order.OrderTable;
 import com.autoStock.order.OrderTools;
 import com.autoStock.order.OrderValue;
 import com.autoStock.position.PositionManager;
+import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
@@ -39,6 +43,7 @@ public class Order {
 	private OrderStatusListener orderStatusListener;
 	private OrderTools orderTools = new OrderTools();
 	private AtomicInteger atomicIntForUnitsFilled = new AtomicInteger();
+	private OrderTable orderTable = new OrderTable();
 	
 	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, int unitsRequested, double priceRequested, OrderStatusListener orderStatusListener){
 		this.symbol = symbol;
@@ -51,7 +56,7 @@ public class Order {
 	}
 	
 	public void executeOrder(){
-//		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
+		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
 		
 		if (orderStatus == OrderStatus.none){
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
@@ -67,6 +72,21 @@ public class Order {
 					@Override
 					public void receivedChange(RequestHolder requestHolder, ExResultRowMarketOrder exResultRowMarketOrder) {
 						Co.println("--> Received order: " + exResultRowMarketOrder.status.name());
+						
+						ArrayList<String> columnValues = new ArrayList<String>();
+						columnValues.add(DateTools.getPrettyDate(new Date()));
+						columnValues.add(symbol.symbolName);
+						columnValues.add(orderType.name());
+						columnValues.add(exResultRowMarketOrder.status.name());
+						columnValues.add(String.valueOf(unitsRequested));
+						columnValues.add(String.valueOf(exResultRowMarketOrder.remainingUnits));
+						columnValues.add(String.valueOf(exResultRowMarketOrder.filledUnits));
+						columnValues.add(String.valueOf(priceRequested));
+						columnValues.add(String.valueOf(exResultRowMarketOrder.priceAvgFill));
+						columnValues.add(String.valueOf(exResultRowMarketOrder.priceLastFill));
+						orderTable.addRow(columnValues);
+						orderTable.display();
+						
 						if (exResultRowMarketOrder.filledUnits > 0 && exResultRowMarketOrder.remainingUnits > 0 && exResultRowMarketOrder.status == IbOrderStatus.status_submitted){
 							orderStatus = OrderStatus.status_filled_partially;
 						}

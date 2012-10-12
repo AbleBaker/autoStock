@@ -57,9 +57,9 @@ public class IbExchangeInstance {
 		contract.m_currency = order.exchange.currency.name();
 		contract.m_secType = "STK";
 		ibOrder.m_action = "BUY";
-		ibOrder.m_orderType = "MTL";
-		ibOrder.m_lmtPrice = order.getUnitPriceRequested() - 10;
-		ibOrder.m_auxPrice = order.getUnitPriceRequested() - 10;
+		ibOrder.m_orderType = "LMT";
+		ibOrder.m_lmtPrice = order.getUnitPriceRequested() + 0.25d;
+		ibOrder.m_auxPrice = order.getUnitPriceRequested() + 0.25d;
 		ibOrder.m_totalQuantity = order.getUnitsRequested();
 		
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, ibOrder);
@@ -73,7 +73,7 @@ public class IbExchangeInstance {
 		contract.m_secType = "STK";
 		contract.m_currency = order.exchange.currency.name();
 		ibOrder.m_action = "SELL";
-		ibOrder.m_orderType = "MTL";
+		ibOrder.m_orderType = "MKT";
 		ibOrder.m_auxPrice = 0;
 		ibOrder.m_totalQuantity = order.getUnitsRequested();
 		

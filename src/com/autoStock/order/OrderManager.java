@@ -13,9 +13,4 @@ public class OrderManager {
 	public static OrderManager getInstance(){
 		return instance;
 	}
-	
-	
-	public synchronized void submitOrder(Position position, Order order){
-		
-	}
 }

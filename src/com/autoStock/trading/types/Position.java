@@ -111,7 +111,7 @@ public class Position implements OrderStatusListener {
 				order.cancelOrder();
 			}
 			
-			positionType = PositionType.position_canceled;
+			positionType = PositionType.position_cancelled;
 		}
 	}
 
@@ -185,7 +185,7 @@ public class Position implements OrderStatusListener {
 				if (unitPriceFirstKnown == 0){unitPriceFirstKnown = positionUtils.getOrderUnitPriceFilled();}
 				if (unitPriceLastKnown == 0){unitPriceLastKnown = positionUtils.getOrderUnitPriceFilled();}
 				
-				if (positionType != PositionType.position_canceled && positionType != PositionType.position_cancelling){
+				if (positionType != PositionType.position_cancelled && positionType != PositionType.position_cancelling){
 					PositionCallback.setPositionSuccess(this);
 				}else{
 					Co.println("--> Got order success while being canceled...");
@@ -198,7 +198,7 @@ public class Position implements OrderStatusListener {
 			PositionCallback.affectBankBalance(order);
 			positionStatusListener.positionStatusChange(this);	
 		}else if (orderStatus == OrderStatus.status_cancelled){
-			positionType = PositionType.position_canceled;
+			positionType = PositionType.position_cancelled;
 		}
 	}
 }

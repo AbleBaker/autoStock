@@ -106,7 +106,7 @@ public class AlgorithmManager {
 	
 	public void displayAlgorithmTable(){
 		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
-		Co.println("--> Current entered position P&L: " + PositionManager.getInstance().getCurrentProfitLossIncludingFees());
+		Co.println("--> Current entered position P&L: " + PositionManager.getInstance().getCurrentProfitLossBeforeComission() + " / " + PositionManager.getInstance().getCurrentProfitLossAfterComission());
 		Co.println("--> Current fees paid: " + Account.getInstance().getTransactionFeesPaid());
 		Co.println("--> Current account balance: " + Account.getInstance().getAccountBalance());
 		Co.println("--> All position value including fees: " + PositionManager.getInstance().getAllPositionValueIncludingFees()); 

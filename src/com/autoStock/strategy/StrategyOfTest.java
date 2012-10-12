@@ -29,7 +29,7 @@ public class StrategyOfTest extends StrategyBase {
 		
 		strategyOptions.canGoLong = true;
 		strategyOptions.canGoShort = false;
-		strategyOptions.canReenter = true;
+		strategyOptions.canReenter = false;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTactic = SignalPointTactic.tatic_change;
