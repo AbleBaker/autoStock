@@ -145,7 +145,16 @@ public class Position implements OrderStatusListener {
 	
 	public double getCurrentPercentGainLoss(boolean includeTransactionFees){
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
-		return ((positionUtils.getPositionValueCurrent(false) / positionUtils.getOrderValueFilled(false)) -1) * 100;
+		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
+		double comission = 0;
+		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsFilled(), unitPriceFirstKnown);
+		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsFilled(), unitPriceLastKnown);		
+		
+		if (includeTransactionFees){
+			positionValue -= comission;
+		}
+		
+		return (positionValue / positionUtils.getOrderValueFilled(false)) * 100;
 	}
 	
 	public double getFirstKnownUnitPrice(){

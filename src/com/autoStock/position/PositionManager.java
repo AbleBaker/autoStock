@@ -91,7 +91,7 @@ public class PositionManager implements PositionStatusListener {
 		}
 	}
 
-	public synchronized Position getPosition(Symbol symbol) {
+	public Position getPosition(Symbol symbol) {
 		synchronized (lock) {
 			for (Position position : listOfPosition) {
 				if (position.symbol.symbolName.equals(symbol.symbolName)) {
@@ -103,7 +103,7 @@ public class PositionManager implements PositionStatusListener {
 		return null;
 	}
 
-	public synchronized double getCurrentProfitLossAfterComission() {
+	public double getCurrentProfitLossAfterComission() {
 		synchronized (lock) {
 			double currentProfitLoss = 0;
 			for (Position position : listOfPosition) {
@@ -114,7 +114,7 @@ public class PositionManager implements PositionStatusListener {
 		}
 	}
 	
-	public synchronized double getCurrentProfitLossBeforeComission() {
+	public double getCurrentProfitLossBeforeComission() {
 		synchronized (lock) {
 			double currentProfitLoss = 0;
 			for (Position position : listOfPosition) {

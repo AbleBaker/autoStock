@@ -107,8 +107,7 @@ public class PositionGovernor {
 	}
 	
 	private void governLongReentry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
-		int reentryUnits = (int) position.getInitialUnitsFilled() / 2;
-//		reentryUnits = Math.min(Math.max(position.getInitialUnitsFilled(), 100), reentryUnits);
+		int reentryUnits = new PositionGenerator().getPositionReentryUnits(quoteSlice.priceClose, signal);
 
 		if (Account.getInstance().getAccountBalance() > ((reentryUnits * quoteSlice.priceClose) + Account.getInstance().getTransactionCost(reentryUnits, quoteSlice.priceClose))){
 			if (reentryUnits > 0){

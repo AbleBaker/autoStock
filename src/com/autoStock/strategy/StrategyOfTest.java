@@ -29,7 +29,7 @@ public class StrategyOfTest extends StrategyBase {
 		
 		strategyOptions.canGoLong = true;
 		strategyOptions.canGoShort = false;
-		strategyOptions.canReenter = false;
+		strategyOptions.canReenter = true;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTactic = SignalPointTactic.tatic_combined;
@@ -42,6 +42,9 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
+		strategyOptions.maxReenterTimes = 5;
+		strategyOptions.intervalForReentryMins = 10;
+		strategyOptions.minReentryPercentGain = 0.2;
 	}
 	
 	public synchronized StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice){

@@ -31,7 +31,6 @@ public class ReentrantStrategy {
 	}
 	
 	public ReentryStatus getReentryStatus(Position position, Signal signal, StrategyOptions strategyOptions, SignalPoint signalPoint, Pair<Symbol, ArrayList<PositionGovernorResponse>> listOfPair, QuoteSlice quoteSlice){
-		PositionValue positionValue = position.getPositionValue();
 		PositionGovernorResponse positionGovernorResponseLast = listOfPair.second.get(listOfPair.second.size()-1);
 		double percentGainFromPosition = position.getCurrentPercentGainLoss(true);
 		Time timeOfLastOccurrenceDifference = DateTools.getTimeUntilDate(quoteSlice.dateTime, positionGovernorResponseLast.dateOccurred);
@@ -43,11 +42,9 @@ public class ReentrantStrategy {
 			}
 		}
 		
-//		Co.println("--> Time: " + timeOfLastOccurrenceDifference.hours + ", " + timeOfLastOccurrenceDifference.minutes);
-		
-		if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount <= strategyOptions.maxReenterTimes){
+		if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount < strategyOptions.maxReenterTimes){
 			if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long){
-				if (percentGainFromPosition > 0.2){
+				if (percentGainFromPosition > strategyOptions.minReentryPercentGain){
 					return ReentryStatus.status_reenter;
 				}
 			}else if (signalPoint.signalPointType == SignalPointType.short_entry && position.positionType == PositionType.position_short){

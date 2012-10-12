@@ -31,7 +31,7 @@ public class SignalDefinitions {
 				48, 44, -100, -100),
 		metric_di(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) input * 1;}},
-				15, -24, -100, -100),
+				15, -10, -100, -100),
 		metric_cci(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 6);}},
 				48, 12, -100, -100),
@@ -40,7 +40,7 @@ public class SignalDefinitions {
 				20, -36, -100, -100),
 		metric_rsi(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) input - 30;}},
-				31, -11, -100, -100),
+				31, 10, -100, -100),
 		metric_trix(
 			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 700);}},
 				45, 20, 0, 0),

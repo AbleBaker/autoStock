@@ -45,4 +45,11 @@ public class PositionGenerator {
 		
 		return units;
 	}
+	
+	public int getPositionReentryUnits(double price, Signal signal){
+		double accountBalance = account.getAccountBalance();
+		int units = 0;
+		
+		return 100;
+	}
 }
