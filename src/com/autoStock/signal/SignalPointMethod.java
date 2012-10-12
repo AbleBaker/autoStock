@@ -49,13 +49,13 @@ public class SignalPointMethod {
 				signalPointLast = signalPointCurrent;
 				signalPointLast.signalMetricType = signalPointCurrent.signalMetricType;
 			}else {
-				if (signalPointLast != signalPointCurrent){
+				if (signalPointLast.signalPointType != signalPointCurrent.signalPointType){
 					return new SignalPoint();
 				}
 			}
 		}
 		
-		Co.println("--> SignalPoint, type: " + signalPointLast.signalPointType.name() + ", " + signalPointLast.signalMetricType);
+//		Co.println("--> SignalPoint, type: " + signalPointLast.signalPointType.name() + ", " + signalPointLast.signalMetricType);
 		
 		return signalPointLast;
 	}
