@@ -69,11 +69,9 @@ public class Account {
 		return Math.min(cost, units * price * 0.005);
 	}
 
-	public synchronized void resetAccount() {
-		synchronized (this) {
-			bankBalance.set(bankBalanceDefault);
-			transactionFeesPaid.set(transactionFeesDefault);
-			transactions.set(0);
-		}
+	public void resetAccount() {
+		bankBalance.set(bankBalanceDefault);
+		transactionFeesPaid.set(transactionFeesDefault);
+		transactions.set(0);
 	}
 }

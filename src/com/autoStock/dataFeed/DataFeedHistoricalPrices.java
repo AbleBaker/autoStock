@@ -31,13 +31,12 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 		this.resolution = typeHistoricalData.resolution;
 	}
 	
-	public void startFeed(int feedIntervalSec, final int delayMsec){		
+	public void startFeed(){		
 		threadForDelivery = new Thread(new Runnable(){
 			@Override
 			public void run() {
 				for (DbStockHistoricalPrice price : listOfPrices){
 					feed(price);
-					try {Thread.sleep(delayMsec);}catch(InterruptedException e){return;}
 				}
 				
 				feedFinished();
