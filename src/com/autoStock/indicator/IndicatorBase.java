@@ -19,7 +19,6 @@ import com.autoStock.types.QuoteSlice;
  */
 public abstract class IndicatorBase {
 	public Core taLibCore;
-	public DataExtractor dataExtractor;
 	public CommonAnlaysisData commonAnlaysisData;
 	
 	public int periodLength;
