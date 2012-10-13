@@ -70,8 +70,8 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean canTradeAfterLoss(ArrayList<StrategyResponse> listOfStrategyResponse){
-		if (listOfStrategyResponse != null){
-			for (StrategyResponse strategyResponse : listOfStrategyResponse){
+		for (StrategyResponse strategyResponse : listOfStrategyResponse){
+			if (strategyResponse.positionGovernorResponse != null && strategyResponse.positionGovernorResponse.position != null){
 				if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() < 0){
 					return false;
 				}
