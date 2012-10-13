@@ -13,9 +13,9 @@ public class AlgorithmDefinitions {
 		mode_engagement(false, true, false),
 		;
 		
-		public boolean displayChart;
-		public boolean displayTable;
-		public boolean displayMessages;
+		public final boolean displayChart;
+		public final boolean displayTable;
+		public final boolean displayMessages;
 		
 		AlgorithmMode(boolean displayChart, boolean displayTable, boolean displayMessages){
 			this.displayChart = displayChart;

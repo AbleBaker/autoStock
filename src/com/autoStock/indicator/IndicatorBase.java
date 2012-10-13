@@ -20,7 +20,6 @@ import com.autoStock.types.QuoteSlice;
 public abstract class IndicatorBase {
 	private Core taLibCore = new Core();
 	public Object dataSource;
-	public Type dataSourceType;
 	public DataExtractor dataExtractor;
 	public CommonAnlaysisData commonAnlaysisData;
 	
@@ -53,7 +52,6 @@ public abstract class IndicatorBase {
 		
 		this.dataSource = listOfQuoteSlice;
 		this.datasetLength = listOfQuoteSlice.size();
-		this.dataSourceType = listOfQuoteSlice.getClass();
 		this.endIndex = datasetLength -1;
 		
 		arrayOfPriceOpen = commonAnlaysisData.arrayOfPriceOpen;
@@ -70,7 +68,6 @@ public abstract class IndicatorBase {
 		
 		this.dataSource = listOfDbStockHistoricalPrice;
 		this.datasetLength = listOfDbStockHistoricalPrice.size();
-		this.dataSourceType = listOfDbStockHistoricalPrice.getClass();
 		this.endIndex = datasetLength -1;
 	}
 	
