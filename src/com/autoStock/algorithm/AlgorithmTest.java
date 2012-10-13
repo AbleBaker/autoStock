@@ -27,7 +27,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode) {
 		super(canTrade, exchange, symbol, algorithmMode);
-		
+
 		indicatorGroup = new IndicatorGroup(periodLength, commonAnlaysisData);
 		signalGroup = new SignalGroup();
 		

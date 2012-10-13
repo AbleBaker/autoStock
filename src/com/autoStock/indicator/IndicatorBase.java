@@ -18,8 +18,7 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public abstract class IndicatorBase {
-	private Core taLibCore = new Core();
-	public Object dataSource;
+	public Core taLibCore;
 	public DataExtractor dataExtractor;
 	public CommonAnlaysisData commonAnlaysisData;
 	
@@ -32,17 +31,10 @@ public abstract class IndicatorBase {
 	public int[] arrayOfSizeVolume;
 	public int endIndex;
 	
-	public IndicatorBase(int periodLength, CommonAnlaysisData commonAnlaysisData){
+	public IndicatorBase(int periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore){
 		this.periodLength = periodLength;
 		this.commonAnlaysisData = commonAnlaysisData;
-	}
-	
-	public Core getTaLibCore(){
-		return this.taLibCore;
-	}
-	
-	public void setDataSet(){
-		
+		this.taLibCore = taLibCore;
 	}
 	
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
@@ -50,7 +42,6 @@ public abstract class IndicatorBase {
 			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size());
 		}
 		
-		this.dataSource = listOfQuoteSlice;
 		this.datasetLength = listOfQuoteSlice.size();
 		this.endIndex = datasetLength -1;
 		
@@ -66,7 +57,6 @@ public abstract class IndicatorBase {
 			throw new IllegalArgumentException();
 		}
 		
-		this.dataSource = listOfDbStockHistoricalPrice;
 		this.datasetLength = listOfDbStockHistoricalPrice.size();
 		this.endIndex = datasetLength -1;
 	}

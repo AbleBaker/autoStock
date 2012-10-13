@@ -4,6 +4,7 @@
 package com.autoStock.indicator;
 
 import com.autoStock.indicator.results.ResultsSTORSI;
+import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MAType;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
@@ -15,8 +16,8 @@ import com.autoStock.taLib.RetCode;
 public class IndicatorOfSTORSI extends IndicatorBase {
 	public ResultsSTORSI results;
 	
-	public IndicatorOfSTORSI(int periodLength, CommonAnlaysisData commonAnlaysisData) {
-		super(periodLength, commonAnlaysisData);
+	public IndicatorOfSTORSI(int periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, commonAnlaysisData, taLibCore);
 	}
 	
 	public ResultsSTORSI analyize(){
@@ -24,7 +25,7 @@ public class IndicatorOfSTORSI extends IndicatorBase {
 		
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
-		RetCode returnCode = getTaLibCore().stochRsi(0, endIndex, arrayOfPriceClose, periodLength-16, 10, 5, MAType.Dema, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
+		RetCode returnCode = taLibCore.stochRsi(0, endIndex, arrayOfPriceClose, periodLength-16, 10, 5, MAType.Dema, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
 		handleAnalysisResult(returnCode);
 		
 		return results;

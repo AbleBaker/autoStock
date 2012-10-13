@@ -12,6 +12,7 @@ import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.taLib.Core;
 import com.autoStock.tools.AnalysisTools;
 import com.autoStock.types.QuoteSlice;
 
@@ -20,6 +21,7 @@ import com.autoStock.types.QuoteSlice;
  * 
  */
 public class IndicatorGroup {
+	public Core taLibCore = new Core();
 	public IndicatorOfCCI indicatorOfCCI;
 	public IndicatorOfDI indicatorOfDI;
 	public IndicatorOfMACD indicatorOfMACD;
@@ -45,15 +47,15 @@ public class IndicatorGroup {
 	public IndicatorGroup(int periodLength, CommonAnlaysisData commonAnlaysisData) {
 		AnalysisTools.setIndicatorPeriodLength(periodLength, listOfIndicatorBase);
 		
-		indicatorOfCCI = new IndicatorOfCCI(periodLength, commonAnlaysisData);
-		indicatorOfDI = new IndicatorOfDI(periodLength, commonAnlaysisData);
-		indicatorOfMACD = new IndicatorOfMACD(periodLength, commonAnlaysisData);
-		indicatorOfBB = new IndicatorOfBB(periodLength, commonAnlaysisData);
-		indicatorOfRSI = new IndicatorOfRSI(periodLength, commonAnlaysisData);
-		indicatorOfTRIX = new IndicatorOfTRIX(periodLength, commonAnlaysisData);
-		indicatorOfROC = new IndicatorOfROC(periodLength, commonAnlaysisData);
-		indicatorOfMFI = new IndicatorOfMFI(periodLength, commonAnlaysisData);
-		indicatorOfWILLR = new IndicatorOfWILLR(periodLength, commonAnlaysisData);
+		indicatorOfCCI = new IndicatorOfCCI(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfDI = new IndicatorOfDI(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfMACD = new IndicatorOfMACD(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfBB = new IndicatorOfBB(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfRSI = new IndicatorOfRSI(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfTRIX = new IndicatorOfTRIX(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfROC = new IndicatorOfROC(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfMFI = new IndicatorOfMFI(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfWILLR = new IndicatorOfWILLR(periodLength, commonAnlaysisData, taLibCore);
 		
 		listOfIndicatorBase.add(indicatorOfCCI);
 		listOfIndicatorBase.add(indicatorOfDI);

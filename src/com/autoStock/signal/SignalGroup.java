@@ -20,7 +20,7 @@ public class SignalGroup {
 	public SignalOfWILLR signalOfWILLR;
 	
 	public void generateSignals(CommonAnlaysisData commonAnlaysisData, IndicatorGroup indicatorGroup, int periodLength){
-		signalOfPPC = new SignalOfPPC(ArrayTools.subArray(commonAnlaysisData.arrayOfPriceClose, 0, periodLength-1), SignalControl.periodAverageForPPC);
+		if (indicatorGroup.resultsDI != null){signalOfPPC = new SignalOfPPC(ArrayTools.subArray(commonAnlaysisData.arrayOfPriceClose, 0, periodLength-1), SignalControl.periodAverageForPPC);}
 		if (indicatorGroup.resultsDI != null){signalOfDI = new SignalOfDI(ArrayTools.subArray(indicatorGroup.resultsDI.arrayOfDIPlus, 0, 1), ArrayTools.subArray(indicatorGroup.resultsDI.arrayOfDIMinus, 0, 1), SignalControl.periodAverageForDI);}
 		if (indicatorGroup.resultsCCI != null){signalOfCCI = new SignalOfCCI(ArrayTools.subArray(indicatorGroup.resultsCCI.arrayOfCCI, 0, 1), SignalControl.periodAverageForCCI);}
 		if (indicatorGroup.resultsMACD != null){signalOfMACD = new SignalOfMACD(ArrayTools.subArray(indicatorGroup.resultsMACD.arrayOfMACDHistogram, 0, 1), SignalControl.periodAverageForMACD);}
