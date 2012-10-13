@@ -53,7 +53,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			indicatorGroup.analyize(listOfSignalMetricType);
 			signalGroup.generateSignals(commonAnlaysisData, indicatorGroup, periodLength);
 
-			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice);
+			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse);
 		
 			handleStrategyResponse(strategyResponse);
 

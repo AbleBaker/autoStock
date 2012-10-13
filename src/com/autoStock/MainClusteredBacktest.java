@@ -41,6 +41,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private Date dateEnd;
 	private final int computeUnitIterationSize = 64;
 	private Benchmark bench = new Benchmark();
+	private Benchmark benchTotal = new Benchmark();
 	
 	public MainClusteredBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
 		this.exchange = exchange;
@@ -72,6 +73,10 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		ArrayList<ArrayList<Iteration>> listOfIteration = new ArrayList<ArrayList<Iteration>>();
 		
 		Co.println("--> Generating unit...");
+		
+		if (benchTotal.hasTicked == false){
+			benchTotal.tick();
+		}
 		
 		for (int i=0; i<computeUnitIterationSize; i++){
 			if (adjustmentCampaign.runAdjustment()){
@@ -111,6 +116,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			if (listOfComputeResultForBacktest.size() == adjustmentCampaign.getPermutationCount()){
 				Co.println("--> All done!");
 				displayResultTable();
+				benchTotal.printTick("Finished clustered backtest");
 				Global.callbackLock.releaseLock();
 			}
 		}

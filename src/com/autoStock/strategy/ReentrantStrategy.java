@@ -41,16 +41,12 @@ public class ReentrantStrategy {
 				reenteredCount++;
 			}
 		}
-		
-		if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount < strategyOptions.maxReenterTimes){
-			if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long){
+
+		if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long || signalPoint.signalPointType == SignalPointType.short_entry && position.positionType == PositionType.position_short){
+			if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount < strategyOptions.maxReenterTimes){
 				if (percentGainFromPosition > strategyOptions.minReentryPercentGain){
 					return ReentryStatus.status_reenter;
 				}
-			}else if (signalPoint.signalPointType == SignalPointType.short_entry && position.positionType == PositionType.position_short){
-				return ReentryStatus.status_reenter;
-			}else{
-				
 			}
 		}
 		

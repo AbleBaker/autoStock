@@ -11,8 +11,10 @@ import com.autoStock.Co;
 public class Benchmark {
 	private long startMark = new Date().getTime();
 	private long lastMark = new Date().getTime();
+	public boolean hasTicked = false;
 	
 	public void tick(){
+		if (hasTicked == false){hasTicked = true;}
 		long currentTimeMills = new Date().getTime();
 		Co.log("Tick: " + (currentTimeMills - lastMark) + "ms");
 		lastMark = currentTimeMills;

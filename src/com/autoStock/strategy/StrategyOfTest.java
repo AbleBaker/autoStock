@@ -29,33 +29,33 @@ public class StrategyOfTest extends StrategyBase {
 		
 		strategyOptions.canGoLong = true;
 		strategyOptions.canGoShort = false;
-		strategyOptions.canReenter = true;
+		strategyOptions.canReenter = false;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.taperPeriodLength = true;
-		strategyOptions.signalPointTactic = SignalPointTactic.tatic_combined;
+		strategyOptions.signalPointTactic = SignalPointTactic.tatic_change;
 
-		strategyOptions.maxTransactionsDay = 4;
+		strategyOptions.maxTransactionsDay = 8;
 		strategyOptions.minTakeProfitExit = 1.98d;
 		strategyOptions.maxStopLossValue = -100;
 		strategyOptions.maxNilChangePrice = 10;
 		strategyOptions.maxNilChangeVolume = 10;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
-		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 2;
-		strategyOptions.intervalForReentryMins = 10;
+		strategyOptions.maxPositionTaperTime = 45;
+		strategyOptions.maxReenterTimes = 1;
+		strategyOptions.intervalForReentryMins = 15;
 		strategyOptions.minReentryPercentGain = 0.2;
 	}
 	
-	public synchronized StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice){
+	public synchronized StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse){
 		StrategyResponse strategyResponse = new StrategyResponse();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 		Position position = PositionManager.getInstance().getPosition(algorithmBase.symbol);
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-//				signalGroup.signalOfRSI.getSignal(),
-				signalGroup.signalOfDI.getSignal()
+				signalGroup.signalOfRSI.getSignal()
+//				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal()
@@ -86,6 +86,8 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_time_entry, quoteSlice, position, strategyResponse);
 			}else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_trans, quoteSlice, position, strategyResponse);
+			}else if (algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false){
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_loss, quoteSlice, position, strategyResponse);
 			}else if (algorithmBase.algorithmState.isDisabled){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);
 			}else{

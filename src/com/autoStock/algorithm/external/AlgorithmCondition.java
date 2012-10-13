@@ -8,6 +8,7 @@ import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionValue;
 import com.autoStock.strategy.StrategyOptions;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -66,6 +67,16 @@ public class AlgorithmCondition {
 		}
 		
 		return false;
+	}
+	
+	public boolean canTradeAfterLoss(ArrayList<StrategyResponse> listOfStrategyResponse){
+		for (StrategyResponse strategyResponse : listOfStrategyResponse){
+			if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() < 0){
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	//TODO: This is inaccurate

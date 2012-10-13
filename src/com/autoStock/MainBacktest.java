@@ -218,7 +218,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 			if (runNextBacktestForDays(false) == false) {
 				if (backtestType == BacktestType.backtest_default) {
-					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions));
 					
 					for (BacktestContainer backtestContainer : listOfBacktestContainer){
 						Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
@@ -252,6 +251,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						new TableController().displayTable(AsciiTables.backtest_strategy_response, listOfDisplayRows);
 
 					}
+					
+					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions));
 				} 
 				Co.println("--> Finished backtest");
 			}
