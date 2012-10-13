@@ -42,7 +42,7 @@ public class ClusterServer {
 				Socket incoming = null;
 		
 				try {
-					server = new ServerSocket(8888, 8, InetAddress.getByName("0.0.0.0"));
+					server = new ServerSocket(8888, 128, InetAddress.getByName("0.0.0.0"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
