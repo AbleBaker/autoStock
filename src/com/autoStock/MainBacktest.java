@@ -59,7 +59,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		this.listenerOfMainBacktestCompleted = listerListenerOfMainBacktestCompleted;
-		Global.callbackLock.requestLock();
 		
 		if (algorithmMode.displayChart){
 			Global.callbackLock.requestLock();

@@ -80,9 +80,9 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		if (commandHolder.command == Command.compute_unit_backtest){
 			computeUnitForBacktest = (ComputeUnitForBacktest) commandHolder.commandParameters;
 			
-			Co.println("--> Compute unit: " + computeUnitForBacktest.requestId + ", " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
-			Co.println("--> Compute unit symbols: " + computeUnitForBacktest.listOfSymbols.size());
-			Co.println("--> Compute unit iteration: " + computeUnitForBacktest.listOfIteration.size());
+//			Co.println("--> Compute unit: " + computeUnitForBacktest.requestId + ", " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
+//			Co.println("--> Compute unit symbols: " + computeUnitForBacktest.listOfSymbols.size());
+//			Co.println("--> Compute unit iteration: " + computeUnitForBacktest.listOfIteration.size());
 			
 			if (atomicIntBacktestIndex.get() != 0){
 				throw new IllegalStateException();

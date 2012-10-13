@@ -12,14 +12,17 @@ import com.google.gson.reflect.TypeToken;
  *
  */
 public class CommandSerializer {
+	public static Gson gsonInstance = new Gson();
+	
+	
 	public synchronized static void sendSerializedCommand(Command command, PrintWriter printWriter){
-		String string = new Gson().toJson(new CommandHolder(command), new TypeToken<CommandHolder>(){}.getType());
+		String string = gsonInstance.toJson(new CommandHolder(command), new TypeToken<CommandHolder>(){}.getType());
 		printWriter.println(string);
 		printWriter.println(CommunicationCommands.com_end_command.command);
 	}
 	
 	public synchronized static void sendSerializedCommand(CommandHolder commandHolder, PrintWriter printWriter){
-		String string = new Gson().toJson(commandHolder, new TypeToken<CommandHolder>(){}.getType());
+		String string = gsonInstance.toJson(commandHolder, new TypeToken<CommandHolder>(){}.getType());
 		printWriter.println(string);
 		printWriter.println(CommunicationCommands.com_end_command.command);
 	}

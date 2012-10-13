@@ -34,14 +34,14 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTactic = SignalPointTactic.tatic_change;
 
-		strategyOptions.maxTransactionsDay = 4;
+		strategyOptions.maxTransactionsDay = 2;
 		strategyOptions.minTakeProfitExit = 1.98d;
 		strategyOptions.maxStopLossValue = -100;
 		strategyOptions.maxNilChangePrice = 10;
 		strategyOptions.maxNilChangeVolume = 10;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
-		strategyOptions.maxPositionTaperTime = 60;
+		strategyOptions.maxPositionTaperTime = 30;
 		strategyOptions.maxReenterTimes = 1;
 		strategyOptions.intervalForReentryMins = 15;
 		strategyOptions.minReentryPercentGain = 0.2;
