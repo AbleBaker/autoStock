@@ -39,7 +39,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxStopLossValue = -100;
 		strategyOptions.maxNilChangePrice = 10;
 		strategyOptions.maxNilChangeVolume = 10;
-		strategyOptions.maxPositionEntryTime = 30;
+		strategyOptions.maxPositionEntryTime = 45;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
 		strategyOptions.maxReenterTimes = 1;
@@ -54,8 +54,8 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal()
-//				signalGroup.signalOfDI.getSignal()
+//				signalGroup.signalOfRSI.getSignal()
+				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal()
