@@ -57,6 +57,7 @@ public class BacktestUtils {
 		string += "\n Disable after nil changes: " + strategyOptions.disableAfterNilChanges;
 		string += "\n Disable after nil changes in price: " + strategyOptions.maxNilChangePrice;
 		string += "\n Disable after nil changes in volume: " + strategyOptions.maxNilChangeVolume;
+		string += "\n Disable after nil changes in volume: " + strategyOptions.disableAfterLoss;
 		string += "\n Max position entry time: " + strategyOptions.maxPositionEntryTime;
 		string += "\n Max position exit time: " + strategyOptions.maxPositionExitTime;
 		string += "\n Max position taper time: " + strategyOptions.maxPositionTaperTime;
@@ -65,6 +66,8 @@ public class BacktestUtils {
 		string += "\n Min take profit exit: " + strategyOptions.minTakeProfitExit;
 		string += "\n Signal point tactic: " + strategyOptions.signalPointTactic.name();
 		string += "\n Taper period length: " + strategyOptions.taperPeriodLength;
+		string += "\n Reentry interval minutes: " + strategyOptions.intervalForReentryMins;
+		string += "\n Reentry maximum frequency: " + strategyOptions.maxReenterTimes;
 		
 		string += "\n\n";
 		

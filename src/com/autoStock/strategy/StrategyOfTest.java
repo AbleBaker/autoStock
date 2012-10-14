@@ -42,7 +42,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionEntryTime = 45;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 1;
+		strategyOptions.maxReenterTimes = 2;
 		strategyOptions.intervalForReentryMins = 30;
 		strategyOptions.minReentryPercentGain = 0.2;
 	}
@@ -86,7 +86,7 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_time_entry, quoteSlice, position, strategyResponse);
 			}else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_trans, quoteSlice, position, strategyResponse);
-			}else if (algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false){
+			}else if (strategyOptions.disableAfterLoss && algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_loss, quoteSlice, position, strategyResponse);
 			}else if (algorithmBase.algorithmState.isDisabled){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);

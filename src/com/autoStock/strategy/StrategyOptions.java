@@ -12,6 +12,7 @@ public class StrategyOptions {
 	public boolean canReenter;
 	public boolean disableAfterNilChanges;
 	public boolean taperPeriodLength;
+	public boolean disableAfterLoss = true; 
 	public SignalPointTactic signalPointTactic;
 	
 	public int maxTransactionsDay = 4;
