@@ -39,7 +39,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private AtomicInteger atomicIntForRequestId = new AtomicInteger();
 	private Date dateStart;
 	private Date dateEnd;
-	private final int computeUnitIterationSize = 64;
+	private final int computeUnitIterationSize = 32;
 	private Benchmark bench = new Benchmark();
 	private Benchmark benchTotal = new Benchmark();
 	
