@@ -57,7 +57,7 @@ public class BacktestUtils {
 		string += "\n Disable after nil changes: " + strategyOptions.disableAfterNilChanges;
 		string += "\n Disable after nil changes in price: " + strategyOptions.maxNilChangePrice;
 		string += "\n Disable after nil changes in volume: " + strategyOptions.maxNilChangeVolume;
-		string += "\n Disable after nil changes in volume: " + strategyOptions.disableAfterLoss;
+		string += "\n Disable after a loss: " + strategyOptions.disableAfterLoss;
 		string += "\n Max position entry time: " + strategyOptions.maxPositionEntryTime;
 		string += "\n Max position exit time: " + strategyOptions.maxPositionExitTime;
 		string += "\n Max position taper time: " + strategyOptions.maxPositionTaperTime;
