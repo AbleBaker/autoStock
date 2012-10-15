@@ -43,7 +43,7 @@ public class PositionGenerator {
 		units = Math.max(100, units);
 		units = Math.round(units/100)*100;
 		
-		if (accountBalance <= units * price){
+		if (accountBalance < units * price){
 			Co.println("Insufficient account blanace for trade");
 			return 0;
 		}
@@ -55,7 +55,7 @@ public class PositionGenerator {
 		double accountBalance = account.getAccountBalance();
 		int units = 0;
 		
-		if (account.getAccountBalance() > units * price){
+		if (accountBalance > units * price){
 			return 100;
 		}
 

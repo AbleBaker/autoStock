@@ -13,7 +13,9 @@ public class StrategyOptions {
 	public boolean disableAfterNilChanges;
 	public boolean taperPeriodLength;
 	public boolean disableAfterLoss = true; 
-	public SignalPointTactic signalPointTactic;
+	public SignalPointTactic signalPointTacticForEntry;
+	public SignalPointTactic signalPointTacticForReentry;
+	public SignalPointTactic signalPointTacticForExit;
 	
 	public int maxTransactionsDay = 4;
 	public double minTakeProfitExit = 1.020d;

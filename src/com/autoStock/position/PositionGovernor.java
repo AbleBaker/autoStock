@@ -14,6 +14,7 @@ import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.strategy.ReentrantStrategy;
 import com.autoStock.strategy.ReentrantStrategy.ReentryStatus;
+import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -45,7 +46,7 @@ public class PositionGovernor {
 		SignalPoint signalPoint = new SignalPoint();
 		
 		if (position == null){
-			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, SignalPointTactic.tatic_combined);
+			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
 			
 			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
 				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange);
@@ -53,8 +54,8 @@ public class PositionGovernor {
 				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange);
 			}
 		} else {
-			SignalPoint signalPointForReentry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, SignalPointTactic.tatic_combined);
-			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, SignalPointTactic.tatic_combined);
+			SignalPoint signalPointForReentry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
+			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTacticForExit);
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {

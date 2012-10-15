@@ -64,7 +64,9 @@ public class BacktestUtils {
 		string += "\n Max stop loss value ($): " +  strategyOptions.maxStopLossValue;
 		string += "\n Max transactions per day: " + strategyOptions.maxTransactionsDay;
 		string += "\n Min take profit exit: " + strategyOptions.minTakeProfitExit;
-		string += "\n Signal point tactic: " + strategyOptions.signalPointTactic.name();
+		string += "\n Signal point tactic (entry): " + strategyOptions.signalPointTacticForEntry.name();
+		string += "\n Signal point tactic (reentry): " + strategyOptions.signalPointTacticForReentry.name();
+		string += "\n Signal point tactic (exit): " + strategyOptions.signalPointTacticForExit.name();
 		string += "\n Taper period length: " + strategyOptions.taperPeriodLength;
 		string += "\n Reentry interval minutes: " + strategyOptions.intervalForReentryMins;
 		string += "\n Reentry maximum frequency: " + strategyOptions.maxReenterTimes;
