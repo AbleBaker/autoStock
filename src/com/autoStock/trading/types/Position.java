@@ -8,12 +8,14 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
+import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.order.OrderDefinitions.OrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderStatusListener;
 import com.autoStock.position.PositionCallback;
 import com.autoStock.position.PositionUtils;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionStatusListener;
 import com.autoStock.position.PositionValue;
 import com.autoStock.position.PositionValueTable;
@@ -191,7 +193,9 @@ public class Position implements OrderStatusListener {
 
 	@Override
 	public void orderStatusChanged(Order order, OrderStatus orderStatus) {
-//		Co.println("--> Received order status change: " + order.orderType.name() + ", " + orderStatus.name());
+		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+			Co.println("--> Received order status change: " + order.symbol.symbolName + ", " + order.orderType.name() + ", " + orderStatus.name());
+		}
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		
 		if (orderStatus == OrderStatus.status_filled) {

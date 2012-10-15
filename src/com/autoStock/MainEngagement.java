@@ -45,7 +45,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 	private void engagementStart() {
 		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain_open);
 		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain);
-		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_high_open_gap);
+//		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_high_open_gap);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_implied_volatility_gain);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_price);
 		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_most_active);

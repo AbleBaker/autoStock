@@ -36,14 +36,14 @@ public class StrategyOfTest extends StrategyBase {
 
 		strategyOptions.maxTransactionsDay = 4;
 		strategyOptions.minTakeProfitExit = 1.98d;
-		strategyOptions.maxStopLossValue = -100;
+		strategyOptions.maxStopLossValue = -50;
 		strategyOptions.maxNilChangePrice = 10;
 		strategyOptions.maxNilChangeVolume = 10;
 		strategyOptions.maxPositionEntryTime = 45;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 1;
-		strategyOptions.intervalForReentryMins = 30;
+		strategyOptions.maxReenterTimes = 2;
+		strategyOptions.intervalForReentryMins = 15;
 		strategyOptions.minReentryPercentGain = 0.2;
 	}
 	

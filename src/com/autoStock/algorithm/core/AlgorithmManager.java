@@ -110,8 +110,7 @@ public class AlgorithmManager {
 		Co.println("--> Current fees paid: " + Account.getInstance().getTransactionFeesPaid());
 		Co.println("--> Current account balance: " + Account.getInstance().getAccountBalance());
 		Co.println("--> All position value including fees: " + PositionManager.getInstance().getAllPositionValueIncludingFees()); 
-		Co.println("--> Account Blanace + All position value including fees: " + new DecimalFormat("#.###").format(Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()));
-		Co.println("--> Complete gain from starting account balance: " + new DecimalFormat("#.###").format((Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) - Account.getInstance().bankBalanceDefault));
+		Co.println("--> Complete gain from starting account balance: $" + new DecimalFormat("#.###").format((Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) - Account.getInstance().bankBalanceDefault));
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){

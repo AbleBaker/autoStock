@@ -1,4 +1,4 @@
-package com.autoStock.position;
+package 	com.autoStock.position;
 
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
@@ -22,7 +22,9 @@ public class PositionCallback {
 	}
 
 	public static void affectBankBalance(Order order){
-//		Co.println("Affecting bank balance: " + order.symbol.symbolName + ", " + order.getOrderValue().valueFilled);
+		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+			Co.println("Affecting bank balance: " + order.symbol.symbolName + ", " + order.getOrderValue().valueFilled);
+		}
 		if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
 				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (-1 * order.getOrderValue().valueFilled) + ", " + Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));

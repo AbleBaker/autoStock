@@ -109,13 +109,10 @@ public class PositionGovernor {
 	
 	private void governLongReentry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
 		int reentryUnits = new PositionGenerator().getPositionReentryUnits(quoteSlice.priceClose, signal);
-
-		if (Account.getInstance().getAccountBalance() > ((reentryUnits * quoteSlice.priceClose) + Account.getInstance().getTransactionCost(reentryUnits, quoteSlice.priceClose))){
-			if (reentryUnits > 0){
-//				Co.println("--> Reentry with units: " + position.getInitialUnitsFilled() + ", " + reentryUnits);
-				position.executeReentry(reentryUnits, quoteSlice.priceClose);
-				positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;
-			}
+		if (reentryUnits > 0){
+//			Co.println("--> Reentry with units: " + position.getInitialUnitsFilled() + ", " + reentryUnits);
+			position.executeReentry(reentryUnits, quoteSlice.priceClose);
+			positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;
 		}else{
 			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
 		}

@@ -109,6 +109,9 @@ public class Order {
 							}else{
 								throw new IllegalStateException("Order status did not match: " + orderStatus.name());
 							}
+						}else if (ibOrderStatus == IbOrderStatus.status_cancelled){
+							orderStatus = OrderStatus.status_cancelled;
+							orderStatusListener.orderStatusChanged(Order.this, orderStatus);
 						}
 					}
 	
