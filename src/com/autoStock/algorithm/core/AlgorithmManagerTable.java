@@ -26,7 +26,7 @@ public class AlgorithmManagerTable {
 		ArrayList<String> columnValues = new ArrayList<String>();
 		
 		Position position = PositionManager.getInstance().getPosition(algorithm.symbol);
-		PositionValue positionValue = position.getPositionValue();
+		PositionValue positionValue = position == null ? null : position.getPositionValue();
 		
 		double percentGainFromAlgorithm = 0;
 		double percentGainFromPosition = 0;
