@@ -110,8 +110,8 @@ public class PositionUtils {
 
 	public double getPositionValueCurrent(boolean includeTransactionFees) {
 		double unitPriceLastKnown = position.getLastKnownUnitPrice();
-		double priceTotal = getOrderUnitsIntrinsic() * unitPriceLastKnown;
-		double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsIntrinsic(), unitPriceLastKnown);
+		double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
+		double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
 
 		priceTotal -= (includeTransactionFees ? transactionFees : 0);
 		
@@ -120,8 +120,8 @@ public class PositionUtils {
 
 	public double getPositionPriceCurrent(boolean includeTransactionFees) {
 		double unitPriceLastKnown = position.getLastKnownUnitPrice();
-		double priceTotal = getOrderUnitsIntrinsic() * unitPriceLastKnown;
-		double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsIntrinsic(), unitPriceLastKnown);
+		double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
+		double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
 
 		return priceTotal + (includeTransactionFees ? transactionFees : 0);
 	}

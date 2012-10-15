@@ -143,7 +143,9 @@ public class PositionManager implements PositionStatusListener {
 	@Override
 	public synchronized void positionStatusChange(Position position) {
 		synchronized(lock){
-			Co.println("--> PositionManager, position status change: " + position.positionType.name());
+			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+				Co.println("--> PositionManager, position status change: " + position.positionType.name());
+			}
 			if (position.positionType == PositionType.position_exited || position.positionType == PositionType.position_cancelled){
 				listOfPosition.remove(position);
 				position = null; //?

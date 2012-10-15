@@ -110,8 +110,12 @@ public class Order {
 								throw new IllegalStateException("Order status did not match: " + orderStatus.name());
 							}
 						}else if (ibOrderStatus == IbOrderStatus.status_cancelled){
-							orderStatus = OrderStatus.status_cancelled;
-							orderStatusListener.orderStatusChanged(Order.this, orderStatus);
+							if (orderStatus != OrderStatus.status_cancelled){
+								orderStatus = OrderStatus.status_cancelled;
+								orderStatusListener.orderStatusChanged(Order.this, orderStatus);
+							}else{
+								Co.println("--> Order is already cancelled");
+							}
 						}
 					}
 	
