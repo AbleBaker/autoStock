@@ -131,7 +131,7 @@ public class PositionUtils {
 		for (OrderValue orderValue : listOfOrderValue){
 			priceTotal += orderValue.unitPriceRequested;
 		}
-		return priceTotal;
+		return priceTotal / listOfOrderValue.size();
 	}
 
 	public double getOrderUnitPriceFilled() {
@@ -139,7 +139,7 @@ public class PositionUtils {
 		for (OrderValue orderValue : listOfOrderValue){
 			priceTotal += orderValue.unitPriceFilled;
 		}
-		return priceTotal;
+		return priceTotal / listOfOrderValue.size();
 	}
 
 	public double getOrderUnitPriceIntrinsic() {
@@ -147,6 +147,6 @@ public class PositionUtils {
 		for (OrderValue orderValue : listOfOrderValue){
 			priceTotal += orderValue.unitPriceIntrinsic;
 		}
-		return priceTotal;
+		return priceTotal / listOfOrderValue.size();
 	}
 }

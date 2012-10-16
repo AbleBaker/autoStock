@@ -18,7 +18,7 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionGenerator {
 	private Account account = Account.getInstance();
-	private final int positionMaximumPrice = 2500;
+	private final int positionMaximumPrice = 2000;
 	
 	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange){
 		int positionUnits = (int) getPositionInitialUnits(quoteSlice.priceClose, signal);
