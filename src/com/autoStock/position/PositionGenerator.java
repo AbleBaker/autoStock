@@ -38,7 +38,7 @@ public class PositionGenerator {
 			return 0;
 		}
 		
-		units = 130;
+		units = 100;
 		
 		if (accountBalance < units * price){
 			Co.println("Insufficient account blanace for trade");
@@ -50,7 +50,7 @@ public class PositionGenerator {
 	
 	public int getPositionReentryUnits(double price, Signal signal){
 		double accountBalance = account.getAccountBalance();
-		int units = 130;
+		int units = 100;
 		
 		if (accountBalance > units * price){
 			return units;
