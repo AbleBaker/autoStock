@@ -107,6 +107,8 @@ public class AlgorithmCondition {
 	}
 
 	public boolean disableAfterNilChanges(ArrayList<QuoteSlice> listOfQuoteSlice) {
+		if (strategyOptions.disableAfterNilChanges == false){return false;}
+		
 		int countOfNilChanges = 0;
 		double price = 0;
 		
@@ -124,6 +126,8 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean disableAfterNilVolume(ArrayList<QuoteSlice> listOfQuoteSlice){
+		if (strategyOptions.disableAfterNilVolumes == false){return false;}
+		
 		int countOfNilChanges = 0;
 		
 		for (QuoteSlice quoteSlice : listOfQuoteSlice){

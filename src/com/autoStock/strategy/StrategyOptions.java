@@ -11,6 +11,7 @@ public class StrategyOptions {
 	public boolean canGoShort;
 	public boolean canReenter;
 	public boolean disableAfterNilChanges;
+	public boolean disableAfterNilVolumes;
 	public boolean taperPeriodLength;
 	public boolean disableAfterLoss = true; 
 	public SignalPointTactic signalPointTacticForEntry;
