@@ -18,7 +18,6 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionGenerator {
 	private Account account = Account.getInstance();
-	private final int positionMaximumPrice = 2000;
 	
 	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange){
 		int positionUnits = (int) getPositionInitialUnits(quoteSlice.priceClose, signal);
@@ -39,9 +38,7 @@ public class PositionGenerator {
 			return 0;
 		}
 		
-		units = Math.min(positionMaximumPrice / price, accountBalance / price);
-		units = Math.max(100, units);
-		units = Math.round(units/100)*100;
+		units = 130;
 		
 		if (accountBalance < units * price){
 			Co.println("Insufficient account blanace for trade");
@@ -53,10 +50,10 @@ public class PositionGenerator {
 	
 	public int getPositionReentryUnits(double price, Signal signal){
 		double accountBalance = account.getAccountBalance();
-		int units = 0;
+		int units = 130;
 		
 		if (accountBalance > units * price){
-			return 100;
+			return units;
 		}
 
 		return 0;
