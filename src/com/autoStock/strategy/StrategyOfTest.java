@@ -32,7 +32,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.canReenter = true;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
-		strategyOptions.disableAfterLoss = false;
+		strategyOptions.disableAfterLoss = true;
 		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
 		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_combined;
@@ -47,8 +47,8 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
 		strategyOptions.maxReenterTimes = 3;
-		strategyOptions.intervalForReentryMins = 10;
-		strategyOptions.minReentryPercentGain = 0.1;
+		strategyOptions.intervalForReentryMins = 5;
+		strategyOptions.minReentryPercentGain = 0.2;
 	}
 	
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse){
@@ -58,7 +58,7 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-//				signalGroup.signalOfRSI.getSignal(),
+				signalGroup.signalOfRSI.getSignal(),
 				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()

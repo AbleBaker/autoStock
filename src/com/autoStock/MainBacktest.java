@@ -218,6 +218,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			if (runNextBacktestForDays(false) == false) {
 				if (backtestType == BacktestType.backtest_default) {
 					
+					int countForTradesProfit = 0;
+					int countForTradesLoss = 0;
+					int countForReentry = 0;
+					
 					for (BacktestContainer backtestContainer : listOfBacktestContainer){
 						Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
 						ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
@@ -240,16 +244,25 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							
 							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
 								listOfString.add("$ " + String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()));
+								if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() > 0){
+									countForTradesProfit++;
+								}else if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() < 0){
+									countForTradesLoss++;
+								}
+							}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry){
+								countForReentry++;
+								listOfString.add("-");
 							}else{
 								listOfString.add("-");
 							}
 							
 							listOfDisplayRows.add(listOfString);
 						}
-						
 						new TableController().displayTable(AsciiTables.backtest_strategy_response, listOfDisplayRows);
-
 					}
+					
+					Co.println("--> Transactions Profit / Loss: " + countForTradesProfit + ", " + countForTradesLoss);
+					Co.println("--> Reentered: " + countForReentry);
 					
 					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions));
 				} 
