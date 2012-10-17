@@ -7,7 +7,6 @@ import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
-import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -31,15 +30,13 @@ public class PositionGenerator {
 	
 	private double getPositionInitialUnits(double price, Signal signal){
 		double accountBalance = account.getAccountBalance();
-		double units = 0;
+		double units = 100;
 
 		if (accountBalance <= 0){
 			Co.println("Insufficient account blanace for trade");
 			return 0;
 		}
-		
-		units = 100;
-		
+
 		if (accountBalance < units * price){
 			Co.println("Insufficient account blanace for trade");
 			return 0;
