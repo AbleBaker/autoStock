@@ -97,6 +97,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate);
 		
+		Co.println("--> Backtest dates: " + listOfBacktestDates.size());
+		
 		if (listOfBacktestDates.size() == 0){
 			throw new IllegalArgumentException();
 		}
@@ -267,7 +269,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions));
 				} 
 				Co.println("--> Finished backtest");
-				Global.callbackLock.releaseLock();
+				if (backtestType == BacktestType.backtest_default){
+					Global.callbackLock.releaseLock();
+				}
 			}
 		}
 	}

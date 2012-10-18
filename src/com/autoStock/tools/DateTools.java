@@ -108,8 +108,7 @@ public class DateTools {
 		calendarAtCurrent.setTime(startDate);
 		calendarAtEnd.setTime(endDate);
 		
-		//TODO: Fix this...
-		while (calendarAtCurrent.get(Calendar.MONTH) <= calendarAtEnd.get(Calendar.MONTH) && calendarAtCurrent.get(Calendar.DAY_OF_MONTH) <= calendarAtEnd.get(Calendar.DAY_OF_MONTH)){
+		while (calendarAtCurrent.before(calendarAtEnd)){
 			if (calendarAtCurrent.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && calendarAtCurrent.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY){
 				listOfDate.add(new Date(calendarAtCurrent.getTimeInMillis()));
 			}
