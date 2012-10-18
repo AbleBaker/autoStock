@@ -71,8 +71,10 @@ public class AlgorithmBase {
 		return (ReceiverOfQuoteSlice) this;
 	}
 	
-	public void handlePositionChange(){
-		algorithmState.transactions++;
+	public void handlePositionChange(boolean isReentry){
+		if (isReentry == false){
+			algorithmState.transactions++;
+		}
 	}
 	
 	public void handleStrategyResponse(StrategyResponse strategyResponse){
@@ -90,7 +92,9 @@ public class AlgorithmBase {
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-					handlePositionChange();
+					handlePositionChange(false);
+			}else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
+				handlePositionChange(true);
 			}
 			if (algorithmListener != null){
 				algorithmListener.receiveChangedStrategyResponse(strategyResponse);
