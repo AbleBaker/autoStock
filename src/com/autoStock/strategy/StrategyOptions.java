@@ -19,7 +19,7 @@ public class StrategyOptions {
 	public SignalPointTactic signalPointTacticForExit;
 	
 	public int maxTransactionsDay = 4;
-	public double minTakeProfitExit = 1.020d;
+	public double minTakeProfitExit = 1.98d;
 	public double minReentryPercentGain = 0.2d;
 	public int maxStopLossValue = -35;
 	public int maxNilChangePrice = 15;
