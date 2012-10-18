@@ -46,9 +46,11 @@ public class DiskCache {
 
 	public void addValue(String queryHash, ArrayList<Object> listOfResults) {
 		try {
-			Writer output = new BufferedWriter(new FileWriter(new File(cacheRoot + queryHash + ".sql")));
+			File file = new File(cacheRoot + queryHash + ".tmp");
+			Writer output = new BufferedWriter(new FileWriter(file));
 			output.write(gson.toJson(listOfResults));
 			output.close();
+			file.renameTo(new File(cacheRoot + queryHash + ".sql"));
 		}catch(Exception e){}
 	}
 }
