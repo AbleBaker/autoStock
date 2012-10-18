@@ -34,12 +34,15 @@ public class BacktestUtils {
 		return string;
 	}
 	
-	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions){
+	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, int countForTradesProfit, int countForTradesLoss, int countForReentry){
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance()) + " ********";
 		
 		string += "\n --> Balance: " + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance());
 		string += "\n --> Transactions: " + Account.getInstance().getTransactions();
 		string += "\n --> Fees: " + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
+		
+		string += "\n --> Transactions Profit / Loss: " + countForTradesProfit + ", " + countForTradesLoss;
+		string += "\n --> Reentered: " + countForReentry;
 		
 		string += "\n --> SignalControl: " + SignalControl.periodLengthStart + ", " + SignalControl.periodLengthMiddle + ", " + SignalControl.periodLengthEnd;
 		

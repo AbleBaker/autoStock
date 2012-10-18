@@ -33,12 +33,12 @@ public class PositionGenerator {
 		double units = 100;
 
 		if (accountBalance <= 0){
-			Co.println("Insufficient account blanace for trade");
+			Co.println("Insufficient account blanace for trade *********************************************************");
 			return 0;
 		}
 
 		if (accountBalance < units * price){
-			Co.println("Insufficient account blanace for trade");
+			Co.println("Insufficient account blanace for trade ***********************************************************");
 			return 0;
 		}
 		
@@ -51,6 +51,8 @@ public class PositionGenerator {
 		
 		if (accountBalance > units * price){
 			return units;
+		}else{
+			Co.println("Insufficient account blanace for trade ***********************************************************");
 		}
 
 		return 0;

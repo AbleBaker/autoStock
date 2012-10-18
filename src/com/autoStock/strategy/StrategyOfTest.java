@@ -47,8 +47,8 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
 		strategyOptions.maxReenterTimes = 3;
-		strategyOptions.intervalForReentryMins = 5;
-		strategyOptions.minReentryPercentGain = 0.2;
+		strategyOptions.intervalForReentryMins = 11;
+		strategyOptions.minReentryPercentGain = 0.23;
 	}
 	
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse){

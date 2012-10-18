@@ -131,8 +131,8 @@ public class Position implements OrderStatusListener {
 		
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
 		double comission = 0;
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsFilled(), unitPriceFirstKnown);
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsFilled(), unitPriceLastKnown);		
+		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceFirstKnown);
+		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		return MathTools.round(positionValue - comission);
 	}
 	
@@ -149,8 +149,8 @@ public class Position implements OrderStatusListener {
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
 		double comission = 0;
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsFilled(), unitPriceFirstKnown);
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsFilled(), unitPriceLastKnown);		
+		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceFirstKnown);
+		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		
 		if (includeTransactionFees){
 			positionValue -= comission;
@@ -215,7 +215,11 @@ public class Position implements OrderStatusListener {
 			}
 			PositionCallback.affectBankBalance(order);
 		}else if (orderStatus == OrderStatus.status_cancelled){
-			positionType = PositionType.position_cancelled;
+			if (listOfOrder.size() > 1){
+				listOfOrder.remove(order);
+			}else{
+				positionType = PositionType.position_cancelled;	
+			}
 		}
 		
 		positionStatusListener.positionStatusChange(this);	

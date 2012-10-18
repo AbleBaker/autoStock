@@ -71,7 +71,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	
 	public void sendBacktestResult(){
 		ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(atomicIntBacktestIndex.get()-1);		
-		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions)));
+		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, 0, 0, 0)));
 		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
 	}
 

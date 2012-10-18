@@ -261,10 +261,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						new TableController().displayTable(AsciiTables.backtest_strategy_response, listOfDisplayRows);
 					}
 					
-					Co.println("--> Transactions Profit / Loss: " + countForTradesProfit + ", " + countForTradesLoss);
-					Co.println("--> Reentered: " + countForReentry);
-					
-					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions));
+					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, countForTradesProfit, countForTradesLoss, countForReentry));
 				} 
 				Co.println("--> Finished backtest");
 				if (backtestType == BacktestType.backtest_default){
