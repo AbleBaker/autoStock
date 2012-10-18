@@ -16,6 +16,7 @@ import com.autoStock.indicator.CommonAnlaysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionManager;
+import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyResponse;
@@ -84,7 +85,13 @@ public class AlgorithmBase {
 				listOfStrategyResponse.add(strategyResponse);
 			}
 		}else if (strategyResponse.strategyAction == StrategyAction.algorithm_changed){
-			handlePositionChange();
+			PositionGovernorResponse positionGovernorResponse = strategyResponse.positionGovernorResponse;
+			if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
+				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
+				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
+				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+					handlePositionChange();
+			}
 			if (algorithmListener != null){
 				algorithmListener.receiveChangedStrategyResponse(strategyResponse);
 			}
