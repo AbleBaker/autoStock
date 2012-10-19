@@ -67,6 +67,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		Co.println("--> All backtests completed...");
 		atomicIntBacktestIndex.set(0);
 		requestNextUnit();
+		System.gc();
 	}
 	
 	public void sendBacktestResult(){
