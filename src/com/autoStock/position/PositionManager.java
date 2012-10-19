@@ -153,4 +153,8 @@ public class PositionManager implements PositionStatusListener {
 			}
 		}
 	}
+
+	public void reset() {
+		listOfPosition.clear();
+	}
 }

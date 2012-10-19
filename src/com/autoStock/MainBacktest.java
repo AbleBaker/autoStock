@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.core.AlgorithmManager;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
@@ -51,7 +52,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private Benchmark bench = new Benchmark();
 	private AtomicInteger callbacks = new AtomicInteger();
 	private AlgorithmMode algorithmMode;
-	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>(0);
+	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>();
 	private ListenerOfMainBacktestCompleted listenerOfMainBacktestCompleted;
 	
 	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted) {
@@ -191,6 +192,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				currentBacktestDayIndex = 0;
 				
 				Account.getInstance().resetAccount();
+				PositionManager.getInstance().reset();
 				runNextBacktestForDays(false);
 			}else{
 				Co.println("******** End of backtest and adjustment ********");
