@@ -16,6 +16,7 @@ import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.trading.types.MarketData;
 import com.autoStock.types.Exchange;
+import com.autoStock.types.Index;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
 
@@ -60,7 +61,6 @@ public class RequestMarketData {
 	
 	public void runThreadForSliceCollector(final int sliceMilliseconds){
 		Date date = new Date(receivedTimestamp*1000);
-		//Co.println("*********************************************: " + date.toGMTString());
 		
 		threadForSliceCollector = new Thread(new Runnable(){
 			@Override

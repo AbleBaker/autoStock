@@ -18,7 +18,6 @@ import com.autoStock.types.Symbol;
  */
 public class QuoteSliceTools {
 	public synchronized QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData, Symbol symbol){
-		
 		QuoteSlice quoteSlice = new QuoteSlice();
 		quoteSlice.symbol = symbol;
 			
