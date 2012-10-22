@@ -13,7 +13,8 @@ public class MenuDefinitions {
 		menu_main_engage(new MenuArguments[]{MenuArguments.arg_exchange}),
 		menu_main_market_filter(new MenuArguments[]{MenuArguments.arg_exchange}),
 		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_end_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol, MenuArguments.arg_resolution}),
-		menu_request_market_data(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol}),
+		menu_request_market_symbol_data(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol}),
+		menu_request_market_index_data(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_index}),
 		menu_request_realtime_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),
 		menu_request_market_order(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol, MenuArguments.arg_position_type, MenuArguments.arg_position_units}),
 		menu_test_realtime_data(new MenuArguments[]{MenuArguments.arg_none}),
@@ -44,6 +45,7 @@ public class MenuDefinitions {
 		arg_restart_delay(new MenuArgumentTypes[]{MenuArgumentTypes.const_now, MenuArgumentTypes.const_safe, MenuArgumentTypes.basic_integer}, "Restart delay"),
 		arg_security_type(new MenuArgumentTypes[]{MenuArgumentTypes.const_stk, MenuArgumentTypes.const_opt, MenuArgumentTypes.const_fut}, "Security Type"),
 		arg_symbol(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Symbol"),
+		arg_index(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string}, "Index"),
 		arg_symbol_array(new MenuArgumentTypes[]{MenuArgumentTypes.basic_string_array}, "Symbol Array"),
 		arg_start_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date}, "Start Date"),
 		arg_end_date(new MenuArgumentTypes[]{MenuArgumentTypes.basic_date}, "End Date or Period"), // MenuArgumentTypes.basic_period}

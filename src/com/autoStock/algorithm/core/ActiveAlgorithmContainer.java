@@ -10,6 +10,7 @@ import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketSymbol
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
+import com.autoStock.trading.types.MarketSymbolData;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -49,7 +50,7 @@ public class ActiveAlgorithmContainer {
 			public void completed(RequestHolder requestHolder, ExResultSetMarketSymbolData exResultSetMarketData) {
 				Co.println("--> Completed?");
 			}
-		}, exchange, symbol, Period.min.seconds * 1000);
+		}, new MarketSymbolData(exchange, symbol, "STK"), Period.min.seconds * 1000);
 	}
 	
 	public void deactivate(){

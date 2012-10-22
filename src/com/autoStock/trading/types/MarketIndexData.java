@@ -11,20 +11,20 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class MarketSymbolData implements Cloneable {
+public class MarketIndexData implements Cloneable {
 	public String securityType;
 	public Exchange exchange;
-	public Symbol symbol;
+	public Index index;
 	
-	public MarketSymbolData(Exchange exchange, Symbol symbol, String securityType){
+	public MarketIndexData(Exchange exchange, Index index, String securityType){
 		this.exchange = exchange;
-		this.symbol = symbol;
+		this.index = index;
 		this.securityType = securityType;
 	}
 	
-	public MarketSymbolData clone(){
+	public MarketIndexData clone(){
 		try {
-			return (MarketSymbolData) super.clone();
+			return (MarketIndexData) super.clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 			return null;

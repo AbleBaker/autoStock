@@ -127,7 +127,7 @@ public class IbExchangeInstance {
 		ibExchangeClientSocket.eClientSocket.reqRealTimeBars(requestHolder.requestId, contract, 5, "TRADES", false);
 	}
 
-	public void getMarketData(Exchange exchange, Symbol symbol, RequestHolder requestHolder) {
+	public void getMarketDataForSymbol(Exchange exchange, Symbol symbol, RequestHolder requestHolder) {
 		// Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
 		contract.m_exchange = exchange.exchangeDesignation == ExchangeDesignation.ASX ? "ASX" : "SMART";

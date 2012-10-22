@@ -32,21 +32,17 @@ public class RequestMarketSymbolData {
 	private Thread threadForSliceCollector;
 	private int sliceMilliseconds;
 	private long receivedTimestamp = 0;
-	private Exchange exchange;
-	private Symbol symbol;
 	private QuoteSlice quoteSlicePrevious = new QuoteSlice();
 	private boolean isCancelled = false;
 
-	public RequestMarketSymbolData(RequestHolder requestHolder, RequestMarketSymbolDataListener requestMarketDataListener, Exchange exchange, Symbol symbol, int sliceMilliseconds) {
+	public RequestMarketSymbolData(RequestHolder requestHolder, RequestMarketSymbolDataListener requestMarketDataListener, MarketSymbolData marketSymbolData, int sliceMilliseconds) {
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestMarketSymbolDataListener = requestMarketDataListener;
 		this.exResultSetMarketSymbolData = new ExResultMarketData(). new ExResultSetMarketSymbolData(marketSymbolData);
 		this.sliceMilliseconds = sliceMilliseconds;
-		this.exchange = exchange;
-		this.symbol = symbol;
 		
-		ExchangeController.getIbExchangeInstance().getMarketData(exchange, symbol, requestHolder);
+		ExchangeController.getIbExchangeInstance().getMarketDataForSymbol(marketSymbolData.exchange, marketSymbolData.symbol, requestHolder);
 	}
 	
 	public synchronized void addResult(ExResultRowMarketData exResultRowMarketData){
@@ -69,9 +65,9 @@ public class RequestMarketSymbolData {
 					try {Thread.sleep(sliceMilliseconds);}catch(InterruptedException e){return;}
 					
 					synchronized(RequestMarketSymbolData.this){
-						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketSymbolData.listOfExResultRowMarketData, symbol);
+						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketSymbolData.listOfExResultRowMarketData, marketSymbolData.symbol);
 						new QuoteSliceTools().mergeQuoteSlices(quoteSlicePrevious, quoteSlice);
-						quoteSlice.dateTime = DateTools.getForeignDateFromLocalTime(DateTools.getTimeFromDate(new Date()), exchange.timeZone);
+						quoteSlice.dateTime = DateTools.getForeignDateFromLocalTime(DateTools.getTimeFromDate(new Date()), marketSymbolData.exchange.timeZone);
 						
 						quoteSlicePrevious = quoteSlice;
 						

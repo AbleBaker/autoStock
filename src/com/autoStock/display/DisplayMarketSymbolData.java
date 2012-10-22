@@ -17,10 +17,10 @@ import com.autoStock.types.QuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public class DisplayMarketData {
+public class DisplayMarketSymbolData {
 	private MarketSymbolData marketData;
 	
-	public DisplayMarketData(MarketSymbolData marketData){
+	public DisplayMarketSymbolData(MarketSymbolData marketData){
 		this.marketData = marketData;
 		Global.callbackLock.requestLock();
 	}
@@ -43,6 +43,6 @@ public class DisplayMarketData {
 				Co.println("--> Quote: " + quoteSlice.priceOpen + ", " + quoteSlice.priceHigh + ", " + quoteSlice.priceLow + ", " + quoteSlice.priceClose + ", " + quoteSlice.sizeVolume);
 				
 			}
-		}, marketData.exchange, marketData.symbol, Period.min.seconds * 1000);
+		}, marketData, Period.min.seconds * 1000);
 	}
 }

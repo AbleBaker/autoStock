@@ -12,7 +12,8 @@ import com.autoStock.MainMarketOrder;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
-import com.autoStock.display.DisplayMarketData;
+import com.autoStock.display.DisplayMarketSymbolData;
+import com.autoStock.display.DisplayMarketIndexData;
 import com.autoStock.display.DisplayRealtimeData;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
@@ -22,9 +23,11 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.trading.types.MarketIndexData;
 import com.autoStock.trading.types.MarketSymbolData;
 import com.autoStock.trading.types.RealtimeData;
 import com.autoStock.types.Exchange;
+import com.autoStock.types.Index;
 import com.autoStock.types.Symbol;
 
 /**
@@ -45,11 +48,21 @@ public class MenuLauncher {
 							)
 					).display();
 		}
-		else if (menuStructure == MenuStructures.menu_request_market_data){
-			new DisplayMarketData(
+		else if (menuStructure == MenuStructures.menu_request_market_symbol_data){
+			new DisplayMarketSymbolData(
 					new MarketSymbolData(
 							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value),
+							"STK"
+							)
+					).display();
+			}
+		
+		else if (menuStructure == MenuStructures.menu_request_market_index_data){
+			new DisplayMarketIndexData(
+					new MarketIndexData(
+							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
+							new Index(menuStructure.getArgument(MenuArguments.arg_index).value),
 							"STK"
 							)
 					).display();
@@ -66,16 +79,6 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_request_market_order){
 			new MainMarketOrder(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), PositionType.valueOf(menuStructure.getArgument(MenuArguments.arg_position_type).value) , menuStructure.getArgument(MenuArguments.arg_symbol).value, Integer.valueOf(menuStructure.getArgument(MenuArguments.arg_position_units).value));
-		}
-		
-		else if (menuStructure == MenuStructures.menu_test_market_data){
-			new DisplayMarketData(
-					new MarketSymbolData(
-							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
-							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value),
-							"STK"
-							)
-					).display();
 		}
 		
 		else if (menuStructure == MenuStructures.menu_test_realtime_data){
