@@ -5,7 +5,7 @@ package com.autoStock.tools;
 
 import java.util.ArrayList;
 
-import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickPriceFields;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickSizeFields;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
@@ -17,7 +17,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class QuoteSliceTools {
-	public synchronized QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketData> listOfExResultRowMarketData, Symbol symbol){
+	public synchronized QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketSymbolData> listOfExResultRowMarketData, Symbol symbol){
 		QuoteSlice quoteSlice = new QuoteSlice();
 		quoteSlice.symbol = symbol;
 			
@@ -26,7 +26,7 @@ public class QuoteSliceTools {
 		ArrayList<Double> listOfPriceAsk = new ArrayList<Double>();
 		ArrayList<Integer> listOfSizeVolume = new ArrayList<Integer>();
 		
-		for (ExResultRowMarketData resultRow : listOfExResultRowMarketData){		
+		for (ExResultRowMarketSymbolData resultRow : listOfExResultRowMarketData){		
 			if (resultRow.tickType == TickTypes.type_price){
 				
 				if (resultRow.tickPriceField == TickPriceFields.field_last){

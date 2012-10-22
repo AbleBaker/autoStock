@@ -16,9 +16,9 @@ import com.autoStock.trading.types.MarketSymbolData;
  * @author Kevin Kowalewski
  *
  */
-public class ExResultMarketData {
+public class ExResultMarketSymbolData {
 	public class ExResultSetMarketSymbolData {
-		public ArrayList<ExResultRowMarketData> listOfExResultRowMarketData = new ArrayList<ExResultRowMarketData>();
+		public ArrayList<ExResultRowMarketSymbolData> listOfExResultRowMarketData = new ArrayList<ExResultRowMarketSymbolData>();
 		public MarketSymbolData marketSymbolData;
 		
 		public ExResultSetMarketSymbolData(MarketSymbolData marketSymbolData){
@@ -26,7 +26,7 @@ public class ExResultMarketData {
 		}
 	}
 	
-	public static class ExResultRowMarketData{
+	public static class ExResultRowMarketSymbolData{
 		public TickTypes tickType;
 		public TickPriceFields tickPriceField;
 		public TickSizeFields tickSizeField;
@@ -34,19 +34,19 @@ public class ExResultMarketData {
 		public double value;
 		public Date date;
 		
-		public ExResultRowMarketData(TickPriceFields field, double value){
+		public ExResultRowMarketSymbolData(TickPriceFields field, double value){
 			this.tickType = TickTypes.type_price;
 			this.tickPriceField = field;
 			this.value = value;
 		}
 		
-		public ExResultRowMarketData(TickSizeFields field, double value){
+		public ExResultRowMarketSymbolData(TickSizeFields field, double value){
 			tickType = TickTypes.type_size;
 			tickSizeField = field;
 			this.value = value;
 		}
 		
-		public ExResultRowMarketData(int tickType, String value){
+		public ExResultRowMarketSymbolData(int tickType, String value){
 			this.tickType = TickTypes.type_string;
 			tickStringValue = value;
 			if (tickType == TickType.LAST_TIMESTAMP){

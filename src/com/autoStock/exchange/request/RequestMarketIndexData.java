@@ -9,9 +9,9 @@ import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketIndexDataListener;
 import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
-import com.autoStock.exchange.results.ExResultMarketData;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketSymbolData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
 import com.autoStock.exchange.results.ExResultMarketIndexData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultRowMarketIndexData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultSetMarketIndexData;
@@ -47,6 +47,7 @@ public class RequestMarketIndexData {
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestMarketIndexDataListener = requestMarketIndexDataListener;
+		this.marketIndexData = marketIndexData;
 		this.exResultSetMarketIndexData = new ExResultMarketIndexData(). new ExResultSetMarketIndexData(marketIndexData);
 		this.sliceMilliseconds = sliceMilliseconds;
 		

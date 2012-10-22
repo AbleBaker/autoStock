@@ -4,7 +4,7 @@
 package com.autoStock.exchange.request.listener;
 
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketSymbolData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
 import com.autoStock.types.QuoteSlice;
 
 /**

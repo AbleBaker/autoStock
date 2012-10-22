@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
+import com.autoStock.exchange.request.RequestMarketIndexData;
 import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.RequestMarketOrder;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.results.ExResultHistoricalData;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
+import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultRowMarketIndexData;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.order.OrderDefinitions.IbOrderStatus;
@@ -68,7 +70,12 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
 //		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketDataDefinitions.getTickPriceField(field).name());
-		((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickPriceField(field), price));
+
+		if (RequestManager.getRequestHolder(tickerId).caller instanceof RequestMarketSymbolData){
+			((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketSymbolData(MarketDataDefinitions.getTickPriceField(field), price));
+		}else if (RequestManager.getRequestHolder(tickerId).caller instanceof RequestMarketIndexData){
+			((RequestMarketIndexData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketIndexData(MarketDataDefinitions.getTickPriceField(field), price));
+		}
 	}
 
 	@Override
@@ -77,7 +84,12 @@ public class IbExchangeWrapper implements EWrapper {
 			size *= 100;
 		}
 //		Co.log("Got tickSize: " + tickerId + ", " + MarketDataDefinitions.getTickSizeField(field).name() + ", " + size + ", " + MarketDataDefinitions.getTickSizeField(field));
-		((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickSizeField(field), size));
+		
+		if (RequestManager.getRequestHolder(tickerId).caller instanceof RequestMarketSymbolData){
+			((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketSymbolData(MarketDataDefinitions.getTickSizeField(field), size));
+		}else if (RequestManager.getRequestHolder(tickerId).caller instanceof RequestMarketIndexData){
+			((RequestMarketIndexData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketIndexData(MarketDataDefinitions.getTickSizeField(field), size));
+		}
 	}
 
 	@Override
@@ -93,7 +105,11 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void tickString(int tickerId, int tickType, String value) {
 //		Co.log("Got tickString: " + tickerId + "," + tickType + value);
-		((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(tickType, value));
+		if (RequestManager.getRequestHolder(tickerId).caller instanceof RequestMarketSymbolData){
+			((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketSymbolData(tickType, value));
+		}else if (RequestManager.getRequestHolder(tickerId).caller instanceof RequestMarketIndexData){
+			((RequestMarketIndexData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketIndexData(tickType, value));
+		}
 	}
 
 	@Override

@@ -8,9 +8,9 @@ import java.util.Date;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
-import com.autoStock.exchange.results.ExResultMarketData;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketSymbolData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
@@ -39,13 +39,13 @@ public class RequestMarketSymbolData {
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestMarketSymbolDataListener = requestMarketDataListener;
-		this.exResultSetMarketSymbolData = new ExResultMarketData(). new ExResultSetMarketSymbolData(marketSymbolData);
+		this.exResultSetMarketSymbolData = new ExResultMarketSymbolData(). new ExResultSetMarketSymbolData(marketSymbolData);
 		this.sliceMilliseconds = sliceMilliseconds;
 		
 		ExchangeController.getIbExchangeInstance().getMarketDataForSymbol(marketSymbolData.exchange, marketSymbolData.symbol, requestHolder);
 	}
 	
-	public synchronized void addResult(ExResultRowMarketData exResultRowMarketData){
+	public synchronized void addResult(ExResultRowMarketSymbolData exResultRowMarketData){
 		if (exResultRowMarketData.tickType == TickTypes.type_string){
 			if (sliceMilliseconds != 0 && receivedTimestamp == 0){
 				receivedTimestamp = Long.valueOf(exResultRowMarketData.tickStringValue);

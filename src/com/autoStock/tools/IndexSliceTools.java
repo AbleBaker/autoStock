@@ -5,7 +5,7 @@ package com.autoStock.tools;
 
 import java.util.ArrayList;
 
-import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultRowMarketIndexData;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickPriceFields;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickSizeFields;
