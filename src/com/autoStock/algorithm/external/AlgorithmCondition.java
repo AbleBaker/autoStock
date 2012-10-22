@@ -7,6 +7,8 @@ import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionValue;
+import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
@@ -43,9 +45,15 @@ public class AlgorithmCondition {
 		return true;
 	}
 	
-	public boolean canEnterWithQuoteSlice(QuoteSlice quoteSlice){
-		if (quoteSlice.priceClose >= quoteSlice.priceOpen){
-			return true;
+	public boolean canEnterWithQuoteSlice(QuoteSlice quoteSlice, SignalPoint signalPoint){
+		if (signalPoint.signalPointType == SignalPointType.long_entry){
+			if (quoteSlice.priceClose >= quoteSlice.priceOpen){
+				return true;
+			}
+		}else if (signalPoint.signalPointType == SignalPointType.short_entry){
+			if (quoteSlice.priceClose <= quoteSlice.priceOpen){
+				return true;
+			}
 		}
 		
 		return false;

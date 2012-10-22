@@ -21,7 +21,6 @@ public class SignalDefinitions {
 		short_entry,
 		short_exit,
 		no_change,
-		undefined,
 		none
 	}
 	

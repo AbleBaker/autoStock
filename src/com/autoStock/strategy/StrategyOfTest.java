@@ -6,9 +6,12 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernorResponse;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalPoint;
+import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
@@ -66,7 +69,9 @@ public class StrategyOfTest extends StrategyBase {
 //				signalGroup.signalOfTRIX.getSignal()
 //				signalGroup.signalOfROC.getSignal()
 //				signalGroup.signalOfWILLR.getSignal()
-				);   
+				);
+		
+		SignalPoint signalPointForEntry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
 		
 		if (algorithmBase.algorithmState.isDisabled){
 			strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
@@ -95,7 +100,7 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_loss, quoteSlice, position, strategyResponse);
 			}else if (algorithmBase.algorithmState.isDisabled){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);
-			}else if (algorithmCondition.canEnterWithQuoteSlice(quoteSlice) == false){
+			}else if (algorithmCondition.canEnterWithQuoteSlice(quoteSlice, signalPointForEntry) == false){
 				strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
 				strategyResponse.strategyAction = StrategyAction.algorithm_pass;
 				strategyResponse.strategyActionCause = StrategyActionCause.pass_condition_quotslice;
