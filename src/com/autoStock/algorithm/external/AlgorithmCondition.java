@@ -54,6 +54,8 @@ public class AlgorithmCondition {
 			if (quoteSlice.priceClose <= quoteSlice.priceOpen){
 				return true;
 			}
+		}else {
+			return true;
 		}
 		
 		return false;
