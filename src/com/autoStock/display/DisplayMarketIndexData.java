@@ -32,22 +32,18 @@ public class DisplayMarketIndexData {
 	
 	public void display(){
 		new RequestMarketIndexData(new RequestHolder(null), new RequestMarketIndexDataListener() {
-			
 			@Override
 			public void failed(RequestHolder requestHolder) {
-				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void receiveIndexSlice(RequestHolder requestHolder, IndexSlice indexSlice) {
-				// TODO Auto-generated method stub
-				
+				Co.println("--> Got indexSlice: " + indexSlice.index.indexName + ", " + indexSlice.valueClose);
 			}
 			
 			@Override
 			public void completed(RequestHolder requestHolder, ExResultSetMarketIndexData exResultSetIndexData) {
-				// TODO Auto-generated method stub
 				
 			}
 		}, marketIndexData, Period.min.seconds * 1000);
