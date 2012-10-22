@@ -3,10 +3,10 @@ package com.autoStock.algorithm.core;
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
-import com.autoStock.exchange.request.RequestMarketData;
+import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.exchange.request.listener.RequestMarketDataListener;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
+import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
+import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketSymbolData;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
@@ -21,7 +21,7 @@ import com.autoStock.types.Symbol;
  */
 public class ActiveAlgorithmContainer {
 	public AlgorithmTest algorithm;
-	public RequestMarketData requestMarketData;
+	public RequestMarketSymbolData requestMarketData;
 	public Symbol symbol;
 	private Exchange exchange;
 	
@@ -32,7 +32,7 @@ public class ActiveAlgorithmContainer {
 	}
 	
 	public void activate(){
-		requestMarketData = new RequestMarketData(new RequestHolder(this), new RequestMarketDataListener() {
+		requestMarketData = new RequestMarketSymbolData(new RequestHolder(this), new RequestMarketSymbolDataListener() {
 			@Override
 			public void failed(RequestHolder requestHolder) {
 				Co.println("--> Completed?");
@@ -46,7 +46,7 @@ public class ActiveAlgorithmContainer {
 			}
 			
 			@Override
-			public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
+			public void completed(RequestHolder requestHolder, ExResultSetMarketSymbolData exResultSetMarketData) {
 				Co.println("--> Completed?");
 			}
 		}, exchange, symbol, Period.min.seconds * 1000);

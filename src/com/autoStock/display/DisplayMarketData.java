@@ -4,13 +4,13 @@
 package com.autoStock.display;
 
 import com.autoStock.Co;
-import com.autoStock.exchange.request.RequestMarketData;
+import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.exchange.request.listener.RequestMarketDataListener;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
+import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
+import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketSymbolData;
 import com.autoStock.internal.Global;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
-import com.autoStock.trading.types.MarketData;
+import com.autoStock.trading.types.MarketSymbolData;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -18,22 +18,22 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class DisplayMarketData {
-	private MarketData marketData;
+	private MarketSymbolData marketData;
 	
-	public DisplayMarketData(MarketData marketData){
+	public DisplayMarketData(MarketSymbolData marketData){
 		this.marketData = marketData;
 		Global.callbackLock.requestLock();
 	}
 	
 	public void display(){
-		new RequestMarketData(new RequestHolder(null), new RequestMarketDataListener() {
+		new RequestMarketSymbolData(new RequestHolder(null), new RequestMarketSymbolDataListener() {
 			@Override
 			public void failed(RequestHolder requestHolder) {
 				
 			}
 			
 			@Override
-			public void completed(RequestHolder requestHolder, ExResultSetMarketData exResultSetMarketData) {
+			public void completed(RequestHolder requestHolder, ExResultSetMarketSymbolData exResultSetMarketData) {
 				Co.println("Completed!");
 				
 			}

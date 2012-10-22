@@ -7,14 +7,14 @@ import java.util.Date;
 
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.exchange.request.listener.RequestMarketDataListener;
+import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
 import com.autoStock.exchange.results.ExResultMarketData;
 import com.autoStock.exchange.results.ExResultMarketData.ExResultRowMarketData;
-import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketData;
+import com.autoStock.exchange.results.ExResultMarketData.ExResultSetMarketSymbolData;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
-import com.autoStock.trading.types.MarketData;
+import com.autoStock.trading.types.MarketSymbolData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Index;
 import com.autoStock.types.QuoteSlice;
@@ -24,11 +24,11 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  * 
  */
-public class RequestMarketData {
+public class RequestIndexData {
 	public RequestHolder requestHolder;
-	public RequestMarketDataListener requestMarketDataListener;
-	public ExResultSetMarketData exResultSetMarketData;
-	public MarketData typeMarketData;
+	public RequestMarketSymbolDataListener requestMarketDataListener;
+	public ExResultSetMarketSymbolData exResultSetMarketData;
+	public MarketSymbolData typeMarketData;
 	private Thread threadForSliceCollector;
 	private int sliceMilliseconds;
 	private long receivedTimestamp = 0;
@@ -37,11 +37,11 @@ public class RequestMarketData {
 	private QuoteSlice quoteSlicePrevious = new QuoteSlice();
 	private boolean isCancelled = false;
 
-	public RequestMarketData(RequestHolder requestHolder, RequestMarketDataListener requestMarketDataListener, Exchange exchange, Symbol symbol, int sliceMilliseconds) {
+	public RequestIndexData(RequestHolder requestHolder, RequestMarketSymbolDataListener requestMarketDataListener, Exchange exchange, Symbol symbol, int sliceMilliseconds) {
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestMarketDataListener = requestMarketDataListener;
-		this.exResultSetMarketData = new ExResultMarketData(). new ExResultSetMarketData(typeMarketData);
+		this.exResultSetMarketData = new ExResultMarketData(). new ExResultSetMarketSymbolData(typeMarketData);
 		this.sliceMilliseconds = sliceMilliseconds;
 		this.exchange = exchange;
 		this.symbol = symbol;
@@ -68,7 +68,7 @@ public class RequestMarketData {
 				while (true){
 					try {Thread.sleep(sliceMilliseconds);}catch(InterruptedException e){return;}
 					
-					synchronized(RequestMarketData.this){
+					synchronized(RequestIndexData.this){
 						QuoteSlice quoteSlice = new QuoteSliceTools().getQuoteSlice(exResultSetMarketData.listOfExResultRowMarketData, symbol);
 						new QuoteSliceTools().mergeQuoteSlices(quoteSlicePrevious, quoteSlice);
 						quoteSlice.dateTime = DateTools.getForeignDateFromLocalTime(DateTools.getTimeFromDate(new Date()), exchange.timeZone);

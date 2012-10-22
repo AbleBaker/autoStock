@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
-import com.autoStock.exchange.request.RequestMarketData;
+import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.RequestMarketOrder;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.results.ExResultHistoricalData;
@@ -68,7 +68,7 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void tickPrice(int tickerId, int field, double price, int canAutoExecute) {
 //		Co.log("Got tickPrice: " + tickerId + ", " + field + ", " + price + ", " + MarketDataDefinitions.getTickPriceField(field).name());
-		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickPriceField(field), price));
+		((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickPriceField(field), price));
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class IbExchangeWrapper implements EWrapper {
 			size *= 100;
 		}
 //		Co.log("Got tickSize: " + tickerId + ", " + MarketDataDefinitions.getTickSizeField(field).name() + ", " + size + ", " + MarketDataDefinitions.getTickSizeField(field));
-		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickSizeField(field), size));
+		((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(MarketDataDefinitions.getTickSizeField(field), size));
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void tickString(int tickerId, int tickType, String value) {
 //		Co.log("Got tickString: " + tickerId + "," + tickType + value);
-		((RequestMarketData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(tickType, value));
+		((RequestMarketSymbolData)RequestManager.getRequestHolder(tickerId).caller).addResult(new ExResultRowMarketData(tickType, value));
 	}
 
 	@Override

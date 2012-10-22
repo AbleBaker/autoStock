@@ -22,7 +22,7 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
-import com.autoStock.trading.types.MarketData;
+import com.autoStock.trading.types.MarketSymbolData;
 import com.autoStock.trading.types.RealtimeData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -47,7 +47,7 @@ public class MenuLauncher {
 		}
 		else if (menuStructure == MenuStructures.menu_request_market_data){
 			new DisplayMarketData(
-					new MarketData(
+					new MarketSymbolData(
 							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value),
 							"STK"
@@ -70,7 +70,7 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_test_market_data){
 			new DisplayMarketData(
-					new MarketData(
+					new MarketSymbolData(
 							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value),
 							"STK"
