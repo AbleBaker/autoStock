@@ -13,7 +13,8 @@ public class StrategyOptions {
 	public boolean disableAfterNilChanges;
 	public boolean disableAfterNilVolumes;
 	public boolean taperPeriodLength;
-	public boolean disableAfterLoss = true; 
+	public boolean mustHavePositiveSlice;
+	public boolean disableAfterLoss; 
 	public SignalPointTactic signalPointTacticForEntry;
 	public SignalPointTactic signalPointTacticForReentry;
 	public SignalPointTactic signalPointTacticForExit;

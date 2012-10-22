@@ -39,6 +39,7 @@ public class RequestMarketSymbolData {
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.requestMarketSymbolDataListener = requestMarketDataListener;
+		this.marketSymbolData = marketSymbolData;
 		this.exResultSetMarketSymbolData = new ExResultMarketSymbolData(). new ExResultSetMarketSymbolData(marketSymbolData);
 		this.sliceMilliseconds = sliceMilliseconds;
 		

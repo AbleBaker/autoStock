@@ -30,6 +30,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.canGoLong = true;
 		strategyOptions.canGoShort = false;
 		strategyOptions.canReenter = true;
+		strategyOptions.mustHavePositiveSlice = true;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.disableAfterLoss = true;
@@ -47,8 +48,8 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
 		strategyOptions.maxReenterTimes = 3;
-		strategyOptions.intervalForReentryMins = 11;
-		strategyOptions.minReentryPercentGain = 0.23;
+		strategyOptions.intervalForReentryMins = 5;
+		strategyOptions.minReentryPercentGain = 0.20;
 	}
 	
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse){
@@ -94,6 +95,10 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_loss, quoteSlice, position, strategyResponse);
 			}else if (algorithmBase.algorithmState.isDisabled){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);
+			}else if (algorithmCondition.canEnterWithQuoteSlice(quoteSlice) == false){
+				strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
+				strategyResponse.strategyAction = StrategyAction.algorithm_pass;
+				strategyResponse.strategyActionCause = StrategyActionCause.pass_condition_quotslice;
 			}else{
 				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
 			}

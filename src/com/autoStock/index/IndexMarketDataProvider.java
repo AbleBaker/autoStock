@@ -5,6 +5,7 @@ import com.autoStock.exchange.request.RequestMarketIndexData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketIndexDataListener;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultSetMarketIndexData;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
 import com.autoStock.trading.types.MarketIndexData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Index;
@@ -33,7 +34,7 @@ public class IndexMarketDataProvider {
 			public void completed(RequestHolder requestHolder, ExResultSetMarketIndexData exResultSetIndexData) {
 				Co.println("--> Completed...");
 			}
-		}, new MarketIndexData(exchange, index), 1000*60);	
+		}, new MarketIndexData(exchange, index), Period.min.seconds * 1000);	
 	}
 	
 	public IndexSlice getIndexSlice(){

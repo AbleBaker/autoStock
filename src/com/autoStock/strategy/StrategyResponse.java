@@ -17,6 +17,7 @@ public class StrategyResponse implements Cloneable {
 	
 	public enum StrategyAction {
 		algorithm_disable,
+		algorithm_pass,
 		algorithm_proceed,
 		algorithm_changed,
 		no_change,
@@ -32,6 +33,7 @@ public class StrategyResponse implements Cloneable {
 		cease_condition_loss,
 		cease_condition_nilchange,
 		cease_condition_nilvolume,
+		pass_condition_quotslice,
 		cease_disabled,
 		position_governor_failure,
 		proceed_changed,

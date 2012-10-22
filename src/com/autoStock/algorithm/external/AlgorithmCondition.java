@@ -43,6 +43,14 @@ public class AlgorithmCondition {
 		return true;
 	}
 	
+	public boolean canEnterWithQuoteSlice(QuoteSlice quoteSlice){
+		if (quoteSlice.priceClose >= quoteSlice.priceOpen){
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public boolean taperPeriodLengthLower(Date date, Exchange exchange){
 		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionTaperTime);		
 		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){

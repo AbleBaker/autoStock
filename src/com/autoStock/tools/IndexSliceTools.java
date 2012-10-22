@@ -65,6 +65,13 @@ public class IndexSliceTools {
 		return indexSlice;
 	}
 	
+	public void mergeIndexSlices(IndexSlice indexSlicePrevious, IndexSlice indexSlice) {
+		if (indexSlice.valueOpen == 0){indexSlice.valueOpen = indexSlicePrevious.valueOpen;}
+		if (indexSlice.valueHigh == 0){indexSlice.valueHigh = indexSlicePrevious.valueHigh;}
+		if (indexSlice.valueLow == 0) {indexSlice.valueLow = indexSlicePrevious.valueLow;}
+		if (indexSlice.valueClose == 0){indexSlice.valueClose = indexSlicePrevious.valueClose;}
+	}
+	
 	private double getValueOpen(ArrayList<Double> listOfDouble){
 		if (listOfDouble.size() > 0){return listOfDouble.get(0);}
 		return 0;

@@ -75,7 +75,8 @@ public class RequestMarketIndexData {
 					
 					synchronized(RequestMarketIndexData.this){
 						IndexSlice indexSlice = new IndexSliceTools().getIndexSlice(exResultSetMarketIndexData.listOfExResultRowMarketIndexData, marketIndexData.index);
-						
+						new IndexSliceTools().mergeIndexSlices(indexSlicePrevious, indexSlice);
+
 						indexSlice.dateTime = DateTools.getForeignDateFromLocalTime(DateTools.getTimeFromDate(new Date()), marketIndexData.exchange.timeZone); 
 						indexSlicePrevious = indexSlice;
 						
