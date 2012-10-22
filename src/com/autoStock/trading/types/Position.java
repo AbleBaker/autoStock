@@ -89,12 +89,16 @@ public class Position implements OrderStatusListener {
 				positionType = PositionType.position_long_entry;
 				Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, units, currentPrice, this);
 				order.executeOrder();
-				listOfOrder.add(order);
+				synchronized (listOfOrder){
+					listOfOrder.add(order);
+				}
 			}else if (positionType == PositionType.position_short){
 				positionType = PositionType.position_short_entry;
 				Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, units, currentPrice , this);
 				order.executeOrder();
-				listOfOrder.add(order);
+				synchronized (listOfOrder){
+					listOfOrder.add(order);
+				}
 			}else{
 				throw new IllegalStateException("Cannot re-enter with position in state: " + positionType.name());
 			}
@@ -109,8 +113,10 @@ public class Position implements OrderStatusListener {
 				throw new IllegalSelectorException();
 			}
 		
-			for (Order order : listOfOrder){
-				order.cancelOrder();
+			synchronized (listOfOrder){
+				for (Order order : listOfOrder){
+					order.cancelOrder();
+				}
 			}
 			
 			positionType = PositionType.position_cancelled;
@@ -216,7 +222,9 @@ public class Position implements OrderStatusListener {
 			PositionCallback.affectBankBalance(order);
 		}else if (orderStatus == OrderStatus.status_cancelled){
 			if (listOfOrder.size() > 1){
-				listOfOrder.remove(order);
+				synchronized(listOfOrder){
+					listOfOrder.remove(order);
+				}
 			}else{
 				positionType = PositionType.position_cancelled;	
 			}
