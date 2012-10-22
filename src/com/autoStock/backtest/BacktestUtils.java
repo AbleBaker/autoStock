@@ -8,6 +8,7 @@ import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalMetric;
 import com.autoStock.strategy.StrategyOptions;
+import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
 
 /**
@@ -41,7 +42,7 @@ public class BacktestUtils {
 		string += "\n --> Transactions: " + Account.getInstance().getTransactions();
 		string += "\n --> Fees: " + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
 		
-		string += "\n --> Transactions Profit / Loss: " + countForTradesProfit + ", " + countForTradesLoss;
+		string += "\n --> Transactions Profit / Loss: " + " %" + MathTools.round((double)countForTradesProfit / (double)(countForTradesProfit + countForTradesLoss)) + ", " + countForTradesProfit + ", " + countForTradesLoss;
 		string += "\n --> Reentered: " + countForReentry;
 		
 		string += "\n --> SignalControl: " + SignalControl.periodLengthStart + ", " + SignalControl.periodLengthMiddle + ", " + SignalControl.periodLengthEnd;
