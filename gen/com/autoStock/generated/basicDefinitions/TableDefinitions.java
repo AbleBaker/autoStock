@@ -1,7 +1,6 @@
 package com.autoStock.generated.basicDefinitions;
 
 import java.util.Date;
-
 import com.autoStock.types.basic.Time;
 public class TableDefinitions {
 
@@ -31,9 +30,21 @@ public class TableDefinitions {
 
 	public static DbMarketOrder dbMarketOrder = new TableDefinitions.DbMarketOrder();
 
+	public static class DbRepla {
+		public int id;
+		public String exchange;
+		public String symbol;
+		public Date dateTimeActivated;
+		public Date dateTimeDeactivated;
+		public double profitLoss;
+	}
+
+	public static DbRepla dbRepla = new TableDefinitions.DbRepla();
+
 	public static class DbStockHistoricalPrice {
 		public long id;
 		public String symbol;
+		public String exchange;
 		public double priceOpen;
 		public double priceHigh;
 		public double priceLow;

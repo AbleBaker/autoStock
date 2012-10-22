@@ -15,10 +15,12 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListener;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
+import com.autoStock.index.IndexMarketDataProvider;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionManager;
 import com.autoStock.types.Exchange;
+import com.autoStock.types.Index;
 
 /**
  * @author Kevin Kowalewski
@@ -29,6 +31,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 	private ExchangeStatusObserver exchangeStatusObserver;
 	private AlgorithmManager algorithmManager = new AlgorithmManager();
 	private MultipleRequestMarketScanner multipleRequestMarketScanner = new MultipleRequestMarketScanner(this);
+	private IndexMarketDataProvider indexMarketDataProvider;
 
 	public MainEngagement(Exchange exchange) {
 		Global.callbackLock.requestLock();
@@ -52,6 +55,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_top_trade_rate);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_volume);
 		
+		indexMarketDataProvider = new IndexMarketDataProvider(exchange, new Index("INDU"));
 		multipleRequestMarketScanner.startScanners();
 	}
 	
@@ -68,6 +72,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 		ArrayList<ArrayList<String>> listOfAlgorithmManagerRows = (ArrayList<ArrayList<String>>) algorithmManager.getAlgorithmTable().clone();
 		algorithmManager.stopAll();
 		algorithmManager.displayEndOfDayStats(listOfAlgorithmManagerRows);
+		indexMarketDataProvider.cancel();
 		Global.callbackLock.releaseLock();
 	}
 

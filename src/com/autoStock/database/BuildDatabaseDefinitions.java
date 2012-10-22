@@ -54,13 +54,13 @@ public class BuildDatabaseDefinitions {
 	}
 	
 	public static String getStringType(String sqlType){
-		if (sqlType.equals("FLOAT")){return "double";}
+		if (sqlType.equals("FLOAT") || sqlType.equals("DECIMAL")){return "double";}
 		if (sqlType.equals("INT")){return "int";}
 		if (sqlType.equals("BIGINT")){return "long";}
-		if (sqlType.equals("DATETIME")){return "Date";}
+		if (sqlType.equals("DATETIME") || sqlType.equals("DATE")){return "Date";}
 		if (sqlType.equals("VARCHAR")){return "String";}
 		if (sqlType.equals("TIME")){return "Time";}
-		else {throw new UnsatisfiedLinkError();}
+		else {throw new UnsatisfiedLinkError("No type matched " + sqlType);}
 	}
 	
 	public static Object getJavaType(String sqlType){

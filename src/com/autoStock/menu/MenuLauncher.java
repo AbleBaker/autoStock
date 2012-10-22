@@ -62,8 +62,7 @@ public class MenuLauncher {
 			new DisplayMarketIndexData(
 					new MarketIndexData(
 							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
-							new Index(menuStructure.getArgument(MenuArguments.arg_index).value),
-							"STK"
+							new Index(menuStructure.getArgument(MenuArguments.arg_index).value)
 							)
 					).display();
 			}

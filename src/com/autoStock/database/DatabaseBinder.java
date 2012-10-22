@@ -15,10 +15,11 @@ import com.autoStock.tools.DateTools;
  *
  */
 public class DatabaseBinder {
-	public DbStockHistoricalPrice getDbStockHistoricalPrice(long id, String symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, int sizeVolume, String date){
+	public DbStockHistoricalPrice getDbStockHistoricalPrice(long id, String symbol, String exchange, double priceOpen, double priceHigh, double priceLow, double priceClose, int sizeVolume, String date){
 		DbStockHistoricalPrice dbStockHistoricalPrice = new TableDefinitions.DbStockHistoricalPrice();
 		dbStockHistoricalPrice.id = id;
 		dbStockHistoricalPrice.symbol = symbol;
+		dbStockHistoricalPrice.exchange = exchange;
 		dbStockHistoricalPrice.priceOpen = priceOpen;
 		dbStockHistoricalPrice.priceHigh = priceHigh;
 		dbStockHistoricalPrice.priceLow = priceLow;
