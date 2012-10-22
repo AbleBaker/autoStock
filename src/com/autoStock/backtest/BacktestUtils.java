@@ -42,7 +42,7 @@ public class BacktestUtils {
 		string += "\n --> Transactions: " + Account.getInstance().getTransactions();
 		string += "\n --> Fees: " + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
 		
-		string += "\n --> Transactions Profit / Loss: " + " %" + MathTools.round((double)countForTradesProfit / (double)(countForTradesProfit + countForTradesLoss)) + ", " + countForTradesProfit + ", " + countForTradesLoss;
+		string += "\n --> Transactions Profit / Loss: " + MathTools.round((double)countForTradesProfit / (double)(countForTradesProfit + countForTradesLoss)) + "%, " + countForTradesProfit + ", " + countForTradesLoss;
 		string += "\n --> Reentered: " + countForReentry;
 		
 		string += "\n --> SignalControl: " + SignalControl.periodLengthStart + ", " + SignalControl.periodLengthMiddle + ", " + SignalControl.periodLengthEnd;
