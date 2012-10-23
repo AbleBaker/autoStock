@@ -50,7 +50,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 10;
+		strategyOptions.maxReenterTimes = 5;
 		strategyOptions.intervalForReentryMins = 3;
 		strategyOptions.minReentryPercentGain = 0.20;
 	}
