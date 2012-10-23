@@ -39,7 +39,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.disableAfterLoss = true;
 		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
-		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_combined;
+		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
 
 		strategyOptions.maxTransactionsDay = 4;
@@ -50,8 +50,8 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 3;
-		strategyOptions.intervalForReentryMins = 5;
+		strategyOptions.maxReenterTimes = 10;
+		strategyOptions.intervalForReentryMins = 3;
 		strategyOptions.minReentryPercentGain = 0.20;
 	}
 	
@@ -62,8 +62,8 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-//				signalGroup.signalOfRSI.getSignal()
-				signalGroup.signalOfDI.getSignal()
+				signalGroup.signalOfRSI.getSignal()
+//				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal()
