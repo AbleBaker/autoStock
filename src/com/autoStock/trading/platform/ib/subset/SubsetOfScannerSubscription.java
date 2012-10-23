@@ -17,7 +17,7 @@ public class SubsetOfScannerSubscription {
 
 		scannerSubscription.stockTypeFilter("ALL");
 		scannerSubscription.averageOptionVolumeAbove(0);
-		scannerSubscription.abovePrice(4.00);
+		scannerSubscription.abovePrice(2.00);
 		scannerSubscription.belowPrice(100.00);
 
 		if (exchange.exchangeDesignation == ExchangeDesignation.NYSE) {
@@ -48,7 +48,7 @@ public class SubsetOfScannerSubscription {
 		else if (marketScannerType == MarketScannerType.type_percent_gain) {
 			scannerSubscription.scanCode("TOP_PERC_GAIN");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(75);
+			scannerSubscription.numberOfRows(100);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_high_open_gap) {
