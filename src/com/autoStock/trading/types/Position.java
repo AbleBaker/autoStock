@@ -199,10 +199,15 @@ public class Position implements OrderStatusListener {
 
 	@Override
 	public void orderStatusChanged(Order order, OrderStatus orderStatus) {
+		PositionUtils positionUtils;
+		
 		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
 			Co.println("--> Received order status change: " + order.symbol.symbolName + ", " + order.orderType.name() + ", " + orderStatus.name());
 		}
-		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
+		
+		synchronized(listOfOrder){
+			positionUtils = new PositionUtils(this, listOfOrder);
+		}
 		
 		if (orderStatus == OrderStatus.status_filled) {
 			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
