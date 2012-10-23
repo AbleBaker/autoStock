@@ -20,43 +20,35 @@ public class PositionUtils {
 	public PositionUtils(Position position, ArrayList<Order> listOfOrder) {
 		this.position = position;
 		this.listOfOrder = listOfOrder;
-		synchronized (listOfOrder){
-			for (Order order : listOfOrder) {
-				listOfOrderValue.add(order.getOrderValue());
-			}
+		for (Order order : listOfOrder) {
+			listOfOrderValue.add(order.getOrderValue());
 		}
 	}
 
 	public int getOrderUnitsFilled() {
-		synchronized (listOfOrder){
-			int units = 0;
-			for (Order order : listOfOrder) {
-				if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short) {
-					units += order.getUnitsFilled();
-				}
+		int units = 0;
+		for (Order order : listOfOrder) {
+			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short) {
+				units += order.getUnitsFilled();
 			}
-			return units;
 		}
+		return units;
 	}
 
 	public int getOrderUnitsRequested() {
-		synchronized (listOfOrder){
-			int units = 0;
-			for (Order order : listOfOrder) {
-				units += order.getUnitsRequested();
-			}
-			return units;
+		int units = 0;
+		for (Order order : listOfOrder) {
+			units += order.getUnitsRequested();
 		}
+		return units;
 	}
 
 	public int getOrderUnitsIntrinsic() {
-		synchronized (listOfOrder){
-			int units = 0;
-			for (Order order : listOfOrder) {
-				units += order.getUnitsIntrinsic();
-			}
-			return units;
+		int units = 0;
+		for (Order order : listOfOrder) {
+			units += order.getUnitsIntrinsic();
 		}
+		return units;
 	}
 
 	public double getOrderTransactionFeesIntrinsic() {
