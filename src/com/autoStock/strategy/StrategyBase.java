@@ -16,6 +16,7 @@ public class StrategyBase {
 	public AlgorithmBase algorithmBase;
 	public final PositionGovernor positionGovener = PositionGovernor.getInstance();
 	public StrategyResponse lastStrategyResponse = new StrategyResponse();
+	public StrategyResponse currentStrategyResponse = new StrategyResponse();
 
 	public StrategyBase(AlgorithmBase algorithmBase) {
 		this.algorithmBase = algorithmBase;

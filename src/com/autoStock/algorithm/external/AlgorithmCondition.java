@@ -156,6 +156,6 @@ public class AlgorithmCondition {
 			}
 		}
 		
-		return countOfNilChanges >= strategyOptions.maxNilChangePrice;
+		return countOfNilChanges >= strategyOptions.maxNilChangeVolume;
 	}
 }

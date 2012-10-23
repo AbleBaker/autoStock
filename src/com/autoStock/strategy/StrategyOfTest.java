@@ -45,8 +45,8 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxTransactionsDay = 4;
 		strategyOptions.minTakeProfitExit = 1.98d;
 		strategyOptions.maxStopLossValue = -50;
-		strategyOptions.maxNilChangePrice = 10;
-		strategyOptions.maxNilChangeVolume = 10;
+		strategyOptions.maxNilChangePrice = 15;
+		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
@@ -62,8 +62,8 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal()
-//				signalGroup.signalOfDI.getSignal()
+				signalGroup.signalOfRSI.getSignal(),
+				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal()
@@ -142,6 +142,7 @@ public class StrategyOfTest extends StrategyBase {
 		
 //		Co.println("--> Last: " + lastStrategyResponse.strategyAction + ", " + lastStrategyResponse.strategyActionCause + ", " + lastStrategyResponse.positionGovernorResponse.signalPoint.name());
 //		Co.println("--> Current: " + strategyResponse.strategyAction + ", " + strategyResponse.strategyActionCause + ", " + strategyResponse.positionGovernorResponse.signalPoint.name());
+		currentStrategyResponse = strategyResponse.clone();
 //				
 		if (strategyResponse.strategyAction == lastStrategyResponse.strategyAction && strategyResponse.strategyActionCause == strategyResponse.strategyActionCause && didPositionGovernorChangePosition(strategyResponse.positionGovernorResponse) == false){
 			strategyResponse.strategyAction = StrategyAction.no_change;
