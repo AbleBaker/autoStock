@@ -62,8 +62,8 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal()
-//				signalGroup.signalOfDI.getSignal()
+//				signalGroup.signalOfRSI.getSignal()
+				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal()
