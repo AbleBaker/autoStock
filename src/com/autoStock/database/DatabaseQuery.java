@@ -30,6 +30,8 @@ public class DatabaseQuery {
 			String query = new QueryFormatter().format(dbQuery, queryArgs);
 			String queryHash = MiscTools.getHash(query);
 			
+			Co.println("Executing query: " + query);
+			
 			if (hashCache.containsKey(queryHash)){
 				return (ArrayList<?>) hashCache.getValue(queryHash);
 			}
@@ -37,8 +39,6 @@ public class DatabaseQuery {
 			if (diskCache.containsKey(queryHash) && dbQuery.resultClass == DbStockHistoricalPrice.class){
 				return diskCache.getValue(queryHash, dbQuery.resultClass);
 			}
-			
-//			Co.println("Executing query: " + query);
 			
 			Connection connection = DatabaseCore.getConnection();
 			Statement statement = connection.createStatement();

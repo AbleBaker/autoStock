@@ -45,7 +45,6 @@ public class SignalPointMethod {
 			SignalPoint signalPointIterated = signalMetric.getSignalPoint(havePosition, positionType);
 				
 			if (signalPointIterated.signalPointType == SignalPointType.none){
-				Co.println("--> SignalPointType was none...");
 				signalPoint = new SignalPoint();
 				break;
 			}else if (signalPoint.signalPointType == SignalPointType.none){

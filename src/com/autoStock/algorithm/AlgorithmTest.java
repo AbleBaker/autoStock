@@ -3,6 +3,7 @@ package com.autoStock.algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.Iteration;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -65,7 +66,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 				algorithmTable.addTableRow(listOfQuoteSlice, strategy.signal, signalGroup, strategyResponse);
 			}
 			
-			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
+//			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
 			finishedReceiverOfQuoteSlice();
 		}
 	}
