@@ -39,7 +39,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.disableAfterLoss = true;
 		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
-		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_combined;
+		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
 
 		strategyOptions.maxTransactionsDay = 4;

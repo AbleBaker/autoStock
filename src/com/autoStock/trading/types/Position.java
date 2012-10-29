@@ -153,12 +153,12 @@ public class Position implements OrderStatusListener {
 		return MathTools.round(positionValue);
 	}
 	
-	//TODO: This is incorrect, commission is order based
 	public double getCurrentPercentGainLoss(boolean includeTransactionFees){
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
 		double comission = 0;
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceFirstKnown);
+		
+		comission += positionUtils.getOrderTransactionFeesIntrinsic();
 		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		
 		if (includeTransactionFees){
