@@ -30,7 +30,7 @@ public class DatabaseQuery {
 			String query = new QueryFormatter().format(dbQuery, queryArgs);
 			String queryHash = MiscTools.getHash(query);
 			
-			Co.println("Executing query: " + query);
+//			Co.println("Executing query: " + query);
 			
 			if (hashCache.containsKey(queryHash)){
 				return (ArrayList<?>) hashCache.getValue(queryHash);
