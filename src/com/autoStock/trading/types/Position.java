@@ -130,6 +130,7 @@ public class Position implements OrderStatusListener {
 		return false;
 	}
 
+	//TODO: This is incorrect, commission is order based
 	public double getPositionProfitLossAfterComission() {
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		
@@ -142,6 +143,7 @@ public class Position implements OrderStatusListener {
 		return MathTools.round(positionValue - comission);
 	}
 	
+	//TODO: This is incorrect, commission is order based
 	public double getPositionProfitLossBeforeComission() {
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		
@@ -151,6 +153,7 @@ public class Position implements OrderStatusListener {
 		return MathTools.round(positionValue);
 	}
 	
+	//TODO: This is incorrect, commission is order based
 	public double getCurrentPercentGainLoss(boolean includeTransactionFees){
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
