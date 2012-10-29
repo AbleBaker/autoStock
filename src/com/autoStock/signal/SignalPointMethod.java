@@ -39,25 +39,28 @@ public class SignalPointMethod {
 	}
 	
 	private static SignalPoint getSignalPointCombined(boolean havePosition, PositionType positionType, Signal signal){
-		SignalPoint signalPointCurrent = new SignalPoint();
-		SignalPoint signalPointLast = new SignalPoint();
+		SignalPoint signalPoint = new SignalPoint();
 		
 		for (SignalMetric signalMetric : signal.listOfSignalMetric){
-			signalPointCurrent = signalMetric.getSignalPoint(havePosition, positionType);
-			
-			if (signalPointLast.signalPointType == SignalPointType.none && signalPointCurrent.signalPointType != SignalPointType.none){
-				signalPointLast = signalPointCurrent;
-				signalPointLast.signalMetricType = signalPointCurrent.signalMetricType;
-			}else {
-				if (signalPointLast.signalPointType != signalPointCurrent.signalPointType){
-					return new SignalPoint();
+			SignalPoint signalPointIterated = signalMetric.getSignalPoint(havePosition, positionType);
+				
+			if (signalPointIterated.signalPointType == SignalPointType.none){
+				Co.println("--> SignalPointType was none...");
+				signalPoint = new SignalPoint();
+				break;
+			}else if (signalPoint.signalPointType == SignalPointType.none){
+				signalPoint = signalPointIterated;
+			}else{
+				if (signalPointIterated.signalPointType != signalPoint.signalPointType){
+					signalPoint = new SignalPoint();
+					break;
 				}
 			}
 		}
 		
-//		Co.println("--> SignalPoint, type: " + signalPointLast.signalPointType.name() + ", " + signalPointLast.signalMetricType);
+//		Co.println("--> SignalPoint, type: " + signalPoint.signalPointType.name() + ", " + signalPoint.signalMetricType);
 		
-		return signalPointLast;
+		return signalPoint;
 	}
 	
 	private static SignalPoint getSignalPointMajority(boolean havePosition, PositionType positionType, Signal signal){
