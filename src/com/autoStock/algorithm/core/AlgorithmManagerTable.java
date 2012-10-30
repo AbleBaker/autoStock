@@ -59,7 +59,7 @@ public class AlgorithmManagerTable {
 		columnValues.add(String.valueOf(algorithm.getCurrentQuoteSlice() == null ? 0 : MathTools.round(algorithm.getCurrentQuoteSlice().priceClose)));
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromAlgorithm)));
 		columnValues.add(String.valueOf(new DecimalFormat("#.###").format(percentGainFromPosition)));
-		columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossBeforeComission()) + " / " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission()))));
+		columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossBeforeComission()) + " / " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission(false)))));
 		//columnValues.add(String.valueOf(position == null ? "-" : (position.getFirstKnownUnitPrice() + ", " +  position.getLastKnownUnitPrice() + ", " + position.getPositionValue().valueCurrent + ", " + position.getPositionValue().valueIntrinsic + ", " + position.getPositionValue().unitPriceFilled + ", " + position.positionUtils.getOrderUnitsFilled() + ", " + + position.positionUtils.getOrderUnitsIntrinsic())));
 		
 		columnValues.add(String.valueOf(algorithm.algorithmState.isDisabled));

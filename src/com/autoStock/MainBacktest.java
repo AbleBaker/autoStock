@@ -245,10 +245,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							listOfString.add(stringForSignal);
 							
 							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
-								listOfString.add("$ " + String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()));
-								if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() > 0){
+								listOfString.add("$ " + String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)));
+								if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) > 0){
 									countForTradesProfit++;
-								}else if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission() < 0){
+								}else if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) < 0){
 									countForTradesLoss++;
 								}
 							}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry){

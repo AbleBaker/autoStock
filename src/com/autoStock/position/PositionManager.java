@@ -103,11 +103,11 @@ public class PositionManager implements PositionStatusListener {
 		return null;
 	}
 
-	public double getCurrentProfitLossAfterComission() {
+	public double getCurrentProfitLossAfterComission(boolean bothComissions) {
 		synchronized (lock) {
 			double currentProfitLoss = 0;
 			for (Position position : listOfPosition) {
-				currentProfitLoss += position.getPositionProfitLossAfterComission();
+				currentProfitLoss += position.getPositionProfitLossAfterComission(bothComissions);
 			}
 			
 			return MathTools.round(currentProfitLoss);

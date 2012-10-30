@@ -130,20 +130,22 @@ public class Position implements OrderStatusListener {
 		return false;
 	}
 
-	//TODO: This is incorrect, commission is order based
-	public double getPositionProfitLossAfterComission() {
+	public double getPositionProfitLossAfterComission(boolean bothComissions) {
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		
 		if (positionUtils.getOrderUnitsFilled() == 0){return 0;}
 		
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
 		double comission = 0;
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceFirstKnown);
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
+		
+		comission += positionUtils.getOrderTransactionFeesIntrinsic();
+		if (bothComissions){
+			comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
+		}
+		
 		return MathTools.round(positionValue - comission);
 	}
 	
-	//TODO: This is incorrect, commission is order based
 	public double getPositionProfitLossBeforeComission() {
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		
@@ -165,7 +167,7 @@ public class Position implements OrderStatusListener {
 			positionValue -= comission;
 		}
 		
-		return (positionValue / positionUtils.getOrderValueFilled(false)) * 100;
+		return (positionValue / positionUtils.getOrderValueIntrinsic(false)) * 100;
 	}
 	
 	public double getFirstKnownUnitPrice(){

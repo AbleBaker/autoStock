@@ -2,6 +2,7 @@ package com.autoStock.algorithm.core;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
@@ -66,14 +67,17 @@ public class AlgorithmTable {
 	public String getTransactionDetails(StrategyResponse strategyResponse){ 
 		String responseString = "none";
 		if (strategyResponse.positionGovernorResponse.position != null){
-			responseString = StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission());
-			responseString += ", %" + new DecimalFormat("#.##").format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true));
+			String percentGainString = ", %" + new DecimalFormat("#.##").format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true));
+			responseString = StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false));
+			responseString += percentGainString;
 			
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFees);
+				responseString += ", " + percentGainString;
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFees);
-				responseString += "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission()) + ")";
+				responseString += "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)) + ") ";
+				responseString += percentGainString;
 			}else if (strategyResponse.positionGovernorResponse.position.positionType == PositionType.position_exited){
 				responseString = "Position Exited!";
 			}
