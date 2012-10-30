@@ -38,11 +38,11 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.disableAfterLoss = false;
 		strategyOptions.taperPeriodLength = false;
-		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
-		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_combined;
+		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_change;
+		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
 
-		strategyOptions.maxTransactionsDay = 6;
+		strategyOptions.maxTransactionsDay = 32;
 		strategyOptions.minTakeProfitExit = 1.98d;
 		strategyOptions.maxStopLossValue = -50;
 		strategyOptions.maxNilChangePrice = 15;
@@ -50,7 +50,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 3;
+		strategyOptions.maxReenterTimes = 5;
 		strategyOptions.intervalForReentryMins = 10;
 		strategyOptions.minReentryPercentGain = 0.20;
 	}
@@ -62,8 +62,9 @@ public class StrategyOfTest extends StrategyBase {
 		
 		signal = new Signal(SignalSource.from_algorithm);
 		signal.resetAndAddSignalMetrics(
-				signalGroup.signalOfRSI.getSignal(),
-				signalGroup.signalOfDI.getSignal()
+				signalGroup.signalOfCCI.getSignal()
+//				signalGroup.signalOfRSI.getSignal(),
+//				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()
 //				signalGroup.signalOfTRIX.getSignal()

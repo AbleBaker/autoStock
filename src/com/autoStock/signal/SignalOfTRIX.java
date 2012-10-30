@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal;
 
+import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
@@ -29,7 +30,7 @@ public class SignalOfTRIX{
 		}
 	}
 	
-	public SignalMetric getSignal(){
+	public SignalMetric getSignal(){	
 		return new SignalMetric(signalMetricType.getSignalStrength(trixValue), signalMetricType);
 	}
 	
