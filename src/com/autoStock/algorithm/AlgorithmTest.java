@@ -59,14 +59,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			handleStrategyResponse(strategyResponse);
 
 			if (algorithmMode.displayChart) {
-				algorithmChart.addChartPointData(quoteSlice, strategy.signal, signalGroup);
+				algorithmChart.addChartPointData(firstQuoteSlice, quoteSlice, signalGroup, strategyResponse);
 			}
 			
 			if (algorithmMode.displayTable) {
 				algorithmTable.addTableRow(listOfQuoteSlice, strategy.signal, signalGroup, strategyResponse);
 			}
 			
-//			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
+			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
 			finishedReceiverOfQuoteSlice();
 		}
 	}

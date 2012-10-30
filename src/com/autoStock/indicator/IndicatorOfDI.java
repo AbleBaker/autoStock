@@ -20,7 +20,7 @@ public class IndicatorOfDI extends IndicatorBase {
 	}
 	
 	public ResultsDI analize(){
-		results = new ResultsDI(endIndex+1);
+		results = new ResultsDI(endIndex);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode = taLibCore.plusDI(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength-1, new MInteger(), new MInteger(), results.arrayOfDIPlus);

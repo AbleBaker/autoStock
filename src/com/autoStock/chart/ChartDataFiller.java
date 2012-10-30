@@ -22,8 +22,10 @@ public class ChartDataFiller {
 		for (BasicTimeValuePair basicTimeValuePair : listOfBasicTimeValuePair){
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(basicTimeValuePair.date);
-			if (Double.valueOf(basicTimeValuePair.value) != 0){
+			if (Double.valueOf(basicTimeValuePair.value) != Double.MIN_VALUE){
 				timeSeries.add(new Minute(calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.YEAR)), Double.valueOf(basicTimeValuePair.value));
+			}else{
+				timeSeries.add(new Minute(calendar.get(Calendar.MINUTE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.YEAR)), null);
 			}
 		}
 		

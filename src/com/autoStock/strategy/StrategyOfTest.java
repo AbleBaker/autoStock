@@ -36,13 +36,13 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.mustHavePositiveSlice = true;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
-		strategyOptions.disableAfterLoss = true;
-		strategyOptions.taperPeriodLength = true;
+		strategyOptions.disableAfterLoss = false;
+		strategyOptions.taperPeriodLength = false;
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
-		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
+		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_combined;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
 
-		strategyOptions.maxTransactionsDay = 4;
+		strategyOptions.maxTransactionsDay = 8;
 		strategyOptions.minTakeProfitExit = 1.98d;
 		strategyOptions.maxStopLossValue = -50;
 		strategyOptions.maxNilChangePrice = 15;
