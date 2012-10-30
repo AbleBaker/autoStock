@@ -42,7 +42,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_combined;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
 
-		strategyOptions.maxTransactionsDay = 8;
+		strategyOptions.maxTransactionsDay = 6;
 		strategyOptions.minTakeProfitExit = 1.98d;
 		strategyOptions.maxStopLossValue = -50;
 		strategyOptions.maxNilChangePrice = 15;

@@ -133,7 +133,7 @@ public class CombinedLineChart {
 		}
 		
 		public Color getColor(){
-			Color[] arrayOfColors = new Color[]{Color.BLACK, Color.BLUE, Color.GREEN, Color.RED, Color.PINK, Color.MAGENTA, Color.CYAN, Color.ORANGE, Color.YELLOW};
+			Color[] arrayOfColors = new Color[]{Color.BLACK, Color.BLUE, Color.GREEN, Color.RED, Color.PINK, Color.MAGENTA, Color.CYAN, Color.ORANGE, Color.YELLOW, Color.DARK_GRAY};
 			if (usedColor >= arrayOfColors.length-1){usedColor = -1;}
 			usedColor++;
 			return arrayOfColors[usedColor];
