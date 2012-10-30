@@ -4,6 +4,6 @@ package com.autoStock.signal;
  * @author Kevin Kowalewski
  *
  */
-public interface CalculateInterface {
-	public int calculate(double input);
+public interface NormalizeInterface {
+	public int normalize(double input);
 }

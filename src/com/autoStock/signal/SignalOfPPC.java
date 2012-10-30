@@ -40,7 +40,7 @@ public class SignalOfPPC{
 	}
 	
 	public SignalMetric getSignal(){
-		return new SignalMetric(signalMetricType.getSignalStrength(percentChange), signalMetricType);
+		return new SignalMetric(signalMetricType.getNormalizedValue(percentChange), signalMetricType);
 	}
 	
 	public double getValue(){

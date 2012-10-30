@@ -26,31 +26,31 @@ public class SignalDefinitions {
 	
 	public enum SignalMetricType {
 		metric_ppc(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) ((input - 1) * 3000);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((input - 1) * 3000);}},
 				48, 44, -100, -100),
 		metric_di(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) input * 1;}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) input * 1;}},
 				24, -8, -100, -100),
 		metric_cci(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input / 6);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}},
 				30, -15, -100, -100),
 		metric_macd(
-			new CalculateInterface(){@Override public int calculate(double input){return (int) (input * 1000);}},
+			new NormalizeInterface(){@Override public int normalize(double input){return (int) (input * 1000);}},
 				20, -36, -100, -100),
 		metric_rsi(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) input - 40;}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) input - 40;}},
 				30, -7, -100, -100),
 		metric_trix(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 700);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 700);}},
 				25, -20, 0, 0),
 		metric_roc(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input * 35);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 35);}},
 				35, -20, 0, 0),
 		metric_mfi(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (Math.pow(input, 1.2) * 0.30) - 25;}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (Math.pow(input, 1.2) * 0.30) - 25;}},
 				40, -24, 0, 0),
 		metric_willr(
-			new CalculateInterface(){@Override public int calculate(double input) {return (int) (input + 30);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input + 30);}},
 				30, -40, 0, 0),				
 				
 		metric_storsi(null,0,0,0,0),
@@ -60,26 +60,24 @@ public class SignalDefinitions {
 		mixed,
 		;
 		
-		CalculateInterface calculateInterface;
+		NormalizeInterface normalizeInterface;
 		public volatile int pointToSignalLongEntry = 0;
 		public volatile int pointToSignalLongExit = 0;
 		public volatile int pointToSignalShortEntry = 0;
 		public volatile int pointToSignalShortExit = 0;
 		
-		private SignalMetricType(){
-			
-		}
+		private SignalMetricType(){}
 		
-		private SignalMetricType(CalculateInterface calculateInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
-			this.calculateInterface = calculateInterface;
+		private SignalMetricType(NormalizeInterface normalizeInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
+			this.normalizeInterface = normalizeInterface;
 			this.pointToSignalLongEntry = pointToSignalLongEntry;
 			this.pointToSignalLongExit = pointToSignalLongExit;
 			this.pointToSignalShortEntry = pointToSignalShortEntry;
 			this.pointToSignalShortExit = pointToSignalShortExit;
 		}
 
-		public synchronized int getSignalStrength(double input) {
-			return this.calculateInterface.calculate(input);
+		public synchronized int getNormalizedValue(double input) {
+			return this.normalizeInterface.normalize(input);
 		} 
 	}
 }

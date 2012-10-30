@@ -13,24 +13,14 @@ public class SignalOfMFI{
 	private double mfiValue = 0;
 	private SignalMetricType signalMetricType = SignalMetricType.metric_mfi;
 	
-	public SignalOfMFI(double[] arrayOfMFI, int periodAverage){
+	public SignalOfMFI(double[] arrayOfMFI){
 		if (arrayOfMFI.length < 1){throw new IllegalArgumentException();}
-		if (periodAverage > 0 && arrayOfMFI.length < periodAverage){throw new IllegalArgumentException();}
 		
-		if (periodAverage > 0){
-			for (int i=arrayOfMFI.length-periodAverage; i<arrayOfMFI.length; i++){
-				mfiValue += arrayOfMFI[i];
-			}
-			
-			mfiValue /= periodAverage;
-			
-		}else{
-			mfiValue = arrayOfMFI[arrayOfMFI.length-1];
-		}
+		mfiValue = arrayOfMFI[arrayOfMFI.length-1];
 	}
 	
 	public SignalMetric getSignal(){
-		return new SignalMetric(signalMetricType.getSignalStrength(mfiValue), signalMetricType);
+		return new SignalMetric(signalMetricType.getNormalizedValue(mfiValue), signalMetricType);
 	}
 	
 	public double getValue(){

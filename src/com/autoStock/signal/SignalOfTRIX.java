@@ -14,24 +14,12 @@ public class SignalOfTRIX{
 	private double trixValue = 0;
 	private SignalMetricType signalMetricType = SignalMetricType.metric_trix;
 	
-	public SignalOfTRIX(double[] arrayOfTRIX, int periodAverage){
-		if (arrayOfTRIX.length < 1){throw new IllegalArgumentException();}
-		if (periodAverage > 0 && arrayOfTRIX.length < periodAverage){throw new IllegalArgumentException();}
-		
-		if (periodAverage > 0){
-			for (int i=arrayOfTRIX.length-periodAverage; i<arrayOfTRIX.length; i++){
-				trixValue += arrayOfTRIX[i];
-			}
-			
-			trixValue /= periodAverage;
-			
-		}else{
-			trixValue = arrayOfTRIX[arrayOfTRIX.length-1];
-		}
+	public SignalOfTRIX(double[] arrayOfTRIX){
+		trixValue = arrayOfTRIX[arrayOfTRIX.length-1];
 	}
 	
 	public SignalMetric getSignal(){	
-		return new SignalMetric(signalMetricType.getSignalStrength(trixValue), signalMetricType);
+		return new SignalMetric(signalMetricType.getNormalizedValue(trixValue), signalMetricType);
 	}
 	
 	public double getValue(){

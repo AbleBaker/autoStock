@@ -3,9 +3,13 @@
  */
 package com.autoStock.signal;
 
+import java.util.ArrayList;
+
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.evaluation.EvaluationOfCCI;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -18,6 +22,14 @@ public class SignalMetric {
 	public SignalMetric(int strength, SignalMetricType signalTypeMetric) {
 		this.strength = strength;
 		this.signalMetricType = signalTypeMetric;
+	}
+	
+	public synchronized SignalPoint getSignalPointFromEvaulation(boolean havePosition, PositionType positionType, ArrayList<QuoteSlice> listOfQuoteSlice, SignalGroup signalGroup){
+		if (signalMetricType == SignalMetricType.metric_cci){
+//			return new EvaluationOfCCI(listOfQuoteSlice, signalGroup.signalOfCCI.signalMetricType.getSignalStrength(cciValue)).getSignalPoint();
+		}
+		
+		return null;
 	}
 	 
 	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){

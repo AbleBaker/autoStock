@@ -13,24 +13,13 @@ public class SignalOfMACD{
 	private double macdValue = 0;
 	private SignalMetricType signalMetricType = SignalMetricType.metric_macd;
 	
-	public SignalOfMACD(double[] arrayOfMACD, int periodAverage){
+	public SignalOfMACD(double[] arrayOfMACD){
 		if (arrayOfMACD.length < 1){throw new IllegalArgumentException();}
-		if (periodAverage > 0 && arrayOfMACD.length < periodAverage){throw new IllegalArgumentException();}
-		
-		if (periodAverage > 0){
-			for (int i=arrayOfMACD.length-periodAverage; i<arrayOfMACD.length; i++){
-				macdValue += arrayOfMACD[i];
-			}
-			
-			macdValue /= periodAverage;
-			
-		}else{
-			macdValue = arrayOfMACD[arrayOfMACD.length-1];
-		}
+		macdValue = arrayOfMACD[arrayOfMACD.length-1];
 	}
 	
 	public SignalMetric getSignal(){
-		return new SignalMetric(signalMetricType.getSignalStrength(macdValue), signalMetricType);
+		return new SignalMetric(signalMetricType.getNormalizedValue(macdValue), signalMetricType);
 	}
 	
 	public double getValue(){

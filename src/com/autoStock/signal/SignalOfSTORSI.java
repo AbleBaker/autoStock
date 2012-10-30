@@ -39,7 +39,7 @@ public class SignalOfSTORSI{
 	}
 	
 	public SignalMetric getSignal(){
-		return new SignalMetric(signalMetricType.getSignalStrength(percentKValue), signalMetricType);
+		return new SignalMetric(signalMetricType.getNormalizedValue(percentKValue), signalMetricType);
 	}
 	
 	public double getValue(){
