@@ -77,6 +77,16 @@ public class CombinedLineChart {
 			subPlotForSignalTotal.getRenderer().setSeriesPaint(0, getColor());
 			plot.add(subPlotForSignalTotal, 1);
 			
+			subPlotForSignalTotal.setDataset(2, getPairForType(TimeSeriesType.type_entry_signal).timeSeriesCollection);
+	        subPlotForSignalTotal.setRenderer(2, new XYShapeRenderer());
+	        subPlotForSignalTotal.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(5));
+	        subPlotForSignalTotal.getRenderer(2).setSeriesPaint(0, Color.GREEN);
+	        
+			subPlotForSignalTotal.setDataset(3, getPairForType(TimeSeriesType.type_exit_signal).timeSeriesCollection);
+	        subPlotForSignalTotal.setRenderer(3, new XYShapeRenderer());
+	        subPlotForSignalTotal.getRenderer(3).setSeriesShape(0, ShapeUtilities.createDownTriangle(5));
+	        subPlotForSignalTotal.getRenderer(3).setSeriesPaint(0, Color.RED);
+			
 			XYPlot subPlotForSignals = new XYPlot(getPairForType(TimeSeriesType.type_signals).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_signals).timeSeriesType.displayName), new StandardXYItemRenderer());
 			subPlotForSignals.getRenderer().setSeriesPaint(0, getColor());
 			plot.add(subPlotForSignals, 1);
@@ -95,16 +105,18 @@ public class CombinedLineChart {
 			subPlotForPrice.getRenderer(1).setSeriesPaint(0, Color.ORANGE);
 	        subPlotForPrice.mapDatasetToRangeAxis(1, 1);
 	        
-			subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_entry).timeSeriesCollection);
-	        subPlotForPrice.setRenderer(2, new XYShapeRenderer());
-	        subPlotForPrice.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(5));
-	        subPlotForPrice.getRenderer(2).setSeriesPaint(0, Color.GREEN);
+//			subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_entry_price).timeSeriesCollection);
+//	        subPlotForPrice.setRenderer(2, new XYShapeRenderer());
+////	        subPlotForPrice.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(5));
+//	        subPlotForPrice.getRenderer(2).setSeriesPaint(0, Color.GREEN);
+//	        
+//			subPlotForPrice.setDataset(3, getPairForType(TimeSeriesType.type_exit_price).timeSeriesCollection);
+//	        subPlotForPrice.setRenderer(3, new XYShapeRenderer());
+////	        subPlotForPrice.getRenderer(3).setSeriesShape(0, ShapeUtilities.create(5));
+//	        subPlotForPrice.getRenderer(3).setSeriesPaint(0, Color.RED);
 	        
-			subPlotForPrice.setDataset(3, getPairForType(TimeSeriesType.type_exit).timeSeriesCollection);
-	        subPlotForPrice.setRenderer(3, new XYShapeRenderer());
-	        subPlotForPrice.getRenderer(3).setSeriesShape(0, ShapeUtilities.createDownTriangle(5));
-	        subPlotForPrice.getRenderer(3).setSeriesPaint(0, Color.RED);
-	        
+	        subPlotForSignals.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+	        subPlotForSignalTotal.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 	        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 			
 			plot.setOrientation(PlotOrientation.VERTICAL);

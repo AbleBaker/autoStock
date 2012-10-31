@@ -17,34 +17,46 @@ public class EvaluationOfCCI extends EvaulationBase {
 	private DetectorTools detectorTools = new DetectorTools();
 	private ArrayList<QuoteSlice> listOfQuoteSlice;
 	private double[] arrayOfNormalizedCCI;
-	private int peakDetectWindow = 15;
+	private int peakDetectWindow = 20;
 	
 	public EvaluationOfCCI(double[] arrayOfNormalizedCCI){
 		this.listOfQuoteSlice = listOfQuoteSlice;
 		this.arrayOfNormalizedCCI =  arrayOfNormalizedCCI; 
 		
-		if (this.arrayOfNormalizedCCI.length > peakDetectWindow){
+		if (this.arrayOfNormalizedCCI.length >= peakDetectWindow){
 			this.arrayOfNormalizedCCI = Arrays.copyOfRange(this.arrayOfNormalizedCCI, arrayOfNormalizedCCI.length-peakDetectWindow, arrayOfNormalizedCCI.length);
 		}
 	}
 
 	@Override
 	public SignalPoint getSignalPoint() {
-//		Co.println("--> Evaluation... " + arrayOfNormalizedCCI.length);
-//		Co.println("--> Distance from peak is: " + detectorTools.getChangeFromPeak(arrayOfNormalizedCCI));
-//		Co.println("--> Distance from trough is: " + detectorTools.getChangeFromTrough(arrayOfNormalizedCCI));
-		
-		boolean isPeaking = detectorTools.getChangeFromPeak(arrayOfNormalizedCCI) == 0;
-		boolean isTroughing = detectorTools.getChangeFromTrough(arrayOfNormalizedCCI) == 0;
 		
 		if (arrayOfNormalizedCCI.length == peakDetectWindow){
-			boolean hasPeaked = arrayOfNormalizedCCI[14] < arrayOfNormalizedCCI[0];
-			boolean hasTroughed = arrayOfNormalizedCCI[14] > arrayOfNormalizedCCI[0];
+			double changeFromPeak = detectorTools.getChangeFromPeak(arrayOfNormalizedCCI);
+			double changeFromTrough = detectorTools.getChangeFromTrough(arrayOfNormalizedCCI);
+			
+			boolean hasPeaked = arrayOfNormalizedCCI[peakDetectWindow-1] > arrayOfNormalizedCCI[0];
+			boolean hasTroughed = arrayOfNormalizedCCI[peakDetectWindow-1] < arrayOfNormalizedCCI[0] && arrayOfNormalizedCCI[peakDetectWindow-1] > arrayOfNormalizedCCI[peakDetectWindow-2];
+			
+			boolean isAtPeak = changeFromPeak == 0;
+			boolean isAtTrough = changeFromTrough == 0;
+		
+			Co.println("\n\n--> Evaluation... " + arrayOfNormalizedCCI.length);
+			Co.println("--> Normalized CCI values");
+			for (double cciValue : arrayOfNormalizedCCI){
+				Co.println("--> CCIValue: " + cciValue);
+			}
+			
+			Co.println("--> Distance from peak is: " + changeFromPeak);
+			Co.println("--> Distance from trough is: " + changeFromTrough);
+			
 			Co.println("--> Has peaked " + hasPeaked);
 			
-			if (hasPeaked){
+			if (hasPeaked && isAtPeak == false && changeFromPeak > 5){
+				Co.println("--> ******** SIGNAL WAS EXIT");
 				return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_cci);
-			}else if (hasTroughed){
+			}else if (hasTroughed && isAtTrough == false && changeFromTrough > -5){
+				Co.println("--> ******** SIGNAL WAS ENTRY");
 				return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_cci);
 			}
 		}

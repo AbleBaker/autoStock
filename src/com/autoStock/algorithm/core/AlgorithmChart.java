@@ -36,17 +36,25 @@ public class AlgorithmChart {
 		//(quoteSlice.priceClose / firstQuoteSlice.priceClose)); 
 		
 		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
-			chart.listOfEntry.add(quoteSlice.priceClose);
-			chart.listOfExit.add(Double.MIN_VALUE);
+			chart.listOfEntryAtPrice.add(quoteSlice.priceClose);
+			chart.listOfExitAtPrice.add(Double.MIN_VALUE);
+			chart.listOfEntryAtSignal.add(SignalTools.getCombinedSignal(strategyResponse.signal).strength);
+			chart.listOfExitAtSignal.add(Double.MIN_VALUE);
 		}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
-			chart.listOfEntry.add(Double.MIN_VALUE);
-			chart.listOfExit.add(quoteSlice.priceClose);
+			chart.listOfEntryAtPrice.add(Double.MIN_VALUE);
+			chart.listOfExitAtPrice.add(quoteSlice.priceClose);
+			chart.listOfEntryAtSignal.add(Double.MIN_VALUE);
+			chart.listOfExitAtSignal.add(SignalTools.getCombinedSignal(strategyResponse.signal).strength);
 		}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
-			chart.listOfEntry.add(quoteSlice.priceClose);
-			chart.listOfExit.add(Double.MIN_VALUE);
+			chart.listOfEntryAtPrice.add(quoteSlice.priceClose);
+			chart.listOfExitAtPrice.add(Double.MIN_VALUE);
+			chart.listOfEntryAtSignal.add(SignalTools.getCombinedSignal(strategyResponse.signal).strength);
+			chart.listOfExitAtSignal.add(Double.MIN_VALUE);
 		}else{
-			chart.listOfEntry.add(Double.MIN_VALUE);
-			chart.listOfExit.add(Double.MIN_VALUE);
+			chart.listOfEntryAtPrice.add(Double.MIN_VALUE);
+			chart.listOfExitAtPrice.add(Double.MIN_VALUE);
+			chart.listOfEntryAtSignal.add(Double.MIN_VALUE);
+			chart.listOfExitAtSignal.add(Double.MIN_VALUE);
 		}
 	}
 	
