@@ -17,7 +17,7 @@ public class EvaluationOfCCI extends EvaulationBase {
 	private DetectorTools detectorTools = new DetectorTools();
 	private ArrayList<QuoteSlice> listOfQuoteSlice;
 	private double[] arrayOfNormalizedCCI;
-	private int peakDetectWindow = 10;
+	private int peakDetectWindow = 15;
 	
 	public EvaluationOfCCI(double[] arrayOfNormalizedCCI){
 		this.listOfQuoteSlice = listOfQuoteSlice;
@@ -38,8 +38,8 @@ public class EvaluationOfCCI extends EvaulationBase {
 		boolean isTroughing = detectorTools.getChangeFromTrough(arrayOfNormalizedCCI) == 0;
 		
 		if (arrayOfNormalizedCCI.length == peakDetectWindow){
-			boolean hasPeaked = arrayOfNormalizedCCI[9] < arrayOfNormalizedCCI[0];
-			boolean hasTroughed = arrayOfNormalizedCCI[9] > arrayOfNormalizedCCI[0];
+			boolean hasPeaked = arrayOfNormalizedCCI[14] < arrayOfNormalizedCCI[0];
+			boolean hasTroughed = arrayOfNormalizedCCI[14] > arrayOfNormalizedCCI[0];
 			Co.println("--> Has peaked " + hasPeaked);
 			
 			if (hasPeaked){
