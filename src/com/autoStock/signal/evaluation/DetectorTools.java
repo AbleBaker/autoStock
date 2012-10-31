@@ -15,13 +15,13 @@ public class DetectorTools {
 		return true;
 	}
 	
-	public double getChangeFromPeak(double[] arrayOfDouble){
-		double max = MathTools.getMax(arrayOfDouble);
-		return max - arrayOfDouble[arrayOfDouble.length-1];
+	public int getChangeFromPeak(int[] arrayOfInteger){
+		int max = MathTools.getMax(arrayOfInteger);
+		return max - arrayOfInteger[arrayOfInteger.length-1];
 	}
 	
-	public double getChangeFromTrough(double[] arrayOfDouble){
-		double min = MathTools.getMin(arrayOfDouble);
-		return min - arrayOfDouble[arrayOfDouble.length-1];
+	public int getChangeFromTrough(int[] arrayOfInteger){
+		int min = MathTools.getMin(arrayOfInteger);
+		return min - arrayOfInteger[arrayOfInteger.length-1];
 	}
 }

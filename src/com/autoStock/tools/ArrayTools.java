@@ -67,6 +67,15 @@ public class ArrayTools {
 		return ret;
 	}
 	
+	public static int[] convertToInt(double[] arrayOfDouble){
+		int[] ret = new int[arrayOfDouble.length];
+		for (int i=0; i < ret.length; i++) {
+			ret[i] = (int) arrayOfDouble[i];
+		}
+		
+		return ret;
+	}
+	
 	public static Date[] getArrayFromListOfDates(ArrayList<Date> dates){
 		Date[] ret = new Date[dates.size()];
 		for (int i = 0; i < ret.length; i++) {
@@ -98,5 +107,15 @@ public class ArrayTools {
 		}
 		
 		return arrayOfDouble;
+	}
+	
+	public static int getIndex(int[] arrayOfInt, int search){
+		for (int i=0; i<arrayOfInt.length; i++){
+			if (arrayOfInt[i] == search){
+				return i;
+			}
+		}
+		
+		return -1;
 	}
 }

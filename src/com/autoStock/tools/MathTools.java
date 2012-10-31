@@ -25,6 +25,16 @@ public class MathTools {
 		return average /= arrayOfDouble.length;
 	}
 	
+	public static double getAverage(int[] arrayOfInt){
+		double average = 0;
+		
+		for (int number : arrayOfInt){
+			average += number;
+		}
+		
+		return average /= arrayOfInt.length;
+	}
+	
 	public static float getAverage(float[] arrayOfFloat){
 		float average = 0;
 		
@@ -49,6 +59,28 @@ public class MathTools {
 	public static double getMin(double... numbers){
 		double returnValue = Double.MAX_VALUE;
 		for (double number : numbers){
+			if (number < returnValue){
+				returnValue = number;
+			}
+		}
+		
+		return returnValue;
+	}
+	
+	public static int getMax(int... numbers){
+		int returnValue = Integer.MIN_VALUE;
+		for (int number : numbers){
+			if (number > returnValue){
+				returnValue = number;
+			}
+		}
+		
+		return returnValue;
+	}
+	
+	public static int getMin(int... numbers){
+		int returnValue = Integer.MAX_VALUE;
+		for (int number : numbers){
 			if (number < returnValue){
 				returnValue = number;
 			}
