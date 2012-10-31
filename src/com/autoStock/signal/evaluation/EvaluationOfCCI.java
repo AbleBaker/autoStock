@@ -54,8 +54,8 @@ public class EvaluationOfCCI extends EvaulationBase {
 			double leftOfTroughAverage = troughIndex == 0 ? troughValue : MathTools.getAverage(Arrays.copyOfRange(arrayOfNormalizedCCI, 0, troughIndex));
 			double rightOfTroughAverage = troughIndex == arrayOfNormalizedCCI.length-1 ? troughValue : MathTools.getAverage(Arrays.copyOfRange(arrayOfNormalizedCCI, troughIndex+1, arrayOfNormalizedCCI.length-1));
 			
-			boolean hasPeaked = leftOfPeakAverage > rightOfPeakAverage;
-			boolean hasTroughed = leftOfTroughAverage < rightOfTroughAverage;
+			boolean hasPeaked = leftOfPeakAverage > rightOfPeakAverage && peakIndex <= peakDetectWindow / 2;
+			boolean hasTroughed = leftOfTroughAverage < rightOfTroughAverage && troughIndex <= peakDetectWindow / 2;
 			
 			Co.println("\n\n --> Values...");
 			Co.println("--> Peak, trough index: " + peakIndex + ", " + troughIndex);
