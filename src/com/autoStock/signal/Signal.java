@@ -13,12 +13,14 @@ import com.autoStock.signal.SignalDefinitions.SignalSource;
  *
  */
 public class Signal {
+	private SignalGroup signalGroup;
 	public SignalSource signalSource;
 	public SignalPoint currentSignalPoint = new SignalPoint();
 	public ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	
-	public Signal(SignalSource signalSource) {
+	public Signal(SignalSource signalSource, SignalGroup signalGroup) {
 		this.signalSource = signalSource;
+		this.signalGroup = signalGroup;
 	}
 	
 	public void resetAndAddSignalMetrics(SignalMetric... arrayOfSignalMetrics){
@@ -52,5 +54,9 @@ public class Signal {
 	
 	public void reset(){
 		listOfSignalMetric.clear();
+	}
+	
+	public SignalGroup getSignalGroup(){
+		return signalGroup;
 	}
 }

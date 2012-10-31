@@ -21,6 +21,7 @@ public class DetectorTools {
 	}
 	
 	public double getChangeFromTrough(double[] arrayOfDouble){
-		return 0;
+		double min = MathTools.getMin(arrayOfDouble);
+		return min - arrayOfDouble[arrayOfDouble.length-1];
 	}
 }

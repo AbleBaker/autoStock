@@ -5,10 +5,12 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.evaluation.EvaluationOfCCI;
+import com.autoStock.tools.ArrayTools;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -16,7 +18,7 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class SignalMetric {
-	public int strength;
+	private int strength;
 	public SignalMetricType signalMetricType;
 	
 	public SignalMetric(int strength, SignalMetricType signalTypeMetric) {
@@ -24,23 +26,31 @@ public class SignalMetric {
 		this.signalMetricType = signalTypeMetric;
 	}
 	
-	public synchronized SignalPoint getSignalPointFromEvaulation(boolean havePosition, PositionType positionType, ArrayList<QuoteSlice> listOfQuoteSlice, SignalGroup signalGroup){
-		if (signalMetricType == SignalMetricType.metric_cci){
-//			return new EvaluationOfCCI(listOfQuoteSlice, signalGroup.signalOfCCI.signalMetricType.getSignalStrength(cciValue)).getSignalPoint();
-		}
-		
-		return null;
+	public int getStrength(){
+		return strength;
 	}
 	 
-	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
+	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType, ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal){
+		if (signalMetricType == SignalMetricType.metric_cci){
+			return getSignalPointFromEvaulation(havePosition, positionType, signal.getSignalGroup());
+		}else{
+			return getSignalPointFromSignal(havePosition, positionType);
+		}
+	}
+	
+	private SignalPoint getSignalPointFromEvaulation(boolean havePosition, PositionType positionType, SignalGroup signalGroup){
+		return new EvaluationOfCCI(ArrayTools.getArrayFromListOfDouble(signalGroup.signalOfCCI.getListOfValue())).getSignalPoint();
+	}
+	
+	private SignalPoint getSignalPointFromSignal(boolean havePosition, PositionType positionType){
 		if (havePosition == false){
-			if (strength <= signalMetricType.pointToSignalLongExit){
+			if (strength >= signalMetricType.pointToSignalLongEntry){
 				return new SignalPoint(SignalPointType.long_entry, signalMetricType);
 			}else if (strength <= signalMetricType.pointToSignalShortEntry){
 				return new SignalPoint(SignalPointType.short_entry, signalMetricType);
 			}
 		}else{
-			if (strength >= signalMetricType.pointToSignalLongEntry && (positionType == PositionType.position_long_entry || positionType == PositionType.position_long)){
+			if (strength <= signalMetricType.pointToSignalLongExit && (positionType == PositionType.position_long_entry || positionType == PositionType.position_long)){
 				return new SignalPoint(SignalPointType.long_exit, signalMetricType);
 			}else if (strength >= signalMetricType.pointToSignalShortExit && (positionType == PositionType.position_short_entry || positionType == PositionType.position_short)){
 				return new SignalPoint(SignalPointType.short_exit, signalMetricType);

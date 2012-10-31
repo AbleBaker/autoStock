@@ -22,15 +22,15 @@ public class AlgorithmChart {
 	public void addChartPointData(QuoteSlice firstQuoteSlice, QuoteSlice quoteSlice, SignalGroup signalGroup, StrategyResponse strategyResponse){
 		chart.listOfDate.add(quoteSlice.dateTime);
 		chart.listOfPrice.add(quoteSlice.priceClose);
-		chart.listOfSignalDI.add(signalGroup.signalOfDI.getSignal().strength);
-		chart.listOfSignalCCI.add(signalGroup.signalOfCCI.getSignal().strength);
-		chart.listOfSignalPPC.add(signalGroup.signalOfPPC.getSignal().strength);
-		chart.listOfSignalMACD.add(signalGroup.signalOfMACD.getSignal().strength);
-		chart.listOfSignalRSI.add(signalGroup.signalOfRSI.getSignal().strength);
-		chart.listOfSignalTRIX.add(signalGroup.signalOfTRIX.getSignal().strength);
-		chart.listOfSignalMFI.add(signalGroup.signalOfMFI.getSignal().strength);
-		chart.listOfSignalROC.add(signalGroup.signalOfROC.getSignal().strength);
-		chart.listOfSignalWILLR.add(signalGroup.signalOfWILLR.getSignal().strength);
+		chart.listOfSignalDI.add(signalGroup.signalOfDI.getSignal().getStrength());
+		chart.listOfSignalCCI.add(signalGroup.signalOfCCI.getSignal().getStrength());
+		chart.listOfSignalPPC.add(signalGroup.signalOfPPC.getSignal().getStrength());
+		chart.listOfSignalMACD.add(signalGroup.signalOfMACD.getSignal().getStrength());
+		chart.listOfSignalRSI.add(signalGroup.signalOfRSI.getSignal().getStrength());
+		chart.listOfSignalTRIX.add(signalGroup.signalOfTRIX.getSignal().getStrength());
+		chart.listOfSignalMFI.add(signalGroup.signalOfMFI.getSignal().getStrength());
+		chart.listOfSignalROC.add(signalGroup.signalOfROC.getSignal().getStrength());
+		chart.listOfSignalWILLR.add(signalGroup.signalOfWILLR.getSignal().getStrength());
 		chart.listOfSignalTotal.add((int) SignalTools.getCombinedSignal(strategyResponse.signal).strength);
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		//(quoteSlice.priceClose / firstQuoteSlice.priceClose)); 

@@ -60,7 +60,7 @@ public class StrategyOfTest extends StrategyBase {
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 		Position position = PositionManager.getInstance().getPosition(algorithmBase.symbol);
 		
-		signal = new Signal(SignalSource.from_algorithm);
+		signal = new Signal(SignalSource.from_algorithm, signalGroup);
 		signal.resetAndAddSignalMetrics(
 				signalGroup.signalOfCCI.getSignal()
 //				signalGroup.signalOfRSI.getSignal(),

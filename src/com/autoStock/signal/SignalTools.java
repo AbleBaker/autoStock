@@ -13,7 +13,7 @@ public class SignalTools {
 		int listOfSignalMetricSize = listOfSignalMetric.size();
 		
 		for (SignalMetric signalMetric : listOfSignalMetric){
-			combinedSignal.strength += signalMetric.strength;
+			combinedSignal.strength += signalMetric.getStrength();
 			combinedSignal.longEntry += signalMetric.signalMetricType.pointToSignalLongEntry;
 			combinedSignal.longExit += signalMetric.signalMetricType.pointToSignalLongExit;
 			combinedSignal.shortEntry += signalMetric.signalMetricType.pointToSignalShortExit;

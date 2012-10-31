@@ -43,15 +43,15 @@ public class AlgorithmTable {
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
 		columnValues.add(String.valueOf(MathTools.round(quoteSlice.priceClose)));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
-		columnValues.add(String.valueOf(signalGroup.signalOfPPC.getSignal().strength));
-		columnValues.add(String.valueOf(signalGroup.signalOfDI.getSignal().strength));
-		columnValues.add(String.valueOf(signalGroup.signalOfCCI.getSignal().strength));
-		columnValues.add(String.valueOf(signalGroup.signalOfRSI.getSignal().strength));
-		columnValues.add(String.valueOf(signalGroup.signalOfMACD.getSignal().strength));
-		columnValues.add(String.valueOf(signalGroup.signalOfTRIX.getSignal().strength));
-		columnValues.add(String.valueOf(signalGroup.signalOfROC.getSignal().strength));
-		columnValues.add(String.valueOf(signalGroup.signalOfMFI.getSignal().strength));
-		columnValues.add(String.valueOf(signalGroup.signalOfWILLR.getSignal().strength));
+		columnValues.add(String.valueOf(signalGroup.signalOfPPC.getSignal().getStrength()));
+		columnValues.add(String.valueOf(signalGroup.signalOfDI.getSignal().getStrength()));
+		columnValues.add(String.valueOf(signalGroup.signalOfCCI.getSignal().getStrength()));
+		columnValues.add(String.valueOf(signalGroup.signalOfRSI.getSignal().getStrength()));
+		columnValues.add(String.valueOf(signalGroup.signalOfMACD.getSignal().getStrength()));
+		columnValues.add(String.valueOf(signalGroup.signalOfTRIX.getSignal().getStrength()));
+		columnValues.add(String.valueOf(signalGroup.signalOfROC.getSignal().getStrength()));
+		columnValues.add(String.valueOf(signalGroup.signalOfMFI.getSignal().getStrength()));
+		columnValues.add(String.valueOf(signalGroup.signalOfWILLR.getSignal().getStrength()));
 		columnValues.add(String.valueOf(SignalTools.getCombinedSignal(signal).strength));
 		
 		columnValues.add(strategyResponse.positionGovernorResponse.status.name());

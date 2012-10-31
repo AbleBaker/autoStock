@@ -64,17 +64,18 @@ public class AlgorithmManagerTable {
 		
 		columnValues.add(String.valueOf(algorithm.algorithmState.isDisabled));
 		
-		String signalMetrics = new String();
+		String stringForSignalMetrics = new String();
 		
 		if (algorithm.strategy.signal != null){
 			for (SignalMetric signalMetric : algorithm.strategy.signal.getListOfSignalMetric()){
-				signalMetrics += " (" + signalMetric.signalMetricType.name() + ":" + signalMetric.strength + ":" + signalMetric.getSignalPoint(position == null ? false : true, position == null ? PositionType.position_none : position.positionType).signalPointType.name() + ")";
+				//signalMetrics += " (" + signalMetric.signalMetricType.name() + ":" + signalMetric.strength + ":" + signalMetric.getSignalPoint(position == null ? false : true, position == null ? PositionType.position_none : position.positionType).signalPointType.name() + ")";
+				stringForSignalMetrics = "Replace this";
 			}
 		}else{
-			signalMetrics = "?";
+			stringForSignalMetrics = "?";
 		}
 		
-		columnValues.add(signalMetrics);
+		columnValues.add(stringForSignalMetrics);
 		
 		listOfDisplayRows.add(columnValues);
 	}

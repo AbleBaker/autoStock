@@ -239,7 +239,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							String stringForSignal = new String();
 							
 							for (SignalMetric signalMetric : strategyResponse.signal.listOfSignalMetric){
-								stringForSignal += signalMetric.signalMetricType.name() + ":" + signalMetric.strength + ", ";
+								stringForSignal += signalMetric.signalMetricType.name() + ":" + signalMetric.getStrength() + ", ";
 							}
 							
 							listOfString.add(stringForSignal);
