@@ -39,7 +39,7 @@ public class SignalMetric {
 	}
 	
 	private SignalPoint getSignalPointFromEvaulation(boolean havePosition, PositionType positionType, SignalGroup signalGroup){
-		return new EvaluationOfCCI(ArrayTools.getArrayFromListOfDouble(signalGroup.signalOfCCI.getListOfValue())).getSignalPoint();
+		return new EvaluationOfCCI(ArrayTools.getArrayFromListOfDouble(signalGroup.signalOfCCI.getListOfNormalizedValue())).getSignalPoint();
 	}
 	
 	private SignalPoint getSignalPointFromSignal(boolean havePosition, PositionType positionType){

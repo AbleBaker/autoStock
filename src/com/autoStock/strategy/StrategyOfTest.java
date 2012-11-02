@@ -72,7 +72,7 @@ public class StrategyOfTest extends StrategyBase {
 //				signalGroup.signalOfWILLR.getSignal()
 				);
 		
-		SignalPoint signalPointForEntry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
+//		SignalPoint signalPointForEntry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
 		
 		if (algorithmBase.algorithmState.isDisabled){
 			strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
@@ -110,11 +110,11 @@ public class StrategyOfTest extends StrategyBase {
 			else if (algorithmBase.algorithmState.isDisabled){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);
 			}
-			else if (algorithmCondition.canEnterWithQuoteSlice(quoteSlice, signalPointForEntry) == false){
-				strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
-				strategyResponse.strategyAction = StrategyAction.algorithm_pass;
-				strategyResponse.strategyActionCause = StrategyActionCause.pass_condition_quotslice;
-			}
+//			else if (algorithmCondition.canEnterWithQuoteSlice(quoteSlice, signalPointForEntry) == false){
+//				strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
+//				strategyResponse.strategyAction = StrategyAction.algorithm_pass;
+//				strategyResponse.strategyActionCause = StrategyActionCause.pass_condition_quotslice;
+//			}
 			else{
 				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
 			}
