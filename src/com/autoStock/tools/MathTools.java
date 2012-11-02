@@ -15,6 +15,22 @@ public class MathTools {
 		return Math.round(value*1000.0)/1000.0;
 	}
 	
+	public static int[] averageArray(int[] arrayOfInt){
+		int[] arrayOfResults = new int[arrayOfInt.length];
+		
+		for (int i=0; i < arrayOfInt.length; i++){
+			if (i == 0){
+				arrayOfResults[0] = (int) (arrayOfInt[0] + arrayOfInt[1] /2);
+			}else if (i != arrayOfInt.length-1){
+				arrayOfResults[i] = (int) (arrayOfInt[i-1] + arrayOfInt[i] + arrayOfInt[i+1] /2);
+			}else{
+				arrayOfResults[i] = (int) (arrayOfInt[i] + arrayOfInt[i-1] /2);
+			}
+		}
+		
+		return arrayOfResults;
+	}
+	
 	public static double getAverage(double[] arrayOfDouble){
 		double average = 0;
 		

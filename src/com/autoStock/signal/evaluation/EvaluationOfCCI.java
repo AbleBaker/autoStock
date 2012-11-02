@@ -59,7 +59,7 @@ public class EvaluationOfCCI extends EvaulationBase {
 			
 			Co.println("--> Debug - - - > " + currentCCIValue + " : " + peakValue + ", " + troughValue + ", " + changeFromPeak + ", " + changeFromTrough + ", " + changeFromMaxToMin + ", " + isAtPeak + ", " + isAtTrough);
 			
-			boolean hasPeaked = changeFromPeak < -7 && directionSincePeakIsDown || (changeFromPeak < -25);
+			boolean hasPeaked = changeFromPeak < -7 && directionSincePeakIsDown; // || (changeFromPeak < -30);
 			boolean hasTroughed = (changeFromTrough > 10 && directionSinceTroughIsUp) || (changeFromTrough > 15 && detectorTools.directionIsUp(Arrays.copyOfRange(arrayOfNormalizedCCI, arrayOfNormalizedCCI.length-2, arrayOfNormalizedCCI.length), 0));
 			
 			if (hasTroughed && currentCCIValue < 12){
