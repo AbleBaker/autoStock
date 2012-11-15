@@ -22,9 +22,18 @@ public class CandleStickIdentifier extends IndicatorBase {
 	}
 
 	public CandleStickIdentifierResult identify(CandleStickIdentity candleStickIdentity){
-		int [] arrayOfResults = new int[3];
+		int [] arrayOfResults = new int[4];
 		
-		RetCode returnCode = taLibCore.cdlHangingMan(12, 14, commonAnlaysisData.arrayOfPriceOpen, commonAnlaysisData.arrayOfPriceHigh, commonAnlaysisData.arrayOfPriceLow, commonAnlaysisData.arrayOfPriceClose, new MInteger(), new MInteger(), arrayOfResults);
+		//cdlHangingMan 3
+		//cdlAdvanceBlock 3
+		//cdlDoji 4 //verbose
+		//cdlDojiStar 4
+		//cdlDragonflyDoji 4 //verbose
+		//cdlEngulfing 4 //interesting 
+		//
+		
+		
+		RetCode returnCode = taLibCore.cdlEngulfing(11, 14, commonAnlaysisData.arrayOfPriceOpen, commonAnlaysisData.arrayOfPriceHigh, commonAnlaysisData.arrayOfPriceLow, commonAnlaysisData.arrayOfPriceClose, new MInteger(), new MInteger(), arrayOfResults);
 		handleAnalysisResult(returnCode);
 		
 		int i = 0;
