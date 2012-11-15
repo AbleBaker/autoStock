@@ -82,7 +82,7 @@ public class DetectorTools {
 			lastInteger = integer;
 		}
 		
-		Co.println("--> Direction down on length: " + arrayOfInteger.length);
+//		Co.println("--> Direction down on length: " + arrayOfInteger.length);
 		
 		return true;
 	}
@@ -100,7 +100,7 @@ public class DetectorTools {
 			lastInteger = integer;
 		}
 		
-		Co.println("--> Direction up on length: " + arrayOfInteger.length);
+//		Co.println("--> Direction up on length: " + arrayOfInteger.length);
 		
 		return true;
 	}

@@ -54,8 +54,11 @@ public class AlgorithmBase {
 		this.symbol = symbol;
 		this.algorithmMode = algorithmMode;
 		
+		indicatorGroup = new IndicatorGroup(periodLength, commonAnlaysisData);
+		signalGroup = new SignalGroup(indicatorGroup);
+		
 		if (algorithmMode.displayChart) {
-			algorithmChart = new AlgorithmChart(symbol.symbolName);
+			algorithmChart = new AlgorithmChart(symbol.symbolName, signalGroup);
 		}
 		
 		if (algorithmMode.displayTable){

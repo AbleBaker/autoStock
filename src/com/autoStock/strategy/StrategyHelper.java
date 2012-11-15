@@ -16,9 +16,9 @@ public class StrategyHelper {
 			return periodLength;
 		} else {
 			if (new AlgorithmCondition(strategyOptions).taperPeriodLengthLower(date, exchange)) {
-				if (periodLength > SignalControl.periodLengthEnd) {
-					periodLength--;
-				}
+//				if (periodLength > SignalControl.periodLengthEnd) {
+//					periodLength--;
+//				}
 			} else {
 				if (periodLength + 1 <= SignalControl.periodLengthMiddle) {
 					periodLength++;

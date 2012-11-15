@@ -80,23 +80,19 @@ public class Core {
 
 	final private CandleSetting TA_CandleDefaultSettings[] = {
 	/*
-	 * real body is long when it's longer than the average of the 10 previous
-	 * candles' real body
+	 * real body is long when it's longer than the average of the 10 previous candles' real body
 	 */
 	new CandleSetting(CandleSettingType.BodyLong, RangeType.RealBody, 10, 1.0),
 	/*
-	 * real body is very long when it's longer than 3 times the average of the
-	 * 10 previous candles' real body
+	 * real body is very long when it's longer than 3 times the average of the 10 previous candles' real body
 	 */
 	new CandleSetting(CandleSettingType.BodyVeryLong, RangeType.RealBody, 10, 3.0),
 	/*
-	 * real body is short when it's shorter than the average of the 10 previous
-	 * candles' real bodies
+	 * real body is short when it's shorter than the average of the 10 previous candles' real bodies
 	 */
 	new CandleSetting(CandleSettingType.BodyShort, RangeType.RealBody, 10, 1.0),
 	/*
-	 * real body is like doji's body when it's shorter than 10% the average of
-	 * the 10 previous candles' high-low range
+	 * real body is like doji's body when it's shorter than 10% the average of the 10 previous candles' high-low range
 	 */
 	new CandleSetting(CandleSettingType.BodyDoji, RangeType.HighLow, 10, 0.1),
 	/* shadow is long when it's longer than the real body */
@@ -104,31 +100,26 @@ public class Core {
 	/* shadow is very long when it's longer than 2 times the real body */
 	new CandleSetting(CandleSettingType.ShadowVeryLong, RangeType.RealBody, 0, 2.0),
 	/*
-	 * shadow is short when it's shorter than half the average of the 10
-	 * previous candles' sum of shadows
+	 * shadow is short when it's shorter than half the average of the 10 previous candles' sum of shadows
 	 */
 	new CandleSetting(CandleSettingType.ShadowShort, RangeType.Shadows, 10, 1.0),
 	/*
-	 * shadow is very short when it's shorter than 10% the average of the 10
-	 * previous candles' high-low range
+	 * shadow is very short when it's shorter than 10% the average of the 10 previous candles' high-low range
 	 */
 	new CandleSetting(CandleSettingType.ShadowVeryShort, RangeType.HighLow, 10, 0.1),
 	/* when measuring distance between parts of candles or width of gaps */
 	/*
-	 * "near" means "<= 20% of the average of the 5 previous candles' high-low
-	 * range"
+	 * "near" means "<= 20% of the average of the 5 previous candles' high-low range"
 	 */
 	new CandleSetting(CandleSettingType.Near, RangeType.HighLow, 5, 0.2),
 	/* when measuring distance between parts of candles or width of gaps */
 	/*
-	 * "far" means ">= 60% of the average of the 5 previous candles' high-low
-	 * range"
+	 * "far" means ">= 60% of the average of the 5 previous candles' high-low range"
 	 */
 	new CandleSetting(CandleSettingType.Far, RangeType.HighLow, 5, 0.6),
 	/* when measuring distance between parts of candles or width of gaps */
 	/*
-	 * "equal" means "<= 5% of the average of the 5 previous candles' high-low
-	 * range"
+	 * "equal" means "<= 5% of the average of the 5 previous candles' high-low range"
 	 */
 	new CandleSetting(CandleSettingType.Equal, RangeType.HighLow, 5, 0.05) };
 

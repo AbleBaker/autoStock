@@ -30,7 +30,32 @@ public class SignalOfCCI{
 		return listOfNormalizedDouble;
 	}
 	
+	public ArrayList<Double> getListOfNormalizedAveragedValue(){
+		ArrayList<Double> listOfAveragedDouble = new ArrayList<Double>();
+		
+		for (int i = 0; i < listOfNormalizedDouble.size(); i++){
+			double averaged = 0;
+			
+			if (listOfAveragedDouble.size() > 1){
+				averaged = (listOfNormalizedDouble.get(i) + listOfNormalizedDouble.get(i-1)) / 2;
+			}else{
+				averaged = listOfNormalizedDouble.get(i);
+			}
+			
+			listOfAveragedDouble.add(averaged);
+		}
+		
+		return listOfAveragedDouble;
+	}
+	
 	public SignalMetric getSignal(){
-		return new SignalMetric(signalMetricType.getNormalizedValue(listOfDouble.get(listOfDouble.size()-1)), signalMetricType);
+		double averaged = 0;
+		if (listOfNormalizedDouble.size() > 1){
+			 averaged = (listOfNormalizedDouble.get(listOfNormalizedDouble.size()-1).doubleValue() + listOfNormalizedDouble.get(listOfNormalizedDouble.size()-2)) / 2;
+		}else{
+			averaged = listOfNormalizedDouble.get(listOfNormalizedDouble.size()-1).doubleValue();
+		}
+				
+		return new SignalMetric((int) averaged, signalMetricType);
 	}
 }

@@ -37,7 +37,7 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.disableAfterLoss = false;
-		strategyOptions.taperPeriodLength = true;
+		strategyOptions.taperPeriodLength = false;
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
@@ -63,7 +63,7 @@ public class StrategyOfTest extends StrategyBase {
 		signal = new Signal(SignalSource.from_algorithm, signalGroup);
 		signal.resetAndAddSignalMetrics(
 				signalGroup.signalOfCCI.getSignal()
-//				signalGroup.signalOfRSI.getSignal(),
+//				signalGroup.signalOfRSI.getSignal()
 //				signalGroup.signalOfDI.getSignal()
 //				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal()

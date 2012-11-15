@@ -5,6 +5,7 @@ package com.autoStock.tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -41,5 +42,14 @@ public class ListTools {
 	
 	public static ArrayList<String> getArrayListFromString(String input, String separator){
 		return new ArrayList<String>(Arrays.asList(input.split(separator)));
+	}
+
+	public static Collection<? extends Integer> getListFromArray(int[] arrayOfInt) {
+		ArrayList<Integer> listOfInteger = new ArrayList<Integer>();
+		for (int integer : arrayOfInt){
+			listOfInteger.add(new Integer(integer));	
+		}
+		
+		return listOfInteger;
 	}
 }

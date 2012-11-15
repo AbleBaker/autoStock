@@ -2,6 +2,9 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
+import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
+import com.autoStock.indicator.candleStick.CandleStickIdentifier;
+import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
 import com.autoStock.indicator.results.ResultsBB;
 import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.indicator.results.ResultsDI;
@@ -12,6 +15,7 @@ import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.taLib.CandleSettingType;
 import com.autoStock.taLib.Core;
 import com.autoStock.tools.AnalysisTools;
 import com.autoStock.types.QuoteSlice;
@@ -31,6 +35,7 @@ public class IndicatorGroup {
 	public IndicatorOfROC indicatorOfROC;
 	public IndicatorOfMFI indicatorOfMFI;
 	public IndicatorOfWILLR indicatorOfWILLR;
+	public CandleStickIdentifier candleStickIdentifier;
 
 	public ResultsCCI resultsCCI;
 	public ResultsDI resultsDI;
@@ -41,6 +46,7 @@ public class IndicatorGroup {
 	public ResultsROC resultsROC;
 	public ResultsMFI resultsMFI;
 	public ResultsWILLR resultsWILLR;
+	public CandleStickIdentifierResult candleStickIdentifierResult;
 
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 
@@ -56,6 +62,7 @@ public class IndicatorGroup {
 		indicatorOfROC = new IndicatorOfROC(periodLength, commonAnlaysisData, taLibCore);
 		indicatorOfMFI = new IndicatorOfMFI(periodLength, commonAnlaysisData, taLibCore);
 		indicatorOfWILLR = new IndicatorOfWILLR(periodLength, commonAnlaysisData, taLibCore);
+		candleStickIdentifier = new CandleStickIdentifier(periodLength, commonAnlaysisData, taLibCore);
 		
 		listOfIndicatorBase.add(indicatorOfCCI);
 		listOfIndicatorBase.add(indicatorOfDI);
@@ -73,6 +80,8 @@ public class IndicatorGroup {
 			indicator.setDataSet(listOfQuoteSlice);
 			indicator.periodLength = periodLength;
 		}
+		
+		candleStickIdentifier.setDataSet(listOfQuoteSlice);
 	}
 
 	public void analyize(ArrayList<SignalMetricType> listOfSignalMetricType) {
@@ -84,7 +93,8 @@ public class IndicatorGroup {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_roc)){resultsROC = indicatorOfROC.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_mfi)){resultsMFI = indicatorOfMFI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
-//		if (listOfSignalMetricType.contains(SignalMetricType.metric_)){resultsBB = indicatorOfBB.analyize();}
+		
+		candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);
 	}
 	
 	public ArrayList<IndicatorBase> getListOfIndicatorBase(){

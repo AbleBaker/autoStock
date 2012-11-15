@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.DefaultHighLowDataset;
 
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ResultsTools;
@@ -29,19 +30,29 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Integer> listOfSignalWILLR = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalTotal = new ArrayList<Integer>();
 	//public ArrayList<Integer> listOfSignalSTORSID = new ArrayList<Integer>();
+
+	public ArrayList<Date> listOfDate = new ArrayList<Date>();
+	public ArrayList<Double> listOfSizeVolume = new ArrayList<Double>();
 	
-	public ArrayList<Double> listOfPrice = new ArrayList<Double>();
+	public ArrayList<Double> listOfPriceOpen = new ArrayList<Double>();
+	public ArrayList<Double> listOfPriceHigh = new ArrayList<Double>();
+	public ArrayList<Double> listOfPriceLow = new ArrayList<Double>();
+	public ArrayList<Double> listOfPriceClose = new ArrayList<Double>();
+	
 	public ArrayList<Double> listOfValue = new ArrayList<Double>();
 	public ArrayList<Double> listOfEntryAtPrice = new ArrayList<Double>();
 	public ArrayList<Double> listOfExitAtPrice = new ArrayList<Double>();
 	public ArrayList<Double> listOfEntryAtSignal = new ArrayList<Double>();
 	public ArrayList<Double> listOfExitAtSignal = new ArrayList<Double>();
-	public ArrayList<Date> listOfDate = new ArrayList<Date>();
 	
 	public ArrayList<Double> listOfMACD = new ArrayList<Double>();
 	public ArrayList<Double> listOfDI = new ArrayList<Double>();
 	public ArrayList<Double> listOfCCI = new ArrayList<Double>();
 	public ArrayList<Double> listOfRSI = new ArrayList<Double>();
+	
+	public ArrayList<Double> listOfDebugAlpha = new ArrayList<Double>();
+	public ArrayList<Double> listOfDebugBeta = new ArrayList<Double>();
+	public ArrayList<Double> listOfDebugGamma = new ArrayList<Double>();
 	
 	public ChartForAlgorithmTest(String title){
 		this.title = title;
@@ -56,7 +67,7 @@ public class ChartForAlgorithmTest {
 		type_exit_price("Exit"),
 		type_entry_signal("Entry"),
 		type_exit_signal("Exit"),
-		
+		type_debug("Debug"),
 		;
 		
 		public String displayName;
@@ -75,6 +86,9 @@ public class ChartForAlgorithmTest {
 		TimeSeriesCollection timeSeriesCollectionForExitAtPrice = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForEntryAtSignal = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForExitAtSignal = new TimeSeriesCollection();
+		TimeSeriesCollection timeSeriesCollectionForDebug = new TimeSeriesCollection();
+		
+		DefaultHighLowDataset dataSetForDefaultHighLowDataset = new DefaultHighLowDataset("Series 1", ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPriceHigh), ArrayTools.getArrayFromListOfDouble(listOfPriceLow), ArrayTools.getArrayFromListOfDouble(listOfPriceOpen), ArrayTools.getArrayFromListOfDouble(listOfPriceClose), ArrayTools.getArrayFromListOfDouble(listOfSizeVolume));
 		
 		timeSeriesCollectionForSignalTotal.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal Total", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalTotal))));
 		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal PPC ", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalPPC))));
@@ -91,9 +105,9 @@ public class ChartForAlgorithmTest {
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfCCI))));
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfMACD))));
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("RSI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfRSI))));
-		timeSeriesCollectionForPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPrice))));
+		timeSeriesCollectionForPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price ($)", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPriceClose))));
 		if (listOfValue.size() != 0){
-			timeSeriesCollectionForValue.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfValue))));
+			timeSeriesCollectionForValue.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Value (%)", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfValue))));
 		}
 		
 		if (listOfEntryAtPrice.size() != 0 && listOfExitAtPrice.size() != 0){
@@ -106,7 +120,12 @@ public class ChartForAlgorithmTest {
 			timeSeriesCollectionForExitAtSignal.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Exit", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfExitAtSignal))));
 		}
 		
+		if (listOfDebugAlpha.size() != 0){
+			timeSeriesCollectionForDebug.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Debug", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebugAlpha))));
+		}
+		
 		new CombinedLineChart().new LineChartDisplay(title, 
+			dataSetForDefaultHighLowDataset,
 			new TimeSeriesTypePair(TimeSeriesType.type_signal_total, timeSeriesCollectionForSignalTotal), 
 			new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals), 
 			new TimeSeriesTypePair(TimeSeriesType.type_price, timeSeriesCollectionForPrice), 
@@ -114,7 +133,8 @@ public class ChartForAlgorithmTest {
 			new TimeSeriesTypePair(TimeSeriesType.type_entry_price, timeSeriesCollectionForEntryAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_exit_price, timeSeriesCollectionForExitAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_entry_signal, timeSeriesCollectionForEntryAtSignal),
-			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, timeSeriesCollectionForExitAtSignal)
+			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, timeSeriesCollectionForExitAtSignal),
+			new TimeSeriesTypePair(TimeSeriesType.type_debug, timeSeriesCollectionForDebug)
 		);
 	}
 	

@@ -28,9 +28,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode) {
 		super(canTrade, exchange, symbol, algorithmMode);
-
-		indicatorGroup = new IndicatorGroup(periodLength, commonAnlaysisData);
-		signalGroup = new SignalGroup();
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
 //		if (false){
@@ -52,14 +49,14 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet(listOfQuoteSlice, periodLength);
 			indicatorGroup.analyize(listOfSignalMetricType);
-			signalGroup.generateSignals(commonAnlaysisData, indicatorGroup, periodLength);
+			signalGroup.generateSignals(commonAnlaysisData, periodLength);
 
 			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse);
 		
 			handleStrategyResponse(strategyResponse);
 
 			if (algorithmMode.displayChart) {
-				algorithmChart.addChartPointData(firstQuoteSlice, quoteSlice, signalGroup, strategyResponse);
+				algorithmChart.addChartPointData(firstQuoteSlice, quoteSlice, strategyResponse);
 			}
 			
 			if (algorithmMode.displayTable) {
