@@ -33,14 +33,14 @@ public class AdjustmentCampaign {
 	}
 	
 	public void setupAdjustmentForComplete(){
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-50, 50, 1)));	
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-50, 50, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-50, 50, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_short_entry, new IterableOfInteger(-50, 50, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-50, 50, 1)));
 		
 		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins, new AdjustmentInterfaceForInteger(){
 		@Override public void setValue(Integer integer) {StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins = integer;}
-		}, new IterableOfInteger(-50, 50, 1)));
-		
-		
-		
+		}, new IterableOfInteger(1, 10, 1)));
 	}
 	
 	public static AdjustmentCampaign getInstance(){
@@ -48,11 +48,24 @@ public class AdjustmentCampaign {
 	}
 	
 	public boolean runAdjustment(){
-		return !permutation.allDone();
+		if (permutation.allDone()){
+			return false;
+		}else{
+			permutation.masterIterate();
+			permutation.printIterableSet();
+			applyValues();
+			return true;
+		}
 	}
 	
 	public double getPercentComplete(){
 		return 0;
+	}
+	
+	private void applyValues(){
+		for (AdjustmentBase adjustmentBase : listOfAdjustmentBase){
+			adjustmentBase.applyValue();
+		}
 	}
 	
 	public ArrayList<AdjustmentBase> getListOfAdjustmentBase(){

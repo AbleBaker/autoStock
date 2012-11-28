@@ -49,7 +49,10 @@ public class SignalOfCCI{
 	
 	public SignalMetric getSignal(){
 		double averaged = 0;
-		if (listOfNormalizedDouble.size() > 1){
+		
+		if (listOfDouble.size() == 0){
+			averaged = 0;
+		}else if (listOfNormalizedDouble.size() > 1){
 			 averaged = (listOfNormalizedDouble.get(listOfNormalizedDouble.size()-1).doubleValue() + listOfNormalizedDouble.get(listOfNormalizedDouble.size()-2)) / 2;
 		}else{
 			averaged = listOfNormalizedDouble.get(listOfNormalizedDouble.size()-1).doubleValue();

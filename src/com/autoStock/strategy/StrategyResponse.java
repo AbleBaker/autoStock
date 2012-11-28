@@ -39,13 +39,4 @@ public class StrategyResponse implements Cloneable {
 		proceed_changed,
 		none,
 	}
-	
-	@Override
-	public StrategyResponse clone(){
-		try {
-			return (StrategyResponse) super.clone();
-		}catch(Exception e){
-			return null;
-		}
-	}
 }

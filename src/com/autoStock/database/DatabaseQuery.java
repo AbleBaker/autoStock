@@ -36,7 +36,9 @@ public class DatabaseQuery {
 			}
 			
 			if (diskCache.containsKey(queryHash) && dbQuery.resultClass == DbStockHistoricalPrice.class){
-				return diskCache.getValue(queryHash, dbQuery.resultClass);
+				ArrayList<?> listOfResults = diskCache.getValue(queryHash, dbQuery.resultClass);
+				hashCache.addValue(queryHash, listOfResults);
+				return listOfResults; 
 			}
 			
 			Connection connection = DatabaseCore.getConnection();
@@ -54,6 +56,7 @@ public class DatabaseQuery {
 			connection.close();
 			
 			hashCache.addValue(queryHash, listOfResults);
+			
 			if (dbQuery.resultClass == DbStockHistoricalPrice.class){
 				diskCache.addValue(queryHash, listOfResults);
 			}

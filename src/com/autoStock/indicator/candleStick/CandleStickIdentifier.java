@@ -37,11 +37,11 @@ public class CandleStickIdentifier extends IndicatorBase {
 		
 		int i = 0;
 		
-		Co.println("\n");
+//		Co.println("\n");
 		
 		for (int integer : arrayOfResults){
 			if (integer != 0){
-				Co.println("--> RESULTS: " + arrayOfResults.length + ", " + i + " : " + integer);
+//				Co.println("--> RESULTS: " + arrayOfResults.length + ", " + i + " : " + integer);
 //				throw new UnsupportedOperationException();
 			}
 			

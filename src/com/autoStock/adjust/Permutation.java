@@ -2,6 +2,8 @@ package com.autoStock.adjust;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -46,5 +48,22 @@ public class Permutation {
 			}
 		}	
 		return true;
+	}
+	
+	public void printIterableSet(){
+		for (IterableBase iterableBase : listOfIterableBase){
+			Co.print(" Iterated ");
+			if (iterableBase instanceof IterableOfInteger){
+				Co.print(((IterableOfInteger)iterableBase).getInt() + " ");
+			}else if (iterableBase instanceof IterableOfDouble){
+				Co.print(((IterableOfDouble)iterableBase).getDouble() + " ");
+			}else if (iterableBase instanceof IterableOfBoolean){
+				Co.print(((IterableOfBoolean)iterableBase).getBoolean() + " ");
+			}else if (iterableBase instanceof IterableOfEnum){
+				Co.print(((IterableOfEnum)iterableBase).getEnum().name() + " ");
+			}
+		}
+		
+		Co.println("");
 	}
 }

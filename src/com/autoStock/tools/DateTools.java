@@ -85,7 +85,7 @@ public class DateTools {
 	}
 	
 	public static Date getChangedDate(Date date, int minutes){
-		Date returnDate = (Date) date.clone();
+		Date returnDate = new Date(date.getTime());
 		returnDate.setTime(date.getTime() - (minutes * 60) * 1000);
 		
 		return returnDate;

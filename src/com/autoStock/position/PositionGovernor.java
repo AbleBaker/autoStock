@@ -152,4 +152,8 @@ public class PositionGovernor {
 		
 		return null;
 	}
+	
+	public void reset(){
+		listOfPairedResponses.clear();
+	}
 }

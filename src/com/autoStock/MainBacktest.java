@@ -19,6 +19,7 @@ import com.autoStock.finance.Account;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
+import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalMetric;
@@ -128,7 +129,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	
 	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList){
 		callbacks.set(listOfBacktestContainer.size());
-		Co.println("Backtesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()) + "%): " + currentBacktestDayIndex);
+		PositionGovernor.getInstance().reset();
+		Co.println("\nBacktesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()) + "%): " + currentBacktestDayIndex);
 		
 		boolean backtestContainedNoData = false;
 		
@@ -210,7 +212,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		Co.println("--> Backtest completed... " + symbol.symbolName + ", " + callbacks.get());
 
 		if (callbacks.decrementAndGet() == 0) {
-			Co.println("--> All called back...\n");
+			Co.println("--> All called back...");
 			bench.printTick("Backtested");
 
 			if (runNextBacktestForDays(false) == false) {
