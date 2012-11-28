@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.adjust.Iteration;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
@@ -50,18 +49,18 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		
 		Account.getInstance().resetAccount();
 		
-		if (backtestIndex == computeUnitForBacktest.listOfIteration.size()){
-			allBacktestsCompleted();
-		}else{
-			ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(backtestIndex);
-			applyIterations(listOfIteration);
-			mainBacktest = new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this);
-		}
+//		if (backtestIndex == computeUnitForBacktest.listOfIteration.size()){
+//			allBacktestsCompleted();
+//		}else{
+//			ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(backtestIndex);
+//			applyIterations(listOfIteration);
+//			mainBacktest = new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this);
+//		}
 	}
 	
-	public void applyIterations(ArrayList<Iteration> listOfIteration){
-		AdjustmentCampaign.getInstance().setAdjustmentValuesFromIterationList(listOfIteration);
-	}
+//	public void applyIterations(ArrayList<Iteration> listOfIteration){
+//		AdjustmentCampaign.getInstance().setAdjustmentValuesFromIterationList(listOfIteration);
+//	}
 	
 	public void allBacktestsCompleted(){
 		Co.println("--> All backtests completed...");
@@ -71,9 +70,9 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	}
 	
 	public void sendBacktestResult(){
-		ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(atomicIntBacktestIndex.get()-1);		
-		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, 0, 0, 0)));
-		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
+//		ArrayList<Iteration> listOfIteration = computeUnitForBacktest.listOfIteration.get(atomicIntBacktestIndex.get()-1);		
+//		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, 0, 0, 0)));
+//		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
 	}
 
 	@Override

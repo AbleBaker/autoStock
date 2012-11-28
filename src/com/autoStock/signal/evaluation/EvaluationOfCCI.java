@@ -1,16 +1,12 @@
 package com.autoStock.signal.evaluation;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalPoint;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
-import com.autoStock.types.QuoteSlice;
-import com.lowagie.text.pdf.codec.CCITTG4Encoder;
 
 /**
  * @author Kevin Kowalewski

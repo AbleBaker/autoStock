@@ -4,10 +4,8 @@
 package com.autoStock.exchange.request.listener;
 
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultSetMarketIndexData;
 import com.autoStock.types.IndexSlice;
-import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski

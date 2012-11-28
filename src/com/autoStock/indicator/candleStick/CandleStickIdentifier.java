@@ -7,7 +7,6 @@ import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIde
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
-import com.sun.xml.internal.ws.handler.HandlerException;
 
 /**
  * @author Kevin Kowalewski

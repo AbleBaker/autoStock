@@ -1,9 +1,7 @@
 package com.autoStock.order;
 
-import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
 import com.autoStock.order.OrderDefinitions.IbOrderStatus;
-import com.autoStock.order.OrderDefinitions.OrderStatus;
 
 /**
  * @author Kevin Kowalewski

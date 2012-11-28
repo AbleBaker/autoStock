@@ -24,7 +24,6 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 /**
  * @author Kevin Kowalewski

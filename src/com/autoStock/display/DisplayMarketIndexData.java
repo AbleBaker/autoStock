@@ -5,18 +5,13 @@ package com.autoStock.display;
 
 import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestMarketIndexData;
-import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketIndexDataListener;
-import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
-import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultSetMarketIndexData;
 import com.autoStock.internal.Global;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
 import com.autoStock.trading.types.MarketIndexData;
-import com.autoStock.trading.types.MarketSymbolData;
 import com.autoStock.types.IndexSlice;
-import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski

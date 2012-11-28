@@ -5,7 +5,6 @@ package com.autoStock.finance;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.autoStock.Co;
 import com.autoStock.tools.MathTools;
 import com.google.common.util.concurrent.AtomicDouble;
 

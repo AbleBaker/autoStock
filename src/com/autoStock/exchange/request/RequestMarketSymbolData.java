@@ -15,10 +15,7 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.trading.types.MarketSymbolData;
-import com.autoStock.types.Exchange;
-import com.autoStock.types.Index;
 import com.autoStock.types.QuoteSlice;
-import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski

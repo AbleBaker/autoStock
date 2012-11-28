@@ -13,7 +13,6 @@ import com.autoStock.exchange.request.MultipleRequestMarketScanner;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListener;
-import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
 import com.autoStock.index.IndexMarketDataProvider;
 import com.autoStock.internal.Global;

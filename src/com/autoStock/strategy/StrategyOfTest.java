@@ -6,12 +6,9 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernorResponse;
-import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalPoint;
-import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
@@ -27,32 +24,8 @@ import com.autoStock.types.QuoteSlice;
 public class StrategyOfTest extends StrategyBase {
 	public StrategyOfTest(AlgorithmBase algorithmBase){
 		super(algorithmBase);
-		strategyOptions = new StrategyOptions();
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
-		
-		strategyOptions.canGoLong = true;
-		strategyOptions.canGoShort = false;
-		strategyOptions.canReenter = false;
-		strategyOptions.mustHavePositiveSlice = true;
-		strategyOptions.disableAfterNilChanges = true;
-		strategyOptions.disableAfterNilVolumes = true;
-		strategyOptions.disableAfterLoss = false;
-		strategyOptions.taperPeriodLength = false;
-		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_change;
-		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
-		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
-
-		strategyOptions.maxTransactionsDay = 32;
-		strategyOptions.minTakeProfitExit = 1.98d;
-		strategyOptions.maxStopLossValue = -50;
-		strategyOptions.maxNilChangePrice = 15;
-		strategyOptions.maxNilChangeVolume = 15;
-		strategyOptions.maxPositionEntryTime = 30;
-		strategyOptions.maxPositionExitTime = 10;
-		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 5;
-		strategyOptions.intervalForReentryMins = 10;
-		strategyOptions.minReentryPercentGain = 0.20;
+		strategyOptions = StrategyOptionManager.getInstance().getDefaultStrategyOptions();
 	}
 	
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse){

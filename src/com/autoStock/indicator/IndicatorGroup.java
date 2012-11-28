@@ -15,7 +15,6 @@ import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.taLib.CandleSettingType;
 import com.autoStock.taLib.Core;
 import com.autoStock.tools.AnalysisTools;
 import com.autoStock.types.QuoteSlice;

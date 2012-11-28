@@ -1,7 +1,5 @@
 package com.autoStock.order;
 
-import com.autoStock.trading.types.Order;
-import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski

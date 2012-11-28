@@ -3,7 +3,6 @@
  */
 package com.autoStock.signal;
 
-import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**

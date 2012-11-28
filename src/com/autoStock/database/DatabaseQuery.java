@@ -15,7 +15,6 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.memoryCache.DiskCache;
 import com.autoStock.memoryCache.HashCache;
 import com.autoStock.tools.MiscTools;
-import com.google.gson.Gson;
 
 /**
  * @author Kevin Kowalewski

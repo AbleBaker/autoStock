@@ -1,16 +1,10 @@
 package com.autoStock.algorithm.core;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.autoStock.Co;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
-import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalTools;
 import com.autoStock.strategy.StrategyResponse;
-import com.autoStock.tools.ListTools;
 import com.autoStock.types.QuoteSlice;
 
 /**

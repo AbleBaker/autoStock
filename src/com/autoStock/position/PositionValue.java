@@ -1,6 +1,5 @@
 package com.autoStock.position;
 
-import com.autoStock.Co;
 
 /**
  * @author Kevin Kowalewski

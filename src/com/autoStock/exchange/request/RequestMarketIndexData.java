@@ -8,25 +8,14 @@ import java.util.Date;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketIndexDataListener;
-import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
-import com.autoStock.exchange.results.ExResultMarketSymbolData;
-import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
-import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
 import com.autoStock.exchange.results.ExResultMarketIndexData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultRowMarketIndexData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultSetMarketIndexData;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.IndexSliceTools;
-import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.trading.types.MarketIndexData;
-import com.autoStock.trading.types.MarketSymbolData;
-import com.autoStock.types.Exchange;
-import com.autoStock.types.Index;
 import com.autoStock.types.IndexSlice;
-import com.autoStock.types.QuoteSlice;
-import com.autoStock.types.Symbol;
-import com.sun.corba.se.spi.ior.MakeImmutable;
 
 /**
  * @author Kevin Kowalewski

@@ -3,14 +3,11 @@
  */
 package com.autoStock.indicator;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
-import com.autoStock.tools.DataExtractor;
 import com.autoStock.types.QuoteSlice;
 
 /**

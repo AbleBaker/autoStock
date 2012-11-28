@@ -4,7 +4,6 @@
 package com.autoStock.trading.types;
 
 import com.autoStock.types.Exchange;
-import com.autoStock.types.Index;
 import com.autoStock.types.Symbol;
 
 /**

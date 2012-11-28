@@ -2,7 +2,6 @@ package com.autoStock.algorithm.core;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.autoStock.Co;
 import com.autoStock.finance.Account;

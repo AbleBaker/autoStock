@@ -3,8 +3,8 @@ package com.autoStock.position;
 import java.util.ArrayList;
 
 import com.autoStock.finance.Account;
-import com.autoStock.order.OrderValue;
 import com.autoStock.order.OrderDefinitions.OrderType;
+import com.autoStock.order.OrderValue;
 import com.autoStock.trading.types.Order;
 import com.autoStock.trading.types.Position;
 

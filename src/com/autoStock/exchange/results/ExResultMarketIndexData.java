@@ -11,7 +11,6 @@ import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickP
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickSizeFields;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.trading.types.MarketIndexData;
-import com.autoStock.trading.types.MarketSymbolData;
 
 /**
  * @author Kevin Kowalewski

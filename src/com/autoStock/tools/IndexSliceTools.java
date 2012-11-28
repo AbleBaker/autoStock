@@ -5,15 +5,12 @@ package com.autoStock.tools;
 
 import java.util.ArrayList;
 
-import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultRowMarketIndexData;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickPriceFields;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickSizeFields;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickTypes;
 import com.autoStock.types.Index;
 import com.autoStock.types.IndexSlice;
-import com.autoStock.types.QuoteSlice;
-import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski

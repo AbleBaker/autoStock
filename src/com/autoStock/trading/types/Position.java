@@ -5,7 +5,6 @@ package com.autoStock.trading.types;
 
 import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
@@ -14,12 +13,11 @@ import com.autoStock.order.OrderDefinitions.OrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderStatusListener;
 import com.autoStock.position.PositionCallback;
-import com.autoStock.position.PositionUtils;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionStatusListener;
+import com.autoStock.position.PositionUtils;
 import com.autoStock.position.PositionValue;
-import com.autoStock.position.PositionValueTable;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.Exchange;

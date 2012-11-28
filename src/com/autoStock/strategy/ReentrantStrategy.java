@@ -2,17 +2,12 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
-import javax.crypto.spec.PSource;
-
-import com.autoStock.Co;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
-import com.autoStock.position.PositionValue;
-import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
-import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.QuoteSlice;

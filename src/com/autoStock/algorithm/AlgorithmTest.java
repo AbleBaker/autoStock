@@ -3,14 +3,12 @@ package com.autoStock.algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.autoStock.Co;
+import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.adjust.Iteration;
+import com.autoStock.adjust.AdjustmentOfSignalMetric;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
@@ -31,8 +29,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
 //		if (false){
-			for (Iteration iteration : AdjustmentCampaign.getInstance().getListOfIterations()){
-				listOfSignalMetricType.add(iteration.signalTypeMetric);
+			for (AdjustmentBase adjustmentBase : AdjustmentCampaign.getInstance().getListOfAdjustmentBase()){
+				if (adjustmentBase instanceof AdjustmentOfSignalMetric){
+					listOfSignalMetricType.add(((AdjustmentOfSignalMetric)adjustmentBase).signalMetricType);
+				}
 			}
 			
 //			listOfSignalMetricType.add(SignalMetricType.metric_di);

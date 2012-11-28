@@ -5,7 +5,6 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;

@@ -3,7 +3,6 @@
  */
 package com.autoStock.exchange.request;
 
-import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketOrderListener;

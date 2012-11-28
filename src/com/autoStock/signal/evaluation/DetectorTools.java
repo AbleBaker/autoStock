@@ -1,6 +1,5 @@
 package com.autoStock.signal.evaluation;
 
-import com.autoStock.Co;
 import com.autoStock.tools.MathTools;
 
 /**

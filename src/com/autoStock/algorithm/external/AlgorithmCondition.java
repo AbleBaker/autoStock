@@ -3,8 +3,6 @@ package com.autoStock.algorithm.external;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.Co;
-import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionValue;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;

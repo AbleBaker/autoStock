@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.adjust.Iteration;
 import com.autoStock.cluster.ClusterNode;
 import com.autoStock.cluster.ComputeResultForBacktest;
 import com.autoStock.cluster.ComputeUnitForBacktest;
@@ -14,7 +13,6 @@ import com.autoStock.com.CommandHolder;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterServer;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionManager;
@@ -35,7 +33,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private ArrayList<String> listOfSymbols;
 	private Exchange exchange;
 	private ClusterServer clusterServer;
-	private AdjustmentCampaign adjustmentCampaign = new AdjustmentCampaign();
+	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
 	private AtomicInteger atomicIntForRequestId = new AtomicInteger();
 	private Date dateStart;
 	private Date dateEnd;
@@ -52,7 +50,6 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		instance = this;
 		Global.callbackLock.requestLock();
 		PositionManager.getInstance().orderMode = OrderMode.mode_simulated;
-		adjustmentCampaign.prepare();
 		
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		
@@ -70,7 +67,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public synchronized ComputeUnitForBacktest getNextComputeUnit(){
-		ArrayList<ArrayList<Iteration>> listOfIteration = new ArrayList<ArrayList<Iteration>>();
+//		ArrayList<ArrayList<Iteration>> listOfIteration = new ArrayList<ArrayList<Iteration>>();
 		
 		Co.println("--> Generating unit...");
 		
@@ -80,7 +77,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		
 		for (int i=0; i<computeUnitIterationSize; i++){
 			if (adjustmentCampaign.runAdjustment()){
-				listOfIteration.add(adjustmentCampaign.getListOfClonedIterations());
+//				listOfIteration.add(adjustmentCampaign.getListOfClonedIterations());
 			}else{
 				break;
 			}
@@ -89,12 +86,13 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		Co.println("--> Percent complete: %" + MathTools.round(adjustmentCampaign.getPercentComplete()));
 		bench.tick();
 		
-		if (listOfIteration.size() > 0){
-			return new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
-		}else{
-			Co.println("--> No units left...");
-			return null;
-		}
+//		if (listOfIteration.size() > 0){
+		return null;
+//			return new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
+//		}else{
+//			Co.println("--> No units left...");
+//			return null;
+//		}
 	}
 	
 	public void displayResultTable(){
@@ -111,14 +109,14 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
 			listOfComputeResultForBacktest.add(computeResult);
 			
-			Co.println("--> Progress: " + listOfComputeResultForBacktest.size() + ", " + adjustmentCampaign.getPermutationCount());
+//			Co.println("--> Progress: " + listOfComputeResultForBacktest.size() + ", " + adjustmentCampaign.getPermutationCount());
 
-			if (listOfComputeResultForBacktest.size() == adjustmentCampaign.getPermutationCount()){
-				Co.println("--> All done!");
-				displayResultTable();
-				benchTotal.printTick("Finished clustered backtest");
-				Global.callbackLock.releaseLock();
-			}
+//			if (listOfComputeResultForBacktest.size() == adjustmentCampaign.getPermutationCount()){
+//				Co.println("--> All done!");
+//				displayResultTable();
+//				benchTotal.printTick("Finished clustered backtest");
+//				Global.callbackLock.releaseLock();
+//			}
 		}
 	}
 }

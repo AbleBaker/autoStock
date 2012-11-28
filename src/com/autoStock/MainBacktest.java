@@ -7,7 +7,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
-import com.autoStock.algorithm.core.AlgorithmManager;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
@@ -29,7 +28,6 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
-import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -80,8 +78,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		if (algorithmMode.displayChart){
 			Global.callbackLock.requestLock();
 		}
-		
-		adjustmentCampaign.prepare();
 		
 		runMainBacktest(dateStart, dateEnd, listOfSymbols);
 	}

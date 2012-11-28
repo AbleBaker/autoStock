@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
-import com.autoStock.algorithm.core.AlgorithmManagerTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.strategy.StrategyResponse;
