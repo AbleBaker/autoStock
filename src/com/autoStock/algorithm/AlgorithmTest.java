@@ -12,6 +12,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -23,6 +24,7 @@ import com.autoStock.types.Symbol;
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	public StrategyOfTest strategy = new StrategyOfTest(this);
 	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
+	private Benchmark bench = new Benchmark();
 	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode) {
 		super(canTrade, exchange, symbol, algorithmMode);
@@ -39,6 +41,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		}else{
 			listOfSignalMetricType.addAll(Arrays.asList(SignalMetricType.values()));	
 		}
+		
+//		bench.printTick("Constructor");
 	}
 
 	@Override
@@ -46,6 +50,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		receivedQuoteSlice(quoteSlice);
 		
 		if (listOfQuoteSlice.size() >= periodLength) {
+//			bench.printTick("Received");
+			
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet(listOfQuoteSlice, periodLength);
 			indicatorGroup.analyize(listOfSignalMetricType);
@@ -65,6 +71,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
 			finishedReceiverOfQuoteSlice();
+			
+//			bench.printTick("Done received");
 		}
 	}
 

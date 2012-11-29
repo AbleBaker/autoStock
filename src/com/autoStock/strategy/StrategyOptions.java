@@ -1,6 +1,7 @@
 package com.autoStock.strategy;
 
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
+import com.autoStock.types.basic.ImmutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -29,5 +30,5 @@ public class StrategyOptions {
 	public int maxPositionTaperTime = 30;
 	public int maxPositionExitTime = 5;
 	public int maxReenterTimes = 3;
-	public int intervalForReentryMins = 5;
+	public ImmutableInteger intervalForReentryMins = new ImmutableInteger();
 }

@@ -37,12 +37,12 @@ public class IterableOfInteger extends IterableBase {
 
 	@Override
 	public int getMaxIndex() {
-		return (int) ((min < 0 ? min*-1 : min) + (max < 0 ? max*-1 : max)) / step;
+		return (int) (max - min) / step;
 	}
 
 	@Override
 	public int getMaxValues() {
-		return (int) ((min < 0 ? min*-1 : min) + (max < 0 ? max*-1 : max)) / step + 1;
+		return getMaxIndex() +1;
 	}
 	
 	public IterableOfInteger withCondition(ConditionBase conditionBase){

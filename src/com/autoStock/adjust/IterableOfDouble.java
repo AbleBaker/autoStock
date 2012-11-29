@@ -37,12 +37,12 @@ public class IterableOfDouble extends IterableBase {
 
 	@Override
 	public int getMaxIndex() {
-		return (int) ((int) ((min < 0 ? min*-1 : min) + (max < 0 ? max*-1 : max)) / step);
+		return (int) ((int) (max - min) / step);
 	}
 
 	@Override
 	public int getMaxValues() {
-		return (int) ((int) ((min < 0 ? min*-1 : min) + (max < 0 ? max*-1 : max)) / step + 1);
+		return getMaxIndex() + 1;
 	}
 
 	@Override

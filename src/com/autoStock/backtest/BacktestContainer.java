@@ -3,6 +3,7 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
@@ -41,6 +42,8 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		this.historicalData = historicalData;
 		
 		Iterator<DbStockHistoricalPrice> iterator = this.listOfDbHistoricalPrices.iterator();
+		
+		listOfStrategyResponse.clear();
 		
 		while (iterator.hasNext()){
 			DbStockHistoricalPrice dbStockHistoricalPrice = iterator.next();

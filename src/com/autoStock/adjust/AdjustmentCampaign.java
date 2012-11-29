@@ -36,11 +36,13 @@ public class AdjustmentCampaign {
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-50, 50, 1)));
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-50, 50, 1)));
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_short_entry, new IterableOfInteger(-50, 50, 1)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-50, 50, 1)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-50, 50, 1)));
 		
-		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins, new AdjustmentInterfaceForInteger(){
-		@Override public void setValue(Integer integer) {StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins = integer;}
-		}, new IterableOfInteger(1, 10, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins, new IterableOfInteger(1, 10, 1)));
+		
+//		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins, new AdjustmentInterfaceForInteger(){
+//		@Override public void setValue(Integer integer) {StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins = integer;}
+//		}, new IterableOfInteger(1, 10, 1)));
 	}
 	
 	public static AdjustmentCampaign getInstance(){

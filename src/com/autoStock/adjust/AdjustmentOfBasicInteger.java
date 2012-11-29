@@ -1,21 +1,23 @@
 package com.autoStock.adjust;
 
+import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentInterfaces.AdjustmentInterfaceForInteger;
+import com.autoStock.types.basic.ImmutableInteger;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class AdjustmentOfBasicInteger extends AdjustmentBase {
-	private AdjustmentInterfaceForInteger adjustmentInterfaceForInteger;
+	private ImmutableInteger immutableInteger;
 	
-	public AdjustmentOfBasicInteger(Integer integer, AdjustmentInterfaceForInteger adjustmentInterfaceForInteger, IterableBase iterableBase){
-		this.adjustmentInterfaceForInteger = adjustmentInterfaceForInteger;
-		this.iterableBase = iterableBase;
+	public AdjustmentOfBasicInteger(ImmutableInteger immutableInteger, IterableOfInteger iterableOfInteger){
+		this.iterableBase = iterableOfInteger;
+		this.immutableInteger = immutableInteger;
 	}
 	
 	@Override
 	public void applyValue() {
-		
+		immutableInteger.value = ((IterableOfInteger)iterableBase).getInt();
 	}
 }
