@@ -78,12 +78,12 @@ public class CombinedLineChart {
 			
 			subPlotForSignalTotal.setDataset(2, getPairForType(TimeSeriesType.type_entry_signal).timeSeriesCollection);
 	        subPlotForSignalTotal.setRenderer(2, new XYShapeRenderer());
-	        subPlotForSignalTotal.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(5));
+	        subPlotForSignalTotal.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
 	        subPlotForSignalTotal.getRenderer(2).setSeriesPaint(0, Color.GREEN);
 	        
 			subPlotForSignalTotal.setDataset(3, getPairForType(TimeSeriesType.type_exit_signal).timeSeriesCollection);
 	        subPlotForSignalTotal.setRenderer(3, new XYShapeRenderer());
-	        subPlotForSignalTotal.getRenderer(3).setSeriesShape(0, ShapeUtilities.createDownTriangle(5));
+	        subPlotForSignalTotal.getRenderer(3).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
 	        subPlotForSignalTotal.getRenderer(3).setSeriesPaint(0, Color.RED);
 			
 			XYPlot subPlotForSignals = new XYPlot(getPairForType(TimeSeriesType.type_signals).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_signals).timeSeriesType.displayName), new StandardXYItemRenderer());
@@ -126,7 +126,7 @@ public class CombinedLineChart {
 //			((NumberAxis)subPlotForDebug.getRangeAxis()).setAutoRangeIncludesZero(false);
 			
 			subPlotForDebug.setRenderer(new XYShapeRenderer());
-			subPlotForDebug.getRenderer().setSeriesShape(0, ShapeUtilities.createDiamond(5));
+			subPlotForDebug.getRenderer().setSeriesShape(0, ShapeUtilities.createDiamond(4));
 			subPlotForDebug.getRenderer().setSeriesPaint(0, Color.BLUE);
 			
 			plot.add(subPlotForDebug, 1);

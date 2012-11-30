@@ -15,7 +15,7 @@ import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.indicator.CommonAnlaysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernorResponse;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalGroup;
@@ -32,7 +32,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class AlgorithmBase {
-	public int periodLength = SignalControl.periodLengthStart;
+	public int periodLength = SignalControl.periodLengthStart.value;
 	public Exchange exchange;
 	public Symbol symbol;
 	public AlgorithmState algorithmState = new AlgorithmState();

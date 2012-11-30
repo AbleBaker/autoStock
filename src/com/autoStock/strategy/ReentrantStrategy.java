@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
@@ -39,8 +39,8 @@ public class ReentrantStrategy {
 		}
 
 		if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long || signalPoint.signalPointType == SignalPointType.short_entry && position.positionType == PositionType.position_short){
-			if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins.value || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount < strategyOptions.maxReenterTimes){
-				if (percentGainFromPosition > strategyOptions.minReentryPercentGain){
+			if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins.value || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount < strategyOptions.maxReenterTimes.value){
+				if (percentGainFromPosition > strategyOptions.minReentryPercentGain.value){
 					return ReentryStatus.status_reenter;
 				}
 			}

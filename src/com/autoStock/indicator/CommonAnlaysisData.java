@@ -10,11 +10,12 @@ import com.autoStock.types.QuoteSlice;
  * 
  */
 public class CommonAnlaysisData {
-	public boolean isInitialized = false;
 	public double[] arrayOfPriceOpen;
 	public double[] arrayOfPriceHigh;
 	public double[] arrayOfPriceLow;
 	public double[] arrayOfPriceClose;
+	public double[] arrayOfPriceBid;
+	public double[] arrayOfPriceAsk;
 	public int[] arrayOfSizeVolume;
 	public Date[] arrayOfDates;
 
@@ -23,59 +24,15 @@ public class CommonAnlaysisData {
 		arrayOfPriceHigh = new double[listOfQuoteSlice.size()];
 		arrayOfPriceLow = new double[listOfQuoteSlice.size()];
 		arrayOfPriceClose = new double[listOfQuoteSlice.size()];
-
-		extractDoubleFromQuoteSlice(listOfQuoteSlice, null, arrayOfPriceOpen, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose);
-
-		arrayOfSizeVolume = extractIntFromQuoteSlice(listOfQuoteSlice, "sizeVolume");
-		arrayOfDates = extractDateFromQuoteSlice(listOfQuoteSlice, "dateTime");
-
-		isInitialized = true;
+		arrayOfPriceBid = new double[listOfQuoteSlice.size()];
+		arrayOfPriceAsk = new double[listOfQuoteSlice.size()];
+		arrayOfSizeVolume = new int[listOfQuoteSlice.size()];
+		arrayOfDates = new Date[listOfQuoteSlice.size()];
+		
+		extractDataFromQuoteSlice(listOfQuoteSlice, null, arrayOfPriceOpen, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, arrayOfPriceBid, arrayOfPriceAsk, arrayOfSizeVolume, arrayOfDates);
 	}
 
-	@Deprecated
-	public void appendAnalysisData(QuoteSlice quoteSlice) {
-		double[] arrayOfPriceOpenAppend = new double[arrayOfPriceOpen.length + 1];
-		double[] arrayOfPriceHighAppend = new double[arrayOfPriceHigh.length + 1];
-		double[] arrayOfPriceLowAppend = new double[arrayOfPriceLow.length + 1];
-		double[] arrayOfPriceCloseAppend = new double[arrayOfPriceClose.length + 1];
-		Date[] arrayOfDatesAppend = new Date[arrayOfDates.length + 1];
-
-		System.arraycopy(arrayOfPriceOpen, 0, arrayOfPriceOpenAppend, 0, arrayOfPriceOpen.length);
-		System.arraycopy(arrayOfPriceHigh, 0, arrayOfPriceHighAppend, 0, arrayOfPriceHigh.length);
-		System.arraycopy(arrayOfPriceLow, 0, arrayOfPriceLowAppend, 0, arrayOfPriceLow.length);
-		System.arraycopy(arrayOfPriceClose, 0, arrayOfPriceCloseAppend, 0, arrayOfPriceClose.length);
-		System.arraycopy(arrayOfDates, 0, arrayOfDatesAppend, 0, arrayOfDates.length);
-
-		arrayOfPriceOpen = arrayOfPriceOpenAppend;
-		arrayOfPriceHigh = arrayOfPriceHighAppend;
-		arrayOfPriceLow = arrayOfPriceLowAppend;
-		arrayOfPriceClose = arrayOfPriceCloseAppend;
-		arrayOfDates = arrayOfDatesAppend;
-
-		arrayOfPriceOpen[arrayOfPriceOpen.length - 1] = quoteSlice.priceOpen;
-		arrayOfPriceHigh[arrayOfPriceHigh.length - 1] = quoteSlice.priceHigh;
-		arrayOfPriceLow[arrayOfPriceLow.length - 1] = quoteSlice.priceLow;
-		arrayOfPriceClose[arrayOfPriceClose.length - 1] = quoteSlice.priceClose;
-		arrayOfDates[arrayOfDates.length - 1] = quoteSlice.dateTime;
-
-	}
-
-	private Date[] extractDateFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field) {
-		Date[] arrayOfDate = new Date[listOfQuoteSlice.size()];
-
-		int i = 0;
-
-		for (QuoteSlice quoteSlice : listOfQuoteSlice) {
-			if (field.equals("dateTime")) {
-				arrayOfDate[i] = quoteSlice.dateTime;
-			}
-			i++;
-		}
-
-		return arrayOfDate;
-	}
-
-	private void extractDoubleFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field, double[] arrayOfPriceOpen, double[] arrayOfPriceHigh, double[] arrayOfPriceLow, double[] arrayOfPriceClose) {
+	private void extractDataFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field, double[] arrayOfPriceOpen, double[] arrayOfPriceHigh, double[] arrayOfPriceLow, double[] arrayOfPriceClose, double[] arrayOfPriceBid, double[] arrayOfPriceAsk, int[] arrayOfSizeVolume, Date[] arrayOfDates) {
 		int i = 0;
 
 		for (QuoteSlice quoteSlice : listOfQuoteSlice) {
@@ -83,22 +40,11 @@ public class CommonAnlaysisData {
 			arrayOfPriceHigh[i] = quoteSlice.priceHigh;
 			arrayOfPriceLow[i] = quoteSlice.priceLow;
 			arrayOfPriceClose[i] = quoteSlice.priceClose;
-			// }
+			arrayOfPriceBid[i] = quoteSlice.priceBid;
+			arrayOfPriceAsk[i] = quoteSlice.priceAsk;
+			arrayOfSizeVolume[i] = quoteSlice.sizeVolume;
+			arrayOfDates[i] = quoteSlice.dateTime;
 			i++;
 		}
-	}
-
-	private int[] extractIntFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field) {
-		int[] arrayOfInt = new int[listOfQuoteSlice.size()];
-		int i = 0;
-
-		for (QuoteSlice quoteSlice : listOfQuoteSlice) {
-			if (field.equals("sizeVolume")) {
-				arrayOfInt[i] = quoteSlice.sizeVolume;
-			}
-			i++;
-		}
-
-		return arrayOfInt;
 	}
 }

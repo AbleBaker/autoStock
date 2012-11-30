@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseReason;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
@@ -31,10 +29,6 @@ public class PositionGovernor {
 	
 	public static PositionGovernor getInstance(){
 		return instance;
-	}
-	
-	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions){
-		return informGovener(quoteSlice, signal, exchange, strategyOptions, false);
 	}
 	
 	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit){
@@ -79,7 +73,9 @@ public class PositionGovernor {
 		signal.currentSignalPoint = signalPoint;
 		
 		if (getPair(quoteSlice.symbol) == null){
-			listOfPairedResponses.add(new Pair<Symbol,ArrayList<PositionGovernorResponse>>(quoteSlice.symbol, new ArrayList<PositionGovernorResponse>()));
+			synchronized (listOfPairedResponses) {
+				listOfPairedResponses.add(new Pair<Symbol,ArrayList<PositionGovernorResponse>>(quoteSlice.symbol, new ArrayList<PositionGovernorResponse>()));				
+			}
 		}
 		
 		if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
@@ -108,7 +104,6 @@ public class PositionGovernor {
 	private void governLongReentry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
 		int reentryUnits = new PositionGenerator().getPositionReentryUnits(quoteSlice.priceClose, signal);
 		if (reentryUnits > 0){
-//			Co.println("--> Reentry with units: " + position.getInitialUnitsFilled() + ", " + reentryUnits);
 			position.executeReentry(reentryUnits, quoteSlice.priceClose);
 			positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;
 		}else{
@@ -144,16 +139,19 @@ public class PositionGovernor {
 	}
 	
 	public Pair<Symbol,ArrayList<PositionGovernorResponse>> getPair(Symbol symbol){
-		for (Pair<Symbol,ArrayList<PositionGovernorResponse>> pair : listOfPairedResponses){
-			if (pair.first.symbolName.equals(symbol.symbolName)){
-				return pair;
+		synchronized (listOfPairedResponses){
+			for (Pair<Symbol,ArrayList<PositionGovernorResponse>> pair : listOfPairedResponses){
+				if (pair.first.symbolName.equals(symbol.symbolName)){
+					return pair;
+				}
 			}
+			return null;
 		}
-		
-		return null;
 	}
 	
 	public void reset(){
-		listOfPairedResponses.clear();
+		synchronized (listOfPairedResponses) {
+			listOfPairedResponses.clear();			
+		}
 	}
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;

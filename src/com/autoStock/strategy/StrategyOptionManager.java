@@ -29,15 +29,15 @@ public class StrategyOptionManager {
 
 		strategyOptions.maxTransactionsDay = 32;
 		strategyOptions.minTakeProfitExit = 1.98d;
-		strategyOptions.maxStopLossValue = -50;
+		strategyOptions.maxStopLossValue.value = -50;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes = 5;
-		strategyOptions.intervalForReentryMins.value = 10;
-		strategyOptions.minReentryPercentGain = 0.20;
+		strategyOptions.maxReenterTimes.value = 15;
+		strategyOptions.intervalForReentryMins.value = 1;
+		strategyOptions.minReentryPercentGain.value = 0.10;
 	}
 	
 	public StrategyOptions getDefaultStrategyOptions(){

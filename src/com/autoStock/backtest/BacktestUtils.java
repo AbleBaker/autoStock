@@ -15,26 +15,7 @@ import com.autoStock.tools.MiscTools;
  * @author Kevin Kowalewski
  * 
  */
-public class BacktestUtils {
-	public synchronized static String getCurrentBacktestValueGroup(Signal signal){
-		String string = "******** ........ Backtest results ........ ********\n";
-		
-		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
-			string += "\nSignal metric: " + signalMetric.signalMetricType.name() + "\n";
-			string += "  Long entry: " + signalMetric.signalMetricType.pointToSignalLongEntry + "\n";
-			string += "  Long exit: " + signalMetric.signalMetricType.pointToSignalLongExit + "\n";
-			string += "  Short entry: " + signalMetric.signalMetricType.pointToSignalShortEntry + "\n";
-			string += "  Short exit: " + signalMetric.signalMetricType.pointToSignalShortExit + "\n";
-		}
-		
-		string += "\nPeriod length: " + SignalControl.periodLengthStart + "\n";
-		string += "Transactions: " + Account.getInstance().getTransactions() + "\n";
-		string += "Fees: " + Account.getInstance().getTransactionFeesPaid() + "\n";
-		string += "Balance: " + Account.getInstance().getAccountBalance() + "\n";
-		
-		return string;
-	}
-	
+public class BacktestUtils {	
 	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, int countForTradesProfit, int countForTradesLoss, int countForReentry){
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance()) + " ********";
 		
@@ -45,7 +26,7 @@ public class BacktestUtils {
 		string += "\n --> Transactions Profit / Loss: " + MathTools.round((double)countForTradesProfit / (double)(countForTradesProfit + countForTradesLoss)) + "%, " + countForTradesProfit + ", " + countForTradesLoss;
 		string += "\n --> Reentered: " + countForReentry;
 		
-		string += "\n --> SignalControl: " + SignalControl.periodLengthStart + ", " + SignalControl.periodLengthMiddle + ", " + SignalControl.periodLengthEnd;
+		string += "\n --> SignalControl: " + SignalControl.periodLengthStart.value + ", " + SignalControl.periodLengthMiddle.value + ", " + SignalControl.periodLengthEnd.value;
 		
 		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
 			string += "\n\n --> Signal metric: " + signalMetric.signalMetricType.name() + "\n";
@@ -65,15 +46,16 @@ public class BacktestUtils {
 		string += "\n Max position entry time: " + strategyOptions.maxPositionEntryTime;
 		string += "\n Max position exit time: " + strategyOptions.maxPositionExitTime;
 		string += "\n Max position taper time: " + strategyOptions.maxPositionTaperTime;
-		string += "\n Max stop loss value ($): " +  strategyOptions.maxStopLossValue;
+		string += "\n Max stop loss value ($): " +  strategyOptions.maxStopLossValue.value;
 		string += "\n Max transactions per day: " + strategyOptions.maxTransactionsDay;
 		string += "\n Min take profit exit: " + strategyOptions.minTakeProfitExit;
 		string += "\n Signal point tactic (entry): " + strategyOptions.signalPointTacticForEntry.name();
 		string += "\n Signal point tactic (reentry): " + strategyOptions.signalPointTacticForReentry.name();
 		string += "\n Signal point tactic (exit): " + strategyOptions.signalPointTacticForExit.name();
 		string += "\n Taper period length: " + strategyOptions.taperPeriodLength;
-		string += "\n Reentry interval minutes: " + strategyOptions.intervalForReentryMins;
-		string += "\n Reentry maximum frequency: " + strategyOptions.maxReenterTimes;
+		string += "\n Reentry interval minutes: " + strategyOptions.intervalForReentryMins.value;
+		string += "\n Reentry maximum frequency: " + strategyOptions.maxReenterTimes.value;
+		string += "\n Reentry minimum gain: " + strategyOptions.minReentryPercentGain.value;
 		
 		string += "\n\n";
 		

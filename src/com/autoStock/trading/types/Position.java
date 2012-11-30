@@ -185,7 +185,7 @@ public class Position implements OrderStatusListener {
 		unitPriceLastKnown = priceClose;
 	}
 	
-	public PositionValue getPositionValue(){
+	public synchronized PositionValue getPositionValue(){
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		PositionValue positionValue = new PositionValue(
 			positionUtils.getOrderValueRequested(false), positionUtils.getOrderValueFilled(false), positionUtils.getOrderValueIntrinsic(false),  
@@ -209,9 +209,7 @@ public class Position implements OrderStatusListener {
 			Co.println("--> Received order status change: " + order.symbol.symbolName + ", " + order.orderType.name() + ", " + orderStatus.name());
 		}
 		
-		synchronized(listOfOrder){
-			positionUtils = new PositionUtils(this, listOfOrder);
-		}
+		positionUtils = new PositionUtils(this, listOfOrder);
 		
 		if (orderStatus == OrderStatus.status_filled) {
 			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){

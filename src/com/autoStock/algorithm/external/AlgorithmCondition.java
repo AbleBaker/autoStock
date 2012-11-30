@@ -107,7 +107,7 @@ public class AlgorithmCondition {
 			
 //			Co.println("--> Value gain: " + valueGainFromPosition + (valueGainFromPosition < strategyOptions.maxStopLossValue));
 		
-			return valueGainFromPosition < strategyOptions.maxStopLossValue;
+			return valueGainFromPosition < strategyOptions.maxStopLossValue.value;
 		}
 		
 		return false;

@@ -98,9 +98,9 @@ public class PositionManager implements PositionStatusListener {
 					return position;
 				}
 			}
+			
+			return null;
 		}
-
-		return null;
 	}
 
 	public double getCurrentProfitLossAfterComission(boolean bothComissions) {
@@ -125,8 +125,10 @@ public class PositionManager implements PositionStatusListener {
 		}
 	}
 
-	public synchronized int getPositionListSize() {
-		return listOfPosition.size();
+	public int getPositionListSize() {
+		synchronized (lock) {
+			return listOfPosition.size();			
+		}
 	}
 
 	public double getAllPositionValueIncludingFees() {
@@ -141,7 +143,7 @@ public class PositionManager implements PositionStatusListener {
 	}
 
 	@Override
-	public synchronized void positionStatusChange(Position position) {
+	public void positionStatusChange(Position position) {
 		synchronized(lock){
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
 				Co.println("--> PositionManager, position status change: " + position.positionType.name());
@@ -155,6 +157,8 @@ public class PositionManager implements PositionStatusListener {
 	}
 
 	public void reset() {
-		listOfPosition.clear();
+		synchronized (lock){
+			listOfPosition.clear();			
+		}
 	}
 }

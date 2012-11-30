@@ -6,7 +6,7 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernorResponse;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
@@ -130,7 +130,7 @@ public class StrategyOfTest extends StrategyBase {
 	
 	private PositionGovernorResponse proceed(QuoteSlice quoteSlice){
 //		Co.println("--> Asked to proceed");
-		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions);
+		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, false);
 		return positionGovernorResponse;
 	}
 	

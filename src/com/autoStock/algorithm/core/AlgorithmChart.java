@@ -1,7 +1,7 @@
 package com.autoStock.algorithm.core;
 
 import com.autoStock.chart.ChartForAlgorithmTest;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalTools;
 import com.autoStock.strategy.StrategyResponse;

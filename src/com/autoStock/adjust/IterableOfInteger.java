@@ -17,7 +17,7 @@ public class IterableOfInteger extends IterableBase {
 		this.step = step;
 		
 		if ((min - max) % step != 0){
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Min - max % step: " + min + ", " + max + ", " + ((min - max) % step));
 		}
 	}
 	

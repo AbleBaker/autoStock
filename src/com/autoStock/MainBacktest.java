@@ -20,7 +20,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionGovernor;
-import com.autoStock.position.PositionGovernorResponse.PositionGovernorResponseStatus;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalMetric;
 import com.autoStock.strategy.StrategyOfTest;
@@ -182,7 +182,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			PositionManager.getInstance().executeExitAll();
 			
 			if (Account.getInstance().getAccountBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal));
+				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, 0, 0, 0)); //listOfBacktestContainer.get(0).algorithm.strategy.signal));
 				metricBestAccountBalance = Account.getInstance().getAccountBalance();
 			}
 						
@@ -208,7 +208,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	}
 	
 	@Override
-	public synchronized void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
+	public void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
 		Co.println("--> Backtest completed... " + symbol.symbolName + ", " + callbacks.get());
 
 		if (callbacks.decrementAndGet() == 0) {

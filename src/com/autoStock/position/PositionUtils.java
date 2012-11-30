@@ -20,132 +20,164 @@ public class PositionUtils {
 	public PositionUtils(Position position, ArrayList<Order> listOfOrder) {
 		this.position = position;
 		this.listOfOrder = listOfOrder;
-		for (Order order : listOfOrder) {
-			listOfOrderValue.add(order.getOrderValue());
+		synchronized (listOfOrder) {
+			for (Order order : listOfOrder) {
+				listOfOrderValue.add(order.getOrderValue());
+			}
 		}
 	}
 
 	public int getOrderUnitsFilled() {
-		int units = 0;
-		for (Order order : listOfOrder) {
-			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short) {
-				units += order.getUnitsFilled();
+		synchronized (listOfOrder) {
+			int units = 0;
+			for (Order order : listOfOrder) {
+				if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short) {
+					units += order.getUnitsFilled();
+				}
 			}
+			return units;
 		}
-		return units;
 	}
 
 	public int getOrderUnitsRequested() {
-		int units = 0;
-		for (Order order : listOfOrder) {
-			units += order.getUnitsRequested();
+		synchronized (listOfOrder) {
+			int units = 0;
+			for (Order order : listOfOrder) {
+				units += order.getUnitsRequested();
+			}
+			return units;
 		}
-		return units;
 	}
 
 	public int getOrderUnitsIntrinsic() {
-		int units = 0;
-		for (Order order : listOfOrder) {
-			units += order.getUnitsIntrinsic();
+		synchronized (listOfOrder) {
+			int units = 0;
+			for (Order order : listOfOrder) {
+				units += order.getUnitsIntrinsic();
+			}
+			return units;
 		}
-		return units;
 	}
 
 	public double getOrderTransactionFeesIntrinsic() {
-		double transactionFees = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			transactionFees += orderValue.transactionFees;
+		synchronized (listOfOrder) {
+			double transactionFees = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				transactionFees += orderValue.transactionFees;
+			}
+			return transactionFees;
 		}
-		return transactionFees;
 	}
 
 	public double getOrderPriceRequested(boolean includeTransactionFees) {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += includeTransactionFees ? orderValue.priceRequestedWithFees : orderValue.valueRequested;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += includeTransactionFees ? orderValue.priceRequestedWithFees : orderValue.valueRequested;
+			}
+			return priceTotal;
 		}
-		return priceTotal;
 	}
 
 	public double getOrderPriceFilled(boolean includeTransactionFees) {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += includeTransactionFees ? orderValue.priceFilledWithFees : orderValue.valueFilled;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += includeTransactionFees ? orderValue.priceFilledWithFees : orderValue.valueFilled;
+			}
+			return priceTotal;
 		}
-		return priceTotal;
 	}
 
 	public double getOrderPriceIntrinsic(boolean includeTransactionFees) {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += includeTransactionFees ? orderValue.priceIntrinsicWithFees : orderValue.valueIntrinsic;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += includeTransactionFees ? orderValue.priceIntrinsicWithFees : orderValue.valueIntrinsic;
+			}
+			return priceTotal;
 		}
-		return priceTotal;
 	}
 
 	public double getOrderValueRequested(boolean includeTransactionFees) {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += includeTransactionFees ? orderValue.valueRequestedWithFees : orderValue.valueRequested;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += includeTransactionFees ? orderValue.valueRequestedWithFees : orderValue.valueRequested;
+			}
+			return priceTotal;
 		}
-		return priceTotal;
 	}
 
 	public double getOrderValueFilled(boolean includeTransactionFees) {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += includeTransactionFees ? orderValue.valueFilledWithFees : orderValue.valueFilled;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += includeTransactionFees ? orderValue.valueFilledWithFees : orderValue.valueFilled;
+			}
+			return priceTotal;
 		}
-		return priceTotal;
 	}
 
 	public double getOrderValueIntrinsic(boolean includeTransactionFees) {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += includeTransactionFees ? orderValue.valueIntrinsicWithFees : orderValue.valueIntrinsic;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += includeTransactionFees ? orderValue.valueIntrinsicWithFees : orderValue.valueIntrinsic;
+			}
+			return priceTotal;
 		}
-		return priceTotal;
 	}
 
 	public double getPositionValueCurrent(boolean includeTransactionFees) {
-		double unitPriceLastKnown = position.getLastKnownUnitPrice();
-		double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
-		double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
+		synchronized (listOfOrder) {
+			double unitPriceLastKnown = position.getLastKnownUnitPrice();
+			double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
+			double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
 
-		priceTotal -= (includeTransactionFees ? transactionFees : 0);
-		
-		return priceTotal;
+			priceTotal -= (includeTransactionFees ? transactionFees : 0);
+
+			return priceTotal;
+		}
 	}
 
 	public double getPositionPriceCurrent(boolean includeTransactionFees) {
-		double unitPriceLastKnown = position.getLastKnownUnitPrice();
-		double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
-		double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
+		synchronized (listOfOrder) {
+			double unitPriceLastKnown = position.getLastKnownUnitPrice();
+			double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
+			double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
 
-		return priceTotal + (includeTransactionFees ? transactionFees : 0);
+			return priceTotal + (includeTransactionFees ? transactionFees : 0);
+		}
 	}
 
 	public double getOrderUnitPriceRequested() {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += orderValue.unitPriceRequested;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += orderValue.unitPriceRequested;
+			}
+			return priceTotal / listOfOrderValue.size();
 		}
-		return priceTotal / listOfOrderValue.size();
 	}
 
 	public double getOrderUnitPriceFilled() {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += orderValue.unitPriceFilled;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += orderValue.unitPriceFilled;
+			}
+			return priceTotal / listOfOrderValue.size();
 		}
-		return priceTotal / listOfOrderValue.size();
 	}
 
 	public double getOrderUnitPriceIntrinsic() {
-		double priceTotal = 0;
-		for (OrderValue orderValue : listOfOrderValue){
-			priceTotal += orderValue.unitPriceIntrinsic;
+		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			for (OrderValue orderValue : listOfOrderValue) {
+				priceTotal += orderValue.unitPriceIntrinsic;
+			}
+			return priceTotal / listOfOrderValue.size();
 		}
-		return priceTotal / listOfOrderValue.size();
 	}
 }

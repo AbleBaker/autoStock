@@ -1,13 +1,15 @@
 package com.autoStock.signal;
 
+import com.autoStock.types.basic.ImmutableInteger;
+
 /**
  * @author Kevin Kowalewski
  * 
  */
 public class SignalControl {
-	public static int periodLengthStart = 15;
-	public static int periodLengthMiddle = 60;
-	public static int periodLengthEnd = 15;
+	public static ImmutableInteger periodLengthStart = new ImmutableInteger(15);
+	public static ImmutableInteger periodLengthMiddle = new ImmutableInteger(60);
+	public static ImmutableInteger periodLengthEnd = new ImmutableInteger(15);
 	
 	public static int periodWindow = 15;
 
