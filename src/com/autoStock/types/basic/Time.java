@@ -9,6 +9,14 @@ public class Time {
 	public int minutes;
 	public int seconds;
 	
+	public Time(){}
+	
+	public Time(int hours, int minutes, int seconds) {
+		this.hours = hours;
+		this.minutes = minutes;
+		this.seconds = seconds;
+	}
+
 	public boolean isFuture(){
 		if (hours >= 0 && minutes >= 0 && seconds >= 0){
 			return true;

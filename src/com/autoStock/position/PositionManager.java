@@ -78,8 +78,10 @@ public class PositionManager implements PositionStatusListener {
 				Co.println("--> Exiting all positions: " + listOfPosition.size());
 				Co.println("--> X: " + listOfPosition.get(0).symbol.symbolName);
 			}
+			
+			ArrayList<Position> listOfModifyablePosition = (ArrayList<Position>) listOfPosition.clone();
 
-			for (Position position : listOfPosition) {
+			for (Position position : listOfModifyablePosition) {
 				if (position.positionType == PositionType.position_long) {
 					positionExecutor.executeLongExit(position);
 				} else if (position.positionType == PositionType.position_short) {

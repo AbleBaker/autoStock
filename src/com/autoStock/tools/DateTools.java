@@ -164,6 +164,23 @@ public class DateTools {
 		return time;
 	}
 	
+	public static Time getRolledTime(Time time, int seconds){
+		int timeInSeconds = (time.hours*60*60) + (time.minutes *60) + time.seconds;
+		Time timeForReturn = new Time();
+		
+		if (seconds >= 0){
+			timeInSeconds += seconds;
+		}else{
+			timeInSeconds -= seconds;
+		}
+		
+		timeForReturn.hours = (int) (timeInSeconds / (60*60));
+		timeForReturn.minutes = (int) ((timeInSeconds % (60*60)) / 60);
+		timeForReturn.seconds = (int) (((timeInSeconds % (60*60)) % 60));
+		
+		return timeForReturn;
+	}
+	
 	public static Time getTimeFromDate(Date date){
 		Time time = new Time();
 		time.hours = date.getHours();

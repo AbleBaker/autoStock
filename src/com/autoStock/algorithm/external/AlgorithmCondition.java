@@ -3,6 +3,7 @@ package com.autoStock.algorithm.external;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionValue;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
@@ -13,6 +14,7 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.basic.Time;
 
 /**
  * @author Kevin Kowalewski
@@ -114,10 +116,26 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean requestExitOnDate(Date date, Exchange exchange){
-		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionExitTime);
-		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
+//		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionExitTime);
+		
+		Time time = DateTools.getTimeFromDate(date);
+		Time timeForLastExecution = new Time(exchange.timeCloseForeign.hours, exchange.timeCloseForeign.minutes, exchange.timeCloseForeign.seconds);
+		
+		if (exchange.timeCloseForeign.minutes == 0){
+			timeForLastExecution.hours--;
+			timeForLastExecution.minutes = 60 - strategyOptions.maxPositionExitTime;
+		}else{
+			timeForLastExecution.minutes -= strategyOptions.maxPositionExitTime;
+		}
+		
+		
+		if (time.hours > timeForLastExecution.hours || (time.hours >= timeForLastExecution.hours && time.minutes >= timeForLastExecution.minutes)){
 			return true;
 		}
+		
+//		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
+//			return true;
+//		}
 		
 		return false;
 	}

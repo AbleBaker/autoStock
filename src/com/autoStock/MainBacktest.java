@@ -214,7 +214,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	
 	@Override
 	public void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
-		Co.println("--> Backtest completed... " + symbol.symbolName + ", " + callbacks.get());
+//		Co.print("[ symbol.symbolName + ", " + callbacks.get());
+		Co.print("[ " + symbol.symbolName + " ] ");
 
 		if (callbacks.decrementAndGet() == 0) {
 			Co.println("--> All called back...");
