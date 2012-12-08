@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.strategy.ReentrantStrategy;
 import com.autoStock.strategy.ReentrantStrategy.ReentryStatus;
 import com.autoStock.strategy.StrategyOptions;
+import com.autoStock.tools.Lock;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -26,14 +27,14 @@ public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.getInstance(); 
 	private ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>> listOfPairedResponses = new ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>>();
 	private ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
+	private Lock lock = new Lock();
 	
 	public static PositionGovernor getInstance(){
 		return instance;
 	}
 	
-	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit){
+	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
-		Position position = positionManager.getPosition(quoteSlice.symbol);
 		SignalPoint signalPoint = new SignalPoint();
 		
 		if (position == null){

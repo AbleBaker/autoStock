@@ -23,6 +23,7 @@ import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -47,6 +48,7 @@ public class AlgorithmBase {
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	public QuoteSlice firstQuoteSlice;
+	protected Position position;
 	
 	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode){
 		this.algorithmState.canTrade = canTrade;
@@ -123,7 +125,9 @@ public class AlgorithmBase {
 		
 		listOfQuoteSlice.add(quoteSlice);
 		
-		PositionManager.getInstance().updatePositionPrice(quoteSlice, PositionManager.getInstance().getPosition(quoteSlice.symbol));
+		position = PositionManager.getInstance().getPosition(quoteSlice.symbol);
+		
+		PositionManager.getInstance().updatePositionPrice(quoteSlice, position);
 	}
 	
 	public void finishedReceiverOfQuoteSlice(){

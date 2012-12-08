@@ -28,10 +28,9 @@ public class StrategyOfTest extends StrategyBase {
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
 	}
 	
-	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse){
+	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse, Position position){
 		StrategyResponse strategyResponse = new StrategyResponse();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
-		Position position = PositionManager.getInstance().getPosition(algorithmBase.symbol);
 		
 		signal = new Signal(SignalSource.from_algorithm, signalGroup);
 		signal.resetAndAddSignalMetrics(
@@ -68,7 +67,7 @@ public class StrategyOfTest extends StrategyBase {
 			else if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, algorithmBase.exchange)){
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_exit, quoteSlice, position, strategyResponse);
 			}else{
-				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
+				strategyResponse.positionGovernorResponse = proceed(quoteSlice, position);
 			}
 		}else{
 			if (algorithmCondition.canEnterTradeOnDate(quoteSlice.dateTime, algorithmBase.exchange) == false){
@@ -89,7 +88,7 @@ public class StrategyOfTest extends StrategyBase {
 //				strategyResponse.strategyActionCause = StrategyActionCause.pass_condition_quotslice;
 //			}
 			else{
-				strategyResponse.positionGovernorResponse = proceed(quoteSlice);
+				strategyResponse.positionGovernorResponse = proceed(quoteSlice, position);
 			}
 		}
 		
@@ -128,9 +127,9 @@ public class StrategyOfTest extends StrategyBase {
 		}
 	}
 	
-	private PositionGovernorResponse proceed(QuoteSlice quoteSlice){
+	private PositionGovernorResponse proceed(QuoteSlice quoteSlice, Position position){
 //		Co.println("--> Asked to proceed");
-		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, false);
+		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, false, position);
 		return positionGovernorResponse;
 	}
 	
@@ -138,7 +137,7 @@ public class StrategyOfTest extends StrategyBase {
 //		Co.println("--> Asked to cease: " + strategyActionCause.name());
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		if (position != null){
-			positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true);
+			positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position);
 		}
 		strategyResponse.strategyAction = StrategyAction.algorithm_disable;
 		strategyResponse.strategyActionCause = strategyActionCause;
@@ -148,7 +147,7 @@ public class StrategyOfTest extends StrategyBase {
 	
 	private PositionGovernorResponse exit(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse){
 //		Co.println("--> Asked to exit");
-		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true);
+		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position);
 		
 		strategyResponse.strategyAction = StrategyAction.algorithm_changed;
 		strategyResponse.strategyActionCause = strategyActionCause;
