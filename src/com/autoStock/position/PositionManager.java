@@ -88,6 +88,11 @@ public class PositionManager implements PositionStatusListener {
 					throw new IllegalStateException("No condition matched PositionType: " + position.positionType.name());
 				}
 			}
+			
+			while(listOfPosition.size() != 0){
+				//wait
+			}
+			
 			listOfPosition.clear();
 		}
 	}

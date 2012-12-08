@@ -43,8 +43,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		
 		Iterator<DbStockHistoricalPrice> iterator = this.listOfDbHistoricalPrices.iterator();
 		
-		listOfStrategyResponse.clear();
-		
 		while (iterator.hasNext()){
 			DbStockHistoricalPrice dbStockHistoricalPrice = iterator.next();
 			

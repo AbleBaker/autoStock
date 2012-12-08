@@ -34,12 +34,14 @@ public class PositionGenerator {
 
 		if (accountBalance <= 0){
 //			Co.println("Insufficient account blanace for trade *********************************************************");
-			return 0;
+			throw new IllegalStateException();
+//			return 0;
 		}
 
 		if (accountBalance < units * price){
 //			Co.println("Insufficient account blanace for trade ***********************************************************");
-			return 0;
+			throw new IllegalStateException();
+//			return 0;
 		}
 		
 		return units;
@@ -53,8 +55,9 @@ public class PositionGenerator {
 			return units;
 		}else{
 //			Co.println("Insufficient account blanace for trade ***********************************************************");
+			throw new IllegalStateException();
 		}
 
-		return 0;
+//		return 0;
 	}
 }

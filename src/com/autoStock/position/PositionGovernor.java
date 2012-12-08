@@ -33,7 +33,7 @@ public class PositionGovernor {
 		return instance;
 	}
 	
-	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position){
+	public synchronized PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		SignalPoint signalPoint = new SignalPoint();
 		
