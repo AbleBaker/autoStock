@@ -200,6 +200,10 @@ public class Position implements OrderStatusListener {
 		
 		return positionValue;
 	}
+	
+	public PositionUtils getPositionUtils(){
+		return new PositionUtils(this, listOfOrder);
+	}
 
 	@Override
 	public void orderStatusChanged(Order order, OrderStatus orderStatus) {
