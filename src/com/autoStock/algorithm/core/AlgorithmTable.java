@@ -76,7 +76,7 @@ public class AlgorithmTable {
 				responseString += " | " + strategyResponse.positionGovernorResponse.position.getPositionUtils().getOrderTransactionFeesIntrinsic();
 				responseString += " | " + percentGainString;
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-				responseString = String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFees);
+				responseString = String.valueOf(MathTools.round(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFees));
 				responseString += "(" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)) + ") ";
 				responseString += percentGainString;
 			}else if (strategyResponse.positionGovernorResponse.position.positionType == PositionType.position_exited){
