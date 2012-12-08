@@ -109,7 +109,7 @@ public class Position implements OrderStatusListener {
 			if (positionType == PositionType.position_long_entry || positionType == PositionType.position_short_entry){
 				positionType = PositionType.position_cancelling; 
 			}else{
-				throw new IllegalSelectorException();
+				throw new IllegalStateException();
 			}
 		
 			synchronized (listOfOrder){

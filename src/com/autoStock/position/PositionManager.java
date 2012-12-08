@@ -75,7 +75,8 @@ public class PositionManager implements PositionStatusListener {
 			if (listOfPosition.size() == 0) {
 				Co.println("--> No positions to sell");
 			}else{
-				Co.println("--> Exiting all positions");
+				Co.println("--> Exiting all positions: " + listOfPosition.size());
+				Co.println("--> X: " + listOfPosition.get(0).symbol.symbolName);
 			}
 
 			for (Position position : listOfPosition) {
@@ -98,9 +99,9 @@ public class PositionManager implements PositionStatusListener {
 					return position;
 				}
 			}
-			
-			return null;
 		}
+		
+		return null;
 	}
 
 	public double getCurrentProfitLossAfterComission(boolean bothComissions) {
@@ -150,15 +151,14 @@ public class PositionManager implements PositionStatusListener {
 			}
 			if (position.positionType == PositionType.position_exited || position.positionType == PositionType.position_cancelled){
 				listOfPosition.remove(position);
-				position = null; //?
-//				Co.println("--> Removed... " + listOfPosition.size());
+				position = null;
 			}
 		}
 	}
 
 	public void reset() {
-		synchronized (lock){
-			listOfPosition.clear();			
+		synchronized (lock) {
+			listOfPosition.clear();	
 		}
 	}
 }

@@ -1,4 +1,5 @@
 package com.autoStock.adjust;
+import com.autoStock.Co;
 import com.autoStock.tools.MathTools;
 
 
@@ -27,6 +28,7 @@ public class IterableOfDouble extends IterableBase {
 
 	@Override
 	public boolean hasMore() {
+		Co.println("--> A? " + currentIndex + ", " + getMaxIndex());
 		return currentIndex <= getMaxIndex();
 	}
 
@@ -37,7 +39,7 @@ public class IterableOfDouble extends IterableBase {
 
 	@Override
 	public int getMaxIndex() {
-		return (int) ((int) (max - min) / step);
+		return (int) ((double) (max - min) / step);
 	}
 
 	@Override
@@ -47,6 +49,7 @@ public class IterableOfDouble extends IterableBase {
 
 	@Override
 	public boolean isDone() {
+		Co.println("--> ? " + currentIndex + ", " + getMaxIndex());
 		return currentIndex == getMaxIndex();
 	}
 

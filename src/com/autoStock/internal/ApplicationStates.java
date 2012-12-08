@@ -22,8 +22,10 @@ public class ApplicationStates {
 		databaseCore = new DatabaseCore();
 		databaseCore.init();
 		
-		exchangeController = new ExchangeController();
-		exchangeController.init();
+		if (mode != Mode.client_skip_tws){
+			exchangeController = new ExchangeController();
+			exchangeController.init();
+		}
 		
 		if (mode == Mode.client){
 			
@@ -35,7 +37,7 @@ public class ApplicationStates {
 	}
 	
 	public static void shutdown(){
-		if (Global.getMode() == Mode.client){
+		if (Global.getMode() == Mode.client || Global.getMode() == Mode.client_skip_tws){
 			System.exit(0);
 		}
 		

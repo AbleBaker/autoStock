@@ -150,8 +150,6 @@ public class PositionGovernor {
 	}
 	
 	public void reset(){
-		synchronized (listOfPairedResponses) {
-			listOfPairedResponses.clear();			
-		}
+		listOfPairedResponses.clear();			
 	}
 }

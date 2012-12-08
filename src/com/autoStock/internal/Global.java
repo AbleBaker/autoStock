@@ -16,7 +16,8 @@ public class Global {
 
 	public static enum Mode {
 		server,
-		client
+		client,
+		client_skip_tws,
 	}
 	
 	public static enum Brokerage {

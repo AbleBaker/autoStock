@@ -14,7 +14,7 @@ import java.util.Set;
  *
  */
 public class ListTools {
-	public static void removeDuplicates(ArrayList<Object> arrayList){
+	public static void removeDuplicates(ArrayList<?> arrayList){
 		Set setOfObject = new LinkedHashSet(arrayList);
 		arrayList.clear();
 		arrayList.addAll(setOfObject);

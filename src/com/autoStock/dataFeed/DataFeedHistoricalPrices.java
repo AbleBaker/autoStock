@@ -5,9 +5,11 @@ package com.autoStock.dataFeed;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.backtest.BacktestRevolverListener;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.QuoteSlice;
@@ -53,9 +55,9 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 		}
 	}
 	
-	private void feed(DbStockHistoricalPrice price){
+	private void feed(DbStockHistoricalPrice dbStockHistoricalPrice){
 		for (DataFeedListenerOfQuoteSlice listener : listOfListener){
-			listener.receivedQuoteSlice(new QuoteSlice(new Symbol(price.symbol), price.priceOpen, price.priceHigh, price.priceLow, price.priceClose, -1, -1, price.sizeVolume, price.dateTime, resolution));
+			listener.receivedQuoteSlice(QuoteSliceTools.getQuoteSlice(dbStockHistoricalPrice, resolution));
 		}
 	}
 	

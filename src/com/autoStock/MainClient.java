@@ -16,13 +16,19 @@ import com.autoStock.menu.MenuLauncher;
 public class MainClient {	
 	public static void main(String[] args) throws SQLException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		Co.println("******** Welcome to autoStock ********\n");
-			
-		ApplicationStates.startup(Mode.client);
 
 		MenuController menuController = new MenuController();
 		if (args.length == 0){menuController.displayMenu(MenuStructures.menu_main); ApplicationStates.shutdown();}
 		MenuStructures menuStructure = menuController.getRelatedMenu(args);
 		menuController.handleMenuStructure(menuStructure, args);
+		
+		if (menuStructure == MenuStructures.menu_main_backtest 
+			|| menuStructure == MenuStructures.menu_main_clustered_backtest 
+			|| menuStructure == MenuStructures.menu_main_clustered_backtest_client){
+				ApplicationStates.startup(Mode.client_skip_tws);
+		}else{
+			ApplicationStates.startup(Mode.client);
+		}
 		
 		new MenuLauncher().launchDisplay(menuStructure);
 		

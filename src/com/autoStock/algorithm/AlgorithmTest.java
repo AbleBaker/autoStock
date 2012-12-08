@@ -3,6 +3,7 @@ package com.autoStock.algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfSignalMetric;

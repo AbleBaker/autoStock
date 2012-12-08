@@ -37,9 +37,9 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 		
 		if (listOfPrices.size() == 0){
 			endOfFeed();
+		}else{
+			dataFeedHistoricalPrices.startFeed();	
 		}
-		
-		dataFeedHistoricalPrices.startFeed();
 	}
 
 	@Override

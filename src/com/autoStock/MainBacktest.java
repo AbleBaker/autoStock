@@ -29,6 +29,7 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.ListTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -99,9 +100,12 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			throw new IllegalArgumentException("Weekday not entered");
 		}
 		
+		ListTools.removeDuplicates(listOfSymbols);
+		
 		for (Date date : listOfBacktestDates) {
 			HistoricalDataList historicalDataList = new HistoricalDataList();
-			for (String symbol : listOfSymbols){
+			
+			for (String symbol : listOfSymbols){				
 				HistoricalData dayHistoricalData = new HistoricalData(exchange, new Symbol(symbol), baseHistoricalData.securityType, (Date)date.clone(), (Date)date.clone(), baseHistoricalData.resolution);
 				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
 				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
@@ -129,8 +133,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	
 	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList){
 		callbacks.set(listOfBacktestContainer.size());
-		PositionGovernor.getInstance().reset();
 		Co.println("\nBacktesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()) + "%): " + currentBacktestDayIndex);
+		
+		PositionGovernor.getInstance().reset();
 		
 		boolean backtestContainedNoData = false;
 		
@@ -179,10 +184,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				return false;
 			}
 			
-			PositionManager.getInstance().executeExitAll();
-			
 			if (Account.getInstance().getAccountBalance() > metricBestAccountBalance){
-				listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, 0, 0, 0)); //listOfBacktestContainer.get(0).algorithm.strategy.signal));
+				if (listOfBacktestContainer.get(0).algorithm != null){
+					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, 0, 0, 0)); //listOfBacktestContainer.get(0).algorithm.strategy.signal));
+				}
 				metricBestAccountBalance = Account.getInstance().getAccountBalance();
 			}
 						
@@ -214,6 +219,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		if (callbacks.decrementAndGet() == 0) {
 			Co.println("--> All called back...");
 			bench.printTick("Backtested");
+			
+			PositionManager.getInstance().executeExitAll();
 
 			if (runNextBacktestForDays(false) == false) {
 				if (backtestType == BacktestType.backtest_default) {
