@@ -183,9 +183,13 @@ public class DateTools {
 	
 	public static Time getTimeFromDate(Date date){
 		Time time = new Time();
-		time.hours = date.getHours();
-		time.minutes = date.getMinutes();
-		time.seconds = date.getSeconds();
+		@SuppressWarnings("deprecation")
+		long dateMills = date.getTime() - date.getTimezoneOffset() * 60 * 1000;
+
+		time.seconds = (int) (dateMills / 1000) % 60 ;
+		time.minutes = (int) ((dateMills / (1000*60)) % 60);
+		time.hours  = (int) ((dateMills / (1000*60*60)) % 24);
+		
 		return time;
 	}
 }

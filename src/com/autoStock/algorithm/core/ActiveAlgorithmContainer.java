@@ -60,9 +60,9 @@ public class ActiveAlgorithmContainer {
 		Position position = PositionManager.getInstance().getPosition(symbol);
 		if (position != null){
 			if (position.positionType == PositionType.position_long){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_long_exit);
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_long_exit, position);
 			}else if (position.positionType == PositionType.position_short){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_short_exit);	
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_short_exit, position);	
 			}else{
 				throw new IllegalStateException();
 			}

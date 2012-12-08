@@ -32,7 +32,7 @@ public class PositionManager implements PositionStatusListener {
 		return instance;
 	}
 
-	public synchronized Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType) {
+	public synchronized Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType, Position inboundPosition) {
 		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry) {
 				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange);
@@ -51,13 +51,11 @@ public class PositionManager implements PositionStatusListener {
 				}
 				return position;
 			} else if (positionType == PositionType.position_long_exit) {
-				Position position = getPosition(quoteSlice.symbol);
-				positionExecutor.executeLongExit(position);
-				return position;
+				positionExecutor.executeLongExit(inboundPosition);
+				return inboundPosition;
 			} else if (positionType == PositionType.position_short_exit) {
-				Position position = getPosition(quoteSlice.symbol);
-				positionExecutor.executeShortExit(position);	
-				return position;
+				positionExecutor.executeShortExit(inboundPosition);	
+				return inboundPosition;
 			} else {
 				throw new UnsupportedOperationException();
 			}
