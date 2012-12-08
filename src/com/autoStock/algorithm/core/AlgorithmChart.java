@@ -39,7 +39,9 @@ public class AlgorithmChart {
 		chart.listOfSignalTotal.add((int) SignalTools.getCombinedSignal(strategyResponse.signal).strength);
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		
-		chart.listOfDebugAlpha.add(signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue() == 0 ? Double.MIN_VALUE : signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue());
+		if (signalGroup != null){
+			chart.listOfDebugAlpha.add(signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue() == 0 ? Double.MIN_VALUE : signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue());
+		}
 		
 		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
 			chart.listOfEntryAtPrice.add(quoteSlice.priceClose);

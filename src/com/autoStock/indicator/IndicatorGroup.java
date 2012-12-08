@@ -93,7 +93,9 @@ public class IndicatorGroup {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_mfi)){resultsMFI = indicatorOfMFI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
 		
-//		candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_candlestick_group)){
+			candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);
+		}
 	}
 	
 	public ArrayList<IndicatorBase> getListOfIndicatorBase(){

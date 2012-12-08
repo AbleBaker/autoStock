@@ -55,6 +55,8 @@ public class SignalDefinitions {
 				
 		metric_storsi(null,0,0,0,0),
 		
+		metric_candlestick_group,
+		
 		none,
 		no_change,
 		mixed,
