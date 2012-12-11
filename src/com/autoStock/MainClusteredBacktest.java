@@ -99,7 +99,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		}
 	}
 	
-	public void displayResultTable(){
+	public void displayResultTable(){ //TODO: Probably going to run out of memory here...
 		ArrayList<ComputeResultForBacktestPartial> list = new ArrayList<ComputeResultForBacktestPartial>();
 		
 		for (ComputeResultForBacktest computeResultForBacktest : listOfComputeResultForBacktest){
@@ -107,8 +107,6 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		}
 		
 		Collections.sort(list, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_descending));
-		
-		Co.println("--> Size? " + list.size() + ", " + listOfComputeResultForBacktest.size());
 		
 		for (ComputeResultForBacktestPartial computeUnit : list.subList(0, Math.min(list.size()-1, 10))){
 			Co.println(computeUnit.resultDetails);
