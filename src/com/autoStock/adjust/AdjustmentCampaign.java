@@ -44,8 +44,8 @@ public class AdjustmentCampaign {
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().maxReenterTimes, new IterableOfInteger(1, 5, 1)));
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicDouble(StrategyOptionManager.getInstance().getDefaultStrategyOptions().minReentryPercentGain, new IterableOfDouble(0.1, 1.0, 0.1)));
 		
-//		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(SignalControl.periodLengthStart, new IterableOfInteger(8, 30, 2)));
-//		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(SignalControl.periodLengthMiddle, new IterableOfInteger(15, 45, 2)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(SignalControl.periodLengthStart, new IterableOfInteger(8, 30, 2)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(SignalControl.periodLengthMiddle, new IterableOfInteger(15, 45, 2)));
 	}
 	
 	public static AdjustmentCampaign getInstance(){
