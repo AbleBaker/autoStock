@@ -1,4 +1,7 @@
 package com.autoStock.adjust;
+
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  * 
@@ -18,5 +21,9 @@ public abstract class IterableBase {
 
 	public void reset() {
 		currentIndex = 0;
+	}
+	
+	public void overrideAndSetCurrentIndex(int currentIndex){
+		this.currentIndex = currentIndex;
 	}
 }

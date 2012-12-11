@@ -21,15 +21,15 @@ public class StrategyOptions {
 	public SignalPointTactic signalPointTacticForReentry;
 	public SignalPointTactic signalPointTacticForExit;
 	
-	public int maxTransactionsDay = 4;
-	public double minTakeProfitExit = 1.98d;
+	public int maxTransactionsDay;
+	public double minTakeProfitExit;
 	public ImmutableDouble minReentryPercentGain = new ImmutableDouble();
 	public ImmutableInteger maxStopLossValue = new ImmutableInteger();
-	public int maxNilChangePrice = 15;
-	public int maxNilChangeVolume = 10;
-	public int maxPositionEntryTime = 30;
-	public int maxPositionTaperTime = 30;
-	public int maxPositionExitTime = 5;
+	public int maxNilChangePrice;
+	public int maxNilChangeVolume;
+	public int maxPositionEntryTime;
+	public int maxPositionTaperTime;
+	public int maxPositionExitTime;
 	public ImmutableInteger maxReenterTimes = new ImmutableInteger();
 	public ImmutableInteger intervalForReentryMins = new ImmutableInteger();
 }

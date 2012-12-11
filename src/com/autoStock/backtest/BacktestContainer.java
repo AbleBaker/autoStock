@@ -69,7 +69,9 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	
 	@Override
 	public synchronized void endOfFeed(Symbol symbol) {
-		listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
+		if (algorithmMode == AlgorithmMode.mode_backtest){
+			listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
+		}
 		algorithm.endOfFeed(symbol);
 		listener.backtestCompleted(symbol, algorithm);
 	}

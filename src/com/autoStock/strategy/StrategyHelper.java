@@ -15,15 +15,15 @@ public class StrategyHelper {
 		if (strategyOptions.taperPeriodLength == false) {
 			return periodLength;
 		} else {
-			if (new AlgorithmCondition(strategyOptions).taperPeriodLengthLower(date, exchange)) {
+//			if (new AlgorithmCondition(strategyOptions).taperPeriodLengthLower(date, exchange)) {
 //				if (periodLength > SignalControl.periodLengthEnd.value) {
 //					periodLength--;
 //				}
-			} else {
+//			} else {
 				if (periodLength + 1 <= SignalControl.periodLengthMiddle.value) {
 					periodLength++;
 				}
-			}
+//			}
 		}
 		
 		return periodLength;

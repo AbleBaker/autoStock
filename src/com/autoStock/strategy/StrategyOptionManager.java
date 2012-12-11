@@ -22,7 +22,7 @@ public class StrategyOptionManager {
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.disableAfterLoss = false;
-		strategyOptions.taperPeriodLength = false;
+		strategyOptions.taperPeriodLength = true;
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
@@ -35,7 +35,7 @@ public class StrategyOptionManager {
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes.value = 15;
+		strategyOptions.maxReenterTimes.value = 5;
 		strategyOptions.intervalForReentryMins.value = 1;
 		strategyOptions.minReentryPercentGain.value = 0.10;
 	}

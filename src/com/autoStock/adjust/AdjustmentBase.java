@@ -6,7 +6,6 @@ package com.autoStock.adjust;
  */
 public abstract class AdjustmentBase {
 	protected IterableBase iterableBase;
-	
 	public abstract void applyValue();
 	
 	public IterableBase getIterableBase(){
