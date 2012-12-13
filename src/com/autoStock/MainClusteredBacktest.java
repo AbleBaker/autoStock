@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfPortable;
@@ -31,16 +32,16 @@ import com.autoStock.types.Exchange;
 public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private static MainClusteredBacktest instance;
 	private ArrayList<ClusterNode> listOfClusterNode = new ArrayList<ClusterNode>();
-	private ArrayList<ComputeUnitForBacktest> listOfComputeUnitForBacktest = new ArrayList<ComputeUnitForBacktest>();
-	private ArrayList<ComputeResultForBacktest> listOfComputeResultForBacktest = new ArrayList<ComputeResultForBacktest>();
+	private ArrayList<ComputeResultForBacktestPartial> listOfComputeResultForBacktestPartial = new ArrayList<ComputeResultForBacktestPartial>();
+	private ArrayList<Long> listOfComputeUnitResultIds = new ArrayList<Long>();
 	private ArrayList<String> listOfSymbols;
 	private Exchange exchange;
 	private ClusterServer clusterServer;
 	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
-	private AtomicInteger atomicIntForRequestId = new AtomicInteger();
+	private AtomicLong atomicIntForRequestId = new AtomicLong();
 	private Date dateStart;
 	private Date dateEnd;
-	private final int computeUnitIterationSize = 64;
+	private final int computeUnitIterationSize = 256;
 	private Benchmark bench = new Benchmark();
 	private Benchmark benchTotal = new Benchmark();
 	
@@ -90,9 +91,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		bench.tick();
 		
 		if (listOfIteration.size() > 0){
-			ComputeUnitForBacktest computeUnitForBacktest = new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
-			listOfComputeUnitForBacktest.add(computeUnitForBacktest);
-			return computeUnitForBacktest;
+			return new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
 		}else{
 			Co.println("--> No units left...");
 			return null;
@@ -100,27 +99,30 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public void displayResultTable(){ //TODO: Probably going to run out of memory here...
-		ArrayList<ComputeResultForBacktestPartial> list = new ArrayList<ComputeResultForBacktestPartial>();
+//		Collections.sort(listOfComputeResultForBacktestPartial, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_descending));
 		
-		for (ComputeResultForBacktest computeResultForBacktest : listOfComputeResultForBacktest){
-			list.addAll(computeResultForBacktest.listOfComputeResultForBacktestPartial);
+//		for (ComputeResultForBacktestPartial computeUnit : list.subList(0, Math.min(list.size()-1, 10))){
+		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartial){
+			Co.println(computeUnitResult.resultDetails);
 		}
-		
-		Collections.sort(list, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_descending));
-		
-		for (ComputeResultForBacktestPartial computeUnit : list.subList(0, Math.min(list.size()-1, 10))){
-			Co.println(computeUnit.resultDetails);
-		}
+	}
+	
+	public void pruneToTop(int count){
+		Collections.sort(listOfComputeResultForBacktestPartial, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_descending));		
+		listOfComputeResultForBacktestPartial = new ArrayList<ComputeResultForBacktestPartial>(listOfComputeResultForBacktestPartial.subList(0, Math.min(listOfComputeResultForBacktestPartial.size()-1, count)));
 	}
 
 	@Override
 	public synchronized void receivedCommand(CommandHolder commandHolder) {
 		if (commandHolder.command == Command.backtest_results){			
 			ComputeResultForBacktest computeResult = (ComputeResultForBacktest) commandHolder.commandParameters;
-			listOfComputeResultForBacktest.add(computeResult);
+			
+			listOfComputeUnitResultIds.add(computeResult.requestId);
+			
+			listOfComputeResultForBacktestPartial.addAll(computeResult.listOfComputeResultForBacktestPartial);
+			pruneToTop(10);
 			
 //			Co.println("--> Received result... " + computeResult.requestId + ", " + computeResult.unitId);
-			
 //			Co.println("--> Progress: " + listOfComputeResultForBacktest.size() + ", " + adjustmentCampaign.getPermutationCount());
 
 			if (isComplete()){
@@ -133,7 +135,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public boolean isComplete(){
-		if (adjustmentCampaign.hasMore() == false && listOfComputeUnitForBacktest.size() == listOfComputeResultForBacktest.size()){
+		Co.println("--> ");
+		if (adjustmentCampaign.hasMore() == false && atomicIntForRequestId.get() == listOfComputeUnitResultIds.size()){
 			return true;
 		}else{
 			return false;

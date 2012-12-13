@@ -75,14 +75,14 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	}
 	
 	public void sendBacktestResult(){
-		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(listOfComputeResultForBacktestPartial));
+		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, listOfComputeResultForBacktestPartial));
 		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
 		listOfComputeResultForBacktestPartial.clear();
 	}
 	
 	public void storeBacktestResult(){
 		ArrayList<AdjustmentOfPortable> listOfIteration = (ArrayList<AdjustmentOfPortable>) computeUnitForBacktest.listOfAdjustment.get(atomicIntBacktestIndex.get()-1);
-		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(computeUnitForBacktest.requestId, atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, 0, 0, 0)));
+		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, 0, 0, 0)));
 	}
 
 	@Override

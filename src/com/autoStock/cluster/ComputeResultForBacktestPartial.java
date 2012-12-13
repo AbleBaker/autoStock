@@ -12,12 +12,10 @@ public class ComputeResultForBacktestPartial {
 	public double accountBalance;
 	public int transactions;
 	public ArrayList<AdjustmentOfPortable> listOfAdjustment;
-	public int requestId;
 	public int unitId;
 	public String resultDetails;
 	
-	public ComputeResultForBacktestPartial(int requestId, int unitId, ArrayList<AdjustmentOfPortable> listOfAdjustmentOfPortable, double accountBalance, int transactions, String resultDetails){
-		this.requestId = requestId;
+	public ComputeResultForBacktestPartial( int unitId, ArrayList<AdjustmentOfPortable> listOfAdjustmentOfPortable, double accountBalance, int transactions, String resultDetails){
 		this.unitId = unitId;
 		this.listOfAdjustment = listOfAdjustmentOfPortable;
 		this.accountBalance = accountBalance;
