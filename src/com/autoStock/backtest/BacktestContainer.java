@@ -62,6 +62,10 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		backtest.performBacktest(this);
 	}
 	
+	public void reset(){
+		listOfStrategyResponse.clear();
+	}
+	
 	@Override
 	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		algorithm.receiveQuoteSlice(quoteSlice);
@@ -69,7 +73,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	
 	@Override
 	public synchronized void endOfFeed(Symbol symbol) {
-		if (algorithmMode == AlgorithmMode.mode_backtest){
+		if (algorithmMode == AlgorithmMode.mode_backtest || algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
 			listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
 		}
 		algorithm.endOfFeed(symbol);

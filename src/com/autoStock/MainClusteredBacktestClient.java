@@ -8,6 +8,7 @@ import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfPortable;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
+import com.autoStock.backtest.BacktestUtils.BacktestResultDetails;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.cluster.ComputeResultForBacktest;
 import com.autoStock.cluster.ComputeResultForBacktestPartial;
@@ -22,6 +23,7 @@ import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionManager;
+import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski
@@ -82,7 +84,9 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	
 	public void storeBacktestResult(){
 		ArrayList<AdjustmentOfPortable> listOfIteration = (ArrayList<AdjustmentOfPortable>) computeUnitForBacktest.listOfAdjustment.get(atomicIntBacktestIndex.get()-1);
-		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, 0, 0, 0)));
+		BacktestResultDetails backtestResultDetails = BacktestUtils.getProfitLossDetails(mainBacktest.getListOfBacktestContainer());
+		double percent = MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100);
+		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), percent, Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails.countForTradesProfit, backtestResultDetails.countForTradesLoss, backtestResultDetails.countForTradesReentry)));
 	}
 
 	@Override

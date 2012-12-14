@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.finance.Account;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalMetric;
 import com.autoStock.strategy.StrategyOptions;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
 
@@ -19,11 +21,11 @@ public class BacktestUtils {
 	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, int countForTradesProfit, int countForTradesLoss, int countForReentry){
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance()) + " ********";
 		
-		string += "\n --> Balance: " + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance());
+		string += "\n --> Balance: $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance());
 		string += "\n --> Transactions: " + Account.getInstance().getTransactions();
-		string += "\n --> Fees: " + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
+		string += "\n --> Fees: $" + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
 		
-		string += "\n --> Transactions Profit / Loss: " + MathTools.round((double)countForTradesProfit / (double)(countForTradesProfit + countForTradesLoss)) + "%, " + countForTradesProfit + ", " + countForTradesLoss;
+		string += "\n --> Transactions Profit / Loss: " + MathTools.round(((double)countForTradesProfit / (double)(countForTradesProfit + countForTradesLoss)) * 100) + "%, " + countForTradesProfit + ", " + countForTradesLoss;
 		string += "\n --> Reentered: " + countForReentry;
 		
 		string += "\n --> SignalControl: " + SignalControl.periodLengthStart.value + ", " + SignalControl.periodLengthMiddle.value + ", " + SignalControl.periodLengthEnd.value;
@@ -67,5 +69,31 @@ public class BacktestUtils {
 		for (String string : listOfStringBestBacktestResults){
 			Co.println(string);
 		}
+	}
+	
+	public static BacktestResultDetails getProfitLossDetails(ArrayList<BacktestContainer> listOfBacktestContainer){
+		BacktestResultDetails backtestProfitLossType = new BacktestResultDetails();
+
+		for (BacktestContainer backtestContainer : listOfBacktestContainer){
+			for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse){
+				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
+					if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) > 0){
+						backtestProfitLossType.countForTradesProfit++;
+					}else if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) <= 0){
+						backtestProfitLossType.countForTradesLoss++;
+					}
+				}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry){
+					backtestProfitLossType.countForTradesReentry++;
+				}
+			}
+		}
+		
+		return backtestProfitLossType;
+	}
+	
+	public static class BacktestResultDetails {
+		public int countForTradesProfit = 0;
+		public int countForTradesLoss = 0;
+		public int countForTradesReentry = 0;
 	}
 }

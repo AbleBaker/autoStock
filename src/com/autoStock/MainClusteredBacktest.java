@@ -41,7 +41,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private AtomicLong atomicIntForRequestId = new AtomicLong();
 	private Date dateStart;
 	private Date dateEnd;
-	private final int computeUnitIterationSize = 256;
+	private final int computeUnitIterationSize = 512;
+	private final int computeUnitResultPruneSize = 64;
 	private Benchmark bench = new Benchmark();
 	private Benchmark benchTotal = new Benchmark();
 	
@@ -98,10 +99,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		}
 	}
 	
-	public void displayResultTable(){ //TODO: Probably going to run out of memory here...
-//		Collections.sort(listOfComputeResultForBacktestPartial, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_descending));
-		
-//		for (ComputeResultForBacktestPartial computeUnit : list.subList(0, Math.min(list.size()-1, 10))){
+	public void displayResultTable(){
 		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartial){
 			Co.println(computeUnitResult.resultDetails);
 		}
@@ -120,7 +118,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			listOfComputeUnitResultIds.add(computeResult.requestId);
 			
 			listOfComputeResultForBacktestPartial.addAll(computeResult.listOfComputeResultForBacktestPartial);
-			pruneToTop(10);
+			pruneToTop(computeUnitResultPruneSize);
 			
 //			Co.println("--> Received result... " + computeResult.requestId + ", " + computeResult.unitId);
 //			Co.println("--> Progress: " + listOfComputeResultForBacktest.size() + ", " + adjustmentCampaign.getPermutationCount());
@@ -135,7 +133,6 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public boolean isComplete(){
-		Co.println("--> ");
 		if (adjustmentCampaign.hasMore() == false && atomicIntForRequestId.get() == listOfComputeUnitResultIds.size()){
 			return true;
 		}else{
