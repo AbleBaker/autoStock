@@ -35,9 +35,9 @@ public class StrategyOptionManager {
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionTaperTime = 30;
-		strategyOptions.maxReenterTimes.value = 5;
-		strategyOptions.intervalForReentryMins.value = 1;
-		strategyOptions.minReentryPercentGain.value = 0.10;
+		strategyOptions.maxReenterTimes.value = 3;
+		strategyOptions.intervalForReentryMins.value = 10;
+		strategyOptions.minReentryPercentGain.value = 0.20;
 	}
 	
 	public StrategyOptions getDefaultStrategyOptions(){

@@ -58,7 +58,12 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void error(int id, int errorCode, String errorMsg) {
 		if (!discardErrorCodes.contains(errorCode)){
-			Co.log("Error occurred:" + errorCode + "," + errorMsg);
+			Co.log("Error occurred:" + id + ", " + errorCode + "," + errorMsg);
+		}
+		
+		if (id >= 0 && RequestManager.getRequestHolder(id).caller instanceof RequestMarketOrder){
+			((RequestMarketOrder)RequestManager.getRequestHolder(id).caller).addResult(new ExResultRowMarketOrder(0, 0, 0, 0, 0,0, IbOrderStatus.status_cancelled));
+			((RequestMarketOrder)RequestManager.getRequestHolder(id).caller).finished();
 		}
 	}
 

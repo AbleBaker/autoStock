@@ -14,9 +14,11 @@ import com.autoStock.algorithm.core.AlgorithmTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.indicator.CommonAnlaysisData;
 import com.autoStock.indicator.IndicatorGroup;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
+import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyResponse;
@@ -32,7 +34,7 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class AlgorithmBase {
+public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	public int periodLength = SignalControl.periodLengthStart.value;
 	public Exchange exchange;
 	public Symbol symbol;
@@ -76,7 +78,7 @@ public class AlgorithmBase {
 		return (ReceiverOfQuoteSlice) this;
 	}
 	
-	public void handlePositionChange(boolean isReentry){
+	public void handlePositionChange(boolean isReentry, Position position){
 		if (isReentry == false){
 			algorithmState.transactions++;
 		}
@@ -97,9 +99,9 @@ public class AlgorithmBase {
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry
 				|| positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-					handlePositionChange(false);
+					handlePositionChange(false, strategyResponse.positionGovernorResponse.position);
 			}else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
-				handlePositionChange(true);
+				handlePositionChange(true, strategyResponse.positionGovernorResponse.position);
 			}
 			if (algorithmListener != null){
 				algorithmListener.receiveChangedStrategyResponse(strategyResponse);
@@ -142,5 +144,14 @@ public class AlgorithmBase {
 	
 	public QuoteSlice getFirstQuoteSlice(){
 		return firstQuoteSlice;
+	}
+
+	@Override
+	public void positionStatusChanged(Position position) {
+		Co.println("--> Received position change! ");
+		if (position.positionType == PositionType.position_cancelled){
+			Co.println("--> Position was cancelled... Disabling!");
+			disable();
+		}
 	}
 }

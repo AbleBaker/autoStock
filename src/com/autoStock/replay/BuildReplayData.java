@@ -53,7 +53,7 @@ public class BuildReplayData {
 		for (AlgorithmInfo algorithmInfo : listOfAlgorithmInfo){
 			if (algorithmInfo.dateDeactivated != null){
 				Co.println("insert into replay(exchange,symbol, dateTimeActivated, dateTimeDeactivate) values("
-					+ exchange.name 
+					+ exchange.exchangeName 
 					+ algorithmInfo.symbol 
 					+ DateTools.getPrettyDate(algorithmInfo.dateActivated)
 					+ DateTools.getPrettyDate(algorithmInfo.dateDeactivated)); 

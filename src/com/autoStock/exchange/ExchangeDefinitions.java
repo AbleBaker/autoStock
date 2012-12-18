@@ -10,5 +10,6 @@ public class ExchangeDefinitions {
 		NYSE,
 		ASX,
 		NASDAQ,
+		TSEJ,
 	}
 }

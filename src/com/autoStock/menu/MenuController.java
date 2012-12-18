@@ -5,6 +5,7 @@ package com.autoStock.menu;
 
 import com.autoStock.Co;
 import com.autoStock.internal.ApplicationStates;
+import com.autoStock.internal.Global;
 import com.autoStock.menu.MenuDefinitions.MenuArgumentTypes;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;

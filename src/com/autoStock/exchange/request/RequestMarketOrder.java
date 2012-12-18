@@ -21,24 +21,34 @@ public class RequestMarketOrder {
 	private ExResultSetMarketOrder exResultSetMarketOrder;
 	private RequestHolder requestHolder;
 	private Order order;
+	private Thread threadForExecution;
 	
 	public RequestMarketOrder(RequestHolder requestHolder, Order order, Exchange exchange){
 		this.requestHolder = requestHolder;
 		this.requestHolder.caller = this;
 		this.order = order;
 		this.exResultSetMarketOrder = new ExResultMarketOrder(). new ExResultSetMarketOrder(order);
+	}
+	
+	public void execute(){
+		threadForExecution = new Thread(new Runnable(){
+			@Override
+			public void run() {
+				if (order.orderType == OrderType.order_long_entry){
+					ExchangeController.getIbExchangeInstance().placeLongEntry(order, requestHolder);
+				}else if (order.orderType == OrderType.order_long_exit){
+					ExchangeController.getIbExchangeInstance().placeLongExit(order, requestHolder);
+				}else if (order.orderType == OrderType.order_short_entry){
+					 ExchangeController.getIbExchangeInstance().placeShortEntry(order, requestHolder);
+				}else if (order.orderType == OrderType.order_short_exit){
+					 ExchangeController.getIbExchangeInstance().placeShortExit(order, requestHolder);
+				}else{
+					throw new UnsupportedOperationException();
+				}	
+			}
+		});
 		
-		if (order.orderType == OrderType.order_long_entry){
-			ExchangeController.getIbExchangeInstance().placeLongEntry(order, requestHolder);
-		}else if (order.orderType == OrderType.order_long_exit){
-			ExchangeController.getIbExchangeInstance().placeLongExit(order, requestHolder);
-		}else if (order.orderType == OrderType.order_short_entry){
-			 ExchangeController.getIbExchangeInstance().placeShortEntry(order, requestHolder);
-		}else if (order.orderType == OrderType.order_short_exit){
-			 ExchangeController.getIbExchangeInstance().placeShortExit(order, requestHolder);
-		}else{
-			throw new UnsupportedOperationException();
-		}
+		threadForExecution.start();
 	}
 	
 	public synchronized void addResult(ExResultRowMarketOrder exResultRowMarketOrder){
@@ -51,6 +61,7 @@ public class RequestMarketOrder {
 	}
 	
 	public void cancel(){
+		try {threadForExecution.interrupt();}catch(Exception e){}
 		ExchangeController.getIbExchangeInstance().cancelMarketOrder(requestHolder);
 	}
 }

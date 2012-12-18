@@ -126,6 +126,8 @@ public class Order {
 						Co.println("--> Failed with ibOrderStatus: " + ibOrderStatus.name());
 					}
 				}), this, exchange);
+				
+				requestMarketOrder.execute();
 			}else{
 				new OrderSimulator(this).simulateOrderFill();
 			}

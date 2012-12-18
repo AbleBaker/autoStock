@@ -17,18 +17,26 @@ public class SubsetOfScannerSubscription {
 
 		scannerSubscription.stockTypeFilter("ALL");
 		scannerSubscription.averageOptionVolumeAbove(0);
-		scannerSubscription.abovePrice(2.00);
-		scannerSubscription.belowPrice(100.00);
+		scannerSubscription.aboveVolume(250000);
 
 		if (exchange.exchangeDesignation == ExchangeDesignation.NYSE) {
 			scannerSubscription.instrument("STK");
 			scannerSubscription.locationCode("STK.NYSE");
+			scannerSubscription.abovePrice(2.00);
+			scannerSubscription.belowPrice(100.00);
 		} else if (exchange.exchangeDesignation == ExchangeDesignation.NASDAQ){
 			scannerSubscription.instrument("STK");
 			scannerSubscription.locationCode("STK.NASDAQ");
+			scannerSubscription.abovePrice(2.00);
+			scannerSubscription.belowPrice(100.00);
 		} else if (exchange.exchangeDesignation == ExchangeDesignation.ASX) {
 			scannerSubscription.instrument("STOCK.HK");
 			scannerSubscription.locationCode("STK.HK.ASX");
+			scannerSubscription.abovePrice(2.00);
+			scannerSubscription.belowPrice(100.00);
+		} else if (exchange.exchangeDesignation == ExchangeDesignation.TSEJ) {
+			scannerSubscription.instrument("STOCK.HK");
+			scannerSubscription.locationCode("STK.HK.TSE_JPN");
 		} else {
 			throw new UnsupportedOperationException();
 		}

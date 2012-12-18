@@ -45,7 +45,7 @@ public class AlgorithmManager {
 		for (MultipleResultRowMarketScanner result : listOfMultipleResultRowMarketScanner){
 			if (listOfActiveAlgorithmContainer.size() >= 300){
 				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + result.marketScannerType.name() + ", " + result.symbol);
-			}else if (getAlgorithmContainerForSymbol(result.symbol) == null){
+			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.exchangeName) == null){
 				Co.println("Will run algorithm for symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				algorithmInfoManager.activatedSymbol(result.symbol);
 				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol));
@@ -94,9 +94,9 @@ public class AlgorithmManager {
 		}
 	}
 	
-	private ActiveAlgorithmContainer getAlgorithmContainerForSymbol(String symbol){
+	private ActiveAlgorithmContainer getAlgorithmContainerForSymbol(String symbol, String exchange){
 		for (ActiveAlgorithmContainer container : listOfActiveAlgorithmContainer){
-			if (container.symbol.symbolName.equals(symbol)){
+			if (container.symbol.symbolName.equals(symbol) && container.exchange.exchangeName.equals(exchange)){
 				return container;
 			}
 		}

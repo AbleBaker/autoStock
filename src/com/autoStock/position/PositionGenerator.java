@@ -17,31 +17,28 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionGenerator {
 	private Account account = Account.getInstance();
+	private boolean throwOnInsufficientBalance = false;
 	
-	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange){
-		int positionUnits = (int) getPositionInitialUnits(quoteSlice.priceClose, signal);
+	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions){
+		int positionUnits = getPositionInitialUnits(quoteSlice.priceClose, signal);
 		
 		if (positionUnits != 0){
-			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, "STK", quoteSlice.priceClose);
+			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, "STK", quoteSlice.priceClose, positionOptions);
 		}
 		
 		return null;
 	}
 	
-	private double getPositionInitialUnits(double price, Signal signal){
+	private int getPositionInitialUnits(double price, Signal signal){
 		double accountBalance = account.getAccountBalance();
-		double units = 100;
+		int units = 100;
 
-		if (accountBalance <= 0){
-//			Co.println("Insufficient account blanace for trade *********************************************************");
-			throw new IllegalStateException();
-//			return 0;
-		}
-
-		if (accountBalance < units * price){
-//			Co.println("Insufficient account blanace for trade ***********************************************************");
-			throw new IllegalStateException();
-//			return 0;
+		if (accountBalance <= 0 || accountBalance < units * price){
+			Co.println("Insufficient account blanace for trade");
+			if (throwOnInsufficientBalance){
+				throw new IllegalStateException();
+			}
+			return 0;
 		}
 		
 		return units;
@@ -50,14 +47,15 @@ public class PositionGenerator {
 	public int getPositionReentryUnits(double price, Signal signal){
 		double accountBalance = account.getAccountBalance();
 		int units = 100;
-		
-		if (accountBalance > units * price){
-			return units;
-		}else{
-//			Co.println("Insufficient account blanace for trade ***********************************************************");
-			throw new IllegalStateException();
-		}
 
-//		return 0;
+		if (accountBalance <= 0 || accountBalance < units * price){
+			Co.println("Insufficient account blanace for trade");
+			if (throwOnInsufficientBalance){
+				throw new IllegalStateException();
+			}
+			return 0;
+		}
+		
+		return units;
 	}
 }

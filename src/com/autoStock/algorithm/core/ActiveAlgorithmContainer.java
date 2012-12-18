@@ -21,10 +21,10 @@ import com.autoStock.types.Symbol;
  *
  */
 public class ActiveAlgorithmContainer {
-	public AlgorithmTest algorithm;
+	public final AlgorithmTest algorithm;
+	public final Symbol symbol;
+	public final Exchange exchange;
 	public RequestMarketSymbolData requestMarketData;
-	public Symbol symbol;
-	private Exchange exchange;
 	
 	public ActiveAlgorithmContainer(boolean canTrade, Exchange exchange, Symbol symbol){
 		this.symbol = symbol;
@@ -60,9 +60,9 @@ public class ActiveAlgorithmContainer {
 		Position position = PositionManager.getInstance().getPosition(symbol);
 		if (position != null){
 			if (position.positionType == PositionType.position_long){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_long_exit, position);
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_long_exit, position, null);
 			}else if (position.positionType == PositionType.position_short){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_short_exit, position);	
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_short_exit, position, null);
 			}else{
 				throw new IllegalStateException();
 			}

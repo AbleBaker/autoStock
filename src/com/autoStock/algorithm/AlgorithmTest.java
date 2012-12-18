@@ -9,6 +9,7 @@ import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfSignalMetric;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
+import com.autoStock.position.PositionOptions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
@@ -53,7 +54,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			indicatorGroup.analyize(listOfSignalMetricType);
 			signalGroup.generateSignals(commonAnlaysisData, periodLength);
 
-			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position);
+			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position, new PositionOptions(this));
 		
 			handleStrategyResponse(strategyResponse);
 

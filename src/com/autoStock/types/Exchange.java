@@ -18,7 +18,7 @@ import com.autoStock.types.basic.Time;
  */
 
 public class Exchange extends ExchangeDefinitions {
-	public String name;
+	public String exchangeName;
 	public CurrencyDefinitions currency;
 	public Time timeOpenForeign;
 	public Time timeCloseForeign;
@@ -39,7 +39,7 @@ public class Exchange extends ExchangeDefinitions {
 			throw new UnsupportedOperationException("No exchange matched: " + name);
 		}
 		DbExchange queryResultOfExchange = listOfQrExchange.get(0);
-		this.name = name;
+		this.exchangeName = name;
 		currency = CurrencyDefinitions.valueOf(queryResultOfExchange.currency);
 		timeOpenForeign = queryResultOfExchange.timeOpen;
 		timeCloseForeign = queryResultOfExchange.timeClose;

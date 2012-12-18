@@ -37,14 +37,6 @@ public class ApplicationStates {
 	}
 	
 	public static void shutdown(){
-		if (Global.getMode() == Mode.client || Global.getMode() == Mode.client_skip_tws){
-			System.exit(0);
-		}
-		
-		if (Global.getMode() == Mode.server){
-			try {MainServer.runningThread.interrupt();}catch(Exception e){}
-			Co.println("Good bye!");
-			System.exit(0);
-		}
+		System.exit(0);
 	}
 }

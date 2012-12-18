@@ -151,7 +151,7 @@ public class IbExchangeInstance {
 	public void getHistoricalPrice(HistoricalData historicalData, RequestHolder requestHolder) {
 		// Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = historicalData.exchange.name;
+		contract.m_exchange = historicalData.exchange.exchangeName;
 		contract.m_symbol = historicalData.symbol.symbolName;
 		contract.m_secType = historicalData.securityType;
 		contract.m_currency = historicalData.exchange.currency.name();

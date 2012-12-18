@@ -6,6 +6,7 @@ package com.autoStock.position;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.core.AlgorithmManager;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
@@ -20,7 +21,7 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  * 
  */
-public class PositionManager implements PositionStatusListener {
+public class PositionManager implements ListenerOfPositionStatusChange {
 	private static PositionManager instance = new PositionManager();
 	private volatile PositionGenerator positionGenerator = new PositionGenerator();
 	private volatile PositionExecutor positionExecutor = new PositionExecutor();
@@ -32,10 +33,10 @@ public class PositionManager implements PositionStatusListener {
 		return instance;
 	}
 
-	public synchronized Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType, Position inboundPosition) {
+	public Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType, Position inboundPosition, PositionOptions positionOptions) {
 		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry) {
-				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange);
+				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions);
 				if (position != null){
 					position.setPositionListener(this);
 					listOfPosition.add(position);
@@ -43,7 +44,7 @@ public class PositionManager implements PositionStatusListener {
 				}
 				return position;
 			} else if (positionType == PositionType.position_short_entry) {
-				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange);
+				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions);
 				if (position != null){
 					position.setPositionListener(this);
 					listOfPosition.add(position);
@@ -104,9 +105,9 @@ public class PositionManager implements PositionStatusListener {
 					return position;
 				}
 			}
+			
+			return null;
 		}
-		
-		return null;
 	}
 
 	public double getCurrentProfitLossAfterComission(boolean bothComissions) {
@@ -149,14 +150,13 @@ public class PositionManager implements PositionStatusListener {
 	}
 
 	@Override
-	public void positionStatusChange(Position position) {
+	public void positionStatusChanged(Position position) {
 		synchronized(lock){
-			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+			if (orderMode == OrderMode.mode_exchange){
 				Co.println("--> PositionManager, position status change: " + position.positionType.name());
 			}
 			if (position.positionType == PositionType.position_exited || position.positionType == PositionType.position_cancelled){
 				listOfPosition.remove(position);
-				position = null;
 			}
 		}
 	}

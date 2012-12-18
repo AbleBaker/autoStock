@@ -33,7 +33,7 @@ public class PositionGovernor {
 		return instance;
 	}
 	
-	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position){
+	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		SignalPoint signalPoint = new SignalPoint();
 		
@@ -41,9 +41,9 @@ public class PositionGovernor {
 			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
 			
 			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
-				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange);
+				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions);
 			}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort){
-				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange);
+				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions);
 			}
 		} else {
 			SignalPoint signalPointForReentry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
@@ -91,8 +91,8 @@ public class PositionGovernor {
 		return positionGovernorResponse;
 	} 
 	
-	private Position governLongEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
-		Position position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_long_entry, null);
+	private Position governLongEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, PositionOptions positionOptions){
+		Position position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_long_entry, null, positionOptions);
 		if (position == null){
 			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
 		}else{
@@ -112,8 +112,8 @@ public class PositionGovernor {
 		}
 	}
 	
-	private Position governShortEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
-		Position position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_short_entry, null);
+	private Position governShortEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, PositionOptions positionOptions){
+		Position position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_short_entry, null, positionOptions);
 		if (position == null){
 			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
 		}else{
@@ -127,7 +127,7 @@ public class PositionGovernor {
 		if (position != null && (position.positionType == PositionType.position_long_exit)){
 			throw new IllegalStateException();
 		}
-		position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_long_exit, position);
+		position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_long_exit, position, null);
 		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_exit;
 	}
 	
@@ -135,7 +135,7 @@ public class PositionGovernor {
 		if (position != null && (position.positionType == PositionType.position_short_exit)){
 			throw new IllegalStateException();
 		}
-		position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_short_exit, position);
+		position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_short_exit, position, null);
 		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_short_exit;
 	}
 	

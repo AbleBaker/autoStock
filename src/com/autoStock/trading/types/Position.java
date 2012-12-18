@@ -15,7 +15,8 @@ import com.autoStock.order.OrderStatusListener;
 import com.autoStock.position.PositionCallback;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
-import com.autoStock.position.PositionStatusListener;
+import com.autoStock.position.ListenerOfPositionStatusChange;
+import com.autoStock.position.PositionOptions;
 import com.autoStock.position.PositionUtils;
 import com.autoStock.position.PositionValue;
 import com.autoStock.tools.Lock;
@@ -36,10 +37,11 @@ public class Position implements OrderStatusListener {
 	private double unitPriceLastKnown;
 	public PositionType positionType = PositionType.position_none;
 	private final ArrayList<Order> listOfOrder = new ArrayList<Order>();
-	private PositionStatusListener positionStatusListener;
+	private ListenerOfPositionStatusChange positionStatusListener;
+	private PositionOptions positionOptions;
 	private Lock lock = new Lock();
 
-	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, String securityType, double currentPrice) {
+	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, String securityType, double currentPrice, PositionOptions positionOptions) {
 		this.positionType = positionType;
 		this.initialUnits = units;
 		this.symbol = symbol;
@@ -47,9 +49,10 @@ public class Position implements OrderStatusListener {
 		this.securityType = securityType;
 		this.unitPriceFirstKnown = currentPrice;
 		this.unitPriceLastKnown = currentPrice;
+		this.positionOptions = positionOptions;
 	}
 
-	public void setPositionListener(PositionStatusListener positionStatusListener) {
+	public void setPositionListener(ListenerOfPositionStatusChange positionStatusListener) {
 		this.positionStatusListener = positionStatusListener;
 	}
 
@@ -241,6 +244,9 @@ public class Position implements OrderStatusListener {
 			}
 		}
 		
-		positionStatusListener.positionStatusChange(this);	
+		positionStatusListener.positionStatusChanged(this);	
+		if (positionOptions!= null && positionOptions.listenerOfPositionStatusChange != null){
+			positionOptions.listenerOfPositionStatusChange.positionStatusChanged(this);
+		}
 	}
 }

@@ -9,7 +9,6 @@ import com.autoStock.trading.types.Position;
  * 
  */
 public class PositionExecutor {
-	private Account account = Account.getInstance();
 
 	public void executeLongEntry(Position position) {
 		position.executePosition();
