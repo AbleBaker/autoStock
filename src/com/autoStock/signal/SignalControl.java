@@ -7,7 +7,7 @@ import com.autoStock.types.basic.ImmutableInteger;
  * 
  */
 public class SignalControl {
-	public static ImmutableInteger periodLengthStart = new ImmutableInteger(8);
+	public static ImmutableInteger periodLengthStart = new ImmutableInteger(16);
 	public static ImmutableInteger periodLengthMiddle = new ImmutableInteger(32);
 	public static ImmutableInteger periodLengthEnd = new ImmutableInteger(10);
 

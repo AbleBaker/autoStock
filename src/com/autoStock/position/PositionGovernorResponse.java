@@ -20,8 +20,8 @@ public class PositionGovernorResponse {
 	public Date dateOccurred;
 	
 	public PositionGovernorResponse getFailedResponse(PositionGovernorResponseReason reason){
-		status = PositionGovernorResponseStatus.failed;
 		this.reason = reason;
+		status = PositionGovernorResponseStatus.failed;
 		return this;
 	}
 }

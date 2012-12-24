@@ -50,6 +50,7 @@ public class AlgorithmManagerTable {
 		
 		columnValues.add(algorithm.getCurrentQuoteSlice() != null && algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
 		columnValues.add(algorithm.symbol.symbolName);
+		columnValues.add(algorithm.algorithmState.isDisabled == true ? "disabled" : " - ");
 		columnValues.add(algorithm.strategy.lastStrategyResponse == null ? "-" : (algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalPointType.name() + ", " + algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
 		columnValues.add(algorithm.strategy.currentStrategyResponse == null ? "-" : (algorithm.strategy.currentStrategyResponse.strategyActionCause.name()));
 		columnValues.add(position == null ? "-" : position.positionType.name());
@@ -61,7 +62,6 @@ public class AlgorithmManagerTable {
 		columnValues.add(String.valueOf(position == null ? "-" : ("P&L: " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossBeforeComission()) + " / " + StringTools.addPlusToPositiveNumbers(position.getPositionProfitLossAfterComission(false)))));
 		//columnValues.add(String.valueOf(position == null ? "-" : (position.getFirstKnownUnitPrice() + ", " +  position.getLastKnownUnitPrice() + ", " + position.getPositionValue().valueCurrent + ", " + position.getPositionValue().valueIntrinsic + ", " + position.getPositionValue().unitPriceFilled + ", " + position.positionUtils.getOrderUnitsFilled() + ", " + + position.positionUtils.getOrderUnitsIntrinsic())));
 		
-		columnValues.add(String.valueOf(algorithm.algorithmState.isDisabled));
 		
 		String stringForSignalMetrics = new String();
 		

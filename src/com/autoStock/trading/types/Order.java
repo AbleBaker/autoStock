@@ -20,10 +20,12 @@ import com.autoStock.order.OrderStatusListener;
 import com.autoStock.order.OrderTable;
 import com.autoStock.order.OrderTools;
 import com.autoStock.order.OrderValue;
+import com.autoStock.order.OrderWatcher;
 import com.autoStock.position.PositionManager;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * @author Kevin Kowalewski
@@ -43,6 +45,7 @@ public class Order {
 	private OrderTools orderTools = new OrderTools();
 	private AtomicInteger atomicIntForUnitsFilled = new AtomicInteger();
 	private OrderTable orderTable = new OrderTable();
+	private OrderWatcher orderWatcher = new OrderWatcher(this);
 	
 	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, int unitsRequested, double priceRequested, OrderStatusListener orderStatusListener){
 		this.symbol = symbol;
@@ -103,7 +106,7 @@ public class Order {
 							}else if (orderStatus == OrderStatus.status_presubmit || orderStatus == OrderStatus.status_submitted || orderStatus == OrderStatus.status_filled_partially){
 								Co.println("\n\n--> Order completed at price: " + unitPriceFilledAverage);
 								Co.println("--> Order status: " + ibOrderStatus.name());
-								
+								orderWatcher.stopWatching();
 								orderUnitsFilled(unitPriceFilledAverage, unitsFilled);
 							}else{
 								throw new IllegalStateException("Order status did not match: " + orderStatus.name());
@@ -111,6 +114,7 @@ public class Order {
 						}else if (ibOrderStatus == IbOrderStatus.status_cancelled){
 							if (orderStatus != OrderStatus.status_cancelled){
 								orderStatus = OrderStatus.status_cancelled;
+								orderWatcher.stopWatching();
 								orderStatusListener.orderStatusChanged(Order.this, orderStatus);
 							}else{
 								Co.println("--> Order is already cancelled");
@@ -128,6 +132,7 @@ public class Order {
 				}), this, exchange);
 				
 				requestMarketOrder.execute();
+				orderWatcher.startWatching();
 			}else{
 				new OrderSimulator(this).simulateOrderFill();
 			}
@@ -170,7 +175,7 @@ public class Order {
 	
 	public OrderValue getOrderValue(){
 		if (atomicIntForUnitsFilled.get() == 0){
-			Co.println("--> Warning filled units is 0..." + symbol.symbolName);
+//			Co.println("--> Warning filled units is 0..." + symbol.symbolName);
 		}
 		
 		return new OrderValue(

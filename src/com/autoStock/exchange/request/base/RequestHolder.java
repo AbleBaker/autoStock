@@ -1,5 +1,6 @@
 package com.autoStock.exchange.request.base;
 
+import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestManager;
 
 /**
@@ -7,8 +8,8 @@ import com.autoStock.exchange.request.RequestManager;
  *
  */
 public class RequestHolder {
-	public int requestId;
-	public Object callback;
+	public final int requestId;
+	public final Object callback;
 	public Object caller;
 	public int mulitpleRequests = 0;
 	
@@ -16,5 +17,7 @@ public class RequestHolder {
 		this.requestId = RequestManager.getNewRequestId();
 		this.callback = callback;
 		RequestManager.addRequestHolder(this);
+		
+		Co.println("--> Issued requestId: " + requestId);
 	}
 }

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import com.autoStock.exchange.ExchangeDefinitions.ExchangeDesignation;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
+import com.autoStock.finance.Currency.CurrencyDefinitions;
 import com.autoStock.internal.Config;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;
@@ -60,8 +61,8 @@ public class IbExchangeInstance {
 		contract.m_secType = "STK";
 		ibOrder.m_action = "BUY";
 		ibOrder.m_orderType = "LMT";
-		ibOrder.m_lmtPrice = order.getUnitPriceRequested() + 0.25d;
-		ibOrder.m_auxPrice = order.getUnitPriceRequested() + 0.25d;
+		ibOrder.m_lmtPrice = order.getUnitPriceRequested() + (order.exchange.exchangeDesignation == ExchangeDesignation.TSEJ ? 5 : 0.25d);
+		ibOrder.m_auxPrice = order.getUnitPriceRequested() + (order.exchange.exchangeDesignation == ExchangeDesignation.TSEJ ? 5 : 0.25d);
 		ibOrder.m_totalQuantity = order.getUnitsRequested();
 
 		ibExchangeClientSocket.eClientSocket.placeOrder(requestHolder.requestId, contract, ibOrder);

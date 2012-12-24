@@ -15,6 +15,7 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListener;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
 import com.autoStock.index.IndexMarketDataProvider;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionManager;
@@ -46,7 +47,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 
 	private void engagementStart() {
 		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain_open);
-		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain);
+//		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_high_open_gap);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_implied_volatility_gain);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_price);
@@ -73,6 +74,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 		algorithmManager.displayEndOfDayStats(listOfAlgorithmManagerRows);
 		indexMarketDataProvider.cancel();
 		Global.callbackLock.releaseLock();
+		ApplicationStates.shutdown();
 	}
 
 	public synchronized void handleCompletedMarketScanner(MultipleResultSetMarketScanner multipleResultSetMarketScanner) {

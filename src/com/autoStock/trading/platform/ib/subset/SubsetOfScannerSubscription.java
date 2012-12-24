@@ -23,7 +23,7 @@ public class SubsetOfScannerSubscription {
 			scannerSubscription.instrument("STK");
 			scannerSubscription.locationCode("STK.NYSE");
 			scannerSubscription.abovePrice(2.00);
-			scannerSubscription.belowPrice(100.00);
+			scannerSubscription.belowPrice(50.00);
 		} else if (exchange.exchangeDesignation == ExchangeDesignation.NASDAQ){
 			scannerSubscription.instrument("STK");
 			scannerSubscription.locationCode("STK.NASDAQ");
@@ -50,7 +50,7 @@ public class SubsetOfScannerSubscription {
 		if (marketScannerType == MarketScannerType.type_percent_gain_open) {
 			scannerSubscription.scanCode("TOP_OPEN_PERC_GAIN");
 			scannerSubscription.aboveVolume(100 * 1000);
-			scannerSubscription.numberOfRows(100);
+			scannerSubscription.numberOfRows(150);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_percent_gain) {

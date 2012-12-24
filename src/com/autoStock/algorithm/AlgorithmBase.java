@@ -150,7 +150,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	public void positionStatusChanged(Position position) {
 		Co.println("--> Received position change! ");
 		if (position.positionType == PositionType.position_cancelled){
-			Co.println("--> Position was cancelled... Disabling!");
+			Co.println("--> Position was cancelled... Disabling: " + position.symbol.symbolName);
 			disable();
 		}
 	}

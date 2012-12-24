@@ -3,6 +3,7 @@
  */
 package com.autoStock.exchange.request;
 
+import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketOrderListener;
@@ -34,6 +35,7 @@ public class RequestMarketOrder {
 		threadForExecution = new Thread(new Runnable(){
 			@Override
 			public void run() {
+				Co.println("--> About to execute order: " + requestHolder.requestId + ", " + order.orderType.name() + ", " + order.symbol.symbolName);
 				if (order.orderType == OrderType.order_long_entry){
 					ExchangeController.getIbExchangeInstance().placeLongEntry(order, requestHolder);
 				}else if (order.orderType == OrderType.order_long_exit){
