@@ -18,7 +18,7 @@ public class TableController {
 			throw new IllegalStateException("AsciiTable definition, lenth of values don't match (columns, provided): " + table.arrayOfColumns.length + "," + values.get(0).size());
 		}
 		
-	    ASCIITable.getInstance().printTable(new TableHelper().getArrayOfColumns(table.arrayOfColumns),new TableHelper().getArrayOfRows(table.arrayOfColumns,values));
+	    ASCIITable.getInstance().printTable(new TableHelper().getArrayOfColumns(table.arrayOfColumns), new TableHelper().getArrayOfRows(table.arrayOfColumns,values));
 	}
 	
 	public String getTable(TableDefinitions.AsciiTables table, ArrayList<ArrayList<String>> values){

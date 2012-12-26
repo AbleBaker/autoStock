@@ -17,6 +17,7 @@ import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
 import com.autoStock.types.QuoteSlice;
@@ -27,6 +28,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class AlgorithmTable {
+	private static Lock lock = new Lock();
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private Symbol symbol;
 	
@@ -88,7 +90,9 @@ public class AlgorithmTable {
 	}
 
 	public void display() {
-		Co.println("--> Symbol " + symbol.symbolName);
-		new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);
+		synchronized (lock) {
+			Co.println("\n--> Symbol " + symbol.symbolName);
+			new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);	
+		}
 	}
 }

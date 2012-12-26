@@ -29,12 +29,12 @@ public class SignalMetric {
 		return strength;
 	}
 	 
-	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType, ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal){
-//		if (signalMetricType == SignalMetricType.metric_cci){
-//			return getSignalPointFromEvaulation(havePosition, positionType, signal.getSignalGroup());
-//		}else{
+	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType, Signal signal){
+		if (signalMetricType == SignalMetricType.metric_cci){
+			return getSignalPointFromEvaulation(havePosition, positionType, signal.getSignalGroup());
+		}else{
 			return getSignalPointFromSignal(havePosition, positionType);
-//		}
+		}
 	}
 	
 	private SignalPoint getSignalPointFromEvaulation(boolean havePosition, PositionType positionType, SignalGroup signalGroup){

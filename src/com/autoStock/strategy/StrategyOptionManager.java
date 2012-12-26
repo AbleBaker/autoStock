@@ -23,9 +23,9 @@ public class StrategyOptionManager {
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.disableAfterLoss = false;
 		strategyOptions.taperPeriodLength = true;
-		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_change;
-		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
-		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
+		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
+		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_combined;
+		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
 
 		strategyOptions.maxTransactionsDay = 8;
 		strategyOptions.minTakeProfitExit = 1.98d;
