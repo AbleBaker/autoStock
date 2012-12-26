@@ -18,6 +18,7 @@ import com.autoStock.tools.ResultsTools;
  */
 public class ChartForAlgorithmTest {
 	private String title;
+	public ArrayList<Integer> listOfSignalADX = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalPPC = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalDI = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalCCI = new ArrayList<Integer>();
@@ -91,9 +92,10 @@ public class ChartForAlgorithmTest {
 		DefaultHighLowDataset dataSetForDefaultHighLowDataset = new DefaultHighLowDataset("Series 1", ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPriceHigh), ArrayTools.getArrayFromListOfDouble(listOfPriceLow), ArrayTools.getArrayFromListOfDouble(listOfPriceOpen), ArrayTools.getArrayFromListOfDouble(listOfPriceClose), ArrayTools.getArrayFromListOfDouble(listOfSizeVolume));
 		
 		timeSeriesCollectionForSignalTotal.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal Total", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalTotal))));
-		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal PPC ", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalPPC))));
+		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal ADX ", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalADX))));
+//		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal PPC ", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalPPC))));
 		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal DI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalDI))));
-//		timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal CCI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalCCI))));
+		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal CCI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalCCI))));
 		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal MACD", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalMACD))));
 		//timeSeriesCollection1.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal STORSI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.convertDates(listOfDate), ArrayTools.convertIntegers(listOfSignalSTORSI))));
 		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal RSI", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalRSI))));
@@ -126,16 +128,21 @@ public class ChartForAlgorithmTest {
 		
 		new CombinedLineChart().new LineChartDisplay(title, 
 			dataSetForDefaultHighLowDataset,
-			new TimeSeriesTypePair(TimeSeriesType.type_signal_total, timeSeriesCollectionForSignalTotal), 
-			new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals), 
+			new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals),
+			new TimeSeriesTypePair(TimeSeriesType.type_signal_total, timeSeriesCollectionForSignalTotal),  
 			new TimeSeriesTypePair(TimeSeriesType.type_price, timeSeriesCollectionForPrice), 
 			new TimeSeriesTypePair(TimeSeriesType.type_value, timeSeriesCollectionForValue),
 			new TimeSeriesTypePair(TimeSeriesType.type_entry_price, timeSeriesCollectionForEntryAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_exit_price, timeSeriesCollectionForExitAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_entry_signal, timeSeriesCollectionForEntryAtSignal),
-			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, timeSeriesCollectionForExitAtSignal),
-			new TimeSeriesTypePair(TimeSeriesType.type_debug, timeSeriesCollectionForDebug)
+			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, timeSeriesCollectionForExitAtSignal)
+//			new TimeSeriesTypePair(TimeSeriesType.type_debug, timeSeriesCollectionForDebug)
 		);
+		
+//		new CombinedLineChart().new LineChartDisplay(title, 
+//				null,
+//				new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals)
+//		);
 	}
 	
 	public static class TimeSeriesTypePair {

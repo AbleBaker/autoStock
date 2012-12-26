@@ -10,6 +10,7 @@ import com.autoStock.tools.ArrayTools;
  */
 public class SignalGroup {
 	public IndicatorGroup indicatorGroup;
+	public SignalOfADX signalOfADX;
 	public SignalOfPPC signalOfPPC;
 	public SignalOfDI signalOfDI;
 	public SignalOfCCI signalOfCCI = new SignalOfCCI();
@@ -25,6 +26,7 @@ public class SignalGroup {
 	}
 	
 	public void generateSignals(CommonAnlaysisData commonAnlaysisData, int periodLength){
+		if (indicatorGroup.resultsADX != null){signalOfADX = new SignalOfADX(ArrayTools.subArray(indicatorGroup.resultsADX.arrayOfADX, 0, 1));}
 		if (indicatorGroup.resultsDI != null){signalOfPPC = new SignalOfPPC(ArrayTools.subArray(commonAnlaysisData.arrayOfPriceClose, 0, periodLength-1), SignalControl.periodAverageForPPC);}
 		if (indicatorGroup.resultsDI != null){signalOfDI = new SignalOfDI(ArrayTools.subArray(indicatorGroup.resultsDI.arrayOfDIPlus, 0, 1), ArrayTools.subArray(indicatorGroup.resultsDI.arrayOfDIMinus, 0, 1));}
 		if (indicatorGroup.resultsCCI != null){signalOfCCI.addInput(indicatorGroup.resultsCCI.arrayOfCCI[0]);}

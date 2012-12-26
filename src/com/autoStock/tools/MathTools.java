@@ -148,6 +148,13 @@ public class MathTools {
 		
 		return returnValue == Integer.MAX_VALUE ? 0 : returnValue;
 	}
+
+	public static double pow(double base, double exponent) {
+		if (base < 0) {
+			return Math.pow(Math.abs(base), exponent) * -1;
+		}
+		return Math.pow(base, exponent);
+	}
 	
 	public static boolean isOdd(int number){
 		return number % 2 == 0 ? false : true;

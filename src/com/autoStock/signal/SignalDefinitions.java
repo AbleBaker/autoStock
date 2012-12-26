@@ -2,6 +2,7 @@
  * 
  */
 package com.autoStock.signal;
+import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski
@@ -25,6 +26,8 @@ public class SignalDefinitions {
 	}
 	
 	public enum SignalMetricType {
+		metric_adx(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input - 10, 0.8));}},
+				48, 44, -100, -100),
 		metric_ppc(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((input - 1) * 3000);}},
 				48, 44, -100, -100),
@@ -33,16 +36,16 @@ public class SignalDefinitions {
 				25, -5, -100, -100),
 		metric_cci(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}},
-				30, -15, -100, -100),
+				22, 6, -100, -100),
 		metric_macd(
 			new NormalizeInterface(){@Override public int normalize(double input){return (int) (input * 1000);}},
 				20, -36, -100, -100),
 		metric_rsi(
-			new NormalizeInterface(){@Override public int normalize(double input) {return (int) input - 40;}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) MathTools.pow(input - 40, 1.1);}},
 				30, -7, -100, -100),
 		metric_trix(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 700);}},
-				25, -20, 0, 0),
+				6, 0, 0, 0),
 		metric_roc(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 35);}},
 				35, -20, 0, 0),

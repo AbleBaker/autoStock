@@ -28,6 +28,10 @@ public class BacktestUtils {
 		string += "\n --> Transactions Profit / Loss: " + MathTools.round(((double)countForTradesProfit / (double)(countForTradesProfit + countForTradesLoss)) * 100) + "%, " + countForTradesProfit + ", " + countForTradesLoss;
 		string += "\n --> Reentered: " + countForReentry;
 		
+		if (Account.getInstance().getTransactions() > 0 && countForTradesProfit == 0 && countForTradesLoss == 0){
+			throw new IllegalStateException("Details: " + Account.getInstance().getTransactions() + ", " + countForTradesProfit + ", " + countForTradesLoss);
+		}
+		
 		string += "\n --> SignalControl: " + SignalControl.periodLengthStart.value + ", " + SignalControl.periodLengthMiddle.value + ", " + SignalControl.periodLengthEnd.value;
 		
 		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
@@ -86,6 +90,10 @@ public class BacktestUtils {
 					backtestProfitLossType.countForTradesReentry++;
 				}
 			}
+		}
+		
+		if (Account.getInstance().getTransactions() > 0 && backtestProfitLossType.countForTradesLoss == 0 && backtestProfitLossType.countForTradesProfit == 0){
+			throw new IllegalStateException();
 		}
 		
 		return backtestProfitLossType;

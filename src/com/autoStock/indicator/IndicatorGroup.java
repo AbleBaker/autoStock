@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
+import com.autoStock.indicator.results.ResultsADX;
 import com.autoStock.indicator.results.ResultsBB;
 import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.indicator.results.ResultsDI;
@@ -25,6 +26,7 @@ import com.autoStock.types.QuoteSlice;
  */
 public class IndicatorGroup {
 	public Core taLibCore = new Core();
+	public IndicatorOfADX indicatorOfADX;
 	public IndicatorOfCCI indicatorOfCCI;
 	public IndicatorOfDI indicatorOfDI;
 	public IndicatorOfMACD indicatorOfMACD;
@@ -36,6 +38,7 @@ public class IndicatorGroup {
 	public IndicatorOfWILLR indicatorOfWILLR;
 	public CandleStickIdentifier candleStickIdentifier;
 
+	public ResultsADX resultsADX;
 	public ResultsCCI resultsCCI;
 	public ResultsDI resultsDI;
 	public ResultsBB resultsBB;
@@ -52,6 +55,7 @@ public class IndicatorGroup {
 	public IndicatorGroup(int periodLength, CommonAnlaysisData commonAnlaysisData) {
 		AnalysisTools.setIndicatorPeriodLength(periodLength, listOfIndicatorBase);
 		
+		indicatorOfADX = new IndicatorOfADX(periodLength, commonAnlaysisData, taLibCore);
 		indicatorOfCCI = new IndicatorOfCCI(periodLength, commonAnlaysisData, taLibCore);
 		indicatorOfDI = new IndicatorOfDI(periodLength, commonAnlaysisData, taLibCore);
 		indicatorOfMACD = new IndicatorOfMACD(periodLength, commonAnlaysisData, taLibCore);
@@ -63,6 +67,7 @@ public class IndicatorGroup {
 		indicatorOfWILLR = new IndicatorOfWILLR(periodLength, commonAnlaysisData, taLibCore);
 		candleStickIdentifier = new CandleStickIdentifier(periodLength, commonAnlaysisData, taLibCore);
 		
+		listOfIndicatorBase.add(indicatorOfADX);
 		listOfIndicatorBase.add(indicatorOfCCI);
 		listOfIndicatorBase.add(indicatorOfDI);
 		listOfIndicatorBase.add(indicatorOfMACD);
@@ -84,6 +89,7 @@ public class IndicatorGroup {
 	}
 
 	public void analyize(ArrayList<SignalMetricType> listOfSignalMetricType) {
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_adx)){resultsADX = indicatorOfADX.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_cci)){resultsCCI = indicatorOfCCI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_di)){resultsDI = indicatorOfDI.analize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_macd)){resultsMACD = indicatorOfMACD.analize();}

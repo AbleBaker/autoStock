@@ -27,6 +27,7 @@ public class AlgorithmChart {
 		chart.listOfPriceLow.add(quoteSlice.priceLow);
 		chart.listOfPriceClose.add(quoteSlice.priceClose);
 		chart.listOfSizeVolume.add((double)quoteSlice.sizeVolume);
+		chart.listOfSignalADX.add(signalGroup.signalOfADX.getSignal().getStrength());
 		chart.listOfSignalDI.add(signalGroup.signalOfDI.getSignal().getStrength());
 		chart.listOfSignalCCI.add(signalGroup.signalOfCCI.getSignal().getStrength());
 		chart.listOfSignalPPC.add(signalGroup.signalOfPPC.getSignal().getStrength());
