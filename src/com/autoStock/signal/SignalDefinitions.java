@@ -41,7 +41,7 @@ public class SignalDefinitions {
 			new NormalizeInterface(){@Override public int normalize(double input){return (int) (input * 1000);}},
 				20, -36, -100, -100),
 		metric_rsi(
-			new NormalizeInterface(){@Override public int normalize(double input) {return (int) MathTools.pow(input - 35, 1.1);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input - 35);}},
 				30, -7, -100, -100),
 		metric_trix(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 700);}},

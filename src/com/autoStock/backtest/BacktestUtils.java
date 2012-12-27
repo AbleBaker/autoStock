@@ -22,11 +22,11 @@ public class BacktestUtils {
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance()) + " ********";
 		
 		string += "\n --> Balance: $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance());
-		string += "\n --> Transactions: " + Account.getInstance().getTransactions();
+		string += "\n --> Total transactions: " + Account.getInstance().getTransactions();
 		string += "\n --> Fees: $" + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
 		
-		string += "\n --> Transactions Profit / Loss: " + MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100) + "%, " + backtestResultDetails.countForTradesProfit + ", " + backtestResultDetails.countForTradesLoss;
-		string += "\n --> Entered, Reentered, Exited: " + backtestResultDetails.countForTradesReentry;
+		string += "\n --> Entered, reentered, exited: " + + backtestResultDetails.countForTradeEntry + ", " + backtestResultDetails.countForTradesReentry + ", " + backtestResultDetails.countForTradeExit;
+		string += "\n --> Transactions profit / loss: " + MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100) + "%, " + backtestResultDetails.countForTradesProfit + ", " + backtestResultDetails.countForTradesLoss;
 		
 		if (Account.getInstance().getTransactions() > 0 && backtestResultDetails.countForTradesProfit == 0 && backtestResultDetails.countForTradesLoss == 0){
 			throw new IllegalStateException("Details: " + Account.getInstance().getTransactions() + ", " + backtestResultDetails.countForTradesProfit + ", " + backtestResultDetails.countForTradesLoss);

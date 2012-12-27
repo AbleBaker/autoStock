@@ -14,7 +14,8 @@ import com.google.common.util.concurrent.AtomicDouble;
  */
 public class Account {
 	private static Account instance = new Account();
-	public final double bankBalanceDefault = 1050000.00; //1000000.00;
+//	public final double bankBalanceDefault = 50000; 
+	public final double bankBalanceDefault = 1000000;
 	private final double transactionFeesDefault = 0;
 	private AtomicDouble bankBalance = new AtomicDouble();
 	private AtomicDouble transactionFeesPaid = new AtomicDouble();
