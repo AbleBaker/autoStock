@@ -18,18 +18,18 @@ import com.autoStock.tools.MiscTools;
  * 
  */
 public class BacktestUtils {	
-	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, int countForTradesProfit, int countForTradesLoss, int countForReentry){
+	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, BacktestResultDetails backtestResultDetails){
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance()) + " ********";
 		
 		string += "\n --> Balance: $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance());
 		string += "\n --> Transactions: " + Account.getInstance().getTransactions();
 		string += "\n --> Fees: $" + MiscTools.getCommifiedValue(Account.getInstance().getTransactionFeesPaid());
 		
-		string += "\n --> Transactions Profit / Loss: " + MathTools.round(((double)countForTradesProfit / (double)(countForTradesProfit + countForTradesLoss)) * 100) + "%, " + countForTradesProfit + ", " + countForTradesLoss;
-		string += "\n --> Reentered: " + countForReentry;
+		string += "\n --> Transactions Profit / Loss: " + MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100) + "%, " + backtestResultDetails.countForTradesProfit + ", " + backtestResultDetails.countForTradesLoss;
+		string += "\n --> Entered, Reentered, Exited: " + backtestResultDetails.countForTradesReentry;
 		
-		if (Account.getInstance().getTransactions() > 0 && countForTradesProfit == 0 && countForTradesLoss == 0){
-			throw new IllegalStateException("Details: " + Account.getInstance().getTransactions() + ", " + countForTradesProfit + ", " + countForTradesLoss);
+		if (Account.getInstance().getTransactions() > 0 && backtestResultDetails.countForTradesProfit == 0 && backtestResultDetails.countForTradesLoss == 0){
+			throw new IllegalStateException("Details: " + Account.getInstance().getTransactions() + ", " + backtestResultDetails.countForTradesProfit + ", " + backtestResultDetails.countForTradesLoss);
 		}
 		
 		string += "\n --> SignalControl: " + SignalControl.periodLengthStart.value + ", " + SignalControl.periodLengthMiddle.value + ", " + SignalControl.periodLengthEnd.value;
@@ -86,6 +86,10 @@ public class BacktestUtils {
 					}else if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) <= 0){
 						backtestProfitLossType.countForTradesLoss++;
 					}
+					
+					backtestProfitLossType.countForTradeExit++;
+				}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
+					backtestProfitLossType.countForTradeEntry++;
 				}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry){
 					backtestProfitLossType.countForTradesReentry++;
 				}
@@ -100,6 +104,8 @@ public class BacktestUtils {
 	}
 	
 	public static class BacktestResultDetails {
+		public int countForTradeEntry = 0;
+		public int countForTradeExit = 0;
 		public int countForTradesProfit = 0;
 		public int countForTradesLoss = 0;
 		public int countForTradesReentry = 0;

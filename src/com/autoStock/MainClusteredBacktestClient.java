@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfPortable;
+import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.BacktestUtils.BacktestResultDetails;
@@ -22,6 +23,7 @@ import com.autoStock.finance.Account;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
+import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
 import com.autoStock.tools.MathTools;
 
@@ -54,6 +56,8 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		int backtestIndex = atomicIntBacktestIndex.getAndIncrement();
 		
 		Account.getInstance().resetAccount();
+		PositionGovernor.getInstance().reset();
+		PositionManager.getInstance().reset();
 		
 		if (backtestIndex == computeUnitForBacktest.listOfAdjustment.size()){
 			allBacktestsCompleted();
@@ -86,7 +90,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		ArrayList<AdjustmentOfPortable> listOfIteration = (ArrayList<AdjustmentOfPortable>) computeUnitForBacktest.listOfAdjustment.get(atomicIntBacktestIndex.get()-1);
 		BacktestResultDetails backtestResultDetails = BacktestUtils.getProfitLossDetails(mainBacktest.getListOfBacktestContainer());
 		double percent = MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100);
-		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), percent, Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails.countForTradesProfit, backtestResultDetails.countForTradesLoss, backtestResultDetails.countForTradesReentry)));
+		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), percent, Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails)));
 	}
 
 	@Override

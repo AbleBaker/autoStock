@@ -136,16 +136,16 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		callbacks.set(listOfBacktestContainer.size());
 		Co.println("\nBacktesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()) + "%): " + currentBacktestDayIndex);
 		
-		PositionGovernor.getInstance().reset();
-		
 		boolean backtestContainedNoData = false;
+		
+		PositionGovernor.getInstance().reset();
+		PositionManager.getInstance().reset();
 		
 		for (BacktestContainer backtestContainer : listOfBacktestContainer){
 			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
 			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
 
 			if (listOfResults.size() > 0){	
-				backtestContainer.reset();
 				backtestContainer.setBacktestData(listOfResults, historicalData);
 				backtestContainer.runBacktest();
 			}else{
@@ -189,7 +189,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			if (Account.getInstance().getAccountBalance() > metricBestAccountBalance){
 				if (listOfBacktestContainer.get(0).algorithm != null){
 					BacktestResultDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);					
-					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails.countForTradesProfit, backtestDetails.countForTradesLoss, backtestDetails.countForTradesReentry));
+					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails));
 				}
 				metricBestAccountBalance = Account.getInstance().getAccountBalance();
 			}
@@ -198,7 +198,11 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				currentBacktestDayIndex = 0;
 				
 				Account.getInstance().resetAccount();
-				PositionManager.getInstance().reset();
+				
+				for (BacktestContainer backtestContainer : listOfBacktestContainer){
+					backtestContainer.reset();
+				}
+				
 				runNextBacktestForDays(false);
 			}else{
 				Co.println("******** End of backtest and adjustment ********");
@@ -261,7 +265,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					}
 					
 					BacktestResultDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
-					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails.countForTradesProfit, backtestDetails.countForTradesLoss, backtestDetails.countForTradesReentry));
+					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails));
 				} 
 				Co.println("--> Finished backtest");
 				if (backtestType == BacktestType.backtest_default){

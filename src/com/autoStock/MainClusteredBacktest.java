@@ -100,6 +100,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public void displayResultTable(){
+		Collections.sort(listOfComputeResultForBacktestPartial, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_ascending));
 		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartial){
 			Co.println(computeUnitResult.resultDetails);
 		}
