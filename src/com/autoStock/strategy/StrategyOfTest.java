@@ -25,7 +25,7 @@ import com.autoStock.types.QuoteSlice;
 public class StrategyOfTest extends StrategyBase {
 	public StrategyOfTest(AlgorithmBase algorithmBase){
 		super(algorithmBase);
-		strategyOptions = StrategyOptionManager.getInstance().getDefaultStrategyOptions();
+		strategyOptions = StrategyOptionDefaults.getInstance().getDefaultStrategyOptions();
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
 	}
 	
@@ -36,9 +36,9 @@ public class StrategyOfTest extends StrategyBase {
 		signal = new Signal(SignalSource.from_algorithm, signalGroup);
 		signal.resetAndAddSignalMetrics(
 //				signalGroup.signalOfCCI.getSignal()
-				signalGroup.signalOfRSI.getSignal(),
-				signalGroup.signalOfDI.getSignal()
-//				signalGroup.signalOfMACD.getSignal()
+//				signalGroup.signalOfRSI.getSignal()
+				signalGroup.signalOfDI.getSignal(),
+				signalGroup.signalOfMACD.getSignal()
 //				signalGroup.signalOfMFI.getSignal(),
 //				signalGroup.signalOfTRIX.getSignal()
 //				signalGroup.signalOfROC.getSignal(),

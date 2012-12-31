@@ -32,7 +32,8 @@ import com.autoStock.types.Exchange;
 public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private static MainClusteredBacktest instance;
 	private ArrayList<ClusterNode> listOfClusterNode = new ArrayList<ClusterNode>();
-	private ArrayList<ComputeResultForBacktestPartial> listOfComputeResultForBacktestPartial = new ArrayList<ComputeResultForBacktestPartial>();
+	private ArrayList<ComputeResultForBacktestPartial> listOfComputeResultForBacktestPartialForProfit = new ArrayList<ComputeResultForBacktestPartial>();
+	private ArrayList<ComputeResultForBacktestPartial> listOfComputeResultForBacktestPartialForTransactions = new ArrayList<ComputeResultForBacktestPartial>();
 	private ArrayList<Long> listOfComputeUnitResultIds = new ArrayList<Long>();
 	private ArrayList<String> listOfSymbols;
 	private Exchange exchange;
@@ -41,8 +42,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private AtomicLong atomicIntForRequestId = new AtomicLong();
 	private Date dateStart;
 	private Date dateEnd;
-	private final int computeUnitIterationSize = 64;
-	private final int computeUnitResultPruneSize = 64;
+	private final int computeUnitIterationSize = 128;
+	private final int computeUnitResultPruneSize = 16;
 	private Benchmark bench = new Benchmark();
 	private Benchmark benchTotal = new Benchmark();
 	
@@ -100,15 +101,25 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public void displayResultTable(){
-		Collections.sort(listOfComputeResultForBacktestPartial, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_ascending));
-		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartial){
+		Co.println("--> ********************* Best profit yield *********************");
+		Collections.sort(listOfComputeResultForBacktestPartialForProfit, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_ascending));
+		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForProfit){
+			Co.println(computeUnitResult.resultDetails);
+		}
+		
+		Co.println("--> ********************* Best transaction yield *********************");
+		Collections.sort(listOfComputeResultForBacktestPartialForTransactions, new ReflectiveComparator.ListComparator("percentOfTransProfitLoss", SortDirection.order_ascending));
+		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForTransactions){
 			Co.println(computeUnitResult.resultDetails);
 		}
 	}
 	
 	public void pruneToTop(int count){
-		Collections.sort(listOfComputeResultForBacktestPartial, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_descending));		
-		listOfComputeResultForBacktestPartial = new ArrayList<ComputeResultForBacktestPartial>(listOfComputeResultForBacktestPartial.subList(0, Math.min(listOfComputeResultForBacktestPartial.size()-1, count)));
+		Collections.sort(listOfComputeResultForBacktestPartialForProfit, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_descending));		
+		listOfComputeResultForBacktestPartialForProfit = new ArrayList<ComputeResultForBacktestPartial>(listOfComputeResultForBacktestPartialForProfit.subList(0, Math.min(listOfComputeResultForBacktestPartialForProfit.size()-1, count)));
+		
+		Collections.sort(listOfComputeResultForBacktestPartialForTransactions, new ReflectiveComparator.ListComparator("percentOfTransProfitLoss", SortDirection.order_descending));		
+		listOfComputeResultForBacktestPartialForTransactions = new ArrayList<ComputeResultForBacktestPartial>(listOfComputeResultForBacktestPartialForTransactions.subList(0, Math.min(listOfComputeResultForBacktestPartialForTransactions.size()-1, count)));
 	}
 
 	@Override
@@ -118,7 +129,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			
 			listOfComputeUnitResultIds.add(computeResult.requestId);
 			
-			listOfComputeResultForBacktestPartial.addAll(computeResult.listOfComputeResultForBacktestPartial);
+			listOfComputeResultForBacktestPartialForProfit.addAll(computeResult.listOfComputeResultForBacktestPartial);
+			listOfComputeResultForBacktestPartialForTransactions.addAll(computeResult.listOfComputeResultForBacktestPartial);
 			pruneToTop(computeUnitResultPruneSize);
 			
 //			Co.println("--> Received result... " + computeResult.requestId + ", " + computeResult.unitId);

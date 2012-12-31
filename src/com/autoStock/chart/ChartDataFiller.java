@@ -16,8 +16,16 @@ import com.autoStock.types.basic.BasicTimeValuePair;
  *
  */
 public class ChartDataFiller {
+	
 	public TimeSeries getTimeSeriesFromResults(String label, ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair){
+		return getTimeSeriesFromResults(label, null, listOfBasicTimeValuePair);
+	}
+	
+	public TimeSeries getTimeSeriesFromResults(String label, Enum enumForDescription, ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair){
 		TimeSeries timeSeries = new TimeSeries(label);
+		if (enumForDescription != null){
+			timeSeries.setDescription(enumForDescription.name());
+		}
 		
 		for (BasicTimeValuePair basicTimeValuePair : listOfBasicTimeValuePair){
 			Calendar calendar = Calendar.getInstance();

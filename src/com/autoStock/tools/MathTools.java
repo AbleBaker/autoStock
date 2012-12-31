@@ -15,6 +15,10 @@ public class MathTools {
 		return Math.round(value*1000.0)/1000.0;
 	}
 	
+	public static double roundAccurate(double value){
+		return Math.round(value*1000000.0)/1000000.0;
+	}
+	
 	public static int[] averageArray(int[] arrayOfInt){
 		int[] arrayOfResults = new int[arrayOfInt.length];
 		

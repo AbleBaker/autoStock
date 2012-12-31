@@ -38,6 +38,7 @@ public class ClusterServer {
 			@Override
 			public void run() {
 				Co.println("--> Starting server...");
+				Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 				ServerSocket server = null;
 				Socket incoming = null;
 		
@@ -56,7 +57,7 @@ public class ClusterServer {
 					ClientThread cs = new ClientThread(incoming);
 					cs.start();
 					
-					try {Thread.sleep(3000);}catch(Exception e){}
+					try {Thread.sleep(1000);}catch(Exception e){}
 				}
 			}
 		});

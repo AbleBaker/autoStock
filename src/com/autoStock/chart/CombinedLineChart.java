@@ -3,11 +3,18 @@
  */
 package com.autoStock.chart;
 
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -16,9 +23,14 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.CategoryToolTipGenerator;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
+import org.jfree.chart.labels.StandardXYToolTipGenerator;
+import org.jfree.chart.labels.XYToolTipGenerator;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
@@ -26,14 +38,23 @@ import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYShapeRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
+import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
+import org.jfree.ui.TextAnchor;
 import org.jfree.util.ShapeUtilities;
 
+import com.autoStock.Co;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
+import com.autoStock.signal.SignalDefinitions;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.lowagie.text.Font;
 
 /**
@@ -43,7 +64,7 @@ import com.lowagie.text.Font;
 public class CombinedLineChart {
 	public int usedColor = -1;
 
-	public class LineChartDisplay extends ApplicationFrame {
+	public class LineChartDisplay extends ApplicationFrame implements ActionListener {
 		public String title;
 		public TimeSeriesTypePair[] arrayOfTimeSeriesPair;
 		public DefaultHighLowDataset defaultHighLowDataset;
@@ -56,12 +77,18 @@ public class CombinedLineChart {
 			arrayOfTimeSeriesPair = timeSeriesPairs;
 
 			ChartPanel chartPanel = (ChartPanel) createPanel();
-			chartPanel.setPreferredSize(new Dimension(1900, 1000));
-			setContentPane(chartPanel);
-			setVisible(true);
-			toFront();
-			pack();
+			chartPanel.setPreferredSize(new Dimension(1500, 1000));
 			
+//			JButton button = new JButton("Add New Data Item");
+//	        button.setActionCommand("ADD_DATA");
+//	        button.addActionListener(this);
+//	        chartPanel.add(button, BorderLayout.SOUTH);
+			
+	        setContentPane(chartPanel);
+	        setVisible(true);
+	        toFront();
+	        pack();
+	        
 			RefineryUtilities.centerFrameOnScreen(this);
 		}
 
@@ -78,23 +105,12 @@ public class CombinedLineChart {
 			plot.setGap(10);
 			resetColor();
 			
-			if (getPairForType(TimeSeriesType.type_signal_total) != null){
-				XYPlot subPlotForSignalTotal = new XYPlot(getPairForType(TimeSeriesType.type_signal_total).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_signal_total).timeSeriesType.displayName), new StandardXYItemRenderer());
-				subPlotForSignalTotal.getRenderer().setSeriesPaint(0, Color.BLACK);
-				
-				subPlotForSignalTotal.setDataset(2, getPairForType(TimeSeriesType.type_entry_signal).timeSeriesCollection);
-		        subPlotForSignalTotal.setRenderer(2, new XYShapeRenderer());
-		        subPlotForSignalTotal.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
-		        subPlotForSignalTotal.getRenderer(2).setSeriesPaint(0, Color.GREEN);
-		        
-				subPlotForSignalTotal.setDataset(3, getPairForType(TimeSeriesType.type_exit_signal).timeSeriesCollection);
-		        subPlotForSignalTotal.setRenderer(3, new XYShapeRenderer());
-		        subPlotForSignalTotal.getRenderer(3).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
-		        subPlotForSignalTotal.getRenderer(3).setSeriesPaint(0, Color.RED);
-		        subPlotForSignalTotal.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
-
-				plot.add(subPlotForSignalTotal, 1);
-			}
+//			if (getPairForType(TimeSeriesType.type_signal_total) != null){
+//				XYPlot subPlotForSignalTotal = new XYPlot(getPairForType(TimeSeriesType.type_signal_total).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_signal_total).timeSeriesType.displayName), new StandardXYItemRenderer());
+//				subPlotForSignalTotal.getRenderer().setSeriesPaint(0, Color.BLACK);
+//
+//				plot.add(subPlotForSignalTotal, 1);
+//			}
 			
 			if (getPairForType(TimeSeriesType.type_signals) != null){
 				resetColor();
@@ -107,6 +123,32 @@ public class CombinedLineChart {
 				StandardXYItemRenderer renderer  = (StandardXYItemRenderer) subPlotForSignals.getRenderer();
 				renderer.setLegendLine(new Rectangle2D.Double(-4.0, -4.0, 4.0, 4.0));
 //				renderer.setBaseLegendShape(new Rectangle2D.Double(-4.0, -4.0, 4.0, 4.0));
+
+//			    subPlotForSignals.setRangeCrosshairVisible(true);
+			    
+			    for (TimeSeries timeSeries : (List<TimeSeries>) getPairForType(TimeSeriesType.type_signals).timeSeriesCollection.getSeries()){
+			    	SignalMetricType signalMetricType = SignalDefinitions.SignalMetricType.valueOf(timeSeries.getDescription());
+			    	
+				    ValueMarker markerForEntry = new ValueMarker(signalMetricType.pointToSignalLongEntry);
+				    markerForEntry.setPaint(Color.decode("#33AA00"));
+				    markerForEntry.setAlpha(1.0f);
+				    markerForEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+					markerForEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+					markerForEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
+					markerForEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+				    subPlotForSignals.addRangeMarker(markerForEntry);
+				    
+				    ValueMarker markerForExit = new ValueMarker(signalMetricType.pointToSignalLongExit);
+				    markerForExit.setPaint(Color.decode("#FF0000"));
+				    markerForExit.setAlpha(1.0f);
+				    markerForExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+					markerForExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+					markerForExit.setLabelOffset(new RectangleInsets(8,10,8,0));
+					markerForExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+				    subPlotForSignals.addRangeMarker(markerForExit);
+			    }
+			    
+			    subPlotForSignals.getRenderer().setBaseToolTipGenerator(StandardXYToolTipGenerator.getTimeSeriesInstance());
 				
 				plot.add(subPlotForSignals, 1);
 			}
@@ -124,6 +166,24 @@ public class CombinedLineChart {
 				subPlotForPrice.getRenderer(1).setSeriesPaint(0, Color.ORANGE);
 		        subPlotForPrice.mapDatasetToRangeAxis(1, 1);
 		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+		        
+				subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_entry_signal).timeSeriesCollection);
+		        subPlotForPrice.setRenderer(2, new XYShapeRenderer());
+		        subPlotForPrice.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
+		        subPlotForPrice.getRenderer(2).setSeriesPaint(0, Color.GREEN);
+		        
+				subPlotForPrice.setDataset(3, getPairForType(TimeSeriesType.type_exit_signal).timeSeriesCollection);
+		        subPlotForPrice.setRenderer(3, new XYShapeRenderer());
+		        subPlotForPrice.getRenderer(3).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
+		        subPlotForPrice.getRenderer(3).setSeriesPaint(0, Color.RED);
+		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+		        
+		        subPlotForPrice.getRenderer().setBaseToolTipGenerator(new StandardXYToolTipGenerator() {
+					@Override
+					public String generateToolTip(XYDataset dataset, int series, int item) {
+						return "$" + String.valueOf(dataset.getY(0, item).doubleValue());
+					}
+		        });
 		        
 				plot.add(subPlotForPrice, 1);
 			}
@@ -144,10 +204,10 @@ public class CombinedLineChart {
 				subPlotForCandleStick.setBackgroundPaint(Color.white);
 				subPlotForCandleStick.setDomainGridlinePaint(Color.lightGray);
 				subPlotForCandleStick.setRangeGridlinePaint(Color.lightGray);
-				subPlotForCandleStick.setRangeAxis(0, new NumberAxis("Volume"));
+				subPlotForCandleStick.setRangeAxis(0, new NumberAxis("Price"));
 				subPlotForCandleStick.getRangeAxis(0).setAutoRange(true);
 				((NumberAxis)subPlotForCandleStick.getRangeAxis(0)).setAutoRangeIncludesZero(false);
-				subPlotForCandleStick.setRangeAxis(1, new NumberAxis("Price"));
+				subPlotForCandleStick.setRangeAxis(1, new NumberAxis("Volume"));
 				
 				((CandlestickRenderer)subPlotForCandleStick.getRenderer()).setUseOutlinePaint(true);
 				
@@ -203,6 +263,11 @@ public class CombinedLineChart {
 		
 		public void resetColor(){
 			usedColor = -1;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
 		}
 	}
 }

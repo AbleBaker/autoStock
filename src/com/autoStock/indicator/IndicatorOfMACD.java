@@ -1,5 +1,6 @@
 package com.autoStock.indicator;
 
+import com.autoStock.Co;
 import com.autoStock.adjust.IterableOfInteger;
 import com.autoStock.indicator.results.ResultsMACD;
 import com.autoStock.taLib.Core;
@@ -28,8 +29,8 @@ public class IndicatorOfMACD extends IndicatorBase {
 		
 		RetCode returnCode;
 		
-		if (periodLength > 30){
-			returnCode = taLibCore.macdExt(0, endIndex, arrayOfPriceClose, periodLength/3, MAType.Ema, (int)(periodLength/2), MAType.Ema, periodLength/2, MAType.Ema, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		if (periodLength <= 30){ //TODO: Fix this, periods are wrong
+			returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, periodLength/3, (int)(periodLength/2), periodLength/2 -3, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		}else{
 			returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, immutableIntegerForShort.value, immutableIntegerForLong.value, immutableIntegerForEma.value, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		}

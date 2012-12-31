@@ -33,21 +33,21 @@ public class SignalDefinitions {
 				48, 44, -100, -100),
 		metric_di(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) input * 1;}},
-				25, -5, -100, -100),
+				18, -8, -100, -100),
 		metric_cci(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}},
 				22, 6, -100, -100),
 		metric_macd(
 			new NormalizeInterface(){@Override public int normalize(double input){return (int) (input * 1000);}},
-				20, -36, -100, -100),
+				-2, -26, -100, -100),
 		metric_rsi(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input - 35);}},
-				30, -7, -100, -100),
+				2, -20, -100, -100),
 		metric_trix(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 700);}},
 				6, 0, 0, 0),
 		metric_roc(
-			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 35);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 20);}},
 				35, -20, 0, 0),
 		metric_mfi(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 0.45) - 25;}},
