@@ -1,5 +1,8 @@
 package com.autoStock.strategy;
 
+import java.util.ArrayList;
+
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.types.basic.ImmutableDouble;
 import com.autoStock.types.basic.ImmutableInteger;
@@ -32,4 +35,7 @@ public class StrategyOptions {
 	public int maxPositionExitTime;
 	public ImmutableInteger maxReenterTimes = new ImmutableInteger();
 	public ImmutableInteger intervalForReentryMins = new ImmutableInteger();
+	
+	public ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
+	
 }

@@ -4,6 +4,7 @@ import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalTools;
+import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.types.QuoteSlice;
 
@@ -15,8 +16,9 @@ public class AlgorithmChart {
 	private ChartForAlgorithmTest chart;
 	private SignalGroup signalGroup;
 	
-	public AlgorithmChart(String title, SignalGroup signalGroup){
+	public AlgorithmChart(String title, SignalGroup signalGroup, StrategyOptions strategyOptions){
 		chart = new ChartForAlgorithmTest(title);
+		chart.strategyOptions = strategyOptions;
 		this.signalGroup = signalGroup;
 	}
 	

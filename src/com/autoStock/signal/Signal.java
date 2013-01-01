@@ -5,6 +5,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 
@@ -16,21 +17,16 @@ public class Signal {
 	private SignalGroup signalGroup;
 	public SignalSource signalSource;
 	public SignalPoint currentSignalPoint = new SignalPoint();
-	public ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
+	private ArrayList<SignalMetric> listOfSignalMetric = new ArrayList<SignalMetric>();
 	
 	public Signal(SignalSource signalSource, SignalGroup signalGroup) {
 		this.signalSource = signalSource;
 		this.signalGroup = signalGroup;
 	}
 	
-	public void resetAndAddSignalMetrics(SignalMetric... arrayOfSignalMetrics){
-		reset();
-		addSignalMetrics(arrayOfSignalMetrics);
-	}
-	
-	public void addSignalMetrics(SignalMetric... signalMetrics){
-		for (SignalMetric signalMetric : signalMetrics){
-			listOfSignalMetric.add(signalMetric);
+	public void addSignalMetrics(ArrayList<SignalMetricType> listOfSignalMetricType){
+		for (SignalMetricType signalMetricType : listOfSignalMetricType){
+			listOfSignalMetric.add(signalGroup.getSignalMetricForType(signalMetricType));
 		}
 	}
 	
@@ -45,15 +41,7 @@ public class Signal {
 	}
 	
 	public ArrayList<SignalMetric> getListOfSignalMetric(){
-		return this.listOfSignalMetric;
-	}
-	
-	public SignalMetric[] getArrayOfSignalMetric(){
-		return (SignalMetric[]) this.listOfSignalMetric.toArray();
-	}
-	
-	public void reset(){
-		listOfSignalMetric.clear();
+		return listOfSignalMetric;
 	}
 	
 	public SignalGroup getSignalGroup(){

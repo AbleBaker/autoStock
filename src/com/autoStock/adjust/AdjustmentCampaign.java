@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentInterfaces.AdjustmentInterfaceForInteger;
+import com.autoStock.indicator.IndicatorOfMACD;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyOptionDefaults;
@@ -36,12 +37,16 @@ public class AdjustmentCampaign {
 	public void setupAdjustmentForComplete(){
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_rsi, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_rsi, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_trix, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_trix, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_macd, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_macd, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_macd, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_macd, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
+		
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(IndicatorOfMACD.immutableIntegerForEma, new IterableOfInteger(0, SignalControl.periodLengthStart.value, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(IndicatorOfMACD.immutableIntegerForLong, new IterableOfInteger(0, SignalControl.periodLengthStart.value, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(IndicatorOfMACD.immutableIntegerForShort, new IterableOfInteger(0, SignalControl.periodLengthStart.value, 1)));
 //		
 ////	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().maxStopLossValue, new IterableOfInteger(-50, 0, 5)));
 ////	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins, new IterableOfInteger(1, 10, 1)));

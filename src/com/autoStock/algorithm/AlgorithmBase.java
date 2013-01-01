@@ -21,6 +21,9 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalGroup;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.strategy.StrategyBase;
+import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
@@ -49,8 +52,10 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	public final CommonAnlaysisData commonAnlaysisData = new CommonAnlaysisData();
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
+	protected ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	public QuoteSlice firstQuoteSlice;
 	protected Position position;
+	protected StrategyBase strategyBase;
 	
 	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode){
 		this.algorithmState.canTrade = canTrade;
@@ -62,7 +67,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		signalGroup = new SignalGroup(indicatorGroup);
 		
 		if (algorithmMode.displayChart) {
-			algorithmChart = new AlgorithmChart(symbol.symbolName, signalGroup);
+			algorithmChart = new AlgorithmChart(symbol.symbolName, signalGroup, strategyBase.strategyOptions);
 		}
 		
 		if (algorithmMode.displayTable){

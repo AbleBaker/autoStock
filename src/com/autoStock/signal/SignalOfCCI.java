@@ -11,10 +11,13 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  * @author Kevin Kowalewski
  *
  */
-public class SignalOfCCI{
-	private SignalMetricType signalMetricType = SignalMetricType.metric_cci;
+public class SignalOfCCI extends SignalBase {
 	private ArrayList<Double> listOfDouble = new ArrayList<Double>();
 	private ArrayList<Double> listOfNormalizedDouble = new ArrayList<Double>();
+	
+	public SignalOfCCI(){
+		super(SignalMetricType.metric_cci);
+	}
 	
 	public void addInput(double cciValue){
 		listOfDouble.add(new Double(cciValue));
@@ -47,6 +50,7 @@ public class SignalOfCCI{
 		return listOfAveragedDouble;
 	}
 	
+	@Override
 	public SignalMetric getSignal(){
 		double averaged = 0;
 		

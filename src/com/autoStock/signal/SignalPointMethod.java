@@ -40,7 +40,7 @@ public class SignalPointMethod {
 	private static SignalPoint getSignalPointCombined(boolean havePosition, PositionType positionType, Signal signal){
 		SignalPoint signalPoint = new SignalPoint();
 		
-		for (SignalMetric signalMetric : signal.listOfSignalMetric){
+		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
 			SignalPoint signalPointIterated = signalMetric.getSignalPoint(havePosition, positionType, signal);
 				
 			if (signalPointIterated.signalPointType == SignalPointType.none){
@@ -64,11 +64,11 @@ public class SignalPointMethod {
 	private static SignalPoint getSignalPointMajority(boolean havePosition, PositionType positionType, Signal signal){
 		SignalPoint signalPoint = new SignalPoint();
 		int occurenceCount = 0;
-		boolean isEvenNumberOfMetrics = MathTools.isEven(signal.listOfSignalMetric.size());
+		boolean isEvenNumberOfMetrics = MathTools.isEven(signal.getListOfSignalMetric().size());
 		
 		ArrayList<SignalPointPair> listOfSignalPointPair = new ArrayList<SignalPointPair>();
 		
-		for (SignalMetric signalMetric : signal.listOfSignalMetric){
+		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
 			SignalPoint signalPointLocal = signalMetric.getSignalPoint(havePosition, positionType, signal);
 			SignalPointPair signalPointPair = getPairForType(signalPointLocal.signalPointType, listOfSignalPointPair);
 			
@@ -93,7 +93,7 @@ public class SignalPointMethod {
 	private static SignalPoint getSignalPointChange(boolean havePosition, PositionType positionType, Signal signal){
 		SignalPoint signalPoint = new SignalPoint();
 		
-		for (SignalMetric signalMetric : signal.listOfSignalMetric){
+		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
 			SignalPoint metricSignalPoint = signalMetric.getSignalPoint(havePosition, positionType, signal);
 			if (metricSignalPoint.signalPointType != SignalPointType.none){
 				signalPoint = metricSignalPoint;

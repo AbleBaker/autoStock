@@ -9,14 +9,16 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  * @author Kevin Kowalewski
  *
  */
-public class SignalOfADX{
+public class SignalOfADX extends SignalBase {
 	private double adxValue = 0;
-	private SignalMetricType signalMetricType = SignalMetricType.metric_adx;
 	
 	public SignalOfADX(double[] arrayOfDouble){
+		super(SignalMetricType.metric_adx);
 		adxValue = arrayOfDouble[arrayOfDouble.length-1];
+		signalMetricType = SignalMetricType.metric_adx;
 	}
 	
+	@Override
 	public SignalMetric getSignal(){	
 		return new SignalMetric(signalMetricType.getNormalizedValue(adxValue), signalMetricType);
 	}

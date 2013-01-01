@@ -245,7 +245,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							
 							String stringForSignal = new String();
 							
-							for (SignalMetric signalMetric : strategyResponse.signal.listOfSignalMetric){
+							for (SignalMetric signalMetric : strategyResponse.signal.getListOfSignalMetric()){
 								stringForSignal += signalMetric.signalMetricType.name() + ":" + signalMetric.getStrength() + ", ";
 							}
 							

@@ -9,11 +9,11 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  * @author Kevin Kowalewski
  *
  */
-public class SignalOfPPC{
+public class SignalOfPPC extends SignalBase {
 	private double percentChange = 0;
-	private SignalMetricType signalMetricType = SignalMetricType.metric_ppc;
 	
 	public SignalOfPPC(double[] arrayOfPrice, int periodAverage){
+		super(SignalMetricType.metric_ppc);
 		if (arrayOfPrice.length < 1){throw new IllegalArgumentException();}
 		if (periodAverage > 0 && arrayOfPrice.length < periodAverage * 2){throw new IllegalArgumentException();}
 		
@@ -39,6 +39,7 @@ public class SignalOfPPC{
 		percentChange = secondValue / firstValue;
 	}
 	
+	@Override
 	public SignalMetric getSignal(){
 		return new SignalMetric(signalMetricType.getNormalizedValue(percentChange), signalMetricType);
 	}

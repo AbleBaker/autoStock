@@ -24,11 +24,27 @@ public class MathTools {
 		
 		for (int i=0; i < arrayOfInt.length; i++){
 			if (i == 0){
-				arrayOfResults[0] = (int) (arrayOfInt[0] + arrayOfInt[1] /2);
+				arrayOfResults[0] = (int) (arrayOfInt[0] + arrayOfInt[1]) / 2;
 			}else if (i != arrayOfInt.length-1){
-				arrayOfResults[i] = (int) (arrayOfInt[i-1] + arrayOfInt[i] + arrayOfInt[i+1] /2);
+				arrayOfResults[i] = (int) (arrayOfInt[i-1] + arrayOfInt[i] + arrayOfInt[i+1]) / 3;
 			}else{
-				arrayOfResults[i] = (int) (arrayOfInt[i] + arrayOfInt[i-1] /2);
+				arrayOfResults[i] = (int) (arrayOfInt[i] + arrayOfInt[i-1]) / 2;
+			}
+		}
+		
+		return arrayOfResults;
+	}
+	
+	public static double[] averageArray(double[] arrayOfDouble){
+		double[] arrayOfResults = new double[arrayOfDouble.length];
+		
+		for (int i=0; i < arrayOfDouble.length; i++){
+			if (i == 0){
+				arrayOfResults[0] = (arrayOfDouble[0] + arrayOfDouble[1]) / 2;
+			}else if (i != arrayOfDouble.length-1){
+				arrayOfResults[i] = (arrayOfDouble[i-1] + arrayOfDouble[i] + arrayOfDouble[i+1]) / 3;
+			}else{
+				arrayOfResults[i] = (arrayOfDouble[i] + arrayOfDouble[i-1]) / 2;
 			}
 		}
 		

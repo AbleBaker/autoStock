@@ -1,15 +1,22 @@
 package com.autoStock.strategy;
 
+import java.util.ArrayList;
+
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
+import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernor;
+import com.autoStock.position.PositionOptions;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalGroup;
+import com.autoStock.trading.types.Position;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
  * 
  */
-public class StrategyBase {
+public abstract class StrategyBase {
 	public Signal signal;
 	public StrategyOptions strategyOptions;
 	public AlgorithmCondition algorithmCondition;
@@ -21,4 +28,6 @@ public class StrategyBase {
 	public StrategyBase(AlgorithmBase algorithmBase) {
 		this.algorithmBase = algorithmBase;
 	}
+	
+	public abstract StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse, Position position, PositionOptions positionOptions);
 }

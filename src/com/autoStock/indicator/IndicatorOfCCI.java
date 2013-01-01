@@ -7,6 +7,7 @@ import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
+import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski
@@ -22,6 +23,10 @@ public class IndicatorOfCCI extends IndicatorBase {
 	public ResultsCCI analyize(){
 		results = new ResultsCCI(endIndex+1);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		
+//		arrayOfPriceHigh = MathTools.averageArray(arrayOfPriceHigh);
+//		arrayOfPriceLow = MathTools.averageArray(arrayOfPriceLow);
+//		arrayOfPriceClose = MathTools.averageArray(arrayOfPriceClose);
 		
 		RetCode returnCode = taLibCore.cci(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfCCI);
 		handleAnalysisResult(returnCode);

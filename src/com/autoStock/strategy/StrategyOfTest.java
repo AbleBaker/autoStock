@@ -10,6 +10,7 @@ import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
@@ -27,23 +28,27 @@ public class StrategyOfTest extends StrategyBase {
 		super(algorithmBase);
 		strategyOptions = StrategyOptionDefaults.getInstance().getDefaultStrategyOptions();
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
+		
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
+		
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);
+		
 	}
 	
+	@Override
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse, Position position, PositionOptions positionOptions){
 		StrategyResponse strategyResponse = new StrategyResponse();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 		
 		signal = new Signal(SignalSource.from_algorithm, signalGroup);
-		signal.resetAndAddSignalMetrics(
-//				signalGroup.signalOfCCI.getSignal()
-//				signalGroup.signalOfRSI.getSignal()
-				signalGroup.signalOfDI.getSignal(),
-				signalGroup.signalOfMACD.getSignal()
-//				signalGroup.signalOfMFI.getSignal(),
-//				signalGroup.signalOfTRIX.getSignal()
-//				signalGroup.signalOfROC.getSignal(),
-//				signalGroup.signalOfWILLR.getSignal()
-				);
+		signal.addSignalMetrics(strategyOptions.listOfSignalMetricType);
 		
 //		SignalPoint signalPointForEntry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
 		

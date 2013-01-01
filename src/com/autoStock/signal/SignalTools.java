@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class SignalTools {
 	public static synchronized CombinedSignal getCombinedSignal(Signal signal){
-		ArrayList<SignalMetric> listOfSignalMetric = signal.listOfSignalMetric;
+		ArrayList<SignalMetric> listOfSignalMetric = signal.getListOfSignalMetric();
 		CombinedSignal combinedSignal = new CombinedSignal();
 		int listOfSignalMetricSize = listOfSignalMetric.size();
 		

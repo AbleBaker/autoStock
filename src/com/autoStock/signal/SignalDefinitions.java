@@ -41,16 +41,16 @@ public class SignalDefinitions {
 			new NormalizeInterface(){@Override public int normalize(double input){return (int) (input * 1000);}},
 				-2, -26, -100, -100),
 		metric_rsi(
-			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input - 35);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input - 45);}},
 				2, -20, -100, -100),
 		metric_trix(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 700);}},
 				6, 0, 0, 0),
 		metric_roc(
-			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 20);}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 25);}},
 				35, -20, 0, 0),
 		metric_mfi(
-			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 0.45) - 25;}},
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 0.50) - 25;}},
 				40, -24, 0, 0),
 		metric_willr(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input + 30);}},

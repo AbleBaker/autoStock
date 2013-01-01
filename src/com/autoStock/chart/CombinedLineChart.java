@@ -77,7 +77,7 @@ public class CombinedLineChart {
 			arrayOfTimeSeriesPair = timeSeriesPairs;
 
 			ChartPanel chartPanel = (ChartPanel) createPanel();
-			chartPanel.setPreferredSize(new Dimension(1500, 1000));
+			chartPanel.setPreferredSize(new Dimension(1600, 1000));
 			
 //			JButton button = new JButton("Add New Data Item");
 //	        button.setActionCommand("ADD_DATA");
@@ -89,7 +89,7 @@ public class CombinedLineChart {
 	        toFront();
 	        pack();
 	        
-			RefineryUtilities.centerFrameOnScreen(this);
+			RefineryUtilities.positionFrameOnScreen(this, 0, 0);
 		}
 
 		public JPanel createPanel() {

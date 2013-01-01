@@ -25,27 +25,20 @@ import com.autoStock.types.Symbol;
  */
 public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
 	public StrategyOfTest strategy = new StrategyOfTest(this);
-	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode) {
 		super(canTrade, exchange, symbol, algorithmMode);
+		strategyBase = strategy;
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
-//		if (false){
-			for (AdjustmentBase adjustmentBase : AdjustmentCampaign.getInstance().getListOfAdjustmentBase()){
-				if (adjustmentBase instanceof AdjustmentOfSignalMetric){
-					listOfSignalMetricType.add(((AdjustmentOfSignalMetric)adjustmentBase).signalMetricType);
-				}
-			}
-			
-//			listOfSignalMetricType.add(SignalMetricType.metric_di);
+			listOfSignalMetricType = strategy.strategyOptions.listOfSignalMetricType;
 		}else{
 			listOfSignalMetricType.addAll(Arrays.asList(SignalMetricType.values()));	
 		}
 	}
 
 	@Override
-	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
+	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		receivedQuoteSlice(quoteSlice);
 		
 		if (listOfQuoteSlice.size() >= periodLength) {
@@ -74,7 +67,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	}
 
 	@Override
-	public synchronized void endOfFeed(Symbol symbol) {
+	public void endOfFeed(Symbol symbol) {
 		if (algorithmMode.displayChart) {
 			algorithmChart.display();
 		}

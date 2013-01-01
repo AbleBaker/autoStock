@@ -8,13 +8,12 @@ import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
  */
 public class StrategyOptionDefaults {
 	public static StrategyOptionDefaults instance = new StrategyOptionDefaults();
-	private StrategyOptions strategyOptions = new StrategyOptions();
 	
 	public static StrategyOptionDefaults getInstance(){
 		return instance;
-	}
-	
-	public StrategyOptionDefaults(){
+	}	
+	public StrategyOptions getDefaultStrategyOptions(){
+		StrategyOptions strategyOptions = new StrategyOptions();
 		strategyOptions.canGoLong = true;
 		strategyOptions.canGoShort = false;
 		strategyOptions.canReenter = true;
@@ -26,7 +25,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
 		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_change;
-
+		
 		strategyOptions.maxTransactionsDay = 8;
 		strategyOptions.minTakeProfitExit = 1.98d;
 		strategyOptions.maxStopLossValue.value = -50;
@@ -38,9 +37,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.maxReenterTimes.value = 3;
 		strategyOptions.intervalForReentryMins.value = 10;
 		strategyOptions.minReentryPercentGain.value = 0.20;
-	}
-	
-	public StrategyOptions getDefaultStrategyOptions(){
+		
 		return strategyOptions;
 	}
 }
