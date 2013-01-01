@@ -25,9 +25,8 @@ public class StrategyOptions {
 	public SignalPointTactic signalPointTacticForExit;
 	
 	public int maxTransactionsDay;
-	public double minTakeProfitExit;
 	public ImmutableDouble minReentryPercentGain = new ImmutableDouble();
-	public ImmutableInteger maxStopLossValue = new ImmutableInteger();
+	public ImmutableDouble maxStopLossPercent = new ImmutableDouble();
 	public int maxNilChangePrice;
 	public int maxNilChangeVolume;
 	public int maxPositionEntryTime;

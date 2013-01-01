@@ -45,11 +45,15 @@ public class BacktestUtils {
 			string += " +Short exit: " + signalMetric.signalMetricType.pointToSignalShortExit + "\n";
 		}
 		
+		string += "\n";
+		
 		for (AdjustmentBase adjustmentBase : AdjustmentCampaign.getInstance().getListOfAdjustmentBase()){
 			if (adjustmentBase instanceof AdjustmentOfBasicInteger){
-				string += "AdjustmentOfBasicInteger " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue();
+				string += " +AdjustmentOfBasicInteger " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue() + "\n";
 			}
 		}
+		
+		string += "\n";
 		
 		string += "\n Can go long: " + strategyOptions.canGoLong;
 		string += "\n Can go short: " + strategyOptions.canGoShort;
@@ -61,9 +65,8 @@ public class BacktestUtils {
 		string += "\n Max position entry time: " + strategyOptions.maxPositionEntryTime;
 		string += "\n Max position exit time: " + strategyOptions.maxPositionExitTime;
 		string += "\n Max position taper time: " + strategyOptions.maxPositionTaperTime;
-		string += "\n Max stop loss value ($): " +  strategyOptions.maxStopLossValue.value;
+		string += "\n Max stop loss percent: " +  strategyOptions.maxStopLossPercent.value;
 		string += "\n Max transactions per day: " + strategyOptions.maxTransactionsDay;
-		string += "\n Min take profit exit: " + strategyOptions.minTakeProfitExit;
 		string += "\n Signal point tactic (entry): " + strategyOptions.signalPointTacticForEntry.name();
 		string += "\n Signal point tactic (reentry): " + strategyOptions.signalPointTacticForReentry.name();
 		string += "\n Signal point tactic (exit): " + strategyOptions.signalPointTacticForExit.name();

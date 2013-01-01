@@ -70,22 +70,22 @@ public class AlgorithmCondition {
 		return false;
 	}
 	
-	public boolean takeProfit(Position position, QuoteSlice quoteSlice){
-		double percentGainFromPosition = 0;
-		PositionValue positionValue = position.getPositionValue();
-		
-		if (position.isFilled()){
-			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
-				if (position.getLastKnownUnitPrice() != 0){
-					percentGainFromPosition = positionValue.valueIntrinsicWithFees / positionValue.valueCurrentWithFees;
-				}
-			}
-			
-			return percentGainFromPosition >= strategyOptions.minTakeProfitExit;
-		}
-		
-		return false;
-	}
+//	public boolean takeProfit(Position position, QuoteSlice quoteSlice){
+//		double percentGainFromPosition = 0;
+//		PositionValue positionValue = position.getPositionValue();
+//		
+//		if (position.isFilled()){
+//			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
+//				if (position.getLastKnownUnitPrice() != 0){
+//					percentGainFromPosition = positionValue.valueIntrinsicWithFees / positionValue.valueCurrentWithFees;
+//				}
+//			}
+//			
+//			return percentGainFromPosition >= strategyOptions.minTakeProfitExit;
+//		}
+//		
+//		return false;
+//	}
 	
 	public boolean canTradeAfterLoss(ArrayList<StrategyResponse> listOfStrategyResponse){
 		for (StrategyResponse strategyResponse : listOfStrategyResponse){
@@ -102,14 +102,10 @@ public class AlgorithmCondition {
 	//TODO: This is inaccurate
 	public boolean stopLoss(Position position){
 		if (position.isFilled()){
-			double valueGainFromPosition = 0;
-			PositionValue positionValue = position.getPositionValue();
-
-			valueGainFromPosition =  positionValue.valueCurrentWithFees - positionValue.valueIntrinsicWithFees;
 			
-//			Co.println("--> Value gain: " + valueGainFromPosition + (valueGainFromPosition < strategyOptions.maxStopLossValue));
-		
-			return valueGainFromPosition < strategyOptions.maxStopLossValue.value;
+			Co.println("--> X: " + position.getCurrentPercentGainLoss(false));
+			
+			return position.getCurrentPercentGainLoss(false) < strategyOptions.maxStopLossPercent.value;
 		}
 		
 		return false;

@@ -31,11 +31,11 @@ public class StrategyOfTest extends StrategyBase {
 		
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
-		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
-		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 		
-//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);
@@ -65,10 +65,7 @@ public class StrategyOfTest extends StrategyBase {
 		}
 		else if (position != null){
 			if (algorithmCondition.stopLoss(position)){
-				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_stoploss, quoteSlice, position, strategyResponse);
-			}
-			else if (algorithmCondition.takeProfit(position, quoteSlice)){
-				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_profit, quoteSlice, position, strategyResponse);
+				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_stoploss, quoteSlice, position, strategyResponse);
 			}
 			else if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, algorithmBase.exchange)){
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_exit, quoteSlice, position, strategyResponse);

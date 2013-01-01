@@ -11,9 +11,10 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class AdjustmentOfBasicInteger extends AdjustmentBase {
 	private ImmutableInteger immutableInteger;
 	
-	public AdjustmentOfBasicInteger(String text, ImmutableInteger immutableInteger, IterableOfInteger iterableOfInteger){
+	public AdjustmentOfBasicInteger(String description, ImmutableInteger immutableInteger, IterableOfInteger iterableOfInteger){
 		this.iterableBase = iterableOfInteger;
 		this.immutableInteger = immutableInteger;
+		this.description = description;
 	}
 	
 	@Override

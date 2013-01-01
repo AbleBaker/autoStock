@@ -41,15 +41,15 @@ public class SignalPointMethod {
 		SignalPoint signalPoint = new SignalPoint();
 		
 		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
-			SignalPoint signalPointIterated = signalMetric.getSignalPoint(havePosition, positionType, signal);
+			SignalPoint signalPointLocal = signalMetric.getSignalPoint(havePosition, positionType, signal);
 				
-			if (signalPointIterated.signalPointType == SignalPointType.none){
+			if (signalPointLocal.signalPointType == SignalPointType.none){
 				signalPoint = new SignalPoint();
 				break;
 			}else if (signalPoint.signalPointType == SignalPointType.none){
-				signalPoint = signalPointIterated;
+				signalPoint = signalPointLocal;
 			}else{
-				if (signalPointIterated.signalPointType != signalPoint.signalPointType){
+				if (signalPointLocal.signalPointType != signalPoint.signalPointType){
 					signalPoint = new SignalPoint();
 					break;
 				}

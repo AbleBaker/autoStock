@@ -3,12 +3,14 @@
  */
 package com.autoStock.dataFeed;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.backtest.BacktestRevolverListener;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -46,6 +48,13 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 			}
 		});
 		
+		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread t, Throwable e) {
+				e.printStackTrace();
+				ApplicationStates.shutdown();
+			}
+		});
 		threadForDelivery.start();
 	}
 	
