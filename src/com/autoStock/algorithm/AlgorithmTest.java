@@ -1,12 +1,7 @@
 package com.autoStock.algorithm;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.autoStock.Co;
-import com.autoStock.adjust.AdjustmentBase;
-import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.adjust.AdjustmentOfSignalMetric;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.position.PositionOptions;
@@ -14,7 +9,6 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
-import com.autoStock.tools.Benchmark;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -28,7 +22,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode) {
 		super(canTrade, exchange, symbol, algorithmMode);
-		strategyBase = strategy;
+		initialize(strategy);
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
 			listOfSignalMetricType = strategy.strategyOptions.listOfSignalMetricType;

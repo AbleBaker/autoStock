@@ -3,6 +3,9 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.adjust.AdjustmentBase;
+import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.finance.Account;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
@@ -40,6 +43,12 @@ public class BacktestUtils {
 			string += " +Long exit: " + signalMetric.signalMetricType.pointToSignalLongExit + "\n";
 			string += " +Short entry: " + signalMetric.signalMetricType.pointToSignalShortEntry + "\n";
 			string += " +Short exit: " + signalMetric.signalMetricType.pointToSignalShortExit + "\n";
+		}
+		
+		for (AdjustmentBase adjustmentBase : AdjustmentCampaign.getInstance().getListOfAdjustmentBase()){
+			if (adjustmentBase instanceof AdjustmentOfBasicInteger){
+				string += "AdjustmentOfBasicInteger " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue();
+			}
 		}
 		
 		string += "\n Can go long: " + strategyOptions.canGoLong;

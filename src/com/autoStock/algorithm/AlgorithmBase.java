@@ -65,6 +65,10 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		
 		indicatorGroup = new IndicatorGroup(periodLength, commonAnlaysisData);
 		signalGroup = new SignalGroup(indicatorGroup);
+	}
+	
+	public void initialize(StrategyBase strategyBase){
+		this.strategyBase = strategyBase;
 		
 		if (algorithmMode.displayChart) {
 			algorithmChart = new AlgorithmChart(symbol.symbolName, signalGroup, strategyBase.strategyOptions);
