@@ -24,11 +24,7 @@ public class IndicatorOfCCI extends IndicatorBase {
 		results = new ResultsCCI(endIndex+1);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
-		arrayOfPriceHigh = MathTools.averageArray(arrayOfPriceHigh);
-		arrayOfPriceLow = MathTools.averageArray(arrayOfPriceLow);
-		arrayOfPriceClose = MathTools.averageArray(arrayOfPriceClose);
-		
-		RetCode returnCode = taLibCore.cci(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength, new MInteger(), new MInteger(), results.arrayOfCCI);
+		RetCode returnCode = taLibCore.cci(0, endIndex, MathTools.averageArray(arrayOfPriceHigh), MathTools.averageArray(arrayOfPriceLow), MathTools.averageArray(arrayOfPriceClose), periodLength, new MInteger(), new MInteger(), results.arrayOfCCI);
 		handleAnalysisResult(returnCode);
 		
 		return results;

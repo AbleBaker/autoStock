@@ -118,4 +118,15 @@ public class ArrayTools {
 		
 		return -1;
 	}
+	
+	public static int getLastIndex(int[] arrayOfInt, int search){
+		int index = -1;
+		for (int i=0; i<arrayOfInt.length; i++){
+			if (arrayOfInt[i] == search){
+				index = i;
+			}
+		}
+		
+		return index;
+	}
 }

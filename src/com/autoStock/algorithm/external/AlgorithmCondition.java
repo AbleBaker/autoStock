@@ -99,12 +99,8 @@ public class AlgorithmCondition {
 		return true;
 	}
 	
-	//TODO: This is inaccurate
 	public boolean stopLoss(Position position){
-		if (position.isFilled()){
-			
-			Co.println("--> X: " + position.getCurrentPercentGainLoss(false));
-			
+		if (position.isFilled()){			
 			return position.getCurrentPercentGainLoss(false) < strategyOptions.maxStopLossPercent.value;
 		}
 		

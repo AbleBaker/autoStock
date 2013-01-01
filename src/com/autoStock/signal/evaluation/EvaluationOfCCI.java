@@ -2,6 +2,7 @@ package com.autoStock.signal.evaluation;
 
 import java.util.Arrays;
 
+import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
@@ -15,7 +16,7 @@ import com.autoStock.tools.MathTools;
 public class EvaluationOfCCI extends EvaulationBase {
 	private DetectorTools detectorTools = new DetectorTools();
 	private int[] arrayOfNormalizedCCI;
-	private int detectWindow = 15;
+	private int detectWindow = 10;
 	
 	public EvaluationOfCCI(double[] arrayOfNormalizedCCI){
 		this.arrayOfNormalizedCCI =  ArrayTools.convertToInt(arrayOfNormalizedCCI);
@@ -28,41 +29,31 @@ public class EvaluationOfCCI extends EvaulationBase {
 	@Override
 	public SignalPoint getSignalPoint() {
 		if (arrayOfNormalizedCCI.length == detectWindow){
-			int currentCCIValue = arrayOfNormalizedCCI[arrayOfNormalizedCCI.length-1];
-			int lastCCIValue = arrayOfNormalizedCCI[arrayOfNormalizedCCI.length-2];
-			int changeFromPeak = detectorTools.getChangeFromPeak(arrayOfNormalizedCCI);
+			int cciValue = arrayOfNormalizedCCI[arrayOfNormalizedCCI.length-1];
+			int changeFromPeak = detectorTools.getChangeFromPeak(arrayOfNormalizedCCI) * -1;
 			int changeFromTrough = detectorTools.getChangeFromTrough(arrayOfNormalizedCCI);
 			int changeFromMaxToMin = detectorTools.getChangeBetweenMaxAndMin(arrayOfNormalizedCCI);
 			
 			int peakValue = MathTools.getMax(arrayOfNormalizedCCI);
-			int peakIndex = ArrayTools.getIndex(arrayOfNormalizedCCI, peakValue);
+			int peakIndex = ArrayTools.getLastIndex(arrayOfNormalizedCCI, peakValue);
 			int troughValue = MathTools.getMin(arrayOfNormalizedCCI);
-			int troughIndex = ArrayTools.getIndex(arrayOfNormalizedCCI, troughValue);
+			int troughIndex = ArrayTools.getLastIndex(arrayOfNormalizedCCI, troughValue);
 			
-			double leftOfPeakAverage = peakIndex == 0 ? peakValue : MathTools.getAverage(Arrays.copyOfRange(arrayOfNormalizedCCI, 0, peakIndex));
-			double rightOfPeakAverage = peakIndex == arrayOfNormalizedCCI.length-1 ? peakValue : MathTools.getAverage(Arrays.copyOfRange(arrayOfNormalizedCCI, peakIndex+1, arrayOfNormalizedCCI.length));
+			boolean directionSincePeakIsDown = detectorTools.directionIsDown(Arrays.copyOfRange(arrayOfNormalizedCCI, peakIndex, arrayOfNormalizedCCI.length), 2);
+			boolean directionSincePeakIsUp = detectorTools.directionIsUp(Arrays.copyOfRange(arrayOfNormalizedCCI, peakIndex, arrayOfNormalizedCCI.length), 2);
+			boolean directionSinceTroughIsDown = detectorTools.directionIsDown(Arrays.copyOfRange(arrayOfNormalizedCCI, troughIndex, arrayOfNormalizedCCI.length), 2);
+			boolean directionSinceTroughIsUp = detectorTools.directionIsUp(Arrays.copyOfRange(arrayOfNormalizedCCI, troughIndex, arrayOfNormalizedCCI.length), 2);
 			
-			double leftOfTroughAverage = troughIndex == 0 ? troughValue : MathTools.getAverage(Arrays.copyOfRange(arrayOfNormalizedCCI, 0, troughIndex));
-			double rightOfTroughAverage = troughIndex == arrayOfNormalizedCCI.length-1 ? troughValue : MathTools.getAverage(Arrays.copyOfRange(arrayOfNormalizedCCI, troughIndex+1, arrayOfNormalizedCCI.length));
+			boolean hasTroughed = changeFromTrough >= 8 && directionSinceTroughIsUp;
+			boolean hasPeaked = changeFromPeak >= 8 && directionSincePeakIsDown && peakIndex > 0;
 			
-			boolean isAtPeak = changeFromPeak == 0;
-			boolean isAtTrough = changeFromTrough == 0;
+			Co.println("--> Change: " + changeFromTrough + ", " + changeFromPeak + ", " + peakIndex + ", " + peakValue);
 			
-			boolean directionSincePeakIsDown = detectorTools.directionIsDown(Arrays.copyOfRange(arrayOfNormalizedCCI, peakIndex, arrayOfNormalizedCCI.length), 3);
-			boolean directionSincePeakIsUp = detectorTools.directionIsUp(Arrays.copyOfRange(arrayOfNormalizedCCI, peakIndex, arrayOfNormalizedCCI.length), 3);
-			boolean directionSinceTroughIsDown = detectorTools.directionIsDown(Arrays.copyOfRange(arrayOfNormalizedCCI, troughIndex, arrayOfNormalizedCCI.length), 3);
-			boolean directionSinceTroughIsUp = detectorTools.directionIsUp(Arrays.copyOfRange(arrayOfNormalizedCCI, troughIndex, arrayOfNormalizedCCI.length), 3);
-			
-//			Co.println("--> Debug - - - > " + currentCCIValue + " : " + peakValue + ", " + troughValue + ", " + changeFromPeak + ", " + changeFromTrough + ", " + changeFromMaxToMin + ", " + isAtPeak + ", " + isAtTrough);
-			
-			boolean hasPeaked = changeFromPeak < 0;
-			boolean hasTroughed = changeFromTrough > 10 && directionSinceTroughIsUp && changeFromMaxToMin > 10;
-			
-			if (hasTroughed){
-//				Co.println("--> ******** SIGNAL WAS ENTRY");
-//				Co.println("--> Values: " + currentCCIValue + "," + troughIndex + ", " + leftOfTroughAverage + ", " + rightOfTroughAverage + ", " + directionSincePeakIsUp);
+			if (hasTroughed){ //  && cciValue <= -20
+				Co.println("--> ********** ********** ENTRY");
 				return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_cci);
-			}else if (hasPeaked){
+			}else if (hasPeaked){ // && cciValue >= 20
+				Co.println("--> ********** EXIT");
 				return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_cci);
 			}
 		}

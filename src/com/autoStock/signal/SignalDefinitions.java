@@ -36,7 +36,7 @@ public class SignalDefinitions {
 				18, -8, -100, -100),
 		metric_cci(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}},
-				22, 6, -100, -100),
+				20, -20, -100, -100),
 		metric_macd(
 			new NormalizeInterface(){@Override public int normalize(double input){return (int) (input * 1000);}},
 				-2, -26, -100, -100),
