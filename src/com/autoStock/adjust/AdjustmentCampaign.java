@@ -35,14 +35,16 @@ public class AdjustmentCampaign {
 	}
 	
 	public void setupAdjustmentForComplete(){
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_rsi, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_rsi, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
-//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_trix, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
-//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_trix, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_rsi, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_rsi, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 1)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_trix, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 1)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_trix, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 1)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_macd, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 4)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_macd, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 4)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_roc, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 1)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_roc, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 1)));
 //		
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("MACD EMA", IndicatorOfMACD.immutableIntegerForEma, new IterableOfInteger(3, 30, 1)));
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("MACD long", IndicatorOfMACD.immutableIntegerForLong, new IterableOfInteger(10, 30, 1)));

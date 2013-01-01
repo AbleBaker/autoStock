@@ -7,13 +7,11 @@ import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
-import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
-import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
 import com.autoStock.trading.types.Position;
@@ -30,12 +28,12 @@ public class StrategyOfTest extends StrategyBase {
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
 		
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
-//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
-//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 		
-		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);

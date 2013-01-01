@@ -50,10 +50,10 @@ public class EvaluationOfCCI extends EvaulationBase {
 			Co.println("--> Change: " + changeFromTrough + ", " + changeFromPeak + ", " + peakIndex + ", " + peakValue);
 			
 			if (hasTroughed){ //  && cciValue <= -20
-				Co.println("--> ********** ********** ENTRY");
+//				Co.println("--> ********** ********** ENTRY");
 				return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_cci);
 			}else if (hasPeaked){ // && cciValue >= 20
-				Co.println("--> ********** EXIT");
+//				Co.println("--> ********** EXIT");
 				return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_cci);
 			}
 		}
