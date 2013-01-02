@@ -80,7 +80,9 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 	public synchronized void handleCompletedMarketScanner(MultipleResultSetMarketScanner multipleResultSetMarketScanner) {
 		ArrayList<String> listOfString = new ArrayList<String>();
 //		algorithmManager.pruneListOfSymbols(listOfString, exchange);
-		algorithmManager.setListOfSymbols(multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner, exchange);
+		if (algorithmManager.setListOfSymbols(multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner, exchange) == false){
+			multipleRequestMarketScanner.stopScanner();
+		}
 	}
 
 	@Override

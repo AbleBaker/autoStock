@@ -42,7 +42,7 @@ public class SignalDefinitions {
 				-2, -26, -100, -100),
 		metric_rsi(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input - 45);}},
-				7, -19, -100, -100),
+				24, -18, -100, -100),
 		metric_trix(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 700);}},
 				6, 0, 0, 0),

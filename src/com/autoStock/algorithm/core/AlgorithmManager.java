@@ -41,10 +41,11 @@ public class AlgorithmManager {
 		threadForDisplay.start();
 	}
 	
-	public void setListOfSymbols(ArrayList<MultipleResultRowMarketScanner> listOfMultipleResultRowMarketScanner, Exchange exchange){
+	public boolean setListOfSymbols(ArrayList<MultipleResultRowMarketScanner> listOfMultipleResultRowMarketScanner, Exchange exchange){
 		for (MultipleResultRowMarketScanner result : listOfMultipleResultRowMarketScanner){
-			if (listOfActiveAlgorithmContainer.size() >= 300){
+			if (listOfActiveAlgorithmContainer.size() >= 100){
 				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + result.marketScannerType.name() + ", " + result.symbol);
+				return false;
 			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.exchangeName) == null){
 				Co.println("Will run algorithm for symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				algorithmInfoManager.activatedSymbol(result.symbol);
@@ -55,6 +56,8 @@ public class AlgorithmManager {
 		}
 		
 		Co.println("Active algorithm count: " + listOfActiveAlgorithmContainer.size());
+		
+		return true;
 	}
 	
 	public void pruneListOfSymbols(ArrayList<String> listOfSymbols, Exchange exchange){

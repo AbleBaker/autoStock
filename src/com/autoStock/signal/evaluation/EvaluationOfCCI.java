@@ -44,18 +44,18 @@ public class EvaluationOfCCI extends EvaulationBase {
 			boolean directionSinceTroughIsDown = detectorTools.directionIsDown(Arrays.copyOfRange(arrayOfNormalizedCCI, troughIndex, arrayOfNormalizedCCI.length), 2);
 			boolean directionSinceTroughIsUp = detectorTools.directionIsUp(Arrays.copyOfRange(arrayOfNormalizedCCI, troughIndex, arrayOfNormalizedCCI.length), 2);
 			
-			boolean hasTroughed = changeFromTrough >= 8 && directionSinceTroughIsUp;
+			boolean hasTroughed = changeFromTrough >= 8 && directionSinceTroughIsUp && troughIndex > 0;
 			boolean hasPeaked = changeFromPeak >= 8 && directionSincePeakIsDown && peakIndex > 0;
 			
 			Co.println("--> Change: " + changeFromTrough + ", " + changeFromPeak + ", " + peakIndex + ", " + peakValue);
 			
-			if (hasTroughed){ //  && cciValue <= -20
-//				Co.println("--> ********** ********** ENTRY");
-				return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_cci);
-			}else if (hasPeaked){ // && cciValue >= 20
-//				Co.println("--> ********** EXIT");
-				return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_cci);
-			}
+//			if (hasTroughed && cciValue <= -20){
+////				Co.println("--> ********** ********** ENTRY");
+//				return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_cci);
+//			}else if (hasPeaked && cciValue >= 20){
+////				Co.println("--> ********** EXIT");
+//				return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_cci);
+//			}
 		}
 
 		return new SignalPoint();
