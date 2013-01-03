@@ -70,9 +70,9 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 	private void engagementStop(){
 		Co.println("--> Received stop");
 		ArrayList<ArrayList<String>> listOfAlgorithmManagerRows = (ArrayList<ArrayList<String>>) algorithmManager.getAlgorithmTable().clone();
+		if (indexMarketDataProvider != null){indexMarketDataProvider.cancel();}
 		algorithmManager.stopAll();
 		algorithmManager.displayEndOfDayStats(listOfAlgorithmManagerRows);
-		indexMarketDataProvider.cancel();
 		Global.callbackLock.releaseLock();
 		ApplicationStates.shutdown();
 	}

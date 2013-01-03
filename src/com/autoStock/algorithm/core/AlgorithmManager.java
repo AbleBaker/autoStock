@@ -87,7 +87,9 @@ public class AlgorithmManager {
 	public void stopAll(){
 		Co.println("--> STOP ALL!!!");
 		
-		threadForDisplay.interrupt();
+		if (threadForDisplay != null){
+			threadForDisplay.interrupt();
+		}
 		
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();

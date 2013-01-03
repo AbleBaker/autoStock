@@ -28,9 +28,9 @@ public class StrategyOfTest extends StrategyBase {
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
 		
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
-//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
-//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
-		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 		
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
