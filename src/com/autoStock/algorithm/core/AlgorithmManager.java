@@ -91,15 +91,28 @@ public class AlgorithmManager {
 			threadForDisplay.interrupt();
 		}
 		
+		deactivateAll();
+		
+		int count = 0;
+		
+		while (PositionManager.getInstance().getPositionListSize() > 0){
+			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
+			Co.println("Position manager still has: " + PositionManager.getInstance().getPositionListSize() + " positions..." + count);
+			if (count == 30){
+				Co.println("Warning, position(s) still not exited!");
+				deactivateAll();
+			}else if (count > 60){
+				Co.println("Failed to exit all positions.");
+				return;
+			}
+		}
+	}
+	
+	private void deactivateAll(){
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();
 			container.deactivate();
 			algorithmInfoManager.deactivatedSymbol(container.symbol.symbolName);
-		}
-		
-		while (PositionManager.getInstance().getPositionListSize() > 0){
-			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
-			Co.println("Position manager still has: " + PositionManager.getInstance().getPositionListSize() + " positions...");
 		}
 	}
 	
