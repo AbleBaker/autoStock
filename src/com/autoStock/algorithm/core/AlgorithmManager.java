@@ -99,10 +99,10 @@ public class AlgorithmManager {
 			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
 			Co.println("Position manager still has: " + PositionManager.getInstance().getPositionListSize() + " positions..." + count);
 			if (count == 30){
-				Co.println("Warning, position(s) still not exited!");
+				Co.println("Warning, position(s) still not exited");
 				deactivateAll();
 			}else if (count > 60){
-				Co.println("Failed to exit all positions.");
+				Co.println("Error, failed to exit all positions");
 				return;
 			}
 		}
