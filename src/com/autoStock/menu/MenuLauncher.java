@@ -15,6 +15,7 @@ import com.autoStock.display.DisplayHistoricalPrices;
 import com.autoStock.display.DisplayMarketIndexData;
 import com.autoStock.display.DisplayMarketSymbolData;
 import com.autoStock.display.DisplayRealtimeData;
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.position.PositionDefinitions.PositionType;
@@ -40,8 +41,7 @@ public class MenuLauncher {
 			new DisplayHistoricalPrices(
 					new HistoricalData(
 							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
-							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value), 
-							"STK",
+							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value, SecurityType.type_stock), 
 							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
 							DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
 							Resolution.valueOf(menuStructure.getArgument(MenuArguments.arg_resolution).value)
@@ -52,8 +52,7 @@ public class MenuLauncher {
 			new DisplayMarketSymbolData(
 					new MarketSymbolData(
 							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
-							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value),
-							"STK"
+							new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value, SecurityType.type_stock)
 							)
 					).display();
 			}

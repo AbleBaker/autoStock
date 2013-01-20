@@ -17,6 +17,7 @@ import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.Account;
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
@@ -88,7 +89,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private void runMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols){
 		Co.println("Main backtest...\n\n");
 		
-		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, "STK", dateStart, dateEnd, Resolution.min);
+		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, dateStart, dateEnd, Resolution.min);
 
 		baseHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
 		baseHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
@@ -107,7 +108,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			HistoricalDataList historicalDataList = new HistoricalDataList();
 			
 			for (String symbol : listOfSymbols){				
-				HistoricalData dayHistoricalData = new HistoricalData(exchange, new Symbol(symbol), baseHistoricalData.securityType, (Date)date.clone(), (Date)date.clone(), baseHistoricalData.resolution);
+				HistoricalData dayHistoricalData = new HistoricalData(exchange, new Symbol(symbol, SecurityType.type_stock), (Date)date.clone(), (Date)date.clone(), baseHistoricalData.resolution);
 				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
 				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
 				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
@@ -128,7 +129,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
 		
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
-			listOfBacktestContainer.add(new BacktestContainer(new Symbol(historicalData.symbol.symbolName), exchange, this, algorithmMode));
+			listOfBacktestContainer.add(new BacktestContainer(historicalData.symbol, exchange, this, algorithmMode));
 		}
 	}
 	

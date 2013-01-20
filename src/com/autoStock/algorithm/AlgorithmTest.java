@@ -55,8 +55,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			
 			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
 			finishedReceiverOfQuoteSlice();
-			
-//			bench.printTick("Done received");
 		}
 	}
 

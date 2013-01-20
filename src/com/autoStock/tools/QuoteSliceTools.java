@@ -6,6 +6,7 @@ package com.autoStock.tools;
 import java.util.ArrayList;
 
 import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.platform.ib.definitions.MarketDataDefinitions.TickPriceFields;
@@ -125,6 +126,6 @@ public class QuoteSliceTools {
 	}
 	
 	public static QuoteSlice getQuoteSlice(DbStockHistoricalPrice dbStockHistoricalPrice, Resolution resolution){
-		return new QuoteSlice(new Symbol(dbStockHistoricalPrice.symbol), dbStockHistoricalPrice.priceOpen, dbStockHistoricalPrice.priceHigh, dbStockHistoricalPrice.priceLow, dbStockHistoricalPrice.priceClose, -1, -1, dbStockHistoricalPrice.sizeVolume, dbStockHistoricalPrice.dateTime, resolution);
+		return new QuoteSlice(new Symbol(dbStockHistoricalPrice.symbol, SecurityType.type_stock), dbStockHistoricalPrice.priceOpen, dbStockHistoricalPrice.priceHigh, dbStockHistoricalPrice.priceLow, dbStockHistoricalPrice.priceClose, -1, -1, dbStockHistoricalPrice.sizeVolume, dbStockHistoricalPrice.dateTime, resolution);
 	}
 }

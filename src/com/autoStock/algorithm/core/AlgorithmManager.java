@@ -8,6 +8,7 @@ import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
 import com.autoStock.finance.Account;
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.position.PositionManager;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -49,7 +50,7 @@ public class AlgorithmManager {
 			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.exchangeName) == null){
 				Co.println("Will run algorithm for symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				algorithmInfoManager.activatedSymbol(result.symbol);
-				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol));
+				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol, SecurityType.type_stock));
 				container.activate();
 				listOfActiveAlgorithmContainer.add(container);
 			}

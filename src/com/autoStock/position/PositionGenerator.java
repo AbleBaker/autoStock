@@ -23,7 +23,7 @@ public class PositionGenerator {
 		int positionUnits = getPositionInitialUnits(quoteSlice.priceClose, signal);
 		
 		if (positionUnits != 0){
-			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, "STK", quoteSlice.priceClose, positionOptions);
+			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, quoteSlice.priceClose, positionOptions);
 		}
 		
 		return null;

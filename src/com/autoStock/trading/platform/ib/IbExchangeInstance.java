@@ -154,7 +154,7 @@ public class IbExchangeInstance {
 		Contract contract = new Contract();
 		contract.m_exchange = historicalData.exchange.exchangeName;
 		contract.m_symbol = historicalData.symbol.symbolName;
-		contract.m_secType = historicalData.securityType;
+		contract.m_secType = historicalData.symbol.securityType.ibStringName;
 		contract.m_currency = historicalData.exchange.currency.name();
 		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(historicalData.endDate) + " est";
 		String duration = String.valueOf(historicalData.duration) + " S";

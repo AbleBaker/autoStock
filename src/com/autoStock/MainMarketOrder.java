@@ -4,6 +4,7 @@ import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
 import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderManager;
 import com.autoStock.order.OrderDefinitions.OrderMode;
@@ -41,7 +42,7 @@ public class MainMarketOrder implements ListenerOfPositionStatusChange {
 				Co.println("--> X: " + quoteSlice.priceClose);
 				requestMarketSymbolData.cancel();
 				
-				Position position = new Position(positionType, units, new Symbol(symbol), exchange, "STK", quoteSlice.priceClose, null);
+				Position position = new Position(positionType, units, new Symbol(symbol, SecurityType.type_stock), exchange, quoteSlice.priceClose, null);
 				position.setPositionListener(MainMarketOrder.this);
 				position.executePosition();
 			}
@@ -50,7 +51,7 @@ public class MainMarketOrder implements ListenerOfPositionStatusChange {
 			public void completed(RequestHolder requestHolder, ExResultSetMarketSymbolData exResultSetMarketData) {
 				
 			}
-		}, new MarketSymbolData(exchange, new Symbol(symbol), "STK") , Resolution.sec_5.seconds);
+		}, new MarketSymbolData(exchange, new Symbol(symbol, SecurityType.type_stock)) , Resolution.sec_5.seconds);
 	}
 
 	@Override

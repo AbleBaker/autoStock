@@ -50,7 +50,7 @@ public class ActiveAlgorithmContainer {
 			public void completed(RequestHolder requestHolder, ExResultSetMarketSymbolData exResultSetMarketData) {
 				Co.println("--> Completed?");
 			}
-		}, new MarketSymbolData(exchange, symbol, "STK"), Period.min.seconds * 1000);
+		}, new MarketSymbolData(exchange, symbol), Period.min.seconds * 1000);
 	}
 	
 	public void deactivate(){

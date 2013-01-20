@@ -2,6 +2,7 @@ package com.autoStock.trading.types;
 
 import java.util.Date;
 
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.types.Exchange;
@@ -17,13 +18,11 @@ public class HistoricalData implements Cloneable {
 	public Date startDate;
 	public Date endDate;
 	public Resolution resolution;
-	public String securityType;
 	public long duration;
 	
-	public HistoricalData(Exchange exchange, Symbol symbol, String securityType, Date startDate, Date endDate, Resolution resolution){
+	public HistoricalData(Exchange exchange, Symbol symbol, Date startDate, Date endDate, Resolution resolution){
 		this.exchange = exchange;
 		this.symbol = symbol;
-		this.securityType = securityType.toUpperCase();
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.resolution = resolution;

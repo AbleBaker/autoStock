@@ -32,7 +32,6 @@ public class Position implements OrderStatusListener {
 	private final int initialUnits;
 	public final Symbol symbol;
 	public final Exchange exchange;
-	public final String securityType;
 	private double unitPriceFirstKnown;
 	private double unitPriceLastKnown;
 	public PositionType positionType = PositionType.position_none;
@@ -41,12 +40,11 @@ public class Position implements OrderStatusListener {
 	private PositionOptions positionOptions;
 	private Lock lock = new Lock();
 
-	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, String securityType, double currentPrice, PositionOptions positionOptions) {
+	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions) {
 		this.positionType = positionType;
 		this.initialUnits = units;
 		this.symbol = symbol;
 		this.exchange = exchange;
-		this.securityType = securityType;
 		this.unitPriceFirstKnown = currentPrice;
 		this.unitPriceLastKnown = currentPrice;
 		this.positionOptions = positionOptions;

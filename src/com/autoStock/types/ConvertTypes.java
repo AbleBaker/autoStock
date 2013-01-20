@@ -5,6 +5,7 @@ package com.autoStock.types;
 
 import java.util.ArrayList;
 
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 
 /**
@@ -17,7 +18,7 @@ public class ConvertTypes {
 		
 		for (DbStockHistoricalPrice dbStockHistoricalPrice : listOfDbStockHistoricalPrice){
 			QuoteSlice typeQuoteSlice = new QuoteSlice();
-			typeQuoteSlice.symbol = new Symbol(dbStockHistoricalPrice.symbol);
+			typeQuoteSlice.symbol = new Symbol(dbStockHistoricalPrice.symbol, SecurityType.type_stock);
 			typeQuoteSlice.dateTime = dbStockHistoricalPrice.dateTime;
 			typeQuoteSlice.priceOpen = dbStockHistoricalPrice.priceOpen;
 			typeQuoteSlice.priceHigh = dbStockHistoricalPrice.priceHigh;
