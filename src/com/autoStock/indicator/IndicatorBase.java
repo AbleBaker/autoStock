@@ -12,6 +12,7 @@ import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
+ * @param <T>
  *
  */
 public abstract class IndicatorBase {

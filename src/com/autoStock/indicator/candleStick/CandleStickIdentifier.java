@@ -30,7 +30,7 @@ public class CandleStickIdentifier extends IndicatorBase {
 		//cdlDragonflyDoji 4 //verbose
 		//cdlEngulfing 4 //interesting 
 		try {
-			RetCode returnCode = taLibCore.cdlEngulfing(11, 14, commonAnlaysisData.arrayOfPriceOpen, commonAnlaysisData.arrayOfPriceHigh, commonAnlaysisData.arrayOfPriceLow, commonAnlaysisData.arrayOfPriceClose, new MInteger(), new MInteger(), arrayOfResults);
+			RetCode returnCode = taLibCore.cdlDojiStar(11, 14, commonAnlaysisData.arrayOfPriceOpen, commonAnlaysisData.arrayOfPriceHigh, commonAnlaysisData.arrayOfPriceLow, commonAnlaysisData.arrayOfPriceClose, new MInteger(), new MInteger(), arrayOfResults);
 			handleAnalysisResult(returnCode);
 		}catch (Exception e){}
 		

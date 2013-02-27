@@ -164,6 +164,18 @@ public class DateTools {
 		return time;
 	}
 	
+	public static Time getTimeUntilTime(Time timeFirst, Time timeSecond){
+		Time time = new Time();
+		
+		long secDiff = timeFirst.getSeconds() - timeSecond.getSeconds();
+		
+		time.hours = (int) (secDiff / (60*60));
+		time.minutes = (int) ((secDiff % (60*60)) / 60);
+		time.seconds = (int) (((secDiff % (60*60)) % 60));
+		
+		return time;
+	}
+	
 	public static Time getRolledTime(Time time, int seconds){
 		int timeInSeconds = (time.hours*60*60) + (time.minutes *60) + time.seconds;
 		Time timeForReturn = new Time();

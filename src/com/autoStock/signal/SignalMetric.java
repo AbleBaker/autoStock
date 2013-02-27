@@ -42,6 +42,10 @@ public class SignalMetric {
 	}
 	
 	private SignalPoint getSignalPointFromSignal(boolean havePosition, PositionType positionType){
+		if (signalMetricType.pointToSignalLongEntry == 0 && signalMetricType.pointToSignalLongExit == 0){
+			return new SignalPoint();
+		}
+		
 		if (havePosition == false){
 			if (strength >= signalMetricType.pointToSignalLongEntry){
 				return new SignalPoint(SignalPointType.long_entry, signalMetricType);

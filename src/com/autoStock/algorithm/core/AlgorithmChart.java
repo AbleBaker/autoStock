@@ -32,7 +32,6 @@ public class AlgorithmChart {
 		chart.listOfSignalADX.add(signalGroup.signalOfADX.getSignal().getStrength());
 		chart.listOfSignalDI.add(signalGroup.signalOfDI.getSignal().getStrength());
 		chart.listOfSignalCCI.add(signalGroup.signalOfCCI.getSignal().getStrength());
-		chart.listOfSignalPPC.add(signalGroup.signalOfPPC.getSignal().getStrength());
 		chart.listOfSignalMACD.add(signalGroup.signalOfMACD.getSignal().getStrength());
 		chart.listOfSignalRSI.add(signalGroup.signalOfRSI.getSignal().getStrength());
 		chart.listOfSignalTRIX.add(signalGroup.signalOfTRIX.getSignal().getStrength());

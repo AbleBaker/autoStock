@@ -1,5 +1,7 @@
 package com.autoStock.algorithm.core;
 
+import java.util.Date;
+
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -29,7 +31,7 @@ public class ActiveAlgorithmContainer {
 	public ActiveAlgorithmContainer(boolean canTrade, Exchange exchange, Symbol symbol){
 		this.symbol = symbol;
 		this.exchange = exchange;
-		algorithm = new AlgorithmTest(canTrade, exchange, symbol, AlgorithmMode.mode_engagement);
+		algorithm = new AlgorithmTest(canTrade, exchange, symbol, AlgorithmMode.mode_engagement, new Date());
 	}
 	
 	public void activate(){

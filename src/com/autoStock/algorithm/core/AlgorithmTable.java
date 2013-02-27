@@ -44,7 +44,6 @@ public class AlgorithmTable {
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
 		columnValues.add(String.valueOf(MathTools.round(quoteSlice.priceClose)));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
-		columnValues.add(String.valueOf(signalGroup.signalOfPPC.getSignal().getStrength()));
 		columnValues.add(String.valueOf(signalGroup.signalOfDI.getSignal().getStrength()));
 		columnValues.add(String.valueOf(signalGroup.signalOfCCI.getSignal().getStrength()));
 		columnValues.add(String.valueOf(signalGroup.signalOfRSI.getSignal().getStrength()));

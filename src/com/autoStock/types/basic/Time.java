@@ -31,6 +31,10 @@ public class Time {
 		return false;
 	}
 	
+	public int getSeconds(){
+		return (hours *60 * 60) + (minutes * 60) + seconds;
+	}
+	
 	@Override
 	public String toString(){
 		return "Time: " + hours + " : " + minutes + " : " + seconds;

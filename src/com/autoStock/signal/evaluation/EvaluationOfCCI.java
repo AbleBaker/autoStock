@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
@@ -47,7 +48,13 @@ public class EvaluationOfCCI extends EvaulationBase {
 			boolean hasTroughed = changeFromTrough >= 8 && directionSinceTroughIsUp && troughIndex > 0;
 			boolean hasPeaked = changeFromPeak >= 8 && directionSincePeakIsDown && peakIndex > 0;
 			
-			Co.println("--> Change: " + changeFromTrough + ", " + changeFromPeak + ", " + peakIndex + ", " + peakValue);
+//			Co.println("--> Change: " + changeFromTrough + ", " + changeFromPeak + ", " + peakIndex + ", " + peakValue);
+			
+			if (cciValue > SignalMetricType.metric_cci.pointToSignalLongExit){
+				return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_cci);
+			}else if (cciValue < SignalMetricType.metric_cci.pointToSignalLongEntry){
+				return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_cci);
+			}
 			
 //			if (hasTroughed && cciValue <= -20){
 ////				Co.println("--> ********** ********** ENTRY");

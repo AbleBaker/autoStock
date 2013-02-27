@@ -4,6 +4,7 @@
 package com.autoStock.scanner;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmTest;
@@ -55,7 +56,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 		Co.println("Initializing backtests... ");
 		
 		for (Backtest backtest : listOfBacktest){
-			AlgorithmTest algorithmTest = new AlgorithmTest(false, null, null, null);
+			AlgorithmTest algorithmTest = new AlgorithmTest(false, null, null, null, new Date());
 			algorithmTest.setAlgorithmListener(this);
 			backtest.performBacktest(algorithmTest.getReceiver());
 			listOfAlgorithmTest.add(algorithmTest);

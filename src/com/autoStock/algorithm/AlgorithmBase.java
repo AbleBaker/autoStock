@@ -4,6 +4,9 @@
 package com.autoStock.algorithm;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.core.AlgorithmChart;
@@ -19,6 +22,8 @@ import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.position.ListenerOfPositionStatusChange;
+import com.autoStock.retrospect.Prefill;
+import com.autoStock.retrospect.Prefill.PrefillMethod;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -56,12 +61,15 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	public QuoteSlice firstQuoteSlice;
 	protected Position position;
 	protected StrategyBase strategyBase;
+	private Prefill prefill;
+	public final Date startingDate;
 	
-	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode){
+	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate){
 		this.algorithmState.canTrade = canTrade;
 		this.exchange = exchange;
 		this.symbol = symbol;
 		this.algorithmMode = algorithmMode;
+		this.startingDate = startingDate;
 		
 		indicatorGroup = new IndicatorGroup(periodLength, commonAnlaysisData);
 		signalGroup = new SignalGroup(indicatorGroup);
@@ -135,9 +143,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		}
 		
 		listOfQuoteSlice.add(quoteSlice);
-		
 		position = PositionManager.getInstance().getPosition(quoteSlice.symbol);
-		
 		PositionManager.getInstance().updatePositionPrice(quoteSlice, position);
 	}
 	
@@ -153,6 +159,16 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	
 	public QuoteSlice getFirstQuoteSlice(){
 		return firstQuoteSlice;
+	}
+	
+	protected void prefill(){
+		if (algorithmMode == AlgorithmMode.mode_backtest || algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
+			prefill = new Prefill(symbol, exchange, PrefillMethod.method_database);
+		} else if(algorithmMode == AlgorithmMode.mode_engagement){
+			prefill = new Prefill(symbol, exchange, PrefillMethod.method_broker);
+		}
+		
+		prefill.prefillAlgorithm(this);
 	}
 
 	@Override

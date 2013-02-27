@@ -51,7 +51,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			}
 		}
 		
-		algorithm = new AlgorithmTest(false, exchange, symbol, algorithmMode);
+		algorithm = new AlgorithmTest(false, exchange, symbol, algorithmMode, historicalData.startDate);
 	}
 
 	public void runBacktest(){

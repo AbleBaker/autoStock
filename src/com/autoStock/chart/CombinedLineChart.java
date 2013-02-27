@@ -216,13 +216,12 @@ public class CombinedLineChart {
 			
 			if (getPairForType(TimeSeriesType.type_debug) != null){
 				XYPlot subPlotForDebug = new XYPlot(getPairForType(TimeSeriesType.type_debug).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_debug).timeSeriesType.displayName), new StandardXYItemRenderer());
-				subPlotForDebug.getRenderer().setSeriesPaint(0, Color.BLACK);
 				subPlotForDebug.getRangeAxis().setAutoRange(true);
 	//			((NumberAxis)subPlotForDebug.getRangeAxis()).setAutoRangeIncludesZero(false);
 				
 				subPlotForDebug.setRenderer(new XYShapeRenderer());
 				subPlotForDebug.getRenderer().setSeriesShape(0, ShapeUtilities.createDiamond(4));
-				subPlotForDebug.getRenderer().setSeriesPaint(0, Color.BLUE);
+				subPlotForDebug.getRenderer().setSeriesPaint(0, Color.BLACK);
 				
 				plot.add(subPlotForDebug, 1);
 			}
