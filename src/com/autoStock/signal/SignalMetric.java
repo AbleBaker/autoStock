@@ -24,17 +24,17 @@ public class SignalMetric {
 		this.strength = strength;
 		this.signalMetricType = signalTypeMetric;
 	}
+	 
+	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType, Signal signal){
+//		if (signalMetricType == SignalMetricType.metric_cci){
+//			return getSignalPointFromEvaulation(havePosition, positionType, signal.getSignalGroup());
+//		}else{
+			return getSignalPointFromSignal(havePosition, positionType);
+//		}
+	}
 	
 	public int getStrength(){
 		return strength;
-	}
-	 
-	public synchronized SignalPoint getSignalPoint(boolean havePosition, PositionType positionType, Signal signal){
-		if (signalMetricType == SignalMetricType.metric_cci){
-			return getSignalPointFromEvaulation(havePosition, positionType, signal.getSignalGroup());
-		}else{
-			return getSignalPointFromSignal(havePosition, positionType);
-		}
 	}
 	
 	private SignalPoint getSignalPointFromEvaulation(boolean havePosition, PositionType positionType, SignalGroup signalGroup){
