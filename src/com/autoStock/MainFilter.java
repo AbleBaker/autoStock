@@ -40,5 +40,9 @@ public class MainFilter {
 				}
 			}
 		), exchange, MarketScannerType.type_percent_gain_open);
+		
+		
+		
+		new RequestMarketScanner(null, exchange, MarketScannerType.type_percent_gain_open);
 	}
 }

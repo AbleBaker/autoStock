@@ -5,7 +5,6 @@ package com.autoStock.tools;
 
 import java.util.ArrayList;
 
-import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;

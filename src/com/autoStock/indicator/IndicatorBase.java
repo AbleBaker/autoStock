@@ -12,7 +12,6 @@ import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
- * @param <T>
  *
  */
 public abstract class IndicatorBase {
@@ -33,7 +32,7 @@ public abstract class IndicatorBase {
 		this.commonAnlaysisData = commonAnlaysisData;
 		this.taLibCore = taLibCore;
 	}
-	
+
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
 		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength){
 			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size());

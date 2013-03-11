@@ -10,25 +10,18 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  *
  */
 public class SignalOfDI extends SignalBase {
-	private double diValue = 0;
-	
-	public SignalOfDI(double[] arrayOfDIPlus, double[] arrayOfDIMinus){
+
+	public SignalOfDI(){
 		super(SignalMetricType.metric_di);
+	}	
+	
+	public void addInput(double[] arrayOfDIPlus, double[] arrayOfDIMinus){
 		double[] arrayOfDI = new double[arrayOfDIPlus.length];
 		
 		for (int i=0; i<arrayOfDI.length; i++){
 			arrayOfDI[i] = arrayOfDIPlus[i] - arrayOfDIMinus[i];
 		}
 	
-		diValue = arrayOfDI[arrayOfDI.length-1];
-	}
-	
-	@Override
-	public SignalMetric getSignal(){
-		return new SignalMetric(signalMetricType.getNormalizedValue(diValue), signalMetricType);
-	}
-	
-	public double getValue(){
-		return diValue;
+		super.addInput(arrayOfDI[arrayOfDI.length-1]);
 	}
 }

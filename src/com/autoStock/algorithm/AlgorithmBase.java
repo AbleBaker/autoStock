@@ -4,9 +4,7 @@
 package com.autoStock.algorithm;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.core.AlgorithmChart;
@@ -17,18 +15,17 @@ import com.autoStock.algorithm.core.AlgorithmTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.indicator.CommonAnlaysisData;
 import com.autoStock.indicator.IndicatorGroup;
+import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
-import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.retrospect.Prefill;
 import com.autoStock.retrospect.Prefill.PrefillMethod;
 import com.autoStock.signal.SignalControl;
-import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyBase;
-import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
@@ -150,6 +147,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	public void finishedReceiverOfQuoteSlice(){
 		if (listOfQuoteSlice.size() >= periodLength) {
 			listOfQuoteSlice.remove(0);
+			signalGroup.prune(periodLength);
 		}
 	}
 	

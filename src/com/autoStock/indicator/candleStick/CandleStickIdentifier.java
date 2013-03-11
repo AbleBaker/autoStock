@@ -1,6 +1,5 @@
 package com.autoStock.indicator.candleStick;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnlaysisData;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;

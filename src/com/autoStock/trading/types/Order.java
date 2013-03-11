@@ -25,7 +25,6 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * @author Kevin Kowalewski

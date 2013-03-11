@@ -31,7 +31,6 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Integer> listOfSignalMFI = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalROC = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalWILLR = new ArrayList<Integer>();
-	public ArrayList<Integer> listOfSignalTotal = new ArrayList<Integer>();
 	//public ArrayList<Integer> listOfSignalSTORSID = new ArrayList<Integer>();
 
 	public ArrayList<Date> listOfDate = new ArrayList<Date>();
@@ -64,7 +63,6 @@ public class ChartForAlgorithmTest {
 	}
 	
 	public static enum TimeSeriesType {
-		type_signal_total("Signal Total"),
 		type_signals("Signals"),
 		type_price("Price"),
 		type_value("Value"),
@@ -83,7 +81,6 @@ public class ChartForAlgorithmTest {
 	}
 
 	public void display() {
-		TimeSeriesCollection timeSeriesCollectionForSignalTotal = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForSignals = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForPrice = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForValue = new TimeSeriesCollection();
@@ -133,7 +130,6 @@ public class ChartForAlgorithmTest {
 		new CombinedLineChart().new LineChartDisplay(title, 
 			dataSetForDefaultHighLowDataset,
 			new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals),
-			new TimeSeriesTypePair(TimeSeriesType.type_signal_total, timeSeriesCollectionForSignalTotal),  
 			new TimeSeriesTypePair(TimeSeriesType.type_price, timeSeriesCollectionForPrice), 
 			new TimeSeriesTypePair(TimeSeriesType.type_value, timeSeriesCollectionForValue),
 			new TimeSeriesTypePair(TimeSeriesType.type_entry_price, timeSeriesCollectionForEntryAtPrice),

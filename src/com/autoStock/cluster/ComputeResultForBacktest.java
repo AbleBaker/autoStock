@@ -2,8 +2,6 @@ package com.autoStock.cluster;
 
 import java.util.ArrayList;
 
-import com.autoStock.adjust.AdjustmentOfPortable;
-
 /**
  * @author Kevin Kowalewski
  *

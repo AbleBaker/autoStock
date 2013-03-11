@@ -10,11 +10,15 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  *
  */
 public class SignalOfSTORSI extends SignalBase {
-	private double percentKValue = 0;
-	private double percentDValue = 0;
 	
-	public SignalOfSTORSI(double[] arrayOfPercentK, double[] arrayOfPercentD, int periodAverage){
+	public SignalOfSTORSI(){
 		super(SignalMetricType.metric_storsi);
+	}
+	
+	public void addInput(double[] arrayOfPercentK, double[] arrayOfPercentD, int periodAverage){
+		double percentKValue = 0;
+		double percentDValue = 0;
+		
 		if (arrayOfPercentK.length < 1){throw new IllegalArgumentException();}
 		if (arrayOfPercentD.length < 1){throw new IllegalArgumentException();}
 		if (periodAverage > 0 && arrayOfPercentK.length < periodAverage){throw new IllegalArgumentException();}
@@ -36,14 +40,7 @@ public class SignalOfSTORSI extends SignalBase {
 			percentKValue = arrayOfPercentK[arrayOfPercentK.length-1];
 			percentDValue = arrayOfPercentK[arrayOfPercentD.length-1];
 		}
-	}
-	
-	@Override
-	public SignalMetric getSignal(){
-		return new SignalMetric(signalMetricType.getNormalizedValue(percentKValue), signalMetricType);
-	}
-	
-	public double getValue(){
-		return percentKValue;
+		
+		super.addInput(percentKValue);
 	}
 }

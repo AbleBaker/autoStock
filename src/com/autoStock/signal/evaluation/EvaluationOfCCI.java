@@ -2,10 +2,6 @@ package com.autoStock.signal.evaluation;
 
 import java.util.Arrays;
 
-import com.autoStock.Co;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalDefinitions.SignalPointType;
-import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
@@ -19,8 +15,8 @@ public class EvaluationOfCCI extends EvaulationBase {
 	private int[] arrayOfNormalizedCCI;
 	private int detectWindow = 10;
 	
-	public EvaluationOfCCI(double[] arrayOfNormalizedCCI){
-		this.arrayOfNormalizedCCI =  ArrayTools.convertToInt(arrayOfNormalizedCCI);
+	public EvaluationOfCCI(int[] arrayOfNormalizedCCI){
+		this.arrayOfNormalizedCCI =  arrayOfNormalizedCCI;
 		
 		if (this.arrayOfNormalizedCCI.length >= detectWindow){
 			this.arrayOfNormalizedCCI = Arrays.copyOfRange(this.arrayOfNormalizedCCI, arrayOfNormalizedCCI.length-detectWindow, arrayOfNormalizedCCI.length);
@@ -50,11 +46,11 @@ public class EvaluationOfCCI extends EvaulationBase {
 			
 //			Co.println("--> Change: " + changeFromTrough + ", " + changeFromPeak + ", " + peakIndex + ", " + peakValue);
 			
-			if (cciValue > SignalMetricType.metric_cci.pointToSignalLongExit){
-				return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_cci);
-			}else if (cciValue < SignalMetricType.metric_cci.pointToSignalLongEntry){
-				return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_cci);
-			}
+//			if (cciValue > SignalMetricType.metric_cci.pointToSignalLongExit){
+//				return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_cci);
+//			}else if (cciValue < SignalMetricType.metric_cci.pointToSignalLongEntry){
+//				return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_cci);
+//			}
 			
 //			if (hasTroughed && cciValue <= -20){
 ////				Co.println("--> ********** ********** ENTRY");

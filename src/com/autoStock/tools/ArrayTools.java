@@ -42,6 +42,16 @@ public class ArrayTools {
 
 		return arrayOfDouble;
 	}
+	
+	public static int[] subArray(int[] array, int start, int end) {
+		int[] arrayOfInt = new int[end - start];
+
+		for (int i = start; i < end; i++) {
+			arrayOfInt[i - start] = array[i];
+		}
+
+		return arrayOfInt;
+	}
 
 	public static int[] getArrayFromListOfInt(ArrayList<Integer> integers) {
 		int[] ret = new int[integers.size()];

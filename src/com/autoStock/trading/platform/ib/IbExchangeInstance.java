@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import com.autoStock.exchange.ExchangeDefinitions.ExchangeDesignation;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.finance.Currency.CurrencyDefinitions;
 import com.autoStock.internal.Config;
 import com.autoStock.trading.platform.ib.core.Contract;
 import com.autoStock.trading.platform.ib.core.EClientSocket;

@@ -3,7 +3,6 @@ package com.autoStock;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.autoStock.adjust.AdjustmentCampaign;

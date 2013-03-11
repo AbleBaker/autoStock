@@ -20,13 +20,13 @@ public class AdjustmentOfSignalMetric extends AdjustmentBase {
 	@Override
 	public void applyValue() {
 		if (adjustmentType == AdjustmentType.signal_metric_long_entry){
-			signalMetricType.pointToSignalLongEntry = ((IterableOfInteger)iterableBase).getInt();
+			signalMetricType.arrayOfSignalGuageForLongEntry[0].threshold = ((IterableOfInteger)iterableBase).getInt();
 		} else if (adjustmentType == AdjustmentType.signal_metric_long_exit){
-			signalMetricType.pointToSignalLongExit = ((IterableOfInteger)iterableBase).getInt();
+			signalMetricType.arrayOfSignalGuageForLongExit[0].threshold = ((IterableOfInteger)iterableBase).getInt();
 		} else if (adjustmentType == AdjustmentType.signal_metric_short_entry){
-			signalMetricType.pointToSignalShortEntry = ((IterableOfInteger)iterableBase).getInt();
+			signalMetricType.arrayOfSignalGuageForShortEntry[0].threshold = ((IterableOfInteger)iterableBase).getInt();
 		} else if (adjustmentType == AdjustmentType.signal_metric_short_exit){
-			signalMetricType.pointToSignalShortExit = ((IterableOfInteger)iterableBase).getInt();
+			signalMetricType.arrayOfSignalGuageForShortExit[0].threshold = ((IterableOfInteger)iterableBase).getInt();
 		}else{
 			throw new UnsupportedOperationException();
 		}

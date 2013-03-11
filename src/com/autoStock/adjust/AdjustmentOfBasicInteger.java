@@ -1,7 +1,5 @@
 package com.autoStock.adjust;
 
-import com.autoStock.Co;
-import com.autoStock.adjust.AdjustmentInterfaces.AdjustmentInterfaceForInteger;
 import com.autoStock.types.basic.ImmutableInteger;
 
 /**

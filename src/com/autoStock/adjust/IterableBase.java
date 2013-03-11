@@ -1,6 +1,5 @@
 package com.autoStock.adjust;
 
-import com.autoStock.Co;
 
 /**
  * @author Kevin Kowalewski

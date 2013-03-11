@@ -7,7 +7,7 @@ import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionValue;
-import com.autoStock.signal.SignalMetric;
+import com.autoStock.signal.SignalBase;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
@@ -66,7 +66,7 @@ public class AlgorithmManagerTable {
 		String stringForSignalMetrics = new String();
 		
 		if (algorithm.strategy.signal != null){
-			for (SignalMetric signalMetric : algorithm.strategy.signal.getListOfSignalMetric()){
+			for (SignalBase signalBase : algorithm.strategy.signal.getListOfSignalBase()){
 				//signalMetrics += " (" + signalMetric.signalMetricType.name() + ":" + signalMetric.strength + ":" + signalMetric.getSignalPoint(position == null ? false : true, position == null ? PositionType.position_none : position.positionType).signalPointType.name() + ")";
 				stringForSignalMetrics = "Replace this";
 			}

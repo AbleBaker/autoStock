@@ -3,12 +3,9 @@ package com.autoStock.algorithm;
 import java.util.Arrays;
 import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.position.PositionOptions;
-import com.autoStock.retrospect.Prefill;
-import com.autoStock.retrospect.Prefill.PrefillMethod;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
@@ -36,9 +33,9 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	
 		prefill();
 		
-		for (QuoteSlice quoteSlice : listOfQuoteSlice){
-			Co.println("--> Prefilled with: " + quoteSlice.priceClose);
-		}
+//		for (QuoteSlice quoteSlice : listOfQuoteSlice){
+//			Co.println("--> Prefilled with: " + quoteSlice.priceClose);
+//		}
 		
 		if (listOfQuoteSlice.size() > 0){
 			firstQuoteSlice = listOfQuoteSlice.get(0);

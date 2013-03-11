@@ -2,7 +2,6 @@ package com.autoStock.trading.types;
 
 import java.util.Date;
 
-import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.types.Exchange;

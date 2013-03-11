@@ -7,10 +7,11 @@ import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.finance.Account;
+import com.autoStock.guage.SignalGuage;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalControl;
-import com.autoStock.signal.SignalMetric;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.MathTools;
@@ -37,12 +38,24 @@ public class BacktestUtils {
 		
 		string += "\n --> SignalControl: " + SignalControl.periodLengthStart.value + ", " + SignalControl.periodLengthMiddle.value + ", " + SignalControl.periodLengthEnd.value;
 		
-		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
-			string += "\n\n --> Signal metric: " + signalMetric.signalMetricType.name() + "\n";
-			string += " +Long entry: " + signalMetric.signalMetricType.pointToSignalLongEntry + "\n";
-			string += " +Long exit: " + signalMetric.signalMetricType.pointToSignalLongExit + "\n";
-			string += " +Short entry: " + signalMetric.signalMetricType.pointToSignalShortEntry + "\n";
-			string += " +Short exit: " + signalMetric.signalMetricType.pointToSignalShortExit + "\n";
+		for (SignalBase signalBase : signal.getListOfSignalBase()){
+			string += "\n\n --> Signal metric: " + signalBase.signalMetricType.name() + "\n";
+			
+			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForLongEntry){
+				string += " +Long entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.signalGuageType.name() + "\n";
+			}
+			
+			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForLongExit){
+				string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.signalGuageType.name() + "\n";
+			}
+			
+			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForShortEntry){
+				string += " +Short entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.signalGuageType.name() + "\n";
+			}
+			
+			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForShortExit){
+				string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.signalGuageType.name() + "\n";
+			}
 		}
 		
 		string += "\n";

@@ -1,10 +1,7 @@
 package com.autoStock.indicator;
 
-import com.autoStock.Co;
-import com.autoStock.adjust.IterableOfInteger;
 import com.autoStock.indicator.results.ResultsMACD;
 import com.autoStock.taLib.Core;
-import com.autoStock.taLib.MAType;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
 import com.autoStock.types.basic.ImmutableInteger;
@@ -15,9 +12,9 @@ import com.autoStock.types.basic.ImmutableInteger;
  */
 public class IndicatorOfMACD extends IndicatorBase {
 	public ResultsMACD results;
-	public static ImmutableInteger immutableIntegerForLong = new ImmutableInteger(21);
+	public static ImmutableInteger immutableIntegerForLong = new ImmutableInteger(23);
 	public static ImmutableInteger immutableIntegerForEma = new ImmutableInteger(9);
-	public static ImmutableInteger immutableIntegerForShort = new ImmutableInteger(4);
+	public static ImmutableInteger immutableIntegerForShort = new ImmutableInteger(6);
 	
 	public IndicatorOfMACD(int periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, commonAnlaysisData, taLibCore);

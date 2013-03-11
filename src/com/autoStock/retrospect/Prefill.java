@@ -7,10 +7,9 @@ import java.util.GregorianCalendar;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
-import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
-import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.tools.DateTools;

@@ -3,10 +3,8 @@ package com.autoStock;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfPortable;
-import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.BacktestUtils.BacktestResultDetails;

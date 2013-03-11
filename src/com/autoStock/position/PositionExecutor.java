@@ -1,6 +1,5 @@
 package com.autoStock.position;
 
-import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.trading.types.Position;
 

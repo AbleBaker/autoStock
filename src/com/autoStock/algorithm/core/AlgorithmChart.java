@@ -3,7 +3,6 @@ package com.autoStock.algorithm.core;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalGroup;
-import com.autoStock.signal.SignalTools;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.types.QuoteSlice;
@@ -29,16 +28,15 @@ public class AlgorithmChart {
 		chart.listOfPriceLow.add(quoteSlice.priceLow);
 		chart.listOfPriceClose.add(quoteSlice.priceClose);
 		chart.listOfSizeVolume.add((double)quoteSlice.sizeVolume);
-		chart.listOfSignalADX.add(signalGroup.signalOfADX.getSignal().getStrength());
-		chart.listOfSignalDI.add(signalGroup.signalOfDI.getSignal().getStrength());
-		chart.listOfSignalCCI.add(signalGroup.signalOfCCI.getSignal().getStrength());
-		chart.listOfSignalMACD.add(signalGroup.signalOfMACD.getSignal().getStrength());
-		chart.listOfSignalRSI.add(signalGroup.signalOfRSI.getSignal().getStrength());
-		chart.listOfSignalTRIX.add(signalGroup.signalOfTRIX.getSignal().getStrength());
-		chart.listOfSignalMFI.add(signalGroup.signalOfMFI.getSignal().getStrength());
-		chart.listOfSignalROC.add(signalGroup.signalOfROC.getSignal().getStrength());
-		chart.listOfSignalWILLR.add(signalGroup.signalOfWILLR.getSignal().getStrength());
-		chart.listOfSignalTotal.add((int) SignalTools.getCombinedSignal(strategyResponse.signal).strength);
+		chart.listOfSignalADX.add(signalGroup.signalOfADX.getStrength());
+		chart.listOfSignalDI.add(signalGroup.signalOfDI.getStrength());
+		chart.listOfSignalCCI.add(signalGroup.signalOfCCI.getStrength());
+		chart.listOfSignalMACD.add(signalGroup.signalOfMACD.getStrength());
+		chart.listOfSignalRSI.add(signalGroup.signalOfRSI.getStrength());
+		chart.listOfSignalTRIX.add(signalGroup.signalOfTRIX.getStrength());
+		chart.listOfSignalMFI.add(signalGroup.signalOfMFI.getStrength());
+		chart.listOfSignalROC.add(signalGroup.signalOfROC.getStrength());
+		chart.listOfSignalWILLR.add(signalGroup.signalOfWILLR.getStrength());
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		
 		if (signalGroup != null){
@@ -48,17 +46,15 @@ public class AlgorithmChart {
 		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
 			chart.listOfEntryAtPrice.add(quoteSlice.priceClose);
 			chart.listOfExitAtPrice.add(Double.MIN_VALUE);
-			chart.listOfEntryAtSignal.add(SignalTools.getCombinedSignal(strategyResponse.signal).strength);
 			chart.listOfExitAtSignal.add(Double.MIN_VALUE);
 		}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
 			chart.listOfEntryAtPrice.add(Double.MIN_VALUE);
 			chart.listOfExitAtPrice.add(quoteSlice.priceClose);
 			chart.listOfEntryAtSignal.add(Double.MIN_VALUE);
-			chart.listOfExitAtSignal.add(SignalTools.getCombinedSignal(strategyResponse.signal).strength);
 		}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
 			chart.listOfEntryAtPrice.add(quoteSlice.priceClose);
 			chart.listOfExitAtPrice.add(Double.MIN_VALUE);
-			chart.listOfEntryAtSignal.add(SignalTools.getCombinedSignal(strategyResponse.signal).strength);
+//			chart.listOfEntryAtSignal.add(SignalTools.getCombinedSignal(strategyResponse.signal).strength);
 			chart.listOfExitAtSignal.add(Double.MIN_VALUE);
 		}else{
 			chart.listOfEntryAtPrice.add(Double.MIN_VALUE);

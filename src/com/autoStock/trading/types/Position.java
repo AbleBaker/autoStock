@@ -3,7 +3,6 @@
  */
 package com.autoStock.trading.types;
 
-import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
@@ -12,10 +11,10 @@ import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.order.OrderDefinitions.OrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderStatusListener;
+import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionCallback;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
-import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.position.PositionUtils;
 import com.autoStock.position.PositionValue;

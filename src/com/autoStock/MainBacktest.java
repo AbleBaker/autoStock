@@ -24,7 +24,7 @@ import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
-import com.autoStock.signal.SignalMetric;
+import com.autoStock.signal.SignalBase;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tables.TableController;
@@ -246,8 +246,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							
 							String stringForSignal = new String();
 							
-							for (SignalMetric signalMetric : strategyResponse.signal.getListOfSignalMetric()){
-								stringForSignal += signalMetric.signalMetricType.name() + ":" + signalMetric.getStrength() + ", ";
+							for (SignalBase signalBase : strategyResponse.signal.getListOfSignalBase()){
+								stringForSignal += signalBase.signalMetricType.name() + ":" + signalBase.getStrength() + ", ";
 							}
 							
 							listOfString.add(stringForSignal);

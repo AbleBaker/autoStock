@@ -2,7 +2,6 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
@@ -41,8 +40,8 @@ public class SignalPointMethod {
 	private static SignalPoint getSignalPointCombined(boolean havePosition, PositionType positionType, Signal signal){
 		SignalPoint signalPoint = new SignalPoint();
 		
-		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
-			SignalPoint signalPointLocal = signalMetric.getSignalPoint(havePosition, positionType, signal);
+		for (SignalBase signalBase : signal.getListOfSignalBase()){
+			SignalPoint signalPointLocal = signalBase.getSignalPoint(havePosition, positionType);
 				
 			if (signalPointLocal.signalPointType == SignalPointType.none){
 				signalPoint = new SignalPoint();
@@ -65,12 +64,12 @@ public class SignalPointMethod {
 	private static SignalPoint getSignalPointMajority(boolean havePosition, PositionType positionType, Signal signal){
 		SignalPoint signalPoint = new SignalPoint();
 		int occurenceCount = 0;
-		boolean isEvenNumberOfMetrics = MathTools.isEven(signal.getListOfSignalMetric().size());
+		boolean isEvenNumberOfMetrics = MathTools.isEven(signal.getListOfSignalBase().size());
 		
 		ArrayList<SignalPointPair> listOfSignalPointPair = new ArrayList<SignalPointPair>();
 		
-		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
-			SignalPoint signalPointLocal = signalMetric.getSignalPoint(havePosition, positionType, signal);
+		for (SignalBase signalBase : signal.getListOfSignalBase()){
+			SignalPoint signalPointLocal = signalBase.getSignalPoint(havePosition, positionType);
 			SignalPointPair signalPointPair = getPairForType(signalPointLocal.signalPointType, listOfSignalPointPair);
 			
 			if (signalPointPair == null){
@@ -94,11 +93,11 @@ public class SignalPointMethod {
 	private static SignalPoint getSignalPointChange(boolean havePosition, PositionType positionType, Signal signal){
 		SignalPoint signalPoint = new SignalPoint();
 		
-		for (SignalMetric signalMetric : signal.getListOfSignalMetric()){
-			SignalPoint metricSignalPoint = signalMetric.getSignalPoint(havePosition, positionType, signal);
+		for (SignalBase signalBase : signal.getListOfSignalBase()){
+			SignalPoint metricSignalPoint = signalBase.getSignalPoint(havePosition, positionType);
 			if (metricSignalPoint.signalPointType != SignalPointType.none){
 				signalPoint = metricSignalPoint;
-				signalPoint.signalMetricType = signalMetric.signalMetricType;
+				signalPoint.signalMetricType = signalBase.signalMetricType;
 				break;
 			}
 		}

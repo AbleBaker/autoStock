@@ -6,7 +6,6 @@ package com.autoStock.position;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
-import com.autoStock.algorithm.core.AlgorithmManager;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;

@@ -4,17 +4,14 @@
 package com.autoStock.chart;
 
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -23,39 +20,28 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.labels.CategoryToolTipGenerator;
-import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
-import org.jfree.chart.labels.XYToolTipGenerator;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYShapeRenderer;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ShapeUtilities;
 
-import com.autoStock.Co;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.lowagie.text.Font;
 
 /**
  * @author Kevin Kowalewski
@@ -129,7 +115,7 @@ public class CombinedLineChart {
 			    for (TimeSeries timeSeries : (List<TimeSeries>) getPairForType(TimeSeriesType.type_signals).timeSeriesCollection.getSeries()){
 			    	SignalMetricType signalMetricType = SignalDefinitions.SignalMetricType.valueOf(timeSeries.getDescription());
 			    	
-				    ValueMarker markerForEntry = new ValueMarker(signalMetricType.pointToSignalLongEntry);
+				    ValueMarker markerForEntry = new ValueMarker(signalMetricType.arrayOfSignalGuageForLongEntry[0].threshold);
 				    markerForEntry.setPaint(Color.decode("#33AA00"));
 				    markerForEntry.setAlpha(1.0f);
 				    markerForEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
@@ -138,7 +124,7 @@ public class CombinedLineChart {
 					markerForEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
 				    subPlotForSignals.addRangeMarker(markerForEntry);
 				    
-				    ValueMarker markerForExit = new ValueMarker(signalMetricType.pointToSignalLongExit);
+				    ValueMarker markerForExit = new ValueMarker(signalMetricType.arrayOfSignalGuageForLongExit[0].threshold);
 				    markerForExit.setPaint(Color.decode("#FF0000"));
 				    markerForExit.setAlpha(1.0f);
 				    markerForExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));

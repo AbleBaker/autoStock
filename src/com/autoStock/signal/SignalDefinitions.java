@@ -2,6 +2,7 @@
  * 
  */
 package com.autoStock.signal;
+import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
 
 /**
@@ -25,6 +26,19 @@ public class SignalDefinitions {
 		none
 	}
 	
+	public static enum SignalGuageType {
+		quant_peak,
+		quant_trough,
+		quant_threshold_met,
+		quant_threshold_left,
+		;
+	}
+	
+	public static enum SignalBounds {
+		bounds_upper,
+		bounds_lower,
+	}
+	
 	public static enum SignalCoherence {
 		//fringe
 		//peak
@@ -35,37 +49,81 @@ public class SignalDefinitions {
 	}
 	
 	public enum SignalMetricType {
-		metric_adx(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input - 10, 0.8));}},
-				48, 44, -100, -100),
+		metric_adx(
+			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input - 10, 0.8));}},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_ppc(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((input - 1) * 3000);}},
-				48, 44, -100, -100),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_di(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) input * 1 - 10;}},
-				30, -18, -100, -100),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 30)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -18)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_cci(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}},
-				-20, 20, -100, -100),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -20)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_left, SignalBounds.bounds_upper, 20)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_macd(
 			new NormalizeInterface(){@Override public int normalize(double input){return (int) (input * 1000);}},
-				-2, -26, -100, -100),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -10)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, 20)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_rsi(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input - 55);}},
-				24, -18, -100, -100),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 24)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -18)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_trix(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 700);}},
-				6, 0, 0, 0),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_roc(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 25);}},
-				11, -18, 0, 0),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 11)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -18)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_mfi(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 1.0) - 50;}},
-				20, -15, 0, 0),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 20)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -15)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
 		metric_willr(
 			new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input  + 50);}},
-				30, -40, 0, 0),				
-				
-		metric_storsi(null,0,0,0,0),
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 30)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -40)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
+			
+		metric_storsi(null,
+				new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, 48)},
+				new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -44)},
+				new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_lower, -100)},
+				new SignalGuage[]{new SignalGuage(SignalGuageType.quant_threshold_met, SignalBounds.bounds_upper, -100)}),
 		
 		metric_candlestick_group,
 		
@@ -75,23 +133,23 @@ public class SignalDefinitions {
 		;
 		
 		NormalizeInterface normalizeInterface;
-		public volatile int pointToSignalLongEntry = 0;
-		public volatile int pointToSignalLongExit = 0;
-		public volatile int pointToSignalShortEntry = 0;
-		public volatile int pointToSignalShortExit = 0;
+		public SignalGuage[] arrayOfSignalGuageForLongEntry;
+		public SignalGuage[] arrayOfSignalGuageForLongExit;
+		public SignalGuage[] arrayOfSignalGuageForShortEntry;
+		public SignalGuage[] arrayOfSignalGuageForShortExit;
 		
 		private SignalMetricType(){}
 		
-		private SignalMetricType(NormalizeInterface normalizeInterface, int pointToSignalLongEntry, int pointToSignalLongExit, int pointToSignalShortEntry, int pointToSignalShortExit){
+	private SignalMetricType(NormalizeInterface normalizeInterface, SignalGuage[] arrayOfSignalGuageForLongEntry, SignalGuage[] arrayOfSignalGuageForLongExit, SignalGuage[] arrayOfSignalGuageForShortEntry, SignalGuage[] arrayOfSignalGuageForShortExit){
 			this.normalizeInterface = normalizeInterface;
-			this.pointToSignalLongEntry = pointToSignalLongEntry;
-			this.pointToSignalLongExit = pointToSignalLongExit;
-			this.pointToSignalShortEntry = pointToSignalShortEntry;
-			this.pointToSignalShortExit = pointToSignalShortExit;
+			this.arrayOfSignalGuageForLongEntry = arrayOfSignalGuageForLongEntry;
+			this.arrayOfSignalGuageForLongExit = arrayOfSignalGuageForLongExit;
+			this.arrayOfSignalGuageForShortEntry = arrayOfSignalGuageForShortEntry;
+			this.arrayOfSignalGuageForShortExit = arrayOfSignalGuageForShortExit;
 		}
 
 		public synchronized int getNormalizedValue(double input) {
 			return this.normalizeInterface.normalize(input);
-		} 
+		}
 	}
 }
