@@ -8,6 +8,7 @@ import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionOptions;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
@@ -47,7 +48,7 @@ public class StrategyOfTest extends StrategyBase {
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 		
 		signal = new Signal(SignalSource.from_algorithm, signalGroup);
-		signal.addSignalMetrics(strategyOptions.listOfSignalMetricType);
+		signal.addSignalBaseFromMetrics(strategyOptions.listOfSignalMetricType);
 		
 //		SignalPoint signalPointForEntry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
 		
@@ -95,8 +96,9 @@ public class StrategyOfTest extends StrategyBase {
 		}
 		
 		strategyResponse.signal = signal;
+		strategyResponse.signal.generateSignalMoments(position != null, position == null ? PositionType.position_none : position.positionType);
 		strategyResponse.quoteSlice = quoteSlice;
-
+		
 		return formulateStrategyResponse(strategyResponse);
 	}
 	

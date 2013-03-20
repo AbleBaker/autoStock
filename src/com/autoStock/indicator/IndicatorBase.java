@@ -9,6 +9,8 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.basic.ImmutableInteger;
+import com.sun.org.apache.bcel.internal.generic.IMUL;
 
 /**
  * @author Kevin Kowalewski
@@ -18,7 +20,7 @@ public abstract class IndicatorBase {
 	public Core taLibCore;
 	public CommonAnlaysisData commonAnlaysisData;
 	
-	public int periodLength;
+	public final ImmutableInteger periodLength;
 	public int datasetLength;
 	public double[] arrayOfPriceOpen;
 	public double[] arrayOfPriceHigh;
@@ -27,14 +29,14 @@ public abstract class IndicatorBase {
 	public int[] arrayOfSizeVolume;
 	public int endIndex;
 	
-	public IndicatorBase(int periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore){
+	public IndicatorBase(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore){
 		this.periodLength = periodLength;
 		this.commonAnlaysisData = commonAnlaysisData;
 		this.taLibCore = taLibCore;
 	}
 
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
-		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength){
+		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength.value){
 			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size());
 		}
 		

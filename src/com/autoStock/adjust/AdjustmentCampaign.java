@@ -3,6 +3,11 @@ package com.autoStock.adjust;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.MainBacktest;
+import com.autoStock.indicator.IndicatorGroup;
+import com.autoStock.signal.SignalControl;
+import com.autoStock.signal.SignalDefinitions;
+import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
@@ -23,20 +28,24 @@ public class AdjustmentCampaign {
 	}
 	
 	private AdjustmentCampaign(){
-		setupAdjustmentForComplete();
+		initializeAdjustmentCampaign();
 		
 		for (AdjustmentBase adjustmentBase : listOfAdjustmentBase){
 			listOfIterableBase.add(adjustmentBase.getIterableBase());
 		}
 	}
 	
-	public void setupAdjustmentForComplete(){
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_cci, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-50, 50, 1)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_cci, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-50, 50, 1)));
+	public static AdjustmentCampaign getInstance(){
+		return instance;
+	}
+	
+	public void initializeAdjustmentCampaign(){
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_cci, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-50, 0, 2)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_cci, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(0, 50, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_rsi, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_rsi, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
-//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
-//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-10, 50, 2)));
+//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_di, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-50, 10, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_trix, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_trix, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-40, 4, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(SignalMetricType.metric_macd, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-4, 40, 4)));
@@ -52,13 +61,15 @@ public class AdjustmentCampaign {
 ////	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().intervalForReentryMins, new IterableOfInteger(1, 10, 1)));
 ////	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(StrategyOptionManager.getInstance().getDefaultStrategyOptions().maxReenterTimes, new IterableOfInteger(1, 3, 1)));
 ////	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble(StrategyOptionManager.getInstance().getDefaultStrategyOptions().minReentryPercentGain, new IterableOfDouble(0.1, 0.5, 0.1)));
-////		
+////	
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(SignalControl.periodLengthStart, new IterableOfInteger(10, 30, 2)));
-//		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(SignalControl.periodLengthMiddle, new IterableOfInteger(10, 40, 2)));
-	}
-	
-	public static AdjustmentCampaign getInstance(){
-		return instance;
+//		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SignalControl.periodLengthMiddle", SignalControl.periodLengthMiddle, new IterableOfInteger(10, 40, 2)));
+		
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Period", IndicatorGroup.immutableIntegerForCCI, new IterableOfInteger(10, 60, 2)));
+//		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("DI Period", IndicatorGroup.immutableIntegerForDI, new IterableOfInteger(10, 60, 2)));
+		
+		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType));
+		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongExit[0].immutableEnumForSignalGuageType));
 	}
 	
 	public boolean runAdjustment(){
@@ -80,7 +91,7 @@ public class AdjustmentCampaign {
 		return 0;
 	}
 	
-	private void applyValues(){
+	public void applyValues(){
 		for (AdjustmentBase adjustmentBase : listOfAdjustmentBase){
 			adjustmentBase.applyValue();
 		}

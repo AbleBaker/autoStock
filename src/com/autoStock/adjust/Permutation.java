@@ -52,7 +52,7 @@ public class Permutation {
 	
 	public void printIterableSet(){
 		for (IterableBase iterableBase : listOfIterableBase){
-			Co.print(" Iterated ");
+			Co.print("--> Iterated ");
 			if (iterableBase instanceof IterableOfInteger){
 				Co.print(((IterableOfInteger)iterableBase).getInt() + " ");
 			}else if (iterableBase instanceof IterableOfDouble){
@@ -60,7 +60,7 @@ public class Permutation {
 			}else if (iterableBase instanceof IterableOfBoolean){
 				Co.print(((IterableOfBoolean)iterableBase).getBoolean() + " ");
 			}else if (iterableBase instanceof IterableOfEnum){
-				Co.print(((IterableOfEnum)iterableBase).getEnum().name() + " ");
+				Co.print(((IterableOfEnum)iterableBase).getEnumObject().getSimpleName() + " " + ((IterableOfEnum)iterableBase).getEnum().name());
 			}
 		}
 		

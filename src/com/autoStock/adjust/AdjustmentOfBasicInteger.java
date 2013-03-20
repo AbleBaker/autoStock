@@ -11,8 +11,8 @@ public class AdjustmentOfBasicInteger extends AdjustmentBase {
 	
 	public AdjustmentOfBasicInteger(String description, ImmutableInteger immutableInteger, IterableOfInteger iterableOfInteger){
 		this.iterableBase = iterableOfInteger;
-		this.immutableInteger = immutableInteger;
 		this.description = description;
+		this.immutableInteger = immutableInteger;
 	}
 	
 	@Override

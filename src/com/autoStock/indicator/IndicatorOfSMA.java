@@ -7,6 +7,7 @@ import com.autoStock.indicator.results.ResultsADX;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
+import com.autoStock.types.basic.ImmutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -15,7 +16,7 @@ import com.autoStock.taLib.RetCode;
 public class IndicatorOfSMA extends IndicatorBase {
 	public ResultsADX results;
 	
-	public IndicatorOfSMA(int periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfSMA(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, commonAnlaysisData, taLibCore);
 	}
 	
@@ -23,7 +24,7 @@ public class IndicatorOfSMA extends IndicatorBase {
 		results = new ResultsADX(endIndex+1);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
-		RetCode returnCode = taLibCore.adx(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength/2, new MInteger(), new MInteger(), results.arrayOfADX);
+		RetCode returnCode = taLibCore.adx(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength.value/2, new MInteger(), new MInteger(), results.arrayOfADX);
 		handleAnalysisResult(returnCode);
 		
 		return results;

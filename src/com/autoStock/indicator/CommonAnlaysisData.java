@@ -3,6 +3,7 @@ package com.autoStock.indicator;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.Log;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -18,16 +19,21 @@ public class CommonAnlaysisData {
 	public double[] arrayOfPriceAsk;
 	public int[] arrayOfSizeVolume;
 	public Date[] arrayOfDates;
+	
+	private boolean isInitialized = false;
 
 	public void setAnalysisData(ArrayList<QuoteSlice> listOfQuoteSlice) {
-		arrayOfPriceOpen = new double[listOfQuoteSlice.size()];
-		arrayOfPriceHigh = new double[listOfQuoteSlice.size()];
-		arrayOfPriceLow = new double[listOfQuoteSlice.size()];
-		arrayOfPriceClose = new double[listOfQuoteSlice.size()];
-		arrayOfPriceBid = new double[listOfQuoteSlice.size()];
-		arrayOfPriceAsk = new double[listOfQuoteSlice.size()];
-		arrayOfSizeVolume = new int[listOfQuoteSlice.size()];
-		arrayOfDates = new Date[listOfQuoteSlice.size()];
+		if (isInitialized == false){
+			arrayOfPriceOpen = new double[listOfQuoteSlice.size()];
+			arrayOfPriceHigh = new double[listOfQuoteSlice.size()];
+			arrayOfPriceLow = new double[listOfQuoteSlice.size()];
+			arrayOfPriceClose = new double[listOfQuoteSlice.size()];
+			arrayOfPriceBid = new double[listOfQuoteSlice.size()];
+			arrayOfPriceAsk = new double[listOfQuoteSlice.size()];
+			arrayOfSizeVolume = new int[listOfQuoteSlice.size()];
+			arrayOfDates = new Date[listOfQuoteSlice.size()];
+			isInitialized = true;
+		}
 		
 		extractDataFromQuoteSlice(listOfQuoteSlice, null, arrayOfPriceOpen, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, arrayOfPriceBid, arrayOfPriceAsk, arrayOfSizeVolume, arrayOfDates);
 	}

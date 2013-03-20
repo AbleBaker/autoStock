@@ -66,8 +66,7 @@ public class Prefill {
 		int minutesFromDatabase = (SignalControl.periodLengthStart.value - (time.getSeconds() / 60));
 		int minutesFromBroker = time.getSeconds() / 60; 
 		
-		Co.println("--> A: " + minutesFromDatabase);
-		Co.println("--> B: " + minutesFromBroker);
+		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
 		
 		if (minutesFromBroker == 0){
 			Co.println("--> Only database");

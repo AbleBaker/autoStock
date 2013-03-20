@@ -29,11 +29,6 @@ public class IterableOfInteger extends IterableBase {
 	public boolean hasMore() {
 		return currentIndex <= getMaxIndex();
 	}
-	
-	@Override
-	public void reset() {
-		super.reset();
-	}
 
 	@Override
 	public int getMaxIndex() {

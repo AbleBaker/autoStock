@@ -19,9 +19,9 @@ public class StrategyHelper {
 //					periodLength--;
 //				}
 //			} else {
-				if (periodLength + 1 <= SignalControl.periodLengthMiddle.value) {
-					periodLength++;
-				}
+//				if (periodLength + 1 <= SignalControl.periodLengthMiddle.value) {
+//					periodLength++;
+//				}
 //			}
 		}
 		

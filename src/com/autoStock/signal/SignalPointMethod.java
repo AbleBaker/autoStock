@@ -29,10 +29,22 @@ public class SignalPointMethod {
 		}else if (signalPointTactic == SignalPointTactic.tatic_combined){
 			signalPoint = getSignalPointCombined(havePosition, positionType, signal);
 		}else if (signalPointTactic == SignalPointTactic.tatic_mixed){
-			throw new UnsupportedOperationException();
+			return getSignalPointMixed(havePosition, positionType, signal);
+//			throw new UnsupportedOperationException();
 		}else{
 			throw new UnsupportedOperationException();
 		}
+		
+		return signalPoint;
+	}
+	
+	private static SignalPoint getSignalPointMixed(boolean havePosition, PositionType positionType, Signal signal){
+		SignalPoint signalPoint = new SignalPoint();
+		
+		SignalPoint signalPointFromCCI = signal.getSignalGroup().getSignalBaseForType(SignalMetricType.metric_cci).getSignalPoint(havePosition, positionType);
+		SignalPoint signalPointFromDI = signal.getSignalGroup().getSignalBaseForType(SignalMetricType.metric_di).getSignalPoint(havePosition, positionType);
+		
+		signalPoint = signalPointFromCCI;
 		
 		return signalPoint;
 	}

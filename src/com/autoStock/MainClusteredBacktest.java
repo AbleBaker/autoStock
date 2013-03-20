@@ -81,9 +81,12 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		}
 		
 		for (int i=0; i<computeUnitIterationSize; i++){
-			if (adjustmentCampaign.runAdjustment()){
+
+			if (atomicIntForRequestId.get() == 0 && i == 0){
 				listOfIteration.add(adjustmentCampaign.getListOfPortableAdjustment());
-			}else{
+			} else if (adjustmentCampaign.runAdjustment()){
+				listOfIteration.add(adjustmentCampaign.getListOfPortableAdjustment());
+			} else{
 				break;
 			}
 		}

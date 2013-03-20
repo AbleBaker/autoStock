@@ -40,7 +40,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class AlgorithmBase implements ListenerOfPositionStatusChange {
-	public int periodLength = SignalControl.periodLengthStart.value;
+	public int periodLength;
 	public Exchange exchange;
 	public Symbol symbol;
 	public AlgorithmState algorithmState = new AlgorithmState();
@@ -68,8 +68,10 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		this.algorithmMode = algorithmMode;
 		this.startingDate = startingDate;
 		
-		indicatorGroup = new IndicatorGroup(periodLength, commonAnlaysisData);
+		indicatorGroup = new IndicatorGroup(commonAnlaysisData);
 		signalGroup = new SignalGroup(indicatorGroup);
+		
+		periodLength = indicatorGroup.getMinPeriodLength();
 	}
 	
 	public void initialize(StrategyBase strategyBase){
@@ -98,7 +100,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		}
 	}
 	
-	public void handleStrategyResponse(StrategyResponse strategyResponse){
+	public void handleStrategyResponse(StrategyResponse strategyResponse) {
 		if (strategyResponse.strategyAction == StrategyAction.algorithm_disable){
 			if (algorithmState.isDisabled == false){
 				disable();

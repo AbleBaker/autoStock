@@ -6,8 +6,11 @@ import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
+import com.autoStock.adjust.AdjustmentOfEnum;
+import com.autoStock.adjust.AdjustmentOfSignalMetric;
 import com.autoStock.finance.Account;
 import com.autoStock.guage.SignalGuage;
+import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalBase;
@@ -36,33 +39,39 @@ public class BacktestUtils {
 			throw new IllegalStateException("Details: " + Account.getInstance().getTransactions() + ", " + backtestResultDetails.countForTradesProfit + ", " + backtestResultDetails.countForTradesLoss);
 		}
 		
-		string += "\n --> SignalControl: " + SignalControl.periodLengthStart.value + ", " + SignalControl.periodLengthMiddle.value + ", " + SignalControl.periodLengthEnd.value;
-		
 		for (SignalBase signalBase : signal.getListOfSignalBase()){
 			string += "\n\n --> Signal metric: " + signalBase.signalMetricType.name() + "\n";
 			
 			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForLongEntry){
-				string += " +Long entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.signalGuageType.name() + "\n";
+				string += " +Long entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 			}
 			
 			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForLongExit){
-				string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.signalGuageType.name() + "\n";
+				string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 			}
 			
 			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForShortEntry){
-				string += " +Short entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.signalGuageType.name() + "\n";
+				string += " +Short entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 			}
 			
 			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForShortExit){
-				string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.signalGuageType.name() + "\n";
+				string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 			}
 		}
 		
 		string += "\n";
 		
+		for (IndicatorBase indicatorBase : signal.getSignalGroup().getIndicatorGroup().getListOfIndicatorBase()){
+			string += " +Indicator period: " + indicatorBase.getClass().getSimpleName() + ", " + indicatorBase.periodLength.value + "\n";
+		}
+		
 		for (AdjustmentBase adjustmentBase : AdjustmentCampaign.getInstance().getListOfAdjustmentBase()){
 			if (adjustmentBase instanceof AdjustmentOfBasicInteger){
 				string += " +AdjustmentOfBasicInteger " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue() + "\n";
+			}else if (adjustmentBase instanceof AdjustmentOfEnum){
+				string += " +AdjustmentOfEnum " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfEnum)adjustmentBase).getValue().name() + "\n";
+			}else if (adjustmentBase instanceof AdjustmentOfSignalMetric){
+				string += " +AdjustmentOfSignalMetric " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfSignalMetric)adjustmentBase).getValue() + "\n";
 			}
 		}
 		

@@ -8,7 +8,7 @@ import com.autoStock.types.QuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public class StrategyResponse implements Cloneable {
+public class StrategyResponse {
 	public PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 	public StrategyAction strategyAction = StrategyAction.none;
 	public StrategyActionCause strategyActionCause = StrategyActionCause.none;

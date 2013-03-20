@@ -12,11 +12,11 @@ import com.autoStock.types.basic.ImmutableInteger;
  */
 public class IndicatorOfMACD extends IndicatorBase {
 	public ResultsMACD results;
-	public static ImmutableInteger immutableIntegerForLong = new ImmutableInteger(23);
+	public static ImmutableInteger immutableIntegerForLong = new ImmutableInteger(30);
 	public static ImmutableInteger immutableIntegerForEma = new ImmutableInteger(9);
 	public static ImmutableInteger immutableIntegerForShort = new ImmutableInteger(6);
 	
-	public IndicatorOfMACD(int periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfMACD(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, commonAnlaysisData, taLibCore);
 	}
 	
@@ -26,13 +26,15 @@ public class IndicatorOfMACD extends IndicatorBase {
 		
 		RetCode returnCode;
 		
-		if (periodLength < 30){ //TODO: Fix this, periods are wrong
-			returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, 9, periodLength-8, 9, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		if (periodLength.value < 30){ //TODO: Fix this, periods are wrong
+			returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, 9, periodLength.value-8, 9, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		}else{
 			try {
 				returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, immutableIntegerForShort.value, immutableIntegerForLong.value, immutableIntegerForEma.value, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 				handleAnalysisResult(returnCode);
-			}catch(ArrayIndexOutOfBoundsException e){}
+			}catch(ArrayIndexOutOfBoundsException e){
+				e.printStackTrace();
+			}
 		}
 		
 		return results;

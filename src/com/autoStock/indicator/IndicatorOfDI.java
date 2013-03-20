@@ -7,6 +7,7 @@ import com.autoStock.indicator.results.ResultsDI;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
+import com.autoStock.types.basic.ImmutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -15,7 +16,7 @@ import com.autoStock.taLib.RetCode;
 public class IndicatorOfDI extends IndicatorBase {
 	public ResultsDI results;
 	
-	public IndicatorOfDI(int periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfDI(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, commonAnlaysisData, taLibCore);
 	}
 	
@@ -23,9 +24,9 @@ public class IndicatorOfDI extends IndicatorBase {
 		results = new ResultsDI(endIndex);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
-		RetCode returnCode = taLibCore.plusDI(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength-1, new MInteger(), new MInteger(), results.arrayOfDIPlus);
+		RetCode returnCode = taLibCore.plusDI(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfDIPlus);
 		if (returnCode == RetCode.Success){
-			returnCode = taLibCore.minusDI(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength-1, new MInteger(), new MInteger(), results.arrayOfDIMinus);
+			returnCode = taLibCore.minusDI(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfDIMinus);
 		}
 		handleAnalysisResult(returnCode);
 		

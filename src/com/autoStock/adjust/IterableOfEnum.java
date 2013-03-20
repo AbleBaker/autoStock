@@ -12,6 +12,7 @@ public class IterableOfEnum<E extends Enum<E>> extends IterableBase {
 	
 	public IterableOfEnum(E enumObject){
 		this.enumObject = enumObject;
+		
 		for (E enumbObjectLocal : enumObject.getDeclaringClass().getEnumConstants()){
 			Co.println("--> Have: " + enumbObjectLocal.name());
 		}
@@ -19,6 +20,10 @@ public class IterableOfEnum<E extends Enum<E>> extends IterableBase {
 	
 	public E getEnum() {
 		return enumObject.getDeclaringClass().getEnumConstants()[currentIndex];
+	}
+	
+	public Class<E> getEnumObject(){
+		return enumObject.getDeclaringClass();
 	}
 	
 	@Override

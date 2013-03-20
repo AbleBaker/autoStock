@@ -5,6 +5,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 
@@ -17,15 +18,22 @@ public class Signal {
 	public SignalSource signalSource;
 	public SignalPoint currentSignalPoint = new SignalPoint();
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
+	private ArrayList<SignalMoment> listOfSignalMoment = new ArrayList<SignalMoment>();
 	
 	public Signal(SignalSource signalSource, SignalGroup signalGroup) {
 		this.signalSource = signalSource;
 		this.signalGroup = signalGroup;
 	}
 	
-	public void addSignalMetrics(ArrayList<SignalMetricType> listOfSignalMetricType){
+	public void addSignalBaseFromMetrics(ArrayList<SignalMetricType> listOfSignalMetricType){
 		for (SignalMetricType signalMetricType : listOfSignalMetricType){
 			listOfSignalBase.add(signalGroup.getSignalBaseForType(signalMetricType));
+		}
+	}
+	
+	public void generateSignalMoments(boolean havePosition, PositionType positionType){
+		for (SignalBase signalBase : listOfSignalBase){
+			listOfSignalMoment.add(new SignalMoment(signalBase.signalMetricType, signalBase.getStrength(), signalBase.getSignalPoint(havePosition, positionType)));
 		}
 	}
 	
@@ -35,5 +43,9 @@ public class Signal {
 	
 	public SignalGroup getSignalGroup(){
 		return signalGroup;
+	}
+
+	public ArrayList<SignalMoment> getListOfSignalMoment() {
+		return listOfSignalMoment;
 	}
 }

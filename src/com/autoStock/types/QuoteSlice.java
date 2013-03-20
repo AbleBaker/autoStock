@@ -40,14 +40,14 @@ public class QuoteSlice implements Cloneable {
 		this.dateTime = dateTime;
 	}
 	
-	@Override
-	public QuoteSlice clone(){
-		try {
-			return (QuoteSlice) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-			ApplicationStates.shutdown();
-			return null;
-		}
-	}
+//	@Override
+//	public QuoteSlice clone(){
+//		try {
+//			return (QuoteSlice) super.clone();
+//		} catch (CloneNotSupportedException e) {
+//			e.printStackTrace();
+//			ApplicationStates.shutdown();
+//			return null;
+//		}
+//	}
 }

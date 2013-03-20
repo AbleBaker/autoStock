@@ -25,6 +25,7 @@ import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalMoment;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tables.TableController;
@@ -118,7 +119,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 		
 		if (backtestType == BacktestType.backtest_adjustment){
-			adjustmentCampaign.runAdjustment();
+//			adjustmentCampaign.runAdjustment();
+			adjustmentCampaign.applyValues();
 		}
 		
 		initBacktestContainers();
@@ -246,8 +248,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							
 							String stringForSignal = new String();
 							
-							for (SignalBase signalBase : strategyResponse.signal.getListOfSignalBase()){
-								stringForSignal += signalBase.signalMetricType.name() + ":" + signalBase.getStrength() + ", ";
+							for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()){
+								stringForSignal += signalMoment.signalMetricType.name() + ":" + signalMoment.strength + ", ";
 							}
 							
 							listOfString.add(stringForSignal);

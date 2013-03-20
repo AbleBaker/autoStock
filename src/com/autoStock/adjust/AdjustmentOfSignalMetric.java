@@ -13,6 +13,7 @@ public class AdjustmentOfSignalMetric extends AdjustmentBase {
 	
 	public AdjustmentOfSignalMetric(SignalMetricType signalMetricType, AdjustmentType adjustmentType, IterableBase iterableBase){
 		this.iterableBase = iterableBase;
+		this.description = signalMetricType.name() + ", " + adjustmentType.name();
 		this.signalMetricType = signalMetricType;
 		this.adjustmentType = adjustmentType;
 	}
@@ -30,5 +31,9 @@ public class AdjustmentOfSignalMetric extends AdjustmentBase {
 		}else{
 			throw new UnsupportedOperationException();
 		}
+	}
+	
+	public int getValue(){
+		return ((IterableOfInteger)iterableBase).getInt();
 	}
 }

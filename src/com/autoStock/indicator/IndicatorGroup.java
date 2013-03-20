@@ -19,6 +19,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.tools.AnalysisTools;
 import com.autoStock.types.QuoteSlice;
+import com.autoStock.types.basic.ImmutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -49,23 +50,35 @@ public class IndicatorGroup {
 	public ResultsMFI resultsMFI;
 	public ResultsWILLR resultsWILLR;
 	public CandleStickIdentifierResult candleStickIdentifierResult;
+	
+	public static final ImmutableInteger immutableIntegerForADX = new ImmutableInteger(30);
+	public static final ImmutableInteger immutableIntegerForCCI = new ImmutableInteger(38);
+	public static final ImmutableInteger immutableIntegerForDI = new ImmutableInteger(30);
+	public static final ImmutableInteger immutableIntegerForMACD = new ImmutableInteger(45);
+	public static final ImmutableInteger immutableIntegerForBB = new ImmutableInteger(30);
+	public static final ImmutableInteger immutableIntegerForRSI = new ImmutableInteger(60);
+	public static final ImmutableInteger immutableIntegerForTRIX = new ImmutableInteger(30);
+	public static final ImmutableInteger immutableIntegerForROC = new ImmutableInteger(30);
+	public static final ImmutableInteger immutableIntegerForMFI = new ImmutableInteger(30);
+	public static final ImmutableInteger immutableIntegerForWILLR = new ImmutableInteger(30);
+	public static final ImmutableInteger immutableIntegerForCandleStickIdentifier = new ImmutableInteger(30);
 
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 
-	public IndicatorGroup(int periodLength, CommonAnlaysisData commonAnlaysisData) {
-		AnalysisTools.setIndicatorPeriodLength(periodLength, listOfIndicatorBase);
+	public IndicatorGroup(CommonAnlaysisData commonAnlaysisData) {
+//		AnalysisTools.setIndicatorPeriodLength(periodLength, listOfIndicatorBase);
 		
-		indicatorOfADX = new IndicatorOfADX(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfCCI = new IndicatorOfCCI(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfDI = new IndicatorOfDI(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfMACD = new IndicatorOfMACD(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfBB = new IndicatorOfBB(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfRSI = new IndicatorOfRSI(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfTRIX = new IndicatorOfTRIX(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfROC = new IndicatorOfROC(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfMFI = new IndicatorOfMFI(periodLength, commonAnlaysisData, taLibCore);
-		indicatorOfWILLR = new IndicatorOfWILLR(periodLength, commonAnlaysisData, taLibCore);
-		candleStickIdentifier = new CandleStickIdentifier(periodLength, commonAnlaysisData, taLibCore);
+		indicatorOfADX = new IndicatorOfADX(immutableIntegerForADX, commonAnlaysisData, taLibCore);
+		indicatorOfCCI = new IndicatorOfCCI(immutableIntegerForCCI, commonAnlaysisData, taLibCore);
+		indicatorOfDI = new IndicatorOfDI(immutableIntegerForDI, commonAnlaysisData, taLibCore);
+		indicatorOfMACD = new IndicatorOfMACD(immutableIntegerForMACD, commonAnlaysisData, taLibCore);
+		indicatorOfBB = new IndicatorOfBB(immutableIntegerForBB, commonAnlaysisData, taLibCore);
+		indicatorOfRSI = new IndicatorOfRSI(immutableIntegerForRSI, commonAnlaysisData, taLibCore);
+		indicatorOfTRIX = new IndicatorOfTRIX(immutableIntegerForTRIX, commonAnlaysisData, taLibCore);
+		indicatorOfROC = new IndicatorOfROC(immutableIntegerForROC, commonAnlaysisData, taLibCore);
+		indicatorOfMFI = new IndicatorOfMFI(immutableIntegerForMFI, commonAnlaysisData, taLibCore);
+		indicatorOfWILLR = new IndicatorOfWILLR(immutableIntegerForWILLR, commonAnlaysisData, taLibCore);
+		candleStickIdentifier = new CandleStickIdentifier(immutableIntegerForCandleStickIdentifier, commonAnlaysisData, taLibCore);
 		
 		listOfIndicatorBase.add(indicatorOfADX);
 		listOfIndicatorBase.add(indicatorOfCCI);
@@ -82,7 +95,7 @@ public class IndicatorGroup {
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice, int periodLength){
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			indicator.setDataSet(listOfQuoteSlice);
-			indicator.periodLength = periodLength;
+//			indicator.periodLength = periodLength;
 		}
 		
 		candleStickIdentifier.setDataSet(listOfQuoteSlice);
@@ -106,5 +119,16 @@ public class IndicatorGroup {
 	
 	public ArrayList<IndicatorBase> getListOfIndicatorBase(){
 		return listOfIndicatorBase;
+	}
+
+	public int getMinPeriodLength() {
+		int min = 0;
+		for (IndicatorBase indicator : listOfIndicatorBase){
+			if (indicator.periodLength.value > min){
+				min = indicator.periodLength.value;
+			}
+		}
+		
+		return min;
 	}
 }

@@ -26,9 +26,9 @@ public abstract class SignalBase {
 		if (havePosition == false){
 			boolean isQualified = false;
 			
-			if (signalMetricType.arrayOfSignalGuageForLongEntry[0].signalGuageType == SignalGuageType.quant_threshold_met){
+			if (signalMetricType.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_met){
 				isQualified = new GuageOfThresholdMet(signalMetricType.arrayOfSignalGuageForLongEntry[0], ArrayTools.getArrayFromListOfInt(getListOfNormalizedValue())).isQualified(); 
-			}else if (signalMetricType.arrayOfSignalGuageForLongEntry[0].signalGuageType == SignalGuageType.quant_threshold_left){
+			}else if (signalMetricType.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_left){
 				isQualified = new GuageOfThresholdLeft(signalMetricType.arrayOfSignalGuageForLongEntry[0], ArrayTools.getArrayFromListOfInt(getListOfNormalizedValue())).isQualified();
 			}
 			
@@ -38,9 +38,9 @@ public abstract class SignalBase {
 		} else{
 			boolean isQualified = false;
 			
-			if (signalMetricType.arrayOfSignalGuageForLongEntry[0].signalGuageType == SignalGuageType.quant_threshold_met){
+			if (signalMetricType.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_met){
 				isQualified = new GuageOfThresholdMet(signalMetricType.arrayOfSignalGuageForLongExit[0], ArrayTools.getArrayFromListOfInt(getListOfNormalizedValue())).isQualified(); 
-			}else if (signalMetricType.arrayOfSignalGuageForLongEntry[0].signalGuageType == SignalGuageType.quant_threshold_left){
+			}else if (signalMetricType.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_left){
 				isQualified = new GuageOfThresholdLeft(signalMetricType.arrayOfSignalGuageForLongExit[0], ArrayTools.getArrayFromListOfInt(getListOfNormalizedValue())).isQualified();
 			}
 			

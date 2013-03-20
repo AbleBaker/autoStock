@@ -8,6 +8,7 @@ import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.MathTools;
+import com.autoStock.types.basic.ImmutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -16,7 +17,7 @@ import com.autoStock.tools.MathTools;
 public class IndicatorOfCCI extends IndicatorBase {
 	public ResultsCCI results;
 	
-	public IndicatorOfCCI(int periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfCCI(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, commonAnlaysisData, taLibCore);
 	}
 	
@@ -24,7 +25,7 @@ public class IndicatorOfCCI extends IndicatorBase {
 		results = new ResultsCCI(endIndex+1);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
-		RetCode returnCode = taLibCore.cci(0, endIndex, MathTools.averageArray(arrayOfPriceHigh), MathTools.averageArray(arrayOfPriceLow), MathTools.averageArray(arrayOfPriceClose), periodLength, new MInteger(), new MInteger(), results.arrayOfCCI);
+		RetCode returnCode = taLibCore.cci(0, endIndex, MathTools.averageArray(arrayOfPriceHigh), MathTools.averageArray(arrayOfPriceLow), MathTools.averageArray(arrayOfPriceClose), periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);
 		handleAnalysisResult(returnCode);
 		
 		return results;
