@@ -40,7 +40,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class AlgorithmBase implements ListenerOfPositionStatusChange {
-	public int periodLength;
+	public final int periodLength;
 	public Exchange exchange;
 	public Symbol symbol;
 	public AlgorithmState algorithmState = new AlgorithmState();

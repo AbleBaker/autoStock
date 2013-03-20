@@ -3,6 +3,7 @@
  */
 package com.autoStock.indicator;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;

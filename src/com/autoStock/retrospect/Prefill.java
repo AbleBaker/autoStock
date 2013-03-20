@@ -45,7 +45,7 @@ public class Prefill {
 	
 	public void prefillAlgorithm(AlgorithmBase algorithmBase){
 		if (prefillMethod == PrefillMethod.method_database){
-			setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign);
+			setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.periodLength);
 						
 			HistoricalData historicalData = new HistoricalData(exchange, symbol, calendarForStart.getTime(), calendarForEnd.getTime(), Resolution.min);
 			ArrayList<QuoteSlice> listOfQuoteSlice = QuoteSliceTools.getListOfQuoteSlice((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate))));
@@ -56,14 +56,14 @@ public class Prefill {
 		}
 	}
 	
-	public void setupPrefill(Date startingDate, Time timeOpenForeign, Time timeCloseForeign){
+	public void setupPrefill(Date startingDate, Time timeOpenForeign, Time timeCloseForeign, int periodLength){
 		calendarForStart.setTime(startingDate);
 		calendarForStart.set(Calendar.SECOND, 0);
 		calendarForEnd.setTime(startingDate);
 		
 		Time time = DateTools.getTimeUntilTime(DateTools.getTimeFromDate(startingDate), timeOpenForeign);
 		
-		int minutesFromDatabase = (SignalControl.periodLengthStart.value - (time.getSeconds() / 60));
+		int minutesFromDatabase = (periodLength - (time.getSeconds() / 60));
 		int minutesFromBroker = time.getSeconds() / 60; 
 		
 		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
