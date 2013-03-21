@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
+import com.autoStock.tools.ArrayTools;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.basic.ImmutableInteger;
 import com.sun.org.apache.bcel.internal.generic.IMUL;
@@ -27,7 +28,7 @@ public abstract class IndicatorBase {
 	public double[] arrayOfPriceLow;
 	public double[] arrayOfPriceClose;
 	public int[] arrayOfSizeVolume;
-	public int endIndex;
+	public int endIndex = 0;
 	
 	public IndicatorBase(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore){
 		this.periodLength = periodLength;
@@ -41,13 +42,13 @@ public abstract class IndicatorBase {
 		}
 		
 		this.datasetLength = listOfQuoteSlice.size();
-		this.endIndex = datasetLength -1;
+		this.endIndex = periodLength.value -1;
 		
-		arrayOfPriceOpen = commonAnlaysisData.arrayOfPriceOpen;
-		arrayOfPriceHigh = commonAnlaysisData.arrayOfPriceHigh;
-		arrayOfPriceLow = commonAnlaysisData.arrayOfPriceLow;
-		arrayOfPriceClose = commonAnlaysisData.arrayOfPriceClose;
-		arrayOfSizeVolume = commonAnlaysisData.arrayOfSizeVolume;
+		arrayOfPriceOpen = ArrayTools.subArray(commonAnlaysisData.arrayOfPriceOpen, datasetLength - periodLength.value, datasetLength);
+		arrayOfPriceHigh = ArrayTools.subArray(commonAnlaysisData.arrayOfPriceHigh, datasetLength - periodLength.value, datasetLength);
+		arrayOfPriceLow = ArrayTools.subArray(commonAnlaysisData.arrayOfPriceLow, datasetLength - periodLength.value, datasetLength);
+		arrayOfPriceClose = ArrayTools.subArray(commonAnlaysisData.arrayOfPriceClose, datasetLength - periodLength.value, datasetLength);
+		arrayOfSizeVolume = ArrayTools.subArray(commonAnlaysisData.arrayOfSizeVolume, datasetLength - periodLength.value, datasetLength);
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){

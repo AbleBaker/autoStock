@@ -2,6 +2,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.guage.GuageOfThresholdLeft;
 import com.autoStock.guage.GuageOfThresholdMet;
 import com.autoStock.position.PositionDefinitions.PositionType;

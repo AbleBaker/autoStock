@@ -92,10 +92,9 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfWILLR);
 	}
 	
-	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice, int periodLength){
+	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			indicator.setDataSet(listOfQuoteSlice);
-//			indicator.periodLength = periodLength;
 		}
 		
 		candleStickIdentifier.setDataSet(listOfQuoteSlice);

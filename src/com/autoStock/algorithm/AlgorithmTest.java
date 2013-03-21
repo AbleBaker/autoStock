@@ -48,8 +48,11 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		receivedQuoteSlice(quoteSlice);
 		
 		if (listOfQuoteSlice.size() >= periodLength) {
+			
+			Co.println("--> ? " + listOfQuoteSlice.size() + ", " + periodLength);
+			
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
-			indicatorGroup.setDataSet(listOfQuoteSlice, periodLength);
+			indicatorGroup.setDataSet(listOfQuoteSlice);
 			indicatorGroup.analyize(listOfSignalMetricType);
 			signalGroup.generateSignals(commonAnlaysisData, periodLength);
 

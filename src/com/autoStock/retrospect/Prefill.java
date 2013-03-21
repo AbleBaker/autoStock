@@ -50,6 +50,8 @@ public class Prefill {
 			HistoricalData historicalData = new HistoricalData(exchange, symbol, calendarForStart.getTime(), calendarForEnd.getTime(), Resolution.min);
 			ArrayList<QuoteSlice> listOfQuoteSlice = QuoteSliceTools.getListOfQuoteSlice((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate))));
 
+			listOfQuoteSlice.remove(0); //One too many
+			
 			algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSlice);
 			
 			Co.println("--> Added: " + algorithmBase.listOfQuoteSlice.size());
