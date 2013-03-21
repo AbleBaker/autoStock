@@ -4,6 +4,7 @@
 package com.autoStock.indicator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.taLib.Core;
@@ -43,12 +44,20 @@ public abstract class IndicatorBase {
 		
 		this.datasetLength = listOfQuoteSlice.size();
 		this.endIndex = periodLength.value -1;
-		
-		arrayOfPriceOpen = ArrayTools.subArray(commonAnlaysisData.arrayOfPriceOpen, datasetLength - periodLength.value, datasetLength);
-		arrayOfPriceHigh = ArrayTools.subArray(commonAnlaysisData.arrayOfPriceHigh, datasetLength - periodLength.value, datasetLength);
-		arrayOfPriceLow = ArrayTools.subArray(commonAnlaysisData.arrayOfPriceLow, datasetLength - periodLength.value, datasetLength);
-		arrayOfPriceClose = ArrayTools.subArray(commonAnlaysisData.arrayOfPriceClose, datasetLength - periodLength.value, datasetLength);
-		arrayOfSizeVolume = ArrayTools.subArray(commonAnlaysisData.arrayOfSizeVolume, datasetLength - periodLength.value, datasetLength);
+	
+		if (periodLength.value != datasetLength){
+			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, datasetLength - periodLength.value, datasetLength);
+			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, datasetLength - periodLength.value, datasetLength);
+			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, datasetLength - periodLength.value, datasetLength);
+			arrayOfPriceClose = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceClose, datasetLength - periodLength.value, datasetLength);
+			arrayOfSizeVolume = Arrays.copyOfRange(commonAnlaysisData.arrayOfSizeVolume, datasetLength - periodLength.value, datasetLength);
+		}else{
+			arrayOfPriceOpen = commonAnlaysisData.arrayOfPriceOpen;
+			arrayOfPriceHigh = commonAnlaysisData.arrayOfPriceHigh;
+			arrayOfPriceLow = commonAnlaysisData.arrayOfPriceLow;
+			arrayOfPriceClose = commonAnlaysisData.arrayOfPriceClose;
+			arrayOfSizeVolume = commonAnlaysisData.arrayOfSizeVolume;
+		}
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
