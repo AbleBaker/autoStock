@@ -2,6 +2,7 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
@@ -52,7 +53,7 @@ public class IndicatorGroup {
 	public CandleStickIdentifierResult candleStickIdentifierResult;
 	
 	public static final ImmutableInteger immutableIntegerForADX = new ImmutableInteger(30);
-	public static final ImmutableInteger immutableIntegerForCCI = new ImmutableInteger(24);
+	public static final ImmutableInteger immutableIntegerForCCI = new ImmutableInteger(26);
 	public static final ImmutableInteger immutableIntegerForDI = new ImmutableInteger(30);
 	public static final ImmutableInteger immutableIntegerForMACD = new ImmutableInteger(45);
 	public static final ImmutableInteger immutableIntegerForBB = new ImmutableInteger(30);
@@ -61,35 +62,23 @@ public class IndicatorGroup {
 	public static final ImmutableInteger immutableIntegerForROC = new ImmutableInteger(30);
 	public static final ImmutableInteger immutableIntegerForMFI = new ImmutableInteger(30);
 	public static final ImmutableInteger immutableIntegerForWILLR = new ImmutableInteger(30);
-	public static final ImmutableInteger immutableIntegerForCandleStickIdentifier = new ImmutableInteger(30);
+	public static final ImmutableInteger immutableIntegerForCandleStickIdentifier = new ImmutableInteger(10);
 
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
+	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 
 	public IndicatorGroup(CommonAnlaysisData commonAnlaysisData) {
-//		AnalysisTools.setIndicatorPeriodLength(periodLength, listOfIndicatorBase);
-		
-		indicatorOfADX = new IndicatorOfADX(immutableIntegerForADX, commonAnlaysisData, taLibCore);
-		indicatorOfCCI = new IndicatorOfCCI(immutableIntegerForCCI, commonAnlaysisData, taLibCore);
-		indicatorOfDI = new IndicatorOfDI(immutableIntegerForDI, commonAnlaysisData, taLibCore);
-		indicatorOfMACD = new IndicatorOfMACD(immutableIntegerForMACD, commonAnlaysisData, taLibCore);
-		indicatorOfBB = new IndicatorOfBB(immutableIntegerForBB, commonAnlaysisData, taLibCore);
-		indicatorOfRSI = new IndicatorOfRSI(immutableIntegerForRSI, commonAnlaysisData, taLibCore);
-		indicatorOfTRIX = new IndicatorOfTRIX(immutableIntegerForTRIX, commonAnlaysisData, taLibCore);
-		indicatorOfROC = new IndicatorOfROC(immutableIntegerForROC, commonAnlaysisData, taLibCore);
-		indicatorOfMFI = new IndicatorOfMFI(immutableIntegerForMFI, commonAnlaysisData, taLibCore);
-		indicatorOfWILLR = new IndicatorOfWILLR(immutableIntegerForWILLR, commonAnlaysisData, taLibCore);
-		candleStickIdentifier = new CandleStickIdentifier(immutableIntegerForCandleStickIdentifier, commonAnlaysisData, taLibCore);
-		
-		listOfIndicatorBase.add(indicatorOfADX);
-		listOfIndicatorBase.add(indicatorOfCCI);
-		listOfIndicatorBase.add(indicatorOfDI);
-		listOfIndicatorBase.add(indicatorOfMACD);
-		listOfIndicatorBase.add(indicatorOfBB);
-		listOfIndicatorBase.add(indicatorOfRSI);
-		listOfIndicatorBase.add(indicatorOfTRIX);
-		listOfIndicatorBase.add(indicatorOfROC);
-		listOfIndicatorBase.add(indicatorOfMFI);
-		listOfIndicatorBase.add(indicatorOfWILLR);
+		listOfIndicatorBase.add(indicatorOfADX = new IndicatorOfADX(immutableIntegerForADX, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(immutableIntegerForCCI, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(immutableIntegerForDI, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(immutableIntegerForMACD, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(immutableIntegerForBB, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(immutableIntegerForRSI, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(immutableIntegerForTRIX, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(immutableIntegerForROC, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(immutableIntegerForMFI, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(immutableIntegerForWILLR, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(immutableIntegerForCandleStickIdentifier, commonAnlaysisData, taLibCore));
 	}
 	
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
@@ -99,8 +88,13 @@ public class IndicatorGroup {
 		
 		candleStickIdentifier.setDataSet(listOfQuoteSlice);
 	}
+	
+	public void setActive(ArrayList<SignalMetricType> listOfSignalMetricType) {
+		if (listOfSignalMetricType == null){throw new NullPointerException();}
+		this.listOfSignalMetricType = listOfSignalMetricType;
+	}
 
-	public void analyize(ArrayList<SignalMetricType> listOfSignalMetricType) {
+	public void analyize() {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_adx)){resultsADX = indicatorOfADX.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_cci)){resultsCCI = indicatorOfCCI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_di)){resultsDI = indicatorOfDI.analize();}

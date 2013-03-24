@@ -39,7 +39,7 @@ public abstract class IndicatorBase {
 
 	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
 		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength.value){
-			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size());
+			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size() + ", expected: " + periodLength.value);
 		}
 		
 		this.datasetLength = listOfQuoteSlice.size();

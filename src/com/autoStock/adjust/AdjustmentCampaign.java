@@ -68,8 +68,8 @@ public class AdjustmentCampaign {
 		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Period", IndicatorGroup.immutableIntegerForCCI, new IterableOfInteger(10, 60, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("DI Period", IndicatorGroup.immutableIntegerForDI, new IterableOfInteger(10, 60, 2)));
 		
-//		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType));
-//		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongExit[0].immutableEnumForSignalGuageType));
+		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType));
+		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongExit[0].immutableEnumForSignalGuageType));
 	}
 	
 	public boolean runAdjustment(){

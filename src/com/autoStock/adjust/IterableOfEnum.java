@@ -14,7 +14,7 @@ public class IterableOfEnum<E extends Enum<E>> extends IterableBase {
 		this.enumObject = enumObject;
 		
 		for (E enumbObjectLocal : enumObject.getDeclaringClass().getEnumConstants()){
-			Co.println("--> Have: " + enumbObjectLocal.name());
+//			Co.println("--> Have: " + enumbObjectLocal.name());
 		}
 	}
 	

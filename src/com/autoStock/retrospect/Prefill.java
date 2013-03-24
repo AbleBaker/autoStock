@@ -45,12 +45,14 @@ public class Prefill {
 	
 	public void prefillAlgorithm(AlgorithmBase algorithmBase){
 		if (prefillMethod == PrefillMethod.method_database){
-			setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.periodLength);
+			setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.getPeriodLength());
 						
 			HistoricalData historicalData = new HistoricalData(exchange, symbol, calendarForStart.getTime(), calendarForEnd.getTime(), Resolution.min);
 			ArrayList<QuoteSlice> listOfQuoteSlice = QuoteSliceTools.getListOfQuoteSlice((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate))));
 
-			listOfQuoteSlice.remove(0); //One too many
+			if (listOfQuoteSlice.size() > 0){
+				listOfQuoteSlice.remove(0);
+			}
 			
 			algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSlice);
 			

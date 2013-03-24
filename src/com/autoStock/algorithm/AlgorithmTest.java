@@ -24,7 +24,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate) {
 		super(canTrade, exchange, symbol, algorithmMode, startingDate);
-		initialize(strategy);
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
 			listOfSignalMetricType = strategy.strategyOptions.listOfSignalMetricType;
@@ -32,6 +31,8 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 			listOfSignalMetricType.addAll(Arrays.asList(SignalMetricType.values()));	
 		}
 	
+		initialize(strategy);
+		
 		prefill();
 		
 //		for (QuoteSlice quoteSlice : listOfQuoteSlice){
@@ -47,11 +48,11 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		receivedQuoteSlice(quoteSlice);
 		
-		if (listOfQuoteSlice.size() >= periodLength) {
+		if (listOfQuoteSlice.size() >= getPeriodLength()) {
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet(listOfQuoteSlice);
-			indicatorGroup.analyize(listOfSignalMetricType);
-			signalGroup.generateSignals(commonAnlaysisData, periodLength);
+			indicatorGroup.analyize();
+			signalGroup.generateSignals(commonAnlaysisData, getPeriodLength());
 
 			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position, new PositionOptions(this));
 		

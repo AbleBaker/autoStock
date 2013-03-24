@@ -40,7 +40,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class AlgorithmBase implements ListenerOfPositionStatusChange {
-	public final int periodLength;
+	private int periodLength;
 	public Exchange exchange;
 	public Symbol symbol;
 	public AlgorithmState algorithmState = new AlgorithmState();
@@ -70,8 +70,6 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		
 		indicatorGroup = new IndicatorGroup(commonAnlaysisData);
 		signalGroup = new SignalGroup(indicatorGroup);
-		
-		periodLength = indicatorGroup.getMinPeriodLength();
 	}
 	
 	public void initialize(StrategyBase strategyBase){
@@ -84,6 +82,10 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		if (algorithmMode.displayTable){
 			algorithmTable = new AlgorithmTable(symbol);
 		}
+		
+		
+		periodLength = indicatorGroup.getMinPeriodLength();
+		indicatorGroup.setActive(listOfSignalMetricType);
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){
@@ -169,6 +171,10 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		}
 		
 		prefill.prefillAlgorithm(this);
+	}
+	
+	public int getPeriodLength(){
+		return periodLength;
 	}
 
 	@Override
