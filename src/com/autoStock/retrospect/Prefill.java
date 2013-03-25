@@ -12,6 +12,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.signal.SignalControl;
+import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -43,7 +44,7 @@ public class Prefill {
 		this.prefillMethod = prefillMethod;
 	}
 	
-	public void prefillAlgorithm(AlgorithmBase algorithmBase){
+	public void prefillAlgorithm(AlgorithmBase algorithmBase, StrategyOptions strategyOptions){
 		if (prefillMethod == PrefillMethod.method_database){
 			setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.getPeriodLength());
 						
@@ -51,7 +52,9 @@ public class Prefill {
 			ArrayList<QuoteSlice> listOfQuoteSlice = QuoteSliceTools.getListOfQuoteSlice((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate))));
 
 			if (listOfQuoteSlice.size() > 0){
-				listOfQuoteSlice.remove(0);
+				for (int i=0; i<strategyOptions.prefillShift.value; i++){
+					listOfQuoteSlice.remove(0);
+				}
 			}
 			
 			algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSlice);

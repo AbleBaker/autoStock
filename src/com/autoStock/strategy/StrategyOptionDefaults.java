@@ -36,6 +36,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.maxReenterTimes.value = 3;
 		strategyOptions.intervalForReentryMins.value = 10;
 		strategyOptions.minReentryPercentGain.value = 0.20;
+		strategyOptions.prefillShift.value = 5;
 		
 		return strategyOptions;
 	}

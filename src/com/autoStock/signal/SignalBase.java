@@ -20,6 +20,7 @@ public abstract class SignalBase {
 	}
 	
 	public int getStrength(){
+		Co.println("--> Size: " + getListOfNormalizedValue().size() + ", " + this.getClass().getName());
 		return getListOfNormalizedValue().get(getListOfNormalizedValue().size()-1);
 	}
 	

@@ -170,7 +170,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 			prefill = new Prefill(symbol, exchange, PrefillMethod.method_broker);
 		}
 		
-		prefill.prefillAlgorithm(this);
+		prefill.prefillAlgorithm(this, strategyBase.strategyOptions);
 	}
 	
 	public int getPeriodLength(){

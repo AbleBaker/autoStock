@@ -46,11 +46,11 @@ public abstract class IndicatorBase {
 		this.endIndex = periodLength.value -1;
 	
 		if (periodLength.value != datasetLength){
-			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, datasetLength - periodLength.value, datasetLength);
-			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, datasetLength - periodLength.value, datasetLength);
-			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, datasetLength - periodLength.value, datasetLength);
-			arrayOfPriceClose = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceClose, datasetLength - periodLength.value, datasetLength);
-			arrayOfSizeVolume = Arrays.copyOfRange(commonAnlaysisData.arrayOfSizeVolume, datasetLength - periodLength.value, datasetLength);
+			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, datasetLength - periodLength.value -3, datasetLength);
+			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, datasetLength - periodLength.value -3, datasetLength);
+			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, datasetLength - periodLength.value -3, datasetLength);
+			arrayOfPriceClose = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceClose, datasetLength - periodLength.value -3, datasetLength);
+			arrayOfSizeVolume = Arrays.copyOfRange(commonAnlaysisData.arrayOfSizeVolume, datasetLength - periodLength.value -3, datasetLength);
 		}else{
 			arrayOfPriceOpen = commonAnlaysisData.arrayOfPriceOpen;
 			arrayOfPriceHigh = commonAnlaysisData.arrayOfPriceHigh;

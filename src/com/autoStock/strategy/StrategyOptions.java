@@ -34,6 +34,7 @@ public class StrategyOptions {
 	public int maxPositionExitTime;
 	public ImmutableInteger maxReenterTimes = new ImmutableInteger();
 	public ImmutableInteger intervalForReentryMins = new ImmutableInteger();
+	public ImmutableInteger prefillShift = new ImmutableInteger(3);
 	
 	public ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	

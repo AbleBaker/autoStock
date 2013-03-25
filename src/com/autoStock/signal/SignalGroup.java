@@ -73,6 +73,8 @@ public class SignalGroup {
 	}
 
 	public void prune(int toLength) {
-		signalOfCCI.prune(toLength);
+		for (SignalBase signalBase : listOfSignalBase){
+			signalBase.prune(toLength);
+		}
 	}
 }
