@@ -66,17 +66,19 @@ public class Order {
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
 				orderStatus = OrderStatus.status_presubmit;
 				
-				OrderIdProvider.getInstance().getNextOrderId(new RequestMarketOrderIdListener() {
-					@Override
-					public void failed(RequestHolder requestHolder) {
-						throw new IllegalStateException("Could not get next order id...");
-					}
-					
-					@Override
-					public void completed(int orderId) {
-						submitOrder();
-					}
-				});
+				submitOrder();
+				
+//				OrderIdProvider.getInstance().getNextOrderId(new RequestMarketOrderIdListener() {
+//					@Override
+//					public void failed(RequestHolder requestHolder) {
+//						throw new IllegalStateException("Could not get next order id...");
+//					}
+//					
+//					@Override
+//					public void completed(int orderId) {
+//
+//					}
+//				});
 			}else{
 				new OrderSimulator(this).simulateOrderFill();
 			}

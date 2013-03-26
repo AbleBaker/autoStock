@@ -58,6 +58,7 @@ public class IbExchangeInstance {
 		contract.m_symbol = order.symbol.symbolName;
 		contract.m_currency = order.exchange.currency.name();
 		contract.m_secType = "STK";
+		ibOrder.m_orderId = requestHolder.requestId;
 		ibOrder.m_action = "BUY";
 		ibOrder.m_orderType = "LMT";
 		ibOrder.m_lmtPrice = order.getUnitPriceRequested() + (order.exchange.exchangeDesignation == ExchangeDesignation.TSEJ ? 5 : 0.25d);
@@ -74,6 +75,7 @@ public class IbExchangeInstance {
 		contract.m_symbol = order.symbol.symbolName;
 		contract.m_secType = "STK";
 		contract.m_currency = order.exchange.currency.name();
+		ibOrder.m_orderId = requestHolder.requestId;
 		ibOrder.m_action = "SELL";
 		ibOrder.m_orderType = "MKT";
 		ibOrder.m_auxPrice = 0;
@@ -89,6 +91,7 @@ public class IbExchangeInstance {
 		contract.m_symbol = order.symbol.symbolName;
 		contract.m_secType = "STK";
 		contract.m_currency = order.exchange.currency.name();
+		ibOrder.m_orderId = requestHolder.requestId;
 		ibOrder.m_action = "SELL";
 		ibOrder.m_orderType = "MTL";
 		ibOrder.m_auxPrice = 0;
@@ -104,6 +107,7 @@ public class IbExchangeInstance {
 		contract.m_symbol = order.symbol.symbolName;
 		contract.m_secType = "STK";
 		contract.m_currency = order.exchange.currency.name();
+		ibOrder.m_orderId = requestHolder.requestId;
 		ibOrder.m_action = "BUY";
 		ibOrder.m_orderType = "MTL";
 		ibOrder.m_auxPrice = 0;

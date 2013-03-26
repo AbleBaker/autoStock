@@ -33,7 +33,7 @@ public class AlgorithmManager {
 			public void run() {
 				try{Thread.sleep(1000 * 5);}catch(InterruptedException e){}
 				while (true){
-					try{Thread.sleep(1000 * Resolution.min.seconds);}catch(InterruptedException e){throw new IllegalStateException();}
+					try{Thread.sleep(1000 * Resolution.min.seconds);}catch(InterruptedException e){return;}
 					displayAlgorithmTable();
 				}
 			}

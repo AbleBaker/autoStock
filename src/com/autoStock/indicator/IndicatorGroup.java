@@ -53,7 +53,7 @@ public class IndicatorGroup {
 	public CandleStickIdentifierResult candleStickIdentifierResult;
 	
 	public static final ImmutableInteger immutableIntegerForADX = new ImmutableInteger(10);
-	public static final ImmutableInteger immutableIntegerForCCI = new ImmutableInteger(10);
+	public static final ImmutableInteger immutableIntegerForCCI = new ImmutableInteger(26);
 	public static final ImmutableInteger immutableIntegerForDI = new ImmutableInteger(10);
 	public static final ImmutableInteger immutableIntegerForMACD = new ImmutableInteger(10);
 	public static final ImmutableInteger immutableIntegerForBB = new ImmutableInteger(10);
