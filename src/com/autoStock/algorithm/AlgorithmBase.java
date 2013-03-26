@@ -105,7 +105,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	public void handleStrategyResponse(StrategyResponse strategyResponse) {
 		if (strategyResponse.strategyAction == StrategyAction.algorithm_disable){
 			if (algorithmState.isDisabled == false){
-				disable();
+				disable(strategyResponse.strategyActionCause.name());
 				if (algorithmListener != null){
 					algorithmListener.receiveChangedStrategyResponse(strategyResponse);
 				}
@@ -130,7 +130,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		}
 	}
 	
-	public void disable(){
+	public void disable(String reason){
 		algorithmState.isDisabled = true;
 	}
 	
@@ -182,7 +182,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 //		Co.println("--> Received position change! ");
 		if (position.positionType == PositionType.position_cancelled){
 			Co.println("--> Position was cancelled... Disabling: " + position.symbol.symbolName);
-			disable();
+			disable(position.positionType.name());
 		}
 	}
 }

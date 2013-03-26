@@ -159,6 +159,10 @@ public class IbExchangeInstance {
 		String duration = String.valueOf(historicalData.duration) + " S";
 		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, "1 day", "TRADES", 0, 2);
 	}
+	
+	public void getNextValidOrderId(){
+		ibExchangeClientSocket.eClientSocket.reqIds(1);
+	}
 
 	public void cancelScanner(RequestHolder requestHolder) {
 		ibExchangeClientSocket.eClientSocket.cancelScannerSubscription(requestHolder.requestId);

@@ -17,7 +17,12 @@ public class RequestHolder {
 		this.requestId = RequestManager.getNewRequestId();
 		this.callback = callback;
 		RequestManager.addRequestHolder(this);
-		
-		Co.println("--> Issued requestId: " + requestId);
+	}
+	
+	public RequestHolder(Object callback, int requestId){
+		RequestManager.setMinRequestId(requestId+1);
+		RequestManager.addRequestHolder(this);
+		this.requestId = requestId;
+		this.callback = callback;
 	}
 }

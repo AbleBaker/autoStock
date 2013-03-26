@@ -10,10 +10,12 @@ import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.ArrayTools;
+import com.autoStock.types.basic.ImmutableInteger;
 
 public abstract class SignalBase {
 	public SignalMetricType signalMetricType = SignalMetricType.none;
 	protected ArrayList<Integer> listOfNormalizedInt = new ArrayList<Integer>();
+	protected ImmutableInteger maxSignalAverage = new ImmutableInteger(1);
 	
 	public SignalBase(SignalMetricType signalMetricType){
 		this.signalMetricType = signalMetricType;
@@ -21,6 +23,11 @@ public abstract class SignalBase {
 	
 	public int getStrength(){
 		Co.println("--> Size: " + getListOfNormalizedValue().size() + ", " + this.getClass().getName());
+		
+		for (int i=0; i<maxSignalAverage.value; i++){
+			
+		}
+		
 		return getListOfNormalizedValue().get(getListOfNormalizedValue().size()-1);
 	}
 	

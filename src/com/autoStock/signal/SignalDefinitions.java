@@ -5,6 +5,7 @@ package com.autoStock.signal;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.basic.ImmutableEnum;
+import com.autoStock.types.basic.ImmutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -142,7 +143,7 @@ public class SignalDefinitions {
 		
 		private SignalMetricType(){}
 		
-	private SignalMetricType(NormalizeInterface normalizeInterface, SignalGuage[] arrayOfSignalGuageForLongEntry, SignalGuage[] arrayOfSignalGuageForLongExit, SignalGuage[] arrayOfSignalGuageForShortEntry, SignalGuage[] arrayOfSignalGuageForShortExit){
+		private SignalMetricType(NormalizeInterface normalizeInterface, SignalGuage[] arrayOfSignalGuageForLongEntry, SignalGuage[] arrayOfSignalGuageForLongExit, SignalGuage[] arrayOfSignalGuageForShortEntry, SignalGuage[] arrayOfSignalGuageForShortExit){
 			this.normalizeInterface = normalizeInterface;
 			this.arrayOfSignalGuageForLongEntry = arrayOfSignalGuageForLongEntry;
 			this.arrayOfSignalGuageForLongExit = arrayOfSignalGuageForLongExit;

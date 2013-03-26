@@ -17,6 +17,10 @@ public class RequestManager {
 		return atomicRequestId.incrementAndGet();
 	}
 	
+	public static synchronized void setMinRequestId(int value){
+		atomicRequestId.set(value);
+	}
+	
 	public static synchronized void addRequestHolder(RequestHolder requestHolder){
 		listOfRequestHolder.add(requestHolder);
 	}

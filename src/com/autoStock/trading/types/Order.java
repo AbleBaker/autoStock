@@ -5,8 +5,11 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.Co;
+import com.autoStock.exchange.request.OrderIdProvider;
 import com.autoStock.exchange.request.RequestMarketOrder;
+import com.autoStock.exchange.request.RequestMarketOrderId;
 import com.autoStock.exchange.request.base.RequestHolder;
+import com.autoStock.exchange.request.listener.RequestMarketOrderIdListener;
 import com.autoStock.exchange.request.listener.RequestMarketOrderListener;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
@@ -61,83 +64,96 @@ public class Order {
 		
 		if (orderStatus == OrderStatus.none){
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
-				
 				orderStatus = OrderStatus.status_presubmit;
 				
-				requestMarketOrder = new RequestMarketOrder(new RequestHolder(new RequestMarketOrderListener(){
+				OrderIdProvider.getInstance().getNextOrderId(new RequestMarketOrderIdListener() {
 					@Override
 					public void failed(RequestHolder requestHolder) {
-						Co.println("--> Order failed");
+						throw new IllegalStateException("Could not get next order id...");
 					}
-	
+					
 					@Override
-					public void receivedChange(RequestHolder requestHolder, ExResultRowMarketOrder exResultRowMarketOrder) {
-						Co.println("--> Received order: " + exResultRowMarketOrder.status.name());
-						
-						ArrayList<String> columnValues = new ArrayList<String>();
-						columnValues.add(DateTools.getPrettyDate(new Date()));
-						columnValues.add(symbol.symbolName);
-						columnValues.add(orderType.name());
-						columnValues.add(exResultRowMarketOrder.status.name());
-						columnValues.add(String.valueOf(unitsRequested));
-						columnValues.add(String.valueOf(exResultRowMarketOrder.remainingUnits));
-						columnValues.add(String.valueOf(exResultRowMarketOrder.filledUnits));
-						columnValues.add(String.valueOf(priceRequested));
-						columnValues.add(String.valueOf(exResultRowMarketOrder.priceAvgFill));
-						columnValues.add(String.valueOf(exResultRowMarketOrder.priceLastFill));
-						orderTable.addRow(columnValues);
-						orderTable.display();
-						
-						if (exResultRowMarketOrder.filledUnits > 0 && exResultRowMarketOrder.remainingUnits > 0 && exResultRowMarketOrder.status == IbOrderStatus.status_submitted){
-							orderStatus = OrderStatus.status_filled_partially;
-						}
+					public void completed(int orderId) {
+						submitOrder();
 					}
-	
-					@Override
-					public void completed(RequestHolder requestHolder, ExResultSetMarketOrder exResultSetMarketOrder) {
-						double unitPriceFilledAverage = orderTools.getOrderAverageFillPrice(exResultSetMarketOrder);
-						int unitsFilled = orderTools.getOrderUnitsFilled(exResultSetMarketOrder);
-						IbOrderStatus ibOrderStatus =  orderTools.getOrderStatus(exResultSetMarketOrder);
-											
-						if (ibOrderStatus == IbOrderStatus.status_filled){
-							if (orderStatus == OrderStatus.status_filled){
-								Co.println("--> Order is already filled!");
-							}else if (orderStatus == OrderStatus.status_presubmit || orderStatus == OrderStatus.status_submitted || orderStatus == OrderStatus.status_filled_partially){
-								Co.println("\n\n--> Order completed at price: " + unitPriceFilledAverage);
-								Co.println("--> Order status: " + ibOrderStatus.name());
-								orderWatcher.stopWatching();
-								orderUnitsFilled(unitPriceFilledAverage, unitsFilled);
-							}else{
-								throw new IllegalStateException("Order status did not match: " + orderStatus.name());
-							}
-						}else if (ibOrderStatus == IbOrderStatus.status_cancelled){
-							if (orderStatus != OrderStatus.status_cancelled){
-								orderStatus = OrderStatus.status_cancelled;
-								orderWatcher.stopWatching();
-								orderStatusListener.orderStatusChanged(Order.this, orderStatus);
-							}else{
-								Co.println("--> Order is already cancelled");
-							}
-						}
-					}
-	
-					@Override
-					public void failed(IbOrderStatus ibOrderStatus) {
-						if (ibOrderStatus == IbOrderStatus.status_cancelled){
-							orderStatus = OrderStatus.status_cancelled;
-						}
-						Co.println("--> Failed with ibOrderStatus: " + ibOrderStatus.name());
-					}
-				}), this, exchange);
-				
-				requestMarketOrder.execute();
-				orderWatcher.startWatching();
+				});
 			}else{
 				new OrderSimulator(this).simulateOrderFill();
 			}
 		}else{
 			throw new IllegalStateException();
 		}
+	}
+	
+	private void submitOrder(){
+		requestMarketOrder = new RequestMarketOrder(new RequestHolder(new RequestMarketOrderListener(){
+			@Override
+			public void failed(RequestHolder requestHolder) {
+				Co.println("--> Order failed");
+			}
+
+			@Override
+			public void receivedChange(RequestHolder requestHolder, ExResultRowMarketOrder exResultRowMarketOrder) {
+				Co.println("--> Received order: " + exResultRowMarketOrder.status.name());
+				
+				ArrayList<String> columnValues = new ArrayList<String>();
+				columnValues.add(DateTools.getPrettyDate(new Date()));
+				columnValues.add(symbol.symbolName);
+				columnValues.add(orderType.name());
+				columnValues.add(exResultRowMarketOrder.status.name());
+				columnValues.add(String.valueOf(unitsRequested));
+				columnValues.add(String.valueOf(exResultRowMarketOrder.remainingUnits));
+				columnValues.add(String.valueOf(exResultRowMarketOrder.filledUnits));
+				columnValues.add(String.valueOf(priceRequested));
+				columnValues.add(String.valueOf(exResultRowMarketOrder.priceAvgFill));
+				columnValues.add(String.valueOf(exResultRowMarketOrder.priceLastFill));
+				orderTable.addRow(columnValues);
+				orderTable.display();
+				
+				if (exResultRowMarketOrder.filledUnits > 0 && exResultRowMarketOrder.remainingUnits > 0 && exResultRowMarketOrder.status == IbOrderStatus.status_submitted){
+					orderStatus = OrderStatus.status_filled_partially;
+				}
+			}
+
+			@Override
+			public void completed(RequestHolder requestHolder, ExResultSetMarketOrder exResultSetMarketOrder) {
+				double unitPriceFilledAverage = orderTools.getOrderAverageFillPrice(exResultSetMarketOrder);
+				int unitsFilled = orderTools.getOrderUnitsFilled(exResultSetMarketOrder);
+				IbOrderStatus ibOrderStatus =  orderTools.getOrderStatus(exResultSetMarketOrder);
+									
+				if (ibOrderStatus == IbOrderStatus.status_filled){
+					if (orderStatus == OrderStatus.status_filled){
+						Co.println("--> Order is already filled!");
+					}else if (orderStatus == OrderStatus.status_presubmit || orderStatus == OrderStatus.status_submitted || orderStatus == OrderStatus.status_filled_partially){
+						Co.println("\n\n--> Order completed at price: " + unitPriceFilledAverage);
+						Co.println("--> Order status: " + ibOrderStatus.name());
+						orderWatcher.stopWatching();
+						orderUnitsFilled(unitPriceFilledAverage, unitsFilled);
+					}else{
+						throw new IllegalStateException("Order status did not match: " + orderStatus.name());
+					}
+				}else if (ibOrderStatus == IbOrderStatus.status_cancelled){
+					if (orderStatus != OrderStatus.status_cancelled){
+						orderStatus = OrderStatus.status_cancelled;
+						orderWatcher.stopWatching();
+						orderStatusListener.orderStatusChanged(Order.this, orderStatus);
+					}else{
+						Co.println("--> Order is already cancelled");
+					}
+				}
+			}
+
+			@Override
+			public void failed(IbOrderStatus ibOrderStatus) {
+				if (ibOrderStatus == IbOrderStatus.status_cancelled){
+					orderStatus = OrderStatus.status_cancelled;
+				}
+				Co.println("--> Failed with ibOrderStatus: " + ibOrderStatus.name());
+			}
+		}), this, exchange);
+		
+		requestMarketOrder.execute();
+		orderWatcher.startWatching();
 	}
 	
 	public void cancelOrder(){
