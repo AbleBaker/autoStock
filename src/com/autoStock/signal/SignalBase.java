@@ -22,11 +22,11 @@ public abstract class SignalBase {
 	}
 	
 	public int getStrength(){
-		Co.println("--> Size: " + getListOfNormalizedValue().size() + ", " + this.getClass().getName());
-		
-		for (int i=0; i<maxSignalAverage.value; i++){
-			
-		}
+//		Co.println("--> Size: " + getListOfNormalizedValue().size() + ", " + this.getClass().getName());
+//		
+//		for (int i=0; i<maxSignalAverage.value; i++){
+//			
+//		}
 		
 		return getListOfNormalizedValue().get(getListOfNormalizedValue().size()-1);
 	}

@@ -5,11 +5,8 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.Co;
-import com.autoStock.exchange.request.OrderIdProvider;
 import com.autoStock.exchange.request.RequestMarketOrder;
-import com.autoStock.exchange.request.RequestMarketOrderId;
 import com.autoStock.exchange.request.base.RequestHolder;
-import com.autoStock.exchange.request.listener.RequestMarketOrderIdListener;
 import com.autoStock.exchange.request.listener.RequestMarketOrderListener;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
@@ -65,20 +62,7 @@ public class Order {
 		if (orderStatus == OrderStatus.none){
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
 				orderStatus = OrderStatus.status_presubmit;
-				
 				submitOrder();
-				
-//				OrderIdProvider.getInstance().getNextOrderId(new RequestMarketOrderIdListener() {
-//					@Override
-//					public void failed(RequestHolder requestHolder) {
-//						throw new IllegalStateException("Could not get next order id...");
-//					}
-//					
-//					@Override
-//					public void completed(int orderId) {
-//
-//					}
-//				});
 			}else{
 				new OrderSimulator(this).simulateOrderFill();
 			}

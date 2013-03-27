@@ -1,48 +1,57 @@
 package com.autoStock;
 
+import com.autoStock.exchange.ExchangeStatusObserver;
+import com.autoStock.exchange.request.MultipleRequestMarketScanner;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
+import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListener;
 import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
+import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
+import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
+import com.autoStock.index.IndexMarketDataProvider;
 import com.autoStock.internal.Global;
+import com.autoStock.order.OrderDefinitions.OrderMode;
+import com.autoStock.position.PositionManager;
 import com.autoStock.types.Exchange;
+import com.autoStock.types.Index;
 
 /**
  * @author Kevin Kowalewski
- *
+ * 
  */
-public class MainFilter {
+public class MainFilter implements MultipleRequestMarketScannerListener {
 	private Exchange exchange;
-	private RequestMarketScanner requestMarketScanner;
-	
-	public MainFilter(Exchange exchange) {
-		this.exchange = exchange;		
-		
-		Global.callbackLock.requestLock();
-		
-		requestMarketScanner = new RequestMarketScanner(
-			new RequestHolder(new RequestMarketScannerListener(){
-				@Override
-				public void failed(RequestHolder requestHolder) {
-					Co.println("Failed to get market filter");
-				}
+	private MultipleRequestMarketScanner multipleRequestMarketScanner = new MultipleRequestMarketScanner(this);
 
-				@Override
-				public void completed(RequestHolder requestHolder, ExResultSetMarketScanner exResultSetMarketScanner, MarketScannerType marketScannerType) {
-					Co.println("Got market filter information OK");
-					for (ExResultRowMarketScanner exResultRowMarketScanner : exResultSetMarketScanner.listOfExResultRowMarketScanner){
-						Co.println("--> Market scanner: " + exResultRowMarketScanner.symbol);
-					}
-					
-					Global.callbackLock.releaseLock();
-				}
-			}
-		), exchange, MarketScannerType.type_percent_gain_open);
-		
-		
-		
-		new RequestMarketScanner(null, exchange, MarketScannerType.type_percent_gain_open);
+	public MainFilter(Exchange exchange) {
+		this.exchange = exchange;
+
+		Global.callbackLock.requestLock();
+
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain_open);
+		// multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain);
+		// multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_high_open_gap);
+		// multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_implied_volatility_gain);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_price);
+		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_most_active);
+		// multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_top_trade_rate);
+		// multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_volume);
+
+		multipleRequestMarketScanner.startScanners();
+	}
+
+	@Override
+	public void failed(RequestHolder requestHolder) {
+		Co.println("--> Failed");
+	}
+
+	@Override
+	public void completed(MultipleResultSetMarketScanner multipleResultSetMarketScanner) {
+		for (MultipleResultRowMarketScanner row : multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner){
+			Co.println("--> Symbol, scanner: " + row.symbol + ", " + row.marketScannerType.name());
+		}
 	}
 }

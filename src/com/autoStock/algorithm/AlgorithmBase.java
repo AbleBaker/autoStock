@@ -31,6 +31,7 @@ import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
+import com.autoStock.trading.yahoo.FundamentalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -60,6 +61,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	protected StrategyBase strategyBase;
 	private Prefill prefill;
 	public final Date startingDate;
+	protected FundamentalData fundamentalData;
 	
 	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate){
 		this.algorithmState.canTrade = canTrade;
@@ -132,6 +134,7 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 	
 	public void disable(String reason){
 		algorithmState.isDisabled = true;
+		algorithmState.disabledReason = reason;
 	}
 	
 	public void receivedQuoteSlice(QuoteSlice quoteSlice){
@@ -171,6 +174,10 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		}
 		
 		prefill.prefillAlgorithm(this, strategyBase.strategyOptions);
+	}
+	
+	public void setFundamentalData(FundamentalData fundamentalData){
+		this.fundamentalData = fundamentalData;
 	}
 	
 	public int getPeriodLength(){

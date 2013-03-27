@@ -6,7 +6,6 @@ package com.autoStock.trading.platform.ib;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
-import com.autoStock.exchange.request.OrderIdProvider;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
 import com.autoStock.exchange.request.RequestMarketIndexData;
@@ -171,7 +170,7 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void nextValidId(int orderId) {
 		Co.log("Got nextValidId: " + orderId);
-		OrderIdProvider.getInstance().onIdReceived(orderId);
+//		OrderIdProvider.getInstance().onIdReceived(orderId);
 //		((RequestMarketOrderId)RequestManager.getRequestHolder(orderId).caller).finished(orderId);
 	}
 

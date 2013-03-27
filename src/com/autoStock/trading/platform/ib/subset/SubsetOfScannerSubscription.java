@@ -17,7 +17,7 @@ public class SubsetOfScannerSubscription {
 
 		scannerSubscription.stockTypeFilter("ALL");
 		scannerSubscription.averageOptionVolumeAbove(0);
-		scannerSubscription.aboveVolume(250000);
+		scannerSubscription.aboveVolume(200000);
 
 		if (exchange.exchangeDesignation == ExchangeDesignation.NYSE) {
 			scannerSubscription.instrument("STK");
@@ -50,7 +50,7 @@ public class SubsetOfScannerSubscription {
 		if (marketScannerType == MarketScannerType.type_percent_gain_open) {
 			scannerSubscription.scanCode("TOP_OPEN_PERC_GAIN");
 			scannerSubscription.aboveVolume(100000);
-			scannerSubscription.numberOfRows(150);
+			scannerSubscription.numberOfRows(33);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_percent_gain) {
@@ -80,13 +80,13 @@ public class SubsetOfScannerSubscription {
 		else if (marketScannerType == MarketScannerType.type_most_active) {
 			scannerSubscription.scanCode("MOST_ACTIVE_USD");
 			scannerSubscription.aboveVolume(100000);
-			scannerSubscription.numberOfRows(50);
+			scannerSubscription.numberOfRows(33);
 		}
 
 		else if (marketScannerType == MarketScannerType.type_hot_by_price) {
 			scannerSubscription.scanCode("HOT_BY_PRICE");
 			scannerSubscription.aboveVolume(100000);
-			scannerSubscription.numberOfRows(50);
+			scannerSubscription.numberOfRows(33);
 		} 
 		
 		else if (marketScannerType == MarketScannerType.type_hot_by_volume) {

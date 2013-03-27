@@ -76,7 +76,7 @@ public class AlgorithmManager {
 	public void algorithmSweep(){
 		for (ActiveAlgorithmContainer activeAlgorithmContainer : listOfActiveAlgorithmContainer){
 			if (activeAlgorithmContainer.algorithm.algorithmState.isDisabled){
-				activeAlgorithmContainer.requestMarketData.cancel();
+				activeAlgorithmContainer.deactivate();
 			}
 		}
 	}
