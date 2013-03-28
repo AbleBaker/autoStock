@@ -58,7 +58,6 @@ public class YahooFundamentals extends HTTPRequestBase {
 			
 		}catch(Exception e){
 			e.printStackTrace();
-			throw new UnsupportedOperationException();
 		}
 	}
 

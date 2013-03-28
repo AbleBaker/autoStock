@@ -41,10 +41,11 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private AtomicLong atomicIntForRequestId = new AtomicLong();
 	private Date dateStart;
 	private Date dateEnd;
-	private final int computeUnitIterationSize = 64;
+	private final int computeUnitIterationSize = 128;
 	private final int computeUnitResultPruneSize = 16;
 	private Benchmark bench = new Benchmark();
 	private Benchmark benchTotal = new Benchmark();
+	private Thread threadForWatcher;
 	
 	public MainClusteredBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
 		this.exchange = exchange;
@@ -98,20 +99,45 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			return new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), listOfIteration, exchange, listOfSymbols, dateStart, dateEnd);
 		}else{
 			Co.println("--> No units left...");
+			if (threadForWatcher == null) {startWatcher();}
 			return null;
 		}
 	}
 	
-	public void displayResultTable(){
-		Co.println("--> ********************* Best profit yield *********************");
-		Collections.sort(listOfComputeResultForBacktestPartialForProfit, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_ascending));
-		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForProfit){
+	private void startWatcher() {
+		threadForWatcher = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				int max_tries = 60;
+
+				while (isComplete() == false) {
+					try {Thread.sleep(1000);}catch(InterruptedException e){return;}
+					if (max_tries == 0) {
+						displayResultTable();
+						Co.println("--> Warning: compute unit(s) went missing... Sent / Received: " + atomicIntForRequestId.get() + ", " + listOfComputeUnitResultIds.size());
+						Global.callbackLock.releaseLock();
+					}else{
+						Co.println("--> Waiting..." + max_tries);
+					}
+
+					max_tries--;
+				}
+			}
+		});
+		threadForWatcher.start();
+	}
+
+
+	public void displayResultTable(){		
+		Co.println("--> ********************* ********************* Best transaction yield ********************* *********************");
+		Collections.sort(listOfComputeResultForBacktestPartialForTransactions, new ReflectiveComparator.ListComparator("percentOfTransProfitLoss", SortDirection.order_ascending));
+		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForTransactions){
 			Co.println(computeUnitResult.resultDetails);
 		}
 		
-		Co.println("--> ********************* Best transaction yield *********************");
-		Collections.sort(listOfComputeResultForBacktestPartialForTransactions, new ReflectiveComparator.ListComparator("percentOfTransProfitLoss", SortDirection.order_ascending));
-		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForTransactions){
+		Co.println("--> ********************* ********************* Best profit yield ********************* *********************");
+		Collections.sort(listOfComputeResultForBacktestPartialForProfit, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_ascending));
+		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForProfit){
 			Co.println(computeUnitResult.resultDetails);
 		}
 	}
@@ -140,6 +166,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 
 			if (isComplete()){
 				Co.println("--> All done!");
+				if (threadForWatcher != null){threadForWatcher.interrupt();}
 				displayResultTable();
 				benchTotal.printTick("Finished clustered backtest");
 				Global.callbackLock.releaseLock();

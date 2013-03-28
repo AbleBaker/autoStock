@@ -54,7 +54,7 @@ public class IndicatorGroup {
 	
 	public static final ImmutableInteger immutableIntegerForADX = new ImmutableInteger(26);
 	public static final ImmutableInteger immutableIntegerForCCI = new ImmutableInteger(26);
-	public static final ImmutableInteger immutableIntegerForDI = new ImmutableInteger(26);
+	public static final ImmutableInteger immutableIntegerForDI = new ImmutableInteger(30);
 	public static final ImmutableInteger immutableIntegerForMACD = new ImmutableInteger(26);
 	public static final ImmutableInteger immutableIntegerForBB = new ImmutableInteger(10);
 	public static final ImmutableInteger immutableIntegerForRSI = new ImmutableInteger(26);

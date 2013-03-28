@@ -22,7 +22,7 @@ public class SignalGroup {
 	public SignalOfROC signalOfROC = new SignalOfROC();
 	public SignalOfMFI signalOfMFI = new SignalOfMFI();
 	public SignalOfWILLR signalOfWILLR = new SignalOfWILLR();
-	public SignalOfCandlestickGroup signalOfCandlestickGroup;
+	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup();
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	
@@ -40,7 +40,7 @@ public class SignalGroup {
 		if (indicatorGroup.resultsROC != null){signalOfROC.addInput(indicatorGroup.resultsROC.arrayOfROC[0]);}
 		if (indicatorGroup.resultsMFI != null){signalOfMFI.addInput(indicatorGroup.resultsMFI.arrayOfMFI[0]);}
 		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.addInput(indicatorGroup.resultsWILLR.arrayOfWILLR[0]);}
-		if (indicatorGroup.candleStickIdentifierResult != null){signalOfCandlestickGroup = new SignalOfCandlestickGroup();}
+		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
 		
 		listOfSignalBase.clear();
 		listOfSignalBase.add(signalOfCCI);

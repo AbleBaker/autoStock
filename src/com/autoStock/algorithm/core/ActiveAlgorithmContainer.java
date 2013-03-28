@@ -43,7 +43,8 @@ public class ActiveAlgorithmContainer {
 		yahooFundamentals = new YahooFundamentals(new RequestFundamentalsListener() {
 			@Override
 			public void failed(RequestHolder requestHolder) {
-				throw new UnsupportedOperationException();
+				algorithm.disable("Failed to get fundamentals");
+				return;
 			}
 			
 			@Override
