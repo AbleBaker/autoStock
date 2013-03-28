@@ -33,7 +33,7 @@ public class YahooFundamentals extends HTTPRequestBase {
 	public void receivedResponse(HttpEntity httpEntity) {
 		try {
 			String response = EntityUtils.toString(httpEntity);
-			Co.println("--> Response: " + response);
+//			Co.println("--> Response: " + response);
 			
 			String[] responseElements = response.trim().split(",");
 			

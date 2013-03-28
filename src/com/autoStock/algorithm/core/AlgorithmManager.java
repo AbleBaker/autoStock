@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.core.ActiveAlgorithmContainer.ActivationListener;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
 import com.autoStock.finance.Account;
@@ -16,13 +17,15 @@ import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.R
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 import com.google.gson.Gson;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
  *
  */
-public class AlgorithmManager {
+public class AlgorithmManager implements ActivationListener {
 	private ArrayList<ActiveAlgorithmContainer> listOfActiveAlgorithmContainer = new ArrayList<ActiveAlgorithmContainer>();
+	private ArrayList<Pair<Symbol,Exchange>> listOfDiscards = new ArrayList<Pair<Symbol,Exchange>>();
 	private AlgorithmInfoManager algorithmInfoManager = new AlgorithmInfoManager();
 	private AlgorithmManagerTable algorithmManagerTable = new AlgorithmManagerTable();
 	private Thread threadForDisplay;
@@ -47,18 +50,28 @@ public class AlgorithmManager {
 			if (listOfActiveAlgorithmContainer.size() >= 100){
 				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				return false;
-			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.exchangeName) == null){
+			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.exchangeName) == null && isInDiscard(new Pair<Symbol,Exchange>(new Symbol(result.symbol, SecurityType.type_stock), exchange)) == false){
 				Co.println("Will run algorithm for symbol: " + result.marketScannerType.name() + ", " + result.symbol);
-				algorithmInfoManager.activatedSymbol(result.symbol);
-				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol, SecurityType.type_stock));
+				
+				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol, SecurityType.type_stock), this);
 				container.activate();
-				listOfActiveAlgorithmContainer.add(container);
 			}
 		}
 		
 		Co.println("Active algorithm count: " + listOfActiveAlgorithmContainer.size());
+		Co.println("Discarded symbol count: " + listOfDiscards.size());
 		
 		return true;
+	}
+	
+	public boolean isInDiscard(Pair<Symbol, Exchange> pair){
+		for (Pair<Symbol,Exchange> pairLocal : listOfDiscards){
+			if (pairLocal.first.symbolName.equals(pair.first.symbolName) && pairLocal.second.exchangeName.equals(pair.second.exchangeName)){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public void pruneListOfSymbols(ArrayList<String> listOfSymbols, Exchange exchange){
@@ -153,5 +166,18 @@ public class AlgorithmManager {
 		new TableController().displayTable(AsciiTables.algorithm_manager, listOfAlgorithmDisplayRows);
 		
 		Co.println(new Gson().toJson(algorithmInfoManager.listOfAlgorithmInfo));
+	}
+
+	@Override
+	public void activated(ActiveAlgorithmContainer activeAlgorithmContainer) {
+		Co.println("--> Activated: " + activeAlgorithmContainer.symbol.symbolName);
+		listOfActiveAlgorithmContainer.add(activeAlgorithmContainer);
+		algorithmInfoManager.activatedSymbol(activeAlgorithmContainer.symbol.symbolName);	
+	}
+
+	@Override
+	public void failed(ActiveAlgorithmContainer activeAlgorithmContainer, String reason) {
+		Co.println("--> Discarded: " + activeAlgorithmContainer.symbol.symbolName + "(" + reason + ")");
+		listOfDiscards.add(new Pair<Symbol,Exchange>(new Symbol(activeAlgorithmContainer.symbol.symbolName, SecurityType.type_stock), activeAlgorithmContainer.exchange));
 	}
 }

@@ -32,10 +32,12 @@ public class ActiveAlgorithmContainer {
 	public final Exchange exchange;
 	public RequestMarketSymbolData requestMarketData;
 	private YahooFundamentals yahooFundamentals;
+	private ActivationListener activationListener;
 	
-	public ActiveAlgorithmContainer(boolean canTrade, Exchange exchange, Symbol symbol){
+	public ActiveAlgorithmContainer(boolean canTrade, Exchange exchange, Symbol symbol, ActivationListener activationListener){
 		this.symbol = symbol;
 		this.exchange = exchange;
+		this.activationListener = activationListener;
 		algorithm = new AlgorithmTest(canTrade, exchange, symbol, AlgorithmMode.mode_engagement, new Date());
 	}
 	
@@ -43,18 +45,20 @@ public class ActiveAlgorithmContainer {
 		yahooFundamentals = new YahooFundamentals(new RequestFundamentalsListener() {
 			@Override
 			public void failed(RequestHolder requestHolder) {
-				algorithm.disable("Failed to get fundamentals");
+				activationListener.failed(ActiveAlgorithmContainer.this, "Failed to get fundamentals");
 				return;
 			}
 			
 			@Override
 			public void success(FundamentalData fundamentalData) {
-				if (fundamentalData.avgDailyVolume < 500000){
-					algorithm.disable("Low volume");
+				if (fundamentalData.avgDailyVolume < 400000 && fundamentalData.todaysVolume < 300000){
+					activationListener.failed(ActiveAlgorithmContainer.this, "Low volume");
 					return;
 				}
 				
+				activationListener.activated(ActiveAlgorithmContainer.this);
 				algorithm.setFundamentalData(fundamentalData);
+				algorithm.init();
 				startAlgorithmFeed();
 			}
 		}, exchange, symbol);
@@ -102,5 +106,10 @@ public class ActiveAlgorithmContainer {
 				throw new IllegalStateException();
 			}
 		}
+	}
+	
+	public static interface ActivationListener {
+		public void activated(ActiveAlgorithmContainer activeAlgorithmContainer);
+		public void failed(ActiveAlgorithmContainer activeAlgorithmContainer, String reason);
 	}
 }

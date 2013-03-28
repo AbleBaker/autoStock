@@ -33,8 +33,6 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 	
 		initialize(strategy);
 		
-		prefill();
-		
 //		for (QuoteSlice quoteSlice : listOfQuoteSlice){
 //			Co.println("--> Prefilled with: " + quoteSlice.priceClose);
 //		}
@@ -42,6 +40,10 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		if (listOfQuoteSlice.size() > 0){
 			firstQuoteSlice = listOfQuoteSlice.get(0);
 		}
+	}
+	
+	public void init(){
+		prefill();
 	}
 
 	@Override
