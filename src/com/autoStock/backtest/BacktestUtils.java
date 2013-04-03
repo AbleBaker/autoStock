@@ -8,6 +8,7 @@ import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
 import com.autoStock.adjust.AdjustmentOfSignalMetric;
+import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.finance.Account;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
@@ -25,7 +26,7 @@ import com.autoStock.tools.MiscTools;
  * 
  */
 public class BacktestUtils {	
-	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, BacktestResultDetails backtestResultDetails){
+	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, BacktestResultDetails backtestResultDetails, BacktestType backtestType){
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance()) + " ********";
 		
 		string += "\n --> Balance: $" + MiscTools.getCommifiedValue(Account.getInstance().getAccountBalance());
@@ -65,13 +66,15 @@ public class BacktestUtils {
 			string += " +Indicator period: " + indicatorBase.getClass().getSimpleName() + ", " + indicatorBase.periodLength.value + "\n";
 		}
 		
-		for (AdjustmentBase adjustmentBase : AdjustmentCampaign.getInstance().getListOfAdjustmentBase()){
-			if (adjustmentBase instanceof AdjustmentOfBasicInteger){
-				string += " +AdjustmentOfBasicInteger " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue() + "\n";
-			}else if (adjustmentBase instanceof AdjustmentOfEnum){
-				string += " +AdjustmentOfEnum " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfEnum)adjustmentBase).getValue().name() + "\n";
-			}else if (adjustmentBase instanceof AdjustmentOfSignalMetric){
-				string += " +AdjustmentOfSignalMetric " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfSignalMetric)adjustmentBase).getValue() + "\n";
+		if (backtestType == BacktestType.backtest_adjustment || backtestType == BacktestType.backtest_clustered_client){
+			for (AdjustmentBase adjustmentBase : AdjustmentCampaign.getInstance().getListOfAdjustmentBase()){
+				if (adjustmentBase instanceof AdjustmentOfBasicInteger){
+					string += " +AdjustmentOfBasicInteger " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue() + "\n";
+				}else if (adjustmentBase instanceof AdjustmentOfEnum){
+					string += " +AdjustmentOfEnum " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfEnum)adjustmentBase).getValue().name() + "\n";
+				}else if (adjustmentBase instanceof AdjustmentOfSignalMetric){
+					string += " +AdjustmentOfSignalMetric " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfSignalMetric)adjustmentBase).getValue() + "\n";
+				}
 			}
 		}
 		
@@ -114,7 +117,8 @@ public class BacktestUtils {
 
 		for (BacktestContainer backtestContainer : listOfBacktestContainer){
 			for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse){
-				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
+				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
+						|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 					if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) > 0){
 						backtestProfitLossType.countForTradesProfit++;
 					}else if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) <= 0){
@@ -122,9 +126,11 @@ public class BacktestUtils {
 					}
 					
 					backtestProfitLossType.countForTradeExit++;
-				}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
+				}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
+						|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 					backtestProfitLossType.countForTradeEntry++;
-				}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry){
+				}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry
+						|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
 					backtestProfitLossType.countForTradesReentry++;
 				}
 			}

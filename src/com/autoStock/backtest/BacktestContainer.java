@@ -62,6 +62,10 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		backtest.performBacktest(this);
 	}
 	
+	public void setListener(ListenerOfBacktestCompleted listenerOfBacktestCompleted){
+		this.listener = listenerOfBacktestCompleted;
+	}
+	
 	public void reset(){
 		listOfStrategyResponse.clear();
 	}

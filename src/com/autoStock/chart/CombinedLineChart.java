@@ -148,20 +148,25 @@ public class CombinedLineChart {
 				subPlotForPrice.setDataset(1, getPairForType(TimeSeriesType.type_value).timeSeriesCollection);
 		        subPlotForPrice.setRangeAxis(1, new NumberAxis(TimeSeriesType.type_value.displayName));
 		        subPlotForPrice.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
-		        subPlotForPrice.setRenderer(1, new StandardXYItemRenderer());       
+		        subPlotForPrice.setRenderer(1, new StandardXYItemRenderer());
 				subPlotForPrice.getRenderer(1).setSeriesPaint(0, Color.ORANGE);
 		        subPlotForPrice.mapDatasetToRangeAxis(1, 1);
 		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 		        
-				subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_entry_signal).timeSeriesCollection);
+				subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_entry_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(2, new XYShapeRenderer());
 		        subPlotForPrice.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
 		        subPlotForPrice.getRenderer(2).setSeriesPaint(0, Color.GREEN);
 		        
-				subPlotForPrice.setDataset(3, getPairForType(TimeSeriesType.type_exit_signal).timeSeriesCollection);
+		        subPlotForPrice.setDataset(3, getPairForType(TimeSeriesType.type_reentry_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(3, new XYShapeRenderer());
-		        subPlotForPrice.getRenderer(3).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
-		        subPlotForPrice.getRenderer(3).setSeriesPaint(0, Color.RED);
+		        subPlotForPrice.getRenderer(3).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
+		        subPlotForPrice.getRenderer(3).setSeriesPaint(0, Color.decode("#00CCCC"));
+		        
+				subPlotForPrice.setDataset(4, getPairForType(TimeSeriesType.type_exit_price).timeSeriesCollection);
+		        subPlotForPrice.setRenderer(4, new XYShapeRenderer());
+		        subPlotForPrice.getRenderer(4).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
+		        subPlotForPrice.getRenderer(4).setSeriesPaint(0, Color.RED);
 		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 		        
 		        subPlotForPrice.getRenderer().setBaseToolTipGenerator(new StandardXYToolTipGenerator() {

@@ -1,5 +1,6 @@
 package com.autoStock.algorithm.core;
 
+import com.autoStock.Co;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalGroup;
@@ -43,21 +44,27 @@ public class AlgorithmChart {
 			chart.listOfDebugAlpha.add(signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue() == 0 ? Double.MIN_VALUE : signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue());
 		}
 		
-		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
+		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
+			|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 			chart.listOfEntryAtPrice.add(quoteSlice.priceClose);
+			chart.listOfReEntryAtPrice.add(Double.MIN_VALUE);
 			chart.listOfExitAtPrice.add(Double.MIN_VALUE);
 			chart.listOfExitAtSignal.add(Double.MIN_VALUE);
-		}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
+		}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit 
+			|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 			chart.listOfEntryAtPrice.add(Double.MIN_VALUE);
+			chart.listOfReEntryAtPrice.add(Double.MIN_VALUE);
 			chart.listOfExitAtPrice.add(quoteSlice.priceClose);
 			chart.listOfEntryAtSignal.add(Double.MIN_VALUE);
-		}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
-			chart.listOfEntryAtPrice.add(quoteSlice.priceClose);
+		}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry 
+			|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
+			chart.listOfEntryAtPrice.add(Double.MIN_VALUE);
+			chart.listOfReEntryAtPrice.add(quoteSlice.priceClose);
 			chart.listOfExitAtPrice.add(Double.MIN_VALUE);
-//			chart.listOfEntryAtSignal.add(SignalTools.getCombinedSignal(strategyResponse.signal).strength);
 			chart.listOfExitAtSignal.add(Double.MIN_VALUE);
 		}else{
 			chart.listOfEntryAtPrice.add(Double.MIN_VALUE);
+			chart.listOfReEntryAtPrice.add(Double.MIN_VALUE);
 			chart.listOfExitAtPrice.add(Double.MIN_VALUE);
 			chart.listOfEntryAtSignal.add(Double.MIN_VALUE);
 			chart.listOfExitAtSignal.add(Double.MIN_VALUE);

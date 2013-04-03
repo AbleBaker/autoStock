@@ -74,7 +74,6 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 				Co.println("--> No positions to sell");
 			}else{
 				Co.println("--> Exiting all positions: " + listOfPosition.size());
-				Co.println("--> X: " + listOfPosition.get(0).symbol.symbolName);
 			}
 			
 			ArrayList<Position> listOfModifyablePosition = (ArrayList<Position>) listOfPosition.clone();

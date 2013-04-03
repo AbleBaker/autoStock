@@ -16,7 +16,8 @@ public class SignalPointMethod {
 		tatic_majority,
 		tatic_change,
 		tatic_combined,
-		tatic_mixed
+		tatic_mixed,
+		//tactic_same
 	}
 	
 	public static synchronized SignalPoint getSignalPoint(boolean havePosition, Signal signal, PositionType positionType, SignalPointTactic signalPointTactic){
@@ -30,7 +31,6 @@ public class SignalPointMethod {
 			signalPoint = getSignalPointCombined(havePosition, positionType, signal);
 		}else if (signalPointTactic == SignalPointTactic.tatic_mixed){
 			return getSignalPointMixed(havePosition, positionType, signal);
-//			throw new UnsupportedOperationException();
 		}else{
 			throw new UnsupportedOperationException();
 		}

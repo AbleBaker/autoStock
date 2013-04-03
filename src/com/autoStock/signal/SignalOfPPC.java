@@ -18,7 +18,7 @@ public class SignalOfPPC extends SignalBase {
 
 	@Override
 	public void addInput(double value) {
-		int periodAverage = listOfNormalizedInt.size();
+		int periodAverage = listOfNormalizedValue.size();
 		double percentChange = 0;
 
 		if (arrayOfPrice.length < 1) {

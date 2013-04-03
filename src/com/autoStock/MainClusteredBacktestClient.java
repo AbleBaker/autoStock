@@ -88,7 +88,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		ArrayList<AdjustmentOfPortable> listOfIteration = (ArrayList<AdjustmentOfPortable>) computeUnitForBacktest.listOfAdjustment.get(atomicIntBacktestIndex.get()-1);
 		BacktestResultDetails backtestResultDetails = BacktestUtils.getProfitLossDetails(mainBacktest.getListOfBacktestContainer());
 		double percent = MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100);
-		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), percent, Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails)));
+		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), percent, Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails, BacktestType.backtest_clustered_client)));
 	}
 
 	@Override

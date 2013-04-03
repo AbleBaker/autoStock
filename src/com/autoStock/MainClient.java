@@ -8,6 +8,7 @@ import com.autoStock.internal.Global.Mode;
 import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.menu.MenuLauncher;
+import com.autoStock.tools.ArrayTools;
 
 /**
  * @author Kevin Kowalewski
@@ -16,7 +17,7 @@ import com.autoStock.menu.MenuLauncher;
 public class MainClient {	
 	public static void main(String[] args) throws SQLException, SecurityException, IllegalArgumentException, IllegalAccessException {
 		Co.println("******** Welcome to autoStock ********\n");
-
+		
 		MenuController menuController = new MenuController();
 		if (args.length == 0){menuController.displayMenu(MenuStructures.menu_main); ApplicationStates.shutdown();}
 		MenuStructures menuStructure = menuController.getRelatedMenu(args);

@@ -59,7 +59,7 @@ public class Prefill {
 			
 			algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSlice);
 			
-			Co.println("--> Added: " + algorithmBase.listOfQuoteSlice.size());
+//			Co.println("--> Added: " + algorithmBase.listOfQuoteSlice.size());
 		}
 	}
 	
@@ -73,10 +73,10 @@ public class Prefill {
 		int minutesFromDatabase = (periodLength - (time.getSeconds() / 60));
 		int minutesFromBroker = time.getSeconds() / 60; 
 		
-		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
+//		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
 		
-		if (minutesFromBroker == 0){
-			Co.println("--> Only database");
+		if (minutesFromBroker <= 0){
+//			Co.println("--> Only database");
 			calendarForStart.add(Calendar.DAY_OF_MONTH, -1);
 			calendarForStart.set(Calendar.HOUR, timeCloseForeign.hours);
 			calendarForStart.set(Calendar.MINUTE, (minutesFromDatabase -1) * -1);
@@ -87,10 +87,10 @@ public class Prefill {
 		}else if (minutesFromDatabase == 0 || minutesFromBroker >= SignalControl.periodLengthStart.value){
 			throw new UnsupportedOperationException();
 		}else{
-			Co.println("--> Mixed");
+//			Co.println("--> Mixed");
 			throw new UnsupportedOperationException();
 		}
 		
-		Co.println("--> Prefill: " + DateTools.getPrettyDate(calendarForStart.getTime()) + ", " + DateTools.getPrettyDate(calendarForEnd.getTime()));
+//		Co.println("--> Prefill: " + DateTools.getPrettyDate(calendarForStart.getTime()) + ", " + DateTools.getPrettyDate(calendarForEnd.getTime()));
 	}
 }

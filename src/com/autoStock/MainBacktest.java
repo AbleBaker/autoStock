@@ -192,7 +192,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			if (Account.getInstance().getAccountBalance() > metricBestAccountBalance){
 				if (listOfBacktestContainer.get(0).algorithm != null){
 					BacktestResultDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);					
-					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails));
+					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType));
 				}
 				metricBestAccountBalance = Account.getInstance().getAccountBalance();
 			}
@@ -268,7 +268,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					}
 					
 					BacktestResultDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
-					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails));
+					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType));
 				} 
 				Co.println("--> Finished backtest");
 				if (backtestType == BacktestType.backtest_default){

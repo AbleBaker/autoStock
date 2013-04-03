@@ -67,12 +67,14 @@ public class AdjustmentCampaign {
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(SignalControl.periodLengthStart, new IterableOfInteger(10, 30, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SignalControl.periodLengthMiddle", SignalControl.periodLengthMiddle, new IterableOfInteger(10, 40, 2)));
 		
-		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Period", IndicatorGroup.immutableIntegerForCCI, new IterableOfInteger(10, 60, 2)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Period", SignalMetricType.metric_cci.periodLength, new IterableOfInteger(10, 60, 2)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Average", SignalMetricType.metric_cci.maxSignalAverage, new IterableOfInteger(1, 10, 1)));
+		
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("ADX Period", IndicatorGroup.immutableIntegerForADX, new IterableOfInteger(10, 60, 2)));
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("DI Period", IndicatorGroup.immutableIntegerForDI, new IterableOfInteger(10, 60, 2)));
 		
-		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType));
-		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongExit[0].immutableEnumForSignalGuageType));
+//		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType));
+//		listOfAdjustmentBase.add(new AdjustmentOfEnum("CCI Guage Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_cci.arrayOfSignalGuageForLongExit[0].immutableEnumForSignalGuageType));
 //		
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum("ADX Guage Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_adx.arrayOfSignalGuageForLongEntry[0].immutableEnumForSignalGuageType));
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum("ADX Guage Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.values()[0]), SignalDefinitions.SignalMetricType.metric_adx.arrayOfSignalGuageForLongExit[0].immutableEnumForSignalGuageType));

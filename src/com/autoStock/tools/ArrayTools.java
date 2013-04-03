@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  * 
@@ -138,5 +140,72 @@ public class ArrayTools {
 		}
 		
 		return index;
+	}
+	
+	public static int[] randomizeArrayNoDuplicates(int[] arrayOfInt){
+		int[] arrayOfResult = new int[arrayOfInt.length];
+		boolean[] arrayOfTaken = new boolean[arrayOfInt.length];
+		
+		int candidateIndex;
+		
+		for (int i=0; i<arrayOfInt.length; i++){
+			do {
+				candidateIndex = (int) (Math.random() * arrayOfInt.length);
+			}while (arrayOfTaken[candidateIndex]);
+			
+			arrayOfResult[i] = arrayOfInt[candidateIndex];
+			arrayOfTaken[candidateIndex] = true;
+		}
+		
+		return arrayOfResult;
+	}
+	
+	public static int[] randomizeArrayAllowDuplicates(int[] arrayOfInt){
+		int[] arrayOfResult = new int[arrayOfInt.length];
+		
+		for (int i=0; i<arrayOfInt.length; i++){
+			arrayOfResult[i] = arrayOfInt[(int) (Math.random() * arrayOfInt.length)];
+		}
+		
+		return arrayOfResult;
+	}
+	
+	public static int getRandomElement(int[] arrayOfInt){
+		return arrayOfInt[(int) (Math.random() * arrayOfInt.length)];
+	}
+	
+	public static int[] generateArray(int from, int to){
+		int[] arrayOfInt = new int[Math.abs(to-from + 1)];
+		
+		int count=0;
+		
+		for (int i=from; i<=to; i++){
+			if (i <= 0){
+				arrayOfInt[count] = from - i;				
+			}else{
+				arrayOfInt[count] = i;
+			}
+			
+			count++;
+		}
+		
+		return arrayOfInt;
+	}
+	
+	public static double[][] chunkArray(double[] arrayOfDouble, int chunkLength){
+		int chunks = arrayOfDouble.length/chunkLength;
+		double[][] returnArray = new double[chunks][chunkLength];
+		
+		if (arrayOfDouble.length % chunkLength != 0){
+			throw new IllegalArgumentException("Chunk, array length need to have a remainder of zero");
+		}
+		
+		for (int c=0; c<chunks; c++){
+			for (int i=0; i<chunkLength; i++){
+				returnArray[c][i] = arrayOfDouble[i+(c*chunkLength)];
+			}
+		}
+		
+		return returnArray;
 	}
 }
