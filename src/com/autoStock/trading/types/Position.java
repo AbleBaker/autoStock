@@ -225,8 +225,10 @@ public class Position implements OrderStatusListener {
 				}else{
 					Co.println("--> Got order success while being canceled...");
 				}
-			}else if (order.orderType == OrderType.order_long_exited || order.orderType == OrderType.order_short_exited){
-				positionType = PositionType.position_exited;
+			}else if (order.orderType == OrderType.order_long_exited){
+				positionType = PositionType.position_long_exited;
+			}else if (order.orderType == OrderType.order_short_exited){
+				positionType = PositionType.position_short_exited;
 			}else{
 				throw new IllegalStateException();
 			}

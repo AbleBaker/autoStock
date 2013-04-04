@@ -78,8 +78,8 @@ public class AlgorithmTable {
 				responseString = new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFees);
 				responseString += " (" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)) + ") ";
 				responseString += percentGainString;
-			}else if (strategyResponse.positionGovernorResponse.position.positionType == PositionType.position_exited){
-				responseString = "Position Exited!";
+			}else{
+				//pass
 			}
 		}
 		

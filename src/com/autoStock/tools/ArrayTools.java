@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import com.autoStock.Co;
 
@@ -55,7 +56,7 @@ public class ArrayTools {
 		return arrayOfInt;
 	}
 
-	public static int[] getArrayFromListOfInt(ArrayList<Integer> integers) {
+	public static int[] getArrayFromListOfInt(List<Integer> integers) {
 		int[] ret = new int[integers.size()];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = integers.get(i).intValue();
@@ -63,7 +64,7 @@ public class ArrayTools {
 		return ret;
 	}
 	
-	public static double[] getArrayFromListOfDouble(ArrayList<Double> doubles) {
+	public static double[] getArrayFromListOfDouble(List<Double> doubles) {
 		double[] ret = new double[doubles.size()];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = doubles.get(i).doubleValue();

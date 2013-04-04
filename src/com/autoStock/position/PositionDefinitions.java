@@ -24,9 +24,11 @@ public class PositionDefinitions {
 		position_long_exit,
 		position_short_exit,
 		
+		position_long_exited,
+		position_short_exited,
+		
 		position_cancelling,
 		position_cancelled,
-		position_exited,
 		position_failed,
 		position_none,
 		;

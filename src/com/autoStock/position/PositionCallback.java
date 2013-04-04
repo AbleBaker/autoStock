@@ -16,8 +16,8 @@ public class PositionCallback {
 	public static void setPositionSuccess(Position position) throws IllegalAccessError {
 		if (position.positionType == PositionType.position_long_entry){position.positionType = PositionType.position_long;}
 		else if (position.positionType == PositionType.position_short_entry){position.positionType = PositionType.position_short;}
-		else if (position.positionType == PositionType.position_long_exit){position.positionType = PositionType.position_exited;}
-		else if (position.positionType == PositionType.position_short_exit){position.positionType = PositionType.position_exited;}
+		else if (position.positionType == PositionType.position_long_exit){position.positionType = PositionType.position_long_exited;}
+		else if (position.positionType == PositionType.position_short_exit){position.positionType = PositionType.position_short_exited;}
 		else throw new UnsupportedOperationException("No condition matched PositionType: " + position.positionType.name());
 	}
 

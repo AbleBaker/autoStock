@@ -2,9 +2,11 @@ package com.autoStock.position;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.finance.Account;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderValue;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.trading.types.Order;
 import com.autoStock.trading.types.Position;
 
@@ -18,6 +20,7 @@ public class PositionUtils {
 	private ArrayList<OrderValue> listOfOrderValue = new ArrayList<OrderValue>();
 
 	public PositionUtils(Position position, ArrayList<Order> listOfOrder) {
+		if (position == null){throw new NullPointerException("Position can't be null");}
 		this.position = position;
 		this.listOfOrder = listOfOrder;
 		synchronized (listOfOrder) {
@@ -131,10 +134,21 @@ public class PositionUtils {
 
 	public double getPositionValueCurrent(boolean includeTransactionFees) {
 		synchronized (listOfOrder) {
+			double priceTotal = 0;
+			double unitPriceFilled = getOrderUnitPriceFilled();
 			double unitPriceLastKnown = position.getLastKnownUnitPrice();
-			double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
-			double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
-
+			int unitsFilled = getOrderUnitsFilled();
+			
+			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_long_exited){
+				priceTotal = unitsFilled * unitPriceLastKnown;
+			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_exit || position.positionType == PositionType.position_short_exited){
+				priceTotal = unitsFilled * (unitPriceFilled + (unitPriceFilled - unitPriceLastKnown));
+			}else{
+				throw new IllegalStateException("PositionType: " + position.positionType);
+			}
+			
+			double transactionFees = Account.getInstance().getTransactionCost(unitsFilled, unitPriceLastKnown);
+			
 			priceTotal -= (includeTransactionFees ? transactionFees : 0);
 
 			return priceTotal;

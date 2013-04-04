@@ -46,7 +46,7 @@ public abstract class SignalBase {
 			SignalGuageType signalGuageTypeForLongEntry = signalGuageForLongEntry.immutableEnumForSignalGuageType.enumValue;
 			
 			SignalGuage signalGuageForShortEntry = signalMetricType.arrayOfSignalGuageForShortEntry[0];
-			SignalGuageType signalGuageTypeForShortEntry = signalGuageForLongEntry.immutableEnumForSignalGuageType.enumValue;
+			SignalGuageType signalGuageTypeForShortEntry = signalGuageForShortEntry.immutableEnumForSignalGuageType.enumValue;
 			
 			if (signalGuageTypeForLongEntry == SignalGuageType.guage_threshold_met){
 				isQualified = new GuageOfThresholdMet(signalGuageForLongEntry, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 

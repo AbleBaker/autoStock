@@ -43,9 +43,13 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Double> listOfPriceClose = new ArrayList<Double>();
 	
 	public ArrayList<Double> listOfValue = new ArrayList<Double>();
-	public ArrayList<Double> listOfEntryAtPrice = new ArrayList<Double>();
+	
+	public ArrayList<Double> listOfLongEntryAtPrice = new ArrayList<Double>();
+	public ArrayList<Double> listOfShortEntryAtPrice = new ArrayList<Double>();
 	public ArrayList<Double> listOfReEntryAtPrice = new ArrayList<Double>();
-	public ArrayList<Double> listOfExitAtPrice = new ArrayList<Double>();
+	public ArrayList<Double> listOfLongExitAtPrice = new ArrayList<Double>();
+	public ArrayList<Double> listOfShortExitAtPrice = new ArrayList<Double>();
+	
 	public ArrayList<Double> listOfEntryAtSignal = new ArrayList<Double>();
 	public ArrayList<Double> listOfExitAtSignal = new ArrayList<Double>();
 	
@@ -68,9 +72,11 @@ public class ChartForAlgorithmTest {
 		type_signals("Signals"),
 		type_price("Price"),
 		type_value("Value"),
-		type_entry_price("Entry"),
+		type_long_entry_price("Long Entry"),
+		type_short_entry_price("Short Entry"),
 		type_reentry_price("Reentry"),
-		type_exit_price("Exit"),
+		type_long_exit_price("Exit"),
+		type_short_exit_price("Exit"),
 		type_entry_signal("Entry"),
 		type_exit_signal("Exit"),
 		type_debug("Debug"),
@@ -87,9 +93,11 @@ public class ChartForAlgorithmTest {
 		TimeSeriesCollection timeSeriesCollectionForSignals = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForPrice = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForValue = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForEntryAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection timeSeriesCollectionForLongEntryAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection timeSeriesCollectionForShortEntryAtPrice = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForReEntryAtPrice = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForExitAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection timeSeriesCollectionForLongExitAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection timeSeriesCollectionForShortExitAtPrice = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForEntryAtSignal = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForExitAtSignal = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForDebug = new TimeSeriesCollection();
@@ -117,16 +125,24 @@ public class ChartForAlgorithmTest {
 			timeSeriesCollectionForValue.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Value (%)", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfValue))));
 		}
 		
-		if (listOfEntryAtPrice.size() != 0){
-			timeSeriesCollectionForEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Entry", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfEntryAtPrice))));
+		if (listOfLongEntryAtPrice.size() != 0){
+			timeSeriesCollectionForLongEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Long Entry", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfLongEntryAtPrice))));
+		}
+		
+		if (listOfShortEntryAtPrice.size() != 0){
+			timeSeriesCollectionForShortEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Short Entry", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfShortEntryAtPrice))));
 		}
 		
 		if (listOfReEntryAtPrice.size() != 0){
 			timeSeriesCollectionForReEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Reentry", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfReEntryAtPrice))));
 		}
 		
-		if (listOfExitAtPrice.size() != 0){
-			timeSeriesCollectionForExitAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Exit", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfExitAtPrice))));
+		if (listOfLongExitAtPrice.size() != 0){
+			timeSeriesCollectionForLongExitAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Exit", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfLongExitAtPrice))));
+		}
+		
+		if (listOfShortExitAtPrice.size() != 0){
+			timeSeriesCollectionForShortExitAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Exit", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfShortExitAtPrice))));
 		}
 		
 		if (listOfDebugAlpha.size() != 0){
@@ -143,9 +159,11 @@ public class ChartForAlgorithmTest {
 			new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals),
 			new TimeSeriesTypePair(TimeSeriesType.type_price, timeSeriesCollectionForPrice), 
 			new TimeSeriesTypePair(TimeSeriesType.type_value, timeSeriesCollectionForValue),
-			new TimeSeriesTypePair(TimeSeriesType.type_entry_price, timeSeriesCollectionForEntryAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_long_entry_price, timeSeriesCollectionForLongEntryAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_short_entry_price, timeSeriesCollectionForShortEntryAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_reentry_price, timeSeriesCollectionForReEntryAtPrice),
-			new TimeSeriesTypePair(TimeSeriesType.type_exit_price, timeSeriesCollectionForExitAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_long_exit_price, timeSeriesCollectionForLongExitAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_short_exit_price, timeSeriesCollectionForShortExitAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_entry_signal, timeSeriesCollectionForEntryAtSignal),
 			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, timeSeriesCollectionForExitAtSignal),
 			new TimeSeriesTypePair(TimeSeriesType.type_debug, timeSeriesCollectionForDebug)

@@ -153,7 +153,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 			if (orderMode == OrderMode.mode_exchange){
 				Co.println("--> PositionManager, position status change: " + position.positionType.name());
 			}
-			if (position.positionType == PositionType.position_exited || position.positionType == PositionType.position_cancelled){
+			if (position.positionType == PositionType.position_long_exited || position.positionType == PositionType.position_short_exited || position.positionType == PositionType.position_cancelled){
 				listOfPosition.remove(position);
 			}
 		}

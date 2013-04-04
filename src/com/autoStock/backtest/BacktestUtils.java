@@ -58,9 +58,9 @@ public class BacktestUtils {
 			for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForShortExit){
 				string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 			}
+			
+			string += "\n";
 		}
-		
-		string += "\n";
 		
 		for (IndicatorBase indicatorBase : signal.getSignalGroup().getIndicatorGroup().getListOfIndicatorBase()){
 			string += " +Indicator period: " + indicatorBase.getClass().getSimpleName() + ", " + indicatorBase.periodLength.value + "\n";
