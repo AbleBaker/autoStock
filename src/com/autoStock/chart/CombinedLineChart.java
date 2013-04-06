@@ -177,16 +177,6 @@ public class CombinedLineChart {
 				subPlotForPrice.getRangeAxis().setAutoRange(true);
 				((NumberAxis)subPlotForPrice.getRangeAxis()).setAutoRangeIncludesZero(false);
 		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.REVERSE);
-
-				subPlotForPrice.setDataset(1, getPairForType(TimeSeriesType.type_value).timeSeriesCollection);
-		        subPlotForPrice.setRangeAxis(1, new NumberAxis(TimeSeriesType.type_value.displayName));
-		        subPlotForPrice.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
-//		        ((NumberAxis)subPlotForPrice.getRangeAxis(1)).setRange(-1.0, 1.0);
-		        subPlotForPrice.setRenderer(1, new PostivieNegativeXYBarRenderer(1));
-		        ((XYBarRenderer)subPlotForPrice.getRenderer(1)).setShadowVisible(false);
-		        ((XYBarRenderer)subPlotForPrice.getRenderer(1)).setBarPainter(new StandardXYBarPainter());
-				subPlotForPrice.getRenderer(1).setSeriesPaint(0, Color.decode("#F0F0F0"));
-		        subPlotForPrice.mapDatasetToRangeAxis(1, 1);
 		        
 			    ValueMarker markerForZero = new ValueMarker(0);
 			    markerForZero.setPaint(Color.decode("#33AA00"));
@@ -220,6 +210,15 @@ public class CombinedLineChart {
 		        subPlotForPrice.setRenderer(6, new XYShapeRenderer());
 		        subPlotForPrice.getRenderer(6).setSeriesShape(0, ShapeUtilities.createUpTriangle(4.5f));
 		        subPlotForPrice.getRenderer(6).setSeriesPaint(0, Color.decode("#00CCCC"));
+		        
+				subPlotForPrice.setDataset(7, getPairForType(TimeSeriesType.type_value).timeSeriesCollection);
+		        subPlotForPrice.setRangeAxis(7, new NumberAxis(TimeSeriesType.type_value.displayName));
+		        subPlotForPrice.setRangeAxisLocation(7, AxisLocation.BOTTOM_OR_RIGHT);
+//		        ((NumberAxis)subPlotForPrice.getRangeAxis(7)).setRange(-7.0, 7.0);
+		        subPlotForPrice.setRenderer(7, new PostivieNegativeXYBarRenderer(7));
+		        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setShadowVisible(false);
+		        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setBarPainter(new StandardXYBarPainter());
+		        subPlotForPrice.mapDatasetToRangeAxis(7, 7);
 		        
 		        subPlotForPrice.getRenderer().setBaseToolTipGenerator(new StandardXYToolTipGenerator() {
 					@Override
