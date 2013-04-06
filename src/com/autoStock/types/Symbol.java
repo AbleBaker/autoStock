@@ -12,5 +12,6 @@ public class Symbol {
 
 	public Symbol(String symbol, SecurityType securityType) {
 		this.symbolName = symbol;
+		this.securityType = securityType;
 	}
 }

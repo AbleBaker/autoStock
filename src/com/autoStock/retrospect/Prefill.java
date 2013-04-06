@@ -10,13 +10,27 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
+import com.autoStock.exchange.request.RequestHistoricalData;
+import com.autoStock.exchange.request.RequestMarketSymbolData;
+import com.autoStock.exchange.request.RequestRealtimeData;
+import com.autoStock.exchange.request.base.RequestHolder;
+import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
+import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
+import com.autoStock.exchange.request.listener.RequestRealtimeDataListener;
+import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
+import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
+import com.autoStock.exchange.results.ExResultRealtimeData.ExResultSetRealtimeData;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.signal.SignalControl;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.Lock;
 import com.autoStock.tools.QuoteSliceTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.trading.types.MarketSymbolData;
+import com.autoStock.trading.types.RealtimeData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -46,21 +60,56 @@ public class Prefill {
 	
 	public void prefillAlgorithm(AlgorithmBase algorithmBase, StrategyOptions strategyOptions){
 		if (prefillMethod == PrefillMethod.method_database){
-			setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.getPeriodLength());
-						
-			HistoricalData historicalData = new HistoricalData(exchange, symbol, calendarForStart.getTime(), calendarForEnd.getTime(), Resolution.min);
-			ArrayList<QuoteSlice> listOfQuoteSlice = QuoteSliceTools.getListOfQuoteSlice((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate))));
-
-			if (listOfQuoteSlice.size() > 0){
-				for (int i=0; i<strategyOptions.prefillShift.value; i++){
-					listOfQuoteSlice.remove(0);
-				}
+			prefillFromDatabase(algorithmBase, strategyOptions);
+		}else if (prefillMethod == PrefillMethod.method_broker){
+			prefillFromBroker(algorithmBase, strategyOptions);
+		}else{
+			throw new UnsupportedOperationException();
+		}
+		
+		Co.println("--> Added: " + algorithmBase.listOfQuoteSlice.size());
+	}
+	
+	private void prefillFromBroker(final AlgorithmBase algorithmBase, StrategyOptions strategyOptions){
+		setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.getPeriodLength());
+		
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("2013-04-05 09:30:00"), new Date(), Resolution.min);
+		
+		final Lock lock = new Lock();
+		
+		Co.println("--> Trying to prefill from broker");
+		
+		RequestHistoricalData requestHistoricalData = new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
+			@Override
+			public void failed(RequestHolder requestHolder) {
+				Co.println("--> Failed to prefill...");
+				synchronized(lock){try {lock.notify();}catch(Exception e){}}
 			}
 			
-			algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSlice);
-			
-//			Co.println("--> Added: " + algorithmBase.listOfQuoteSlice.size());
+			@Override
+			public void completed(RequestHolder requestHolder, ExResultSetHistoricalData exResultSetHistoricalData) {
+				Co.println("--> Prefill OK: " + exResultSetHistoricalData.listOfExResultRowHistoricalData.size());
+				algorithmBase.listOfQuoteSlice.addAll(QuoteSliceTools.getListOfQuoteSliceFromExResultRowHistoricalData(exResultSetHistoricalData.listOfExResultRowHistoricalData));
+				synchronized(lock){try {lock.notify();}catch(Exception e){}}
+			}
+		}, historicalData);
+		
+		synchronized(lock){try {lock.wait();}catch(Exception e){e.printStackTrace();}}
+	}
+	
+	private void prefillFromDatabase(AlgorithmBase algorithmBase, StrategyOptions strategyOptions){
+		setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.getPeriodLength());
+		
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, calendarForStart.getTime(), calendarForEnd.getTime(), Resolution.min);
+		ArrayList<QuoteSlice> listOfQuoteSlice = QuoteSliceTools.getListOfQuoteSliceFromDbStockHistoricalPrice((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate))));
+
+		if (listOfQuoteSlice.size() > 0){
+			for (int i=0; i<strategyOptions.prefillShift.value; i++){
+				listOfQuoteSlice.remove(0);
+			}
 		}
+		
+		algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSlice);
 	}
 	
 	public void setupPrefill(Date startingDate, Time timeOpenForeign, Time timeCloseForeign, int periodLength){
@@ -73,9 +122,9 @@ public class Prefill {
 		int minutesFromDatabase = (periodLength - (time.getSeconds() / 60));
 		int minutesFromBroker = time.getSeconds() / 60; 
 		
-//		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
+		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
 		
-		if (minutesFromBroker <= 0){
+		if (prefillMethod == PrefillMethod.method_database){
 //			Co.println("--> Only database");
 			calendarForStart.add(Calendar.DAY_OF_MONTH, -1);
 			calendarForStart.set(Calendar.HOUR, timeCloseForeign.hours);
@@ -84,10 +133,9 @@ public class Prefill {
 			calendarForEnd = (Calendar) calendarForStart.clone();
 			calendarForEnd.set(Calendar.HOUR, timeCloseForeign.hours);
 			calendarForEnd.set(Calendar.MINUTE, timeCloseForeign.minutes);
-		}else if (minutesFromDatabase == 0 || minutesFromBroker >= SignalControl.periodLengthStart.value){
-			throw new UnsupportedOperationException();
+		}else if (prefillMethod == PrefillMethod.method_broker){
+			
 		}else{
-//			Co.println("--> Mixed");
 			throw new UnsupportedOperationException();
 		}
 		

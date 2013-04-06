@@ -19,7 +19,7 @@ public class RequestHolder {
 		RequestManager.addRequestHolder(this);
 	}
 	
-	public RequestHolder(Object callback, int requestId){
+	public RequestHolder(int requestId, Object callback){
 		RequestManager.setMinRequestId(requestId+1);
 		RequestManager.addRequestHolder(this);
 		this.requestId = requestId;

@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.Co;
+import com.autoStock.exchange.request.OrderIdProvider;
 import com.autoStock.exchange.request.RequestMarketOrder;
 import com.autoStock.exchange.request.base.RequestHolder;
+import com.autoStock.exchange.request.listener.RequestMarketOrderIdListener;
 import com.autoStock.exchange.request.listener.RequestMarketOrderListener;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
@@ -28,7 +30,7 @@ import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
- *
+ * 
  */
 public class Order {
 	public Symbol symbol;
@@ -45,8 +47,8 @@ public class Order {
 	private AtomicInteger atomicIntForUnitsFilled = new AtomicInteger();
 	private OrderTable orderTable = new OrderTable();
 	private OrderWatcher orderWatcher = new OrderWatcher(this);
-	
-	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, int unitsRequested, double priceRequested, OrderStatusListener orderStatusListener){
+
+	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, int unitsRequested, double priceRequested, OrderStatusListener orderStatusListener) {
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.position = position;
@@ -55,24 +57,34 @@ public class Order {
 		this.orderType = orderType;
 		this.orderStatusListener = orderStatusListener;
 	}
-	
-	public void executeOrder(){
-//		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
-		
-		if (orderStatus == OrderStatus.none){
-			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+
+	public void executeOrder() {
+		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
+
+		if (orderStatus == OrderStatus.none) {
+			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange) {
 				orderStatus = OrderStatus.status_presubmit;
-				submitOrder();
-			}else{
+				OrderIdProvider.getInstance().getNextOrderId(new RequestMarketOrderIdListener() {
+					@Override
+					public void failed(RequestHolder requestHolder) {
+						throw new IllegalStateException("Could not get next order id...");
+					}
+
+					@Override
+					public void completed(int orderId) {
+						submitOrder(orderId);
+					}
+				});
+			} else {
 				new OrderSimulator(this).simulateOrderFill();
 			}
-		}else{
+		} else {
 			throw new IllegalStateException();
 		}
 	}
-	
-	private void submitOrder(){
-		requestMarketOrder = new RequestMarketOrder(new RequestHolder(new RequestMarketOrderListener(){
+
+	private void submitOrder(int orderId) {
+		requestMarketOrder = new RequestMarketOrder(new RequestHolder(new RequestMarketOrderListener() {
 			@Override
 			public void failed(RequestHolder requestHolder) {
 				Co.println("--> Order failed");
@@ -81,7 +93,7 @@ public class Order {
 			@Override
 			public void receivedChange(RequestHolder requestHolder, ExResultRowMarketOrder exResultRowMarketOrder) {
 				Co.println("--> Received order: " + exResultRowMarketOrder.status.name());
-				
+
 				ArrayList<String> columnValues = new ArrayList<String>();
 				columnValues.add(DateTools.getPrettyDate(new Date()));
 				columnValues.add(symbol.symbolName);
@@ -95,8 +107,8 @@ public class Order {
 				columnValues.add(String.valueOf(exResultRowMarketOrder.priceLastFill));
 				orderTable.addRow(columnValues);
 				orderTable.display();
-				
-				if (exResultRowMarketOrder.filledUnits > 0 && exResultRowMarketOrder.remainingUnits > 0 && exResultRowMarketOrder.status == IbOrderStatus.status_submitted){
+
+				if (exResultRowMarketOrder.filledUnits > 0 && exResultRowMarketOrder.remainingUnits > 0 && exResultRowMarketOrder.status == IbOrderStatus.status_submitted) {
 					orderStatus = OrderStatus.status_filled_partially;
 				}
 			}
@@ -105,25 +117,25 @@ public class Order {
 			public void completed(RequestHolder requestHolder, ExResultSetMarketOrder exResultSetMarketOrder) {
 				double unitPriceFilledAverage = orderTools.getOrderAverageFillPrice(exResultSetMarketOrder);
 				int unitsFilled = orderTools.getOrderUnitsFilled(exResultSetMarketOrder);
-				IbOrderStatus ibOrderStatus =  orderTools.getOrderStatus(exResultSetMarketOrder);
-									
-				if (ibOrderStatus == IbOrderStatus.status_filled){
-					if (orderStatus == OrderStatus.status_filled){
+				IbOrderStatus ibOrderStatus = orderTools.getOrderStatus(exResultSetMarketOrder);
+
+				if (ibOrderStatus == IbOrderStatus.status_filled) {
+					if (orderStatus == OrderStatus.status_filled) {
 						Co.println("--> Order is already filled!");
-					}else if (orderStatus == OrderStatus.status_presubmit || orderStatus == OrderStatus.status_submitted || orderStatus == OrderStatus.status_filled_partially){
+					} else if (orderStatus == OrderStatus.status_presubmit || orderStatus == OrderStatus.status_submitted || orderStatus == OrderStatus.status_filled_partially) {
 						Co.println("\n\n--> Order completed at price: " + unitPriceFilledAverage);
 						Co.println("--> Order status: " + ibOrderStatus.name());
 						orderWatcher.stopWatching();
 						orderUnitsFilled(unitPriceFilledAverage, unitsFilled);
-					}else{
+					} else {
 						throw new IllegalStateException("Order status did not match: " + orderStatus.name());
 					}
-				}else if (ibOrderStatus == IbOrderStatus.status_cancelled){
-					if (orderStatus != OrderStatus.status_cancelled){
+				} else if (ibOrderStatus == IbOrderStatus.status_cancelled) {
+					if (orderStatus != OrderStatus.status_cancelled) {
 						orderStatus = OrderStatus.status_cancelled;
 						orderWatcher.stopWatching();
 						orderStatusListener.orderStatusChanged(Order.this, orderStatus);
-					}else{
+					} else {
 						Co.println("--> Order is already cancelled");
 					}
 				}
@@ -131,144 +143,146 @@ public class Order {
 
 			@Override
 			public void failed(IbOrderStatus ibOrderStatus) {
-				if (ibOrderStatus == IbOrderStatus.status_cancelled){
+				if (ibOrderStatus == IbOrderStatus.status_cancelled) {
 					orderStatus = OrderStatus.status_cancelled;
 				}
 				Co.println("--> Failed with ibOrderStatus: " + ibOrderStatus.name());
 			}
 		}), this, exchange);
-		
+
 		requestMarketOrder.execute();
 		orderWatcher.startWatching();
 	}
-	
-	public void cancelOrder(){
-		orderStatus = OrderStatus.status_cancelled;
-		if (requestMarketOrder == null){
-			//Could be a problem, depends if order is simulated
-		}else{
+
+	public void cancelOrder() {
+		if (orderStatus == OrderStatus.status_filled) {
+			throw new IllegalStateException("Can't cancel a filled order");
+		}
+		if (requestMarketOrder == null) {
+			// Could be a problem, depends if order is simulated
+		} else {
 			requestMarketOrder.cancel();
 		}
 	}
-	
-	public void orderUnitsFilled(double priceAverageFill, int units){
+
+	public void orderUnitsFilled(double priceAverageFill, int units) {
 		atomicIntForUnitsFilled.addAndGet(units);
-//		Co.println("--> Order units filled: " + symbol.symbolName + ", " + units + " of " + unitsRequested);
-		
-		if (atomicIntForUnitsFilled.get() == unitsRequested){
+		// Co.println("--> Order units filled: " + symbol.symbolName + ", " + units + " of " + unitsRequested);
+
+		if (atomicIntForUnitsFilled.get() == unitsRequested) {
 			orderStatus = OrderStatus.status_filled;
-			if (orderType == OrderType.order_long_entry){orderType = OrderType.order_long;}
-			else if (orderType == OrderType.order_short_entry){orderType = OrderType.order_short;}
-			else if (orderType == OrderType.order_long_exit){orderType = OrderType.order_long_exited;}
-			else if (orderType == OrderType.order_short_exit){orderType = OrderType.order_short_exited;}
-			else {throw new IllegalStateException();}
-			
+			if (orderType == OrderType.order_long_entry) {
+				orderType = OrderType.order_long;
+			} else if (orderType == OrderType.order_short_entry) {
+				orderType = OrderType.order_short;
+			} else if (orderType == OrderType.order_long_exit) {
+				orderType = OrderType.order_long_exited;
+			} else if (orderType == OrderType.order_short_exit) {
+				orderType = OrderType.order_short_exited;
+			} else {
+				throw new IllegalStateException();
+			}
+
 			priceFilled = priceAverageFill;
-			if (priceRequested == 0){
+			if (priceRequested == 0) {
 				priceRequested = priceFilled;
 			}
-			
+
 			orderStatusListener.orderStatusChanged(this, orderStatus);
-		}else{
+		} else {
 			orderStatus = OrderStatus.status_filled_partially;
 		}
 	}
-	
-	public OrderValue getOrderValue(){
-		if (atomicIntForUnitsFilled.get() == 0){
-//			Co.println("--> Warning filled units is 0..." + symbol.symbolName);
+
+	public OrderValue getOrderValue() {
+		if (atomicIntForUnitsFilled.get() == 0) {
+			// Co.println("--> Warning filled units is 0..." + symbol.symbolName);
 		}
-		
-		return new OrderValue(
-			getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), 
-			getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), 
-			getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true),
-			getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(),
-			Account.getInstance().getTransactionCost(getUnitsIntrinsic(), priceRequested)
-		);
+
+		return new OrderValue(getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true), getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(), Account.getInstance().getTransactionCost(getUnitsIntrinsic(), priceRequested));
 	}
-	
-	private double getFilledPrice(boolean includeTransactionFees){
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceFilled); 
+
+	private double getFilledPrice(boolean includeTransactionFees) {
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceFilled);
 		double positionValue = getUnitsFilled() * priceFilled;
 		double total = positionValue + (includeTransactionFees ? transactionFees : 0);
-		
+
 		return total;
 	}
-	
-	private double getFilledValue(boolean includeTransactionFees){
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceFilled); 
+
+	private double getFilledValue(boolean includeTransactionFees) {
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceFilled);
 		double positionValue = getUnitsFilled() * priceFilled;
 		double total = positionValue - (includeTransactionFees ? transactionFees : 0);
-		
+
 		return total;
 	}
-	
-	private double getRequestedPrice(boolean includeTransactionFees){
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
+
+	private double getRequestedPrice(boolean includeTransactionFees) {
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested);
 		double positionValue = getUnitsFilled() * priceRequested;
 		double total = positionValue + (includeTransactionFees ? transactionFees : 0);
-		
+
 		return total;
 	}
-	
-	private double getRequestedValue(boolean includeTransactionFees){
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested); 
+
+	private double getRequestedValue(boolean includeTransactionFees) {
+		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested);
 		double positionValue = getUnitsFilled() * priceRequested;
 		double total = positionValue - (includeTransactionFees ? transactionFees : 0);
-		
+
 		return total;
 	}
-	
-	private double getIntrinsicPrice(boolean includeTransactionFees){
-		if (orderStatus == OrderStatus.status_filled){
+
+	private double getIntrinsicPrice(boolean includeTransactionFees) {
+		if (orderStatus == OrderStatus.status_filled) {
 			return getFilledPrice(includeTransactionFees);
-		}else if (orderStatus == OrderStatus.status_filled_partially){
+		} else if (orderStatus == OrderStatus.status_filled_partially) {
 			return getRequestedPrice(includeTransactionFees);
-		}else {
+		} else {
 			return getRequestedPrice(includeTransactionFees);
 		}
 	}
-	
-	private double getIntrinsicValue(boolean includeTransactionFees){
-		if (orderStatus == OrderStatus.status_filled){
+
+	private double getIntrinsicValue(boolean includeTransactionFees) {
+		if (orderStatus == OrderStatus.status_filled) {
 			return getFilledValue(includeTransactionFees);
-		}else if (orderStatus == OrderStatus.status_filled_partially){
+		} else if (orderStatus == OrderStatus.status_filled_partially) {
 			return getRequestedValue(includeTransactionFees);
-		}else {
+		} else {
 			return getRequestedValue(includeTransactionFees);
 		}
 	}
-	
-	public int getUnitsRequested(){
+
+	public int getUnitsRequested() {
 		return unitsRequested;
 	}
-	
-	public int getUnitsFilled(){
+
+	public int getUnitsFilled() {
 		return atomicIntForUnitsFilled.get();
 	}
-	
-	public int getUnitsIntrinsic(){
+
+	public int getUnitsIntrinsic() {
 		return unitsRequested;
 	}
-	
-	public double getUnitPriceRequested(){
+
+	public double getUnitPriceRequested() {
 		return priceRequested;
 	}
-	
-	public double getUnitPriceFilled(){
+
+	public double getUnitPriceFilled() {
 		return priceFilled;
 	}
-	
-	private double getUnitPriceIntrinsic(){
-		if (orderStatus == OrderStatus.status_filled){
+
+	private double getUnitPriceIntrinsic() {
+		if (orderStatus == OrderStatus.status_filled) {
 			return priceFilled;
-		}else{
+		} else {
 			return priceRequested;
 		}
 	}
-	
-	public double getTransactionFees(){
+
+	public double getTransactionFees() {
 		return Account.getInstance().getTransactionCost(unitsRequested, priceRequested);
 	}
 }

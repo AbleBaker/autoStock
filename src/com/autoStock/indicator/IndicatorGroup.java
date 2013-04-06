@@ -7,6 +7,7 @@ import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIde
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
 import com.autoStock.indicator.results.ResultsADX;
+import com.autoStock.indicator.results.ResultsAR;
 import com.autoStock.indicator.results.ResultsBB;
 import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.indicator.results.ResultsDI;
@@ -15,6 +16,7 @@ import com.autoStock.indicator.results.ResultsMFI;
 import com.autoStock.indicator.results.ResultsROC;
 import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
+import com.autoStock.indicator.results.ResultsUO;
 import com.autoStock.indicator.results.ResultsWILLR;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -39,6 +41,8 @@ public class IndicatorGroup {
 	public IndicatorOfROC indicatorOfROC;
 	public IndicatorOfMFI indicatorOfMFI;
 	public IndicatorOfWILLR indicatorOfWILLR;
+	public IndicatorOfUO indicatorOfUO;
+	public IndicatorOfAR indicatorOfAR;
 	public CandleStickIdentifier candleStickIdentifier;
 
 	public ResultsADX resultsADX;
@@ -51,6 +55,8 @@ public class IndicatorGroup {
 	public ResultsROC resultsROC;
 	public ResultsMFI resultsMFI;
 	public ResultsWILLR resultsWILLR;
+	public ResultsUO resultsUO;
+	public ResultsAR resultsAR;
 	public CandleStickIdentifierResult candleStickIdentifierResult;
 	
 //	public static final ImmutableInteger immutableIntegerForADX = new ImmutableInteger(26);
@@ -79,6 +85,8 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(SignalMetricType.metric_roc.periodLength, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(SignalMetricType.metric_mfi.periodLength, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(SignalMetricType.metric_willr.periodLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(SignalMetricType.metric_uo.periodLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(SignalMetricType.metric_ar_up.periodLength, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new ImmutableInteger(0), commonAnlaysisData, taLibCore));
 	}
 	
@@ -105,6 +113,8 @@ public class IndicatorGroup {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_roc)){resultsROC = indicatorOfROC.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_mfi)){resultsMFI = indicatorOfMFI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo)){resultsUO = indicatorOfUO.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_ar_up)){resultsAR = indicatorOfAR.analyize();}
 		
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_candlestick_group)){
 			candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);

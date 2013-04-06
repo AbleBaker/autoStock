@@ -139,12 +139,18 @@ public class PositionUtils {
 			double unitPriceLastKnown = position.getLastKnownUnitPrice();
 			int unitsFilled = getOrderUnitsFilled();
 			
-			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_long_exited){
+			if (position.positionType == PositionType.position_long_entry
+				|| position.positionType == PositionType.position_long
+				|| position.positionType == PositionType.position_long_exit 
+				|| position.positionType == PositionType.position_long_exited){
 				priceTotal = unitsFilled * unitPriceLastKnown;
-			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_exit || position.positionType == PositionType.position_short_exited){
+			}else if (position.positionType == PositionType.position_short_entry
+					|| position.positionType == PositionType.position_short
+					|| position.positionType == PositionType.position_short_exit 
+					|| position.positionType == PositionType.position_short_exited){
 				priceTotal = unitsFilled * (unitPriceFilled + (unitPriceFilled - unitPriceLastKnown));
 			}else{
-				throw new IllegalStateException("PositionType: " + position.positionType);
+				return 0; //throw new IllegalStateException("PositionType: " + position.positionType);
 			}
 			
 			double transactionFees = Account.getInstance().getTransactionCost(unitsFilled, unitPriceLastKnown);

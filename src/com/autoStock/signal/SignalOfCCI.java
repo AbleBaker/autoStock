@@ -13,6 +13,5 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class SignalOfCCI extends SignalBase {	
 	public SignalOfCCI(){
 		super(SignalMetricType.metric_cci);
-		maxSignalAverage = new ImmutableInteger(10);
 	}
 }

@@ -5,6 +5,7 @@ package com.autoStock.trading.platform.ib;
 
 import java.text.SimpleDateFormat;
 
+import com.autoStock.Co;
 import com.autoStock.exchange.ExchangeDefinitions.ExchangeDesignation;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
@@ -161,7 +162,7 @@ public class IbExchangeInstance {
 		contract.m_currency = historicalData.exchange.currency.name();
 		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(historicalData.endDate) + " est";
 		String duration = String.valueOf(historicalData.duration) + " S";
-		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, "1 day", "TRADES", 0, 2);
+		ibExchangeClientSocket.eClientSocket.reqHistoricalData(requestHolder.requestId, contract, endDate, duration, "1 min", "TRADES", 0, 2);
 	}
 	
 	public void getNextValidOrderId(){
@@ -177,6 +178,7 @@ public class IbExchangeInstance {
 	}
 
 	public void cancelMarketOrder(RequestHolder requestHolder) {
+		Co.println("--> Cancelling order: " + requestHolder.requestId);
 		ibExchangeClientSocket.eClientSocket.cancelOrder(requestHolder.requestId);
 	}
 }

@@ -6,9 +6,11 @@ package com.autoStock.chart;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -26,13 +28,22 @@ import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
+import org.jfree.chart.renderer.xy.GradientXYBarPainter;
+import org.jfree.chart.renderer.xy.HighLowRenderer;
+import org.jfree.chart.renderer.xy.StandardXYBarPainter;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
+import org.jfree.chart.renderer.xy.XYLine3DRenderer;
 import org.jfree.chart.renderer.xy.XYShapeRenderer;
+import org.jfree.chart.util.DefaultShadowGenerator;
+import org.jfree.chart.util.ShadowGenerator;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.DefaultHighLowDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.Layer;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
 import org.jfree.ui.TextAnchor;
@@ -42,6 +53,7 @@ import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.strategy.StrategyOptionDefaults;
 
 /**
  * @author Kevin Kowalewski
@@ -117,23 +129,41 @@ public class CombinedLineChart {
 			    for (TimeSeries timeSeries : (List<TimeSeries>) getPairForType(TimeSeriesType.type_signals).timeSeriesCollection.getSeries()){
 			    	SignalMetricType signalMetricType = SignalDefinitions.SignalMetricType.valueOf(timeSeries.getDescription());
 			    	
-				    ValueMarker markerForEntry = new ValueMarker(signalMetricType.arrayOfSignalGuageForLongEntry[0].threshold);
-				    markerForEntry.setPaint(Color.decode("#33AA00"));
-				    markerForEntry.setAlpha(1.0f);
-				    markerForEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
-					markerForEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
-					markerForEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
-					markerForEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-				    subPlotForSignals.addRangeMarker(markerForEntry);
+				    ValueMarker markerForLongEntry = new ValueMarker(signalMetricType.arrayOfSignalGuageForLongEntry[0].threshold);
+				    markerForLongEntry.setPaint(Color.decode("#33AA00"));
+				    markerForLongEntry.setAlpha(1.0f);
+				    markerForLongEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+					markerForLongEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+					markerForLongEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
+					markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+				    subPlotForSignals.addRangeMarker(markerForLongEntry);
 				    
-				    ValueMarker markerForExit = new ValueMarker(signalMetricType.arrayOfSignalGuageForLongExit[0].threshold);
-				    markerForExit.setPaint(Color.decode("#FF0000"));
-				    markerForExit.setAlpha(1.0f);
-				    markerForExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));
-					markerForExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
-					markerForExit.setLabelOffset(new RectangleInsets(8,10,8,0));
-					markerForExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-				    subPlotForSignals.addRangeMarker(markerForExit);
+				    ValueMarker markerForLongExit = new ValueMarker(signalMetricType.arrayOfSignalGuageForLongExit[0].threshold);
+				    markerForLongExit.setPaint(Color.decode("#FF0000"));
+				    markerForLongExit.setAlpha(1.0f);
+				    markerForLongExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+					markerForLongExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+					markerForLongExit.setLabelOffset(new RectangleInsets(8,10,8,0));
+					markerForLongExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+				    subPlotForSignals.addRangeMarker(markerForLongExit);
+				    
+				    ValueMarker markerForShortEntry = new ValueMarker(signalMetricType.arrayOfSignalGuageForShortEntry[0].threshold);
+				    markerForShortEntry.setPaint(Color.decode("#33AA00"));
+				    markerForShortEntry.setAlpha(1.0f);
+				    markerForShortEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+					markerForShortEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+					markerForShortEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
+					markerForShortEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+				    subPlotForSignals.addRangeMarker(markerForShortEntry);
+				    
+				    ValueMarker markerForShortExit = new ValueMarker(signalMetricType.arrayOfSignalGuageForShortExit[0].threshold);
+				    markerForShortExit.setPaint(Color.decode("#FF0000"));
+				    markerForShortExit.setAlpha(1.0f);
+				    markerForShortExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+					markerForShortExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+					markerForShortExit.setLabelOffset(new RectangleInsets(8,10,8,0));
+					markerForShortExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+				    subPlotForSignals.addRangeMarker(markerForShortExit);
 			    }
 			    
 			    subPlotForSignals.getRenderer().setBaseToolTipGenerator(StandardXYToolTipGenerator.getTimeSeriesInstance());
@@ -146,38 +176,45 @@ public class CombinedLineChart {
 				subPlotForPrice.getRenderer().setSeriesPaint(0, Color.BLACK);
 				subPlotForPrice.getRangeAxis().setAutoRange(true);
 				((NumberAxis)subPlotForPrice.getRangeAxis()).setAutoRangeIncludesZero(false);
-				
+		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.REVERSE);
+
 				subPlotForPrice.setDataset(1, getPairForType(TimeSeriesType.type_value).timeSeriesCollection);
 		        subPlotForPrice.setRangeAxis(1, new NumberAxis(TimeSeriesType.type_value.displayName));
 		        subPlotForPrice.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_RIGHT);
-		        subPlotForPrice.setRenderer(1, new StandardXYItemRenderer());
-				subPlotForPrice.getRenderer(1).setSeriesPaint(0, Color.ORANGE);
+//		        ((NumberAxis)subPlotForPrice.getRangeAxis(1)).setRange(-1.0, 1.0);
+		        subPlotForPrice.setRenderer(1, new PostivieNegativeXYBarRenderer(1));
+		        ((XYBarRenderer)subPlotForPrice.getRenderer(1)).setShadowVisible(false);
+		        ((XYBarRenderer)subPlotForPrice.getRenderer(1)).setBarPainter(new StandardXYBarPainter());
+				subPlotForPrice.getRenderer(1).setSeriesPaint(0, Color.decode("#F0F0F0"));
 		        subPlotForPrice.mapDatasetToRangeAxis(1, 1);
-		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+		        
+			    ValueMarker markerForZero = new ValueMarker(0);
+			    markerForZero.setPaint(Color.decode("#33AA00"));
+			    markerForZero.setAlpha(1.0f);
+			    markerForZero.setLabel("");
+				markerForZero.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+				markerForZero.setLabelOffset(new RectangleInsets(8,10,8,0));
+				markerForZero.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
 		        
 				subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_long_entry_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(2, new XYShapeRenderer());
 		        subPlotForPrice.getRenderer(2).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
-		        subPlotForPrice.getRenderer(2).setSeriesPaint(0, Color.GREEN);
+		        subPlotForPrice.getRenderer(2).setSeriesPaint(0, Color.decode("#33CC33"));
 		        
-		        subPlotForPrice.setDataset(3, getPairForType(TimeSeriesType.type_short_entry_price).timeSeriesCollection);
+				subPlotForPrice.setDataset(3, getPairForType(TimeSeriesType.type_long_exit_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(3, new XYShapeRenderer());
 		        subPlotForPrice.getRenderer(3).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
-		        subPlotForPrice.getRenderer(3).setSeriesPaint(0, Color.decode("#33CC33"));
-		        subPlotForPrice.getRenderer(3).setSeriesOutlinePaint(0, Color.BLACK);
-		        subPlotForPrice.getRenderer(3).setSeriesOutlineStroke(0, new BasicStroke(30));
+		        subPlotForPrice.getRenderer(3).setSeriesPaint(0, Color.RED);
 		        
-				subPlotForPrice.setDataset(4, getPairForType(TimeSeriesType.type_long_exit_price).timeSeriesCollection);
+		        subPlotForPrice.setDataset(4, getPairForType(TimeSeriesType.type_short_entry_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(4, new XYShapeRenderer());
-		        subPlotForPrice.getRenderer(4).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
-		        subPlotForPrice.getRenderer(4).setSeriesPaint(0, Color.RED);
-		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+		        subPlotForPrice.getRenderer(4).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
+		        subPlotForPrice.getRenderer(4).setSeriesPaint(0, Color.decode("#8000FF"));
 		        
 		        subPlotForPrice.setDataset(5, getPairForType(TimeSeriesType.type_short_exit_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(5, new XYShapeRenderer());
-		        subPlotForPrice.getRenderer(5).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
-		        subPlotForPrice.getRenderer(5).setSeriesPaint(0, Color.RED);
-		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+		        subPlotForPrice.getRenderer(5).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
+		        subPlotForPrice.getRenderer(5).setSeriesPaint(0, Color.decode("#FF8000"));
 		        
 		        subPlotForPrice.setDataset(6, getPairForType(TimeSeriesType.type_reentry_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(6, new XYShapeRenderer());

@@ -13,8 +13,8 @@ import com.autoStock.tools.ArrayTools;
  */
 public class SignalGroup {
 	public IndicatorGroup indicatorGroup;
-	public final SignalOfCCI signalOfCCI = new SignalOfCCI();
-	public final SignalOfADX signalOfADX = new SignalOfADX();
+	public SignalOfCCI signalOfCCI = new SignalOfCCI();
+	public SignalOfADX signalOfADX = new SignalOfADX();
 	public SignalOfDI signalOfDI = new SignalOfDI();
 	public SignalOfMACD signalOfMACD = new SignalOfMACD();
 	public SignalOfRSI signalOfRSI = new SignalOfRSI();
@@ -22,6 +22,9 @@ public class SignalGroup {
 	public SignalOfROC signalOfROC = new SignalOfROC();
 	public SignalOfMFI signalOfMFI = new SignalOfMFI();
 	public SignalOfWILLR signalOfWILLR = new SignalOfWILLR();
+	public SignalOfUO signalOfUO = new SignalOfUO();
+	public SignalOfARUp signalOfARUp = new SignalOfARUp();
+	public SignalOfARDown signalOfARDown = new SignalOfARDown();
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup();
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
@@ -40,6 +43,9 @@ public class SignalGroup {
 		if (indicatorGroup.resultsROC != null){signalOfROC.addInput(indicatorGroup.resultsROC.arrayOfROC[0]);}
 		if (indicatorGroup.resultsMFI != null){signalOfMFI.addInput(indicatorGroup.resultsMFI.arrayOfMFI[0]);}
 		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.addInput(indicatorGroup.resultsWILLR.arrayOfWILLR[0]);}
+		if (indicatorGroup.resultsUO != null){signalOfUO.addInput(indicatorGroup.resultsUO.arrayOfUO[0]);}
+		if (indicatorGroup.resultsAR != null){signalOfARUp.addInput(indicatorGroup.resultsAR.arrayOfARUp[0]);}
+		if (indicatorGroup.resultsAR != null){signalOfARDown.addInput(indicatorGroup.resultsAR.arrayOfARDown[0]);}
 		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
 		
 		listOfSignalBase.clear();
@@ -52,6 +58,9 @@ public class SignalGroup {
 		listOfSignalBase.add(signalOfROC);
 		listOfSignalBase.add(signalOfMFI);
 		listOfSignalBase.add(signalOfWILLR);
+		listOfSignalBase.add(signalOfUO);
+		listOfSignalBase.add(signalOfARUp);
+		listOfSignalBase.add(signalOfARDown);
 		listOfSignalBase.add(signalOfCandlestickGroup);
 	}
 	

@@ -6,6 +6,7 @@ package com.autoStock.trading.platform.ib;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.exchange.request.OrderIdProvider;
 import com.autoStock.exchange.request.RequestHistoricalData;
 import com.autoStock.exchange.request.RequestManager;
 import com.autoStock.exchange.request.RequestMarketIndexData;
@@ -13,6 +14,7 @@ import com.autoStock.exchange.request.RequestMarketOrder;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.results.ExResultHistoricalData;
+import com.autoStock.exchange.results.ExResultHistoricalData.ExResultRowHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultRowMarketIndexData;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
@@ -170,8 +172,7 @@ public class IbExchangeWrapper implements EWrapper {
 	@Override
 	public void nextValidId(int orderId) {
 		Co.log("Got nextValidId: " + orderId);
-//		OrderIdProvider.getInstance().onIdReceived(orderId);
-//		((RequestMarketOrderId)RequestManager.getRequestHolder(orderId).caller).finished(orderId);
+		OrderIdProvider.getInstance().onIdReceived(orderId);
 	}
 
 	@Override
@@ -231,7 +232,8 @@ public class IbExchangeWrapper implements EWrapper {
 		if (date.contains("finished")){
 			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).finished();
 		}else{
-			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).addResult(new ExResultHistoricalData(). new ExResultRowHistoricalData(Long.valueOf(date), WAP, volume, count));
+			((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).addResult(
+				new ExResultRowHistoricalData( ((RequestHistoricalData)RequestManager.getRequestHolder(requestId).caller).typeHistoricalData.symbol,  Long.valueOf(date), open, high, low, close, volume, count));
 		}
 	}
 

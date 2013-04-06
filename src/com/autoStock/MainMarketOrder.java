@@ -37,7 +37,6 @@ public class MainMarketOrder implements ListenerOfPositionStatusChange {
 			
 			@Override
 			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice quoteSlice) {
-				Co.println("--> X: " + quoteSlice.priceClose);
 				requestMarketSymbolData.cancel();
 				
 				Position position = new Position(positionType, units, new Symbol(symbol, SecurityType.type_stock), exchange, quoteSlice.priceClose, null);

@@ -38,6 +38,9 @@ public class AlgorithmChart {
 		chart.listOfSignalMFI.add(signalGroup.signalOfMFI.getStrength());
 		chart.listOfSignalROC.add(signalGroup.signalOfROC.getStrength());
 		chart.listOfSignalWILLR.add(signalGroup.signalOfWILLR.getStrength());
+		chart.listOfSignalUO.add(signalGroup.signalOfUO.getStrength());
+		chart.listOfSignalARUp.add(signalGroup.signalOfARUp.getStrength());
+		chart.listOfSignalARDown.add(signalGroup.signalOfARDown.getStrength());
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 
 		if (signalGroup != null) {

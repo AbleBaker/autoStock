@@ -39,7 +39,7 @@ public class PositionGovernor {
 		
 		if (position == null){
 			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
-			
+				
 			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
 				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions);
 			}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort){

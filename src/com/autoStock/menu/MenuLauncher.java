@@ -3,16 +3,17 @@
  */
 package com.autoStock.menu;
 
+import com.autoStock.MainActiveAlgorithm;
 import com.autoStock.MainBacktest;
 import com.autoStock.MainClusteredBacktest;
 import com.autoStock.MainClusteredBacktestClient;
 import com.autoStock.MainEngagement;
 import com.autoStock.MainFilter;
+import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
-import com.autoStock.display.DisplayMarketIndexData;
 import com.autoStock.display.DisplayMarketSymbolData;
 import com.autoStock.display.DisplayRealtimeData;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
@@ -57,8 +58,8 @@ public class MenuLauncher {
 					).display();
 			}
 		
-		else if (menuStructure == MenuStructures.menu_request_market_index_data){
-			new DisplayMarketIndexData(
+		else if (menuStructure == MenuStructures.menu_main_market_index_data){
+			new MainMarketIndexData(
 					new MarketIndexData(
 							new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 							new Index(menuStructure.getArgument(MenuArguments.arg_index).value)
@@ -115,6 +116,10 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_main_engage){
 			new MainEngagement(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value));
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_active_algorithm){
+			new MainActiveAlgorithm(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value, SecurityType.type_stock));
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_market_filter){

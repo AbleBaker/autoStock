@@ -49,10 +49,10 @@ public class DisplayHistoricalPrices {
 					ArrayList<String> listOfColumnValues = new ArrayList<String>();
 					listOfColumnValues.add(exResultSetHistoricalData.typeHistoricalData.symbol.symbolName);
 					listOfColumnValues.add(DateTools.getPrettyDate(exResultRowHistoricalData.date));
-					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.price));
+					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.priceClose));
 					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.volume));
 					listOfColumnValues.add(String.valueOf(exResultRowHistoricalData.count));
-					listOfColumnValues.add(String.valueOf(MathTools.round(exResultRowHistoricalData.price - lastRow.price)));
+					listOfColumnValues.add(String.valueOf(MathTools.round(exResultRowHistoricalData.priceClose - lastRow.priceClose)));
 					listOfRows.add(listOfColumnValues);
 					
 					lastRow = exResultRowHistoricalData;
@@ -63,6 +63,6 @@ public class DisplayHistoricalPrices {
 				new TableController().displayTable(AsciiTables.stock_historical_price_live, listOfRows);
 				Co.println("Completed!!! " + volume * 100);
 			}
-		}, typeHistoricalData.exchange, typeHistoricalData);
+		}, typeHistoricalData);
 	}
 }

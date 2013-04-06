@@ -4,7 +4,9 @@
 package com.autoStock.tools;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import com.autoStock.exchange.results.ExResultHistoricalData.ExResultRowHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultRowMarketSymbolData;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
@@ -129,11 +131,25 @@ public class QuoteSliceTools {
 		return new QuoteSlice(new Symbol(dbStockHistoricalPrice.symbol, SecurityType.type_stock), dbStockHistoricalPrice.priceOpen, dbStockHistoricalPrice.priceHigh, dbStockHistoricalPrice.priceLow, dbStockHistoricalPrice.priceClose, -1, -1, dbStockHistoricalPrice.sizeVolume, dbStockHistoricalPrice.dateTime, resolution);
 	}
 	
-	public static ArrayList<QuoteSlice> getListOfQuoteSlice(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
+	public static QuoteSlice getQuoteSlice(ExResultRowHistoricalData exResultRowHistoricalData, Resolution resolution){
+		return new QuoteSlice(exResultRowHistoricalData.symbol, exResultRowHistoricalData.priceOpen, exResultRowHistoricalData.priceHigh, exResultRowHistoricalData.priceLow, exResultRowHistoricalData.priceClose, -1, -1, exResultRowHistoricalData.volume, new Date(exResultRowHistoricalData.date), Resolution.min);
+	}
+	
+	public static ArrayList<QuoteSlice> getListOfQuoteSliceFromDbStockHistoricalPrice(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
 		ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 		
 		for (DbStockHistoricalPrice dbStockHistoricalPrice : listOfDbStockHistoricalPrice){
 			listOfQuoteSlice.add(getQuoteSlice(dbStockHistoricalPrice, Resolution.min));
+		}
+		
+		return listOfQuoteSlice;
+	}
+	
+	public static ArrayList<QuoteSlice> getListOfQuoteSliceFromExResultRowHistoricalData(ArrayList<ExResultRowHistoricalData> listOfExResultRowHistoricalData){
+		ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
+		
+		for (ExResultRowHistoricalData exResultRowHistoricalData : listOfExResultRowHistoricalData){
+			listOfQuoteSlice.add(getQuoteSlice(exResultRowHistoricalData, Resolution.min));
 		}
 		
 		return listOfQuoteSlice;

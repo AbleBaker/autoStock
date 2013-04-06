@@ -56,10 +56,10 @@ public class ActiveAlgorithmContainer {
 					return;
 				}
 				
-				activationListener.activated(ActiveAlgorithmContainer.this);
 				algorithm.setFundamentalData(fundamentalData);
 				algorithm.init();
 				startAlgorithmFeed();
+				activationListener.activated(ActiveAlgorithmContainer.this);
 			}
 		}, exchange, symbol);
 		
