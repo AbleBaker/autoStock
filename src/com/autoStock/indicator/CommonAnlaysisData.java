@@ -2,6 +2,7 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.autoStock.Log;
 import com.autoStock.types.QuoteSlice;
@@ -22,7 +23,7 @@ public class CommonAnlaysisData {
 	
 	private boolean isInitialized = false;
 
-	public void setAnalysisData(ArrayList<QuoteSlice> listOfQuoteSlice) {
+	public void setAnalysisData(List<QuoteSlice> listOfQuoteSlice) {
 		if (isInitialized == false){
 			arrayOfPriceOpen = new double[listOfQuoteSlice.size()];
 			arrayOfPriceHigh = new double[listOfQuoteSlice.size()];
@@ -38,7 +39,7 @@ public class CommonAnlaysisData {
 		extractDataFromQuoteSlice(listOfQuoteSlice, null, arrayOfPriceOpen, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, arrayOfPriceBid, arrayOfPriceAsk, arrayOfSizeVolume, arrayOfDates);
 	}
 
-	private void extractDataFromQuoteSlice(ArrayList<QuoteSlice> listOfQuoteSlice, String field, double[] arrayOfPriceOpen, double[] arrayOfPriceHigh, double[] arrayOfPriceLow, double[] arrayOfPriceClose, double[] arrayOfPriceBid, double[] arrayOfPriceAsk, int[] arrayOfSizeVolume, Date[] arrayOfDates) {
+	private void extractDataFromQuoteSlice(List<QuoteSlice> listOfQuoteSlice, String field, double[] arrayOfPriceOpen, double[] arrayOfPriceHigh, double[] arrayOfPriceLow, double[] arrayOfPriceClose, double[] arrayOfPriceBid, double[] arrayOfPriceAsk, int[] arrayOfSizeVolume, Date[] arrayOfDates) {
 		int i = 0;
 
 		for (QuoteSlice quoteSlice : listOfQuoteSlice) {

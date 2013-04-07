@@ -15,8 +15,8 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class CandleStickIdentifier extends IndicatorBase {
 	private Core taLibCore;
 	
-	public CandleStickIdentifier(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, commonAnlaysisData, taLibCore);
+	public CandleStickIdentifier(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 		this.taLibCore = taLibCore;
 	}
 

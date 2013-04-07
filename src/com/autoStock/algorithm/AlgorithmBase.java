@@ -40,7 +40,7 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class AlgorithmBase implements ListenerOfPositionStatusChange {
+public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, ReceiverOfQuoteSlice {
 	private int periodLength;
 	public Exchange exchange;
 	public Symbol symbol;
@@ -73,6 +73,13 @@ public class AlgorithmBase implements ListenerOfPositionStatusChange {
 		indicatorGroup = new IndicatorGroup(commonAnlaysisData);
 		signalGroup = new SignalGroup(indicatorGroup);
 	}
+	
+
+	@Override
+	public abstract void receiveQuoteSlice(QuoteSlice quoteSlice);
+
+	@Override
+	public abstract void endOfFeed(Symbol symbol);
 	
 	public void initialize(StrategyBase strategyBase){
 		this.strategyBase = strategyBase;

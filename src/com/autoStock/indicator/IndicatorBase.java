@@ -6,6 +6,7 @@ package com.autoStock.indicator;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.autoStock.Co;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
@@ -23,6 +24,8 @@ public abstract class IndicatorBase {
 	public CommonAnlaysisData commonAnlaysisData;
 	
 	public final ImmutableInteger periodLength;
+	public final int resultsetLength;
+	private int requiredInputLength;
 	public int datasetLength;
 	public double[] arrayOfPriceOpen;
 	public double[] arrayOfPriceHigh;
@@ -31,26 +34,36 @@ public abstract class IndicatorBase {
 	public int[] arrayOfSizeVolume;
 	public int endIndex = 0;
 	
-	public IndicatorBase(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore){
+	public IndicatorBase(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore){
 		this.periodLength = periodLength;
 		this.commonAnlaysisData = commonAnlaysisData;
 		this.taLibCore = taLibCore;
+		this.resultsetLength = resultsetLength;
 	}
 
-	public void setDataSet(ArrayList<QuoteSlice> listOfQuoteSlice){
-		if (listOfQuoteSlice.size() == 0 || listOfQuoteSlice.size() < periodLength.value){
-			throw new IllegalArgumentException("List size was too small: " + listOfQuoteSlice.size() + ", expected: " + periodLength.value);
+	public void setDataSet(){
+		if (commonAnlaysisData.arrayOfDates.length < periodLength.value){
+			throw new IllegalArgumentException("List size was too small: " + commonAnlaysisData.arrayOfDates.length + ", expected: " + periodLength.value);
 		}
 		
-		this.datasetLength = listOfQuoteSlice.size();
-		this.endIndex = periodLength.value -1;
+		if (periodLength.value == 0){
+			return;
+		}
+		
+		int initialLength = commonAnlaysisData.arrayOfDates.length;
+		
+		requiredInputLength = periodLength.value + resultsetLength -1;
+		
+		if (requiredInputLength > initialLength){
+			throw new IllegalArgumentException("Input length is smaller than required length (needed, supplied): " + requiredInputLength + ", " + initialLength);
+		}
 	
-		if (periodLength.value != datasetLength){
-			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, datasetLength - periodLength.value -1, datasetLength);
-			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, datasetLength - periodLength.value -2, datasetLength);
-			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, datasetLength - periodLength.value -1, datasetLength);
-			arrayOfPriceClose = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceClose, datasetLength - periodLength.value -1, datasetLength);
-			arrayOfSizeVolume = Arrays.copyOfRange(commonAnlaysisData.arrayOfSizeVolume, datasetLength - periodLength.value -1, datasetLength);
+		if (initialLength != requiredInputLength){
+			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, initialLength - requiredInputLength, initialLength);
+			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, initialLength -requiredInputLength, initialLength);
+			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, initialLength - requiredInputLength, initialLength);
+			arrayOfPriceClose = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceClose, initialLength - requiredInputLength, initialLength);
+			arrayOfSizeVolume = Arrays.copyOfRange(commonAnlaysisData.arrayOfSizeVolume, initialLength - requiredInputLength, initialLength);
 		}else{
 			arrayOfPriceOpen = commonAnlaysisData.arrayOfPriceOpen;
 			arrayOfPriceHigh = commonAnlaysisData.arrayOfPriceHigh;
@@ -58,6 +71,15 @@ public abstract class IndicatorBase {
 			arrayOfPriceClose = commonAnlaysisData.arrayOfPriceClose;
 			arrayOfSizeVolume = commonAnlaysisData.arrayOfSizeVolume;
 		}
+		
+		datasetLength = arrayOfPriceClose.length;
+		endIndex = datasetLength-1;
+		
+//		Co.println("--> this: " + this.getClass().getName() + ", " + resultsetLength);
+	}
+	
+	public int getRequiredDatasetLength(){
+		return requiredInputLength;
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){

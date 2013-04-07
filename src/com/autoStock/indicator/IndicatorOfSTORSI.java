@@ -17,8 +17,8 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfSTORSI extends IndicatorBase {
 	public ResultsSTORSI results;
 	
-	public IndicatorOfSTORSI(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfSTORSI(ImmutableInteger periodLength,  int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	
 	public ResultsSTORSI analyize(){

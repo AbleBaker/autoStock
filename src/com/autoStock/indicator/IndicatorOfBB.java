@@ -19,12 +19,12 @@ public class IndicatorOfBB extends IndicatorBase {
 	public int optionDeviationUp = 8;
 	public int optionDeviationDown = 8;
 	
-	public IndicatorOfBB(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfBB(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	
 	public ResultsBB analyize(){	
-		results = new ResultsBB(endIndex+1);
+		results = new ResultsBB(resultsetLength);
 		
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		

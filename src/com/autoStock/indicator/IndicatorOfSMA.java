@@ -16,12 +16,12 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfSMA extends IndicatorBase {
 	public ResultsADX results;
 	
-	public IndicatorOfSMA(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfSMA(ImmutableInteger periodLength,  int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	
 	public ResultsADX analyize(){
-		results = new ResultsADX(endIndex+1);
+		results = new ResultsADX(resultsetLength);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode = taLibCore.adx(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength.value/2, new MInteger(), new MInteger(), results.arrayOfADX);

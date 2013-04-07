@@ -16,12 +16,12 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfRSI extends IndicatorBase{
 	public ResultsRSI results;
 	
-	public IndicatorOfRSI(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfRSI(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	
 	public ResultsRSI analyize(){
-		results = new ResultsRSI(endIndex+1);
+		results = new ResultsRSI(resultsetLength);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode = taLibCore.rsi(0, endIndex, arrayOfPriceClose, periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfRSI);

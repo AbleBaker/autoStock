@@ -18,12 +18,12 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfCCI extends IndicatorBase {
 	public ResultsCCI results;
 	
-	public IndicatorOfCCI(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfCCI(ImmutableInteger periodLength, int resultLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, resultLength, commonAnlaysisData, taLibCore);
 	}
 	
 	public ResultsCCI analyize(){
-		results = new ResultsCCI(endIndex+1);
+		results = new ResultsCCI(resultsetLength);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode = taLibCore.cci(0, endIndex, MathTools.averageArray(arrayOfPriceHigh), MathTools.averageArray(arrayOfPriceLow), MathTools.averageArray(arrayOfPriceClose), periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);

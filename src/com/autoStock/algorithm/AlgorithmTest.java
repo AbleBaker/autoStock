@@ -19,7 +19,7 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  * 
  */
-public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice {
+public class AlgorithmTest extends AlgorithmBase {
 	public StrategyOfTest strategy = new StrategyOfTest(this);
 	
 	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate) {
@@ -52,7 +52,7 @@ public class AlgorithmTest extends AlgorithmBase implements ReceiverOfQuoteSlice
 		
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
 			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
-			indicatorGroup.setDataSet(listOfQuoteSlice);
+			indicatorGroup.setDataSet();
 			indicatorGroup.analyize();
 			signalGroup.generateSignals(commonAnlaysisData, getPeriodLength());
 

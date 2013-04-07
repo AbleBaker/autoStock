@@ -16,12 +16,12 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfROC extends IndicatorBase{
 	public ResultsROC results;
 	
-	public IndicatorOfROC(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfROC(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	
 	public ResultsROC analyize(){
-		results = new ResultsROC(endIndex+1);
+		results = new ResultsROC(resultsetLength);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode = taLibCore.roc(0, endIndex, arrayOfPriceClose, periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfROC);

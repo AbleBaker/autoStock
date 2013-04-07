@@ -17,12 +17,12 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfMFI extends IndicatorBase{
 	public ResultsMFI results;
 	
-	public IndicatorOfMFI(ImmutableInteger periodLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfMFI(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	
 	public ResultsMFI analyize(){
-		results = new ResultsMFI(endIndex+1);
+		results = new ResultsMFI(resultsetLength);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode = taLibCore.mfi(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, ArrayTools.convertToDouble(arrayOfSizeVolume), periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfMFI);
