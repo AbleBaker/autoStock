@@ -25,12 +25,16 @@ public abstract class SignalBase {
 		maxSignalAverage = signalMetricType.maxSignalAverage;
 	}
 	
-	public int[] getStrengthWindow(int length){
-		return ArrayTools.getArrayFromListOfInt(listOfNormalizedValue.subList(listOfNormalizedValue.size()-length, listOfNormalizedValue.size()));
-	}
+//	public int[] getStrengthWindow(int length){
+//		return ArrayTools.getArrayFromListOfInt(listOfNormalizedValue.subList(listOfNormalizedValue.size()-length, listOfNormalizedValue.size()));
+//	}
 	
-	public List<Integer> getStrengthWindowAsList(int length){
-		return listOfNormalizedValue.subList(listOfNormalizedValue.size()-length, listOfNormalizedValue.size());
+//	public List<Integer> getStrengthWindowAsList(int length){
+//		return listOfNormalizedValue.subList(listOfNormalizedValue.size()-length, listOfNormalizedValue.size());
+//	}
+	
+	public int[] getStrengthWindow(){
+		return ArrayTools.getArrayFromListOfInt(listOfNormalizedValue);
 	}
 	
 	public int getStrength(){
@@ -115,19 +119,17 @@ public abstract class SignalBase {
 		return new SignalPoint();
 	}
 	
-	public void addInput(double value){
+	public void setInput(double value){
+		listOfNormalizedValue.clear();
 		listOfNormalizedValue.add(signalMetricType.normalizeInterface.normalize(value));
 		listOfNormalizedAveragedValue.add(getStrength());
 	}
 	
-	public void addAllInputSmart(double[] value){
-		if (listOfNormalizedValue.size() == 0){
-			for (int i=0;i<value.length;i++){
-				listOfNormalizedValue.add(signalMetricType.normalizeInterface.normalize(value[i]));
-				listOfNormalizedAveragedValue.add(getStrength());
-			}	
-		}else{
-			addInput(value[value.length-1]);
+	public void setInput(double[] value){
+		listOfNormalizedValue.clear();
+		for (int i=0;i<value.length;i++){
+			listOfNormalizedValue.add(signalMetricType.normalizeInterface.normalize(value[i]));
+			listOfNormalizedAveragedValue.add(getStrength());
 		}
 	}
 	

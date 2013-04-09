@@ -51,17 +51,19 @@ public class AlgorithmTest extends AlgorithmBase {
 		receivedQuoteSlice(quoteSlice);
 		
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
+			
+			Co.print("\n --> QS: " + quoteSlice.dateTime);
+			
 			commonAnalysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet();
 			indicatorGroup.analyize();
 			signalGroup.generateSignals(commonAnalysisData, getPeriodLength());
 			
-//			Co.println("--> QS: " + quoteSlice.dateTime);
 //			Co.println("--> ");
 //			
-//			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
-//				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);
-//			}
+			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
+				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);
+			}
 //			
 //			System.exit(0);
 

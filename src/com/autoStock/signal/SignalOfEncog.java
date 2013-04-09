@@ -84,7 +84,7 @@ public class SignalOfEncog extends SignalBase {
 	}
 	
 	@Override
-	public void addInput(double value) {
+	public void setInput(double value) {
 		throw new NoSuchMethodError("Don't call this");
 	}
 	

@@ -41,6 +41,6 @@ public class SignalOfSTORSI extends SignalBase {
 			percentDValue = arrayOfPercentK[arrayOfPercentD.length-1];
 		}
 		
-		super.addInput(percentKValue);
+		super.setInput(percentKValue);
 	}
 }

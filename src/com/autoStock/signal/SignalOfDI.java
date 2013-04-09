@@ -18,11 +18,11 @@ public class SignalOfDI extends SignalBase {
 	}
 	
 	@Override
-	public void addInput(double value) {
+	public void setInput(double value) {
 		
 	};
 	
-	public void addInput(double diPlus, double diMinus){
-		super.addInput(diPlus - diMinus);
+	public void setInput(double diPlus, double diMinus){
+		super.setInput(diPlus - diMinus);
 	}
 }

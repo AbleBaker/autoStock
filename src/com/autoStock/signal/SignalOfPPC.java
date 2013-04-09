@@ -17,7 +17,7 @@ public class SignalOfPPC extends SignalBase {
 	}
 
 	@Override
-	public void addInput(double value) {
+	public void setInput(double value) {
 		int periodAverage = listOfNormalizedValue.size();
 		double percentChange = 0;
 
@@ -49,6 +49,6 @@ public class SignalOfPPC extends SignalBase {
 
 		percentChange = secondValue / firstValue;
 		
-		super.addInput(percentChange);
+		super.setInput(percentChange);
 	}
 }
