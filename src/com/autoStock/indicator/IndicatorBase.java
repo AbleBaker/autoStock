@@ -21,7 +21,7 @@ import com.sun.org.apache.bcel.internal.generic.IMUL;
  */
 public abstract class IndicatorBase {
 	public Core taLibCore;
-	public CommonAnlaysisData commonAnlaysisData;
+	public CommonAnalysisData commonAnlaysisData;
 	
 	public final ImmutableInteger periodLength;
 	public final int resultsetLength;
@@ -34,11 +34,13 @@ public abstract class IndicatorBase {
 	public int[] arrayOfSizeVolume;
 	public int endIndex = 0;
 	
-	public IndicatorBase(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore){
+	public IndicatorBase(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore){
 		this.periodLength = periodLength;
 		this.commonAnlaysisData = commonAnlaysisData;
 		this.taLibCore = taLibCore;
 		this.resultsetLength = resultsetLength;
+		
+		requiredInputLength = periodLength.value + resultsetLength -1;
 	}
 
 	public void setDataSet(){
@@ -51,8 +53,6 @@ public abstract class IndicatorBase {
 		}
 		
 		int initialLength = commonAnlaysisData.arrayOfDates.length;
-		
-		requiredInputLength = periodLength.value + resultsetLength -1;
 		
 		if (requiredInputLength > initialLength){
 			throw new IllegalArgumentException("Input length is smaller than required length (needed, supplied): " + requiredInputLength + ", " + initialLength);

@@ -8,6 +8,7 @@ public class OrderDefinitions {
 	public static enum OrderMode {
 		mode_simulated,
 		mode_exchange,
+		none,
 	}
 	
 	public static enum OrderType {

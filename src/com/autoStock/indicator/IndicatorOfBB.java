@@ -19,7 +19,7 @@ public class IndicatorOfBB extends IndicatorBase {
 	public int optionDeviationUp = 8;
 	public int optionDeviationDown = 8;
 	
-	public IndicatorOfBB(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfBB(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	

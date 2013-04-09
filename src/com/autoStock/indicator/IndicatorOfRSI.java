@@ -16,7 +16,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfRSI extends IndicatorBase{
 	public ResultsRSI results;
 	
-	public IndicatorOfRSI(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfRSI(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	

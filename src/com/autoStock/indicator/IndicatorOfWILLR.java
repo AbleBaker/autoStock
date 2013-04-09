@@ -18,7 +18,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfWILLR extends IndicatorBase{
 	public ResultsWILLR results;
 	
-	public IndicatorOfWILLR(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfWILLR(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	

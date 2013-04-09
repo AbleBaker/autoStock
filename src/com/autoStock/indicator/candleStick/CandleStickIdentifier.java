@@ -1,6 +1,6 @@
 package com.autoStock.indicator.candleStick;
 
-import com.autoStock.indicator.CommonAnlaysisData;
+import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.taLib.Core;
@@ -15,7 +15,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class CandleStickIdentifier extends IndicatorBase {
 	private Core taLibCore;
 	
-	public CandleStickIdentifier(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public CandleStickIdentifier(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 		this.taLibCore = taLibCore;
 	}

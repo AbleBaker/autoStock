@@ -19,7 +19,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfTRIX extends IndicatorBase {
 	public ResultsTRIX results;
 	
-	public IndicatorOfTRIX(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibcore) {
+	public IndicatorOfTRIX(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibcore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibcore);
 	}
 	

@@ -17,7 +17,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfMFI extends IndicatorBase{
 	public ResultsMFI results;
 	
-	public IndicatorOfMFI(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfMFI(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	

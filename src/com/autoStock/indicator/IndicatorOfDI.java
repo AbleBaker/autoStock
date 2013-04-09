@@ -16,11 +16,11 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfDI extends IndicatorBase {
 	public ResultsDI results;
 	
-	public IndicatorOfDI(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfDI(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	
-	public ResultsDI analize(){
+	public ResultsDI analyize(){
 		results = new ResultsDI(resultsetLength);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		

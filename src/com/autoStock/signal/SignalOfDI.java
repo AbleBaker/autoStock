@@ -3,6 +3,8 @@
  */
 package com.autoStock.signal;
 
+import org.apache.http.MethodNotSupportedException;
+
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
@@ -13,15 +15,14 @@ public class SignalOfDI extends SignalBase {
 
 	public SignalOfDI(){
 		super(SignalMetricType.metric_di);
-	}	
+	}
 	
-	public void addInput(double[] arrayOfDIPlus, double[] arrayOfDIMinus){
-		double[] arrayOfDI = new double[arrayOfDIPlus.length];
+	@Override
+	public void addInput(double value) {
 		
-		for (int i=0; i<arrayOfDI.length; i++){
-			arrayOfDI[i] = arrayOfDIPlus[i] - arrayOfDIMinus[i];
-		}
+	};
 	
-		super.addInput(arrayOfDI[arrayOfDI.length-1]);
+	public void addInput(double diPlus, double diMinus){
+		super.addInput(diPlus - diMinus);
 	}
 }

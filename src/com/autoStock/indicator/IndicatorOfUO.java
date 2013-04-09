@@ -16,7 +16,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfUO extends IndicatorBase {
 	public ResultsUO results;
 	
-	public IndicatorOfUO(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfUO(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	

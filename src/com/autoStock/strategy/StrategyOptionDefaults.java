@@ -15,8 +15,8 @@ public class StrategyOptionDefaults {
 	public StrategyOptions getDefaultStrategyOptions(){
 		StrategyOptions strategyOptions = new StrategyOptions();
 		strategyOptions.canGoLong = true;
-		strategyOptions.canGoShort = true;
-		strategyOptions.canReenter = true;
+		strategyOptions.canGoShort = false;
+		strategyOptions.canReenter = false;
 		strategyOptions.mustHavePositiveSlice = true;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
@@ -27,7 +27,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
 		
 		strategyOptions.maxTransactionsDay = 16;
-		strategyOptions.maxStopLossPercent.value = -0.50d;
+		strategyOptions.maxStopLossPercent.value = -10.50d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;

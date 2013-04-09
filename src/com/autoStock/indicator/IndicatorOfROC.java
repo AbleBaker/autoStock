@@ -16,7 +16,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfROC extends IndicatorBase{
 	public ResultsROC results;
 	
-	public IndicatorOfROC(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfROC(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	

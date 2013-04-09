@@ -1,6 +1,7 @@
 package com.autoStock.signal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.autoStock.Co;
 import com.autoStock.guage.GuageOfThresholdLeft;
@@ -24,18 +25,27 @@ public abstract class SignalBase {
 		maxSignalAverage = signalMetricType.maxSignalAverage;
 	}
 	
+	public int[] getStrengthWindow(int length){
+		return ArrayTools.getArrayFromListOfInt(listOfNormalizedValue.subList(listOfNormalizedValue.size()-length, listOfNormalizedValue.size()));
+	}
+	
+	public List<Integer> getStrengthWindowAsList(int length){
+		return listOfNormalizedValue.subList(listOfNormalizedValue.size()-length, listOfNormalizedValue.size());
+	}
+	
 	public int getStrength(){
-//		Co.println("--> Size: " + getListOfNormalizedValue().size() + ", " +maxSignalAverage.value + this.getClass().getName());
-
-		double normalizedValue = 0;
-		int normalizationSize = Math.min(maxSignalAverage.value, listOfNormalizedValue.size());
-		
-		for (int i=0; i<normalizationSize; i++){
-			normalizedValue += listOfNormalizedValue.get(listOfNormalizedValue.size() - i -1);
-		}
-		
-		return (int)normalizedValue / normalizationSize;
-//		return getListOfNormalizedValue().get(getListOfNormalizedValue().size()-1);
+		if (listOfNormalizedValue.size() == 0){return 0;}
+////		Co.println("--> Size: " + listOfNormalizedValue.size() + ", " +maxSignalAverage.value + this.getClass().getName());
+//
+//		double normalizedValue = 0;
+//		int normalizationSize = Math.min(maxSignalAverage.value, listOfNormalizedValue.size());
+//		
+//		for (int i=0; i<normalizationSize; i++){
+//			normalizedValue += listOfNormalizedValue.get(listOfNormalizedValue.size() - i -1);
+//		}
+//		
+//		return (int)normalizedValue / normalizationSize;
+		return listOfNormalizedValue.get(listOfNormalizedValue.size()-1);
 	}
 	
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
@@ -108,6 +118,17 @@ public abstract class SignalBase {
 	public void addInput(double value){
 		listOfNormalizedValue.add(signalMetricType.normalizeInterface.normalize(value));
 		listOfNormalizedAveragedValue.add(getStrength());
+	}
+	
+	public void addAllInputSmart(double[] value){
+		if (listOfNormalizedValue.size() == 0){
+			for (int i=0;i<value.length;i++){
+				listOfNormalizedValue.add(signalMetricType.normalizeInterface.normalize(value[i]));
+				listOfNormalizedAveragedValue.add(getStrength());
+			}	
+		}else{
+			addInput(value[value.length-1]);
+		}
 	}
 	
 	public void prune(int toLength){

@@ -11,7 +11,7 @@ import com.autoStock.types.QuoteSlice;
  * @author Kevin Kowalewski
  * 
  */
-public class CommonAnlaysisData {
+public class CommonAnalysisData {
 	public double[] arrayOfPriceOpen;
 	public double[] arrayOfPriceHigh;
 	public double[] arrayOfPriceLow;

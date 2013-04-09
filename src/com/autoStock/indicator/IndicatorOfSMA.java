@@ -16,7 +16,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfSMA extends IndicatorBase {
 	public ResultsADX results;
 	
-	public IndicatorOfSMA(ImmutableInteger periodLength,  int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfSMA(ImmutableInteger periodLength,  int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	

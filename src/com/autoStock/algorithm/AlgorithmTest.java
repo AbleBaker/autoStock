@@ -43,7 +43,7 @@ public class AlgorithmTest extends AlgorithmBase {
 	}
 	
 	public void init(){
-		prefill();
+//		prefill();
 	}
 
 	@Override
@@ -51,10 +51,19 @@ public class AlgorithmTest extends AlgorithmBase {
 		receivedQuoteSlice(quoteSlice);
 		
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
-			commonAnlaysisData.setAnalysisData(listOfQuoteSlice);
+			commonAnalysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet();
 			indicatorGroup.analyize();
-			signalGroup.generateSignals(commonAnlaysisData, getPeriodLength());
+			signalGroup.generateSignals(commonAnalysisData, getPeriodLength());
+			
+//			Co.println("--> QS: " + quoteSlice.dateTime);
+//			Co.println("--> ");
+//			
+//			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
+//				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);
+//			}
+//			
+//			System.exit(0);
 
 			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position, new PositionOptions(this));
 		

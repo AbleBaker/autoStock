@@ -25,7 +25,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 	private volatile PositionGenerator positionGenerator = new PositionGenerator();
 	private volatile PositionExecutor positionExecutor = new PositionExecutor();
 	private volatile ArrayList<Position> listOfPosition = new ArrayList<Position>();
-	public OrderMode orderMode;
+	public OrderMode orderMode = OrderMode.none;
 	private Lock lock = new Lock();
 	
 	public static PositionManager getInstance(){

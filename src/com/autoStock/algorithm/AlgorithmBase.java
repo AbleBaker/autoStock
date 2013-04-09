@@ -13,7 +13,7 @@ import com.autoStock.algorithm.core.AlgorithmListener;
 import com.autoStock.algorithm.core.AlgorithmState;
 import com.autoStock.algorithm.core.AlgorithmTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.indicator.CommonAnlaysisData;
+import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionDefinitions.PositionType;
@@ -52,7 +52,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public IndicatorGroup indicatorGroup;
 	public SignalGroup signalGroup;
 	public PositionGovernorResponse PGResponsePrevious = new PositionGovernorResponse();
-	public final CommonAnlaysisData commonAnlaysisData = new CommonAnlaysisData();
+	public final CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	protected ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
@@ -70,7 +70,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		this.algorithmMode = algorithmMode;
 		this.startingDate = startingDate;
 		
-		indicatorGroup = new IndicatorGroup(commonAnlaysisData);
+		indicatorGroup = new IndicatorGroup(commonAnalysisData);
 		signalGroup = new SignalGroup(indicatorGroup);
 	}
 	

@@ -40,6 +40,13 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 
 	public MainEngagement(Exchange exchange) {
 		Global.callbackLock.requestLock();
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable(){
+			@Override
+			public void run() {
+				Co.println("--> X");
+			}
+		}));
 
 		this.exchange = exchange;
 		exchangeStatusObserver = new ExchangeStatusObserver(exchange);

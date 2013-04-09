@@ -74,13 +74,13 @@ public class IndicatorGroup {
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 
-	public IndicatorGroup(CommonAnlaysisData commonAnlaysisData) {
+	public IndicatorGroup(CommonAnalysisData commonAnlaysisData) {
 		listOfIndicatorBase.add(indicatorOfADX = new IndicatorOfADX(SignalMetricType.metric_adx.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(SignalMetricType.metric_cci.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(SignalMetricType.metric_cci.periodLength, 6, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(SignalMetricType.metric_di.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(SignalMetricType.metric_macd.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new ImmutableInteger(0), 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(SignalMetricType.metric_rsi.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(SignalMetricType.metric_rsi.periodLength, 6, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(SignalMetricType.metric_trix.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(SignalMetricType.metric_roc.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(SignalMetricType.metric_mfi.periodLength, 1, commonAnlaysisData, taLibCore));
@@ -106,7 +106,7 @@ public class IndicatorGroup {
 	public void analyize() {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_adx)){resultsADX = indicatorOfADX.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_cci)){resultsCCI = indicatorOfCCI.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_di)){resultsDI = indicatorOfDI.analize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_di)){resultsDI = indicatorOfDI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_macd)){resultsMACD = indicatorOfMACD.analize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_rsi)){resultsRSI = indicatorOfRSI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_trix)){resultsTRIX = indicatorOfTRIX.analyize();}
@@ -129,13 +129,11 @@ public class IndicatorGroup {
 		int min = 0;
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			if (indicator instanceof CandleStickIdentifier == false){
-				if (indicator.periodLength.value > min){
-					min = indicator.periodLength.value;
+				if (indicator.getRequiredDatasetLength() > min){
+					min = indicator.getRequiredDatasetLength();
 				}
 			}
 		}
-		
-//		Co.println("--> Min period: " + min);
 		
 		return min;
 	}

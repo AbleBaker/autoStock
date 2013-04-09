@@ -17,7 +17,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfADX extends IndicatorBase {
 	public ResultsADX results;
 	
-	public IndicatorOfADX(ImmutableInteger periodLength, int resultLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfADX(ImmutableInteger periodLength, int resultLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultLength, commonAnlaysisData, taLibCore);
 	}
 	

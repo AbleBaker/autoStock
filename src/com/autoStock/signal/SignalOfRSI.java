@@ -13,6 +13,5 @@ public class SignalOfRSI extends SignalBase {
 
 	public SignalOfRSI(){
 		super(SignalMetricType.metric_rsi);
-
 	}
 }

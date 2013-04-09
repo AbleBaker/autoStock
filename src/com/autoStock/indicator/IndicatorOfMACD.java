@@ -16,7 +16,7 @@ public class IndicatorOfMACD extends IndicatorBase {
 	public static ImmutableInteger immutableIntegerForEma = new ImmutableInteger(9);
 	public static ImmutableInteger immutableIntegerForShort = new ImmutableInteger(6);
 	
-	public IndicatorOfMACD(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfMACD(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	

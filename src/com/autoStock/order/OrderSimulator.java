@@ -1,5 +1,6 @@
 package com.autoStock.order;
 
+import com.autoStock.Co;
 import com.autoStock.trading.types.Order;
 
 /**
@@ -16,7 +17,6 @@ public class OrderSimulator {
 	}
 	
 	public void simulateOrderFill(){
-		
 		if (order.getUnitPriceRequested() == 0 || order.getUnitsRequested() == 0){
 			throw new IllegalStateException("Order: " + order.getUnitPriceRequested() + ", " + order.getUnitsRequested());
 		}

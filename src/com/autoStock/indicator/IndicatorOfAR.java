@@ -17,7 +17,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfAR extends IndicatorBase {
 	public ResultsAR results;
 	
-	public IndicatorOfAR(ImmutableInteger periodLength, int resultsetLength, CommonAnlaysisData commonAnlaysisData, Core taLibCore) {
+	public IndicatorOfAR(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
 	}
 	
