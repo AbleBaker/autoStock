@@ -7,7 +7,6 @@ import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalOfEncog.EncogInputWindow;
-import com.autoStock.tools.ArrayTools;
 
 /**
  * @author Kevin Kowalewski

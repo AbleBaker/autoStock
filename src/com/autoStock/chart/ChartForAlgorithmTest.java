@@ -9,7 +9,6 @@ import java.util.Date;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
 
-import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.ArrayTools;

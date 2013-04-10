@@ -1,6 +1,5 @@
 package com.autoStock.exchange.request.base;
 
-import com.autoStock.Co;
 import com.autoStock.exchange.request.RequestManager;
 
 /**

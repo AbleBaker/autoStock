@@ -3,11 +3,7 @@
  */
 package com.autoStock.signal;
 
-import com.autoStock.Co;
-import com.autoStock.encog.TestEncogTactic;
-import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.types.basic.ImmutableInteger;
 
 /**
  * @author Kevin Kowalewski

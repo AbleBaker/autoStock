@@ -37,9 +37,10 @@ public class Position implements OrderStatusListener {
 	private final ArrayList<Order> listOfOrder = new ArrayList<Order>();
 	private ListenerOfPositionStatusChange positionStatusListener;
 	private PositionOptions positionOptions;
+	private Account account;
 	private Lock lock = new Lock();
 
-	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions) {
+	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, Account account) {
 		this.positionType = positionType;
 		this.initialUnits = units;
 		this.symbol = symbol;
@@ -47,6 +48,7 @@ public class Position implements OrderStatusListener {
 		this.unitPriceFirstKnown = currentPrice;
 		this.unitPriceLastKnown = currentPrice;
 		this.positionOptions = positionOptions;
+		this.account = account;
 	}
 
 	public void setPositionListener(ListenerOfPositionStatusChange positionStatusListener) {
@@ -232,7 +234,7 @@ public class Position implements OrderStatusListener {
 			}else{
 				throw new IllegalStateException();
 			}
-			PositionCallback.affectBankBalance(order);
+			PositionCallback.affectBankBalance(order, PositionManager.getInstance().orderMode, account);
 		}else if (orderStatus == OrderStatus.status_cancelled){
 			if (listOfOrder.size() > 1){
 				synchronized(listOfOrder){

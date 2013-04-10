@@ -8,7 +8,6 @@ import com.autoStock.internal.Global.Mode;
 import com.autoStock.menu.MenuController;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.menu.MenuLauncher;
-import com.autoStock.tools.ArrayTools;
 
 /**
  * @author Kevin Kowalewski

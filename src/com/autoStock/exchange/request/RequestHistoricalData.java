@@ -3,7 +3,6 @@ package com.autoStock.exchange.request;
 import java.util.Collections;
 import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.Log;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
@@ -16,7 +15,6 @@ import com.autoStock.tools.ReflectiveComparator.ListComparator.SortDirection;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;
 import com.autoStock.trading.types.HistoricalData;
-import com.autoStock.types.Exchange;
 
 /**
  * @author Kevin Kowalewski

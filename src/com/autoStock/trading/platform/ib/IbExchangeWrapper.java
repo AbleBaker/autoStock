@@ -13,7 +13,6 @@ import com.autoStock.exchange.request.RequestMarketIndexData;
 import com.autoStock.exchange.request.RequestMarketOrder;
 import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.RequestMarketSymbolData;
-import com.autoStock.exchange.results.ExResultHistoricalData;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultRowHistoricalData;
 import com.autoStock.exchange.results.ExResultMarketIndexData.ExResultRowMarketIndexData;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;

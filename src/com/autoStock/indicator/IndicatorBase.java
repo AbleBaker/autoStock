@@ -6,14 +6,10 @@ package com.autoStock.indicator;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
-import com.autoStock.tools.ArrayTools;
-import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.basic.ImmutableInteger;
-import com.sun.org.apache.bcel.internal.generic.IMUL;
 
 /**
  * @author Kevin Kowalewski

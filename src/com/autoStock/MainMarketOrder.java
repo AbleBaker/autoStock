@@ -4,6 +4,7 @@ import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
 import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
+import com.autoStock.finance.Account;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
@@ -39,7 +40,7 @@ public class MainMarketOrder implements ListenerOfPositionStatusChange {
 			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice quoteSlice) {
 				requestMarketSymbolData.cancel();
 				
-				Position position = new Position(positionType, units, new Symbol(symbol, SecurityType.type_stock), exchange, quoteSlice.priceClose, null);
+				Position position = new Position(positionType, units, new Symbol(symbol, SecurityType.type_stock), exchange, quoteSlice.priceClose, null, Account.getInstance());
 				position.setPositionListener(MainMarketOrder.this);
 				position.executePosition();
 			}

@@ -3,8 +3,6 @@
  */
 package com.autoStock.signal;
 
-import org.apache.http.MethodNotSupportedException;
-
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**

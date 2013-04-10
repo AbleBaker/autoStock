@@ -1,11 +1,8 @@
 package com.autoStock.trading.yahoo;
 
-import java.net.URLEncoder;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 
-import com.autoStock.Co;
 import com.autoStock.network.HTTPRequestBase;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;

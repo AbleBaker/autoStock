@@ -3,12 +3,6 @@ package com.autoStock.adjust;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
-import com.autoStock.MainBacktest;
-import com.autoStock.indicator.IndicatorGroup;
-import com.autoStock.indicator.IndicatorOfMACD;
-import com.autoStock.signal.SignalControl;
-import com.autoStock.signal.SignalDefinitions;
-import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**

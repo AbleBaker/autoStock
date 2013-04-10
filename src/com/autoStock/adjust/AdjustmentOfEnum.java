@@ -1,6 +1,5 @@
 package com.autoStock.adjust;
 
-import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.types.basic.ImmutableEnum;
 
 /**

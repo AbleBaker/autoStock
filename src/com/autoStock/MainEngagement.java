@@ -14,18 +14,13 @@ import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListener;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
-import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.index.IndexMarketDataProvider;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionManager;
-import com.autoStock.trading.yahoo.FundamentalData;
-import com.autoStock.trading.yahoo.RequestFundamentalsListener;
-import com.autoStock.trading.yahoo.YahooFundamentals;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Index;
-import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski

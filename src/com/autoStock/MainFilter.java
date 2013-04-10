@@ -1,22 +1,13 @@
 package com.autoStock;
 
-import com.autoStock.exchange.ExchangeStatusObserver;
 import com.autoStock.exchange.request.MultipleRequestMarketScanner;
-import com.autoStock.exchange.request.RequestMarketScanner;
 import com.autoStock.exchange.request.RequestMarketScanner.MarketScannerType;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.MultipleRequestMarketScannerListener;
-import com.autoStock.exchange.request.listener.RequestMarketScannerListener;
-import com.autoStock.exchange.results.ExResultMarketScanner.ExResultRowMarketScanner;
-import com.autoStock.exchange.results.ExResultMarketScanner.ExResultSetMarketScanner;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultSetMarketScanner;
-import com.autoStock.index.IndexMarketDataProvider;
 import com.autoStock.internal.Global;
-import com.autoStock.order.OrderDefinitions.OrderMode;
-import com.autoStock.position.PositionManager;
 import com.autoStock.types.Exchange;
-import com.autoStock.types.Index;
 
 /**
  * @author Kevin Kowalewski

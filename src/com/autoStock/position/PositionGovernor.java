@@ -3,6 +3,7 @@ package com.autoStock.position;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.finance.Account;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
@@ -11,7 +12,6 @@ import com.autoStock.signal.SignalPointMethod;
 import com.autoStock.strategy.ReentrantStrategy;
 import com.autoStock.strategy.ReentrantStrategy.ReentryStatus;
 import com.autoStock.strategy.StrategyOptions;
-import com.autoStock.tools.Lock;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -27,7 +27,7 @@ public class PositionGovernor {
 	private PositionManager positionManager = PositionManager.getInstance(); 
 	private ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>> listOfPairedResponses = new ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>>();
 	private ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
-	private Lock lock = new Lock();
+	private PositionGenerator positionGenerator = new PositionGenerator(Account.getInstance());
 	
 	public static PositionGovernor getInstance(){
 		return instance;
@@ -103,7 +103,7 @@ public class PositionGovernor {
 	}
 	
 	private void governLongReentry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
-		int reentryUnits = new PositionGenerator().getPositionReentryUnits(quoteSlice.priceClose, signal);
+		int reentryUnits = positionGenerator.getPositionReentryUnits(quoteSlice.priceClose, signal);
 		if (reentryUnits > 0){
 			position.executeReentry(reentryUnits, quoteSlice.priceClose);
 			positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_reentry;

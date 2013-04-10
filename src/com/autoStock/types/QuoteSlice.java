@@ -5,7 +5,6 @@ package com.autoStock.types;
 
 import java.util.Date;
 
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 
 /**

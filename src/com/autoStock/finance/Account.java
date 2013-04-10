@@ -21,7 +21,7 @@ public class Account {
 	private AtomicDouble transactionFeesPaid = new AtomicDouble();
 	private AtomicInteger transactions = new AtomicInteger();
 
-	private Account() {
+	public Account() {
 		resetAccount();
 	}
 
@@ -58,7 +58,7 @@ public class Account {
 		}
 	}
 
-	public double getTransactionCost(int units, double price) { // TODO: add exchange and security type
+	public static double getTransactionCost(int units, double price) { // TODO: add exchange and security type
 		double cost = 0;
 		if (units <= 500) {
 //			cost = Math.max(1.30, units * 0.013);

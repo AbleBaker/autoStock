@@ -1,9 +1,7 @@
 package com.autoStock.signal;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.autoStock.Co;
 import com.autoStock.guage.GuageOfThresholdLeft;
 import com.autoStock.guage.GuageOfThresholdMet;
 import com.autoStock.guage.SignalGuage;

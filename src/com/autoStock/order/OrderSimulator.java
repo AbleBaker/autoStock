@@ -1,6 +1,5 @@
 package com.autoStock.order;
 
-import com.autoStock.Co;
 import com.autoStock.trading.types.Order;
 
 /**

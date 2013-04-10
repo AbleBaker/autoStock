@@ -9,7 +9,6 @@ import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestMarketSymbolDataListener;
 import com.autoStock.exchange.results.ExResultMarketSymbolData.ExResultSetMarketSymbolData;
-import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionManager;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Period;

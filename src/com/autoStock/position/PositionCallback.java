@@ -21,22 +21,22 @@ public class PositionCallback {
 		else throw new UnsupportedOperationException("No condition matched PositionType: " + position.positionType.name());
 	}
 
-	public static void affectBankBalance(Order order){
-		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+	public static void affectBankBalance(Order order, OrderMode orderMode, Account account){
+		if (orderMode == OrderMode.mode_exchange){
 			Co.println("Affecting bank balance: " + order.symbol.symbolName + ", " + order.getOrderValue().valueFilled);
 		}
 		if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
-			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
-				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (-1 * order.getOrderValue().valueFilled) + ", " + Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+			if (orderMode == OrderMode.mode_exchange){
+				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (-1 * order.getOrderValue().valueFilled) + ", " + Account.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 			}
 			
-			Account.getInstance().changeAccountBalance(-1 * order.getOrderValue().valueFilled, Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+			account.changeAccountBalance(-1 * order.getOrderValue().valueFilled, Account.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 		}else if (order.orderType == OrderType.order_long_exited || order.orderType == OrderType.order_short_exited){
-			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
-				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (order.getOrderValue().valueFilled) + ", " + Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+			if (orderMode == OrderMode.mode_exchange){
+				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (order.getOrderValue().valueFilled) + ", " + Account.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 			}
-			
-			Account.getInstance().changeAccountBalance(order.getOrderValue().valueFilled, Account.getInstance().getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+
+			account.changeAccountBalance(order.getOrderValue().valueFilled, Account.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 		}else{
 			throw new IllegalStateException("Order type is: " + order.orderType.name());
 		}

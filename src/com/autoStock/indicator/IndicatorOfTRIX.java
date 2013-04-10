@@ -5,7 +5,6 @@ package com.autoStock.indicator;
 
 import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;

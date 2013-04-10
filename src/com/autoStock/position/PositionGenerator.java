@@ -16,14 +16,18 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class PositionGenerator {
-	private Account account = Account.getInstance();
 	private boolean throwOnInsufficientBalance = false;
+	private Account account;
+	
+	public PositionGenerator(Account account){
+		this.account = account;
+	}
 	
 	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions){
 		int positionUnits = getPositionInitialUnits(quoteSlice.priceClose, signal);
 		
 		if (positionUnits != 0){
-			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, quoteSlice.priceClose, positionOptions);
+			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, quoteSlice.priceClose, positionOptions, account);
 		}
 		
 		return null;

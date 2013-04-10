@@ -5,10 +5,8 @@ import java.util.Date;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
-import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.strategy.StrategyHelper;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.types.Exchange;

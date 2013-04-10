@@ -2,7 +2,6 @@ package com.autoStock.strategy;
 
 import java.util.Date;
 
-import com.autoStock.signal.SignalControl;
 import com.autoStock.types.Exchange;
 
 /**

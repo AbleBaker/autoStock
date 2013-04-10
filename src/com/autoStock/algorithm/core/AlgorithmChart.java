@@ -1,6 +1,5 @@
 package com.autoStock.algorithm.core;
 
-import com.autoStock.Co;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalGroup;

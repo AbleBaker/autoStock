@@ -2,7 +2,6 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
@@ -18,11 +17,8 @@ import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsUO;
 import com.autoStock.indicator.results.ResultsWILLR;
-import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
-import com.autoStock.tools.AnalysisTools;
-import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.basic.ImmutableInteger;
 
 /**

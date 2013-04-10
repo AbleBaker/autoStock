@@ -1,10 +1,8 @@
 package com.autoStock.indicator;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.autoStock.Log;
 import com.autoStock.types.QuoteSlice;
 
 /**

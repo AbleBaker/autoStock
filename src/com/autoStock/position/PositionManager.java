@@ -6,6 +6,7 @@ package com.autoStock.position;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.finance.Account;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
@@ -22,14 +23,26 @@ import com.autoStock.types.Symbol;
  */
 public class PositionManager implements ListenerOfPositionStatusChange {
 	private static PositionManager instance = new PositionManager();
-	private volatile PositionGenerator positionGenerator = new PositionGenerator();
 	private volatile PositionExecutor positionExecutor = new PositionExecutor();
 	private volatile ArrayList<Position> listOfPosition = new ArrayList<Position>();
+	private volatile PositionGenerator positionGenerator;
+	private Account account = Account.getInstance();
 	public OrderMode orderMode = OrderMode.none;
 	private Lock lock = new Lock();
 	
 	public static PositionManager getInstance(){
 		return instance;
+	}
+	
+	private PositionManager(){
+		 positionGenerator = new PositionGenerator(account);
+	}
+	
+	public PositionManager(OrderMode orderMode, Account account){
+		this.orderMode = orderMode;
+		this.account = account;
+		
+		positionGenerator = new PositionGenerator(account);
 	}
 
 	public Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType, Position inboundPosition, PositionOptions positionOptions) {

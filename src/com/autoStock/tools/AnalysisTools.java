@@ -1,8 +1,5 @@
 package com.autoStock.tools;
 
-import java.util.ArrayList;
-
-import com.autoStock.indicator.IndicatorBase;
 
 /**
  * @author Kevin Kowalewski
