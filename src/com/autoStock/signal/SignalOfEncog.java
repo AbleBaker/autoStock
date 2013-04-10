@@ -12,6 +12,7 @@ import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
@@ -74,6 +75,8 @@ public class SignalOfEncog extends SignalBase {
         	signalPoint.signalPointType = SignalPointType.long_exit;
         	signalPoint.signalMetricType = SignalMetricType.none;
         }
+        
+        Co.println("--> " + valueForEntry + ", " + valueForExit);
         
         return signalPoint;
 	}

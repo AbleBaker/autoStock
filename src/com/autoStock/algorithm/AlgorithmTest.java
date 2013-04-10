@@ -50,7 +50,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
 			
-			Co.print("\n --> QS: " + quoteSlice.dateTime);
+//			Co.print("\n --> QS: " + quoteSlice.dateTime);
 			
 			commonAnalysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet();
@@ -59,9 +59,9 @@ public class AlgorithmTest extends AlgorithmBase {
 			
 //			Co.println("--> ");
 //			
-			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
-				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);
-			}
+//			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
+//				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);
+//			}
 //			
 //			System.exit(0);
 

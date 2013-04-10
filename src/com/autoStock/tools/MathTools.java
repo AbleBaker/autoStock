@@ -168,6 +168,13 @@ public class MathTools {
 		
 		return returnValue == Integer.MAX_VALUE ? 0 : returnValue;
 	}
+	
+//	public static double[] getDeltas(int[] arrayOfInt){
+//		double[] returnArray = new double[arrayOfInt.length];
+//		for (int i=0; i<arrayOfInt.length; i++){
+//			returnArray[i] = arrayOfInt
+//		}
+//	}
 
 	public static double pow(double base, double exponent) {
 		if (base < 0) {
