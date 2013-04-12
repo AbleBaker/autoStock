@@ -27,7 +27,7 @@ public class IndicatorOfCCI extends IndicatorBase {
 		
 		RetCode returnCode;
 		
-		boolean average = false;
+		boolean average = true;
 		
 		if (average){
 			returnCode = taLibCore.cci(0, endIndex, MathTools.averageArray(arrayOfPriceHigh), MathTools.averageArray(arrayOfPriceLow), MathTools.averageArray(arrayOfPriceClose), periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);

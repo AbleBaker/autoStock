@@ -14,4 +14,9 @@ public class Symbol {
 		this.symbolName = symbol;
 		this.securityType = securityType;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return ((Symbol)obj).symbolName.equals(symbolName);
+	}
 }

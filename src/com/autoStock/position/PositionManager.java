@@ -77,14 +77,14 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 
 	public void updatePositionPrice(QuoteSlice quoteSlice, Position position) {
 		if (position != null) {
-			position.updatePositionUnitPrice(quoteSlice.priceClose);
+			position.updatePosition(quoteSlice);
 		}
 	}
 
 	public void executeExitAll() {
 		synchronized (lock) {
 			if (listOfPosition.size() == 0) {
-				Co.println("--> No positions to sell");
+//				Co.println("--> No positions to sell");
 			}else{
 				Co.println("--> Exiting all positions: " + listOfPosition.size());
 			}

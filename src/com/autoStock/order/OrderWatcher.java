@@ -36,6 +36,7 @@ public class OrderWatcher {
 					} else {
 						Co.println("--> Order success or watcher not needed, ending watcher: " + order.symbol.symbolName);
 						threadForWatcher.interrupt();
+						return;
 					}
 
 					waitedPeriods++;

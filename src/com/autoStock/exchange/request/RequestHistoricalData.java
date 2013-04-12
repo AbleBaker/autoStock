@@ -3,6 +3,7 @@ package com.autoStock.exchange.request;
 import java.util.Collections;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.Log;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.exchange.request.base.RequestHolder;
@@ -39,6 +40,8 @@ public class RequestHistoricalData {
 		
 		if (HistoricalDataDefinitions.getBestResolution(this.typeHistoricalData.duration) != this.typeHistoricalData.resolution){		
 			int neededCalls = (int)(this.typeHistoricalData.duration / HistoricalDataDefinitions.getBestPeriod(typeHistoricalData.resolution).seconds) + 1;
+			
+			Co.println("--> Needed calls: " + neededCalls);
 			
 			requestHolder.mulitpleRequests = neededCalls;
 			

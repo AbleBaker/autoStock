@@ -29,7 +29,7 @@ public class SignalGroup {
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup();
 	public SignalOfEncog signalOfEncog = new SignalOfEncog();
 	
-	public static final int ENCOG_SIGNAL_INPUT = 15;
+	public static final int ENCOG_SIGNAL_INPUT = 5;
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	

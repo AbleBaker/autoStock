@@ -35,13 +35,6 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 
 	public MainEngagement(Exchange exchange) {
 		Global.callbackLock.requestLock();
-		
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable(){
-			@Override
-			public void run() {
-				Co.println("--> X");
-			}
-		}));
 
 		this.exchange = exchange;
 		exchangeStatusObserver = new ExchangeStatusObserver(exchange);
@@ -57,7 +50,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_percent_gain);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_high_open_gap);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_implied_volatility_gain);
-		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_price);
+//		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_price);
 		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_most_active);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_top_trade_rate);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_volume);

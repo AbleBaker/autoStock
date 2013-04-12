@@ -27,10 +27,10 @@ public class StrategyOptions {
 	public int maxTransactionsDay;
 	public ImmutableDouble minReentryPercentGain = new ImmutableDouble();
 	public ImmutableDouble maxStopLossPercent = new ImmutableDouble();
+	public ImmutableDouble maxProfitDrawdownPercent = new ImmutableDouble();
 	public int maxNilChangePrice;
 	public int maxNilChangeVolume;
 	public int maxPositionEntryTime;
-	public int maxPositionTaperTime;
 	public int maxPositionExitTime;
 	public ImmutableInteger maxReenterTimes = new ImmutableInteger();
 	public ImmutableInteger intervalForReentryMins = new ImmutableInteger();

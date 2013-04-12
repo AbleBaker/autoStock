@@ -3,6 +3,7 @@
  */
 package com.autoStock.menu;
 
+import com.autoStock.Co;
 import com.autoStock.MainActiveAlgorithm;
 import com.autoStock.MainBacktest;
 import com.autoStock.MainClusteredBacktest;
@@ -11,6 +12,7 @@ import com.autoStock.MainEngagement;
 import com.autoStock.MainFilter;
 import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
+import com.autoStock.MainTest;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
@@ -20,7 +22,7 @@ import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.replay.BuildReplayData;
+import com.autoStock.replay.ReplayController;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -126,12 +128,16 @@ public class MenuLauncher {
 			new MainFilter(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value));
 		}
 		
+		else if (menuStructure == MenuStructures.menu_main_test){
+			new MainTest();
+		}
+		
 		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){
 			new BuildDatabaseDefinitions().writeGeneratedJavaFiles();
 		}
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_replay_from_file){
-			new BuildReplayData().buildFromTextFile(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), menuStructure.getArgument(MenuArguments.arg_file_name).value);
+			new ReplayController().buildFromTextFile(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), menuStructure.getArgument(MenuArguments.arg_file_name).value);
 		}
 		
 		else {

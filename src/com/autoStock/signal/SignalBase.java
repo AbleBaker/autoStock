@@ -37,17 +37,17 @@ public abstract class SignalBase {
 	
 	public int getStrength(){
 		if (listOfNormalizedValue.size() == 0){return 0;}
-////		Co.println("--> Size: " + listOfNormalizedValue.size() + ", " +maxSignalAverage.value + this.getClass().getName());
-//
-//		double normalizedValue = 0;
-//		int normalizationSize = Math.min(maxSignalAverage.value, listOfNormalizedValue.size());
-//		
-//		for (int i=0; i<normalizationSize; i++){
-//			normalizedValue += listOfNormalizedValue.get(listOfNormalizedValue.size() - i -1);
-//		}
-//		
-//		return (int)normalizedValue / normalizationSize;
-		return listOfNormalizedValue.get(listOfNormalizedValue.size()-1);
+//		Co.println("--> Size: " + listOfNormalizedValue.size() + ", " +maxSignalAverage.value + this.getClass().getName());
+
+		double normalizedValue = 0;
+		int normalizationSize = Math.min(maxSignalAverage.value, listOfNormalizedValue.size());
+		
+		for (int i=0; i<normalizationSize; i++){
+			normalizedValue += listOfNormalizedValue.get(listOfNormalizedValue.size() - i -1);
+		}
+		
+		return (int)normalizedValue / normalizationSize;
+//		return listOfNormalizedValue.get(listOfNormalizedValue.size()-1);
 	}
 	
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){

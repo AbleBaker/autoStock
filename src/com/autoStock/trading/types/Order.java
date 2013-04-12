@@ -59,7 +59,9 @@ public class Order {
 	}
 
 	public void executeOrder() {
-//		Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
+		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange) {
+			Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
+		}
 
 		if (orderStatus == OrderStatus.none) {
 			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange) {
@@ -128,7 +130,8 @@ public class Order {
 						orderWatcher.stopWatching();
 						orderUnitsFilled(unitPriceFilledAverage, unitsFilled);
 					} else {
-						throw new IllegalStateException("Order status did not match: " + orderStatus.name());
+						Co.println("--> Warning: Order status was cancelled, but order was completed!");
+						//throw new IllegalStateException("Order status did not match: " + orderStatus.name());
 					}
 				} else if (ibOrderStatus == IbOrderStatus.status_cancelled) {
 					if (orderStatus != OrderStatus.status_cancelled) {

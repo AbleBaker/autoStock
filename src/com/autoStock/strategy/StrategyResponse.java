@@ -30,6 +30,7 @@ public class StrategyResponse {
 		cease_condition_trans,
 		cease_condition_profit,
 		cease_condition_stoploss,
+		cease_condition_profit_drawdown,
 		cease_condition_loss,
 		cease_condition_nilchange,
 		cease_condition_nilvolume,

@@ -8,6 +8,7 @@ import com.autoStock.order.OrderValue;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.trading.types.Order;
 import com.autoStock.trading.types.Position;
+import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski

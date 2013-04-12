@@ -11,6 +11,7 @@ public class AlgorithmDefinitions {
 		mode_backtest(true, true, false),
 		mode_backtest_with_adjustment(false, false, false),
 		mode_engagement(false, true, false),
+		mode_backtest_silent(false, false, false);
 		;
 		
 		public final boolean displayChart;
@@ -30,6 +31,8 @@ public class AlgorithmDefinitions {
 				return AlgorithmMode.mode_backtest_with_adjustment;	
 			}else if (backtestType == BacktestType.backtest_clustered_client){
 				return AlgorithmMode.mode_backtest_with_adjustment;
+			}else if (backtestType == BacktestType.backtest_result_only){
+				return AlgorithmMode.mode_backtest_silent;
 			}
 			
 			throw new UnsupportedOperationException();

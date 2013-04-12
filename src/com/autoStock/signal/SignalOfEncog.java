@@ -68,15 +68,15 @@ public class SignalOfEncog extends SignalBase {
         double valueForEntry = output.getData(0);
         double valueForExit = output.getData(1);
         
-        if (valueForEntry > 0.9){
+        if (valueForEntry >= 0.99){
         	signalPoint.signalPointType = SignalPointType.long_entry;
         	signalPoint.signalMetricType = SignalMetricType.none;
-        }else if (valueForExit > 0.9){
+        }else if (valueForExit >= 0.99){
         	signalPoint.signalPointType = SignalPointType.long_exit;
         	signalPoint.signalMetricType = SignalMetricType.none;
         }
         
-        Co.println("--> " + valueForEntry + ", " + valueForExit);
+//        Co.println("--> " + valueForEntry + ", " + valueForExit);
         
         return signalPoint;
 	}

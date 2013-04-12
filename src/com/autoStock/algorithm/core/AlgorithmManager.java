@@ -2,6 +2,7 @@ package com.autoStock.algorithm.core;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import com.autoStock.Co;
@@ -11,6 +12,7 @@ import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResult
 import com.autoStock.finance.Account;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.position.PositionManager;
+import com.autoStock.replay.ReplayController;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -79,7 +81,7 @@ public class AlgorithmManager implements ActivationListener {
 			ActiveAlgorithmContainer container = iterator.next();
 			if (listOfSymbols.contains(container.symbol.symbolName) == false){
 				Co.println("--> No longer want: " + container.symbol.symbolName);
-				algorithmInfoManager.deactivatedSymbol(container.symbol.symbolName);
+				algorithmInfoManager.deactivatedSymbol(container.symbol, container.listOfQuoteSlice);
 				container.deactivate();
 				iterator.remove();
 			}
@@ -106,6 +108,7 @@ public class AlgorithmManager implements ActivationListener {
 		}
 		
 		deactivateAll();
+		ReplayController.writeToFile(algorithmInfoManager.listOfAlgorithmInfo);
 		
 		int count = 0;
 		
@@ -126,7 +129,7 @@ public class AlgorithmManager implements ActivationListener {
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();
 			container.deactivate();
-			algorithmInfoManager.deactivatedSymbol(container.symbol.symbolName);
+			algorithmInfoManager.deactivatedSymbol(container.symbol, container.listOfQuoteSlice);
 		}
 	}
 	
@@ -172,7 +175,7 @@ public class AlgorithmManager implements ActivationListener {
 	public void activated(ActiveAlgorithmContainer activeAlgorithmContainer) {
 		Co.println("--> Activated: " + activeAlgorithmContainer.symbol.symbolName);
 		listOfActiveAlgorithmContainer.add(activeAlgorithmContainer);
-		algorithmInfoManager.activatedSymbol(activeAlgorithmContainer.symbol.symbolName);	
+		algorithmInfoManager.activatedSymbol(new Date(), activeAlgorithmContainer.symbol, activeAlgorithmContainer.exchange);	
 	}
 
 	@Override

@@ -63,7 +63,10 @@ public class Prefill {
 	private void prefillFromBroker(final AlgorithmBase algorithmBase, StrategyOptions strategyOptions){
 		setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.getPeriodLength());
 		
-		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("2013-04-05 09:30:00"), new Date(), Resolution.min);
+		Date startDate = new Date();
+		startDate.setTime(startDate.getTime() - (algorithmBase.getPeriodLength() * 60 * 1000));
+		
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, startDate, new Date(), Resolution.min);
 		
 		final Lock lock = new Lock();
 		

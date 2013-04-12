@@ -1,13 +1,16 @@
 package com.autoStock.algorithm.external;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -58,14 +61,14 @@ public class AlgorithmCondition {
 		return false;
 	}
 	
-	public boolean taperPeriodLengthLower(Date date, Exchange exchange){
-		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionTaperTime);		
-		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
-			return true;
-		}
-		
-		return false;
-	}
+//	public boolean taperPeriodLengthLower(Date date, Exchange exchange){
+//		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionTaperTime);		
+//		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
+//			return true;
+//		}
+//		
+//		return false;
+//	}
 	
 //	public boolean takeProfit(Position position, QuoteSlice quoteSlice){
 //		double percentGainFromPosition = 0;
@@ -162,5 +165,12 @@ public class AlgorithmCondition {
 		}
 		
 		return countOfNilChanges >= strategyOptions.maxNilChangeVolume;
+	}
+
+	public boolean stopFromProfitDrawdown(Position position) {
+		Co.print("--> Max Profit was: " +  new DecimalFormat("#.00").format(MathTools.round(position.getPositionHistory().getMaxPercentProfitLoss())));
+		Co.print("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))));
+		Co.println("--> Drawdown is: " +  new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true) - position.getPositionHistory().getMaxPercentProfitLoss())));
+		return false;
 	}
 }

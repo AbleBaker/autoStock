@@ -1,5 +1,6 @@
 package com.autoStock.algorithm.core;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
@@ -32,6 +33,7 @@ public class ActiveAlgorithmContainer {
 	public RequestMarketSymbolData requestMarketData;
 	private YahooFundamentals yahooFundamentals;
 	private ActivationListener activationListener;
+	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	
 	public ActiveAlgorithmContainer(boolean canTrade, Exchange exchange, Symbol symbol, ActivationListener activationListener){
 		this.symbol = symbol;
@@ -75,6 +77,7 @@ public class ActiveAlgorithmContainer {
 			@Override
 			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice quoteSlice) {
 				if (quoteSlice.priceClose != 0){
+					listOfQuoteSlice.add(quoteSlice);
 					algorithm.receiveQuoteSlice(quoteSlice);
 				}
 			}
@@ -101,6 +104,8 @@ public class ActiveAlgorithmContainer {
 				Co.println("--> Warning! Position status was failed while deactivating algorithm...");
 			}else if (position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_cancelled){
 				Co.println("--> Warning! Position status was cancelled while deactivating algorithm...");
+			}else if (position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
+				//pass
 			}else{
 				throw new IllegalStateException();
 			}

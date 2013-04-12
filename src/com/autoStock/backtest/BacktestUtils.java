@@ -96,8 +96,8 @@ public class BacktestUtils {
 		string += "\n Disable after a loss: " + strategyOptions.disableAfterLoss;
 		string += "\n Max position entry time: " + strategyOptions.maxPositionEntryTime;
 		string += "\n Max position exit time: " + strategyOptions.maxPositionExitTime;
-		string += "\n Max position taper time: " + strategyOptions.maxPositionTaperTime;
 		string += "\n Max stop loss percent: " +  strategyOptions.maxStopLossPercent.value;
+		string += "\n Max profit drawdown percent: " +  strategyOptions.maxProfitDrawdownPercent.value;
 		string += "\n Max transactions per day: " + strategyOptions.maxTransactionsDay;
 		string += "\n Signal point tactic (entry): " + strategyOptions.signalPointTacticForEntry.name();
 		string += "\n Signal point tactic (reentry): " + strategyOptions.signalPointTacticForReentry.name();

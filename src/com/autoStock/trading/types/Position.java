@@ -14,6 +14,7 @@ import com.autoStock.order.OrderStatusListener;
 import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionCallback;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionHistory;
 import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.position.PositionUtils;
@@ -21,6 +22,7 @@ import com.autoStock.position.PositionValue;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.Exchange;
+import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
 
 /**
@@ -34,11 +36,12 @@ public class Position implements OrderStatusListener {
 	private double unitPriceFirstKnown;
 	private double unitPriceLastKnown;
 	public PositionType positionType = PositionType.position_none;
-	private final ArrayList<Order> listOfOrder = new ArrayList<Order>();
 	private ListenerOfPositionStatusChange positionStatusListener;
 	private PositionOptions positionOptions;
 	private Account account;
 	private Lock lock = new Lock();
+	private final ArrayList<Order> listOfOrder = new ArrayList<Order>();
+	private PositionHistory positionHistory = new PositionHistory();
 
 	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, Account account) {
 		this.positionType = positionType;
@@ -56,7 +59,14 @@ public class Position implements OrderStatusListener {
 	}
 
 	public void executePosition() {
+		Co.println("\n\n\n");
+		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+			Co.println("--> Asked to execute " + positionType.name() + ", " + symbol.symbolName);
+		}
 		synchronized (lock){
+			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+				Co.println("--> Synchronized " + positionType.name() + ", " + symbol.symbolName);
+			}
 			if (initialUnits == 0){
 				Co.println("--> Warning initial units are 0!!!");
 				positionType = PositionType.position_failed;
@@ -156,7 +166,7 @@ public class Position implements OrderStatusListener {
 		return MathTools.round(positionValue);
 	}
 	
-	public double getCurrentPercentGainLoss(boolean includeTransactionFees){
+	public double getCurrentPercentGainLoss(boolean includeEntryTransactionFee){
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
 		double comission = 0;
@@ -164,7 +174,7 @@ public class Position implements OrderStatusListener {
 		comission += positionUtils.getOrderTransactionFeesIntrinsic();
 		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		
-		if (includeTransactionFees){
+		if (includeEntryTransactionFee){
 			positionValue -= comission;
 		}
 		
@@ -183,8 +193,9 @@ public class Position implements OrderStatusListener {
 		return initialUnits;
 	}
 	
-	public void updatePositionUnitPrice(double priceClose){
-		unitPriceLastKnown = priceClose;
+	public void updatePosition(QuoteSlice quoteSlice){
+		unitPriceLastKnown = quoteSlice.priceClose;
+		positionHistory.addProfitLoss(getCurrentPercentGainLoss(true));
 	}
 	
 	public synchronized PositionValue getPositionValue(){
@@ -205,6 +216,10 @@ public class Position implements OrderStatusListener {
 	
 	public PositionUtils getPositionUtils(){
 		return new PositionUtils(this, listOfOrder);
+	}
+	
+	public PositionHistory getPositionHistory(){
+		return positionHistory;
 	}
 
 	@Override

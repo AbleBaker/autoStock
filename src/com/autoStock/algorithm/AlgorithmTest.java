@@ -41,7 +41,7 @@ public class AlgorithmTest extends AlgorithmBase {
 	}
 	
 	public void init(){
-//		prefill();
+		prefill();
 	}
 
 	@Override

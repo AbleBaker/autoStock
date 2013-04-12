@@ -127,6 +127,9 @@ public class MathTools {
 	
 	public static double getMaxDouble(ArrayList<Double> listOfDouble){
 		double returnValue = Double.MIN_VALUE;
+		
+		if (listOfDouble.size() == 0){return 0;}
+		
 		for (double number : listOfDouble){
 			if (number > returnValue){
 				returnValue = number;
@@ -138,6 +141,9 @@ public class MathTools {
 	
 	public static double getMinDouble(ArrayList<Double> listOfDouble){
 		double returnValue = Double.MAX_VALUE;
+		
+		if (listOfDouble.size() == 0){return 0;}
+		
 		for (double number : listOfDouble){
 			if (number < returnValue){
 				returnValue = number;

@@ -2,6 +2,7 @@ package com.autoStock;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.adjust.AdjustmentCampaign;
@@ -87,7 +88,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	}
 	
 	private void runMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols){
-		Co.println("Main backtest...\n\n");
+		if (backtestType != BacktestType.backtest_result_only){Co.println("Main backtest...\n\n");}
 		
 		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, dateStart, dateEnd, Resolution.min);
 
@@ -136,7 +137,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	
 	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList){
 		callbacks.set(listOfBacktestContainer.size());
-		Co.println("\nBacktesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()) + "%): " + currentBacktestDayIndex);
+		if (backtestType != BacktestType.backtest_result_only){Co.println("\nBacktesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()) + "%): " + currentBacktestDayIndex);}
 		
 		boolean backtestContainedNoData = false;
 		
@@ -176,9 +177,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
 	}
 	
-	public synchronized boolean runNextBacktestForDays(boolean skippedDay){
+	private synchronized boolean runNextBacktestForDays(boolean skippedDay){
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()){
-			if (backtestType == BacktestType.backtest_default){
+			if (backtestType == BacktestType.backtest_default || backtestType == BacktestType.backtest_result_only){
 				return false;
 			}else if (backtestType == BacktestType.backtest_clustered_client){
 				Global.callbackLock.releaseLock();
@@ -223,11 +224,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	
 	@Override
 	public synchronized void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
-		Co.print("[ " + symbol.symbolName + " ] ");
+		if (backtestType != BacktestType.backtest_result_only){Co.print("[ " + symbol.symbolName + " ] ");}
 
 		if (callbacks.decrementAndGet() == 0) {
-			Co.println("--> All called back...");
-			bench.printTick("Backtested");
+			if (backtestType != BacktestType.backtest_result_only){
+				Co.println("--> All called back...");
+				bench.printTick("Backtested");
+			}
 			
 			PositionManager.getInstance().executeExitAll();
 			
@@ -268,9 +271,11 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					
 					BacktestResultDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
 					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType));
-				} 
-				Co.println("--> Finished backtest");
+				}
+				
+				if (listenerOfMainBacktestCompleted != null){listenerOfMainBacktestCompleted.backtestCompleted();}
 				if (backtestType == BacktestType.backtest_default){
+					Co.println("--> Finished backtest");
 					Global.callbackLock.releaseLock();
 				}
 			}
