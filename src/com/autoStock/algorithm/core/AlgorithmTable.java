@@ -15,6 +15,7 @@ import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.ExportTools;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
@@ -89,6 +90,7 @@ public class AlgorithmTable {
 		synchronized (lock) {
 			Co.println("\n--> Symbol " + symbol.symbolName);
 			new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);	
+			Co.print(new ExportTools().exportToString(AsciiTables.algorithm_test, listOfDisplayRows));
 		}
 	}
 }

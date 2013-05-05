@@ -2,6 +2,7 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
@@ -28,21 +29,21 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions = StrategyOptionDefaults.getInstance().getDefaultStrategyOptions();
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
 
-		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
-		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
-		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
+//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
+//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
+//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 
-		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_uo);
-		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_up);
-		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_down);
+//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_up);
+//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_down);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_candlestick_group);
-		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
+		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
 
 	}
 

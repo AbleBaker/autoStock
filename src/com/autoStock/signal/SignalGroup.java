@@ -29,7 +29,7 @@ public class SignalGroup {
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup();
 	public SignalOfEncog signalOfEncog = new SignalOfEncog();
 	
-	public static final int ENCOG_SIGNAL_INPUT = 5;
+	public static final int ENCOG_SIGNAL_INPUT = 15;
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	
@@ -62,9 +62,9 @@ public class SignalGroup {
 //			encogWindow.addInputList(signalOfARUp.listOfNormalizedValue.subList(signalOfARUp.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARUp.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfARDown.listOfNormalizedValue.subList(signalOfARDown.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARDown.listOfNormalizedValue.size()));
 			
-//			for (int i=0; i<encogWindow.getAsWindow().length; i++){
-//				Co.print(" " + encogWindow.getAsWindow()[i]);
-//			}
+			for (int i=0; i<encogWindow.getAsWindow().length; i++){
+				Co.print(" " + encogWindow.getAsWindow()[i]);
+			}
 			
 			signalOfEncog.setInput(encogWindow);
 		}

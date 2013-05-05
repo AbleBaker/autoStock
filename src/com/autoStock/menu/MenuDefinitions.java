@@ -15,6 +15,7 @@ public class MenuDefinitions {
 		menu_main_market_filter(new MenuArguments[]{MenuArguments.arg_exchange}),
 		menu_main_market_index_data(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_index}),
 		menu_main_test(new MenuArguments[]{MenuArguments.arg_none}),
+		menu_main_indicator_test(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_end_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol}),
 		menu_request_historical_prices(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_end_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol, MenuArguments.arg_resolution}),
 		menu_request_market_symbol_data(new MenuArguments[]{MenuArguments.arg_exchange, MenuArguments.arg_symbol}),
 		menu_request_realtime_data(new MenuArguments[]{MenuArguments.arg_security_type, MenuArguments.arg_symbol}),

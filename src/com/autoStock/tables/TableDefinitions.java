@@ -16,7 +16,7 @@ public class TableDefinitions {
 		backtest_strategy_response(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.price, AsciiColumns.strategyResponse, AsciiColumns.positionGovernorResponse, AsciiColumns.signal, AsciiColumns.profitLoss}),
 		;
 		
-		AsciiColumns[] arrayOfColumns;
+		public AsciiColumns[] arrayOfColumns;
 		
 		AsciiTables (AsciiColumns[] arrayOfColumns){
 			this.arrayOfColumns = arrayOfColumns;

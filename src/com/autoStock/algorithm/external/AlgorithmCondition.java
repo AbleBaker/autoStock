@@ -168,9 +168,9 @@ public class AlgorithmCondition {
 	}
 
 	public boolean stopFromProfitDrawdown(Position position) {
-		Co.print("--> Max Profit was: " +  new DecimalFormat("#.00").format(MathTools.round(position.getPositionHistory().getMaxPercentProfitLoss())));
-		Co.print("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))));
-		Co.println("--> Drawdown is: " +  new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true) - position.getPositionHistory().getMaxPercentProfitLoss())));
-		return false;
+//		Co.print("--> Max Profit was: " +  new DecimalFormat("#.00").format(MathTools.round(position.getPositionHistory().getMaxPercentProfitLoss())));
+//		Co.print("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))));
+//		Co.println("--> Drawdown is: " +  new DecimalFormat("#.00").format()));
+		return position.getPositionProfitDrawdown() <= strategyOptions.maxProfitDrawdownPercent.value;
 	}
 }

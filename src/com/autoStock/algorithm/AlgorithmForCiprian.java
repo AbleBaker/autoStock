@@ -25,11 +25,12 @@ public class AlgorithmForCiprian extends AlgorithmBase implements ReceiverOfQuot
 	@Override
 	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		Co.println("Received quoteSlice: " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + quoteSlice.priceClose);
-
+		
+		double priceMovement = quoteSlice.priceClose - quoteSlice.priceOpen;
 	}
 
 	@Override
 	public void endOfFeed(Symbol symbol) {
-		
+		Co.println("--> End of feed...");
 	}
 }

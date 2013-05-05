@@ -10,6 +10,7 @@ import com.autoStock.MainClusteredBacktest;
 import com.autoStock.MainClusteredBacktestClient;
 import com.autoStock.MainEngagement;
 import com.autoStock.MainFilter;
+import com.autoStock.MainIndicatorTest;
 import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
 import com.autoStock.MainTest;
@@ -138,6 +139,15 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_replay_from_file){
 			new ReplayController().buildFromTextFile(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), menuStructure.getArgument(MenuArguments.arg_file_name).value);
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_indicator_test){
+			new MainIndicatorTest(
+					DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value),
+					DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
+					new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
+					new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value, SecurityType.type_stock)
+				);
 		}
 		
 		else {

@@ -47,7 +47,7 @@ public class AlgorithmTest extends AlgorithmBase {
 	@Override
 	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		receivedQuoteSlice(quoteSlice);
-		
+			
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
 			
 //			Co.print("\n --> QS: " + quoteSlice.dateTime);
@@ -57,6 +57,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			indicatorGroup.analyize();
 			signalGroup.generateSignals(commonAnalysisData, getPeriodLength());
 			
+			
 //			Co.println("--> ");
 //			
 //			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
@@ -64,7 +65,7 @@ public class AlgorithmTest extends AlgorithmBase {
 //			}
 //			
 //			System.exit(0);
-
+			
 			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position, new PositionOptions(this));
 		
 			handleStrategyResponse(strategyResponse);

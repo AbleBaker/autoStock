@@ -25,7 +25,8 @@ public class MainClient {
 		if (menuStructure == MenuStructures.menu_main_backtest 
 			|| menuStructure == MenuStructures.menu_main_clustered_backtest 
 			|| menuStructure == MenuStructures.menu_main_clustered_backtest_client
-			|| menuStructure == MenuStructures.menu_main_test){
+			|| menuStructure == MenuStructures.menu_main_test
+			|| menuStructure == MenuStructures.menu_main_indicator_test){
 				Co.println("--> Skipped TWS initialization");
 				ApplicationStates.startup(Mode.client_skip_tws);
 		}else{

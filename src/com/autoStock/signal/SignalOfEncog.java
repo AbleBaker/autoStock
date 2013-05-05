@@ -33,7 +33,7 @@ public class SignalOfEncog extends SignalBase {
 			PersistBasicNetwork persistBasicNetwork = new PersistBasicNetwork();
 			basicNetwork = (BasicNetwork) persistBasicNetwork.read(new FileInputStream(new File("../EncogTest/encog.file")));
 		}catch(Exception e){
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 

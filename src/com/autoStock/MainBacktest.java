@@ -1,5 +1,6 @@
 package com.autoStock;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +33,7 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.ExportTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -267,6 +269,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							listOfDisplayRows.add(listOfString);
 						}
 						new TableController().displayTable(AsciiTables.backtest_strategy_response, listOfDisplayRows);
+						Co.print(new ExportTools().exportToString(AsciiTables.backtest_strategy_response, listOfDisplayRows));
 					}
 					
 					BacktestResultDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);

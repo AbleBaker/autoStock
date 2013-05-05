@@ -59,7 +59,6 @@ public class Position implements OrderStatusListener {
 	}
 
 	public void executePosition() {
-		Co.println("\n\n\n");
 		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
 			Co.println("--> Asked to execute " + positionType.name() + ", " + symbol.symbolName);
 		}
@@ -220,6 +219,10 @@ public class Position implements OrderStatusListener {
 	
 	public PositionHistory getPositionHistory(){
 		return positionHistory;
+	}
+	
+	public double getPositionProfitDrawdown(){
+		return MathTools.round(getCurrentPercentGainLoss(true) - positionHistory.getMaxPercentProfitLoss());
 	}
 
 	@Override
