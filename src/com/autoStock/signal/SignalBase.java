@@ -8,6 +8,7 @@ import com.autoStock.guage.SignalGuage;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.types.basic.ImmutableInteger;
@@ -17,10 +18,12 @@ public abstract class SignalBase {
 	protected ArrayList<Integer> listOfNormalizedValue = new ArrayList<Integer>();
 	protected ArrayList<Integer> listOfNormalizedAveragedValue = new ArrayList<Integer>();
 	protected ImmutableInteger maxSignalAverage;
+	public final SignalParameters signalParameters;
 	
-	public SignalBase(SignalMetricType signalMetricType){
+	public SignalBase(SignalMetricType signalMetricType, SignalParameters signalParameters){
 		this.signalMetricType = signalMetricType;
-		maxSignalAverage = signalMetricType.maxSignalAverage;
+		this.signalParameters = signalParameters;
+		maxSignalAverage = signalParameters.maxSignalAverage;
 	}
 	
 //	public int[] getStrengthWindow(int length){
@@ -54,10 +57,10 @@ public abstract class SignalBase {
 		if (havePosition == false){
 			boolean isQualified = false;
 			
-			SignalGuage signalGuageForLongEntry = signalMetricType.arrayOfSignalGuageForLongEntry[0];
+			SignalGuage signalGuageForLongEntry = signalParameters.arrayOfSignalGuageForLongEntry[0];
 			SignalGuageType signalGuageTypeForLongEntry = signalGuageForLongEntry.immutableEnumForSignalGuageType.enumValue;
 			
-			SignalGuage signalGuageForShortEntry = signalMetricType.arrayOfSignalGuageForShortEntry[0];
+			SignalGuage signalGuageForShortEntry = signalParameters.arrayOfSignalGuageForShortEntry[0];
 			SignalGuageType signalGuageTypeForShortEntry = signalGuageForShortEntry.immutableEnumForSignalGuageType.enumValue;
 			
 			if (signalGuageTypeForLongEntry == SignalGuageType.guage_threshold_met){
@@ -83,7 +86,7 @@ public abstract class SignalBase {
 		} else{
 			if (positionType == PositionType.position_long){
 				boolean isQualified = false;
-				SignalGuage signalGuageForLongExit = signalMetricType.arrayOfSignalGuageForLongExit[0];
+				SignalGuage signalGuageForLongExit = signalParameters.arrayOfSignalGuageForLongExit[0];
 				SignalGuageType signalGuageTypeForLongExit = signalGuageForLongExit.immutableEnumForSignalGuageType.enumValue;
 				
 				if (signalGuageTypeForLongExit == SignalGuageType.guage_threshold_met){
@@ -97,7 +100,7 @@ public abstract class SignalBase {
 				}
 			}else if (positionType == PositionType.position_short){
 				boolean isQualified = false;
-				SignalGuage signalGuageForShortExit = signalMetricType.arrayOfSignalGuageForShortExit[0];
+				SignalGuage signalGuageForShortExit = signalParameters.arrayOfSignalGuageForShortExit[0];
 				SignalGuageType signalGuageTypeForShortExit = signalGuageForShortExit.immutableEnumForSignalGuageType.enumValue;
 				
 				if (signalGuageTypeForShortExit == SignalGuageType.guage_threshold_met){
@@ -119,14 +122,14 @@ public abstract class SignalBase {
 	
 	public void setInput(double value){
 		listOfNormalizedValue.clear();
-		listOfNormalizedValue.add(signalMetricType.normalizeInterface.normalize(value));
+		listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value));
 		listOfNormalizedAveragedValue.add(getStrength());
 	}
 	
 	public void setInput(double[] value){
 		listOfNormalizedValue.clear();
 		for (int i=0;i<value.length;i++){
-			listOfNormalizedValue.add(signalMetricType.normalizeInterface.normalize(value[i]));
+			listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value[i]));
 			listOfNormalizedAveragedValue.add(getStrength());
 		}
 	}

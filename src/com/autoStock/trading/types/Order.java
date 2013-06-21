@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.Co;
+import com.autoStock.account.TransactionFees;
 import com.autoStock.exchange.request.OrderIdProvider;
 import com.autoStock.exchange.request.RequestMarketOrder;
 import com.autoStock.exchange.request.base.RequestHolder;
@@ -12,7 +13,6 @@ import com.autoStock.exchange.request.listener.RequestMarketOrderIdListener;
 import com.autoStock.exchange.request.listener.RequestMarketOrderListener;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultRowMarketOrder;
 import com.autoStock.exchange.results.ExResultMarketOrder.ExResultSetMarketOrder;
-import com.autoStock.finance.Account;
 import com.autoStock.order.OrderDefinitions.IbOrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.order.OrderDefinitions.OrderStatus;
@@ -202,11 +202,11 @@ public class Order {
 			// Co.println("--> Warning filled units is 0..." + symbol.symbolName);
 		}
 
-		return new OrderValue(getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true), getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(), Account.getInstance().getTransactionCost(getUnitsIntrinsic(), priceRequested));
+		return new OrderValue(getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true), getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(), TransactionFees.getTransactionCost(getUnitsIntrinsic(), priceRequested));
 	}
 
 	private double getFilledPrice(boolean includeTransactionFees) {
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceFilled);
+		double transactionFees = TransactionFees.getTransactionCost(getUnitsFilled(), priceFilled);
 		double positionValue = getUnitsFilled() * priceFilled;
 		double total = positionValue + (includeTransactionFees ? transactionFees : 0);
 
@@ -214,7 +214,7 @@ public class Order {
 	}
 
 	private double getFilledValue(boolean includeTransactionFees) {
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceFilled);
+		double transactionFees = TransactionFees.getTransactionCost(getUnitsFilled(), priceFilled);
 		double positionValue = getUnitsFilled() * priceFilled;
 		double total = positionValue - (includeTransactionFees ? transactionFees : 0);
 
@@ -222,7 +222,7 @@ public class Order {
 	}
 
 	private double getRequestedPrice(boolean includeTransactionFees) {
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested);
+		double transactionFees = TransactionFees.getTransactionCost(getUnitsFilled(), priceRequested);
 		double positionValue = getUnitsFilled() * priceRequested;
 		double total = positionValue + (includeTransactionFees ? transactionFees : 0);
 
@@ -230,7 +230,7 @@ public class Order {
 	}
 
 	private double getRequestedValue(boolean includeTransactionFees) {
-		double transactionFees = Account.getInstance().getTransactionCost(getUnitsFilled(), priceRequested);
+		double transactionFees = TransactionFees.getTransactionCost(getUnitsFilled(), priceRequested);
 		double positionValue = getUnitsFilled() * priceRequested;
 		double total = positionValue - (includeTransactionFees ? transactionFees : 0);
 
@@ -286,6 +286,6 @@ public class Order {
 	}
 
 	public double getTransactionFees() {
-		return Account.getInstance().getTransactionCost(unitsRequested, priceRequested);
+		return TransactionFees.getTransactionCost(unitsRequested, priceRequested);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
+import com.autoStock.account.AccountProvider;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.exchange.request.RequestMarketSymbolData;
@@ -35,11 +36,11 @@ public class ActiveAlgorithmContainer {
 	private ActivationListener activationListener;
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	
-	public ActiveAlgorithmContainer(boolean canTrade, Exchange exchange, Symbol symbol, ActivationListener activationListener){
+	public ActiveAlgorithmContainer(Exchange exchange, Symbol symbol, ActivationListener activationListener){
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.activationListener = activationListener;
-		algorithm = new AlgorithmTest(canTrade, exchange, symbol, AlgorithmMode.mode_engagement, new Date());
+		algorithm = new AlgorithmTest(exchange, symbol, AlgorithmMode.mode_engagement, new Date(), AccountProvider.getInstance().getGlobalAccount());
 	}
 	
 	public void activate(){
@@ -97,9 +98,9 @@ public class ActiveAlgorithmContainer {
 		Position position = PositionManager.getInstance().getPosition(symbol);
 		if (position != null){
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_long_exit, position, null);
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_long_exit, position, null, position.basicAccount);
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_short_exit, position, null);
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategy.signal, PositionType.position_short_exit, position, null, position.basicAccount);
 			}else if (position.positionType == PositionType.position_failed){
 				Co.println("--> Warning! Position status was failed while deactivating algorithm...");
 			}else if (position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_cancelled){

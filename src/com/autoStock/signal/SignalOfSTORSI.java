@@ -4,6 +4,7 @@
 package com.autoStock.signal;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski
@@ -11,8 +12,8 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfSTORSI extends SignalBase {
 	
-	public SignalOfSTORSI(){
-		super(SignalMetricType.metric_storsi);
+	public SignalOfSTORSI(SignalParameters signalParameters){
+		super(SignalMetricType.metric_storsi, signalParameters);
 	}
 	
 	public void addInput(double[] arrayOfPercentK, double[] arrayOfPercentD, int periodAverage){

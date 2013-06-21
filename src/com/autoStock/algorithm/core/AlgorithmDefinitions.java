@@ -27,7 +27,7 @@ public class AlgorithmDefinitions {
 		public static AlgorithmMode getFromBacktestType(BacktestType backtestType) {
 			if (backtestType == BacktestType.backtest_default){
 				return AlgorithmMode.mode_backtest;
-			}else if (backtestType == BacktestType.backtest_adjustment){
+			}else if (backtestType == BacktestType.backtest_adjustment_boilerplate || backtestType == BacktestType.backtest_adjustment_individual){
 				return AlgorithmMode.mode_backtest_with_adjustment;	
 			}else if (backtestType == BacktestType.backtest_clustered_client){
 				return AlgorithmMode.mode_backtest_with_adjustment;

@@ -12,9 +12,9 @@ import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
-import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.ListTools;
 
@@ -26,8 +26,8 @@ public class SignalOfEncog extends SignalBase {
 	private BasicNetwork basicNetwork;
 	private EncogInputWindow encogInputWindow;
 	
-	public SignalOfEncog() {
-		super(SignalMetricType.metric_encog);
+	public SignalOfEncog(SignalParameters signalParameters) {
+		super(SignalMetricType.metric_encog, signalParameters);
 		
 		try {
 			PersistBasicNetwork persistBasicNetwork = new PersistBasicNetwork();

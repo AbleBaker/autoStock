@@ -6,7 +6,8 @@ package com.autoStock.trading.types;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
-import com.autoStock.finance.Account;
+import com.autoStock.account.BasicAccount;
+import com.autoStock.account.TransactionFees;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.order.OrderDefinitions.OrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderType;
@@ -33,17 +34,17 @@ public class Position implements OrderStatusListener {
 	private final int initialUnits;
 	public final Symbol symbol;
 	public final Exchange exchange;
+	public final BasicAccount basicAccount;
 	private double unitPriceFirstKnown;
 	private double unitPriceLastKnown;
 	public PositionType positionType = PositionType.position_none;
 	private ListenerOfPositionStatusChange positionStatusListener;
 	private PositionOptions positionOptions;
-	private Account account;
 	private Lock lock = new Lock();
 	private final ArrayList<Order> listOfOrder = new ArrayList<Order>();
 	private PositionHistory positionHistory = new PositionHistory();
 
-	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, Account account) {
+	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, BasicAccount basicAccount) {
 		this.positionType = positionType;
 		this.initialUnits = units;
 		this.symbol = symbol;
@@ -51,7 +52,7 @@ public class Position implements OrderStatusListener {
 		this.unitPriceFirstKnown = currentPrice;
 		this.unitPriceLastKnown = currentPrice;
 		this.positionOptions = positionOptions;
-		this.account = account;
+		this.basicAccount = basicAccount;
 	}
 
 	public void setPositionListener(ListenerOfPositionStatusChange positionStatusListener) {
@@ -150,7 +151,7 @@ public class Position implements OrderStatusListener {
 		
 		comission += positionUtils.getOrderTransactionFeesIntrinsic();
 		if (bothComissions){
-			comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
+			comission += TransactionFees.getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		}
 		
 		return MathTools.round(positionValue - comission);
@@ -171,7 +172,7 @@ public class Position implements OrderStatusListener {
 		double comission = 0;
 		
 		comission += positionUtils.getOrderTransactionFeesIntrinsic();
-		comission += Account.getInstance().getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
+		comission += TransactionFees.getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		
 		if (includeEntryTransactionFee){
 			positionValue -= comission;
@@ -252,7 +253,7 @@ public class Position implements OrderStatusListener {
 			}else{
 				throw new IllegalStateException();
 			}
-			PositionCallback.affectBankBalance(order, PositionManager.getInstance().orderMode, account);
+			PositionCallback.affectBankBalance(order, PositionManager.getInstance().orderMode, basicAccount);
 		}else if (orderStatus == OrderStatus.status_cancelled){
 			if (listOfOrder.size() > 1){
 				synchronized(listOfOrder){

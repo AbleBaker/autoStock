@@ -2,7 +2,6 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
@@ -35,7 +34,7 @@ public class StrategyOfTest extends StrategyBase {
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 
-//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_uo);
@@ -43,7 +42,7 @@ public class StrategyOfTest extends StrategyBase {
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_down);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_candlestick_group);
-		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
+//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
 
 	}
 
@@ -135,7 +134,7 @@ public class StrategyOfTest extends StrategyBase {
 
 	private PositionGovernorResponse proceed(QuoteSlice quoteSlice, Position position, PositionOptions positionOptions) {
 		// Co.println("--> Asked to proceed");
-		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, false, position, positionOptions);
+		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, false, position, positionOptions, algorithmBase.basicAccount);
 		return positionGovernorResponse;
 	}
 
@@ -143,7 +142,7 @@ public class StrategyOfTest extends StrategyBase {
 		// Co.println("--> Asked to cease: " + strategyActionCause.name());
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		if (position != null) {
-			positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null);
+			positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
 		}
 		strategyResponse.strategyAction = StrategyAction.algorithm_disable;
 		strategyResponse.strategyActionCause = strategyActionCause;
@@ -153,7 +152,7 @@ public class StrategyOfTest extends StrategyBase {
 
 	private PositionGovernorResponse exit(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse) {
 		// Co.println("--> Asked to exit");
-		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null);
+		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
 
 		strategyResponse.strategyAction = StrategyAction.algorithm_changed;
 		strategyResponse.strategyActionCause = strategyActionCause;

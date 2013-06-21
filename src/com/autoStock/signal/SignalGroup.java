@@ -2,11 +2,11 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalOfEncog.EncogInputWindow;
+import com.autoStock.signal.SignalDefinitions.*;
 
 /**
  * @author Kevin Kowalewski
@@ -14,26 +14,26 @@ import com.autoStock.signal.SignalOfEncog.EncogInputWindow;
  */
 public class SignalGroup {
 	public IndicatorGroup indicatorGroup;
-	public SignalOfCCI signalOfCCI = new SignalOfCCI();
-	public SignalOfADX signalOfADX = new SignalOfADX();
-	public SignalOfDI signalOfDI = new SignalOfDI();
-	public SignalOfMACD signalOfMACD = new SignalOfMACD();
-	public SignalOfRSI signalOfRSI = new SignalOfRSI();
-	public SignalOfTRIX signalOfTRIX = new SignalOfTRIX();
-	public SignalOfROC signalOfROC = new SignalOfROC();
-	public SignalOfMFI signalOfMFI = new SignalOfMFI();
-	public SignalOfWILLR signalOfWILLR = new SignalOfWILLR();
-	public SignalOfUO signalOfUO = new SignalOfUO();
-	public SignalOfARUp signalOfARUp = new SignalOfARUp();
-	public SignalOfARDown signalOfARDown = new SignalOfARDown();
-	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup();
-	public SignalOfEncog signalOfEncog = new SignalOfEncog();
+	public SignalOfCCI signalOfCCI = new SignalOfCCI(new SignalParametersForCCI());
+	public SignalOfADX signalOfADX = new SignalOfADX(new SignalParametersForADX());
+	public SignalOfDI signalOfDI = new SignalOfDI(new SignalParametersForDI());
+	public SignalOfMACD signalOfMACD = new SignalOfMACD(new SignalParametersForMACD());
+	public SignalOfRSI signalOfRSI = new SignalOfRSI(new SignalParametersForRSI());
+	public SignalOfTRIX signalOfTRIX = new SignalOfTRIX(new SignalParametersForTRIX());
+	public SignalOfROC signalOfROC = new SignalOfROC(new SignalParametersForROC());
+	public SignalOfMFI signalOfMFI = new SignalOfMFI(new SignalParametersForMFI());
+	public SignalOfWILLR signalOfWILLR = new SignalOfWILLR(new SignalParametersForWILLR());
+	public SignalOfUO signalOfUO = new SignalOfUO(new SignalParametersForUO());
+	public SignalOfARUp signalOfARUp = new SignalOfARUp(new SignalParametersForARUp());
+	public SignalOfARDown signalOfARDown = new SignalOfARDown(new SignalParametersForARDown());
+	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
+	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
 	
 	public static final int ENCOG_SIGNAL_INPUT = 15;
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	
-	public SignalGroup(IndicatorGroup indicatorGroup){
+	public void setIndicatorGroup(IndicatorGroup indicatorGroup){
 		this.indicatorGroup = indicatorGroup;
 	}
 	
@@ -62,9 +62,9 @@ public class SignalGroup {
 //			encogWindow.addInputList(signalOfARUp.listOfNormalizedValue.subList(signalOfARUp.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARUp.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfARDown.listOfNormalizedValue.subList(signalOfARDown.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARDown.listOfNormalizedValue.size()));
 			
-			for (int i=0; i<encogWindow.getAsWindow().length; i++){
-				Co.print(" " + encogWindow.getAsWindow()[i]);
-			}
+//			for (int i=0; i<encogWindow.getAsWindow().length; i++){
+//				Co.print(" " + encogWindow.getAsWindow()[i]);
+//			}
 			
 			signalOfEncog.setInput(encogWindow);
 		}

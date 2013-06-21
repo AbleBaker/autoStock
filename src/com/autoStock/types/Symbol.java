@@ -19,4 +19,9 @@ public class Symbol {
 	public boolean equals(Object obj) {
 		return ((Symbol)obj).symbolName.equals(symbolName);
 	}
+	
+	@Override
+	public int hashCode() {
+		return symbolName.hashCode();
+	}
 }

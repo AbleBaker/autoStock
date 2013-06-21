@@ -4,6 +4,7 @@
 package com.autoStock.signal;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski
@@ -11,7 +12,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfRSI extends SignalBase {
 
-	public SignalOfRSI(){
-		super(SignalMetricType.metric_rsi);
+	public SignalOfRSI(SignalParameters signalParameters){
+		super(SignalMetricType.metric_rsi, signalParameters);
 	}
 }

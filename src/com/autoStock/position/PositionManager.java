@@ -6,7 +6,7 @@ package com.autoStock.position;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
-import com.autoStock.finance.Account;
+import com.autoStock.account.BasicAccount;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
@@ -25,8 +25,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 	private static PositionManager instance = new PositionManager();
 	private volatile PositionExecutor positionExecutor = new PositionExecutor();
 	private volatile ArrayList<Position> listOfPosition = new ArrayList<Position>();
-	private volatile PositionGenerator positionGenerator;
-	private Account account = Account.getInstance();
+	private volatile PositionGenerator positionGenerator = new PositionGenerator();
 	public OrderMode orderMode = OrderMode.none;
 	private Lock lock = new Lock();
 	
@@ -34,21 +33,16 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 		return instance;
 	}
 	
-	private PositionManager(){
-		 positionGenerator = new PositionGenerator(account);
-	}
+	private PositionManager(){}
 	
-	public PositionManager(OrderMode orderMode, Account account){
+	public PositionManager(OrderMode orderMode){
 		this.orderMode = orderMode;
-		this.account = account;
-		
-		positionGenerator = new PositionGenerator(account);
 	}
 
-	public Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType, Position inboundPosition, PositionOptions positionOptions) {
+	public Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType, Position inboundPosition, PositionOptions positionOptions, BasicAccount basicAccount) {
 		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry) {
-				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions);
+				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions, basicAccount);
 				if (position != null){
 					position.setPositionListener(this);
 					listOfPosition.add(position);
@@ -56,7 +50,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 				}
 				return position;
 			} else if (positionType == PositionType.position_short_entry) {
-				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions);
+				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions, basicAccount);
 				if (position != null){
 					position.setPositionListener(this);
 					listOfPosition.add(position);

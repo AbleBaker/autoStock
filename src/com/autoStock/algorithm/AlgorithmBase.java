@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
+import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmChart;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
@@ -61,16 +62,17 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	private Prefill prefill;
 	public final Date startingDate;
 	protected FundamentalData fundamentalData;
+	public final BasicAccount basicAccount;
 	
-	public AlgorithmBase(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate){
-		this.algorithmState.canTrade = canTrade;
+	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate, BasicAccount basicAccount){
 		this.exchange = exchange;
 		this.symbol = symbol;
 		this.algorithmMode = algorithmMode;
 		this.startingDate = startingDate;
+		this.basicAccount = basicAccount;
 		
-		indicatorGroup = new IndicatorGroup(commonAnalysisData);
-		signalGroup = new SignalGroup(indicatorGroup);
+		signalGroup = new SignalGroup();
+		indicatorGroup = new IndicatorGroup(commonAnalysisData, signalGroup);
 	}
 	
 

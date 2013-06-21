@@ -6,10 +6,10 @@ import java.util.Date;
 import java.util.Iterator;
 
 import com.autoStock.Co;
+import com.autoStock.account.AccountProvider;
 import com.autoStock.algorithm.core.ActiveAlgorithmContainer.ActivationListener;
 import com.autoStock.exchange.ExchangeStatusListener.ExchangeState;
 import com.autoStock.exchange.results.MultipleResultMarketScanner.MultipleResultRowMarketScanner;
-import com.autoStock.finance.Account;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.position.PositionManager;
 import com.autoStock.replay.ReplayController;
@@ -55,7 +55,7 @@ public class AlgorithmManager implements ActivationListener {
 			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.exchangeName) == null && isInDiscard(new Pair<Symbol,Exchange>(new Symbol(result.symbol, SecurityType.type_stock), exchange)) == false){
 				Co.println("Will run algorithm for symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				
-				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(false, exchange, new Symbol(result.symbol, SecurityType.type_stock), this);
+				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(exchange, new Symbol(result.symbol, SecurityType.type_stock), this);
 				container.activate();
 			}
 		}
@@ -146,10 +146,10 @@ public class AlgorithmManager implements ActivationListener {
 	public void displayAlgorithmTable(){
 		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
 		Co.println("--> Current entered position P&L: " + PositionManager.getInstance().getCurrentProfitLossBeforeComission() + " / " + PositionManager.getInstance().getCurrentProfitLossAfterComission(false));
-		Co.println("--> Current fees paid: " + Account.getInstance().getTransactionFeesPaid());
-		Co.println("--> Current account balance: " + Account.getInstance().getAccountBalance());
+		Co.println("--> Current fees paid: " + AccountProvider.getInstance().getGlobalAccount().getTransactionFees());
+		Co.println("--> Current account balance: " + AccountProvider.getInstance().getGlobalAccount().getBalance());
 		Co.println("--> All position value including fees: " + PositionManager.getInstance().getAllPositionValueIncludingFees()); 
-		Co.println("--> Complete gain from starting account balance: $" + new DecimalFormat("#.###").format((Account.getInstance().getAccountBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) - Account.getInstance().bankBalanceDefault));
+		Co.println("--> Complete gain from starting account balance: $" + new DecimalFormat("#.###").format((AccountProvider.getInstance().getGlobalAccount().getBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) - AccountProvider.getInstance().defaultBalance));
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){
@@ -165,7 +165,7 @@ public class AlgorithmManager implements ActivationListener {
 	}
 	
 	public void displayEndOfDayStats(ArrayList<ArrayList<String>> listOfAlgorithmDisplayRows){
-		Co.println("--> Account balance, transactions, fees paid: " + Account.getInstance().getAccountBalance() + ", " + Account.getInstance().getTransactions() + ", " + Account.getInstance().getTransactionFeesPaid());
+		Co.println("--> Account balance, transactions, fees paid: " + AccountProvider.getInstance().getGlobalAccount().getBalance() + ", " + AccountProvider.getInstance().getGlobalAccount().getTransactions() + ", " + AccountProvider.getInstance().getGlobalAccount().getTransactionFees());
 		new TableController().displayTable(AsciiTables.algorithm_manager, listOfAlgorithmDisplayRows);
 		
 		Co.println(new Gson().toJson(algorithmInfoManager.listOfAlgorithmInfo));

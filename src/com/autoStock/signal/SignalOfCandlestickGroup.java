@@ -1,6 +1,7 @@
 package com.autoStock.signal;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski
@@ -8,7 +9,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfCandlestickGroup extends SignalBase {
 	
-	public SignalOfCandlestickGroup() {
-		super(SignalMetricType.metric_candlestick_group);
+	public SignalOfCandlestickGroup(SignalParameters signalParameters) {
+		super(SignalMetricType.metric_candlestick_group, signalParameters);
 	}
 }

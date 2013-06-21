@@ -2,13 +2,12 @@ package com.autoStock.position;
 
 import java.util.ArrayList;
 
-import com.autoStock.finance.Account;
+import com.autoStock.account.TransactionFees;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderValue;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.trading.types.Order;
 import com.autoStock.trading.types.Position;
-import com.autoStock.types.QuoteSlice;
 
 /**
  * @author Kevin Kowalewski
@@ -153,7 +152,7 @@ public class PositionUtils {
 				return 0; //throw new IllegalStateException("PositionType: " + position.positionType);
 			}
 			
-			double transactionFees = Account.getInstance().getTransactionCost(unitsFilled, unitPriceLastKnown);
+			double transactionFees = TransactionFees.getTransactionCost(unitsFilled, unitPriceLastKnown);
 			
 			priceTotal -= (includeTransactionFees ? transactionFees : 0);
 
@@ -165,7 +164,7 @@ public class PositionUtils {
 		synchronized (listOfOrder) {
 			double unitPriceLastKnown = position.getLastKnownUnitPrice();
 			double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
-			double transactionFees = Account.getInstance().getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
+			double transactionFees = TransactionFees.getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
 
 			return priceTotal + (includeTransactionFees ? transactionFees : 0);
 		}

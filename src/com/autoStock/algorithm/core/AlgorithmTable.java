@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
-import com.autoStock.finance.Account;
+import com.autoStock.account.BasicAccount;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -15,7 +15,6 @@ import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
-import com.autoStock.tools.ExportTools;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
@@ -35,7 +34,7 @@ public class AlgorithmTable {
 		this.symbol = symbol;
 	}
 
-	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse){
+	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse, BasicAccount basicAccount){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 
@@ -57,7 +56,7 @@ public class AlgorithmTable {
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalPointType == SignalPointType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalPointType.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add(getTransactionDetails(strategyResponse));
-		columnValues.add(String.valueOf(Account.getInstance().getAccountBalance()));
+		columnValues.add(String.valueOf(basicAccount.getBalance()));
 		
 		listOfDisplayRows.add(columnValues);
 	}
@@ -90,7 +89,7 @@ public class AlgorithmTable {
 		synchronized (lock) {
 			Co.println("\n--> Symbol " + symbol.symbolName);
 			new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);	
-			Co.print(new ExportTools().exportToString(AsciiTables.algorithm_test, listOfDisplayRows));
+//			Co.print(new ExportTools().exportToString(AsciiTables.algorithm_test, listOfDisplayRows));
 		}
 	}
 }

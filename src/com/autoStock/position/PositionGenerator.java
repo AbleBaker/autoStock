@@ -4,7 +4,7 @@
 package com.autoStock.position;
 
 import com.autoStock.Co;
-import com.autoStock.finance.Account;
+import com.autoStock.account.BasicAccount;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.trading.types.Position;
@@ -16,25 +16,20 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class PositionGenerator {
-	private boolean throwOnInsufficientBalance = false;
-	private Account account;
+	private boolean throwOnInsufficientBalance = true;
 	
-	public PositionGenerator(Account account){
-		this.account = account;
-	}
-	
-	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions){
-		int positionUnits = getPositionInitialUnits(quoteSlice.priceClose, signal);
+	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount){
+		int positionUnits = getPositionInitialUnits(quoteSlice.priceClose, signal, basicAccount);
 		
 		if (positionUnits != 0){
-			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, quoteSlice.priceClose, positionOptions, account);
+			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, quoteSlice.priceClose, positionOptions, basicAccount);
 		}
 		
 		return null;
 	}
 	
-	private int getPositionInitialUnits(double price, Signal signal){
-		double accountBalance = account.getAccountBalance();
+	private int getPositionInitialUnits(double price, Signal signal, BasicAccount basicAccount){
+		double accountBalance = basicAccount.getBalance();
 		int units = 100;
 
 		if (accountBalance <= 0 || accountBalance < units * price){
@@ -48,8 +43,8 @@ public class PositionGenerator {
 		return units;
 	}
 	
-	public int getPositionReentryUnits(double price, Signal signal){
-		double accountBalance = account.getAccountBalance();
+	public int getPositionReentryUnits(double price, Signal signal, BasicAccount basicAccount){
+		double accountBalance = basicAccount.getBalance();
 		int units = 100;
 
 		if (accountBalance <= 0 || accountBalance < units * price){

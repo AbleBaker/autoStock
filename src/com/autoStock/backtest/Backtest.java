@@ -19,7 +19,7 @@ import com.autoStock.types.Symbol;
  */
 public class Backtest implements DataFeedListenerOfQuoteSlice {
 	private HistoricalData typeHistoricalData;
-	public DataFeedHistoricalPrices dataFeedHistoricalPrices;
+	private DataFeedHistoricalPrices dataFeedHistoricalPrices;
 	private ArrayList<DbStockHistoricalPrice> listOfPrices;
 	private ReceiverOfQuoteSlice receiverOfQuoteSlice;
 	private Symbol symbol;

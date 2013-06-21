@@ -4,6 +4,7 @@
 package com.autoStock.signal;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski
@@ -11,7 +12,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfUO extends SignalBase {
 	
-	public SignalOfUO(){
-		super(SignalMetricType.metric_uo);
+	public SignalOfUO(SignalParameters signalParameters){
+		super(SignalMetricType.metric_uo, signalParameters);
 	}
 }

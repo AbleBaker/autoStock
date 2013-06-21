@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.adjust.AdjustmentCampaignProvider;
 import com.autoStock.adjust.AdjustmentOfPortable;
 import com.autoStock.cluster.ClusterNode;
 import com.autoStock.cluster.ComputeResultForBacktest;
@@ -19,7 +19,6 @@ import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionManager;
 import com.autoStock.tools.Benchmark;
-import com.autoStock.tools.MathTools;
 import com.autoStock.tools.ReflectiveComparator;
 import com.autoStock.tools.ReflectiveComparator.ListComparator.SortDirection;
 import com.autoStock.types.Exchange;
@@ -37,7 +36,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private ArrayList<String> listOfSymbols;
 	private Exchange exchange;
 	private ClusterServer clusterServer;
-	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
+	private AdjustmentCampaignProvider adjustmentCampaignProvider = AdjustmentCampaignProvider.getInstance();
 	private AtomicLong atomicIntForRequestId = new AtomicLong();
 	private Date dateStart;
 	private Date dateEnd;
@@ -82,17 +81,18 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		}
 		
 		for (int i=0; i<computeUnitIterationSize; i++){
-
-			if (atomicIntForRequestId.get() == 0 && i == 0){
-				listOfIteration.add(adjustmentCampaign.getListOfPortableAdjustment());
-			} else if (adjustmentCampaign.runAdjustment()){
-				listOfIteration.add(adjustmentCampaign.getListOfPortableAdjustment());
-			} else{
-				break;
-			}
+			//TODO: implement this
+//			if (atomicIntForRequestId.get() == 0 && i == 0){
+//				listOfIteration.add(adjustmentCampaign.getListOfPortableAdjustment());
+//			} else if (adjustmentCampaign.runAdjustment()){
+//				listOfIteration.add(adjustmentCampaign.getListOfPortableAdjustment());
+//			} else{
+//				break;
+//			}
 		}
 		
-		Co.println("--> Percent complete: %" + MathTools.round(adjustmentCampaign.getPercentComplete()));
+		Co.println("--> Issued unit: " + atomicIntForRequestId.get());
+		
 		bench.tick();
 		
 		if (listOfIteration.size() > 0){
@@ -175,10 +175,11 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public boolean isComplete(){
-		if (adjustmentCampaign.hasMore() == false && atomicIntForRequestId.get() == listOfComputeUnitResultIds.size()){
+		//TODO: implement this
+//		if (adjustmentCampaign.hasMore() == false && atomicIntForRequestId.get() == listOfComputeUnitResultIds.size()){
 			return true;
-		}else{
-			return false;
-		}
+//		}else{
+//			return false;
+//		}
 	}
 }

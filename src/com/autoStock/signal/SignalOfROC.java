@@ -4,6 +4,7 @@
 package com.autoStock.signal;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski
@@ -11,7 +12,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfROC extends SignalBase {
 	
-	public SignalOfROC(){
-		super(SignalMetricType.metric_roc);
+	public SignalOfROC(SignalParameters signalParameters){
+		super(SignalMetricType.metric_roc, signalParameters);
 	}
 }

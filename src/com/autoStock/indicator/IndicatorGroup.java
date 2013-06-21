@@ -17,8 +17,8 @@ import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsUO;
 import com.autoStock.indicator.results.ResultsWILLR;
-import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalGroup;
 import com.autoStock.taLib.Core;
 import com.autoStock.types.basic.ImmutableInteger;
 
@@ -71,21 +71,21 @@ public class IndicatorGroup {
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 
-	public IndicatorGroup(CommonAnalysisData commonAnlaysisData) {
+	public IndicatorGroup(CommonAnalysisData commonAnlaysisData, SignalGroup signalGroup) {
 		int resultLength = SignalGroup.ENCOG_SIGNAL_INPUT;
 		
-		listOfIndicatorBase.add(indicatorOfADX = new IndicatorOfADX(SignalMetricType.metric_adx.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(SignalMetricType.metric_cci.periodLength, resultLength, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(SignalMetricType.metric_di.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(SignalMetricType.metric_macd.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfADX = new IndicatorOfADX(signalGroup.signalOfADX.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(signalGroup.signalOfCCI.signalParameters.periodLength, resultLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(signalGroup.signalOfDI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(signalGroup.signalOfMACD.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new ImmutableInteger(0), 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(SignalMetricType.metric_rsi.periodLength, resultLength, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(SignalMetricType.metric_trix.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(SignalMetricType.metric_roc.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(SignalMetricType.metric_mfi.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(SignalMetricType.metric_willr.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(SignalMetricType.metric_uo.periodLength, resultLength, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(SignalMetricType.metric_ar_up.periodLength, resultLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(signalGroup.signalOfRSI.signalParameters.periodLength, resultLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(signalGroup.signalOfTRIX.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(signalGroup.signalOfROC.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(signalGroup.signalOfMFI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(signalGroup.signalOfWILLR.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, resultLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, resultLength, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new ImmutableInteger(0), 1, commonAnlaysisData, taLibCore));
 	}
 	

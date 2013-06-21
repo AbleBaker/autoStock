@@ -35,7 +35,6 @@ public abstract class HTTPRequestBase {
 						receivedFaultResponse(HttpFaultResponse.fault_status_code);
 					}
 				} catch (Exception e) {
-//					e.printStackTrace();
 					receivedFaultResponse(HttpFaultResponse.fault_unknown);
 				}
 			}

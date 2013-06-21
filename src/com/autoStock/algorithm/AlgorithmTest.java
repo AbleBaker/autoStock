@@ -3,7 +3,7 @@ package com.autoStock.algorithm;
 import java.util.Arrays;
 import java.util.Date;
 
-import com.autoStock.Co;
+import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -20,8 +20,8 @@ import com.autoStock.types.Symbol;
 public class AlgorithmTest extends AlgorithmBase {
 	public StrategyOfTest strategy = new StrategyOfTest(this);
 	
-	public AlgorithmTest(boolean canTrade, Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate) {
-		super(canTrade, exchange, symbol, algorithmMode, startingDate);
+	public AlgorithmTest(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate, BasicAccount basicAccount) {
+		super(exchange, symbol, algorithmMode, startingDate, basicAccount);
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
 			listOfSignalMetricType = strategy.strategyOptions.listOfSignalMetricType;
@@ -75,7 +75,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			}
 			
 			if (algorithmMode.displayTable) {
-				algorithmTable.addTableRow(listOfQuoteSlice, strategy.signal, signalGroup, strategyResponse);
+				algorithmTable.addTableRow(listOfQuoteSlice, strategy.signal, signalGroup, strategyResponse, basicAccount);
 			}
 			
 //			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);

@@ -4,6 +4,7 @@
 package com.autoStock.signal;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski
@@ -12,8 +13,8 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 public class SignalOfPPC extends SignalBase {	
 	private double[] arrayOfPrice;
 	
-	public SignalOfPPC() {
-		super(SignalMetricType.metric_ppc);
+	public SignalOfPPC(SignalParameters signalParameters) {
+		super(SignalMetricType.metric_ppc, signalParameters);
 	}
 
 	@Override

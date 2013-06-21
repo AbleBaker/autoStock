@@ -1,24 +1,29 @@
 package com.autoStock;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.adjust.AdjustmentCampaignProvider;
+import com.autoStock.adjust.AdjustmentCampaignSeriesForAlgorithm;
+import com.autoStock.adjust.AdjustmentCampaignSeriesForAlgorithmShortOnly;
+import com.autoStock.adjust.AdjustmentIdentifier;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.backtest.BacktestEvaluator;
 import com.autoStock.backtest.BacktestUtils;
-import com.autoStock.backtest.BacktestUtils.BacktestResultDetails;
+import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
+import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.ListenerOfBacktestCompleted;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
-import com.autoStock.finance.Account;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
@@ -33,23 +38,21 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
-import com.autoStock.tools.ExportTools;
 import com.autoStock.tools.ListTools;
-import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.HistoricalDataList;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
  * 
  */
 public class MainBacktest implements ListenerOfBacktestCompleted {
-	private AdjustmentCampaign adjustmentCampaign = AdjustmentCampaign.getInstance();
+	private AdjustmentCampaignProvider adjustmentCampaignProvider = AdjustmentCampaignProvider.getInstance();
 	private BacktestType backtestType;
-	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
 	private int currentBacktestDayIndex = 0;
@@ -59,18 +62,20 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private AlgorithmMode algorithmMode;
 	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>();
 	private ListenerOfMainBacktestCompleted listenerOfMainBacktestCompleted;
-	
+	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
+	private BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
+
 	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted) {
 		this.exchange = exchange;
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		this.listenerOfMainBacktestCompleted = listerListenerOfMainBacktestCompleted;
 		Global.callbackLock.requestLock();
-		
-		if (algorithmMode.displayChart){
+
+		if (algorithmMode.displayChart) {
 			Global.callbackLock.requestLock();
 		}
-		
+
 		runMainBacktest(dateStart, dateEnd, listOfSymbols);
 	}
 
@@ -81,17 +86,19 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		Global.callbackLock.requestLock();
 		PositionManager.getInstance().orderMode = OrderMode.mode_simulated;
-		
-		if (algorithmMode.displayChart){
+
+		if (algorithmMode.displayChart) {
 			Global.callbackLock.requestLock();
 		}
-		
+
 		runMainBacktest(dateStart, dateEnd, listOfSymbols);
 	}
-	
-	private void runMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols){
-		if (backtestType != BacktestType.backtest_result_only){Co.println("Main backtest...\n\n");}
-		
+
+	private void runMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
+		if (backtestType != BacktestType.backtest_result_only) {
+			Co.println("Main backtest...\n\n");
+		}
+
 		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, dateStart, dateEnd, Resolution.min);
 
 		baseHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
@@ -100,196 +107,270 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		baseHistoricalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
 
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate);
-		
-		if (listOfBacktestDates.size() == 0){
+
+		if (listOfBacktestDates.size() == 0) {
 			throw new IllegalArgumentException("Weekday not entered");
 		}
-		
+
 		ListTools.removeDuplicates(listOfSymbols);
-		
+
 		for (Date date : listOfBacktestDates) {
 			HistoricalDataList historicalDataList = new HistoricalDataList();
-			
-			for (String symbol : listOfSymbols){				
-				HistoricalData dayHistoricalData = new HistoricalData(exchange, new Symbol(symbol, SecurityType.type_stock), (Date)date.clone(), (Date)date.clone(), baseHistoricalData.resolution);
+
+			for (String symbol : listOfSymbols) {
+				HistoricalData dayHistoricalData = new HistoricalData(exchange, new Symbol(symbol, SecurityType.type_stock), (Date) date.clone(), (Date) date.clone(), baseHistoricalData.resolution);
 				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
 				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
 				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
 			}
-			
+
 			listOfHistoricalDataList.add(historicalDataList);
 		}
-		
-		if (backtestType == BacktestType.backtest_adjustment){
-//			adjustmentCampaign.runAdjustment();
-			adjustmentCampaign.applyValues();
-		}
-		
-		initBacktestContainers();
-		runNextBacktestForDays(false);
-	}
-	
-	private void initBacktestContainers(){
-		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
-		
-		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
-			listOfBacktestContainer.add(new BacktestContainer(historicalData.symbol, exchange, this, algorithmMode));
-		}
-	}
-	
-	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList){
-		callbacks.set(listOfBacktestContainer.size());
-		if (backtestType != BacktestType.backtest_result_only){Co.println("\nBacktesting (" + MathTools.round(adjustmentCampaign.getPercentComplete()) + "%): " + currentBacktestDayIndex);}
-		
-		boolean backtestContainedNoData = false;
-		
-		PositionGovernor.getInstance().reset();
-		PositionManager.getInstance().reset();
-		
-		for (BacktestContainer backtestContainer : listOfBacktestContainer){
-			HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
-			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
 
-			if (listOfResults.size() > 0){	
-				backtestContainer.setBacktestData(listOfResults, historicalData);
-				backtestContainer.runBacktest();
-			}else{
-				Co.println("--> No backtest data! " + backtestContainer.symbol.symbolName);
-				backtestContainedNoData = true;
-				break;
+		if (backtestType == BacktestType.backtest_adjustment_boilerplate) {
+			adjustmentCampaignProvider.applyBoilerplateValues();
+		} else if (backtestType == BacktestType.backtest_adjustment_individual) {
+			for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
+				pair.second.applyValues();
 			}
 		}
-		
-		if (backtestContainedNoData){
+
+		initBacktest();
+		runNextBacktestForDays(false);
+	}
+
+	private void initBacktest() {
+		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
+
+		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData) {
+			listOfBacktestContainer.add(new BacktestContainer(historicalData.symbol, exchange, this, algorithmMode));
+
+			AdjustmentCampaign adjustmentCampaign;
+
+			if (historicalData.symbol.symbolName.equals("AIG")) {
+				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithm();
+			} else {
+				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithmShortOnly();
+			}
+			adjustmentCampaign.initialize();
+
+			adjustmentCampaignProvider.addAdjustmentCampaignForAlgorithm(adjustmentCampaign, historicalData.symbol);
+		}
+	}
+
+	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList) {
+		callbacks.set(listOfBacktestContainer.size());
+		if (backtestType != BacktestType.backtest_result_only) {
+			Co.println("\nBacktesting... " + currentBacktestDayIndex);
+		}
+
+		boolean backtestContainedNoData = false;
+
+		PositionGovernor.getInstance().reset();
+		PositionManager.getInstance().reset();
+
+		for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+			if (backtestContainer.isIncomplete()) {
+				HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
+				ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
+
+				if (listOfResults.size() > 0) {
+					backtestContainer.setBacktestData(listOfResults, historicalData);
+					backtestContainer.runBacktest();
+				} else {
+					Co.println("--> No backtest data! " + backtestContainer.symbol.symbolName);
+					backtestContainedNoData = true;
+					break;
+				}
+			} else {
+				Co.println("--> Adjustment is already complete for: " + backtestContainer.symbol.symbolName);
+				callbacks.decrementAndGet();
+			}
+		}
+
+		if (backtestContainedNoData) {
 			currentBacktestDayIndex++;
 			runNextBacktestForDays(true);
 		}
 	}
-	
-	private HistoricalData getHistoricalDataForSymbol(HistoricalDataList historicalDataList, String symbol){
-		if (historicalDataList.listOfHistoricalData.size() == 0){
+
+	private HistoricalData getHistoricalDataForSymbol(HistoricalDataList historicalDataList, String symbol) {
+		if (historicalDataList.listOfHistoricalData.size() == 0) {
 			throw new IllegalStateException("Historical data list size is 0 for symbol: " + symbol);
 		}
-		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData){
-			if (historicalData.symbol.symbolName.equals(symbol)){
+		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData) {
+			if (historicalData.symbol.symbolName.equals(symbol)) {
 				return historicalData;
 			}
 		}
-		
+
 		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
 	}
-	
-	private synchronized boolean runNextBacktestForDays(boolean skippedDay){
-		if (currentBacktestDayIndex == listOfHistoricalDataList.size()){
-			if (backtestType == BacktestType.backtest_default || backtestType == BacktestType.backtest_result_only){
+
+	private synchronized boolean runNextBacktestForDays(boolean skippedDay) {
+		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {
+			if (backtestType == BacktestType.backtest_default || backtestType == BacktestType.backtest_result_only) {
 				return false;
-			}else if (backtestType == BacktestType.backtest_clustered_client){
+			} else if (backtestType == BacktestType.backtest_clustered_client) {
 				Global.callbackLock.releaseLock();
-				if (listenerOfMainBacktestCompleted != null){
+				if (listenerOfMainBacktestCompleted != null) {
 					listenerOfMainBacktestCompleted.backtestCompleted();
 				}
 				return false;
 			}
-			
-			if (Account.getInstance().getAccountBalance() > metricBestAccountBalance){
-				if (listOfBacktestContainer.get(0).algorithm != null){
-					BacktestResultDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);					
-					listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType));
-				}
-				metricBestAccountBalance = Account.getInstance().getAccountBalance();
-			}
-						
-			if (adjustmentCampaign.runAdjustment()) {
-				currentBacktestDayIndex = 0;
-				
-				Account.getInstance().resetAccount();
-				
-				for (BacktestContainer backtestContainer : listOfBacktestContainer){
-					backtestContainer.reset();
+
+
+			if (backtestType == BacktestType.backtest_adjustment_boilerplate) {
+				if (AccountProvider.getInstance().getGlobalAccount().getBalance() > metricBestAccountBalance) {
+					if (listOfBacktestContainer.get(0).algorithm != null) {
+						BacktestResultTransactionDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
+						listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType));
+					}
+					metricBestAccountBalance = AccountProvider.getInstance().getGlobalAccount().getBalance();
 				}
 				
-				runNextBacktestForDays(false);
-			}else{
-				Co.println("******** End of backtest and adjustment ********");
-				BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
-				Global.callbackLock.releaseLock();
+				if (adjustmentCampaignProvider.runBoilerplateAdjustment()) {
+					currentBacktestDayIndex = 0;
+					AccountProvider.getInstance().getGlobalAccount().reset();
+
+					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+						backtestContainer.reset();
+					}
+
+					runNextBacktestForDays(false);
+				} else {
+					Co.println("******** End of backtest and adjustment ********");
+					BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
+					Global.callbackLock.releaseLock();
+				}
+			} else if (backtestType == BacktestType.backtest_adjustment_individual) {
+				
+				Co.println("--> CHECK");
+				
+				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+//					backtestEvaluator.addResult(backtestContainer.symbol, new BacktestEvaluation(backtestContainer.algorithm.basicAccount, BacktestUtils.getBacktestResultTransactionDetails(backtestContainer)), true);
+				}
+				
+				if (runAdustmentSeries()) {
+					currentBacktestDayIndex = 0;
+					AccountProvider.getInstance().getGlobalAccount().reset();
+
+					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+						backtestContainer.reset();
+					}
+
+					runNextBacktestForDays(false);
+				} else {
+					Co.println("******** End of backtest and adjustment ********");
+					
+					backtestEvaluator.pruneAll();
+					
+					BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
+					Global.callbackLock.releaseLock();
+				}
+
 			}
-			
 			return false;
-		}else{
+		} else {
 			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex);
 			runNextBacktestOnContainers(historicalDataList);
-			if (skippedDay == false){currentBacktestDayIndex++;}
+			if (skippedDay == false) {
+				currentBacktestDayIndex++;
+			}
 			return true;
 		}
 	}
-	
+
+	private boolean runAdustmentSeries() {
+		boolean adjustmentRun = false;
+
+		for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
+			if (pair.second.hasMore()) {
+				pair.second.runAdjustment();
+				adjustmentRun = true;
+			} else {
+				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+					if (backtestContainer.symbol.symbolName.equals(pair.first.identifier.symbolName)) {
+						// Co.println("--> Algorithm marked as complete: " + backtestContainer.symbol.symbolName);
+						backtestContainer.markAsComplete();
+					}
+				}
+			}
+		}
+
+		return adjustmentRun;
+	}
+
 	@Override
 	public synchronized void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
-		if (backtestType != BacktestType.backtest_result_only){Co.print("[ " + symbol.symbolName + " ] ");}
+		if (backtestType != BacktestType.backtest_result_only) {
+			Co.print("[ " + symbol.symbolName + " ] ");
+		}
 
 		if (callbacks.decrementAndGet() == 0) {
-			if (backtestType != BacktestType.backtest_result_only){
+			if (backtestType != BacktestType.backtest_result_only) {
 				Co.println("--> All called back...");
 				bench.printTick("Backtested");
 			}
-			
+
 			PositionManager.getInstance().executeExitAll();
-			
+
 			if (runNextBacktestForDays(false) == false) {
-				if (backtestType == BacktestType.backtest_default) {			
-					for (BacktestContainer backtestContainer : listOfBacktestContainer){
+				if (backtestType == BacktestType.backtest_default) {
+					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 						Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
 						ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 
-						for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse){
+						for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse) {
 							ArrayList<String> listOfString = new ArrayList<String>();
 							listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 							listOfString.add(backtestContainer.symbol.symbolName);
 							listOfString.add(String.valueOf(strategyResponse.quoteSlice.priceClose));
 							listOfString.add(strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name());
 							listOfString.add(strategyResponse.positionGovernorResponse.status.name());
-							
+
 							String stringForSignal = new String();
-							
-							for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()){
+
+							for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()) {
 								stringForSignal += signalMoment.signalMetricType.name() + ":" + signalMoment.strength + ", ";
 							}
-							
+
 							listOfString.add(stringForSignal);
-							
-							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
+
+							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit) {
 								listOfString.add("$ " + String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)));
-							}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry){
+							} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
 								listOfString.add("-");
-							}else{
+							} else {
 								listOfString.add("-");
 							}
-							
+
 							listOfDisplayRows.add(listOfString);
 						}
 						new TableController().displayTable(AsciiTables.backtest_strategy_response, listOfDisplayRows);
-						Co.print(new ExportTools().exportToString(AsciiTables.backtest_strategy_response, listOfDisplayRows));
+						// Co.print(new ExportTools().exportToString(AsciiTables.backtest_strategy_response, listOfDisplayRows));
 					}
-					
-					BacktestResultDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
+
+					BacktestResultTransactionDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
 					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType));
 				}
-				
-				if (listenerOfMainBacktestCompleted != null){listenerOfMainBacktestCompleted.backtestCompleted();}
-				if (backtestType == BacktestType.backtest_default){
+
+				if (listenerOfMainBacktestCompleted != null) {
+					listenerOfMainBacktestCompleted.backtestCompleted();
+				}
+				if (backtestType == BacktestType.backtest_default) {
 					Co.println("--> Finished backtest");
 					Global.callbackLock.releaseLock();
 				}
 			}
 		}
 	}
-	
-	public StrategyOfTest getStrategy(){
+
+	public StrategyOfTest getStrategy() {
 		return listOfBacktestContainer.get(0).algorithm.strategy;
 	}
-	
-	public ArrayList<BacktestContainer> getListOfBacktestContainer(){
+
+	public ArrayList<BacktestContainer> getListOfBacktestContainer() {
 		return listOfBacktestContainer;
 	}
 }

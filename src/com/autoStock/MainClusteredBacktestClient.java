@@ -3,11 +3,11 @@ package com.autoStock;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.autoStock.adjust.AdjustmentCampaign;
+import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentOfPortable;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestUtils;
-import com.autoStock.backtest.BacktestUtils.BacktestResultDetails;
+import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.cluster.ComputeResultForBacktest;
 import com.autoStock.cluster.ComputeResultForBacktestPartial;
@@ -17,7 +17,6 @@ import com.autoStock.com.CommandSerializer;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
-import com.autoStock.finance.Account;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
@@ -49,11 +48,11 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	public void requestNextUnit(){
 		CommandSerializer.sendSerializedCommand(Command.accept_unit, clusterClient.printWriter);
 	}
-	
+
 	public void runNextBacktest(){
 		int backtestIndex = atomicIntBacktestIndex.getAndIncrement();
 		
-		Account.getInstance().resetAccount();
+		AccountProvider.getInstance().getGlobalAccount().reset();
 		PositionGovernor.getInstance().reset();
 		PositionManager.getInstance().reset();
 		
@@ -68,7 +67,8 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	
 	public void applyIterations(ArrayList<AdjustmentOfPortable> listOfAdjustmentPortable){
 		Co.println("--> Applying...");
-		AdjustmentCampaign.getInstance().setAdjustmentValuesFromIterationList(listOfAdjustmentPortable);
+		//TODO: implement this
+//		AdjustmentCampaign.getInstance().setAdjustmentValuesFromIterationList(listOfAdjustmentPortable);
 	}
 	
 	public void allBacktestsCompleted(){
@@ -86,9 +86,9 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	
 	public void storeBacktestResult(){
 		ArrayList<AdjustmentOfPortable> listOfIteration = (ArrayList<AdjustmentOfPortable>) computeUnitForBacktest.listOfAdjustment.get(atomicIntBacktestIndex.get()-1);
-		BacktestResultDetails backtestResultDetails = BacktestUtils.getProfitLossDetails(mainBacktest.getListOfBacktestContainer());
+		BacktestResultTransactionDetails backtestResultDetails = BacktestUtils.getProfitLossDetails(mainBacktest.getListOfBacktestContainer());
 		double percent = MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100);
-		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, Account.getInstance().getAccountBalance(), percent, Account.getInstance().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails, BacktestType.backtest_clustered_client)));
+		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, AccountProvider.getInstance().getGlobalAccount().getBalance(), percent, AccountProvider.getInstance().getGlobalAccount().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails, BacktestType.backtest_clustered_client)));
 	}
 
 	@Override

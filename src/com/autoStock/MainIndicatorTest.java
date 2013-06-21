@@ -3,21 +3,15 @@ package com.autoStock;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.dataFeed.DataFeedHistoricalPrices;
-import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
-import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
-import com.autoStock.internal.Global.Mode;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
-import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
 
 /**

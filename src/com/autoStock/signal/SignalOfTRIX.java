@@ -4,6 +4,7 @@
 package com.autoStock.signal;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski
@@ -11,7 +12,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfTRIX extends SignalBase {
 	
-	public SignalOfTRIX(){
-		super(SignalMetricType.metric_trix);
+	public SignalOfTRIX(SignalParameters signalParameters){
+		super(SignalMetricType.metric_trix, signalParameters);
 	}
 }

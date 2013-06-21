@@ -4,6 +4,7 @@
 package com.autoStock.signal;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski
@@ -11,7 +12,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class SignalOfADX extends SignalBase {
 	
-	public SignalOfADX(){
-		super(SignalMetricType.metric_adx);
+	public SignalOfADX(SignalParameters signalParameters){
+		super(SignalMetricType.metric_adx, signalParameters);
 	}
 }

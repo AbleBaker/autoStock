@@ -57,7 +57,7 @@ public class Prefill {
 			throw new UnsupportedOperationException();
 		}
 		
-		Co.println("--> Added: " + algorithmBase.listOfQuoteSlice.size());
+//		Co.println("--> Added: " + algorithmBase.listOfQuoteSlice.size());
 	}
 	
 	private void prefillFromBroker(final AlgorithmBase algorithmBase, StrategyOptions strategyOptions){
@@ -70,7 +70,7 @@ public class Prefill {
 		
 		final Lock lock = new Lock();
 		
-		Co.println("--> Trying to prefill from broker");
+//		Co.println("--> Trying to prefill from broker");
 		
 		RequestHistoricalData requestHistoricalData = new RequestHistoricalData(new RequestHolder(null), new RequestHistoricalDataListener() {
 			@Override
@@ -115,7 +115,7 @@ public class Prefill {
 		int minutesFromDatabase = (periodLength - (time.getSeconds() / 60));
 		int minutesFromBroker = time.getSeconds() / 60; 
 		
-		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
+//		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
 		
 		if (prefillMethod == PrefillMethod.method_database){
 //			Co.println("--> Only database");

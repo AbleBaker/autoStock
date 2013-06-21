@@ -14,8 +14,6 @@ import com.autoStock.tables.TableDefinitions.AsciiTables;
 public class ExportTools {
 	public void exportToCSV(File file, AsciiTables table, ArrayList<ArrayList<String>> values){
 		new TableController().checkTable(table, values);
-		
-		
 	}
 	
 	public String exportToString(AsciiTables table, ArrayList<ArrayList<String>> values){

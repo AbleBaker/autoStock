@@ -3,7 +3,6 @@
  */
 package com.autoStock.menu;
 
-import com.autoStock.Co;
 import com.autoStock.MainActiveAlgorithm;
 import com.autoStock.MainBacktest;
 import com.autoStock.MainClusteredBacktest;
@@ -13,7 +12,6 @@ import com.autoStock.MainFilter;
 import com.autoStock.MainIndicatorTest;
 import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
-import com.autoStock.MainTest;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
@@ -130,7 +128,7 @@ public class MenuLauncher {
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_test){
-			new MainTest();
+			
 		}
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){

@@ -1,7 +1,8 @@
 package 	com.autoStock.position;
 
 import com.autoStock.Co;
-import com.autoStock.finance.Account;
+import com.autoStock.account.BasicAccount;
+import com.autoStock.account.TransactionFees;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.position.PositionDefinitions.PositionType;
@@ -21,22 +22,22 @@ public class PositionCallback {
 		else throw new UnsupportedOperationException("No condition matched PositionType: " + position.positionType.name());
 	}
 
-	public static void affectBankBalance(Order order, OrderMode orderMode, Account account){
+	public static void affectBankBalance(Order order, OrderMode orderMode, BasicAccount basicAccount){
 		if (orderMode == OrderMode.mode_exchange){
 			Co.println("Affecting bank balance: " + order.symbol.symbolName + ", " + order.getOrderValue().valueFilled);
 		}
 		if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
 			if (orderMode == OrderMode.mode_exchange){
-				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (-1 * order.getOrderValue().valueFilled) + ", " + Account.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (-1 * order.getOrderValue().valueFilled) + ", " + TransactionFees.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 			}
 			
-			account.changeAccountBalance(-1 * order.getOrderValue().valueFilled, Account.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+			basicAccount.modifyBalance(-1 * order.getOrderValue().valueFilled, TransactionFees.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 		}else if (order.orderType == OrderType.order_long_exited || order.orderType == OrderType.order_short_exited){
 			if (orderMode == OrderMode.mode_exchange){
-				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (order.getOrderValue().valueFilled) + ", " + Account.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+				Co.println("--> Changing bank balance: " + order.orderType.name() + ", " + (order.getOrderValue().valueFilled) + ", " + TransactionFees.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 			}
 
-			account.changeAccountBalance(order.getOrderValue().valueFilled, Account.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
+			basicAccount.modifyBalance(order.getOrderValue().valueFilled, TransactionFees.getTransactionCost(order.getUnitsFilled(), order.getOrderValue().unitPriceFilled));
 		}else{
 			throw new IllegalStateException("Order type is: " + order.orderType.name());
 		}
