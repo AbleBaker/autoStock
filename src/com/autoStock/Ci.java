@@ -4,6 +4,6 @@ package com.autoStock;
  * @author Kevin Kowalewski
  *
  */
-public class Ci { //Test commit 3
+public class Ci { //Test commit 4
 	//Console input...
 }
