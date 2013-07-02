@@ -9,6 +9,7 @@ import java.util.Date;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.DefaultHighLowDataset;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.ArrayTools;
@@ -20,6 +21,7 @@ import com.autoStock.tools.ResultsTools;
  */
 public class ChartForAlgorithmTest {
 	private String title;
+	private AlgorithmBase algorithmBase;
 	public ArrayList<Integer> listOfSignalADX = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalPPC = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalDI = new ArrayList<Integer>();
@@ -66,8 +68,9 @@ public class ChartForAlgorithmTest {
 	
 	public StrategyOptions strategyOptions;
 	
-	public ChartForAlgorithmTest(String title){
+	public ChartForAlgorithmTest(String title, AlgorithmBase algorithmBase){
 		this.title = title;
+		this.algorithmBase = algorithmBase;
 	}
 	
 	public static enum TimeSeriesType {
@@ -163,6 +166,7 @@ public class ChartForAlgorithmTest {
 		
 		new CombinedLineChart().new LineChartDisplay(title, 
 			dataSetForDefaultHighLowDataset,
+			algorithmBase,
 			new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals),
 			new TimeSeriesTypePair(TimeSeriesType.type_price, timeSeriesCollectionForPrice), 
 			new TimeSeriesTypePair(TimeSeriesType.type_value, timeSeriesCollectionForValue),

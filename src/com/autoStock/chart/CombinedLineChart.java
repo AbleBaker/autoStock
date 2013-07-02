@@ -40,6 +40,7 @@ import org.jfree.ui.RefineryUtilities;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ShapeUtilities;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
 import com.autoStock.signal.SignalDefinitions;
@@ -56,12 +57,14 @@ public class CombinedLineChart {
 		public String title;
 		public TimeSeriesTypePair[] arrayOfTimeSeriesPair;
 		public DefaultHighLowDataset defaultHighLowDataset;
+		private AlgorithmBase algorithmBase;
 		
-		public LineChartDisplay(String title, DefaultHighLowDataset defaultHighLowDataset, TimeSeriesTypePair... timeSeriesPairs) {
+		public LineChartDisplay(String title, DefaultHighLowDataset defaultHighLowDataset, AlgorithmBase algorithmBase, TimeSeriesTypePair... timeSeriesPairs) {
 			super("autoStock - Chart - " + title);
 			
 			this.title = title;
 			this.defaultHighLowDataset = defaultHighLowDataset;
+			this.algorithmBase = algorithmBase;
 			arrayOfTimeSeriesPair = timeSeriesPairs;
 
 			ChartPanel chartPanel = (ChartPanel) createPanel();
@@ -119,7 +122,12 @@ public class CombinedLineChart {
 			    for (TimeSeries timeSeries : (List<TimeSeries>) getPairForType(TimeSeriesType.type_signals).timeSeriesCollection.getSeries()){
 			    	SignalMetricType signalMetricType = SignalDefinitions.SignalMetricType.valueOf(timeSeries.getDescription());
 			    	
-				    ValueMarker markerForLongEntry = new ValueMarker(signalMetricType.arrayOfSignalGuageForLongEntry[0].threshold);
+			    	int thresholdForLongEntry = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForLongEntry[0].threshold;
+			    	int thresholdForLongExit = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForLongExit[0].threshold;
+			    	int thresholdForShortEntry = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForShortEntry[0].threshold;
+			    	int thresholdForShortExit = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForShortExit[0].threshold;
+			    	
+				    ValueMarker markerForLongEntry = new ValueMarker(thresholdForLongEntry);
 				    markerForLongEntry.setPaint(Color.decode("#33AA00"));
 				    markerForLongEntry.setAlpha(1.0f);
 				    markerForLongEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
@@ -128,7 +136,7 @@ public class CombinedLineChart {
 					markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
 				    subPlotForSignals.addRangeMarker(markerForLongEntry);
 				    
-				    ValueMarker markerForLongExit = new ValueMarker(signalMetricType.arrayOfSignalGuageForLongExit[0].threshold);
+				    ValueMarker markerForLongExit = new ValueMarker(thresholdForLongExit);
 				    markerForLongExit.setPaint(Color.decode("#FF0000"));
 				    markerForLongExit.setAlpha(1.0f);
 				    markerForLongExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));
@@ -137,7 +145,7 @@ public class CombinedLineChart {
 					markerForLongExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
 				    subPlotForSignals.addRangeMarker(markerForLongExit);
 				    
-				    ValueMarker markerForShortEntry = new ValueMarker(signalMetricType.arrayOfSignalGuageForShortEntry[0].threshold);
+				    ValueMarker markerForShortEntry = new ValueMarker(thresholdForShortEntry);
 				    markerForShortEntry.setPaint(Color.decode("#33AA00"));
 				    markerForShortEntry.setAlpha(1.0f);
 				    markerForShortEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
@@ -146,7 +154,7 @@ public class CombinedLineChart {
 					markerForShortEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
 				    subPlotForSignals.addRangeMarker(markerForShortEntry);
 				    
-				    ValueMarker markerForShortExit = new ValueMarker(signalMetricType.arrayOfSignalGuageForShortExit[0].threshold);
+				    ValueMarker markerForShortExit = new ValueMarker(thresholdForShortExit);
 				    markerForShortExit.setPaint(Color.decode("#FF0000"));
 				    markerForShortExit.setAlpha(1.0f);
 				    markerForShortExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));

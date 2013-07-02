@@ -58,7 +58,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	protected ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	public QuoteSlice firstQuoteSlice;
 	protected Position position;
-	protected StrategyBase strategyBase;
+	public StrategyBase strategyBase;
 	private Prefill prefill;
 	public final Date startingDate;
 	protected FundamentalData fundamentalData;
@@ -86,7 +86,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		this.strategyBase = strategyBase;
 		
 		if (algorithmMode.displayChart) {
-			algorithmChart = new AlgorithmChart(symbol.symbolName, signalGroup, strategyBase.strategyOptions);
+			algorithmChart = new AlgorithmChart(symbol.symbolName, this);
 		}
 		
 		if (algorithmMode.displayTable){

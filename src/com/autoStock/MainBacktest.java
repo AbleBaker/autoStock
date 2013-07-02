@@ -143,14 +143,15 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
 
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData) {
-			listOfBacktestContainer.add(new BacktestContainer(historicalData.symbol, exchange, this, algorithmMode));
+			BacktestContainer backtestContainer = new BacktestContainer(historicalData.symbol, exchange, this, algorithmMode);
+			listOfBacktestContainer.add(backtestContainer);
 
 			AdjustmentCampaign adjustmentCampaign;
 
 			if (historicalData.symbol.symbolName.equals("AIG")) {
-				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithm();
+				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithm(backtestContainer.algorithm);
 			} else {
-				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithmShortOnly();
+				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithmShortOnly(backtestContainer.algorithm);
 			}
 			adjustmentCampaign.initialize();
 

@@ -48,26 +48,26 @@ public class BacktestUtils {
 		for (SignalBase signalBase : signal.getListOfSignalBase()){
 			string += "\n\n --> Signal metric: " + signalBase.signalMetricType.name() + "\n";
 			
-			if (signalBase.signalMetricType.arrayOfSignalGuageForLongEntry != null){
-				for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForLongEntry){
+			if (signalBase.signalParameters.arrayOfSignalGuageForLongEntry != null){
+				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForLongEntry){
 					string += " +Long entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}
 			
-			if (signalBase.signalMetricType.arrayOfSignalGuageForLongExit != null){
-				for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForLongExit){
+			if (signalBase.signalParameters.arrayOfSignalGuageForLongEntry != null){
+				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForLongEntry){
 					string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}
 			
-			if (signalBase.signalMetricType.arrayOfSignalGuageForShortEntry != null){
-				for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForShortEntry){
+			if (signalBase.signalParameters.arrayOfSignalGuageForShortEntry != null){
+				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForShortEntry){
 					string += " +Short entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}
 			
-			if (signalBase.signalMetricType.arrayOfSignalGuageForShortExit != null){
-				for (SignalGuage signalGuage : signalBase.signalMetricType.arrayOfSignalGuageForShortExit){
+			if (signalBase.signalParameters.arrayOfSignalGuageForShortExit != null){
+				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForShortExit){
 					string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}

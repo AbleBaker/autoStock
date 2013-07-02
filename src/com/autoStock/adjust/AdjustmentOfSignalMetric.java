@@ -1,6 +1,7 @@
 package com.autoStock.adjust;
 
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
+import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
@@ -8,28 +9,32 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  *
  */
 public class AdjustmentOfSignalMetric extends AdjustmentBase {
-	public final SignalMetricType signalMetricType;
+	public final SignalBase signalBase;
 	public final AdjustmentType adjustmentType;
 	
-	public AdjustmentOfSignalMetric(SignalMetricType signalMetricType, AdjustmentType adjustmentType, IterableBase iterableBase){
+	public AdjustmentOfSignalMetric(SignalBase signalBase, AdjustmentType adjustmentType, IterableBase iterableBase){
 		this.iterableBase = iterableBase;
-		this.description = signalMetricType.name() + ", " + adjustmentType.name();
-		this.signalMetricType = signalMetricType;
+		this.description = signalBase.signalMetricType.name() + ", " + adjustmentType.name(); 
 		this.adjustmentType = adjustmentType;
+		this.signalBase = signalBase;
 	}
 
 	@Override
 	public void applyValue() {
 		if (adjustmentType == AdjustmentType.signal_metric_long_entry){
-			signalMetricType.arrayOfSignalGuageForLongEntry[0].threshold = ((IterableOfInteger)iterableBase).getInt();
-		} else if (adjustmentType == AdjustmentType.signal_metric_long_exit){
-			signalMetricType.arrayOfSignalGuageForLongExit[0].threshold = ((IterableOfInteger)iterableBase).getInt();
-		} else if (adjustmentType == AdjustmentType.signal_metric_short_entry){
-			signalMetricType.arrayOfSignalGuageForShortEntry[0].threshold = ((IterableOfInteger)iterableBase).getInt();
-		} else if (adjustmentType == AdjustmentType.signal_metric_short_exit){
-			signalMetricType.arrayOfSignalGuageForShortExit[0].threshold = ((IterableOfInteger)iterableBase).getInt();
-		}else{
-			throw new UnsupportedOperationException();
+			signalBase.signalParameters.arrayOfSignalGuageForLongEntry[0].threshold = ((IterableOfInteger)iterableBase).getInt();
+		}
+		
+		if (adjustmentType == AdjustmentType.signal_metric_long_exit){
+			signalBase.signalParameters.arrayOfSignalGuageForLongExit[0].threshold = ((IterableOfInteger)iterableBase).getInt();
+		}
+		
+		if (adjustmentType == AdjustmentType.signal_metric_short_entry){
+			signalBase.signalParameters.arrayOfSignalGuageForShortEntry[0].threshold = ((IterableOfInteger)iterableBase).getInt();
+		}
+		
+		if (adjustmentType == AdjustmentType.signal_metric_short_exit){
+			signalBase.signalParameters.arrayOfSignalGuageForShortExit[0].threshold = ((IterableOfInteger)iterableBase).getInt();
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package com.autoStock.algorithm.core;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalGroup;
@@ -13,12 +14,11 @@ import com.autoStock.types.QuoteSlice;
  */
 public class AlgorithmChart {
 	private ChartForAlgorithmTest chart;
-	private SignalGroup signalGroup;
+	private AlgorithmBase algorithmBase;
 
-	public AlgorithmChart(String title, SignalGroup signalGroup, StrategyOptions strategyOptions) {
-		chart = new ChartForAlgorithmTest(title);
-		chart.strategyOptions = strategyOptions;
-		this.signalGroup = signalGroup;
+	public AlgorithmChart(String title, AlgorithmBase algorithmBase) {
+		chart = new ChartForAlgorithmTest(title, algorithmBase);
+		chart.strategyOptions = algorithmBase.strategyBase.strategyOptions;
 	}
 
 	public void addChartPointData(QuoteSlice firstQuoteSlice, QuoteSlice quoteSlice, StrategyResponse strategyResponse) {
@@ -28,22 +28,22 @@ public class AlgorithmChart {
 		chart.listOfPriceLow.add(quoteSlice.priceLow);
 		chart.listOfPriceClose.add(quoteSlice.priceClose);
 		chart.listOfSizeVolume.add((double) quoteSlice.sizeVolume);
-		chart.listOfSignalADX.add(signalGroup.signalOfADX.getStrength());
-		chart.listOfSignalDI.add(signalGroup.signalOfDI.getStrength());
-		chart.listOfSignalCCI.add(signalGroup.signalOfCCI.getStrength());
-		chart.listOfSignalMACD.add(signalGroup.signalOfMACD.getStrength());
-		chart.listOfSignalRSI.add(signalGroup.signalOfRSI.getStrength());
-		chart.listOfSignalTRIX.add(signalGroup.signalOfTRIX.getStrength());
-		chart.listOfSignalMFI.add(signalGroup.signalOfMFI.getStrength());
-		chart.listOfSignalROC.add(signalGroup.signalOfROC.getStrength());
-		chart.listOfSignalWILLR.add(signalGroup.signalOfWILLR.getStrength());
-		chart.listOfSignalUO.add(signalGroup.signalOfUO.getStrength());
-		chart.listOfSignalARUp.add(signalGroup.signalOfARUp.getStrength());
-		chart.listOfSignalARDown.add(signalGroup.signalOfARDown.getStrength());
+		chart.listOfSignalADX.add(algorithmBase.signalGroup.signalOfADX.getStrength());
+		chart.listOfSignalDI.add(algorithmBase.signalGroup.signalOfDI.getStrength());
+		chart.listOfSignalCCI.add(algorithmBase.signalGroup.signalOfCCI.getStrength());
+		chart.listOfSignalMACD.add(algorithmBase.signalGroup.signalOfMACD.getStrength());
+		chart.listOfSignalRSI.add(algorithmBase.signalGroup.signalOfRSI.getStrength());
+		chart.listOfSignalTRIX.add(algorithmBase.signalGroup.signalOfTRIX.getStrength());
+		chart.listOfSignalMFI.add(algorithmBase.signalGroup.signalOfMFI.getStrength());
+		chart.listOfSignalROC.add(algorithmBase.signalGroup.signalOfROC.getStrength());
+		chart.listOfSignalWILLR.add(algorithmBase.signalGroup.signalOfWILLR.getStrength());
+		chart.listOfSignalUO.add(algorithmBase.signalGroup.signalOfUO.getStrength());
+		chart.listOfSignalARUp.add(algorithmBase.signalGroup.signalOfARUp.getStrength());
+		chart.listOfSignalARDown.add(algorithmBase.signalGroup.signalOfARDown.getStrength());
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 
-		if (signalGroup != null) {
-			chart.listOfDebugAlpha.add(signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue() == 0 ? Double.MIN_VALUE : signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue());
+		if (algorithmBase.signalGroup != null) {
+			chart.listOfDebugAlpha.add(algorithmBase.signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue() == 0 ? Double.MIN_VALUE : algorithmBase.signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue());
 		}
 
 		chart.listOfLongEntryAtPrice.add(Double.MIN_VALUE);
