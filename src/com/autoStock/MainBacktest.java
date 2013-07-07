@@ -52,7 +52,7 @@ import com.google.gson.internal.Pair;
  * 
  */
 public class MainBacktest implements ListenerOfBacktestCompleted {
-	private AdjustmentCampaignProvider adjustmentCampaignProvider = AdjustmentCampaignProvider.getInstance();
+	private AdjustmentCampaignProvider adjustmentCampaignProvider = AdjustmentCampaignProvider.getInstance(); //
 	private BacktestType backtestType;
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
