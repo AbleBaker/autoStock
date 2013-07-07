@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
+import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmChart;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -100,6 +101,11 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		listOfStrategyResponse.clear();
 		commonAnalysisData.reset();
 		signalGroup.reset();
+		algorithmState.reset();
+		
+		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
+			basicAccount.reset();
+		}
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){

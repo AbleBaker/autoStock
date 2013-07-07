@@ -15,8 +15,8 @@ public class BacktestEvaluation {
 	public double percentTradeLoss;
 	public String stringRepresentation;
 	
-	public int getScore(){
-		return (int) (accountBalance - AccountProvider.getInstance().defaultBalance);
-//		return (int) ((accountBalance - AccountProvider.getInstance().defaultBalance) * percentTradeWin);
+	public double getScore(){
+//		return accountBalance - AccountProvider.getInstance().defaultBalance;
+		return (accountBalance - AccountProvider.getInstance().defaultBalance) * percentTradeWin;
 	}
 }

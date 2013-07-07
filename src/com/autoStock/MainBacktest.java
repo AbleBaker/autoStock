@@ -282,7 +282,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 						Co.println("--> SYMBOL BACKTEST: " + backtestContainer.symbol.symbolName);
 						for (BacktestEvaluation backtestEvaluation : backtestEvaluator.getResults(backtestContainer.symbol)){
-							Co.println("--> " + backtestEvaluation.accountBalance);
+							Co.println("--> String representation: " + backtestEvaluation.stringRepresentation);
 						}
 					}
 					

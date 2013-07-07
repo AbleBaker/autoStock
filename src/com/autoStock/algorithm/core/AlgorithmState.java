@@ -5,7 +5,17 @@ package com.autoStock.algorithm.core;
  *
  */
 public class AlgorithmState {
-	public boolean isDisabled = false;
-	public int transactions = 0;
+	public boolean isDisabled;
+	public int transactions;
 	public String disabledReason;
+	
+	public AlgorithmState(){
+		reset();
+	}
+	
+	public void reset() {
+		isDisabled = false;
+		transactions = 0;
+		disabledReason = null;
+	}
 }

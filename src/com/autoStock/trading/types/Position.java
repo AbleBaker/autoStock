@@ -253,7 +253,7 @@ public class Position implements OrderStatusListener {
 			}else{
 				throw new IllegalStateException();
 			}
-			PositionCallback.affectBankBalance(order, PositionManager.getInstance().orderMode, basicAccount);
+			PositionCallback.affectBankBalance(order, PositionManager.getInstance().orderMode, basicAccount, this);
 		}else if (orderStatus == OrderStatus.status_cancelled){
 			if (listOfOrder.size() > 1){
 				synchronized(listOfOrder){

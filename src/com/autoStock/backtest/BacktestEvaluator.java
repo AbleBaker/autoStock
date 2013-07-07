@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
+import com.autoStock.Co;
 import com.autoStock.types.Symbol;
 
 /**
@@ -13,7 +14,7 @@ import com.autoStock.types.Symbol;
  */
 public class BacktestEvaluator {
 	private static final int bufferResults = 128;
-	public static final int maxResults = 16;
+	public static final int maxResults = 32;
 	
 	private HashMap<Symbol, ArrayList<BacktestEvaluation>> hashOfBacktestEvaluation = new HashMap<Symbol, ArrayList<BacktestEvaluation>>();
 
@@ -27,6 +28,8 @@ public class BacktestEvaluator {
 		if (autoPrune){
 			pruneResults(bufferResults);
 		}
+		
+		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", " + backtestEvaluation.getScore());
 	}
 	
 	public synchronized void pruneResults(int results){

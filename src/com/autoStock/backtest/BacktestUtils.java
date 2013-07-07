@@ -53,8 +53,8 @@ public class BacktestUtils {
 				}
 			}
 			
-			if (signalBase.signalParameters.arrayOfSignalGuageForLongEntry != null){
-				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForLongEntry){
+			if (signalBase.signalParameters.arrayOfSignalGuageForLongExit != null){
+				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForLongExit){
 					string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}

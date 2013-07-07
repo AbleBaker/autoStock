@@ -2,6 +2,7 @@ package com.autoStock.account;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.autoStock.Co;
 import com.autoStock.tools.MathTools;
 import com.google.common.util.concurrent.AtomicDouble;
 
@@ -31,13 +32,15 @@ public class BasicAccount {
 	}
 	
 	public void modifyBalance(double amount, double transactionCost){
+//		Co.println("--> Modify Balance: " + amount);
 		accountBalance.addAndGet(amount);
 		accountBalance.addAndGet(transactionCost * -1);
 		transactionFeesPaid.addAndGet(transactionCost);
+		transactions.incrementAndGet();
 	}
 	
 	public void reset(){
-		accountBalance.set(0);
+		accountBalance.set(AccountProvider.getInstance().defaultBalance);
 		transactionFeesPaid.set(0);
 		transactions.set(0);
 	}

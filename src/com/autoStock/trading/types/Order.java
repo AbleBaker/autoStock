@@ -202,7 +202,11 @@ public class Order {
 			// Co.println("--> Warning filled units is 0..." + symbol.symbolName);
 		}
 
-		return new OrderValue(getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true), getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(), TransactionFees.getTransactionCost(getUnitsIntrinsic(), priceRequested));
+		return new OrderValue(getRequestedValue(false), getFilledValue(false), getIntrinsicValue(false), 
+				getRequestedValue(true), getFilledValue(true), getIntrinsicValue(true), 
+				getRequestedPrice(true), getFilledPrice(true), getIntrinsicPrice(true), 
+				getUnitPriceRequested(), getUnitPriceFilled(), getUnitPriceIntrinsic(), 
+				TransactionFees.getTransactionCost(getUnitsIntrinsic(), priceRequested));
 	}
 
 	private double getFilledPrice(boolean includeTransactionFees) {
