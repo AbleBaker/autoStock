@@ -338,7 +338,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 							listOfString.add(stringForSignal);
 
-							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit) {
+							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
 								listOfString.add("$ " + String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)));
 							} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
 								listOfString.add("-");
