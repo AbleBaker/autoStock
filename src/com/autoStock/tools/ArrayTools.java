@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  * 
@@ -55,6 +57,7 @@ public class ArrayTools {
 	}
 
 	public static int[] getArrayFromListOfInt(List<Integer> integers) {
+//		Co.println("--> Size is: " + integers.size());
 		int[] ret = new int[integers.size()];
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = integers.get(i).intValue();

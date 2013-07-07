@@ -46,4 +46,8 @@ public class BacktestEvaluator {
 	public void pruneAll() {
 		pruneResults(maxResults);
 	}
+
+	public ArrayList<BacktestEvaluation> getResults(Symbol symbol) {
+		return hashOfBacktestEvaluation.get(symbol);
+	}
 }

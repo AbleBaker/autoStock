@@ -6,6 +6,7 @@ package com.autoStock.indicator;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.autoStock.Co;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
@@ -55,6 +56,7 @@ public abstract class IndicatorBase {
 		}
 	
 		if (initialLength != requiredInputLength){
+//			Co.println("-->  N " + initialLength + ", " + requiredInputLength);
 			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, initialLength - requiredInputLength, initialLength);
 			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, initialLength -requiredInputLength, initialLength);
 			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, initialLength - requiredInputLength, initialLength);

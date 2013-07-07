@@ -11,10 +11,12 @@ public class BacktestEvaluation {
 	public BacktestResultTransactionDetails backtestResultTransactionDetails;
 	public double accountBalance;
 	public double percentGain;
-	public double percentWin;
-	public double percentLoss;
+	public double percentTradeWin;
+	public double percentTradeLoss;
+	public String stringRepresentation;
 	
 	public int getScore(){
-		return (int) ((accountBalance - AccountProvider.getInstance().defaultBalance) * percentWin);
+		return (int) (accountBalance - AccountProvider.getInstance().defaultBalance);
+//		return (int) ((accountBalance - AccountProvider.getInstance().defaultBalance) * percentTradeWin);
 	}
 }

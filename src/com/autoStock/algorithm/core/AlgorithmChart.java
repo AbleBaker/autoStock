@@ -17,6 +17,7 @@ public class AlgorithmChart {
 	private AlgorithmBase algorithmBase;
 
 	public AlgorithmChart(String title, AlgorithmBase algorithmBase) {
+		this.algorithmBase = algorithmBase;
 		chart = new ChartForAlgorithmTest(title, algorithmBase);
 		chart.strategyOptions = algorithmBase.strategyBase.strategyOptions;
 	}

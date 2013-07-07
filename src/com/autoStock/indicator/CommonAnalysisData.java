@@ -52,4 +52,8 @@ public class CommonAnalysisData {
 			i++;
 		}
 	}
+
+	public void reset() {
+		 isInitialized = false;
+	}
 }

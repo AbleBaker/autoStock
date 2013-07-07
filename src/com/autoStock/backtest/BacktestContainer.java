@@ -43,12 +43,16 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}else{
 			basicAccount = AccountProvider.getInstance().newAccountForSymbol(symbol);			
 		}
+		
+		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
 	}
 
 	@SuppressWarnings("deprecation")
 	public void setBacktestData(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, HistoricalData historicalData){
 		this.listOfDbHistoricalPrices = listOfDbStockHistoricalPrice;
 		this.historicalData = historicalData;
+				
+		algorithm.init(historicalData.startDate);
 		
 		Iterator<DbStockHistoricalPrice> iterator = this.listOfDbHistoricalPrices.iterator();
 		
@@ -59,9 +63,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 				iterator.remove();
 			}
 		}
-		
-		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, historicalData.startDate, basicAccount);
-		algorithm.init();
 	}
 
 	public void runBacktest() {

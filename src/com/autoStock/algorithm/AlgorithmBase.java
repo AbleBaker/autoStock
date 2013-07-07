@@ -52,7 +52,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public IndicatorGroup indicatorGroup;
 	public SignalGroup signalGroup;
 	public PositionGovernorResponse PGResponsePrevious = new PositionGovernorResponse();
-	public final CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
+	public CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	protected ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
@@ -60,15 +60,14 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	protected Position position;
 	public StrategyBase strategyBase;
 	private Prefill prefill;
-	public final Date startingDate;
+	public Date startingDate;
 	protected FundamentalData fundamentalData;
 	public final BasicAccount basicAccount;
 	
-	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate, BasicAccount basicAccount){
+	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount){
 		this.exchange = exchange;
 		this.symbol = symbol;
 		this.algorithmMode = algorithmMode;
-		this.startingDate = startingDate;
 		this.basicAccount = basicAccount;
 		
 		signalGroup = new SignalGroup();
@@ -93,9 +92,14 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			algorithmTable = new AlgorithmTable(symbol);
 		}
 		
-		
 		periodLength = indicatorGroup.getMinPeriodLength();
 		indicatorGroup.setActive(listOfSignalMetricType);
+		
+		PGResponsePrevious = null;
+		listOfQuoteSlice.clear();
+		listOfStrategyResponse.clear();
+		commonAnalysisData.reset();
+		signalGroup.reset();
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){
@@ -182,6 +186,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		prefill.prefillAlgorithm(this, strategyBase.strategyOptions);
+		
+		if (listOfQuoteSlice.size() > 0){
+			firstQuoteSlice = listOfQuoteSlice.get(0);
+		}
 	}
 	
 	public void setFundamentalData(FundamentalData fundamentalData){

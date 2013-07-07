@@ -25,4 +25,8 @@ public abstract class IterableBase {
 	public void overrideAndSetCurrentIndex(int currentIndex){
 		this.currentIndex = currentIndex;
 	}
+	
+	public double getPercentComplete(){
+		return (double)getMaxIndex() / (double)currentIndex;
+	}
 }

@@ -3,6 +3,7 @@
  */
 package com.autoStock.internal;
 
+import com.autoStock.Co;
 import com.autoStock.database.DatabaseCore;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.internal.Global.Mode;

@@ -3,6 +3,7 @@ package com.autoStock.algorithm;
 import java.util.Arrays;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.position.PositionOptions;
@@ -20,8 +21,12 @@ import com.autoStock.types.Symbol;
 public class AlgorithmTest extends AlgorithmBase {
 	public StrategyOfTest strategy = new StrategyOfTest(this);
 	
-	public AlgorithmTest(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, Date startingDate, BasicAccount basicAccount) {
-		super(exchange, symbol, algorithmMode, startingDate, basicAccount);
+	public AlgorithmTest(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount) {
+		super(exchange, symbol, algorithmMode, basicAccount);
+	}
+	
+	public void init(Date startingDate){
+		this.startingDate = startingDate;
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
 			listOfSignalMetricType = strategy.strategyOptions.listOfSignalMetricType;
@@ -30,17 +35,6 @@ public class AlgorithmTest extends AlgorithmBase {
 		}
 	
 		initialize(strategy);
-		
-//		for (QuoteSlice quoteSlice : listOfQuoteSlice){
-//			Co.println("--> Prefilled with: " + quoteSlice.priceClose);
-//		}
-		
-		if (listOfQuoteSlice.size() > 0){
-			firstQuoteSlice = listOfQuoteSlice.get(0);
-		}
-	}
-	
-	public void init(){
 		prefill();
 	}
 
@@ -49,16 +43,13 @@ public class AlgorithmTest extends AlgorithmBase {
 		receivedQuoteSlice(quoteSlice);
 			
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
-			
 //			Co.print("\n --> QS: " + quoteSlice.dateTime);
 			
 			commonAnalysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet();
 			indicatorGroup.analyize();
+			signalGroup.setIndicatorGroup(indicatorGroup);
 			signalGroup.generateSignals(commonAnalysisData, getPeriodLength());
-			
-			
-//			Co.println("--> ");
 //			
 //			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
 //				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);

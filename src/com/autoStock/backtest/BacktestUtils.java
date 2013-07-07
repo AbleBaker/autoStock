@@ -29,8 +29,7 @@ import com.google.gson.internal.Pair;
  * 
  */
 public class BacktestUtils {	
-	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, BacktestResultTransactionDetails backtestResultDetails, BacktestType backtestType){
-		BasicAccount basicAccount = AccountProvider.getInstance().getGlobalAccount();
+	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, BacktestResultTransactionDetails backtestResultDetails, BacktestType backtestType, BasicAccount basicAccount){
 		
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(basicAccount.getBalance()) + " ********";
 		
@@ -146,7 +145,7 @@ public class BacktestUtils {
 		return backtestProfitLossType;
 	}
 	
-	public static BacktestResultTransactionDetails getBacktestResultTransactionDetails(BacktestContainer backtestContainer){
+	private static BacktestResultTransactionDetails getBacktestResultTransactionDetails(BacktestContainer backtestContainer){
 		BacktestResultTransactionDetails backtestTransactions = new BacktestResultTransactionDetails();
 		
 		for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse){

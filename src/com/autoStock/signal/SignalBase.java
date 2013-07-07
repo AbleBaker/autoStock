@@ -2,6 +2,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.guage.GuageOfThresholdLeft;
 import com.autoStock.guage.GuageOfThresholdMet;
 import com.autoStock.guage.SignalGuage;
@@ -122,12 +123,15 @@ public abstract class SignalBase {
 	
 	public void setInput(double value){
 		listOfNormalizedValue.clear();
+		listOfNormalizedAveragedValue.clear();
 		listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value));
 		listOfNormalizedAveragedValue.add(getStrength());
 	}
 	
 	public void setInput(double[] value){
-		listOfNormalizedValue.clear();
+//		listOfNormalizedValue.clear();
+//		listOfNormalizedAveragedValue.clear();
+		
 		for (int i=0;i<value.length;i++){
 			listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value[i]));
 			listOfNormalizedAveragedValue.add(getStrength());
@@ -138,5 +142,14 @@ public abstract class SignalBase {
 		if (listOfNormalizedValue.size() >= toLength){
 			listOfNormalizedValue.remove(0);
 		}
+		
+		if (listOfNormalizedAveragedValue.size() >= toLength){
+			listOfNormalizedAveragedValue.remove(0);
+		}
+	}
+
+	public void reset() {
+		listOfNormalizedAveragedValue.clear();
+		listOfNormalizedValue.clear();
 	}
 }

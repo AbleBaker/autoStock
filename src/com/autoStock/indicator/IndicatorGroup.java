@@ -2,6 +2,7 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
@@ -75,17 +76,17 @@ public class IndicatorGroup {
 		int resultLength = SignalGroup.ENCOG_SIGNAL_INPUT;
 		
 		listOfIndicatorBase.add(indicatorOfADX = new IndicatorOfADX(signalGroup.signalOfADX.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(signalGroup.signalOfCCI.signalParameters.periodLength, resultLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(signalGroup.signalOfCCI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(signalGroup.signalOfDI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(signalGroup.signalOfMACD.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new ImmutableInteger(0), 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(signalGroup.signalOfRSI.signalParameters.periodLength, resultLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(signalGroup.signalOfRSI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(signalGroup.signalOfTRIX.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(signalGroup.signalOfROC.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(signalGroup.signalOfMFI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(signalGroup.signalOfWILLR.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, resultLength, commonAnlaysisData, taLibCore));
-		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, resultLength, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
+		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore));
 		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new ImmutableInteger(0), 1, commonAnlaysisData, taLibCore));
 	}
 	
@@ -126,14 +127,18 @@ public class IndicatorGroup {
 
 	public int getMinPeriodLength() {
 		int min = 0;
+		IndicatorBase indcatorBase = null;
+		
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			if (indicator instanceof CandleStickIdentifier == false){
 				if (indicator.getRequiredDatasetLength() > min){
 					min = indicator.getRequiredDatasetLength();
+					indcatorBase = indicator;
 				}
 			}
 		}
 		
+//		Co.println("--> Longest required period length from: " + indcatorBase.getClass().getSimpleName());
 		return min;
 	}
 }

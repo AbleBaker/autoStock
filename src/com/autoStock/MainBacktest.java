@@ -1,6 +1,7 @@
 package com.autoStock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -225,7 +226,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				if (AccountProvider.getInstance().getGlobalAccount().getBalance() > metricBestAccountBalance) {
 					if (listOfBacktestContainer.get(0).algorithm != null) {
 						BacktestResultTransactionDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
-						listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType));
+						listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType, AccountProvider.getInstance().getGlobalAccount()));
 					}
 					metricBestAccountBalance = AccountProvider.getInstance().getGlobalAccount().getBalance();
 				}
@@ -250,6 +251,18 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 //					backtestEvaluator.addResult(backtestContainer.symbol, new BacktestEvaluation(backtestContainer.algorithm.basicAccount, BacktestUtils.getBacktestResultTransactionDetails(backtestContainer)), true);
+					
+					BacktestResultTransactionDetails backtestResultTransactionDetails = BacktestUtils.getProfitLossDetails(new ArrayList<BacktestContainer>(Arrays.asList(new BacktestContainer[]{backtestContainer})));
+					
+					BacktestEvaluation backtestEvaluation = new BacktestEvaluation();
+					backtestEvaluation.backtestResultTransactionDetails = backtestResultTransactionDetails;
+					backtestEvaluation.accountBalance = backtestContainer.algorithm.basicAccount.getBalance();
+					backtestEvaluation.percentGain = AccountProvider.getInstance().defaultBalance / backtestContainer.algorithm.basicAccount.getBalance();
+					if (backtestResultTransactionDetails.countForTradesProfit > 0){backtestEvaluation.percentTradeWin = backtestResultTransactionDetails.countForTradeExit / backtestResultTransactionDetails.countForTradesProfit;}
+					if (backtestResultTransactionDetails.countForTradesLoss > 0){backtestEvaluation.percentTradeWin = backtestResultTransactionDetails.countForTradeExit / backtestResultTransactionDetails.countForTradesLoss;}
+					backtestEvaluation.stringRepresentation = BacktestUtils.getCurrentBacktestCompleteValueGroup(backtestContainer.algorithm.strategy.signal, backtestContainer.algorithm.strategy.strategyOptions, backtestResultTransactionDetails, backtestType, backtestContainer.algorithm.basicAccount);
+					
+					backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
 				}
 				
 				if (runAdustmentSeries()) {
@@ -265,6 +278,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					Co.println("******** End of backtest and adjustment ********");
 					
 					backtestEvaluator.pruneAll();
+					
+					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+						Co.println("--> SYMBOL BACKTEST: " + backtestContainer.symbol.symbolName);
+						for (BacktestEvaluation backtestEvaluation : backtestEvaluator.getResults(backtestContainer.symbol)){
+							Co.println("--> " + backtestEvaluation.accountBalance);
+						}
+					}
 					
 					BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
 					Global.callbackLock.releaseLock();
@@ -353,7 +373,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					}
 
 					BacktestResultTransactionDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
-					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType));
+					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType, AccountProvider.getInstance().getGlobalAccount()));
 				}
 
 				if (listenerOfMainBacktestCompleted != null) {

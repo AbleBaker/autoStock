@@ -40,7 +40,7 @@ public class ActiveAlgorithmContainer {
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.activationListener = activationListener;
-		algorithm = new AlgorithmTest(exchange, symbol, AlgorithmMode.mode_engagement, new Date(), AccountProvider.getInstance().getGlobalAccount());
+		algorithm = new AlgorithmTest(exchange, symbol, AlgorithmMode.mode_engagement, AccountProvider.getInstance().getGlobalAccount());
 	}
 	
 	public void activate(){
@@ -59,7 +59,7 @@ public class ActiveAlgorithmContainer {
 				}
 				
 				algorithm.setFundamentalData(fundamentalData);
-				algorithm.init();
+				algorithm.init(new Date());
 				startAlgorithmFeed();
 				activationListener.activated(ActiveAlgorithmContainer.this);
 			}

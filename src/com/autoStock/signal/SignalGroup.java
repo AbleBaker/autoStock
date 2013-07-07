@@ -101,6 +101,12 @@ public class SignalGroup {
 		return null;
 //		throw new IllegalArgumentException("No SignalMetricType matched: " + signalMetricType.name() + ", " + listOfSignalBase.size());
 	}
+	
+	public void reset(){
+		for (SignalBase signalBase : listOfSignalBase){
+			signalBase.reset();
+		}
+	}
 
 	public void prune(int toLength) {
 		for (SignalBase signalBase : listOfSignalBase){

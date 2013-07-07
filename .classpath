@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="lib/gson-2.1.jar"/>
-	<classpathentry kind="lib" path="lib/bonecp-0.7.1.RELEASE.jar">
+	<classpathentry kind="lib" path="lib/bonecp-0.7.1.RELEASE.jar" sourcepath="C:/Users/Kevin/.m2/repository/com/jolbox/bonecp/0.7.1.RELEASE/bonecp-0.7.1.RELEASE-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/autoStock/lib/bonecp-0.7.1.RELEASE-javadoc.jar!/"/>
 		</attributes>
