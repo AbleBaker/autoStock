@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.autoStock.Co;
 import com.autoStock.types.Symbol;
@@ -16,7 +17,7 @@ public class BacktestEvaluator {
 	private static final int bufferResults = 128;
 	public static final int maxResults = 32;
 	
-	private HashMap<Symbol, ArrayList<BacktestEvaluation>> hashOfBacktestEvaluation = new HashMap<Symbol, ArrayList<BacktestEvaluation>>();
+	private ConcurrentHashMap<Symbol, ArrayList<BacktestEvaluation>> hashOfBacktestEvaluation = new ConcurrentHashMap<Symbol, ArrayList<BacktestEvaluation>>();
 
 	public void addResult(Symbol symbol, BacktestEvaluation backtestEvaluation, boolean autoPrune){
 		if (hashOfBacktestEvaluation.containsKey(symbol) == false){

@@ -1,5 +1,6 @@
 package com.autoStock;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -149,11 +150,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 			AdjustmentCampaign adjustmentCampaign;
 
-			if (historicalData.symbol.symbolName.equals("AIG")) {
+//			if (historicalData.symbol.symbolName.equals("AIG")) {
 				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithm(backtestContainer.algorithm);
-			} else {
-				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithmShortOnly(backtestContainer.algorithm);
-			}
+//			}
+//			
+//			else {
+//				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithmShortOnly(backtestContainer.algorithm);
+//			}
 			adjustmentCampaign.initialize();
 
 			adjustmentCampaignProvider.addAdjustmentCampaignForAlgorithm(adjustmentCampaign, historicalData.symbol);
@@ -346,7 +349,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							ArrayList<String> listOfString = new ArrayList<String>();
 							listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 							listOfString.add(backtestContainer.symbol.symbolName);
-							listOfString.add(String.valueOf(strategyResponse.quoteSlice.priceClose));
+							listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
 							listOfString.add(strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name());
 							listOfString.add(strategyResponse.positionGovernorResponse.status.name());
 
@@ -359,7 +362,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							listOfString.add(stringForSignal);
 
 							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
-								listOfString.add("$ " + String.valueOf(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)));
+								listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)));
 							} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
 								listOfString.add("-");
 							} else {

@@ -30,6 +30,7 @@ public class MiscTools {
 	
 	public static String getCommifiedValue(double number){
 		NumberFormat numberFormat = NumberFormat.getInstance();
+		numberFormat.setMinimumFractionDigits(2);
 		return numberFormat.format(number);
 	}
 	

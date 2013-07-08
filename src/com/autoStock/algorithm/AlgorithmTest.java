@@ -35,7 +35,9 @@ public class AlgorithmTest extends AlgorithmBase {
 		}
 	
 		initialize(strategy);
-		prefill();
+		if (strategy.strategyOptions.prefillEnabled){
+			prefill();			
+		}
 	}
 
 	@Override

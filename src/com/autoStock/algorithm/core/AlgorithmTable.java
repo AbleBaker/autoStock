@@ -40,7 +40,7 @@ public class AlgorithmTable {
 
 		columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
-		columnValues.add(String.valueOf(MathTools.round(quoteSlice.priceClose)));
+		columnValues.add((new DecimalFormat("#.00").format(quoteSlice.priceClose)));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
 		columnValues.add(String.valueOf(signalGroup.signalOfDI.getStrength()));
 		columnValues.add(String.valueOf(signalGroup.signalOfCCI.getStrength()));

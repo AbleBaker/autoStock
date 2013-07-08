@@ -22,6 +22,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.disableAfterLoss = false;
 		strategyOptions.taperPeriodLength = false;
+		strategyOptions.prefillEnabled = true;
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
 		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
