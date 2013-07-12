@@ -250,7 +250,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				}
 			} else if (backtestType == BacktestType.backtest_adjustment_individual) {
 				
-				Co.println("--> CHECK");
+				Co.println("--> CHECK: ");
 				
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 //					backtestEvaluator.addResult(backtestContainer.symbol, new BacktestEvaluation(backtestContainer.algorithm.basicAccount, BacktestUtils.getBacktestResultTransactionDetails(backtestContainer)), true);
