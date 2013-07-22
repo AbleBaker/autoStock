@@ -4,6 +4,7 @@
 package com.autoStock.indicator;
 
 import com.autoStock.indicator.results.ResultsMFI;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
@@ -17,8 +18,8 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfMFI extends IndicatorBase{
 	public ResultsMFI results;
 	
-	public IndicatorOfMFI(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfMFI(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
 	public ResultsMFI analyize(){

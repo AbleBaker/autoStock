@@ -6,6 +6,7 @@ package com.autoStock.indicator;
 import java.util.Arrays;
 
 import com.autoStock.indicator.results.ResultsWILLR;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
@@ -18,8 +19,8 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfWILLR extends IndicatorBase{
 	public ResultsWILLR results;
 	
-	public IndicatorOfWILLR(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfWILLR(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
 	public ResultsWILLR analyize(){

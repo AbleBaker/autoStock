@@ -11,7 +11,7 @@ import com.autoStock.types.basic.ImmutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class StrategyOptions {
+public class StrategyOptions implements Cloneable {
 	public boolean canGoLong;
 	public boolean canGoShort;
 	public boolean canReenter;
@@ -39,4 +39,41 @@ public class StrategyOptions {
 	
 	public ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	
+	@Override
+	public String toString() {
+		String string = new String();
+		string += "\n - Can go long: " + canGoLong;
+		string += "\n - Can go short: " + canGoShort;
+		string += "\n - Can reenter: " + canReenter;
+		string += "\n - Enable prefill: " + prefillEnabled;
+		string += "\n - Disable after nil changes: " + disableAfterNilChanges;
+		string += "\n - Disable after nil changes in price: " + maxNilChangePrice;
+		string += "\n - Disable after nil changes in volume: " + maxNilChangeVolume;
+		string += "\n - Disable after a loss: " + disableAfterLoss;
+		string += "\n - Max position entry time: " + maxPositionEntryTime;
+		string += "\n - Max position exit time: " + maxPositionExitTime;
+		string += "\n - Max stop loss percent: " +  maxStopLossPercent.value;
+		string += "\n - Max profit drawdown percent: " +  maxProfitDrawdownPercent.value;
+		string += "\n - Max transactions per day: " + maxTransactionsDay;
+		string += "\n - Signal point tactic (entry): " + signalPointTacticForEntry.name();
+		string += "\n - Signal point tactic (reentry): " + signalPointTacticForReentry.name();
+		string += "\n - Signal point tactic (exit): " + signalPointTacticForExit.name();
+		string += "\n - Taper period length: " + taperPeriodLength;
+		string += "\n - Reentry interval minutes: " + intervalForReentryMins.value;
+		string += "\n - Reentry maximum frequency: " + maxReenterTimes.value;
+		string += "\n - Reentry minimum gain: " + minReentryPercentGain.value;
+		
+		return string;
+	}
+	
+	@Override
+	public StrategyOptions clone() {
+		try {
+			return (StrategyOptions) super.clone();
+		}catch(CloneNotSupportedException e){
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

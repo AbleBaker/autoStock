@@ -93,25 +93,7 @@ public class BacktestUtils {
 		
 		string += "\n";
 		
-		string += "\n Can go long: " + strategyOptions.canGoLong;
-		string += "\n Can go short: " + strategyOptions.canGoShort;
-		string += "\n Can reenter: " + strategyOptions.canReenter;
-		string += "\n Disable after nil changes: " + strategyOptions.disableAfterNilChanges;
-		string += "\n Disable after nil changes in price: " + strategyOptions.maxNilChangePrice;
-		string += "\n Disable after nil changes in volume: " + strategyOptions.maxNilChangeVolume;
-		string += "\n Disable after a loss: " + strategyOptions.disableAfterLoss;
-		string += "\n Max position entry time: " + strategyOptions.maxPositionEntryTime;
-		string += "\n Max position exit time: " + strategyOptions.maxPositionExitTime;
-		string += "\n Max stop loss percent: " +  strategyOptions.maxStopLossPercent.value;
-		string += "\n Max profit drawdown percent: " +  strategyOptions.maxProfitDrawdownPercent.value;
-		string += "\n Max transactions per day: " + strategyOptions.maxTransactionsDay;
-		string += "\n Signal point tactic (entry): " + strategyOptions.signalPointTacticForEntry.name();
-		string += "\n Signal point tactic (reentry): " + strategyOptions.signalPointTacticForReentry.name();
-		string += "\n Signal point tactic (exit): " + strategyOptions.signalPointTacticForExit.name();
-		string += "\n Taper period length: " + strategyOptions.taperPeriodLength;
-		string += "\n Reentry interval minutes: " + strategyOptions.intervalForReentryMins.value;
-		string += "\n Reentry maximum frequency: " + strategyOptions.maxReenterTimes.value;
-		string += "\n Reentry minimum gain: " + strategyOptions.minReentryPercentGain.value;
+		string += strategyOptions.toString();
 		
 		string += "\n\n";
 		
@@ -171,10 +153,10 @@ public class BacktestUtils {
 	}
 	
 	public static class BacktestResultTransactionDetails {
-		public int countForTradeEntry = 0;
-		public int countForTradeExit = 0;
-		public int countForTradesProfit = 0;
-		public int countForTradesLoss = 0;
-		public int countForTradesReentry = 0;
+		public int countForTradeEntry;
+		public int countForTradeExit;
+		public int countForTradesProfit;
+		public int countForTradesLoss;
+		public int countForTradesReentry;
 	}
 }

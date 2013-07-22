@@ -2,10 +2,13 @@
  * 
  */
 package com.autoStock.signal;
+import java.util.HashMap;
+
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.basic.ImmutableEnum;
 import com.autoStock.types.basic.ImmutableInteger;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
@@ -96,6 +99,17 @@ public class SignalDefinitions {
 		
 		public int getNormalizedValue(double input){
 			return this.normalizeInterface.normalize(input);
+		}
+		
+		public HashMap<SignalPointType, SignalGuage[]> getGuages(){
+			HashMap<SignalPointType, SignalGuage[]> hash = new HashMap<SignalPointType, SignalGuage[]>();
+			
+			hash.put(SignalPointType.long_entry, arrayOfSignalGuageForLongEntry);
+			hash.put(SignalPointType.long_exit, arrayOfSignalGuageForLongExit);
+			hash.put(SignalPointType.short_entry, arrayOfSignalGuageForShortEntry);
+			hash.put(SignalPointType.short_exit, arrayOfSignalGuageForShortExit);
+			
+			return hash;
 		}
 	}
 	

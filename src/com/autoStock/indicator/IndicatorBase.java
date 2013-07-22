@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import com.autoStock.Co;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
 import com.autoStock.types.basic.ImmutableInteger;
@@ -30,13 +31,15 @@ public abstract class IndicatorBase {
 	public double[] arrayOfPriceClose;
 	public int[] arrayOfSizeVolume;
 	public int endIndex = 0;
+	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	
-	public IndicatorBase(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore){
+	public IndicatorBase(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType){
 		this.periodLength = periodLength;
 		this.commonAnlaysisData = commonAnlaysisData;
 		this.taLibCore = taLibCore;
 		this.resultsetLength = resultsetLength;
 		
+		listOfSignalMetricType.add(signalMetricType);
 		requiredInputLength = periodLength.value + resultsetLength -1;
 	}
 
@@ -74,6 +77,18 @@ public abstract class IndicatorBase {
 		endIndex = datasetLength-1;
 		
 //		Co.println("--> this: " + this.getClass().getName() + ", " + resultsetLength);
+	}
+	
+	public void addSignalMetricType(SignalMetricType signalMetricType){
+		listOfSignalMetricType.add(signalMetricType);
+	}
+	
+	public void removeSignalMetricType(SignalMetricType signalMetricType){
+		listOfSignalMetricType.remove(signalMetricType);
+	}
+	
+	public ArrayList<SignalMetricType> getSignalMetricType(){
+		return listOfSignalMetricType;
 	}
 	
 	public int getRequiredDatasetLength(){

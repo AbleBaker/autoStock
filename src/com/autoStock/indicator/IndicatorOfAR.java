@@ -4,6 +4,7 @@
 package com.autoStock.indicator;
 
 import com.autoStock.indicator.results.ResultsAR;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
@@ -16,8 +17,8 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfAR extends IndicatorBase {
 	public ResultsAR results;
 	
-	public IndicatorOfAR(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfAR(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
 	public ResultsAR analyize(){

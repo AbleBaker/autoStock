@@ -17,6 +17,7 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluator;
 import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
@@ -250,21 +251,22 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				}
 			} else if (backtestType == BacktestType.backtest_adjustment_individual) {
 				
-				Co.println("--> CHECK: ");
+				Co.println("--> CHECK");
 				
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 //					backtestEvaluator.addResult(backtestContainer.symbol, new BacktestEvaluation(backtestContainer.algorithm.basicAccount, BacktestUtils.getBacktestResultTransactionDetails(backtestContainer)), true);
 					
-					BacktestResultTransactionDetails backtestResultTransactionDetails = BacktestUtils.getProfitLossDetails(new ArrayList<BacktestContainer>(Arrays.asList(new BacktestContainer[]{backtestContainer})));
-					
-					BacktestEvaluation backtestEvaluation = new BacktestEvaluation();
-					backtestEvaluation.backtestResultTransactionDetails = backtestResultTransactionDetails;
-					backtestEvaluation.accountBalance = backtestContainer.algorithm.basicAccount.getBalance();
-					backtestEvaluation.percentGain = AccountProvider.getInstance().defaultBalance / backtestContainer.algorithm.basicAccount.getBalance();
-					if (backtestResultTransactionDetails.countForTradesProfit > 0){backtestEvaluation.percentTradeWin = backtestResultTransactionDetails.countForTradeExit / backtestResultTransactionDetails.countForTradesProfit;}
-					if (backtestResultTransactionDetails.countForTradesLoss > 0){backtestEvaluation.percentTradeWin = backtestResultTransactionDetails.countForTradeExit / backtestResultTransactionDetails.countForTradesLoss;}
-					backtestEvaluation.stringRepresentation = BacktestUtils.getCurrentBacktestCompleteValueGroup(backtestContainer.algorithm.strategy.signal, backtestContainer.algorithm.strategy.strategyOptions, backtestResultTransactionDetails, backtestType, backtestContainer.algorithm.basicAccount);
-					
+//					BacktestResultTransactionDetails backtestResultTransactionDetails = BacktestUtils.getProfitLossDetails(new ArrayList<BacktestContainer>(Arrays.asList(new BacktestContainer[]{backtestContainer})));
+//					
+//					BacktestEvaluation backtestEvaluation = new BacktestEvaluation();
+//					backtestEvaluation.backtestResultTransactionDetails = backtestResultTransactionDetails;
+//					backtestEvaluation.accountBalance = backtestContainer.algorithm.basicAccount.getBalance();
+//					backtestEvaluation.percentGain = AccountProvider.getInstance().defaultBalance / backtestContainer.algorithm.basicAccount.getBalance();
+//					if (backtestResultTransactionDetails.countForTradesProfit > 0){backtestEvaluation.percentTradeWin = backtestResultTransactionDetails.countForTradeExit / backtestResultTransactionDetails.countForTradesProfit;}
+//					if (backtestResultTransactionDetails.countForTradesLoss > 0){backtestEvaluation.percentTradeWin = backtestResultTransactionDetails.countForTradeExit / backtestResultTransactionDetails.countForTradesLoss;}
+//					backtestEvaluation.stringRepresentation = BacktestUtils.getCurrentBacktestCompleteValueGroup(backtestContainer.algorithm.strategy.signal, backtestContainer.algorithm.strategy.strategyOptions, backtestResultTransactionDetails, backtestType, backtestContainer.algorithm.basicAccount);
+//					
+					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 					backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
 				}
 				
@@ -285,7 +287,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 						Co.println("--> SYMBOL BACKTEST: " + backtestContainer.symbol.symbolName);
 						for (BacktestEvaluation backtestEvaluation : backtestEvaluator.getResults(backtestContainer.symbol)){
-							Co.println("--> String representation: " + backtestEvaluation.stringRepresentation);
+							Co.println("--> String representation: " + backtestEvaluation.toString());
 						}
 					}
 					
@@ -373,10 +375,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						}
 						new TableController().displayTable(AsciiTables.backtest_strategy_response, listOfDisplayRows);
 						// Co.print(new ExportTools().exportToString(AsciiTables.backtest_strategy_response, listOfDisplayRows));
+						
+						BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
+						Co.println(backtestEvaluation.toString());
 					}
 
-					BacktestResultTransactionDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
-					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType, AccountProvider.getInstance().getGlobalAccount()));
+//					BacktestResultTransactionDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
+//					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType, AccountProvider.getInstance().getGlobalAccount()));
 				}
 
 				if (listenerOfMainBacktestCompleted != null) {

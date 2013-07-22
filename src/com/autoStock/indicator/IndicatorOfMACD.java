@@ -1,6 +1,7 @@
 package com.autoStock.indicator;
 
 import com.autoStock.indicator.results.ResultsMACD;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
@@ -16,8 +17,8 @@ public class IndicatorOfMACD extends IndicatorBase {
 	public static ImmutableInteger immutableIntegerForEma = new ImmutableInteger(9);
 	public static ImmutableInteger immutableIntegerForShort = new ImmutableInteger(6);
 	
-	public IndicatorOfMACD(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfMACD(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
 	public ResultsMACD analize(){

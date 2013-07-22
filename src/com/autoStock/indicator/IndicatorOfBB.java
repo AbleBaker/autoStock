@@ -4,6 +4,7 @@
 package com.autoStock.indicator;
 
 import com.autoStock.indicator.results.ResultsBB;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MAType;
 import com.autoStock.taLib.MInteger;
@@ -19,8 +20,8 @@ public class IndicatorOfBB extends IndicatorBase {
 	public int optionDeviationUp = 8;
 	public int optionDeviationDown = 8;
 	
-	public IndicatorOfBB(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore) {
-		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore);
+	public IndicatorOfBB(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
 	public ResultsBB analyize(){	
