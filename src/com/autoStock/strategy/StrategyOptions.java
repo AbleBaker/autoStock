@@ -2,10 +2,12 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.types.basic.ImmutableDouble;
 import com.autoStock.types.basic.ImmutableInteger;
+import com.google.gson.Gson;
 
 /**
  * @author Kevin Kowalewski
@@ -63,17 +65,12 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Reentry maximum frequency: " + maxReenterTimes.value;
 		string += "\n - Reentry minimum gain: " + minReentryPercentGain.value;
 		
+		string += "\n" + super.toString();
+		
 		return string;
 	}
-	
-	@Override
-	public StrategyOptions clone() {
-		try {
-			return (StrategyOptions) super.clone();
-		}catch(CloneNotSupportedException e){
-			e.printStackTrace();
-		}
-		
-		return null;
+
+	public StrategyOptions copy() {
+		return new Gson().fromJson(new Gson().toJson(this), getClass());
 	}
 }

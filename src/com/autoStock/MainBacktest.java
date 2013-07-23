@@ -10,8 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentCampaignProvider;
-import com.autoStock.adjust.AdjustmentCampaignSeriesForAlgorithm;
-import com.autoStock.adjust.AdjustmentCampaignSeriesForAlgorithmShortOnly;
+import com.autoStock.adjust.AdjustmentSeriesForAlgorithm;
+import com.autoStock.adjust.AdjustmentSeriesForAlgorithmShortOnly;
 import com.autoStock.adjust.AdjustmentIdentifier;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -35,6 +35,7 @@ import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalMoment;
+import com.autoStock.strategy.StrategyBase;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tables.TableController;
@@ -152,14 +153,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			AdjustmentCampaign adjustmentCampaign;
 
 //			if (historicalData.symbol.symbolName.equals("AIG")) {
-				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithm(backtestContainer.algorithm);
+				adjustmentCampaign = new AdjustmentSeriesForAlgorithm(backtestContainer.algorithm);
 //			}
 //			
 //			else {
 //				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithmShortOnly(backtestContainer.algorithm);
 //			}
 			adjustmentCampaign.initialize();
-
 			adjustmentCampaignProvider.addAdjustmentCampaignForAlgorithm(adjustmentCampaign, historicalData.symbol);
 		}
 	}
@@ -230,7 +230,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				if (AccountProvider.getInstance().getGlobalAccount().getBalance() > metricBestAccountBalance) {
 					if (listOfBacktestContainer.get(0).algorithm != null) {
 						BacktestResultTransactionDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
-						listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType, AccountProvider.getInstance().getGlobalAccount()));
+						listOfStringBestBacktestResults.add(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategyBase.signal, listOfBacktestContainer.get(0).algorithm.strategyBase.strategyOptions, backtestDetails, backtestType, AccountProvider.getInstance().getGlobalAccount()));
 					}
 					metricBestAccountBalance = AccountProvider.getInstance().getGlobalAccount().getBalance();
 				}
@@ -283,11 +283,12 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					Co.println("******** End of backtest and adjustment ********");
 					
 					backtestEvaluator.pruneAll();
+					backtestEvaluator.reverse();
 					
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 						Co.println("--> SYMBOL BACKTEST: " + backtestContainer.symbol.symbolName);
 						for (BacktestEvaluation backtestEvaluation : backtestEvaluator.getResults(backtestContainer.symbol)){
-							Co.println("--> String representation: " + backtestEvaluation.toString());
+							Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
 						}
 					}
 					
@@ -364,7 +365,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							listOfString.add(stringForSignal);
 
 							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
-								listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false)));
+								listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
 							} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
 								listOfString.add("-");
 							} else {
@@ -379,9 +380,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 						Co.println(backtestEvaluation.toString());
 					}
-
-//					BacktestResultTransactionDetails backtestDetails = BacktestUtils.getProfitLossDetails(listOfBacktestContainer);
-//					Co.println(BacktestUtils.getCurrentBacktestCompleteValueGroup(listOfBacktestContainer.get(0).algorithm.strategy.signal, listOfBacktestContainer.get(0).algorithm.strategy.strategyOptions, backtestDetails, backtestType, AccountProvider.getInstance().getGlobalAccount()));
 				}
 
 				if (listenerOfMainBacktestCompleted != null) {
@@ -395,8 +393,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 	}
 
-	public StrategyOfTest getStrategy() {
-		return listOfBacktestContainer.get(0).algorithm.strategy;
+	public StrategyBase getStrategy() {
+		return listOfBacktestContainer.get(0).algorithm.strategyBase;
 	}
 
 	public ArrayList<BacktestContainer> getListOfBacktestContainer() {

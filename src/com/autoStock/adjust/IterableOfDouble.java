@@ -28,7 +28,6 @@ public class IterableOfDouble extends IterableBase {
 
 	@Override
 	public boolean hasMore() {
-		Co.println("--> A? " + currentIndex + ", " + getMaxIndex());
 		return currentIndex <= getMaxIndex();
 	}
 
@@ -49,7 +48,6 @@ public class IterableOfDouble extends IterableBase {
 
 	@Override
 	public boolean isDone() {
-		Co.println("--> ? " + currentIndex + ", " + getMaxIndex());
 		return currentIndex == getMaxIndex();
 	}
 

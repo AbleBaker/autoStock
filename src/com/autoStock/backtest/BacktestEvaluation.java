@@ -85,6 +85,11 @@ public class BacktestEvaluation {
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
 		string += "\n--> Transaction details: " + backtestResultTransactionDetails.countForTradeEntry + ", " + backtestResultTransactionDetails.countForTradesReentry + ", " + backtestResultTransactionDetails.countForTradeExit;
 		string += "\n--> Transaction profit / loss: " + percentTradeWin + "%, " + backtestResultTransactionDetails.countForTradesProfit + ", " + backtestResultTransactionDetails.countForTradesLoss;
+		string += "\n--> Transaction avg profit / loss: $" + new DecimalFormat("#.00").format(backtestResultTransactionDetails.avgTradeWin) + ", $" + new DecimalFormat("#.00").format(backtestResultTransactionDetails.avgTradeLoss);
+		string += "\n--> Trasaction max profit, loss: " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.maxTradeWin)
+			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.maxTradeLoss)
+			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.minTradeWin)
+			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.minTradeLoss);
 		string += "\n--> Evaluation score: " + MiscTools.getCommifiedValue(getScore());
 		
 		string += "\n";

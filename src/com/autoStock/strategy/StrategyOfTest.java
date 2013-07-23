@@ -2,6 +2,7 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
@@ -25,6 +26,7 @@ import com.autoStock.types.QuoteSlice;
 public class StrategyOfTest extends StrategyBase {
 	public StrategyOfTest(AlgorithmBase algorithmBase) {
 		super(algorithmBase);
+		
 		strategyOptions = StrategyOptionDefaults.getInstance().getDefaultStrategyOptions();
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
 

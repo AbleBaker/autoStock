@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.autoStock.Co;
+import com.autoStock.tools.ListTools;
 import com.autoStock.types.Symbol;
 
 /**
@@ -41,8 +42,6 @@ public class BacktestEvaluator {
 			}
 			
 			Collections.sort(listOfBacktestEvaluation, new BacktestEvaluationComparator());
-	
-			hashOfBacktestEvaluation.remove(symbol);
 			hashOfBacktestEvaluation.put(symbol, new ArrayList<BacktestEvaluation>(listOfBacktestEvaluation.subList(0, results)));
 		}
 	}
@@ -53,5 +52,13 @@ public class BacktestEvaluator {
 
 	public ArrayList<BacktestEvaluation> getResults(Symbol symbol) {
 		return hashOfBacktestEvaluation.get(symbol);
+	}
+
+	public void reverse() {
+		for (Symbol symbol : hashOfBacktestEvaluation.keySet()){
+			ArrayList<BacktestEvaluation> listOfBacktestEvaluation = hashOfBacktestEvaluation.get(symbol);
+			listOfBacktestEvaluation = (ArrayList<BacktestEvaluation>) ListTools.reverseList(listOfBacktestEvaluation);
+			hashOfBacktestEvaluation.put(symbol, listOfBacktestEvaluation);
+		}
 	}
 }

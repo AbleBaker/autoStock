@@ -7,10 +7,10 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  * @author Kevin Kowalewski
  *
  */
-public class AdjustmentCampaignSeriesForAlgorithmShortOnly extends AdjustmentCampaign {
+public class AdjustmentSeriesForAlgorithmShortOnly extends AdjustmentCampaign {
 	private AlgorithmBase algorithmBase;
 	
-	public AdjustmentCampaignSeriesForAlgorithmShortOnly(AlgorithmBase algorithmBase){
+	public AdjustmentSeriesForAlgorithmShortOnly(AlgorithmBase algorithmBase){
 		this.algorithmBase = algorithmBase;
 	}
 	

@@ -19,23 +19,22 @@ import com.autoStock.types.Symbol;
  * 
  */
 public class AlgorithmTest extends AlgorithmBase {
-	public StrategyOfTest strategy = new StrategyOfTest(this);
-	
 	public AlgorithmTest(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount) {
 		super(exchange, symbol, algorithmMode, basicAccount);
+		setStrategy(new StrategyOfTest(this));
 	}
-	
+
 	public void init(Date startingDate){
 		this.startingDate = startingDate;
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
-			listOfSignalMetricType = strategy.strategyOptions.listOfSignalMetricType;
+			listOfSignalMetricType = strategyBase.strategyOptions.listOfSignalMetricType;
 		}else{
 			listOfSignalMetricType.addAll(Arrays.asList(SignalMetricType.values()));	
 		}
 	
-		initialize(strategy);
-		if (strategy.strategyOptions.prefillEnabled){
+		initialize();
+		if (strategyBase.strategyOptions.prefillEnabled){
 			prefill();			
 		}
 	}
@@ -59,7 +58,7 @@ public class AlgorithmTest extends AlgorithmBase {
 //			
 //			System.exit(0);
 			
-			StrategyResponse strategyResponse = strategy.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position, new PositionOptions(this));
+			StrategyResponse strategyResponse = strategyBase.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position, new PositionOptions(this));
 		
 			handleStrategyResponse(strategyResponse);
 
@@ -68,7 +67,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			}
 			
 			if (algorithmMode.displayTable) {
-				algorithmTable.addTableRow(listOfQuoteSlice, strategy.signal, signalGroup, strategyResponse, basicAccount);
+				algorithmTable.addTableRow(listOfQuoteSlice, strategyBase.signal, signalGroup, strategyResponse, basicAccount);
 			}
 			
 //			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);

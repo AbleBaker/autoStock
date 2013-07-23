@@ -82,9 +82,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	@Override
 	public abstract void endOfFeed(Symbol symbol);
 	
-	public void initialize(StrategyBase strategyBase){
-		this.strategyBase = strategyBase;
-		
+	public void initialize(){
 		if (algorithmMode.displayChart) {
 			algorithmChart = new AlgorithmChart(symbol.symbolName, this);
 		}
@@ -204,6 +202,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	
 	public int getPeriodLength(){
 		return periodLength;
+	}
+	
+	protected void setStrategy(StrategyBase strategyBase){
+		this.strategyBase = strategyBase;
 	}
 
 	@Override

@@ -127,16 +127,26 @@ public class BacktestUtils {
 		return backtestProfitLossType;
 	}
 	
-	private static BacktestResultTransactionDetails getBacktestResultTransactionDetails(BacktestContainer backtestContainer){
+	public static BacktestResultTransactionDetails getBacktestResultTransactionDetails(BacktestContainer backtestContainer){
 		BacktestResultTransactionDetails backtestTransactions = new BacktestResultTransactionDetails();
 		
 		for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse){
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-				if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) > 0){
+				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+				
+				double transactionYield = strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true);
+				
+				if (transactionYield > 0){
 					backtestTransactions.countForTradesProfit++;
-				}else if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) <= 0){
+					backtestTransactions.avgTradeWin += transactionYield;
+					if (transactionYield > backtestTransactions.maxTradeWin){backtestTransactions.maxTradeWin = transactionYield;}
+					if (transactionYield < backtestTransactions.minTradeWin || backtestTransactions.minTradeWin == 0){backtestTransactions.minTradeWin = transactionYield;}
+				}else if (transactionYield <= 0){
 					backtestTransactions.countForTradesLoss++;
+					backtestTransactions.avgTradeLoss += transactionYield;
+					
+					if (transactionYield < backtestTransactions.maxTradeLoss){backtestTransactions.maxTradeLoss = transactionYield;}
+					if (transactionYield > backtestTransactions.minTradeLoss || backtestTransactions.minTradeLoss == 0){backtestTransactions.minTradeLoss = transactionYield;}
 				}
 				
 				backtestTransactions.countForTradeExit++;
@@ -149,6 +159,9 @@ public class BacktestUtils {
 			}
 		}
 		
+		if (backtestTransactions.countForTradesProfit > 0){backtestTransactions.avgTradeWin /= backtestTransactions.countForTradesProfit;}
+//		if (backtestTransactions.countForTradesLoss > 0){backtestTransactions.avgTradeLoss /= backtestTransactions.countForTradesLoss;}
+		
 		return backtestTransactions;
 	}
 	
@@ -158,5 +171,14 @@ public class BacktestUtils {
 		public int countForTradesProfit;
 		public int countForTradesLoss;
 		public int countForTradesReentry;
+		
+		public double avgTradeLoss;
+		public double avgTradeWin;
+		
+		public double minTradeWin;
+		public double minTradeLoss;
+		
+		public double maxTradeWin;
+		public double maxTradeLoss;
 	}
 }

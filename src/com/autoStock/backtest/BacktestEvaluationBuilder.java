@@ -9,6 +9,7 @@ import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentCampaignProvider;
 import com.autoStock.adjust.AdjustmentIdentifier;
+import com.autoStock.adjust.AdjustmentOfBasicDouble;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
 import com.autoStock.adjust.AdjustmentOfSignalMetric;
@@ -31,7 +32,7 @@ public class BacktestEvaluationBuilder {
 	public BacktestEvaluation buildEvaluation(BacktestContainer backtestContainer){
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluation();
 		
-		BacktestResultTransactionDetails backtestResultTransactionDetails = BacktestUtils.getProfitLossDetails(new ArrayList<BacktestContainer>(Arrays.asList(new BacktestContainer[]{backtestContainer})));
+		BacktestResultTransactionDetails backtestResultTransactionDetails = BacktestUtils.getBacktestResultTransactionDetails(backtestContainer);
 		
 		backtestEvaluation.transactions = backtestContainer.algorithm.basicAccount.getTransactions();
 		backtestEvaluation.transactionFeesPaid = backtestContainer.algorithm.basicAccount.getTransactionFees();
@@ -41,7 +42,7 @@ public class BacktestEvaluationBuilder {
 		if (backtestResultTransactionDetails.countForTradesProfit > 0){backtestEvaluation.percentTradeWin = 100 * (double)backtestResultTransactionDetails.countForTradesProfit / (double)backtestResultTransactionDetails.countForTradeExit;}
 		if (backtestResultTransactionDetails.countForTradesLoss > 0){backtestEvaluation.percentTradeLoss = 100 * (double)backtestResultTransactionDetails.countForTradesLoss / (double)backtestResultTransactionDetails.countForTradeExit;}
 		
-		backtestEvaluation.strategyOptions = backtestContainer.algorithm.strategyBase.strategyOptions.clone();
+		backtestEvaluation.strategyOptions = backtestContainer.algorithm.strategyBase.strategyOptions.copy();
 		
 		for (SignalBase signalBase : backtestContainer.algorithm.strategyBase.signal.getListOfSignalBase()){
 			
@@ -77,6 +78,8 @@ public class BacktestEvaluationBuilder {
 			
 			if (adjustmentBase instanceof AdjustmentOfBasicInteger){
 				descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicInteger)adjustmentBase).getValue());
+			}else if (adjustmentBase instanceof AdjustmentOfBasicDouble){
+				descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicDouble)adjustmentBase).getValue());
 			}else if (adjustmentBase instanceof AdjustmentOfEnum){
 				descriptorForAdjustment.adjustmentValue = ((AdjustmentOfEnum)adjustmentBase).getValue().name();
 			}else if (adjustmentBase instanceof AdjustmentOfSignalMetric){

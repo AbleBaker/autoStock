@@ -51,8 +51,8 @@ public class AlgorithmManagerTable {
 		columnValues.add(algorithm.getCurrentQuoteSlice() != null && algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
 		columnValues.add(algorithm.symbol.symbolName);
 		columnValues.add(algorithm.algorithmState.isDisabled == true ? ("disabled (" + algorithm.algorithmState.disabledReason + ")") : " - ");
-		columnValues.add(algorithm.strategy.lastStrategyResponse == null ? "-" : (algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalPointType.name() + ", " + algorithm.strategy.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
-		columnValues.add(algorithm.strategy.currentStrategyResponse == null ? "-" : (algorithm.strategy.currentStrategyResponse.strategyActionCause.name()));
+		columnValues.add(algorithm.strategyBase.lastStrategyResponse == null ? "-" : (algorithm.strategyBase.lastStrategyResponse.positionGovernorResponse.signalPoint.signalPointType.name() + ", " + algorithm.strategyBase.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
+		columnValues.add(algorithm.strategyBase.currentStrategyResponse == null ? "-" : (algorithm.strategyBase.currentStrategyResponse.strategyActionCause.name()));
 		columnValues.add(position == null ? "-" : position.positionType.name());
 		columnValues.add(String.valueOf(algorithm.getFirstQuoteSlice() == null ? 0 : MathTools.round(algorithm.getFirstQuoteSlice().priceClose)));
 		columnValues.add(String.valueOf(position == null ? "-" : positionValue.unitPriceIntrinsic));
@@ -65,8 +65,8 @@ public class AlgorithmManagerTable {
 		
 		String stringForSignalMetrics = new String();
 		
-		if (algorithm.strategy.signal != null){
-			for (SignalBase signalBase : algorithm.strategy.signal.getListOfSignalBase()){
+		if (algorithm.strategyBase.signal != null){
+			for (SignalBase signalBase : algorithm.strategyBase.signal.getListOfSignalBase()){
 				//signalMetrics += " (" + signalMetric.signalMetricType.name() + ":" + signalMetric.strength + ":" + signalMetric.getSignalPoint(position == null ? false : true, position == null ? PositionType.position_none : position.positionType).signalPointType.name() + ")";
 				stringForSignalMetrics = "Replace this";
 			}
