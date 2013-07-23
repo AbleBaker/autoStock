@@ -130,16 +130,18 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 			listOfHistoricalDataList.add(historicalDataList);
 		}
+		
+		initBacktest();
 
 		if (backtestType == BacktestType.backtest_adjustment_boilerplate) {
 			adjustmentCampaignProvider.applyBoilerplateValues();
 		} else if (backtestType == BacktestType.backtest_adjustment_individual) {
 			for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
+				Co.println("--> !!!!!!!! APPLIED VALUES");
 				pair.second.applyValues();
 			}
 		}
-
-		initBacktest();
+		
 		runNextBacktestForDays(false);
 	}
 
