@@ -137,7 +137,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			adjustmentCampaignProvider.applyBoilerplateValues();
 		} else if (backtestType == BacktestType.backtest_adjustment_individual) {
 			for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
-				Co.println("--> !!!!!!!! APPLIED VALUES");
 				pair.second.applyValues();
 			}
 		}

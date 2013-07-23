@@ -46,16 +46,19 @@ public class BacktestEvaluationBuilder {
 		
 		for (SignalBase signalBase : backtestContainer.algorithm.strategyBase.signal.getListOfSignalBase()){
 			
-			HashMap<SignalPointType, SignalGuage[]> hash = signalBase.signalParameters.getGuages();
+//			HashMap<SignalPointType, SignalGuage[]> hash = signalBase.signalParameters.getGuages();
 			
-			for (SignalPointType signalPointType : hash.keySet()){
-				SignalGuage[] arrayOfSignalGuage = hash.get(signalPointType);
+			ArrayList<Pair<SignalPointType, SignalGuage[]>> list = signalBase.signalParameters.getGuages();
+			
+			for (Pair<SignalPointType, SignalGuage[]> pair : list){
+				SignalGuage[] arrayOfSignalGuage = pair.second;
+				
 				if (arrayOfSignalGuage != null){
 					DescriptorForSignal descriptorForGuage = new DescriptorForSignal();
 					descriptorForGuage.signalName = signalBase.getClass().getSimpleName();
 					descriptorForGuage.signalBoundsName = arrayOfSignalGuage[0].immutableEnumForSignalGuageType.enumValue.name();
 					descriptorForGuage.signalBoundsType = arrayOfSignalGuage[0].signalBounds.name();
-					descriptorForGuage.signalPointType = signalPointType.name();
+					descriptorForGuage.signalPointType = pair.first.name();
 					descriptorForGuage.signalBoundsThreshold = arrayOfSignalGuage[0].threshold;
 					
 					descriptorForGuage.periodLength = signalBase.signalParameters.periodLength.value;

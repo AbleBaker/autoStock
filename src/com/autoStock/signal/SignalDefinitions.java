@@ -2,6 +2,7 @@
  * 
  */
 package com.autoStock.signal;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.autoStock.guage.SignalGuage;
@@ -101,15 +102,15 @@ public class SignalDefinitions {
 			return this.normalizeInterface.normalize(input);
 		}
 		
-		public HashMap<SignalPointType, SignalGuage[]> getGuages(){
-			HashMap<SignalPointType, SignalGuage[]> hash = new HashMap<SignalPointType, SignalGuage[]>();
+		public ArrayList<Pair<SignalPointType, SignalGuage[]>> getGuages(){
+			ArrayList<Pair<SignalPointType, SignalGuage[]>> listOfGuages = new ArrayList<Pair<SignalPointType, SignalGuage[]>>();
 			
-			hash.put(SignalPointType.long_entry, arrayOfSignalGuageForLongEntry);
-			hash.put(SignalPointType.long_exit, arrayOfSignalGuageForLongExit);
-			hash.put(SignalPointType.short_entry, arrayOfSignalGuageForShortEntry);
-			hash.put(SignalPointType.short_exit, arrayOfSignalGuageForShortExit);
+			listOfGuages.add(new Pair<SignalPointType, SignalGuage[]>(SignalPointType.long_entry, arrayOfSignalGuageForLongEntry));
+			listOfGuages.add(new Pair<SignalPointType, SignalGuage[]>(SignalPointType.long_exit, arrayOfSignalGuageForLongExit));
+			listOfGuages.add(new Pair<SignalPointType, SignalGuage[]>(SignalPointType.short_entry, arrayOfSignalGuageForShortEntry));
+			listOfGuages.add(new Pair<SignalPointType, SignalGuage[]>(SignalPointType.short_exit, arrayOfSignalGuageForShortExit));
 			
-			return hash;
+			return listOfGuages;
 		}
 	}
 	
