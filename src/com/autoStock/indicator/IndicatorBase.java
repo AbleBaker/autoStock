@@ -43,8 +43,7 @@ public abstract class IndicatorBase {
 
 	public void setDataSet(){
 		if (commonAnlaysisData.arrayOfDates.length < periodLength.value){
-			Co.println("--> Check: " + periodLength.toString());
-			throw new IllegalArgumentException("List size was too small: " + commonAnlaysisData.arrayOfDates.length + ", expected: " + periodLength.value);
+			throw new IllegalArgumentException("List size was too small: " + getClass().getSimpleName() + ", " + commonAnlaysisData.arrayOfDates.length + ", expected: " + periodLength.value);
 		}
 		
 		if (periodLength.value == 0){

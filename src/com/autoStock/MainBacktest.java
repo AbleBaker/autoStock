@@ -283,7 +283,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				} else {
 					Co.println("******** End of backtest and adjustment ********");
 					
-					backtestEvaluator.pruneAll();
+					backtestEvaluator.pruneForFinish();
 					backtestEvaluator.reverse();
 					
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {

@@ -94,10 +94,14 @@ public class IndicatorGroup {
 	
 	public void setDataSet(){
 		for (IndicatorBase indicator : listOfIndicatorBase){
-			indicator.setDataSet();
+			for (SignalMetricType signalMetricType : indicator.getSignalMetricType()){
+				if (listOfSignalMetricType.contains(signalMetricType)){
+					indicator.setDataSet();
+				}
+			}
 		}
 		
-		candleStickIdentifier.setDataSet();
+		candleStickIdentifier.setDataSet(); 
 	}
 	
 	public void setActive(ArrayList<SignalMetricType> listOfSignalMetricType) {
@@ -147,9 +151,13 @@ public class IndicatorGroup {
 		
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			if (indicator instanceof CandleStickIdentifier == false){
-				if (indicator.getRequiredDatasetLength() > min){
-					min = indicator.getRequiredDatasetLength();
-					indcatorBase = indicator;
+				for (SignalMetricType signalMetricType : indicator.getSignalMetricType()){
+					if (listOfSignalMetricType.contains(signalMetricType)){
+						if (indicator.getRequiredDatasetLength() > min){
+							min = indicator.getRequiredDatasetLength();
+							indcatorBase = indicator;
+						}
+					}
 				}
 			}
 		}

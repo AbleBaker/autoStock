@@ -28,26 +28,26 @@ public class BacktestEvaluator {
 		}
 		
 		if (autoPrune){
-			pruneResults(bufferResults);
+			pruneResults(bufferResults, true);
 		}
 		
 		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", " + backtestEvaluation.getScore());
 	}
 	
-	public synchronized void pruneResults(int results){
+	public synchronized void pruneResults(int results, boolean enforceSizeRestriction){
 		for (Symbol symbol : hashOfBacktestEvaluation.keySet()){
 			ArrayList<BacktestEvaluation> listOfBacktestEvaluation = hashOfBacktestEvaluation.get(symbol);
-			if (listOfBacktestEvaluation.size() <= results){
+			if (listOfBacktestEvaluation.size() <= results && enforceSizeRestriction){
 				continue;
 			}
 			
 			Collections.sort(listOfBacktestEvaluation, new BacktestEvaluationComparator());
-			hashOfBacktestEvaluation.put(symbol, new ArrayList<BacktestEvaluation>(listOfBacktestEvaluation.subList(0, results)));
+			hashOfBacktestEvaluation.put(symbol, new ArrayList<BacktestEvaluation>(listOfBacktestEvaluation.subList(0, Math.min(results, listOfBacktestEvaluation.size()))));
 		}
 	}
 
-	public void pruneAll() {
-		pruneResults(maxResults);
+	public void pruneForFinish() {
+		pruneResults(maxResults, false);
 	}
 
 	public ArrayList<BacktestEvaluation> getResults(Symbol symbol) {

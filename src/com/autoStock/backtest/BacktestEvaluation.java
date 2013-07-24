@@ -80,7 +80,7 @@ public class BacktestEvaluation {
 	public String toString() {
 		String string = new String();
 		
-		string += "---------- $" + MiscTools.getCommifiedValue(accountBalance) + " ----------";
+		string += "---------- $" + MiscTools.getCommifiedValue(accountBalance) + " / " + MiscTools.getCommifiedValue(getScore()) + " ----------";
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
 		string += "\n--> Transaction details: " + backtestResultTransactionDetails.countForTradeEntry + ", " + backtestResultTransactionDetails.countForTradesReentry + ", " + backtestResultTransactionDetails.countForTradeExit;
@@ -90,7 +90,6 @@ public class BacktestEvaluation {
 			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.maxTradeLoss)
 			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.minTradeWin)
 			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.minTradeLoss);
-		string += "\n--> Evaluation score: " + MiscTools.getCommifiedValue(getScore());
 		
 		string += "\n";
 		

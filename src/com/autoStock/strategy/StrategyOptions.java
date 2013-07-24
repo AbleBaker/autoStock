@@ -64,9 +64,7 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Reentry interval minutes: " + intervalForReentryMins.value;
 		string += "\n - Reentry maximum frequency: " + maxReenterTimes.value;
 		string += "\n - Reentry minimum gain: " + minReentryPercentGain.value;
-		
-		string += "\n" + super.toString();
-		
+
 		return string;
 	}
 
