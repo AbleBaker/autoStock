@@ -8,6 +8,7 @@ import com.autoStock.account.AccountProvider;
  */
 public class BacktestScoreProvider {
 	public static double getScore(BacktestEvaluation backtestEvaluation){
+//		return backtestEvaluation.accountBalance - AccountProvider.getInstance().defaultBalance;
 		return (backtestEvaluation.accountBalance - AccountProvider.getInstance().defaultBalance) * backtestEvaluation.percentTradeWin;
 	}
 }

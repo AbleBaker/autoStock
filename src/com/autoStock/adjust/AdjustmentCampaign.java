@@ -96,6 +96,8 @@ public abstract class AdjustmentCampaign {
 	
 	public void applyValues(){
 		for (AdjustmentBase adjustmentBase : listOfAdjustmentBase){
+//			Co.println("--> Applied: " + adjustmentBase.getClass().getSimpleName() + ", " + adjustmentBase.description);
+//			Co.println("--> Check: " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue());
 			adjustmentBase.applyValue();
 		}
 	}

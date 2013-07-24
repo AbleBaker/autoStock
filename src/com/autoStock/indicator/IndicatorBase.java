@@ -23,7 +23,6 @@ public abstract class IndicatorBase {
 	
 	public final ImmutableInteger periodLength;
 	public final int resultsetLength;
-	private int requiredInputLength;
 	public int datasetLength;
 	public double[] arrayOfPriceOpen;
 	public double[] arrayOfPriceHigh;
@@ -40,11 +39,11 @@ public abstract class IndicatorBase {
 		this.resultsetLength = resultsetLength;
 		
 		listOfSignalMetricType.add(signalMetricType);
-		requiredInputLength = periodLength.value + resultsetLength -1;
 	}
 
 	public void setDataSet(){
 		if (commonAnlaysisData.arrayOfDates.length < periodLength.value){
+			Co.println("--> Check: " + periodLength.toString());
 			throw new IllegalArgumentException("List size was too small: " + commonAnlaysisData.arrayOfDates.length + ", expected: " + periodLength.value);
 		}
 		
@@ -54,17 +53,17 @@ public abstract class IndicatorBase {
 		
 		int initialLength = commonAnlaysisData.arrayOfDates.length;
 		
-		if (requiredInputLength > initialLength){
-			throw new IllegalArgumentException("Input length is smaller than required length (needed, supplied): " + requiredInputLength + ", " + initialLength);
+		if (getRequiredDatasetLength() > initialLength){
+			throw new IllegalArgumentException("Input length is smaller than required length (needed, supplied): " + getRequiredDatasetLength() + ", " + initialLength);
 		}
 	
-		if (initialLength != requiredInputLength){
+		if (initialLength != getRequiredDatasetLength()){
 //			Co.println("-->  N " + initialLength + ", " + requiredInputLength);
-			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, initialLength - requiredInputLength, initialLength);
-			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, initialLength -requiredInputLength, initialLength);
-			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, initialLength - requiredInputLength, initialLength);
-			arrayOfPriceClose = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceClose, initialLength - requiredInputLength, initialLength);
-			arrayOfSizeVolume = Arrays.copyOfRange(commonAnlaysisData.arrayOfSizeVolume, initialLength - requiredInputLength, initialLength);
+			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, initialLength - getRequiredDatasetLength(), initialLength);
+			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, initialLength -getRequiredDatasetLength(), initialLength);
+			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, initialLength - getRequiredDatasetLength(), initialLength);
+			arrayOfPriceClose = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceClose, initialLength - getRequiredDatasetLength(), initialLength);
+			arrayOfSizeVolume = Arrays.copyOfRange(commonAnlaysisData.arrayOfSizeVolume, initialLength - getRequiredDatasetLength(), initialLength);
 		}else{
 			arrayOfPriceOpen = commonAnlaysisData.arrayOfPriceOpen;
 			arrayOfPriceHigh = commonAnlaysisData.arrayOfPriceHigh;
@@ -92,7 +91,7 @@ public abstract class IndicatorBase {
 	}
 	
 	public int getRequiredDatasetLength(){
-		return requiredInputLength;
+		return periodLength.value + resultsetLength -1;
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
