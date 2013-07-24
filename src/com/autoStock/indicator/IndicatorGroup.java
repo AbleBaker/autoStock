@@ -162,7 +162,7 @@ public class IndicatorGroup {
 			}
 		}
 		
-		Co.println("--> Longest required period length from: " + indcatorBase.getClass().getSimpleName() + ", with: " + min);
+//		Co.println("--> Longest required period length from: " + indcatorBase.getClass().getSimpleName() + ", with: " + min);
 		return min;
 	}
 }

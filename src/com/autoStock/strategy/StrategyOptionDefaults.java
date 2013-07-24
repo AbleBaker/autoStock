@@ -28,7 +28,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
 		
 		strategyOptions.maxTransactionsDay = 16;
-		strategyOptions.maxStopLossPercent.value = -5.20d;
+		strategyOptions.maxStopLossPercent.value = -0.45d;
 		strategyOptions.maxProfitDrawdownPercent.value = -0.5d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
