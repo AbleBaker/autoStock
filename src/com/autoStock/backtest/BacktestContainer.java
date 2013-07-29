@@ -20,10 +20,10 @@ import com.autoStock.types.Symbol;
  * 
  */
 public class BacktestContainer implements ReceiverOfQuoteSlice {
-	public Symbol symbol;
-	private Exchange exchange;
-	private HistoricalData historicalData;
-	public AlgorithmTest algorithm;
+	public final Symbol symbol;
+	public final Exchange exchange;
+	public HistoricalData historicalData;
+	public final AlgorithmTest algorithm;
 	private ListenerOfBacktestCompleted listener;
 	private Backtest backtest;
 	private AlgorithmMode algorithmMode;

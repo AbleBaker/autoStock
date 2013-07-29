@@ -2,6 +2,7 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.autoStock.account.AccountProvider;
@@ -18,10 +19,17 @@ import com.autoStock.backtest.BacktestEvaluation.DescriptorForAdjustment;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForIndicator;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForSignal;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
+import com.autoStock.database.DatabaseQuery;
+import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.tools.DateTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.trading.types.HistoricalData;
 import com.google.gson.internal.Pair;
 
 /**
@@ -93,6 +101,21 @@ public class BacktestEvaluationBuilder {
 			
 			backtestEvaluation.listOfDescriptorForAdjustment.add(descriptorForAdjustment);
 		}
+		
+//		Date dateStart = DateTools.getFirstWeekdayAfter(backtestContainer.historicalData.endDate);
+//		Date dateEnd = (Date) dateStart.clone();
+//		
+//		dateStart.setHours(backtestContainer.exchange.timeOpenForeign.hours);
+//		dateStart.setMinutes(backtestContainer.exchange.timeOpenForeign.minutes);
+//		dateEnd.setHours(backtestContainer.exchange.timeCloseForeign.hours);
+//		dateEnd.setMinutes(backtestContainer.exchange.timeCloseForeign.minutes);
+//		
+//		HistoricalData historicalData = new HistoricalData(backtestContainer.algorithm.exchange, backtestContainer.algorithm.symbol, dateStart, dateEnd, Resolution.min);
+//		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
+//		
+//		SingleBacktest singleBacktest = new SingleBacktest(historicalData);
+//		singleBacktest.setBacktestData(listOfResults);
+//		singleBacktest.runBacktest();
 		
 		return backtestEvaluation;
 	}

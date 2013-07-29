@@ -116,6 +116,10 @@ public class DateTools {
 		return listOfDate;
 	}
 	
+	public static Date getFirstWeekdayAfter(Date date){
+		return getListOfDatesOnWeekdays(new Date(date.getTime() + 1000 * 60 * 60 * 24 * 1), new Date(date.getTime() + 1000 * 60 * 60 * 24 * 7)).get(0);
+	}
+	
 	public static Date getLocalDateFromForeignTime(Time time, String timeZone) {
 		GregorianCalendar calendarForForeign = new GregorianCalendar(TimeZone.getTimeZone(timeZone));
 		calendarForForeign.set(Calendar.HOUR_OF_DAY, time.hours);
