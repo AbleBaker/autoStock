@@ -38,7 +38,7 @@ public class DiskCache {
 	public ArrayList<?> getValue(String queryHash, Type classForGson) {
 		try {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(cacheRoot + queryHash + ".sql"));
-			return gson.fromJson(bufferedReader, new TypeToken<ArrayList<DbStockHistoricalPrice>>(){}.getType());
+			return gson.fromJson(bufferedReader, classForGson);
 		}catch(Exception e){e.printStackTrace();}
 		
 		return null;
@@ -51,6 +51,6 @@ public class DiskCache {
 			output.write(gson.toJson(listOfResults));
 			output.close();
 			file.renameTo(new File(cacheRoot + queryHash + ".sql"));
-		}catch(Exception e){}
+		}catch(Exception e){e.printStackTrace();}
 	}
 }

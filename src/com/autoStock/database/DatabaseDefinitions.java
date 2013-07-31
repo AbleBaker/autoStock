@@ -1,6 +1,7 @@
 package com.autoStock.database;
 
 import com.autoStock.database.queryResults.QueryResult;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbSymbol;
 
@@ -51,7 +52,7 @@ public class DatabaseDefinitions {
 			
 		basic_get_exchange_info("select * from exchanges where exchange = '%s'", 
 				new QueryArgs[]{QueryArgs.exchange},
-				QueryResult.QrExchange.class
+				DbExchange.class
 			),
 		;
 		

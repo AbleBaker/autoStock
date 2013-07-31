@@ -3,6 +3,7 @@
  */
 package com.autoStock.database;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -11,10 +12,13 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.database.queryResults.QueryResult.QrExchange;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.memoryCache.DiskCache;
 import com.autoStock.memoryCache.HashCache;
 import com.autoStock.tools.MiscTools;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Kevin Kowalewski
@@ -35,8 +39,9 @@ public class DatabaseQuery {
 				return (ArrayList<?>) hashCache.getValue(queryHash);
 			}
 			
-			if (diskCache.containsKey(queryHash) && dbQuery.resultClass == DbStockHistoricalPrice.class){
-				ArrayList<?> listOfResults = diskCache.getValue(queryHash, dbQuery.resultClass);
+			if (diskCache.containsKey(queryHash) && getGsonType(dbQuery) != null){
+				Co.println("--> Using disk cache");
+				ArrayList<?> listOfResults = diskCache.getValue(queryHash, getGsonType(dbQuery));
 				hashCache.addValue(queryHash, listOfResults);
 				return listOfResults; 
 			}
@@ -56,15 +61,22 @@ public class DatabaseQuery {
 			connection.close();
 			
 			hashCache.addValue(queryHash, listOfResults);
-			
-			if (dbQuery.resultClass == DbStockHistoricalPrice.class){
-				diskCache.addValue(queryHash, listOfResults);
-			}
+			diskCache.addValue(queryHash, listOfResults);
 			
 			return listOfResults;
 			
 		}catch (Exception e){
 			Co.println("Could not execute query: " + new QueryFormatter().format(dbQuery, queryArgs));
 			e.printStackTrace(); return null;}
+	}
+
+	private Type getGsonType(BasicQueries dbQuery) {
+		if (dbQuery.resultClass == DbStockHistoricalPrice.class){
+			return new TypeToken<ArrayList<DbStockHistoricalPrice>>(){}.getType();
+		}else if (dbQuery.resultClass == DbExchange.class){
+			return new TypeToken<ArrayList<DbExchange>>(){}.getType();
+		}
+		
+		return null;
 	}
 }
