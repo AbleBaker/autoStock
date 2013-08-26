@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.queryResults.QueryResult.QrExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
@@ -28,22 +29,24 @@ public class DatabaseQuery {
 	private static HashCache hashCache = new HashCache();
 	private static DiskCache diskCache = new DiskCache();
 	
-	public ArrayList<?> getQueryResults(BasicQueries dbQuery, QueryArgs... queryArgs){
+	public ArrayList<?> getQueryResults(BasicQueries dbQuery, QueryArg... queryArg){
 		try {
-			String query = new QueryFormatter().format(dbQuery, queryArgs);
+			String query = new QueryFormatter().format(dbQuery, queryArg);
 			String queryHash = MiscTools.getHash(query);
 			
 //			Co.println("Executing query: " + query);
 			
-			if (hashCache.containsKey(queryHash)){
-				return (ArrayList<?>) hashCache.getValue(queryHash);
-			}
-			
-			if (diskCache.containsKey(queryHash) && getGsonType(dbQuery) != null){
-//				Co.println("--> Using disk cache");
-				ArrayList<?> listOfResults = diskCache.getValue(queryHash, getGsonType(dbQuery));
-				hashCache.addValue(queryHash, listOfResults);
-				return listOfResults; 
+			if (dbQuery.isCachable){
+				if (hashCache.containsKey(queryHash)){
+					return (ArrayList<?>) hashCache.getValue(queryHash);
+				}
+				
+				if (diskCache.containsKey(queryHash) && getGsonType(dbQuery) != null){
+	//				Co.println("--> Using disk cache");
+					ArrayList<?> listOfResults = diskCache.getValue(queryHash, getGsonType(dbQuery));
+					hashCache.addValue(queryHash, listOfResults);
+					return listOfResults; 
+				}
 			}
 			
 			Connection connection = DatabaseCore.getConnection();
@@ -66,7 +69,7 @@ public class DatabaseQuery {
 			return listOfResults;
 			
 		}catch (Exception e){
-			Co.println("Could not execute query: " + new QueryFormatter().format(dbQuery, queryArgs));
+			Co.println("Could not execute query: " + new QueryFormatter().format(dbQuery, queryArg));
 			e.printStackTrace(); return null;}
 	}
 

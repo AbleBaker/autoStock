@@ -3,6 +3,7 @@
  */
 package com.autoStock.menu;
 
+import com.autoStock.Co;
 import com.autoStock.MainActiveAlgorithm;
 import com.autoStock.MainBacktest;
 import com.autoStock.MainClusteredBacktest;
@@ -146,6 +147,31 @@ public class MenuLauncher {
 					new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 					new Symbol(menuStructure.getArgument(MenuArguments.arg_symbol).value, SecurityType.type_stock)
 				);
+		}
+		
+		else if (menuStructure == MenuStructures.menu_quick_command){
+			Co.println("--> Quick Command");
+			String menuCommand = menuStructure.getArgument(MenuArguments.arg_command).value;
+			String command = null;
+			
+			switch (menuCommand){
+				case "1" :
+					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE AIG backtest_adjustment_individual");
+					break;
+				case "2" :
+					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE AIG backtest_default");
+					break;
+			}
+			
+			if (command == null){
+				Co.println("--> Error: No Quick Command matched...");
+				return;
+			}
+			
+			MenuController menuController = new MenuController();
+			MenuStructures menuStructureForQuickCommand = menuController.getRelatedMenu(command.split(" "));
+			menuController.handleMenuStructure(menuStructureForQuickCommand, command.split(" "));
+			new MenuLauncher().launchDisplay(menuStructureForQuickCommand);
 		}
 		
 		else {

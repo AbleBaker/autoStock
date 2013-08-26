@@ -12,7 +12,7 @@ public class Config {
 	public static String dbDatabase = "autoStock";
 	public static int dbConnectionPartitions = 1;
 	public static int dbMinConnectionsPerParition = 1;
-	public static int dbMaxConnectionsPerParition = 1;
+	public static int dbMaxConnectionsPerParition = 3;
 	public static String dbUsername = "autoStock";
 	public static String dbPassword = "SSmxynk--autoStock";
 	public static String plIbUsername = "cmiha621";

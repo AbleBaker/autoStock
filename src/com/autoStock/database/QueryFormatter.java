@@ -4,6 +4,7 @@
 package com.autoStock.database;
 
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 
 /**
@@ -11,15 +12,15 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
  *
  */
 public class QueryFormatter {
-	public String format(BasicQueries basicQuery, QueryArgs... queryArgs){
-		if (basicQuery.listOfFormatterArguments.length != queryArgs.length){
+	public String format(BasicQueries basicQuery, QueryArg... queryArg){
+		if (basicQuery.listOfFormatterArguments.length != queryArg.length){
 			throw new IllegalArgumentException("Invalid length of Formatter Arguments");
 		}
 		
-		String[] listOfArguments = new String[queryArgs.length];
+		String[] listOfArguments = new String[queryArg.length];
 		
 		int i = 0;
-		for (QueryArgs argument : queryArgs){
+		for (QueryArg argument : queryArg){
 			listOfArguments[i] = argument.value;
 			i++;
 		}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.exchange.ExchangeDefinitions;
@@ -34,7 +35,8 @@ public class Exchange extends ExchangeDefinitions {
 	 * @param name - The string name for the exchange
 	 */
 	public Exchange(String name){
-		ArrayList<DbExchange> listOfQrExchange = (ArrayList<DbExchange>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_exchange_info, QueryArgs.exchange.setValue(name));
+		@SuppressWarnings("unchecked")
+		ArrayList<DbExchange> listOfQrExchange = (ArrayList<DbExchange>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_exchange_info, new QueryArg(QueryArgs.exchange, name));
 		if (listOfQrExchange.size() == 0){
 			throw new UnsupportedOperationException("No exchange matched: " + name);
 		}

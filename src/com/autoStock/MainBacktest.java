@@ -25,6 +25,7 @@ import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.ListenerOfBacktestCompleted;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
@@ -165,6 +166,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList) {
 		callbacks.set(listOfBacktestContainer.size());
 		if (backtestType != BacktestType.backtest_result_only) {
@@ -179,7 +181,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 			if (backtestContainer.isIncomplete()) {
 				HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
-				ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
+				ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 
 				if (listOfResults.size() > 0) {
 					backtestContainer.setBacktestData(listOfResults, historicalData);

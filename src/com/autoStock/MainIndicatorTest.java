@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
@@ -31,10 +32,8 @@ public class MainIndicatorTest {
 		historicalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
 		historicalData.symbol = symbol;
 		
-		listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, QueryArgs.symbol.setValue(historicalData.symbol.symbolName), QueryArgs.startDate.setValue(DateTools.getSqlDate(historicalData.startDate)), QueryArgs.endDate.setValue(DateTools.getSqlDate(historicalData.endDate)));
+		listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 		Co.println("--> Have quotes: " + listOfResults.size());
-		
-		
 	}
 	
 	private void execute(){

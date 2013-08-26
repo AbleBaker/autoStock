@@ -52,6 +52,10 @@ public class MenuController {
 			}
 		}
 		
+		if (arguments[0].contains("QC")){
+			return MenuStructures.menu_quick_command;
+		}
+		
 		return null;
 	}
 

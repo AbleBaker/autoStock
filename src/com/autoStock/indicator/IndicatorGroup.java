@@ -88,8 +88,6 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_uo));
 		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_ar_up));
 		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new ImmutableInteger(0), 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_candlestick_group));
-		
-		Co.println("--> Check: " + signalGroup.signalOfCCI.signalParameters.periodLength.toString());
 	}
 	
 	public void setDataSet(){
