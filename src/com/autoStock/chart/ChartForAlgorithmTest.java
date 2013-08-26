@@ -176,8 +176,8 @@ public class ChartForAlgorithmTest {
 			new TimeSeriesTypePair(TimeSeriesType.type_long_exit_price, timeSeriesCollectionForLongExitAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_short_exit_price, timeSeriesCollectionForShortExitAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_entry_signal, timeSeriesCollectionForEntryAtSignal),
-			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, timeSeriesCollectionForExitAtSignal),
-			new TimeSeriesTypePair(TimeSeriesType.type_debug, timeSeriesCollectionForDebug)
+			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, timeSeriesCollectionForExitAtSignal)
+//			new TimeSeriesTypePair(TimeSeriesType.type_debug, timeSeriesCollectionForDebug)
 		);
 		
 	}

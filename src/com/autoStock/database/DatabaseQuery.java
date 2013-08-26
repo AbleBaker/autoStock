@@ -40,7 +40,7 @@ public class DatabaseQuery {
 			}
 			
 			if (diskCache.containsKey(queryHash) && getGsonType(dbQuery) != null){
-				Co.println("--> Using disk cache");
+//				Co.println("--> Using disk cache");
 				ArrayList<?> listOfResults = diskCache.getValue(queryHash, getGsonType(dbQuery));
 				hashCache.addValue(queryHash, listOfResults);
 				return listOfResults; 

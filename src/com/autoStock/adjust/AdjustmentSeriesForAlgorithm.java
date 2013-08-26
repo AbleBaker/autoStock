@@ -34,6 +34,6 @@ public class AdjustmentSeriesForAlgorithm extends AdjustmentCampaign {
 		
 //		Co.println("--> " + algorithmBase.strategyBase.strategyOptions.maxStopLossPercent.toString());
 		
-		Co.println("--> Check: " + algorithmBase.signalGroup.signalOfCCI.signalParameters.periodLength.toString());
+//		Co.println("--> Check: " + algorithmBase.signalGroup.signalOfCCI.signalParameters.periodLength.toString());
 	} 	
 }

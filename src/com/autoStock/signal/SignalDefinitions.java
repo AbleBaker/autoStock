@@ -152,9 +152,9 @@ public class SignalDefinitions {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}}, 
 			new ImmutableInteger(24), new ImmutableInteger(15),
 			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -20)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 20)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 25)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -30)});
+			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 10)},
+			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 5)},
+			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -20)});
 		}
 	}
 	
