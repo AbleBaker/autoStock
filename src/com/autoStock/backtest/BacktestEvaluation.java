@@ -4,11 +4,20 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.account.AccountProvider;
+import com.autoStock.adjust.AdjustmentOfPortable;
 import com.autoStock.backtest.BacktestDetails.DescriptorForGuage;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
+import com.autoStock.database.DatabaseDefinitions.QueryArg;
+import com.autoStock.database.DatabaseQuery;
+import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
+import com.autoStock.types.Exchange;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -18,6 +27,9 @@ public class BacktestEvaluation {
 	public BacktestResultTransactionDetails backtestResultTransactionDetails;
 	public StrategyOptions strategyOptions;
 	
+	public final Symbol symbol;
+	public final Exchange exchange;
+	
 	public int transactions;
 	public double transactionFeesPaid;
 	public double accountBalance;
@@ -25,9 +37,16 @@ public class BacktestEvaluation {
 	public double percentTradeWin;
 	public double percentTradeLoss;
 	
+	public ArrayList<SignalParameters> listOfSignalParameters = new ArrayList<SignalParameters>();
+	
 	public ArrayList<DescriptorForSignal> listOfDescriptorForSignal = new ArrayList<DescriptorForSignal>();
 	public ArrayList<DescriptorForIndicator> listOfDescriptorForIndicator = new ArrayList<DescriptorForIndicator>();
 	public ArrayList<DescriptorForAdjustment> listOfDescriptorForAdjustment = new ArrayList<DescriptorForAdjustment>();
+	
+	public BacktestEvaluation(Symbol symbol, Exchange exchange){
+		this.symbol = symbol;
+		this.exchange = exchange;
+	}
 	
 	public double getScore(){
 		return BacktestScoreProvider.getScore(this);
@@ -41,6 +60,8 @@ public class BacktestEvaluation {
 		public double signalBoundsThreshold;
 		public int periodLength;
 		public int maxSignalAverage;
+		
+		public SignalParameters signalParamaters;
 		
 		@Override
 		public String toString() {
@@ -66,9 +87,9 @@ public class BacktestEvaluation {
 	}
 	
 	public static class DescriptorForAdjustment {
-		String adjustmentType;
-		String adjustmentDescription;
-		String adjustmentValue;
+		public String adjustmentType;
+		public String adjustmentDescription;
+		public String adjustmentValue;
 		
 		@Override
 		public String toString() {
@@ -114,5 +135,14 @@ public class BacktestEvaluation {
 		string += strategyOptions.toString();
 		
 		return string;
+	}
+	
+	public boolean insertIntoDatabse(){
+//		return new DatabaseQuery().insert(BasicQueries.basic_insert_whitelist, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName), new QueryArg(QueryArgs.reason, "automatic"));
+		return true;
+	}
+	
+	public void calculateOutOfBandValues(){
+		
 	}
 }

@@ -33,6 +33,23 @@ public class SignalGroup {
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	
+	public SignalGroup(){
+		listOfSignalBase.add(signalOfCCI);
+		listOfSignalBase.add(signalOfADX);
+		listOfSignalBase.add(signalOfDI);
+		listOfSignalBase.add(signalOfMACD);
+		listOfSignalBase.add(signalOfRSI);
+		listOfSignalBase.add(signalOfTRIX);
+		listOfSignalBase.add(signalOfROC);
+		listOfSignalBase.add(signalOfMFI);
+		listOfSignalBase.add(signalOfWILLR);
+		listOfSignalBase.add(signalOfUO);
+		listOfSignalBase.add(signalOfARUp);
+		listOfSignalBase.add(signalOfARDown);
+		listOfSignalBase.add(signalOfCandlestickGroup);
+		listOfSignalBase.add(signalOfEncog);
+	}
+	
 	public void setIndicatorGroup(IndicatorGroup indicatorGroup){
 		this.indicatorGroup = indicatorGroup;
 	}
@@ -68,22 +85,6 @@ public class SignalGroup {
 			
 			signalOfEncog.setInput(encogWindow);
 		}
-		
-		listOfSignalBase.clear();
-		listOfSignalBase.add(signalOfCCI);
-		listOfSignalBase.add(signalOfADX);
-		listOfSignalBase.add(signalOfDI);
-		listOfSignalBase.add(signalOfMACD);
-		listOfSignalBase.add(signalOfRSI);
-		listOfSignalBase.add(signalOfTRIX);
-		listOfSignalBase.add(signalOfROC);
-		listOfSignalBase.add(signalOfMFI);
-		listOfSignalBase.add(signalOfWILLR);
-		listOfSignalBase.add(signalOfUO);
-		listOfSignalBase.add(signalOfARUp);
-		listOfSignalBase.add(signalOfARDown);
-		listOfSignalBase.add(signalOfCandlestickGroup);
-		listOfSignalBase.add(signalOfEncog);
 	}
 	
 	public IndicatorGroup getIndicatorGroup(){

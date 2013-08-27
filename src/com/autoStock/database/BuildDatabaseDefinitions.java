@@ -11,6 +11,8 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.Date;
 
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -31,11 +33,19 @@ public class BuildDatabaseDefinitions {
 			printWriter.println("public class TableDefinitions {\n");
 			
 			while (resultSetForTables.next()){
-				String classString = resultSetForTables.getString(3).substring(0,1).toUpperCase() + resultSetForTables.getString(3).substring(1,resultSetForTables.getString(3).length()-1);
+				boolean lastCharIsS = resultSetForTables.getString(3).substring(resultSetForTables.getString(3).length()-1).equals("s");
+				String classString = resultSetForTables.getString(3).substring(0,1).toUpperCase() + resultSetForTables.getString(3).substring(1,resultSetForTables.getString(3).length() - (lastCharIsS ? 1 : 0));
+				
+				Co.println("--> Generating class: " + classString);
+				
 				printWriter.println("\tpublic static class Db" + classString + " {");
 				ResultSet resultSetForColumns = metaData.getColumns(null, null, resultSetForTables.getString(3), null);
 				while (resultSetForColumns.next()){
-					printWriter.println("\t\tpublic " + getStringType(resultSetForColumns.getString(6)) + " " + resultSetForColumns.getString(4) + ";");
+					if (resultSetForColumns.getString(4).equals("timeOffset")){
+						printWriter.println("\t\tpublic " + getStringType("TIME") + " " + resultSetForColumns.getString(4) + ";");
+					}else{
+						printWriter.println("\t\tpublic " + getStringType(resultSetForColumns.getString(6)) + " " + resultSetForColumns.getString(4) + ";");						
+					}
 				}
 				printWriter.println("\t}\n");
 				printWriter.println("\tpublic static Db"+ classString +" db"+ classString +" = new TableDefinitions.Db"+ classString +"();\n");
@@ -54,12 +64,13 @@ public class BuildDatabaseDefinitions {
 	}
 	
 	public static String getStringType(String sqlType){
-		if (sqlType.equals("FLOAT") || sqlType.equals("DECIMAL")){return "double";}
+		if (sqlType.equals("FLOAT") || sqlType.equals("DOUBLE") || sqlType.equals("DECIMAL")){return "double";}
 		if (sqlType.equals("INT")){return "int";}
 		if (sqlType.equals("BIGINT")){return "long";}
 		if (sqlType.equals("DATETIME") || sqlType.equals("DATE")){return "Date";}
 		if (sqlType.equals("VARCHAR")){return "String";}
 		if (sqlType.equals("TIME")){return "Time";}
+		if (sqlType.equals("BIT")){return "boolean";}
 		else {throw new UnsatisfiedLinkError("No type matched " + sqlType);}
 	}
 	
@@ -69,6 +80,7 @@ public class BuildDatabaseDefinitions {
 		if (sqlType.equals("BIGINT")){return Long.class;}
 		if (sqlType.equals("DATETIME")){return Date.class;}
 		if (sqlType.equals("VARCHAR")){return String.class;}
+		if (sqlType.equals("BIT")){return Boolean.class;}
 		else {throw new UnsatisfiedLinkError();}
 	}
 }

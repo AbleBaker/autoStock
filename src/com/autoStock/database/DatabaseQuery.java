@@ -6,6 +6,7 @@ package com.autoStock.database;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class DatabaseQuery {
 			String query = new QueryFormatter().format(dbQuery, queryArg);
 			String queryHash = MiscTools.getHash(query);
 			
-//			Co.println("Executing query: " + query);
+			Co.println("Executing query: " + query);
 			
 			if (dbQuery.isCachable){
 				if (hashCache.containsKey(queryHash)){
@@ -48,6 +49,7 @@ public class DatabaseQuery {
 					return listOfResults; 
 				}
 			}
+			
 			
 			Connection connection = DatabaseCore.getConnection();
 			Statement statement = connection.createStatement();
@@ -74,6 +76,38 @@ public class DatabaseQuery {
 			Co.println("Could not execute query: " + new QueryFormatter().format(dbQuery, queryArg));
 			e.printStackTrace(); return null;}
 	}
+	
+	public boolean insert(BasicQueries basicQuery, QueryArg... queryArg){
+		try {
+			String query = new QueryFormatter().format(basicQuery, queryArg);
+		
+			Connection connection = DatabaseCore.getConnection();
+			Statement statement = connection.createStatement();
+		
+			statement.execute(query);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+//	public boolean insert(BasicQueries basicQuery, QueryArg... queryArg){
+//		try {
+//			String query = new QueryFormatter().format(basicQuery, queryArg);
+//		
+//			Connection connection = DatabaseCore.getConnection();
+//			Statement statement = connection.createStatement();
+//		
+//			statement.execute(query);
+//			return true;
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+//		
+//		return false;
+//	}
 
 	private Type getGsonType(BasicQueries dbQuery) {
 		if (dbQuery.resultClass == DbStockHistoricalPrice.class){

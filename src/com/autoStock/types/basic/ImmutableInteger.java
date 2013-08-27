@@ -14,4 +14,8 @@ public class ImmutableInteger {
 	public ImmutableInteger(int value){
 		this.value = value;
 	}
+
+	public ImmutableInteger copy() {
+		return new ImmutableInteger(value);
+	}
 }

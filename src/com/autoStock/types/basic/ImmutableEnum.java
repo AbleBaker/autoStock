@@ -10,4 +10,8 @@ public class ImmutableEnum<E extends Enum<E>> {
 	public ImmutableEnum(E enumObject){
 		this.enumValue = enumObject;
 	}
+	
+	public ImmutableEnum copy(){
+		return new ImmutableEnum<E>(enumValue);
+	}
 }

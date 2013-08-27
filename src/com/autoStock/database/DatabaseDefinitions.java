@@ -4,6 +4,7 @@ import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbSymbol;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbWhitelist;
 
 /**
  * @author Kevin Kowalewski
@@ -24,10 +25,21 @@ public class DatabaseDefinitions {
 	public enum QueryArgs{
 		startDate,
 		endDate,
+		runDate, 
 		dayDate,
 		symbol,
 		exchange,
 		limit,
+		reason, 
+		balanceInBand, 
+		balanceOutBand, 
+		percentGainInBand, 
+		percentGainOutBand, 
+		tradeEntry, 
+		tradeReentry, 
+		tradeExit, 
+		tradeWins, 
+		tradeLoss
 	}
 	
 	
@@ -61,6 +73,21 @@ public class DatabaseDefinitions {
 				DbExchange.class,
 				true
 			),
+			
+		basic_get_whitelist("select * from whitelist",
+				new QueryArgs[]{QueryArgs.reason},
+				DbWhitelist.class,
+				false), 
+				
+		basic_insert_whitelist("insert into whitelist (symbol, exchange, reason) values('%s','%s','%s')",
+				new QueryArgs[]{QueryArgs.symbol, QueryArgs.exchange, QueryArgs.reason},
+				null,
+				false),
+				
+		basic_insert_backtest_results("insert into backtestResults(dateStart, dateEnd, dateRun, exchange, symbols, balanceInBand, balanceOutBand, percentGainInBand, percentGainOutBand, tradeEntry, tradeReentry, tradeExit, tradeWins, tradeLoss values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s') ",
+			new QueryArgs[]{QueryArgs.startDate, QueryArgs.endDate, QueryArgs.runDate, QueryArgs.exchange, QueryArgs.symbol, QueryArgs.balanceInBand, QueryArgs.balanceOutBand, QueryArgs.percentGainInBand, QueryArgs.percentGainOutBand, QueryArgs.tradeEntry, QueryArgs.tradeReentry, QueryArgs.tradeExit, QueryArgs.tradeWins, QueryArgs.tradeLoss},
+			null,
+			false),
 		;
 		
 		public final String query;

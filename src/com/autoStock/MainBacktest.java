@@ -103,6 +103,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		if (backtestType != BacktestType.backtest_result_only) {
 			Co.println("Main backtest...\n\n");
 		}
+		
+		if (listOfSymbols.size() == 0){
+			throw new IllegalArgumentException("No symbols specified");
+		}
 
 		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, dateStart, dateEnd, Resolution.min);
 
@@ -125,7 +129,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			for (String symbol : listOfSymbols) {
 				HistoricalData dayHistoricalData = new HistoricalData(exchange, new Symbol(symbol, SecurityType.type_stock), (Date) date.clone(), (Date) date.clone(), baseHistoricalData.resolution);
 				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
+				dayHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
 				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
+				dayHistoricalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
+				
 				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
 			}
 
@@ -257,18 +264,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				Co.println("--> Evaluated");
 				
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
-//					backtestEvaluator.addResult(backtestContainer.symbol, new BacktestEvaluation(backtestContainer.algorithm.basicAccount, BacktestUtils.getBacktestResultTransactionDetails(backtestContainer)), true);
-					
-//					BacktestResultTransactionDetails backtestResultTransactionDetails = BacktestUtils.getProfitLossDetails(new ArrayList<BacktestContainer>(Arrays.asList(new BacktestContainer[]{backtestContainer})));
-//					
-//					BacktestEvaluation backtestEvaluation = new BacktestEvaluation();
-//					backtestEvaluation.backtestResultTransactionDetails = backtestResultTransactionDetails;
-//					backtestEvaluation.accountBalance = backtestContainer.algorithm.basicAccount.getBalance();
-//					backtestEvaluation.percentGain = AccountProvider.getInstance().defaultBalance / backtestContainer.algorithm.basicAccount.getBalance();
-//					if (backtestResultTransactionDetails.countForTradesProfit > 0){backtestEvaluation.percentTradeWin = backtestResultTransactionDetails.countForTradeExit / backtestResultTransactionDetails.countForTradesProfit;}
-//					if (backtestResultTransactionDetails.countForTradesLoss > 0){backtestEvaluation.percentTradeWin = backtestResultTransactionDetails.countForTradeExit / backtestResultTransactionDetails.countForTradesLoss;}
-//					backtestEvaluation.stringRepresentation = BacktestUtils.getCurrentBacktestCompleteValueGroup(backtestContainer.algorithm.strategy.signal, backtestContainer.algorithm.strategy.strategyOptions, backtestResultTransactionDetails, backtestType, backtestContainer.algorithm.basicAccount);
-//					
 					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 					backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
 				}
@@ -285,7 +280,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				} else {
 					Co.println("******** End of backtest and adjustment ********");
 					
-					backtestEvaluator.pruneForFinish();
+					backtestEvaluator.pruneForFinish();			
 					backtestEvaluator.reverse();
 					
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
@@ -293,6 +288,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						for (BacktestEvaluation backtestEvaluation : backtestEvaluator.getResults(backtestContainer.symbol)){
 							Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
 						}
+						
+						BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
+						bestEvaluation.insertIntoDatabse();
+						
+						BacktestEvaluation outOfSampleEvaluation = new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(backtestContainer, bestEvaluation);
+						
+						Co.println("--> Built OK: " + outOfSampleEvaluation.accountBalance);
 					}
 					
 					BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);

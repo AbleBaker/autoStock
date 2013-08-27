@@ -34,6 +34,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		}
 	
 		initialize();
+		
 		if (strategyBase.strategyOptions.prefillEnabled){
 			prefill();			
 		}

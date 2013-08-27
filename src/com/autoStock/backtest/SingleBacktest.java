@@ -3,11 +3,14 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.signal.SignalBase;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.Lock;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Symbol;
 
@@ -16,8 +19,9 @@ import com.autoStock.types.Symbol;
  *
  */
 public class SingleBacktest implements ListenerOfBacktestCompleted {
-	private BacktestContainer backtestContainer;
+	public BacktestContainer backtestContainer;
 	private HistoricalData historicalData;
+	private Lock lock = new Lock();
 	
 	public SingleBacktest(HistoricalData historicalData){
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
@@ -32,7 +36,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 
 	@Override
 	public void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
-		
+		synchronized(lock){try {lock.notify();}catch(Exception e){}}
 	}
 	
 	public void setBacktestData(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){
@@ -44,5 +48,6 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 
 	public void runBacktest() {
 		backtestContainer.runBacktest();
+		synchronized(lock){try {lock.wait();}catch(Exception e){e.printStackTrace();}}
 	}
 }

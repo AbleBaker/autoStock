@@ -1,9 +1,37 @@
 package com.autoStock.generated.basicDefinitions;
 
 import java.util.Date;
-
 import com.autoStock.types.basic.Time;
 public class TableDefinitions {
+
+	public static class DbBacktestResult {
+		public long id;
+		public Date dateStart;
+		public Date dateEnd;
+		public Date dateRun;
+		public String exchange;
+		public String symbols;
+		public double balanceInBand;
+		public double balanceOutBand;
+		public double percentGainInBand;
+		public double percentGainOutBand;
+		public int tradeEntry;
+		public int tradeReentry;
+		public int tradeWins;
+		public int tradeLoss;
+	}
+
+	public static DbBacktestResult dbBacktestResult = new TableDefinitions.DbBacktestResult();
+
+	public static class DbBacktestValue {
+		public int id;
+		public int backtestId;
+		public String field;
+		public String value;
+		public boolean adjusted;
+	}
+
+	public static DbBacktestValue dbBacktestValue = new TableDefinitions.DbBacktestValue();
 
 	public static class DbExchange {
 		public long id;
@@ -31,7 +59,7 @@ public class TableDefinitions {
 
 	public static DbMarketOrder dbMarketOrder = new TableDefinitions.DbMarketOrder();
 
-	public static class DbRepla {
+	public static class DbReplay {
 		public int id;
 		public String exchange;
 		public String symbol;
@@ -40,7 +68,7 @@ public class TableDefinitions {
 		public double profitLoss;
 	}
 
-	public static DbRepla dbRepla = new TableDefinitions.DbRepla();
+	public static DbReplay dbReplay = new TableDefinitions.DbReplay();
 
 	public static class DbStockHistoricalPrice {
 		public long id;
@@ -64,5 +92,16 @@ public class TableDefinitions {
 	}
 
 	public static DbSymbol dbSymbol = new TableDefinitions.DbSymbol();
+
+	public static class DbWhitelist {
+		public int id;
+		public String symbol;
+		public String exchange;
+		public Date dateLastAdjustment;
+		public int adjustmentId;
+		public String reason;
+	}
+
+	public static DbWhitelist dbWhitelist = new TableDefinitions.DbWhitelist();
 
 }

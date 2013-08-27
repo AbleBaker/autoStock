@@ -8,6 +8,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbSymbol;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbWhitelist;
 import com.autoStock.tools.DateTools;
 
 /**
@@ -52,5 +53,17 @@ public class DatabaseBinder {
 
 	public Object getQrSymbolCountFromExchange(String symbol, int count, long sizeVolume) {
 		return new QueryResult.QrSymbolCountFromExchange(symbol, count, sizeVolume);
+	}
+
+	public DbWhitelist getDbWhitelist(int id, String symbol, String exchange, String dateLastAdjustment, int adjustmentId, String reason) {
+		DbWhitelist dbWhitelist = new TableDefinitions.DbWhitelist();
+		dbWhitelist.id = id;
+		dbWhitelist.symbol = symbol;
+		dbWhitelist.exchange = exchange;
+		dbWhitelist.dateLastAdjustment = dateLastAdjustment == null ? null : DateTools.getDateFromString(dateLastAdjustment);
+		dbWhitelist.adjustmentId = adjustmentId;
+		dbWhitelist.reason = reason;
+		
+		return dbWhitelist;
 	}
 }

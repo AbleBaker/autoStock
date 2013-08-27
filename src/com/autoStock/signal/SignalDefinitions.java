@@ -9,6 +9,7 @@ import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.basic.ImmutableEnum;
 import com.autoStock.types.basic.ImmutableInteger;
+import com.google.gson.Gson;
 import com.google.gson.internal.Pair;
 
 /**
@@ -111,6 +112,10 @@ public class SignalDefinitions {
 			listOfGuages.add(new Pair<SignalPointType, SignalGuage[]>(SignalPointType.short_exit, arrayOfSignalGuageForShortExit));
 			
 			return listOfGuages;
+		}
+		
+		public SignalParameters copy(){
+			return new Gson().fromJson(new Gson().toJson(this), this.getClass()); //Probably very expensive
 		}
 	}
 	
