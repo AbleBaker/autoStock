@@ -63,8 +63,10 @@ public class DatabaseQuery {
 			statement.close();
 			connection.close();
 			
-			hashCache.addValue(queryHash, listOfResults);
-			diskCache.addValue(queryHash, listOfResults);
+			if (dbQuery.isCachable){
+				hashCache.addValue(queryHash, listOfResults);
+				diskCache.addValue(queryHash, listOfResults);
+			}
 			
 			return listOfResults;
 			
