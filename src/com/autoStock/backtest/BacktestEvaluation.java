@@ -2,6 +2,7 @@ package com.autoStock.backtest;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentOfPortable;
@@ -14,6 +15,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyOptions;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
 import com.autoStock.types.Exchange;
@@ -135,14 +137,5 @@ public class BacktestEvaluation {
 		string += strategyOptions.toString();
 		
 		return string;
-	}
-	
-	public boolean insertIntoDatabse(){
-//		return new DatabaseQuery().insert(BasicQueries.basic_insert_whitelist, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName), new QueryArg(QueryArgs.reason, "automatic"));
-		return true;
-	}
-	
-	public void calculateOutOfBandValues(){
-		
 	}
 }

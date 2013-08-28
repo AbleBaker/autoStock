@@ -10,15 +10,17 @@ public class TableDefinitions {
 		public Date dateEnd;
 		public Date dateRun;
 		public String exchange;
-		public String symbols;
+		public String symbol;
 		public double balanceInBand;
 		public double balanceOutBand;
 		public double percentGainInBand;
 		public double percentGainOutBand;
 		public int tradeEntry;
 		public int tradeReentry;
+		public int tradeExit;
 		public int tradeWins;
 		public int tradeLoss;
+		public int gsonId;
 	}
 
 	public static DbBacktestResult dbBacktestResult = new TableDefinitions.DbBacktestResult();
@@ -44,6 +46,13 @@ public class TableDefinitions {
 	}
 
 	public static DbExchange dbExchange = new TableDefinitions.DbExchange();
+
+	public static class DbGson {
+		public int id;
+		public String gson;
+	}
+
+	public static DbGson dbGson = new TableDefinitions.DbGson();
 
 	public static class DbMarketOrder {
 		public long id;

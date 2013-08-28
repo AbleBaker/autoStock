@@ -35,6 +35,7 @@ import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
+import com.google.gson.Gson;
 import com.google.gson.internal.Pair;
 
 /**
@@ -111,7 +112,7 @@ public class BacktestEvaluationBuilder {
 	
 	public BacktestEvaluation buildOutOfSampleEvaluation(BacktestContainer backtestContainer, BacktestEvaluation backtestEvaluation){	
 		Co.println("--> CHECK ********");
-		Date dateStart = (Date) backtestContainer.historicalData.startDate.clone(); //DateTools.getFirstWeekdayAfter(backtestContainer.historicalData.endDate);
+		Date dateStart = DateTools.getFirstWeekdayAfter(backtestContainer.historicalData.endDate); //(Date) backtestContainer.historicalData.startDate.clone(); //
 		Date dateEnd = (Date) dateStart.clone();
 		
 		dateStart.setHours(backtestContainer.exchange.timeOpenForeign.hours);
@@ -126,21 +127,18 @@ public class BacktestEvaluationBuilder {
 		singleBacktest.setBacktestData(listOfResults);
 		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions = backtestEvaluation.strategyOptions;
 		
-		int i = 0;
-		
 		for (SignalBase signalBase : singleBacktest.backtestContainer.algorithm.signalGroup.getListOfSignalBase()){
-			if (signalBase.signalParameters instanceof SignalParametersForCCI){
-				signalBase.signalParameters =  backtestEvaluation.listOfSignalParameters.get(i);
-			}else{
-				Co.println("--> Didn't set");
+			for (SignalParameters signalParameters : backtestEvaluation.listOfSignalParameters){
+				if (signalBase.signalParameters.getClass() == signalParameters.getClass()){
+					signalBase.signalParameters = signalParameters;
+				}
 			}
-			i++;
 		}
 		
 		singleBacktest.runBacktest();
 		
 		Co.println("********");
-		Co.print(buildEvaluation(singleBacktest.backtestContainer).toString());
+		Co.println(buildEvaluation(singleBacktest.backtestContainer).toString());
 		
 		return buildEvaluation(singleBacktest.backtestContainer);
 	}

@@ -49,6 +49,7 @@ import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.HistoricalDataList;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.google.gson.Gson;
 import com.google.gson.internal.Pair;
 
 /**
@@ -290,7 +291,26 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						}
 						
 						BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
-						bestEvaluation.insertIntoDatabse();
+						
+						int gsonId = new DatabaseQuery().insert(BasicQueries.basic_insert_gson, new QueryArg(QueryArgs.gsonString, new Gson().toJson(bestEvaluation).replace("\"", "\\\"")));
+						
+						new DatabaseQuery().insert(BasicQueries.basic_insert_backtest_results,
+								new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(backtestContainer.historicalData.startDate)),
+								new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(backtestContainer.historicalData.endDate)),
+								new QueryArg(QueryArgs.runDate, DateTools.getSqlDate(new Date())),
+								new QueryArg(QueryArgs.exchange, exchange.exchangeName),
+								new QueryArg(QueryArgs.symbol, bestEvaluation.symbol.symbolName),
+								new QueryArg(QueryArgs.balanceInBand, "0"),
+								new QueryArg(QueryArgs.balanceOutBand, "0"),
+								new QueryArg(QueryArgs.percentGainInBand, "0"),
+								new QueryArg(QueryArgs.percentGainOutBand, "0"),
+								new QueryArg(QueryArgs.tradeEntry, "0"),
+								new QueryArg(QueryArgs.tradeReentry, "0"),
+								new QueryArg(QueryArgs.tradeExit, "0"),
+								new QueryArg(QueryArgs.tradeWins, "0"),
+								new QueryArg(QueryArgs.tradeLoss, "0"),
+								new QueryArg(QueryArgs.gsonId, String.valueOf(gsonId))
+								);
 						
 						BacktestEvaluation outOfSampleEvaluation = new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(backtestContainer, bestEvaluation);
 						

@@ -72,8 +72,8 @@ public class SignalGroup {
 		if (signalOfCCI.listOfNormalizedValue.size() >= ENCOG_SIGNAL_INPUT){
 //			Co.println("--> Size: " + signalOfCCI.listOfNormalizedValue.size());
 			
-			EncogInputWindow encogWindow = new EncogInputWindow();
-			encogWindow.addInputList(signalOfCCI.listOfNormalizedValue.subList(signalOfCCI.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfCCI.listOfNormalizedValue.size()));
+//			EncogInputWindow encogWindow = new EncogInputWindow();
+//			encogWindow.addInputList(signalOfCCI.listOfNormalizedValue.subList(signalOfCCI.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfCCI.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfRSI.listOfNormalizedValue.subList(signalOfRSI.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfRSI.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfUO.listOfNormalizedValue.subList(signalOfUO.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfUO.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfARUp.listOfNormalizedValue.subList(signalOfARUp.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARUp.listOfNormalizedValue.size()));
@@ -83,7 +83,7 @@ public class SignalGroup {
 //				Co.print(" " + encogWindow.getAsWindow()[i]);
 //			}
 			
-			signalOfEncog.setInput(encogWindow);
+//			signalOfEncog.setInput(encogWindow);
 		}
 	}
 	

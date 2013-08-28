@@ -68,7 +68,7 @@ public class BuildDatabaseDefinitions {
 		if (sqlType.equals("INT")){return "int";}
 		if (sqlType.equals("BIGINT")){return "long";}
 		if (sqlType.equals("DATETIME") || sqlType.equals("DATE")){return "Date";}
-		if (sqlType.equals("VARCHAR")){return "String";}
+		if (sqlType.equals("VARCHAR") || sqlType.equals("BLOB")){return "String";}
 		if (sqlType.equals("TIME")){return "Time";}
 		if (sqlType.equals("BIT")){return "boolean";}
 		else {throw new UnsatisfiedLinkError("No type matched " + sqlType);}

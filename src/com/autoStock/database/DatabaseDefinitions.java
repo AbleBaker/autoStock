@@ -39,7 +39,9 @@ public class DatabaseDefinitions {
 		tradeReentry, 
 		tradeExit, 
 		tradeWins, 
-		tradeLoss
+		tradeLoss,
+		gsonId, 
+		gsonString
 	}
 	
 	
@@ -84,8 +86,13 @@ public class DatabaseDefinitions {
 				null,
 				false),
 				
-		basic_insert_backtest_results("insert into backtestResults(dateStart, dateEnd, dateRun, exchange, symbols, balanceInBand, balanceOutBand, percentGainInBand, percentGainOutBand, tradeEntry, tradeReentry, tradeExit, tradeWins, tradeLoss values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s') ",
-			new QueryArgs[]{QueryArgs.startDate, QueryArgs.endDate, QueryArgs.runDate, QueryArgs.exchange, QueryArgs.symbol, QueryArgs.balanceInBand, QueryArgs.balanceOutBand, QueryArgs.percentGainInBand, QueryArgs.percentGainOutBand, QueryArgs.tradeEntry, QueryArgs.tradeReentry, QueryArgs.tradeExit, QueryArgs.tradeWins, QueryArgs.tradeLoss},
+		basic_insert_gson("insert into gson (gsonString) values(\"%s\") ",
+				new QueryArgs[]{QueryArgs.gsonString},
+				null,
+				false),
+				
+		basic_insert_backtest_results("insert into backtestResults(dateStart, dateEnd, dateRun, exchange, symbol, balanceInBand, balanceOutBand, percentGainInBand, percentGainOutBand, tradeEntry, tradeReentry, tradeExit, tradeWins, tradeLoss, gsonId) values ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s', '%s') ",
+			new QueryArgs[]{QueryArgs.startDate, QueryArgs.endDate, QueryArgs.runDate, QueryArgs.exchange, QueryArgs.symbol, QueryArgs.balanceInBand, QueryArgs.balanceOutBand, QueryArgs.percentGainInBand, QueryArgs.percentGainOutBand, QueryArgs.tradeEntry, QueryArgs.tradeReentry, QueryArgs.tradeExit, QueryArgs.tradeWins, QueryArgs.tradeLoss, QueryArgs.gsonId},
 			null,
 			false),
 		;

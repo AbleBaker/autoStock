@@ -77,7 +77,7 @@ public class DatabaseQuery {
 			e.printStackTrace(); return null;}
 	}
 	
-	public boolean insert(BasicQueries basicQuery, QueryArg... queryArg){
+	public int insert(BasicQueries basicQuery, QueryArg... queryArg){
 		try {
 			String query = new QueryFormatter().format(basicQuery, queryArg);
 		
@@ -85,29 +85,20 @@ public class DatabaseQuery {
 			Statement statement = connection.createStatement();
 		
 			statement.execute(query);
-			return true;
+			ResultSet resultSet = statement.executeQuery("select LAST_INSERT_ID()");
+			
+			if (resultSet.next()){
+				return resultSet.getInt(1);
+			}
+			
+			return -1;
 		}catch(Exception e){
+			Co.println("Could not execute query: " + new QueryFormatter().format(basicQuery, queryArg));
 			e.printStackTrace();
 		}
 		
-		return false;
+		return -1;
 	}
-	
-//	public boolean insert(BasicQueries basicQuery, QueryArg... queryArg){
-//		try {
-//			String query = new QueryFormatter().format(basicQuery, queryArg);
-//		
-//			Connection connection = DatabaseCore.getConnection();
-//			Statement statement = connection.createStatement();
-//		
-//			statement.execute(query);
-//			return true;
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-//		
-//		return false;
-//	}
 
 	private Type getGsonType(BasicQueries dbQuery) {
 		if (dbQuery.resultClass == DbStockHistoricalPrice.class){
