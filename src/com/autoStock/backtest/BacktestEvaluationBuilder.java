@@ -124,15 +124,12 @@ public class BacktestEvaluationBuilder {
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData);
 		singleBacktest.setBacktestData(listOfResults);
+		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions = backtestEvaluation.strategyOptions;
 		
 		int i = 0;
 		
-		Co.println(String.valueOf(singleBacktest.backtestContainer.algorithm.signalGroup.getListOfSignalBase().size()));
-		
 		for (SignalBase signalBase : singleBacktest.backtestContainer.algorithm.signalGroup.getListOfSignalBase()){
-			
 			if (signalBase.signalParameters instanceof SignalParametersForCCI){
-				Co.println("--> SET CCI");
 				signalBase.signalParameters =  backtestEvaluation.listOfSignalParameters.get(i);
 			}else{
 				Co.println("--> Didn't set");
