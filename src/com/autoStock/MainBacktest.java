@@ -290,7 +290,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
 						}
 						
+						//Put this somewhere else
 						BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
+						BacktestEvaluation outOfSampleEvaluation = new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(backtestContainer, bestEvaluation);
 						
 						int gsonId = new DatabaseQuery().insert(BasicQueries.basic_insert_gson, new QueryArg(QueryArgs.gsonString, new Gson().toJson(bestEvaluation).replace("\"", "\\\"")));
 						
@@ -300,19 +302,17 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 								new QueryArg(QueryArgs.runDate, DateTools.getSqlDate(new Date())),
 								new QueryArg(QueryArgs.exchange, exchange.exchangeName),
 								new QueryArg(QueryArgs.symbol, bestEvaluation.symbol.symbolName),
-								new QueryArg(QueryArgs.balanceInBand, "0"),
-								new QueryArg(QueryArgs.balanceOutBand, "0"),
+								new QueryArg(QueryArgs.balanceInBand, new DecimalFormat("#.00").format(bestEvaluation.accountBalance)),
+								new QueryArg(QueryArgs.balanceOutBand, new DecimalFormat("#.00").format(outOfSampleEvaluation.accountBalance)),
 								new QueryArg(QueryArgs.percentGainInBand, "0"),
 								new QueryArg(QueryArgs.percentGainOutBand, "0"),
-								new QueryArg(QueryArgs.tradeEntry, "0"),
-								new QueryArg(QueryArgs.tradeReentry, "0"),
-								new QueryArg(QueryArgs.tradeExit, "0"),
-								new QueryArg(QueryArgs.tradeWins, "0"),
-								new QueryArg(QueryArgs.tradeLoss, "0"),
+								new QueryArg(QueryArgs.tradeEntry, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradeEntry)),
+								new QueryArg(QueryArgs.tradeReentry, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradesReentry)),
+								new QueryArg(QueryArgs.tradeExit, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradeExit)),
+								new QueryArg(QueryArgs.tradeWins, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradesProfit)),
+								new QueryArg(QueryArgs.tradeLoss, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradesLoss)),
 								new QueryArg(QueryArgs.gsonId, String.valueOf(gsonId))
 								);
-						
-						BacktestEvaluation outOfSampleEvaluation = new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(backtestContainer, bestEvaluation);
 						
 						Co.println("--> Built OK: " + outOfSampleEvaluation.accountBalance);
 					}
