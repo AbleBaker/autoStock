@@ -151,19 +151,18 @@ public class MenuLauncher {
 		}
 		
 		else if (menuStructure == MenuStructures.menu_quick_command){
-			Co.println("--> Quick Command");
 			String menuCommand = menuStructure.getArgument(MenuArguments.arg_command).value;
 			String command = null;
 			
 			switch (menuCommand){
 				case "1" :
-					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE AIG backtest_adjustment_individual");
+					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE T backtest_adjustment_individual");
 					break;
 				case "2" :
-					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE AIG backtest_default");
+					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE T backtest_default");
 					break;
 				case "3" :
-					command = new String("main_backtest 01/20/2012 01/20/2012 NYSE AIG backtest_default");
+					command = new String("main_backtest 01/20/2012 01/20/2012 NYSE T backtest_default");
 					break;
 					
 			}

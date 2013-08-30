@@ -9,21 +9,5 @@ import com.autoStock.types.Exchange;
  *
  */
 public class StrategyHelper {
-	public static synchronized int getUpdatedPeriodLength(Date date, Exchange exchange, int periodLength, StrategyOptions strategyOptions) {
-		if (strategyOptions.taperPeriodLength == false) {
-			return periodLength;
-		} else {
-//			if (new AlgorithmCondition(strategyOptions).taperPeriodLengthLower(date, exchange)) {
-//				if (periodLength > SignalControl.periodLengthEnd.value) {
-//					periodLength--;
-//				}
-//			} else {
-//				if (periodLength + 1 <= SignalControl.periodLengthMiddle.value) {
-//					periodLength++;
-//				}
-//			}
-		}
-		
-		return periodLength;
-	}
+	
 }

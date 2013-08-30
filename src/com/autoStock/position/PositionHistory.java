@@ -1,6 +1,7 @@
 package com.autoStock.position;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.autoStock.tools.MathTools;
 
@@ -10,6 +11,7 @@ import com.autoStock.tools.MathTools;
  */
 public class PositionHistory {
 	public ArrayList<Double> listOfProfitLossPercent = new ArrayList<Double>();
+	public Date dateOfCreation;
 	
 	public void addProfitLoss(double value){
 		listOfProfitLossPercent.add(value);

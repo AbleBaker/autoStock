@@ -4,6 +4,7 @@
 package com.autoStock.trading.types;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
@@ -44,7 +45,7 @@ public class Position implements OrderStatusListener {
 	private final ArrayList<Order> listOfOrder = new ArrayList<Order>();
 	private PositionHistory positionHistory = new PositionHistory();
 
-	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, BasicAccount basicAccount) {
+	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, BasicAccount basicAccount, Date dateTime) {
 		this.positionType = positionType;
 		this.initialUnits = units;
 		this.symbol = symbol;
@@ -53,6 +54,7 @@ public class Position implements OrderStatusListener {
 		this.unitPriceLastKnown = currentPrice;
 		this.positionOptions = positionOptions;
 		this.basicAccount = basicAccount;
+		this.positionHistory.dateOfCreation = dateTime;
 	}
 
 	public void setPositionListener(ListenerOfPositionStatusChange positionStatusListener) {

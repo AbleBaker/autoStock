@@ -1,5 +1,7 @@
 package com.autoStock;
 
+import java.util.Date;
+
 import com.autoStock.account.AccountProvider;
 import com.autoStock.exchange.request.RequestMarketSymbolData;
 import com.autoStock.exchange.request.base.RequestHolder;
@@ -40,7 +42,7 @@ public class MainMarketOrder implements ListenerOfPositionStatusChange {
 			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice quoteSlice) {
 				requestMarketSymbolData.cancel();
 				
-				Position position = new Position(positionType, units, new Symbol(symbol, SecurityType.type_stock), exchange, quoteSlice.priceClose, null, AccountProvider.getInstance().getGlobalAccount());
+				Position position = new Position(positionType, units, new Symbol(symbol, SecurityType.type_stock), exchange, quoteSlice.priceClose, null, AccountProvider.getInstance().getGlobalAccount(), new Date());
 				position.setPositionListener(MainMarketOrder.this);
 				position.executePosition();
 			}

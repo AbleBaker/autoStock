@@ -73,6 +73,8 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_profit_drawdown, quoteSlice, position, strategyResponse);
 			} else if (algorithmCondition.requestExitOnDate(quoteSlice.dateTime, algorithmBase.exchange)) {
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_exit, quoteSlice, position, strategyResponse);
+			} else if (algorithmCondition.requestExitAfterLossDate(quoteSlice.dateTime, position, listOfStrategyResponse)){
+				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_loss, quoteSlice, position, strategyResponse);
 			} else {
 				strategyResponse.positionGovernorResponse = proceed(quoteSlice, position, null);
 			}

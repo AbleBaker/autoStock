@@ -3,6 +3,9 @@ package com.autoStock.algorithm.external;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.encog.util.time.DateUtil;
+
+import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
@@ -122,9 +125,13 @@ public class AlgorithmCondition {
 			return true;
 		}
 		
-//		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
-//			return true;
-//		}
+		return false;
+	}
+	
+	public boolean requestExitAfterLossDate(Date date, Position position, ArrayList<StrategyResponse> listOfStrategyResponse){			
+		if (((date.getTime() - position.getPositionHistory().dateOfCreation.getTime()) / 60 / 1000) > strategyOptions.maxPositionLossTime && position.getCurrentPercentGainLoss(true) <= 0){
+			return true;
+		}
 		
 		return false;
 	}
