@@ -6,14 +6,14 @@ import com.autoStock.Co;
  * @author Kevin Kowalewski
  *
  */
-public class ImmutableDouble {
+public class MutableDouble {
 	public double value;
 	
-	public ImmutableDouble(){
+	public MutableDouble(){
 		value = 0;
 	}
 	
-	public ImmutableDouble(double value){
+	public MutableDouble(double value){
 		this.value = value;
 	}
 }

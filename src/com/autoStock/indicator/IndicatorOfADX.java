@@ -8,7 +8,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -17,7 +17,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfADX extends IndicatorBase {
 	public ResultsADX results;
 	
-	public IndicatorOfADX(ImmutableInteger periodLength, int resultLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+	public IndicatorOfADX(MutableInteger periodLength, int resultLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(periodLength, resultLength, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	

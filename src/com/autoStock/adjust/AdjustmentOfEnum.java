@@ -1,15 +1,15 @@
 package com.autoStock.adjust;
 
-import com.autoStock.types.basic.ImmutableEnum;
+import com.autoStock.types.basic.MutableEnum;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class AdjustmentOfEnum<E extends Enum<E>> extends AdjustmentBase {
-	private ImmutableEnum<E> immutableEnum;
+	private MutableEnum<E> immutableEnum;
 	
-	public AdjustmentOfEnum(String description, IterableOfEnum<E> iterableOfEnum, ImmutableEnum<E> immutableEnum){
+	public AdjustmentOfEnum(String description, IterableOfEnum<E> iterableOfEnum, MutableEnum<E> immutableEnum){
 		this.iterableBase = iterableOfEnum;
 		this.description = description;
 		this.immutableEnum = immutableEnum;

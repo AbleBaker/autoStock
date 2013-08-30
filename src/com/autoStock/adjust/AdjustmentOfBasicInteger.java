@@ -1,15 +1,15 @@
 package com.autoStock.adjust;
 
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class AdjustmentOfBasicInteger extends AdjustmentBase {
-	private ImmutableInteger immutableInteger;
+	private MutableInteger immutableInteger;
 	
-	public AdjustmentOfBasicInteger(String description, ImmutableInteger immutableInteger, IterableOfInteger iterableOfInteger){
+	public AdjustmentOfBasicInteger(String description, MutableInteger immutableInteger, IterableOfInteger iterableOfInteger){
 		this.iterableBase = iterableOfInteger;
 		this.description = description;
 		this.immutableInteger = immutableInteger;

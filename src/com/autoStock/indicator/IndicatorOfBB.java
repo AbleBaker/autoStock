@@ -9,7 +9,7 @@ import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MAType;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -20,7 +20,7 @@ public class IndicatorOfBB extends IndicatorBase {
 	public int optionDeviationUp = 8;
 	public int optionDeviationDown = 8;
 	
-	public IndicatorOfBB(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+	public IndicatorOfBB(MutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	

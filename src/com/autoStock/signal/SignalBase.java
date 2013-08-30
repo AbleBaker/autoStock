@@ -12,13 +12,13 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.ArrayTools;
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableInteger;
 
 public abstract class SignalBase {
 	public SignalMetricType signalMetricType = SignalMetricType.none;
 	protected ArrayList<Integer> listOfNormalizedValue = new ArrayList<Integer>();
 	protected ArrayList<Integer> listOfNormalizedAveragedValue = new ArrayList<Integer>();
-	protected ImmutableInteger maxSignalAverage;
+	protected MutableInteger maxSignalAverage;
 	public SignalParameters signalParameters;
 	
 	public SignalBase(SignalMetricType signalMetricType, SignalParameters signalParameters){

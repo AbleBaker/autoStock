@@ -11,7 +11,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -21,7 +21,7 @@ public abstract class IndicatorBase {
 	public Core taLibCore;
 	public CommonAnalysisData commonAnlaysisData;
 	
-	public final ImmutableInteger periodLength;
+	public final MutableInteger periodLength;
 	public final int resultsetLength;
 	public int datasetLength;
 	public double[] arrayOfPriceOpen;
@@ -32,7 +32,7 @@ public abstract class IndicatorBase {
 	public int endIndex = 0;
 	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	
-	public IndicatorBase(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType){
+	public IndicatorBase(MutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType){
 		this.periodLength = periodLength;
 		this.commonAnlaysisData = commonAnlaysisData;
 		this.taLibCore = taLibCore;

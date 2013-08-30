@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
-import com.autoStock.types.basic.ImmutableDouble;
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableDouble;
+import com.autoStock.types.basic.MutableInteger;
 import com.google.gson.Gson;
 
 /**
@@ -27,16 +27,16 @@ public class StrategyOptions implements Cloneable {
 	public SignalPointTactic signalPointTacticForExit;
 	
 	public int maxTransactionsDay;
-	public ImmutableDouble minReentryPercentGain = new ImmutableDouble();
-	public ImmutableDouble maxStopLossPercent = new ImmutableDouble();
-	public ImmutableDouble maxProfitDrawdownPercent = new ImmutableDouble();
+	public MutableDouble minReentryPercentGain = new MutableDouble();
+	public MutableDouble maxStopLossPercent = new MutableDouble();
+	public MutableDouble maxProfitDrawdownPercent = new MutableDouble();
 	public int maxNilChangePrice;
 	public int maxNilChangeVolume;
 	public int maxPositionEntryTime;
 	public int maxPositionExitTime;
-	public ImmutableInteger maxReenterTimes = new ImmutableInteger();
-	public ImmutableInteger intervalForReentryMins = new ImmutableInteger();
-	public ImmutableInteger prefillShift = new ImmutableInteger(0);
+	public MutableInteger maxReenterTimes = new MutableInteger();
+	public MutableInteger intervalForReentryMins = new MutableInteger();
+	public MutableInteger prefillShift = new MutableInteger(0);
 	public boolean prefillEnabled;
 	
 	public ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();

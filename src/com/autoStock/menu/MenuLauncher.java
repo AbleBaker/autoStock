@@ -162,6 +162,10 @@ public class MenuLauncher {
 				case "2" :
 					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE AIG backtest_default");
 					break;
+				case "3" :
+					command = new String("main_backtest 01/20/2012 01/20/2012 NYSE AIG backtest_default");
+					break;
+					
 			}
 			
 			if (command == null){

@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
-import com.autoStock.types.basic.ImmutableEnum;
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableEnum;
+import com.autoStock.types.basic.MutableInteger;
 import com.google.gson.Gson;
 import com.google.gson.internal.Pair;
 
@@ -82,14 +82,14 @@ public class SignalDefinitions {
 	
 	public static abstract class SignalParameters {
 		public NormalizeInterface normalizeInterface;
-		public ImmutableInteger periodLength;
-		public ImmutableInteger maxSignalAverage;
+		public MutableInteger periodLength;
+		public MutableInteger maxSignalAverage;
 		public SignalGuage[] arrayOfSignalGuageForLongEntry;
 		public SignalGuage[] arrayOfSignalGuageForLongExit;
 		public SignalGuage[] arrayOfSignalGuageForShortEntry;
 		public SignalGuage[] arrayOfSignalGuageForShortExit;
 		
-		public SignalParameters(NormalizeInterface normalizeInterface, ImmutableInteger periodLength, ImmutableInteger maxSignalAverage, SignalGuage[] arrayOfSignalGuageForLongEntry, SignalGuage[] arrayOfSignalGuageForLongExit, SignalGuage[] arrayOfSignalGuageForShortEntry, SignalGuage[] arrayOfSignalGuageForShortExit) {
+		public SignalParameters(NormalizeInterface normalizeInterface, MutableInteger periodLength, MutableInteger maxSignalAverage, SignalGuage[] arrayOfSignalGuageForLongEntry, SignalGuage[] arrayOfSignalGuageForLongExit, SignalGuage[] arrayOfSignalGuageForShortEntry, SignalGuage[] arrayOfSignalGuageForShortExit) {
 			this.normalizeInterface = normalizeInterface;
 			this.periodLength = periodLength;
 			this.maxSignalAverage = maxSignalAverage;
@@ -122,154 +122,154 @@ public class SignalDefinitions {
 	public static class SignalParametersForADX extends SignalParameters {
 		public SignalParametersForADX(){
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input - 10, 0.8));}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForPPC extends SignalParameters {
 		public SignalParametersForPPC() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((input - 1) * 3000);}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForDI extends SignalParameters {
 		public SignalParametersForDI(){
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) input * 1;}},
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForCCI extends SignalParameters {
 		public SignalParametersForCCI() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}}, 
-			new ImmutableInteger(24), new ImmutableInteger(15),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -20)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 10)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 5)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -20)});
+			new MutableInteger(24), new MutableInteger(15),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -20)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 10)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 5)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -20)});
 		}
 	}
 	
 	public static class SignalParametersForMACD extends SignalParameters {
 		public SignalParametersForMACD() {
 			super(new NormalizeInterface(){@Override public int normalize(double input){return (int) (input * 800);}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -10)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, 20)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -10)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, 20)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForRSI extends SignalParameters {
 		public SignalParametersForRSI(){
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input - 45);}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, 100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, 100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForTRIX extends SignalParameters {
 		public SignalParametersForTRIX() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 600);}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForROC extends SignalParameters {
 		public SignalParametersForROC() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 25);}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 11)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -18)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 11)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -18)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForMFI extends SignalParameters {
 		public SignalParametersForMFI() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input * 1.0) - 50;}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 20)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -15)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 20)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -15)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForWILLR extends SignalParameters {
 		public SignalParametersForWILLR() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input  + 50);}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 30)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -40)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 30)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -40)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForSTORSI extends SignalParameters {
 		public SignalParametersForSTORSI() {
 			super(null, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForUO extends SignalParameters {
 		public SignalParametersForUO() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input - 10, 0.8));}}, 
-			new ImmutableInteger(30), new ImmutableInteger(10),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(10),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForARUp extends SignalParameters {
 		public SignalParametersForARUp(){
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input - 10, 0.8));}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	
 	public static class SignalParametersForARDown extends SignalParameters {
 		public SignalParametersForARDown(){
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input - 10, 0.8));}}, 
-			new ImmutableInteger(30), new ImmutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new ImmutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new MutableInteger(30), new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
 	}
 	

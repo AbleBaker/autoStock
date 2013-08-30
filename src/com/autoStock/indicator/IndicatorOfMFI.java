@@ -9,7 +9,7 @@ import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
 import com.autoStock.tools.ArrayTools;
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -18,7 +18,7 @@ import com.autoStock.types.basic.ImmutableInteger;
 public class IndicatorOfMFI extends IndicatorBase{
 	public ResultsMFI results;
 	
-	public IndicatorOfMFI(ImmutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+	public IndicatorOfMFI(MutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	

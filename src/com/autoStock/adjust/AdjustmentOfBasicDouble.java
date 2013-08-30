@@ -1,15 +1,15 @@
 package com.autoStock.adjust;
 
-import com.autoStock.types.basic.ImmutableDouble;
+import com.autoStock.types.basic.MutableDouble;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class AdjustmentOfBasicDouble extends AdjustmentBase {
-	private ImmutableDouble immutableDouble;
+	private MutableDouble immutableDouble;
 	
-	public AdjustmentOfBasicDouble(String description, ImmutableDouble immutableDouble, IterableOfDouble iterableOfDouble){
+	public AdjustmentOfBasicDouble(String description, MutableDouble immutableDouble, IterableOfDouble iterableOfDouble){
 		this.description = description;
 		this.iterableBase = iterableOfDouble;
 		this.immutableDouble = immutableDouble;

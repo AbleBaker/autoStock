@@ -21,7 +21,7 @@ import com.autoStock.indicator.results.ResultsWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.taLib.Core;
-import com.autoStock.types.basic.ImmutableInteger;
+import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -56,18 +56,6 @@ public class IndicatorGroup {
 	public ResultsUO resultsUO;
 	public ResultsAR resultsAR;
 	public CandleStickIdentifierResult candleStickIdentifierResult;
-	
-//	public static final ImmutableInteger immutableIntegerForADX = new ImmutableInteger(26);
-//	public static final ImmutableInteger immutableIntegerForCCI = new ImmutableInteger(26);
-//	public static final ImmutableInteger immutableIntegerForDI = new ImmutableInteger(30);
-//	public static final ImmutableInteger immutableIntegerForMACD = new ImmutableInteger(26);
-//	public static final ImmutableInteger immutableIntegerForBB = new ImmutableInteger(10);
-//	public static final ImmutableInteger immutableIntegerForRSI = new ImmutableInteger(26);
-//	public static final ImmutableInteger immutableIntegerForTRIX = new ImmutableInteger(26);
-//	public static final ImmutableInteger immutableIntegerForROC = new ImmutableInteger(10);
-//	public static final ImmutableInteger immutableIntegerForMFI = new ImmutableInteger(10);
-//	public static final ImmutableInteger immutableIntegerForWILLR = new ImmutableInteger(10);
-//	public static final ImmutableInteger immutableIntegerForCandleStickIdentifier = new ImmutableInteger(10);
 
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
@@ -79,7 +67,7 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(signalGroup.signalOfCCI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_cci));
 		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(signalGroup.signalOfDI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_di));
 		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(signalGroup.signalOfMACD.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_macd));
-		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new ImmutableInteger(0), 1, commonAnlaysisData, taLibCore, SignalMetricType.none));
+		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new MutableInteger(0), 1, commonAnlaysisData, taLibCore, SignalMetricType.none));
 		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(signalGroup.signalOfRSI.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_rsi));
 		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(signalGroup.signalOfTRIX.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_trix));
 		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(signalGroup.signalOfROC.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_roc));
@@ -87,7 +75,7 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(signalGroup.signalOfWILLR.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_willr));
 		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_uo));
 		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_ar_up));
-		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new ImmutableInteger(0), 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_candlestick_group));
+		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new MutableInteger(0), 1, commonAnlaysisData, taLibCore, SignalMetricType.metric_candlestick_group));
 	}
 	
 	public void setDataSet(){
