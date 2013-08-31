@@ -11,6 +11,7 @@ import com.autoStock.types.basic.MutableEnum;
 import com.autoStock.types.basic.MutableInteger;
 import com.google.gson.Gson;
 import com.google.gson.internal.Pair;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -99,6 +100,8 @@ public class SignalDefinitions {
 			this.arrayOfSignalGuageForShortExit = arrayOfSignalGuageForShortExit;
 		}
 		
+		public SignalParameters(){} //For Gson
+		
 		public int getNormalizedValue(double input){
 			return this.normalizeInterface.normalize(input);
 		}
@@ -115,7 +118,8 @@ public class SignalDefinitions {
 		}
 		
 		public SignalParameters copy(){
-			return new Gson().fromJson(new Gson().toJson(this), this.getClass()); //Probably very expensive
+//			return new Gson().fromJson(new Gson().toJson(this), this.getClass());
+			return new Cloner().deepClone(this);
 		}
 	}
 	

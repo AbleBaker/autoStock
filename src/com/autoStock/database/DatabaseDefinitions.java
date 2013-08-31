@@ -2,6 +2,7 @@ package com.autoStock.database;
 
 import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbSymbol;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbWhitelist;
@@ -80,6 +81,11 @@ public class DatabaseDefinitions {
 				new QueryArgs[]{QueryArgs.reason},
 				DbWhitelist.class,
 				false), 
+		
+		basic_get_backtest_evaluation("select * from gson where id = (select id from backtestResults where symbol='%s' and exchange='%s' order by dateRun desc limit 1);",
+				new QueryArgs[]{QueryArgs.symbol, QueryArgs.exchange},
+				DbGson.class,
+				false),
 				
 		basic_insert_whitelist("insert into whitelist (symbol, exchange, reason) values('%s','%s','%s')",
 				new QueryArgs[]{QueryArgs.symbol, QueryArgs.exchange, QueryArgs.reason},

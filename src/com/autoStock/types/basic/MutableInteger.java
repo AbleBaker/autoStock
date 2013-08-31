@@ -14,8 +14,4 @@ public class MutableInteger {
 	public MutableInteger(int value){
 		this.value = value;
 	}
-
-	public MutableInteger copy() {
-		return new MutableInteger(value);
-	}
 }

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 
 import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbSymbol;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbWhitelist;
@@ -28,6 +29,8 @@ public class ResultInterpriter { // This class should go away
 				return new DatabaseBinder().getDbExchange(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7));
 			}else if (resultClass == DbWhitelist.class){
 				return new DatabaseBinder().getDbWhitelist(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6));
+			}else if (resultClass == DbGson.class){
+				return new DatabaseBinder().getDbGson(resultSet.getInt(1), resultSet.getString(2));
 			}else{
 				throw new UnsupportedOperationException();
 			}

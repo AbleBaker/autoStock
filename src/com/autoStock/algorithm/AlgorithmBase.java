@@ -12,9 +12,11 @@ import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmChart;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
+import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.core.AlgorithmState;
 import com.autoStock.algorithm.core.AlgorithmTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
+import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.ListenerOfPositionStatusChange;
@@ -194,6 +196,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		if (listOfQuoteSlice.size() > 0){
 			firstQuoteSlice = listOfQuoteSlice.get(0);
 		}
+	}
+	
+	public void remodel(BacktestEvaluation backtestEvaluation){
+		new AlgorithmRemodeler(this, backtestEvaluation).remodel();
 	}
 	
 	public void setFundamentalData(FundamentalData fundamentalData){

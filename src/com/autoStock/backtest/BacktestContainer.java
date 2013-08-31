@@ -3,17 +3,27 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
+import com.autoStock.database.DatabaseDefinitions.QueryArg;
+import com.autoStock.database.DatabaseQuery;
+import com.autoStock.database.DatabaseDefinitions.BasicQueries;
+import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * @author Kevin Kowalewski
@@ -45,6 +55,21 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}
 		
 		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
+
+		if (algorithmMode == AlgorithmMode.mode_backtest){
+			Co.println("--> Checking for an available evaluation...");
+			
+			ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));
+			
+			if (listOfGsonResults.size() > 0){
+				Co.println("--> Evaluation available");
+				GsonBuilder gsonBuilder = new GsonBuilder();
+				gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+				
+				BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);
+				algorithm.remodel(backtestEvaluation);
+			}
+		}
 	}
 
 	@SuppressWarnings("deprecation")

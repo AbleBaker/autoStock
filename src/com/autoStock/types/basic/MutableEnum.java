@@ -10,8 +10,4 @@ public class MutableEnum<E extends Enum<E>> {
 	public MutableEnum(E enumObject){
 		this.enumValue = enumObject;
 	}
-	
-	public MutableEnum copy(){
-		return new MutableEnum<E>(enumValue);
-	}
 }

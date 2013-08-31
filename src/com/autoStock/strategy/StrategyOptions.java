@@ -8,6 +8,7 @@ import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.types.basic.MutableDouble;
 import com.autoStock.types.basic.MutableInteger;
 import com.google.gson.Gson;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -71,6 +72,7 @@ public class StrategyOptions implements Cloneable {
 	}
 
 	public StrategyOptions copy() {
-		return new Gson().fromJson(new Gson().toJson(this), getClass());
+//		return new Gson().fromJson(new Gson().toJson(this), getClass());
+		return new Cloner().deepClone(this);
 	}
 }

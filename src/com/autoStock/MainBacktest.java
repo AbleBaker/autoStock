@@ -31,10 +31,12 @@ import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.Global;
+import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalMoment;
 import com.autoStock.strategy.StrategyBase;
 import com.autoStock.strategy.StrategyOfTest;
@@ -50,6 +52,7 @@ import com.autoStock.trading.types.HistoricalDataList;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.internal.Pair;
 
 /**
@@ -294,7 +297,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
 						BacktestEvaluation outOfSampleEvaluation = new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(backtestContainer, bestEvaluation);
 						
-						int gsonId = new DatabaseQuery().insert(BasicQueries.basic_insert_gson, new QueryArg(QueryArgs.gsonString, new Gson().toJson(bestEvaluation).replace("\"", "\\\"")));
+						GsonBuilder gsonBuilder = new GsonBuilder();
+						gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+						
+						int gsonId = new DatabaseQuery().insert(BasicQueries.basic_insert_gson, new QueryArg(QueryArgs.gsonString, gsonBuilder.create().toJson(bestEvaluation).replace("\"", "\\\"")));
 						
 						new DatabaseQuery().insert(BasicQueries.basic_insert_backtest_results,
 								new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(backtestContainer.historicalData.startDate)),

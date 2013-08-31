@@ -6,6 +6,7 @@ package com.autoStock.database;
 import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.generated.basicDefinitions.TableDefinitions;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbSymbol;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbWhitelist;
@@ -65,5 +66,12 @@ public class DatabaseBinder {
 		dbWhitelist.reason = reason;
 		
 		return dbWhitelist;
+	}
+
+	public DbGson getDbGson(int id, String gsonString) {
+		DbGson dbGson = new DbGson();
+		dbGson.id = id;
+		dbGson.gson = gsonString;
+		return dbGson;
 	}
 }
