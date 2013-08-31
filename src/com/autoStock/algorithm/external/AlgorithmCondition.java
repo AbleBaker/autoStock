@@ -6,10 +6,12 @@ import java.util.Date;
 import org.encog.util.time.DateUtil;
 
 import com.autoStock.Co;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
@@ -61,15 +63,6 @@ public class AlgorithmCondition {
 		return false;
 	}
 	
-//	public boolean taperPeriodLengthLower(Date date, Exchange exchange){
-//		Date dateForLastExecution = DateTools.getChangedDate(DateTools.getDateFromTime(exchange.timeCloseForeign), strategyOptions.maxPositionTaperTime);		
-//		if (date.getHours() > dateForLastExecution.getHours() || (date.getHours() >= dateForLastExecution.getHours() && date.getMinutes() >= dateForLastExecution.getMinutes())){
-//			return true;
-//		}
-//		
-//		return false;
-//	}
-	
 //	public boolean takeProfit(Position position, QuoteSlice quoteSlice){
 //		double percentGainFromPosition = 0;
 //		PositionValue positionValue = position.getPositionValue();
@@ -93,6 +86,26 @@ public class AlgorithmCondition {
 				if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) < 0){
 					return false;
 				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean canTradeAfterLossInterval(Date date, ArrayList<StrategyResponse> listOfStrategyResponse){
+		for (StrategyResponse strategyResponse : listOfStrategyResponse){
+			if (strategyResponse.positionGovernorResponse != null){
+				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
+					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+					
+					if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) < 0){
+						if ( (date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000 < strategyOptions.intervalForEntryAfterExitWithLossMins.value){
+							return false;
+						}
+					}					
+//					Co.println("--> Minutes since exit: " + ( (date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000));
+				}
+				
 			}
 		}
 		
@@ -129,7 +142,7 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean requestExitAfterLossDate(Date date, Position position, ArrayList<StrategyResponse> listOfStrategyResponse){			
-		if (((date.getTime() - position.getPositionHistory().dateOfCreation.getTime()) / 60 / 1000) > strategyOptions.maxPositionLossTime && position.getCurrentPercentGainLoss(true) <= 0){
+		if (((date.getTime() - position.getPositionHistory().dateOfCreation.getTime()) / 60 / 1000) > strategyOptions.maxPositionLossTime && position.getPositionProfitLossAfterComission(true) <= 0){
 			return true;
 		}
 		

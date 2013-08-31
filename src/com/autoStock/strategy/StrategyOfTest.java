@@ -31,12 +31,12 @@ public class StrategyOfTest extends StrategyBase {
 		algorithmCondition = new AlgorithmCondition(strategyOptions);
 
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
-//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
+		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 
-		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_uo);
@@ -83,10 +83,12 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_time_entry, quoteSlice, position, strategyResponse);
 			} else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_trans, quoteSlice, position, strategyResponse);
-			} else if (strategyOptions.disableAfterLoss && algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false) {
+			}else if (strategyOptions.disableAfterLoss && algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_loss, quoteSlice, position, strategyResponse);
 			} else if (algorithmBase.algorithmState.isDisabled) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);
+			}else if (algorithmCondition.canTradeAfterLossInterval(quoteSlice.dateTime, listOfStrategyResponse) == false){
+				pass(strategyResponse, StrategyActionCause.pass_condition_previous_loss);
 			}
 			// else if (algorithmCondition.canEnterWithQuoteSlice(quoteSlice, signalPointForEntry) == false){
 			// strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
@@ -134,6 +136,11 @@ public class StrategyOfTest extends StrategyBase {
 			lastStrategyResponse = strategyResponse;
 			return strategyResponse;
 		}
+	}
+	
+	private void pass(StrategyResponse strategyResponse, StrategyActionCause strategyActionCause){
+		strategyResponse.strategyAction = StrategyAction.algorithm_pass;
+		strategyResponse.strategyActionCause = strategyActionCause;
 	}
 
 	private PositionGovernorResponse proceed(QuoteSlice quoteSlice, Position position, PositionOptions positionOptions) {
