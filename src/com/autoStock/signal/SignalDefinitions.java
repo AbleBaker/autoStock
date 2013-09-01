@@ -3,7 +3,6 @@
  */
 package com.autoStock.signal;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
@@ -11,7 +10,6 @@ import com.autoStock.types.basic.MutableEnum;
 import com.autoStock.types.basic.MutableInteger;
 import com.google.gson.Gson;
 import com.google.gson.internal.Pair;
-import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -118,8 +116,8 @@ public class SignalDefinitions {
 		}
 		
 		public SignalParameters copy(){
-//			return new Gson().fromJson(new Gson().toJson(this), this.getClass());
-			return new Cloner().deepClone(this);
+			return new Gson().fromJson(new Gson().toJson(this), this.getClass());
+//			return new Cloner().deepClone(this);
 		}
 	}
 	
@@ -160,10 +158,10 @@ public class SignalDefinitions {
 		public SignalParametersForCCI() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}}, 
 			new MutableInteger(24), new MutableInteger(15),
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -20)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 10)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 5)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -20)});
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -30)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 0)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 18)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -30)});
 		}
 	}
 	

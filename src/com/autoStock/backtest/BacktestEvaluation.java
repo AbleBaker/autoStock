@@ -15,7 +15,10 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyOptions;
+import com.autoStock.tables.TableController;
+import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.ExportTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
 import com.autoStock.types.Exchange;
@@ -44,6 +47,8 @@ public class BacktestEvaluation {
 	public ArrayList<DescriptorForSignal> listOfDescriptorForSignal = new ArrayList<DescriptorForSignal>();
 	public ArrayList<DescriptorForIndicator> listOfDescriptorForIndicator = new ArrayList<DescriptorForIndicator>();
 	public ArrayList<DescriptorForAdjustment> listOfDescriptorForAdjustment = new ArrayList<DescriptorForAdjustment>();
+	
+	public ArrayList<ArrayList<String>> listOfDisplayRowsFromStrategyResponse;
 	
 	public BacktestEvaluation(Symbol symbol, Exchange exchange){
 		this.symbol = symbol;
@@ -103,6 +108,10 @@ public class BacktestEvaluation {
 	public String toString() {
 		String string = new String();
 		
+		if (transactions > 0 && listOfDisplayRowsFromStrategyResponse.size() == 0){
+			throw new IllegalStateException("List can't be zero sized... Transactions: " + transactions);
+		}
+		
 		string += "---------- $" + MiscTools.getCommifiedValue(accountBalance) + " / " + MiscTools.getCommifiedValue(getScore()) + " ----------";
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
@@ -135,6 +144,10 @@ public class BacktestEvaluation {
 		string += "\n";
 		
 		string += strategyOptions.toString();
+		
+//		string += "Sizes: " + listOfDisplayRowsFromStrategyResponse.size() + ", " + listOfDisplayRowsFromStrategyResponse.get(0).size();
+		
+		string += "\n" + (listOfDisplayRowsFromStrategyResponse.size() == 0 ? "No transactions occurred" : new TableController().getTable(AsciiTables.backtest_strategy_response, listOfDisplayRowsFromStrategyResponse));
 		
 		return string;
 	}

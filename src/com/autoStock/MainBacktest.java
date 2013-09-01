@@ -377,35 +377,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				if (backtestType == BacktestType.backtest_default) {
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 						Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
-						ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 
-						for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse) {
-							ArrayList<String> listOfString = new ArrayList<String>();
-							listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
-							listOfString.add(backtestContainer.symbol.symbolName);
-							listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
-							listOfString.add(strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name());
-							listOfString.add(strategyResponse.positionGovernorResponse.status.name());
-
-							String stringForSignal = new String();
-
-							for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()) {
-								stringForSignal += signalMoment.signalMetricType.name() + ":" + signalMoment.strength + ", ";
-							}
-
-							listOfString.add(stringForSignal);
-
-							if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
-								listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
-							} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
-								listOfString.add("-");
-							} else {
-								listOfString.add("-");
-							}
-
-							listOfDisplayRows.add(listOfString);
-						}
-						new TableController().displayTable(AsciiTables.backtest_strategy_response, listOfDisplayRows);
+						new TableController().displayTable(AsciiTables.backtest_strategy_response, BacktestUtils.getTableDisplayRows(backtestContainer));
 						// Co.print(new ExportTools().exportToString(AsciiTables.backtest_strategy_response, listOfDisplayRows));
 						
 						BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);

@@ -1,5 +1,6 @@
 package com.autoStock.backtest;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
@@ -18,8 +19,10 @@ import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalMoment;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
 import com.google.gson.internal.Pair;
@@ -163,6 +166,39 @@ public class BacktestUtils {
 //		if (backtestTransactions.countForTradesLoss > 0){backtestTransactions.avgTradeLoss /= backtestTransactions.countForTradesLoss;}
 		
 		return backtestTransactions;
+	}
+	
+	public static ArrayList<ArrayList<String>> getTableDisplayRows(BacktestContainer backtestContainer){
+		ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
+
+		for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse) {
+			ArrayList<String> listOfString = new ArrayList<String>();
+			listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
+			listOfString.add(backtestContainer.symbol.symbolName);
+			listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
+			listOfString.add(strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name());
+			listOfString.add(strategyResponse.positionGovernorResponse.status.name());
+
+			String stringForSignal = new String();
+
+			for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()) {
+				stringForSignal += signalMoment.signalMetricType.name() + ":" + signalMoment.strength + ", ";
+			}
+
+			listOfString.add(stringForSignal);
+
+			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
+				listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
+			} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
+				listOfString.add("-");
+			} else {
+				listOfString.add("-");
+			}
+
+			listOfDisplayRows.add(listOfString);
+		}
+		
+		return listOfDisplayRows;
 	}
 	
 	public static class BacktestResultTransactionDetails {

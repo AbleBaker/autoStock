@@ -1,5 +1,6 @@
 package com.autoStock.backtest;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -28,10 +29,13 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalMoment;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForCCI;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -107,11 +111,13 @@ public class BacktestEvaluationBuilder {
 			backtestEvaluation.listOfDescriptorForAdjustment.add(descriptorForAdjustment);
 		}
 		
+		backtestEvaluation.listOfDisplayRowsFromStrategyResponse = BacktestUtils.getTableDisplayRows(backtestContainer);
+		
 		return backtestEvaluation;
 	}
 	
 	public BacktestEvaluation buildOutOfSampleEvaluation(BacktestContainer backtestContainer, BacktestEvaluation backtestEvaluation){	
-		Co.println("--> CHECK ********");
+		Co.println("--> Building out of sample evaluation");
 		Date dateStart = DateTools.getFirstWeekdayAfter(backtestContainer.historicalData.endDate); //(Date) backtestContainer.historicalData.startDate.clone(); //
 		Date dateEnd = (Date) dateStart.clone();
 		
@@ -136,7 +142,7 @@ public class BacktestEvaluationBuilder {
 		}
 		
 		singleBacktest.runBacktest();
-		
+			
 		Co.println("********");
 		Co.println(buildEvaluation(singleBacktest.backtestContainer).toString());
 		

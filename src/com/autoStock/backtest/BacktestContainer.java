@@ -56,20 +56,20 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		
 		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
 
-		if (algorithmMode == AlgorithmMode.mode_backtest){
-			Co.println("--> Checking for an available evaluation...");
-			
-			ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));
-			
-			if (listOfGsonResults.size() > 0){
-				Co.println("--> Evaluation available");
-				GsonBuilder gsonBuilder = new GsonBuilder();
-				gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
-				
-				BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);
-				algorithm.remodel(backtestEvaluation);
-			}
-		}
+//		if (algorithmMode == AlgorithmMode.mode_backtest){
+//			Co.println("--> Checking for an available evaluation...");
+//			
+//			ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));
+//			
+//			if (listOfGsonResults.size() > 0){
+//				Co.println("--> Evaluation available");
+//				GsonBuilder gsonBuilder = new GsonBuilder();
+//				gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+//				
+//				BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);
+//				algorithm.remodel(backtestEvaluation);
+//			}
+//		}
 	}
 
 	@SuppressWarnings("deprecation")
@@ -113,9 +113,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 
 	@Override
 	public synchronized void endOfFeed(Symbol symbol) {
-		if (algorithmMode == AlgorithmMode.mode_backtest || algorithmMode == AlgorithmMode.mode_backtest_with_adjustment) {
-			listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
-		}
+		listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
 		algorithm.endOfFeed(symbol);
 		listener.backtestCompleted(symbol, algorithm);
 	}

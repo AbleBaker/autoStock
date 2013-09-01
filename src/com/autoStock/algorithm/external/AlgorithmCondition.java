@@ -98,8 +98,8 @@ public class AlgorithmCondition {
 				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 					
-					if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true) < 0){
-						if ( (date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000 < strategyOptions.intervalForEntryAfterExitWithLossMins.value){
+					if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossBeforeComission() < 0){
+						if ((date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000 < strategyOptions.intervalForEntryAfterExitWithLossMins.value){
 							return false;
 						}
 					}					
