@@ -56,7 +56,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		
 		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
 
-		if (algorithmMode == AlgorithmMode.mode_backtest || algorithmMode == AlgorithmMode.mode_backtest_silent){
+		if (algorithmMode == AlgorithmMode.mode_backtest){
 			Co.println("--> Checking for an available evaluation...");
 			
 			ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));
