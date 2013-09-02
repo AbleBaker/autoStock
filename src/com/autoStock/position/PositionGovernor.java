@@ -52,7 +52,7 @@ public class PositionGovernor {
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
-				}else if (signalPointForReentry.signalPointType == SignalPointType.long_entry && strategyOptions.canReenter){
+				}else if (strategyOptions.canReenter){ //signalPointForReentry.signalPointType == SignalPointType.long_entry && 
 					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
 						governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
 					}
@@ -60,6 +60,10 @@ public class PositionGovernor {
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
 				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
+				}else if (strategyOptions.canReenter){ 
+					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
+						governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
+					}
 				}
 			}else if (position.positionType == PositionType.position_cancelled || position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_long_exited || position.positionType == PositionType.position_short_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
 				Co.println("--> Position is not yet removed: " + position.symbol.symbolName);
@@ -121,6 +125,16 @@ public class PositionGovernor {
 		}
 		
 		return position;
+	}
+
+	private void governShortReentry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, BasicAccount basicAccount){
+		int reentryUnits = positionGenerator.getPositionReentryUnits(quoteSlice.priceClose, signal, position.basicAccount);
+		if (reentryUnits > 0){
+			position.executeReentry(reentryUnits, quoteSlice.priceClose);
+			positionGovernorResponse.status = PositionGovernorResponseStatus.changed_short_reentry;
+		}else{
+			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
+		}
 	}
 	
 	private void governLongExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){

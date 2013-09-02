@@ -18,6 +18,7 @@ import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
+import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.BacktestEvaluator;
 import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
@@ -293,34 +294,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
 						}
 						
-						//Put this somewhere else
-						BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
-						BacktestEvaluation outOfSampleEvaluation = new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(backtestContainer, bestEvaluation);
-						
-						GsonBuilder gsonBuilder = new GsonBuilder();
-						gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
-						
-						int gsonId = new DatabaseQuery().insert(BasicQueries.basic_insert_gson, new QueryArg(QueryArgs.gsonString, gsonBuilder.create().toJson(bestEvaluation).replace("\"", "\\\"")));
-						
-						new DatabaseQuery().insert(BasicQueries.basic_insert_backtest_results,
-								new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(backtestContainer.historicalData.startDate)),
-								new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(backtestContainer.historicalData.endDate)),
-								new QueryArg(QueryArgs.runDate, DateTools.getSqlDate(new Date())),
-								new QueryArg(QueryArgs.exchange, exchange.exchangeName),
-								new QueryArg(QueryArgs.symbol, bestEvaluation.symbol.symbolName),
-								new QueryArg(QueryArgs.balanceInBand, new DecimalFormat("#.00").format(bestEvaluation.accountBalance)),
-								new QueryArg(QueryArgs.balanceOutBand, new DecimalFormat("#.00").format(outOfSampleEvaluation.accountBalance)),
-								new QueryArg(QueryArgs.percentGainInBand, "0"),
-								new QueryArg(QueryArgs.percentGainOutBand, "0"),
-								new QueryArg(QueryArgs.tradeEntry, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradeEntry)),
-								new QueryArg(QueryArgs.tradeReentry, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradesReentry)),
-								new QueryArg(QueryArgs.tradeExit, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradeExit)),
-								new QueryArg(QueryArgs.tradeWins, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradesProfit)),
-								new QueryArg(QueryArgs.tradeLoss, String.valueOf(bestEvaluation.backtestResultTransactionDetails.countForTradesLoss)),
-								new QueryArg(QueryArgs.gsonId, String.valueOf(gsonId))
-								);
-						
-						Co.println("--> Built OK: " + outOfSampleEvaluation.accountBalance);
+						new BacktestEvaluationWriter().writeToDatabase(backtestEvaluator, backtestContainer, true);
 					}
 					
 					BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);

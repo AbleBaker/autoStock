@@ -30,8 +30,7 @@ import com.autoStock.types.Exchange;
 public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private static MainClusteredBacktest instance;
 	private ArrayList<ClusterNode> listOfClusterNode = new ArrayList<ClusterNode>();
-	private ArrayList<ComputeResultForBacktestPartial> listOfComputeResultForBacktestPartialForProfit = new ArrayList<ComputeResultForBacktestPartial>();
-	private ArrayList<ComputeResultForBacktestPartial> listOfComputeResultForBacktestPartialForTransactions = new ArrayList<ComputeResultForBacktestPartial>();
+	private ArrayList<ComputeResultForBacktestPartial> listOfComputeResult = new ArrayList<ComputeResultForBacktestPartial>();
 	private ArrayList<Long> listOfComputeUnitResultIds = new ArrayList<Long>();
 	private ArrayList<String> listOfSymbols;
 	private Exchange exchange;
@@ -129,17 +128,18 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 
 
 	public void displayResultTable(){		
-		Co.println("--> ********************* ********************* Best transaction yield ********************* *********************");
-		Collections.sort(listOfComputeResultForBacktestPartialForTransactions, new ReflectiveComparator.ListComparator("percentOfTransProfitLoss", SortDirection.order_ascending));
-		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForTransactions){
-			Co.println(computeUnitResult.resultDetails);
-		}
+		Co.println("--> ********************* ********************* Clustered Backtest Results ********************* *********************");
 		
-		Co.println("--> ********************* ********************* Best profit yield ********************* *********************");
-		Collections.sort(listOfComputeResultForBacktestPartialForProfit, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_ascending));
-		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForProfit){
-			Co.println(computeUnitResult.resultDetails);
-		}
+//		Collections.sort(listOfComputeResultForBacktestPartialForTransactions, new ReflectiveComparator.ListComparator("percentOfTransProfitLoss", SortDirection.order_ascending));
+//		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForTransactions){
+//			Co.println(computeUnitResult.resultDetails);
+//		}
+//		
+//		Co.println("--> ********************* ********************* Best profit yield ********************* *********************");
+//		Collections.sort(listOfComputeResultForBacktestPartialForProfit, new ReflectiveComparator.ListComparator("accountBalance", SortDirection.order_ascending));
+//		for (ComputeResultForBacktestPartial computeUnitResult : listOfComputeResultForBacktestPartialForProfit){
+//			Co.println(computeUnitResult.resultDetails);
+//		}
 	}
 	
 	public void pruneToTop(int count){

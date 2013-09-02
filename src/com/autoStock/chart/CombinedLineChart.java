@@ -130,7 +130,7 @@ public class CombinedLineChart {
 				    ValueMarker markerForLongEntry = new ValueMarker(thresholdForLongEntry);
 				    markerForLongEntry.setPaint(Color.decode("#33AA00"));
 				    markerForLongEntry.setAlpha(1.0f);
-				    markerForLongEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+				    markerForLongEntry.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - long entry");
 					markerForLongEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
 					markerForLongEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
 					markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
@@ -139,7 +139,7 @@ public class CombinedLineChart {
 				    ValueMarker markerForLongExit = new ValueMarker(thresholdForLongExit);
 				    markerForLongExit.setPaint(Color.decode("#FF0000"));
 				    markerForLongExit.setAlpha(1.0f);
-				    markerForLongExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+				    markerForLongExit.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - long exit");
 					markerForLongExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
 					markerForLongExit.setLabelOffset(new RectangleInsets(8,10,8,0));
 					markerForLongExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
@@ -148,7 +148,7 @@ public class CombinedLineChart {
 				    ValueMarker markerForShortEntry = new ValueMarker(thresholdForShortEntry);
 				    markerForShortEntry.setPaint(Color.decode("#33AA00"));
 				    markerForShortEntry.setAlpha(1.0f);
-				    markerForShortEntry.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+				    markerForShortEntry.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - short entry");
 					markerForShortEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
 					markerForShortEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
 					markerForShortEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
@@ -157,7 +157,7 @@ public class CombinedLineChart {
 				    ValueMarker markerForShortExit = new ValueMarker(thresholdForShortExit);
 				    markerForShortExit.setPaint(Color.decode("#FF0000"));
 				    markerForShortExit.setAlpha(1.0f);
-				    markerForShortExit.setLabel(signalMetricType.name().replaceAll("metric_", ""));
+				    markerForShortExit.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - short exit");
 					markerForShortExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
 					markerForShortExit.setLabelOffset(new RectangleInsets(8,10,8,0));
 					markerForShortExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
@@ -207,12 +207,11 @@ public class CombinedLineChart {
 		        subPlotForPrice.setDataset(6, getPairForType(TimeSeriesType.type_reentry_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(6, new XYShapeRenderer());
 		        subPlotForPrice.getRenderer(6).setSeriesShape(0, ShapeUtilities.createUpTriangle(4.5f));
-		        subPlotForPrice.getRenderer(6).setSeriesPaint(0, Color.decode("#00CCCC"));
+		        subPlotForPrice.getRenderer(6).setSeriesPaint(0, Color.decode("#A0A0A0"));
 		        
 				subPlotForPrice.setDataset(7, getPairForType(TimeSeriesType.type_value).timeSeriesCollection);
 		        subPlotForPrice.setRangeAxis(7, new NumberAxis(TimeSeriesType.type_value.displayName));
 		        subPlotForPrice.setRangeAxisLocation(7, AxisLocation.BOTTOM_OR_RIGHT);
-//		        ((NumberAxis)subPlotForPrice.getRangeAxis(7)).setRange(-7.0, 7.0);
 		        subPlotForPrice.setRenderer(7, new PostivieNegativeXYBarRenderer(7));
 		        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setShadowVisible(false);
 		        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setBarPainter(new StandardXYBarPainter());

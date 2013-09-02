@@ -21,8 +21,8 @@ public class AdjustmentSeriesForAlgorithm extends AdjustmentCampaign {
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfCCI, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-30, 0, 2)));
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfCCI, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(0, 30, 2)));
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfCCI, AdjustmentType.signal_metric_short_entry, new IterableOfInteger(0, 30, 2)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfCCI, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-30, 0, 5)));
-//		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Period", algorithmBase.signalGroup.signalOfCCI.signalParameters.periodLength, new IterableOfInteger(10, 40, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfCCI, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-30, 0, 2)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Period", algorithmBase.signalGroup.signalOfCCI.signalParameters.periodLength, new IterableOfInteger(15, 45, 5)));
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Average", SignalMetricType.metric_cci.maxSignalAverage, new IterableOfInteger(1, 10, 1)));
 		
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("intervalForReentryMins", algorithmBase.strategyBase.strategyOptions.intervalForReentryMins, new IterableOfInteger(1, 10, 1)));

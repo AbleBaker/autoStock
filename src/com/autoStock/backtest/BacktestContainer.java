@@ -41,6 +41,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private BasicAccount basicAccount;
 	private ArrayList<DbStockHistoricalPrice> listOfDbHistoricalPrices = new ArrayList<DbStockHistoricalPrice>();
 	public ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
+	private boolean usePrecomputedEvaluation = false;
 
 	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, AlgorithmMode algorithmMode) {
 		this.symbol = symbol;
@@ -56,7 +57,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		
 		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
 
-		if (algorithmMode == AlgorithmMode.mode_backtest){
+		if (algorithmMode == AlgorithmMode.mode_backtest && usePrecomputedEvaluation){
 			Co.println("--> Checking for an available evaluation...");
 			
 			ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));

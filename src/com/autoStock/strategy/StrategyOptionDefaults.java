@@ -36,7 +36,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.maxPositionLossTime = 30;
 		strategyOptions.maxReenterTimes.value = 3;
 		strategyOptions.intervalForReentryMins.value = 2;
-		strategyOptions.minReentryPercentGain.value = 0.25;
+		strategyOptions.minReentryPercentGain.value = 0.05;
 		strategyOptions.prefillShift.value = 0;
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 60;
 //		strategyOptions.intervalForExitEntryMins.value = 5;

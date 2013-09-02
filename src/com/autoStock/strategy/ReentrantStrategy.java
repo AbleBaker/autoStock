@@ -2,6 +2,7 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
@@ -37,10 +38,12 @@ public class ReentrantStrategy {
 			}
 		}
 
-		if (signalPoint.signalPointType == SignalPointType.long_entry && position.positionType == PositionType.position_long || signalPoint.signalPointType == SignalPointType.short_entry && position.positionType == PositionType.position_short){
+		if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short){
 			if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins.value || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount < strategyOptions.maxReenterTimes.value){
 				if (percentGainFromPosition > strategyOptions.minReentryPercentGain.value){
 					return ReentryStatus.status_reenter;
+				}else{
+//					Co.println("--> Percent gain insufficient: " + percentGainFromPosition);
 				}
 			}
 		}
