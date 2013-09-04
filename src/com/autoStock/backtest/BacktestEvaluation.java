@@ -8,6 +8,7 @@ import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MiscTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -110,7 +111,7 @@ public class BacktestEvaluation {
 			throw new IllegalStateException("List can't be zero sized... Transactions: " + transactions);
 		}
 		
-		string += "---------- $" + MiscTools.getCommifiedValue(accountBalance) + " / " + MiscTools.getCommifiedValue(getScore()) + " ----------";
+		string += "---------- $" + MiscTools.getCommifiedValue(accountBalance) + " / " + MiscTools.getCommifiedValue(getScore()) + " on " + DateTools.getPrettyDate(dateStart) + " until " + DateTools.getPrettyDate(dateEnd) + " ----------";
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
 		string += "\n--> Transaction details: " + backtestResultTransactionDetails.countForTradeEntry + ", " + backtestResultTransactionDetails.countForTradesReentry + ", " + backtestResultTransactionDetails.countForTradeExit;

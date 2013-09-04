@@ -288,6 +288,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				
 				Co.println("--> Evaluated");
 				
+				
+				//** Move this
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 					backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
