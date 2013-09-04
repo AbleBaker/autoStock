@@ -31,7 +31,7 @@ public class BacktestEvaluator {
 			pruneResults(bufferResults, true);
 		}
 		
-		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", " + backtestEvaluation.getScore() + ", " + backtestEvaluation.hashCode());
+		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", " + backtestEvaluation.getScore());
 		Co.println("--> Check:");
 		
 		for (DescriptorForSignal descriptor : backtestEvaluation.listOfDescriptorForSignal){
