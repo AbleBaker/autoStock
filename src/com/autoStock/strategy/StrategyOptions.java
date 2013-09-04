@@ -6,7 +6,6 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
 import com.autoStock.types.basic.MutableDouble;
 import com.autoStock.types.basic.MutableInteger;
-import com.google.gson.Gson;
 import com.rits.cloning.Cloner;
 
 /**

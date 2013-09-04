@@ -5,7 +5,6 @@ package com.autoStock.database;
 
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
-import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 
 /**
  * @author Kevin Kowalewski

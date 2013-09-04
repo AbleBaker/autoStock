@@ -156,15 +156,20 @@ public class MenuLauncher {
 			
 			switch (menuCommand){
 				case "1" :
-					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE T backtest_adjustment_individual");
+					command = "main_backtest 01/19/2012 01/19/2012 NYSE T backtest_adjustment_individual";
 					break;
 				case "2" :
-					command = new String("main_backtest 01/19/2012 01/19/2012 NYSE T backtest_default");
+					command = "main_backtest 01/19/2012 01/19/2012 NYSE T backtest_default";
 					break;
 				case "3" :
-					command = new String("main_backtest 01/20/2012 01/20/2012 NYSE T backtest_default");
+					command = "main_backtest 01/20/2012 01/20/2012 NYSE T backtest_default";
 					break;
-					
+				case "4":
+					command = "main_clustered_backtest 01/04/2012 01/05/2012 NYSE AIG";
+					break;
+				case "5":
+					command = "main_clustered_backtest_client";
+					break;
 			}
 			
 			if (command == null){

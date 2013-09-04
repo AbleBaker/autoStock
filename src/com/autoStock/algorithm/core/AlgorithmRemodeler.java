@@ -3,11 +3,10 @@ package com.autoStock.algorithm.core;
 import java.util.List;
 
 import com.autoStock.algorithm.AlgorithmBase;
+import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.signal.SignalBase;
-import com.autoStock.signal.SignalOfADX;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
-import com.autoStock.strategy.StrategyOfTest;
 
 /**
  * @author Kevin Kowalewski
@@ -15,16 +14,16 @@ import com.autoStock.strategy.StrategyOfTest;
  */
 public class AlgorithmRemodeler {
 	private AlgorithmBase algorithmBase;
-	private BacktestEvaluation backtestEvaluation;	
+	private AlgorithmModel algorithmModel;
 	
-	public AlgorithmRemodeler(AlgorithmBase algorithmBase, BacktestEvaluation backtestEvaluation) {
+	public AlgorithmRemodeler(AlgorithmBase algorithmBase, AlgorithmModel algorithmModel) {
 		this.algorithmBase = algorithmBase;
-		this.backtestEvaluation = backtestEvaluation;
+		this.algorithmModel = algorithmModel;
 	}
 
 	public void remodel(){
-		algorithmBase.strategyBase.strategyOptions = backtestEvaluation.strategyOptions;
-		setSignalBaseParamaters(algorithmBase.signalGroup.getListOfSignalBase(), backtestEvaluation.listOfSignalParameters);
+		algorithmBase.strategyBase.strategyOptions = algorithmModel.strategyOptions;
+		setSignalBaseParamaters(algorithmBase.signalGroup.getListOfSignalBase(), algorithmModel.listOfSignalParameters);
 	}
 	
 	public void setSignalBaseParamaters(List<SignalBase> listOfSignalBase, List<SignalParameters> listOfSignalParameters){

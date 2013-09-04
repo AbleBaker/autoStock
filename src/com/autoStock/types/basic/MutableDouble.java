@@ -1,6 +1,5 @@
 package com.autoStock.types.basic;
 
-import com.autoStock.Co;
 
 /**
  * @author Kevin Kowalewski

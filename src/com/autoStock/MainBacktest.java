@@ -1,28 +1,26 @@
 package com.autoStock;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentCampaignProvider;
-import com.autoStock.adjust.AdjustmentSeriesForAlgorithm;
-import com.autoStock.adjust.AdjustmentSeriesForAlgorithmShortOnly;
 import com.autoStock.adjust.AdjustmentIdentifier;
+import com.autoStock.adjust.AdjustmentSeriesForAlgorithm;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.core.AlgorithmRemodeler;
+import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.BacktestEvaluator;
 import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
-import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.ListenerOfBacktestCompleted;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
@@ -31,17 +29,12 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
-import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionGovernor;
-import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
-import com.autoStock.signal.SignalDefinitions.SignalParameters;
-import com.autoStock.signal.SignalMoment;
 import com.autoStock.strategy.StrategyBase;
-import com.autoStock.strategy.StrategyOfTest;
-import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
@@ -52,8 +45,6 @@ import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.HistoricalDataList;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.internal.Pair;
 
 /**
@@ -66,6 +57,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private Exchange exchange;
 	private int currentBacktestDayIndex = 0;
+	private int currentBacktestComputeUnitIndex = 0;
 	private double metricBestAccountBalance = 0;
 	private Benchmark bench = new Benchmark();
 	private AtomicInteger callbacks = new AtomicInteger();
@@ -73,20 +65,22 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private ArrayList<BacktestContainer> listOfBacktestContainer = new ArrayList<BacktestContainer>();
 	private ListenerOfMainBacktestCompleted listenerOfMainBacktestCompleted;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
-	private BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
+	public final BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
+	private ArrayList<AlgorithmModel> listOfAlgorithmModel = new ArrayList<AlgorithmModel>();
 
-	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted) {
+	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted, ArrayList<AlgorithmModel> listOfAlgorithmModel) {
 		this.exchange = exchange;
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		this.listenerOfMainBacktestCompleted = listerListenerOfMainBacktestCompleted;
+		this.listOfAlgorithmModel = listOfAlgorithmModel;
 		Global.callbackLock.requestLock();
 
 		if (algorithmMode.displayChart) {
 			Global.callbackLock.requestLock();
 		}
 
-		runMainBacktest(dateStart, dateEnd, listOfSymbols);
+		startMainBacktest(dateStart, dateEnd, listOfSymbols);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -101,10 +95,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			Global.callbackLock.requestLock();
 		}
 
-		runMainBacktest(dateStart, dateEnd, listOfSymbols);
+		startMainBacktest(dateStart, dateEnd, listOfSymbols);
 	}
 
-	private void runMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
+	private void startMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
 		if (backtestType != BacktestType.backtest_result_only) {
 			Co.println("Main backtest...\n\n");
 		}
@@ -144,7 +138,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			listOfHistoricalDataList.add(historicalDataList);
 		}
 		
-		initBacktest();
+		setupBacktestContainersAndAdjustment();
 
 		if (backtestType == BacktestType.backtest_adjustment_boilerplate) {
 			adjustmentCampaignProvider.applyBoilerplateValues();
@@ -152,29 +146,25 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
 				pair.second.applyValues();
 			}
+		}else if (backtestType == BacktestType.backtest_clustered_client){
+			
 		}
 		
 		runNextBacktestForDays(false);
 	}
 
-	private void initBacktest() {
+	private void setupBacktestContainersAndAdjustment() {
 		HistoricalDataList historicalDataList = listOfHistoricalDataList.get(0);
 
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData) {
 			BacktestContainer backtestContainer = new BacktestContainer(historicalData.symbol, exchange, this, algorithmMode);
 			listOfBacktestContainer.add(backtestContainer);
 
-			AdjustmentCampaign adjustmentCampaign;
-
-//			if (historicalData.symbol.symbolName.equals("AIG")) {
-				adjustmentCampaign = new AdjustmentSeriesForAlgorithm(backtestContainer.algorithm);
-//			}
-//			
-//			else {
-//				adjustmentCampaign = new AdjustmentCampaignSeriesForAlgorithmShortOnly(backtestContainer.algorithm);
-//			}
-			adjustmentCampaign.initialize();
-			adjustmentCampaignProvider.addAdjustmentCampaignForAlgorithm(adjustmentCampaign, historicalData.symbol);
+			if (backtestType == BacktestType.backtest_adjustment_individual){
+				AdjustmentCampaign adjustmentCampaign = new AdjustmentSeriesForAlgorithm(backtestContainer.algorithm);
+				adjustmentCampaign.initialize();
+				adjustmentCampaignProvider.addAdjustmentCampaignForAlgorithm(adjustmentCampaign, historicalData.symbol);
+			}
 		}
 	}
 
@@ -233,13 +223,30 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			if (backtestType == BacktestType.backtest_default || backtestType == BacktestType.backtest_result_only) {
 				return false;
 			} else if (backtestType == BacktestType.backtest_clustered_client) {
-				Global.callbackLock.releaseLock();
-				if (listenerOfMainBacktestCompleted != null) {
-					listenerOfMainBacktestCompleted.backtestCompleted();
+				if (currentBacktestComputeUnitIndex < listOfAlgorithmModel.size()){
+					
+					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+						BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
+						backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
+						
+						backtestContainer.reset();
+						new AlgorithmRemodeler(backtestContainer.algorithm, listOfAlgorithmModel.get(currentBacktestComputeUnitIndex));
+					}
+					
+//					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+//					
+//					}
+					
+					currentBacktestDayIndex = 0;
+					currentBacktestComputeUnitIndex++;
+					
+					return runNextBacktestForDays(false);
+				}else{
+					Co.println("--> No iterations left");
+					backtestEvaluator.pruneForFinish();			
+					return false;
 				}
-				return false;
 			}
-
 
 			if (backtestType == BacktestType.backtest_adjustment_boilerplate) {
 				if (AccountProvider.getInstance().getGlobalAccount().getBalance() > metricBestAccountBalance) {
@@ -258,7 +265,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						backtestContainer.reset();
 					}
 
-					runNextBacktestForDays(false);
+					return runNextBacktestForDays(false);
 				} else {
 					Co.println("******** End of backtest and adjustment ********");
 					BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
@@ -281,7 +288,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						backtestContainer.reset();
 					}
 
-					runNextBacktestForDays(false);
+					return runNextBacktestForDays(false);
 				} else {
 					Co.println("******** End of backtest and adjustment ********");
 					
@@ -294,7 +301,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 							Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
 						}
 						
-						new BacktestEvaluationWriter().writeToDatabase(backtestEvaluator, backtestContainer, true);
+						BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
+						new BacktestEvaluationWriter().writeToDatabase(bestEvaluation, true);
 					}
 					
 					BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
@@ -359,6 +367,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						Co.println(backtestEvaluation.toString());
 					}
 				}
+				
+				Co.println("--> X");
 
 				if (listenerOfMainBacktestCompleted != null) {
 					listenerOfMainBacktestCompleted.backtestCompleted();

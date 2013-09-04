@@ -2,7 +2,6 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;

@@ -4,22 +4,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.account.AccountProvider;
-import com.autoStock.adjust.AdjustmentOfPortable;
-import com.autoStock.backtest.BacktestDetails.DescriptorForGuage;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
-import com.autoStock.database.DatabaseDefinitions.QueryArg;
-import com.autoStock.database.DatabaseQuery;
-import com.autoStock.database.DatabaseDefinitions.BasicQueries;
-import com.autoStock.database.DatabaseDefinitions.QueryArgs;
-import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
-import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
-import com.autoStock.tools.DateTools;
-import com.autoStock.tools.ExportTools;
-import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -30,10 +18,11 @@ import com.autoStock.types.Symbol;
  */
 public class BacktestEvaluation {
 	public BacktestResultTransactionDetails backtestResultTransactionDetails;
-	public StrategyOptions strategyOptions;
 	
 	public final Symbol symbol;
 	public final Exchange exchange;
+	public final Date dateStart;
+	public final Date dateEnd;
 	
 	public int transactions;
 	public double transactionFeesPaid;
@@ -42,7 +31,7 @@ public class BacktestEvaluation {
 	public double percentTradeWin;
 	public double percentTradeLoss;
 	
-	public ArrayList<SignalParameters> listOfSignalParameters = new ArrayList<SignalParameters>();
+	public AlgorithmModel algorithmModel = new AlgorithmModel();
 	
 	public ArrayList<DescriptorForSignal> listOfDescriptorForSignal = new ArrayList<DescriptorForSignal>();
 	public ArrayList<DescriptorForIndicator> listOfDescriptorForIndicator = new ArrayList<DescriptorForIndicator>();
@@ -50,9 +39,18 @@ public class BacktestEvaluation {
 	
 	public ArrayList<ArrayList<String>> listOfDisplayRowsFromStrategyResponse;
 	
-	public BacktestEvaluation(Symbol symbol, Exchange exchange){
+	public BacktestEvaluation(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd){
 		this.symbol = symbol;
 		this.exchange = exchange;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+	}
+	
+	public BacktestEvaluation(BacktestContainer backtestContainer){
+		this.symbol = backtestContainer.symbol;
+		this.exchange = backtestContainer.exchange;
+		this.dateStart = backtestContainer.historicalData.startDate;
+		this.dateEnd = backtestContainer.historicalData.endDate;		
 	}
 	
 	public double getScore(){
@@ -143,7 +141,7 @@ public class BacktestEvaluation {
 		
 		string += "\n";
 		
-		string += strategyOptions.toString();
+		string += algorithmModel.strategyOptions.toString();
 		
 //		string += "Sizes: " + listOfDisplayRowsFromStrategyResponse.size() + ", " + listOfDisplayRowsFromStrategyResponse.get(0).size();
 		

@@ -17,8 +17,11 @@ import com.autoStock.cluster.ComputeResultForBacktest;
 import com.autoStock.com.CommandHolder;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
-import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommands;
+import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommand;
+import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -35,6 +38,7 @@ public class ClusterServer {
 
 	public void startServer() {
 		threadForRequestServer = new Thread(new Runnable(){
+			@SuppressWarnings("resource")
 			@Override
 			public void run() {
 				Co.println("--> Starting server...");
@@ -96,20 +100,39 @@ public class ClusterServer {
 
 			try {
 				while ((receivedLine = in.readLine()) != null) {
-//					Co.println("Got line: " + receivedLine + ", " + receivedString);
+//					Co.println("Got line: " + receivedLine);
 
-					if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
+					if (receivedLine.trim().equals(CommunicationCommand.com_end_communication.command)) {
 						return;
-					} else if (receivedLine.trim().equals(CommunicationCommands.com_end_command.command)) {
-						CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
+					} else if (receivedLine.trim().equals(CommunicationCommand.com_end_command.command)) {
+						GsonBuilder gsonBuilder = new GsonBuilder();
+						gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+						CommandHolder<?> commandHolder = gsonBuilder.create().fromJson(receivedString, CommandHolder.class);
 						
-						if (commandHolderGeneric.command == Command.accept_unit){
-							new CommandResponder().receivedCommand(commandHolderGeneric, out);
-						}else if (commandHolderGeneric.command == Command.backtest_results){
-							Type type = new TypeToken<CommandHolder<ComputeResultForBacktest>>(){}.getType();
-							CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
-							listener.receivedCommand(commandHolderTyped);
+						switch (commandHolder.command){
+							case accept_unit:
+								Co.println("--> Got accept unit");
+								new CommandResponder().receivedCommand(commandHolder, out);
+								break;
+							case backtest_results:
+								Type type = new TypeToken<CommandHolder<ComputeResultForBacktest>>(){}.getType();
+								CommandHolder<ComputeResultForBacktest> commandHolderTyped = gsonBuilder.create().fromJson(receivedString, type);
+								listener.receivedCommand(commandHolderTyped);
+								Co.println("--> Got backtest results");
+								break;
 						}
+						
+						
+//						CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
+//						
+//						if (commandHolderGeneric.command == Command.accept_unit){
+//							new CommandResponder().receivedCommand(commandHolderGeneric, out);
+//						}else if (commandHolderGeneric.command == Command.backtest_results){
+//							Type type = new TypeToken<CommandHolder<ComputeResultForBacktest>>(){}.getType();
+//							CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
+//							listener.receivedCommand(commandHolderTyped);
+//						}
+						
 						receivedString = new String();
 					} else {
 						receivedString = receivedString.concat(receivedLine);

@@ -3,11 +3,10 @@ package com.autoStock;
 import java.util.ArrayList;
 
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
-import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
+import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
-import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbWhitelist;
 import com.autoStock.tools.DateTools;
 import com.autoStock.types.Exchange;

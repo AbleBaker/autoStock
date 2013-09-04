@@ -8,7 +8,6 @@ import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
 import com.autoStock.types.basic.MutableEnum;
 import com.autoStock.types.basic.MutableInteger;
-import com.google.gson.Gson;
 import com.google.gson.internal.Pair;
 import com.rits.cloning.Cloner;
 

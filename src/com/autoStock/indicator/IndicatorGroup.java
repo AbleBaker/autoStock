@@ -2,7 +2,6 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;

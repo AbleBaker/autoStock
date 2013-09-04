@@ -9,9 +9,7 @@ import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Kevin Kowalewski

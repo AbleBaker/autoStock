@@ -2,12 +2,10 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
-import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;

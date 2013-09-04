@@ -6,15 +6,12 @@ package com.autoStock.database;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
-import com.autoStock.database.DatabaseDefinitions.QueryArgs;
-import com.autoStock.database.queryResults.QueryResult.QrExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.memoryCache.DiskCache;

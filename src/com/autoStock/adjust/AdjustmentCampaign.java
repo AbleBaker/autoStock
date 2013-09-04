@@ -106,30 +106,30 @@ public abstract class AdjustmentCampaign {
 		return listOfAdjustmentBase;
 	}
 
-	public ArrayList<AdjustmentOfPortable> getListOfPortableAdjustment(){
-		ArrayList<AdjustmentOfPortable> listOfPortable = new ArrayList<AdjustmentOfPortable>();
-		
-		for (AdjustmentBase adjustmentBase : listOfAdjustmentBase){
-			AdjustmentOfPortable adjustmentOfPortable = new AdjustmentOfPortable(adjustmentBase.iterableBase.currentIndex);
-			listOfPortable.add(adjustmentOfPortable);
-		}
-		
-		return listOfPortable;
-	}
-
-	public void setAdjustmentValuesFromIterationList(ArrayList<AdjustmentOfPortable> listOfAdjustmentOfPortable) {
-		if (listOfAdjustmentOfPortable.size() != listOfAdjustmentBase.size()){
-			throw new IllegalStateException("Size doesn't match: " + listOfAdjustmentOfPortable.size() + ", " + listOfAdjustmentBase.size());
-		}
-		
-		Co.println("--> Size is: " + listOfAdjustmentOfPortable.size());
-		
-		for (int i=0; i < listOfAdjustmentBase.size(); i++){
-			AdjustmentBase adjustmentBaseLocal = listOfAdjustmentBase.get(i);
-			AdjustmentOfPortable adjustmentOfPortable = listOfAdjustmentOfPortable.get(i);
-			
-			adjustmentBaseLocal.iterableBase.overrideAndSetCurrentIndex(adjustmentOfPortable.iterationIndex);
-			adjustmentBaseLocal.applyValue();
-		}
-	}
+//	public ArrayList<AdjustmentOfPortable> getListOfPortableAdjustment(){
+//		ArrayList<AdjustmentOfPortable> listOfPortable = new ArrayList<AdjustmentOfPortable>();
+//		
+//		for (AdjustmentBase adjustmentBase : listOfAdjustmentBase){
+//			AdjustmentOfPortable adjustmentOfPortable = new AdjustmentOfPortable(adjustmentBase.iterableBase.currentIndex);
+//			listOfPortable.add(adjustmentOfPortable);
+//		}
+//		
+//		return listOfPortable;
+//	}
+//
+//	public void setAdjustmentValuesFromIterationList(ArrayList<AdjustmentOfPortable> listOfAdjustmentOfPortable) {
+//		if (listOfAdjustmentOfPortable.size() != listOfAdjustmentBase.size()){
+//			throw new IllegalStateException("Size doesn't match: " + listOfAdjustmentOfPortable.size() + ", " + listOfAdjustmentBase.size());
+//		}
+//		
+//		Co.println("--> Size is: " + listOfAdjustmentOfPortable.size());
+//		
+//		for (int i=0; i < listOfAdjustmentBase.size(); i++){
+//			AdjustmentBase adjustmentBaseLocal = listOfAdjustmentBase.get(i);
+//			AdjustmentOfPortable adjustmentOfPortable = listOfAdjustmentOfPortable.get(i);
+//			
+//			adjustmentBaseLocal.iterableBase.overrideAndSetCurrentIndex(adjustmentOfPortable.iterationIndex);
+//			adjustmentBaseLocal.applyValue();
+//		}
+//	}
 }

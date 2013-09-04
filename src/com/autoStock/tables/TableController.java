@@ -5,7 +5,6 @@ package com.autoStock.tables;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.bethecoder.ascii_table.ASCIITable;
 
 /**

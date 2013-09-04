@@ -1,7 +1,6 @@
 package com.autoStock.adjust;
 
 import com.autoStock.algorithm.AlgorithmBase;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
  * @author Kevin Kowalewski

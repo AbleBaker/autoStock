@@ -1,9 +1,7 @@
 package com.autoStock.adjust;
 
-import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
 import com.autoStock.signal.SignalBase;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
  * @author Kevin Kowalewski

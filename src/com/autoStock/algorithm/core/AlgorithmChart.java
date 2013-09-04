@@ -3,8 +3,6 @@ package com.autoStock.algorithm.core;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionGovernorResponseStatus;
-import com.autoStock.signal.SignalGroup;
-import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.types.QuoteSlice;
 

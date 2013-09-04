@@ -16,15 +16,16 @@ import com.autoStock.comServer.CommunicationDefinitions.Command;
  *
  */
 public class CommandResponder {	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void receivedCommand(CommandHolder commandHolder, PrintWriter printWriter){
 //		Co.println("--> Responding to command: " + commandHolder.command.name());
 		
 		if (commandHolder.command == Command.accept_unit){
 			ComputeUnitForBacktest computeUnitForBacktest = MainClusteredBacktest.getInstance().getNextComputeUnit();
 			if (computeUnitForBacktest == null){
-				CommandSerializer.sendSerializedCommand(new CommandHolder(Command.no_units_left), printWriter);
+				new CommandSerializer().sendSerializedCommand(new CommandHolder(Command.no_units_left), printWriter);
 			}else{
-				CommandSerializer.sendSerializedCommand(new CommandHolder(Command.compute_unit_backtest, computeUnitForBacktest), printWriter);
+				new CommandSerializer().sendSerializedCommand(new CommandHolder(Command.compute_unit_backtest, computeUnitForBacktest), printWriter);
 			}
 		}
 		

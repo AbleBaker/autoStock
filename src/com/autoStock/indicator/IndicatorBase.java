@@ -6,7 +6,6 @@ package com.autoStock.indicator;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;

@@ -13,7 +13,7 @@ public class CommunicationDefinitions {
 		restart_node,
 	}
 	
-	public static enum CommunicationCommands {
+	public static enum CommunicationCommand {
 		com_end_communication("COM_END_COMMUNICATION"),
 		com_end_command("COM_END_COMMAND"),
 		com_ok_command("COM_OK_COMMAND")
@@ -21,7 +21,7 @@ public class CommunicationDefinitions {
 		
 		public String command;
 		
-		CommunicationCommands(String command){
+		CommunicationCommand(String command){
 			this.command = command;
 		}
 	}

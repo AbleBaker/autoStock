@@ -3,8 +3,11 @@ package com.autoStock.com;
 import java.io.PrintWriter;
 
 import com.autoStock.comServer.CommunicationDefinitions.Command;
-import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommands;
+import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommand;
+import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -12,18 +15,23 @@ import com.google.gson.reflect.TypeToken;
  *
  */
 public class CommandSerializer {
-	public static Gson gsonInstance = new Gson();
+	private GsonBuilder gsonBuilder = new GsonBuilder();
+	private Gson gson;
 	
-	
-	public synchronized static void sendSerializedCommand(Command command, PrintWriter printWriter){
-		String string = gsonInstance.toJson(new CommandHolder(command), new TypeToken<CommandHolder>(){}.getType());
-		printWriter.println(string);
-		printWriter.println(CommunicationCommands.com_end_command.command);
+	public CommandSerializer(){
+		gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+		gson = gsonBuilder.create();
 	}
 	
-	public synchronized static void sendSerializedCommand(CommandHolder commandHolder, PrintWriter printWriter){
-		String string = gsonInstance.toJson(commandHolder, new TypeToken<CommandHolder>(){}.getType());
+	public void sendSerializedCommand(Command command, PrintWriter printWriter){
+		String string = gson.toJson(new CommandHolder(command), new TypeToken<CommandHolder>(){}.getType());
 		printWriter.println(string);
-		printWriter.println(CommunicationCommands.com_end_command.command);
+		printWriter.println(CommunicationCommand.com_end_command.command);
+	}
+	
+	public void sendSerializedCommand(CommandHolder commandHolder, PrintWriter printWriter){
+		String string = gson.toJson(commandHolder, new TypeToken<CommandHolder>(){}.getType());
+		printWriter.println(string);
+		printWriter.println(CommunicationCommand.com_end_command.command);
 	}
 }

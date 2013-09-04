@@ -1,6 +1,7 @@
 package com.autoStock.generated.basicDefinitions;
 
 import java.util.Date;
+
 import com.autoStock.types.basic.Time;
 public class TableDefinitions {
 

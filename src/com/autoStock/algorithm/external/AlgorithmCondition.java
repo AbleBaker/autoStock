@@ -3,15 +3,11 @@ package com.autoStock.algorithm.external;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.encog.util.time.DateUtil;
-
-import com.autoStock.Co;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
-import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;

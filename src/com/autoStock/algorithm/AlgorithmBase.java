@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
-import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmChart;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -201,7 +200,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 	
 	public void remodel(BacktestEvaluation backtestEvaluation){
-		new AlgorithmRemodeler(this, backtestEvaluation).remodel();
+		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel();
 	}
 	
 	public void setFundamentalData(FundamentalData fundamentalData){

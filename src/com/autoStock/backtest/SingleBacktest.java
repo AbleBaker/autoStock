@@ -3,12 +3,9 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.Co;
-import com.autoStock.account.AccountProvider;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.signal.SignalBase;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.Lock;
 import com.autoStock.trading.types.HistoricalData;

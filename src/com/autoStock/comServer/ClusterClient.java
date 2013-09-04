@@ -17,9 +17,12 @@ import com.autoStock.cluster.ComputeUnitForBacktest;
 import com.autoStock.com.CommandHolder;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
-import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommands;
+import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommand;
 import com.autoStock.internal.ApplicationStates;
+import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -80,24 +83,49 @@ public class ClusterClient {
 						
 //						Co.println("Got line: " + receivedLine);
 						
-						if (receivedLine.trim().equals(CommunicationCommands.com_end_communication.command)) {
+						if (receivedLine.trim().equals(CommunicationCommand.com_end_communication.command)) {
 							return;
-						} else if (receivedLine.trim().equals(CommunicationCommands.com_end_command.command)) {
-							CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
+						} else if (receivedLine.trim().equals(CommunicationCommand.com_end_command.command)) {
+							GsonBuilder gsonBuilder = new GsonBuilder();
+							gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+							CommandHolder<?> commandHolder = gsonBuilder.create().fromJson(receivedString, CommandHolder.class);
 							
-							if (commandHolderGeneric.command == Command.compute_unit_backtest){
-								Type type = new TypeToken<CommandHolder<ComputeUnitForBacktest>>(){}.getType();
-								CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
-								listener.receivedCommand(commandHolderTyped);
-							}else if (commandHolderGeneric.command == Command.no_units_left){
-								listener.receivedCommand(commandHolderGeneric);
-							}else if (commandHolderGeneric.command == Command.restart_node){
-								Co.println("--> Restart!");
-								printWriter.close();
-								clientSocket.close();
-								ApplicationStates.shutdown();
+							switch (commandHolder.command){
+								case compute_unit_backtest :
+									Co.println("--> Got compute unit");
+									Type type = new TypeToken<CommandHolder<ComputeUnitForBacktest>>(){}.getType();
+									CommandHolder<ComputeUnitForBacktest> commandHolderTyped = gsonBuilder.create().fromJson(receivedString, type);
+									listener.receivedCommand(commandHolderTyped);
+									break;
+								case no_units_left:
+									Co.println("--> Got no units left");
+									listener.receivedCommand(commandHolder);
+									break;
+								case restart_node:
+									Co.println("--> Got restart node");
+									printWriter.close();
+									clientSocket.close();
+									ApplicationStates.shutdown();
+									break;
 							}
+							
+							
+//							CommandHolder commandHolderGeneric = new CommandReceiver().receiveGsonString(receivedString);
+//							
+//							if (commandHolderGeneric.command == Command.compute_unit_backtest){
+//								Type type = new TypeToken<CommandHolder<ComputeUnitForBacktest>>(){}.getType();
+//								CommandHolder commandHolderTyped = new Gson().fromJson(receivedString, type);
+//								listener.receivedCommand(commandHolderTyped);
+//							}else if (commandHolderGeneric.command == Command.no_units_left){
+//								listener.receivedCommand(commandHolderGeneric);
+//							}else if (commandHolderGeneric.command == Command.restart_node){
+//								Co.println("--> Restart!");
+//								printWriter.close();
+//								clientSocket.close();
+//								ApplicationStates.shutdown();
+//							}
 //							printWriter.println(CommunicationCommands.com_ok_command.command);
+							
 							receivedString = new String();
 						} else {
 							receivedString = receivedString.concat(receivedLine);

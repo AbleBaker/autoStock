@@ -4,25 +4,23 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.account.AccountProvider;
-import com.autoStock.adjust.AdjustmentOfPortable;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
-import com.autoStock.backtest.BacktestUtils;
-import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
+import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.cluster.ComputeResultForBacktest;
-import com.autoStock.cluster.ComputeResultForBacktestPartial;
 import com.autoStock.cluster.ComputeUnitForBacktest;
 import com.autoStock.com.CommandHolder;
 import com.autoStock.com.CommandSerializer;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
-import com.autoStock.tools.MathTools;
+import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski
@@ -30,10 +28,9 @@ import com.autoStock.tools.MathTools;
  */
 public class MainClusteredBacktestClient implements ListenerOfCommandHolderResult, ListenerOfMainBacktestCompleted {
 	private ClusterClient clusterClient;
-	private AtomicInteger atomicIntBacktestIndex = new AtomicInteger(0);
 	private ComputeUnitForBacktest computeUnitForBacktest;
 	private MainBacktest mainBacktest;
-	private ArrayList<ComputeResultForBacktestPartial> listOfComputeResultForBacktestPartial = new ArrayList<ComputeResultForBacktestPartial>();
+	private ArrayList<BacktestEvaluation> listOfComputeResultForBacktest = new ArrayList<BacktestEvaluation>();
 
 	public MainClusteredBacktestClient() {
 		Global.callbackLock.requestLock();
@@ -46,49 +43,38 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	}
 	
 	public void requestNextUnit(){
-		CommandSerializer.sendSerializedCommand(Command.accept_unit, clusterClient.printWriter);
+		new CommandSerializer().sendSerializedCommand(Command.accept_unit, clusterClient.printWriter);
 	}
 
 	public void runNextBacktest(){
-		int backtestIndex = atomicIntBacktestIndex.getAndIncrement();
-		
 		AccountProvider.getInstance().getGlobalAccount().reset();
 		PositionGovernor.getInstance().reset();
 		PositionManager.getInstance().reset();
 		
-		if (backtestIndex == computeUnitForBacktest.listOfAdjustment.size()){
-			allBacktestsCompleted();
-		}else{
-			ArrayList<AdjustmentOfPortable> listOfAdjustmentOfPortable = (ArrayList<AdjustmentOfPortable>) computeUnitForBacktest.listOfAdjustment.get(backtestIndex);
-			applyIterations(listOfAdjustmentOfPortable);
-			mainBacktest = new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this);
-		}
-	}
-	
-	public void applyIterations(ArrayList<AdjustmentOfPortable> listOfAdjustmentPortable){
-		Co.println("--> Applying...");
-		//TODO: implement this
-//		AdjustmentCampaign.getInstance().setAdjustmentValuesFromIterationList(listOfAdjustmentPortable);
+//		if (backtestIndex == computeUnitForBacktest.listOfAlgorithmModel.size()){
+//			allBacktestsCompleted();
+//		}else{
+			mainBacktest = new MainBacktest(computeUnitForBacktest.exchange, computeUnitForBacktest.dateStart, computeUnitForBacktest.dateEnd, computeUnitForBacktest.listOfSymbols, BacktestType.backtest_clustered_client, this, computeUnitForBacktest.listOfAlgorithmModel);
+//		}
 	}
 	
 	public void allBacktestsCompleted(){
 		Co.println("--> All backtests completed...");
 		sendBacktestResult();
-		atomicIntBacktestIndex.set(0);
 		requestNextUnit();
 	}
 	
 	public void sendBacktestResult(){
-		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, listOfComputeResultForBacktestPartial));
-		CommandSerializer.sendSerializedCommand(commandHolder, clusterClient.printWriter);
-		listOfComputeResultForBacktestPartial.clear();
+		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, listOfComputeResultForBacktest));
+		new CommandSerializer().sendSerializedCommand(commandHolder, clusterClient.printWriter);
+		listOfComputeResultForBacktest.clear();
 	}
 	
 	public void storeBacktestResult(){
-		ArrayList<AdjustmentOfPortable> listOfIteration = (ArrayList<AdjustmentOfPortable>) computeUnitForBacktest.listOfAdjustment.get(atomicIntBacktestIndex.get()-1);
-		BacktestResultTransactionDetails backtestResultDetails = BacktestUtils.getProfitLossDetails(mainBacktest.getListOfBacktestContainer());
-		double percent = MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100);
-		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, AccountProvider.getInstance().getGlobalAccount().getBalance(), percent, AccountProvider.getInstance().getGlobalAccount().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails, BacktestType.backtest_clustered_client, AccountProvider.getInstance().getGlobalAccount())));
+//		ArrayList<AdjustmentOfPortable> listOfIteration = (ArrayList<AdjustmentOfPortable>) computeUnitForBacktest.listOfAdjustment.get(atomicIntBacktestIndex.get()-1);
+//		BacktestResultTransactionDetails backtestResultDetails = BacktestUtils.getProfitLossDetails(mainBacktest.getListOfBacktestContainer());
+//		double percent = MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100);
+//		listOfComputeResultForBacktestPartial.add(new ComputeResultForBacktestPartial(atomicIntBacktestIndex.get()-1, listOfIteration, AccountProvider.getInstance().getGlobalAccount().getBalance(), percent, AccountProvider.getInstance().getGlobalAccount().getTransactions(), BacktestUtils.getCurrentBacktestCompleteValueGroup(mainBacktest.getStrategy().signal, mainBacktest.getStrategy().strategyOptions, backtestResultDetails, BacktestType.backtest_clustered_client, AccountProvider.getInstance().getGlobalAccount())));
 	}
 
 	@Override
@@ -98,25 +84,24 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 			
 			Co.println("--> Compute unit: " + computeUnitForBacktest.requestId + ", " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
 			Co.println("--> Compute unit symbols: " + computeUnitForBacktest.listOfSymbols.size());
-			Co.println("--> Compute unit iteration: " + computeUnitForBacktest.listOfAdjustment.size());
-			
-			if (atomicIntBacktestIndex.get() != 0){
-				throw new IllegalStateException();
-			}
+			Co.println("--> Compute unit iteration: " + computeUnitForBacktest.listOfAlgorithmModel.size());
 			
 			runNextBacktest();
 		}else if(commandHolder.command == Command.no_units_left){
 			Co.println("--> No units left... exiting...");
 			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
 			ApplicationStates.shutdown();
-			requestNextUnit();
 		}
 	}
 	
 	@Override
 	public void backtestCompleted(){
-		Co.println("--> Backtesting completed: " + atomicIntBacktestIndex.get());
-		storeBacktestResult();
-		runNextBacktest();
+		listOfComputeResultForBacktest = mainBacktest.backtestEvaluator.getResults(new Symbol(computeUnitForBacktest.listOfSymbols.get(0), SecurityType.type_stock));
+		
+		Co.println("--> Have results: "+ listOfComputeResultForBacktest.size());
+		
+		sendBacktestResult();
+		requestNextUnit();
+		
 	}
 }

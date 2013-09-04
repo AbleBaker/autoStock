@@ -5,8 +5,20 @@ import java.util.ArrayList;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalOfEncog.EncogInputWindow;
-import com.autoStock.signal.SignalDefinitions.*;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForADX;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForARDown;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForARUp;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForCCI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForCandlestickGroup;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForDI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForEncog;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForMACD;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForMFI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForROC;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForRSI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
 
 /**
  * @author Kevin Kowalewski

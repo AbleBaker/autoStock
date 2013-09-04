@@ -3,7 +3,6 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.autoStock.Co;
@@ -60,5 +59,9 @@ public class BacktestEvaluator {
 			listOfBacktestEvaluation = (ArrayList<BacktestEvaluation>) ListTools.reverseList(listOfBacktestEvaluation);
 			hashOfBacktestEvaluation.put(symbol, listOfBacktestEvaluation);
 		}
+	}
+	
+	public void reset(){
+		hashOfBacktestEvaluation.clear();
 	}
 }
