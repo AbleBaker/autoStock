@@ -34,6 +34,8 @@ import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyBase;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -230,7 +232,18 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
 						
 						backtestContainer.reset();
-						new AlgorithmRemodeler(backtestContainer.algorithm, listOfAlgorithmModel.get(currentBacktestComputeUnitIndex));
+						
+						Co.println("--> About to remodel");
+						
+						new AlgorithmRemodeler(backtestContainer.algorithm, listOfAlgorithmModel.get(currentBacktestComputeUnitIndex)).remodel();
+						
+//						for (SignalBase signalBase : backtestContainer.algorithm.signalGroup.getListOfSignalBase()){
+//							SignalParameters signalParameter = signalBase.signalParameters;
+//							if (signalParameter.normalizeInterface != null){
+//								Co.println("--> " + signalParameter.arrayOfSignalGuageForLongEntry[0].threshold);
+//								Co.println("--> " + signalParameter.arrayOfSignalGuageForLongExit[0].threshold);
+//							}
+//						}
 					}
 					
 //					for (BacktestContainer backtestContainer : listOfBacktestContainer) {

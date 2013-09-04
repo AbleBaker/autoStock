@@ -136,6 +136,15 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			listOfSignalParameters.add(signalBase.signalParameters.copy());
 		}
 		
+//		Co.println("--> Send parameters");
+//		
+//		for (SignalParameters signalParameter : listOfSignalParameters){
+//			if (signalParameter.normalizeInterface != null){
+//				Co.println("--> " + signalParameter.arrayOfSignalGuageForLongEntry[0].threshold);
+//				Co.println("--> " + signalParameter.arrayOfSignalGuageForLongExit[0].threshold);
+//			}
+//		}
+		
 		return new AlgorithmModel(algorithm.strategyBase.strategyOptions, listOfSignalParameters);
 	}
 	

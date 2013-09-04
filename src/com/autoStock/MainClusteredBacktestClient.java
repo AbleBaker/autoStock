@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.account.AccountProvider;
+import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
@@ -20,6 +21,7 @@ import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.types.Symbol;
 
 /**
@@ -51,6 +53,17 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		PositionGovernor.getInstance().reset();
 		PositionManager.getInstance().reset();
 		
+//		for (AlgorithmModel algorithmModel : computeUnitForBacktest.listOfAlgorithmModel){
+//			Co.println("--> Received parameters");
+//
+//			for (SignalParameters signalParameter : algorithmModel.listOfSignalParameters){
+//				if (signalParameter.normalizeInterface != null){
+//					Co.println("--> " + signalParameter.arrayOfSignalGuageForLongEntry[0].threshold);
+//					Co.println("--> " + signalParameter.arrayOfSignalGuageForLongExit[0].threshold);
+//				}
+//			}
+//		}
+		
 //		if (backtestIndex == computeUnitForBacktest.listOfAlgorithmModel.size()){
 //			allBacktestsCompleted();
 //		}else{
@@ -68,6 +81,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, listOfComputeResultForBacktest));
 		new CommandSerializer().sendSerializedCommand(commandHolder, clusterClient.printWriter);
 		listOfComputeResultForBacktest.clear();
+		mainBacktest.backtestEvaluator.reset();
 	}
 	
 	public void storeBacktestResult(){

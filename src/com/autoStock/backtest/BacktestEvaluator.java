@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.autoStock.Co;
+import com.autoStock.backtest.BacktestEvaluation.DescriptorForSignal;
 import com.autoStock.tools.ListTools;
 import com.autoStock.types.Symbol;
 
@@ -30,7 +31,12 @@ public class BacktestEvaluator {
 			pruneResults(bufferResults, true);
 		}
 		
-		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", " + backtestEvaluation.getScore());
+		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", " + backtestEvaluation.getScore() + ", " + backtestEvaluation.hashCode());
+		Co.println("--> Check:");
+		
+		for (DescriptorForSignal descriptor : backtestEvaluation.listOfDescriptorForSignal){
+			Co.println("--> Descriptor: " + descriptor.toString());
+		}
 	}
 	
 	public synchronized void pruneResults(int results, boolean enforceSizeRestriction){
