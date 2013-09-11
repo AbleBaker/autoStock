@@ -36,5 +36,8 @@
 	<classpathentry kind="lib" path="lib/ta-lib-0.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/cloning-1.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/objenesis-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/REngine.jar"/>
+	<classpathentry kind="lib" path="lib/Rserve.jar"/>
+	<classpathentry kind="lib" path="lib/Rsession.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
