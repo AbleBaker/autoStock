@@ -97,16 +97,13 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		indicatorGroup.setActive(listOfSignalMetricType);
 		periodLength = indicatorGroup.getMinPeriodLength();
 		
-		PGResponsePrevious = null;
 		listOfQuoteSlice.clear();
 		listOfStrategyResponse.clear();
 		commonAnalysisData.reset();
 		signalGroup.reset();
 		algorithmState.reset();
 		
-		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
-			basicAccount.reset();
-		}
+		PGResponsePrevious = null;
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){

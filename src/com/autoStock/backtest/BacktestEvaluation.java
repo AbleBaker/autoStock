@@ -40,18 +40,18 @@ public class BacktestEvaluation {
 	
 	public ArrayList<ArrayList<String>> listOfDisplayRowsFromStrategyResponse;
 	
-	public BacktestEvaluation(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd){
-		this.symbol = symbol;
-		this.exchange = exchange;
-		this.dateStart = dateStart;
-		this.dateEnd = dateEnd;
-	}
+//	public BacktestEvaluation(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd){
+//		this.symbol = symbol;
+//		this.exchange = exchange;
+//		this.dateStart = dateStart;
+//		this.dateEnd = dateEnd;
+//	}
 	
 	public BacktestEvaluation(BacktestContainer backtestContainer){
 		this.symbol = backtestContainer.symbol;
 		this.exchange = backtestContainer.exchange;
-		this.dateStart = backtestContainer.historicalData.startDate;
-		this.dateEnd = backtestContainer.historicalData.endDate;		
+		this.dateStart = backtestContainer.dateContainerStart;
+		this.dateEnd = backtestContainer.dateContainerEnd;		
 	}
 	
 	public double getScore(){

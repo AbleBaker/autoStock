@@ -1,6 +1,8 @@
 package com.autoStock.backtest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 
 import com.autoStock.Co;
@@ -18,6 +20,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -41,7 +44,10 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private ArrayList<DbStockHistoricalPrice> listOfDbHistoricalPrices = new ArrayList<DbStockHistoricalPrice>();
 	public ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	private boolean usePrecomputedEvaluation = false;
+	public Date dateContainerStart;
+	public Date dateContainerEnd;
 
+	@SuppressWarnings("unchecked")
 	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, AlgorithmMode algorithmMode) {
 		this.symbol = symbol;
 		this.exchange = exchange;
@@ -72,10 +78,11 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void setBacktestData(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, HistoricalData historicalData){
 		this.listOfDbHistoricalPrices = listOfDbStockHistoricalPrice;
 		this.historicalData = historicalData;
+		
+		setContainerDates();
 				
 		algorithm.init(historicalData.startDate);
 		
@@ -97,6 +104,20 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		backtest = new Backtest(historicalData, listOfDbHistoricalPrices, symbol);
 		backtest.performBacktest(this);
 	}
+	
+	private void setContainerDates(){
+		if (dateContainerStart == null){
+			dateContainerStart = historicalData.startDate;
+		}else{
+			dateContainerStart = DateTools.getEarliestDate(Arrays.asList(new Date[]{dateContainerStart, historicalData.startDate}));
+		}
+		
+		if (dateContainerEnd == null){
+			dateContainerEnd = historicalData.endDate;
+		}else{
+			dateContainerEnd = DateTools.getLatestDate(Arrays.asList(new Date[]{dateContainerEnd, historicalData.endDate}));
+		}
+	}
 
 	public void setListener(ListenerOfBacktestCompleted listenerOfBacktestCompleted) {
 		this.listener = listenerOfBacktestCompleted;
@@ -104,6 +125,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 
 	public void reset() {
 		listOfStrategyResponse.clear();
+		algorithm.basicAccount.reset();
 	}
 
 	@Override

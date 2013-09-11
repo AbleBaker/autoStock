@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import com.autoStock.Co;
@@ -207,5 +208,37 @@ public class DateTools {
 		time.hours  = (int) ((dateMills / (1000*60*60)) % 24);
 		
 		return time;
+	}
+	
+	public static Date getEarliestDate(List<Date> listOfDate){
+		Date date = null;
+		
+		for (Date dateItem : listOfDate){
+			if (date == null){
+				date = dateItem;
+			}else{
+				if (dateItem.before(date)){
+					date = dateItem;
+				}
+			}
+		}
+		
+		return date;
+	}
+	
+	public static Date getLatestDate(List<Date> listOfDate){
+		Date date = null;
+		
+		for (Date dateItem : listOfDate){
+			if (date == null){
+				date = dateItem;
+			}else{
+				if (dateItem.after(date)){
+					date = dateItem;
+				}
+			}
+		}
+		
+		return date;
 	}
 }

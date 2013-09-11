@@ -286,7 +286,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				}
 			} else if (backtestType == BacktestType.backtest_adjustment_individual) {
 				
-				Co.println("--> Evaluated");
+				Co.println("--> Evaluated:" + currentBacktestDayIndex);
 				
 				
 				//** Move this

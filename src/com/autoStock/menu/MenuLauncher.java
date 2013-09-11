@@ -156,7 +156,7 @@ public class MenuLauncher {
 			
 			switch (menuCommand){
 				case "1" :
-					command = "main_backtest 01/19/2012 01/19/2012 NYSE T backtest_adjustment_individual";
+					command = "main_backtest 01/19/2012 01/20/2012 NYSE T backtest_adjustment_individual";
 					break;
 				case "2" :
 					command = "main_backtest 01/19/2012 01/19/2012 NYSE T backtest_default";
