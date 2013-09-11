@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.account.AccountProvider;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.tables.TableController;
@@ -111,7 +112,8 @@ public class BacktestEvaluation {
 			throw new IllegalStateException("List can't be zero sized... Transactions: " + transactions);
 		}
 		
-		string += "---------- $" + MiscTools.getCommifiedValue(accountBalance) + " / " + MiscTools.getCommifiedValue(getScore()) + " on " + DateTools.getPrettyDate(dateStart) + " until " + DateTools.getPrettyDate(dateEnd) + " ----------";
+		string += "***** $" +  MiscTools.getCommifiedValue(accountBalance - AccountProvider.defaultBalance) + " / $" + MiscTools.getCommifiedValue(accountBalance) + "  Score: " + MiscTools.getCommifiedValue(getScore()) + " *****";
+		string += "\n--> Date " + DateTools.getPrettyDate(dateStart) + " to " + DateTools.getPrettyDate(dateEnd);
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
 		string += "\n--> Transaction details: " + backtestResultTransactionDetails.countForTradeEntry + ", " + backtestResultTransactionDetails.countForTradesReentry + ", " + backtestResultTransactionDetails.countForTradeExit;
