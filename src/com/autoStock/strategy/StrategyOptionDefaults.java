@@ -28,7 +28,7 @@ public class StrategyOptionDefaults {
 		
 		strategyOptions.maxTransactionsDay = 16;
 		strategyOptions.maxStopLossPercent.value = -0.45d;
-		strategyOptions.maxProfitDrawdownPercent.value = -0.25d;
+		strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
