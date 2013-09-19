@@ -28,7 +28,7 @@ public class MenuController {
 	}
 	
 	private void displayMenuStructure(MenuStructures menuStructure){
-		Co.print("\n" + StringTools.removePrefix(menuStructure.name(),"_") + "\n --> ");
+		Co.print("\n" + StringTools.removePrefix(menuStructure.name(),"_") + "\n  ");
 		for (MenuArguments menuArgumentsEntry : menuStructure.arrayOfMenuArguments){
 			Co.print(StringTools.removePrefix(menuArgumentsEntry.name(), "_") + "[");
 			for (MenuArgumentTypes menuArgumentTypesEntry : menuArgumentsEntry.arrayOfArgumentTypes){

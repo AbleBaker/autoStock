@@ -152,7 +152,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		threadForWatcher = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				int waitCount = 5;
+				int waitCount = 30;
 
 				while (isComplete() == false) {
 					try {Thread.sleep(1000);}catch(InterruptedException e){return;}
