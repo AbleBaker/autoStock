@@ -114,10 +114,12 @@ public abstract class SignalBase {
 	}
 	
 	public void setInput(double value){
-		listOfNormalizedValue.clear();
-		listOfNormalizedAveragedValue.clear();
+//		listOfNormalizedValue.clear();
+//		listOfNormalizedAveragedValue.clear();
 		listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value));
 		listOfNormalizedAveragedValue.add(getStrength());
+		
+		prune(maxSignalAverage.value);
 	}
 	
 	public void setInput(double[] value){

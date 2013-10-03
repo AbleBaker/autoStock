@@ -67,18 +67,18 @@ public class SignalGroup {
 	}
 	
 	public void generateSignals(CommonAnalysisData commonAnlaysisData, int periodLength){
-		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(indicatorGroup.resultsCCI.arrayOfCCI);}
+		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(indicatorGroup.resultsCCI.arrayOfCCI[0]);}
 		if (indicatorGroup.resultsADX != null){signalOfADX.setInput(indicatorGroup.resultsADX.arrayOfADX[0]);}
 		if (indicatorGroup.resultsDI != null){signalOfDI.setInput(indicatorGroup.resultsDI.arrayOfDIPlus[0], indicatorGroup.resultsDI.arrayOfDIMinus[0]);}
 		if (indicatorGroup.resultsMACD != null){signalOfMACD.setInput(indicatorGroup.resultsMACD.arrayOfMACDHistogram[0]);}
-		if (indicatorGroup.resultsRSI != null){signalOfRSI.setInput(indicatorGroup.resultsRSI.arrayOfRSI);}
+		if (indicatorGroup.resultsRSI != null){signalOfRSI.setInput(indicatorGroup.resultsRSI.arrayOfRSI[0]);}
 		if (indicatorGroup.resultsTRIX != null){signalOfTRIX.setInput(indicatorGroup.resultsTRIX.arrayOfTRIX[0]);}
 		if (indicatorGroup.resultsROC != null){signalOfROC.setInput(indicatorGroup.resultsROC.arrayOfROC[0]);}
 		if (indicatorGroup.resultsMFI != null){signalOfMFI.setInput(indicatorGroup.resultsMFI.arrayOfMFI[0]);}
 		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.setInput(indicatorGroup.resultsWILLR.arrayOfWILLR[0]);}
-		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(indicatorGroup.resultsUO.arrayOfUO);}
-		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(indicatorGroup.resultsAR.arrayOfARUp);}
-		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(indicatorGroup.resultsAR.arrayOfARDown);}
+		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(indicatorGroup.resultsUO.arrayOfUO[0]);}
+		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(indicatorGroup.resultsAR.arrayOfARUp[0]);}
+		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(indicatorGroup.resultsAR.arrayOfARDown[0]);}
 		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
 		
 		if (signalOfCCI.listOfNormalizedValue.size() >= ENCOG_SIGNAL_INPUT){
