@@ -3,6 +3,7 @@
  */
 package com.autoStock.indicator;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
@@ -17,6 +18,7 @@ import com.autoStock.types.basic.MutableInteger;
  */
 public class IndicatorOfCCI extends IndicatorBase {
 	public ResultsCCI results;
+	private boolean average = true;
 	
 	public IndicatorOfCCI(MutableInteger periodLength, int resultLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(periodLength, resultLength, commonAnlaysisData, taLibCore, signalMetricType);
@@ -27,8 +29,6 @@ public class IndicatorOfCCI extends IndicatorBase {
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode;
-		
-		boolean average = true;
 		
 		if (average){
 			returnCode = taLibCore.cci(0, endIndex, MathTools.averageArray(arrayOfPriceHigh), MathTools.averageArray(arrayOfPriceLow), MathTools.averageArray(arrayOfPriceClose), periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);

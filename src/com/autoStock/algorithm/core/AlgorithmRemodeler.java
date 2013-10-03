@@ -2,6 +2,7 @@ package com.autoStock.algorithm.core;
 
 import java.util.List;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
@@ -20,10 +21,23 @@ public class AlgorithmRemodeler {
 		this.algorithmBase = algorithmBase;
 		this.algorithmModel = algorithmModel;
 	}
-
+	
 	public void remodel(){
-		algorithmBase.strategyBase.strategyOptions = algorithmModel.strategyOptions;
-		setSignalBaseParamaters(algorithmBase.signalGroup.getListOfSignalBase(), algorithmModel.listOfSignalParameters);
+		remodel(true, true);
+	}
+
+	public void remodel(boolean includeStrategyOptions, boolean includeSignalParameters){
+		if (includeStrategyOptions){
+			algorithmBase.strategyBase.strategyOptions = algorithmModel.strategyOptions;
+		}else{
+			Co.println("--> Warning: Remodeler discaring strategy options");
+		}
+		
+		if (includeSignalParameters){
+			setSignalBaseParamaters(algorithmBase.signalGroup.getListOfSignalBase(), algorithmModel.listOfSignalParameters);
+		}else{
+			Co.println("--> Warning: Remodeler discarding signal parameters");
+		}
 	}
 	
 	public void setSignalBaseParamaters(List<SignalBase> listOfSignalBase, List<SignalParameters> listOfSignalParameters){

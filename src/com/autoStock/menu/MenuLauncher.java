@@ -156,10 +156,10 @@ public class MenuLauncher {
 			
 			switch (menuCommand){
 				case "1" :
-					command = "main_backtest 01/04/2012 01/05/2012 NYSE AIG backtest_adjustment_individual";
+					command = "main_backtest 01/05/2012 01/05/2012 NYSE AIG backtest_adjustment_individual";
 					break;
 				case "2" :
-					command = "main_backtest 01/04/2012 01/05/2012 NYSE AIG backtest_default";
+					command = "main_backtest 01/04/2012 01/04/2012 NYSE AIG backtest_default";
 					break;
 				case "3" :
 					command = "main_backtest 01/20/2012 01/20/2012 NYSE AIG backtest_default";

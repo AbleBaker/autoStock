@@ -43,7 +43,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private BasicAccount basicAccount;
 	private ArrayList<DbStockHistoricalPrice> listOfDbHistoricalPrices = new ArrayList<DbStockHistoricalPrice>();
 	public ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
-	private boolean usePrecomputedEvaluation = true;
+	private boolean usePrecomputedEvaluation = false;
 	public Date dateContainerStart;
 	public Date dateContainerEnd;
 

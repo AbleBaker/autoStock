@@ -89,7 +89,7 @@ public class BacktestEvaluation {
 		
 		@Override
 		public String toString() {
-			return indicatorName + " :  " + indicatorPeriodLength;
+			return indicatorName + " : " + indicatorPeriodLength;
 		}
 	}
 	

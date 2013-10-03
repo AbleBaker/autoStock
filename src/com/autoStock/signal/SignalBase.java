@@ -2,6 +2,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.guage.GuageOfThresholdLeft;
 import com.autoStock.guage.GuageOfThresholdMet;
 import com.autoStock.guage.SignalGuage;
@@ -26,9 +27,9 @@ public abstract class SignalBase {
 		maxSignalAverage = signalParameters.maxSignalAverage;
 	}
 	
-	public int[] getStrengthWindow(){
-		return ArrayTools.getArrayFromListOfInt(listOfNormalizedValue);
-	}
+//	public int[] getStrengthWindow(){
+//		return ArrayTools.getArrayFromListOfInt(listOfNormalizedValue);
+//	}
 	
 	public int getStrength(){
 		if (listOfNormalizedValue.size() == 0){return 0;}
@@ -123,20 +124,27 @@ public abstract class SignalBase {
 //		listOfNormalizedValue.clear();
 //		listOfNormalizedAveragedValue.clear();
 		
+		Co.println("--> Adding length: " + getClass().getSimpleName() + ", " + value.length);
+		
 		for (int i=0;i<value.length;i++){
 			listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value[i]));
 			listOfNormalizedAveragedValue.add(getStrength());
 		}
+		
+//		prune(maxSignalAverage.value);
 	}
 	
 	public void prune(int toLength){
-		if (listOfNormalizedValue.size() >= toLength){
+		Co.println("--> Prune: " + toLength);
+		while (listOfNormalizedValue.size() > toLength){
 			listOfNormalizedValue.remove(0);
 		}
 		
-		if (listOfNormalizedAveragedValue.size() >= toLength){
+		while (listOfNormalizedAveragedValue.size() > toLength){
 			listOfNormalizedAveragedValue.remove(0);
 		}
+		
+		Co.println("--> Size: " + getClass().getSimpleName() + ", " + listOfNormalizedValue.size());
 	}
 
 	public void reset() {

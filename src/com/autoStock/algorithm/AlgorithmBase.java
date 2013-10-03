@@ -3,6 +3,8 @@
  */
 package com.autoStock.algorithm;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -85,7 +87,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	
 	public void initialize(){
 		if (algorithmMode.displayChart) {
-			algorithmChart = new AlgorithmChart(symbol.symbolName, this);
+			algorithmChart = new AlgorithmChart(symbol.symbolName + " - " + new SimpleDateFormat("EEE MMM dd yyyy").format(startingDate), this);
 		}
 		
 		if (algorithmMode.displayTable){
@@ -111,7 +113,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 	
 	public ReceiverOfQuoteSlice getReceiver(){
-		return (ReceiverOfQuoteSlice) this;
+		return this;
 	}
 	
 	public void handlePositionChange(boolean isReentry, Position position){
@@ -197,7 +199,11 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 	
 	public void remodel(BacktestEvaluation backtestEvaluation){
-		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel();
+		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel(true, true);
+	}
+	
+	public void remodel(BacktestEvaluation backtestEvaluation, boolean includeStrategyOptions, boolean includeSignalParameters){
+		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel(includeStrategyOptions, includeSignalParameters);
 	}
 	
 	public void setFundamentalData(FundamentalData fundamentalData){
