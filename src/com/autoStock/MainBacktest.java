@@ -108,6 +108,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		if (listOfSymbols.size() == 0){
 			throw new IllegalArgumentException("No symbols specified");
 		}
+		
+		ListTools.removeDuplicates(listOfSymbols);
 
 		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, dateStart, dateEnd, Resolution.min);
 
@@ -119,10 +121,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate);
 
 		if (listOfBacktestDates.size() == 0) {
-			throw new IllegalArgumentException("Weekday not entered");
+			throw new IllegalArgumentException("Weekday not entered. Backtest must contain a weekday.");
 		}
-
-		ListTools.removeDuplicates(listOfSymbols);
 
 		for (Date date : listOfBacktestDates) {
 			HistoricalDataList historicalDataList = new HistoricalDataList();
@@ -174,7 +174,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private void runNextBacktestOnContainers(HistoricalDataList historicalDataList) {
 		callbacks.set(listOfBacktestContainer.size());
 		if (backtestType != BacktestType.backtest_result_only) {
-			Co.println("\nBacktesting... " + currentBacktestDayIndex);
+			Co.println("\nBacktesting " + historicalDataList.listOfHistoricalData.get(0).startDate);
 		}
 
 		boolean backtestContainedNoData = false;
@@ -285,11 +285,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					Global.callbackLock.releaseLock();
 				}
 			} else if (backtestType == BacktestType.backtest_adjustment_individual) {
-				
-				Co.println("--> Evaluated:" + currentBacktestDayIndex);
-				
-				
-				//** Move this
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 					backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
@@ -364,8 +359,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 		if (callbacks.decrementAndGet() == 0) {
 			if (backtestType != BacktestType.backtest_result_only) {
-				Co.println("--> All called back...");
-				bench.printTick("Backtested");
+				bench.printTick("Backtested all symbols");
 			}
 
 			PositionManager.getInstance().executeExitAll();
@@ -382,8 +376,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						Co.println(backtestEvaluation.toString());
 					}
 				}
-				
-				Co.println("--> X");
 
 				if (listenerOfMainBacktestCompleted != null) {
 					listenerOfMainBacktestCompleted.backtestCompleted();

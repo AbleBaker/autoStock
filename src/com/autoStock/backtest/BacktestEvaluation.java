@@ -80,16 +80,16 @@ public class BacktestEvaluation {
 	
 	public static class DescriptorForIndicator {
 		public String indicatorName;
-		public int indicatorResultLength;
+		public int indicatorPeriodLength;
 		
-		public DescriptorForIndicator(String indicatorName, int indicatorResultLength) {
+		public DescriptorForIndicator(String indicatorName, int indicatorPeriodLength) {
 			this.indicatorName = indicatorName;
-			this.indicatorResultLength = indicatorResultLength;
+			this.indicatorPeriodLength = indicatorPeriodLength;
 		}
 		
 		@Override
 		public String toString() {
-			return indicatorName + ", " + indicatorResultLength;
+			return indicatorName + " :  " + indicatorPeriodLength;
 		}
 	}
 	

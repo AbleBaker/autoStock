@@ -25,7 +25,7 @@ public class AdjustmentSeriesForAlgorithm extends AdjustmentCampaign {
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfRSI, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(0, 30, 3)));
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfRSI, AdjustmentType.signal_metric_short_entry, new IterableOfInteger(0, 30, 3)));
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfRSI, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-30, 0, 3)));
-		
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("RSI Period", algorithmBase.signalGroup.signalOfRSI.signalParameters.periodLength, new IterableOfInteger(15, 45, 5)));
 		
 		
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Period", algorithmBase.signalGroup.signalOfCCI.signalParameters.periodLength, new IterableOfInteger(15, 45, 5)));

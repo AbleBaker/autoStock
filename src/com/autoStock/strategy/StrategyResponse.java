@@ -25,7 +25,7 @@ public class StrategyResponse {
 	}
 	
 	public enum StrategyActionCause {
-		cease_condition_time_entry,
+		disable_condition_time_entry,
 		cease_condition_time_exit,
 		cease_condition_time_loss,
 		cease_condition_trans,

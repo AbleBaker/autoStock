@@ -22,6 +22,7 @@ import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalMoment;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
@@ -176,8 +177,8 @@ public class BacktestUtils {
 			listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 			listOfString.add(backtestContainer.symbol.symbolName);
 			listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
-			listOfString.add(strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name());
-			listOfString.add(strategyResponse.positionGovernorResponse.status.name());
+			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("changed", "").replaceAll("proceed_", "-"));
+			listOfString.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", ""));
 
 			String stringForSignal = new String();
 

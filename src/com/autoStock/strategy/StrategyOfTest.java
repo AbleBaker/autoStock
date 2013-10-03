@@ -79,7 +79,7 @@ public class StrategyOfTest extends StrategyBase {
 			}
 		} else {
 			if (algorithmCondition.canEnterTradeOnDate(quoteSlice.dateTime, algorithmBase.exchange) == false) {
-				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_time_entry, quoteSlice, position, strategyResponse);
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.disable_condition_time_entry, quoteSlice, position, strategyResponse);
 			} else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_trans, quoteSlice, position, strategyResponse);
 			}else if (strategyOptions.disableAfterLoss && algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false) {
