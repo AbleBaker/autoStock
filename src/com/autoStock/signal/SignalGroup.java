@@ -124,10 +124,4 @@ public class SignalGroup {
 			signalBase.reset();
 		}
 	}
-
-	public void prune(int toLength) {
-		for (SignalBase signalBase : listOfSignalBase){
-			signalBase.prune(toLength);
-		}
-	}
 }

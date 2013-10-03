@@ -172,7 +172,6 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public void finishedReceiverOfQuoteSlice(){
 		if (listOfQuoteSlice.size() >= periodLength) {
 			listOfQuoteSlice.remove(0);
-			signalGroup.prune(periodLength);
 		}
 	}
 	

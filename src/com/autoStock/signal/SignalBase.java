@@ -131,10 +131,10 @@ public abstract class SignalBase {
 			listOfNormalizedAveragedValue.add(getStrength());
 		}
 		
-//		prune(maxSignalAverage.value);
+		prune(maxSignalAverage.value);
 	}
 	
-	public void prune(int toLength){
+	private void prune(int toLength){
 		Co.println("--> Prune: " + toLength);
 		while (listOfNormalizedValue.size() > toLength){
 			listOfNormalizedValue.remove(0);

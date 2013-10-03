@@ -39,15 +39,15 @@ public class IndicatorOfUO extends IndicatorBase {
 		if (average){
 			returnCode = taLibCore.ultOsc(0, endIndex, MathTools.averageArray(arrayOfPriceHigh), MathTools.averageArray(arrayOfPriceLow), MathTools.averageArray(arrayOfPriceClose), 7, 14, endIndex, new MInteger(), new MInteger(), results.arrayOfUO);
 		}else{
-			returnCode = taLibCore.ultOsc(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, 7, 14, endIndex, new MInteger(), new MInteger(), results.arrayOfUO);
+			returnCode = taLibCore.ultOsc(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, 7, 14, endIndex-resultsetLength+1, new MInteger(), new MInteger(), results.arrayOfUO);
 		}
 		
 		
-//		Co.println("--> Result set length: " + results.arrayOfUO.length);
-//		
-//		for(int i=0;i<results.arrayOfUO.length;i++){
-//			Co.print(" " + results.arrayOfUO[i]);
-//		}
+		Co.println("--> Result set length: " + results.arrayOfUO.length);
+		
+		for(int i=0;i<results.arrayOfUO.length;i++){
+			Co.print(" " + results.arrayOfUO[i]);
+		}
 		
 		handleAnalysisResult(returnCode);
 		
