@@ -68,6 +68,7 @@ public class AlgorithmChart {
 			chart.listOfShortExitAtPrice.remove(chart.listOfShortExitAtPrice.size()-1);
 			chart.listOfShortExitAtPrice.add(quoteSlice.priceClose);
 		} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry) {
+			chart.listOfReEntryAtPrice.remove(chart.listOfReEntryAtPrice.size()-1);
 			chart.listOfReEntryAtPrice.add(quoteSlice.priceClose);
 		} else {
 			// pass
