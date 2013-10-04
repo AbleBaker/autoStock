@@ -40,6 +40,8 @@ public class AlgorithmChart {
 		chart.listOfSignalARUp.add(algorithmBase.signalGroup.signalOfARUp.getStrength());
 		chart.listOfSignalARDown.add(algorithmBase.signalGroup.signalOfARDown.getStrength());
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
+		chart.listOfYield.add(algorithmBase.getCurrentYield());
+
 
 		if (algorithmBase.signalGroup != null) {
 			chart.listOfDebugAlpha.add(algorithmBase.signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue() == 0 ? Double.MIN_VALUE : algorithmBase.signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue());

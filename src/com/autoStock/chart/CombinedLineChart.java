@@ -225,11 +225,28 @@ public class CombinedLineChart {
 			
 			XYPlot subPlotForPrice = new XYPlot(getPairForType(TimeSeriesType.type_value).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_value).timeSeriesType.displayName), new PostivieNegativeXYBarRenderer(0));
 			subPlotForPrice.getRenderer().setSeriesPaint(0, Color.DARK_GRAY);
-			subPlotForPrice.getRangeAxis().setAutoRange(true);
+//			subPlotForPrice.getRangeAxis().setAutoRange(true);
 			((NumberAxis)subPlotForPrice.getRangeAxis()).setAutoRangeIncludesZero(false);
-//			subPlotForPrice.getRangeAxis().setRange(-1, 2);
+			subPlotForPrice.setRangeAxisLocation(0, AxisLocation.BOTTOM_OR_RIGHT);
+			subPlotForPrice.getRangeAxis().setRange(-0.5, 1.5);
 	        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 	        
+//	        subPlotForPrice.setDataset(5, getPairForType(TimeSeriesType.type_short_exit_price).timeSeriesCollection);
+//	        subPlotForPrice.setRenderer(5, new XYShapeRenderer());
+//	        subPlotForPrice.getRenderer(5).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
+//	        subPlotForPrice.getRenderer(5).setSeriesPaint(0, Color.decode("#FF8000"));
+	        
+			subPlotForPrice.setDataset(1, getPairForType(TimeSeriesType.type_yield).timeSeriesCollection);
+	        subPlotForPrice.setRangeAxis(1, new NumberAxis(TimeSeriesType.type_yield.displayName));
+	        subPlotForPrice.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_LEFT);
+	        subPlotForPrice.setRenderer(1, new StandardXYItemRenderer());
+	        subPlotForPrice.getRenderer(1).setSeriesPaint(0, Color.decode("#CCCCCC"));
+	        subPlotForPrice.getRangeAxis(1).setRange(-0.5, 1.5);
+//			((NumberAxis)subPlotForPrice.getRangeAxis(1)).setAutoRangeIncludesZero(false);
+//	        subPlotForPrice.getRangeAxis().setAutoRange(true);
+	        subPlotForPrice.mapDatasetToRangeAxis(1, 1);
+
+			
 		    ValueMarker markerForLongEntry = new ValueMarker(0);
 		    markerForLongEntry.setPaint(Color.decode("#CCCCCC"));
 		    markerForLongEntry.setAlpha(1.0f);
@@ -238,15 +255,6 @@ public class CombinedLineChart {
 			markerForLongEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
 			markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
 			subPlotForPrice.addRangeMarker(markerForLongEntry);
-	        
-//			subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_value).timeSeriesCollection);
-//			NumberAxis numberAxis = new NumberAxis(TimeSeriesType.type_value.displayName);
-//			numberAxis.setRange(-1, 2);
-//	        subPlotForPrice.setRangeAxis(2, numberAxis);
-//	        subPlotForPrice.setRangeAxisLocation(2, AxisLocation.BOTTOM_OR_RIGHT);
-//	        subPlotForPrice.setRenderer(2, new PostivieNegativeXYBarRenderer(2));
-//	        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setShadowVisible(false);
-//	        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setBarPainter(new StandardXYBarPainter());
 	        
 	        plot.add(subPlotForPrice);
 	        

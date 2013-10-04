@@ -47,6 +47,7 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Double> listOfPriceClose = new ArrayList<Double>();
 	
 	public ArrayList<Double> listOfValue = new ArrayList<Double>();
+	public ArrayList<Double> listOfYield = new ArrayList<Double>();
 	
 	public ArrayList<Double> listOfLongEntryAtPrice = new ArrayList<Double>();
 	public ArrayList<Double> listOfShortEntryAtPrice = new ArrayList<Double>();
@@ -77,6 +78,7 @@ public class ChartForAlgorithmTest {
 		type_signals("Signals"),
 		type_price("Price"),
 		type_value("Value"),
+		type_yield("Yield"),
 		type_long_entry_price("Long Entry"),
 		type_short_entry_price("Short Entry"),
 		type_reentry_price("Reentry"),
@@ -98,6 +100,7 @@ public class ChartForAlgorithmTest {
 		TimeSeriesCollection timeSeriesCollectionForSignals = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForPrice = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForValue = new TimeSeriesCollection();
+		TimeSeriesCollection timeSeriesCollectionForYield = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForLongEntryAtPrice = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForShortEntryAtPrice = new TimeSeriesCollection();
 		TimeSeriesCollection timeSeriesCollectionForReEntryAtPrice = new TimeSeriesCollection();
@@ -135,6 +138,10 @@ public class ChartForAlgorithmTest {
 			timeSeriesCollectionForValue.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Value (%)", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfValue))));
 		}
 		
+		if (listOfYield.size() != 0){
+			timeSeriesCollectionForYield.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Yield (%)", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfYield))));
+		}
+		
 		if (listOfLongEntryAtPrice.size() != 0){
 			timeSeriesCollectionForLongEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Long Entry", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfLongEntryAtPrice))));
 		}
@@ -170,6 +177,7 @@ public class ChartForAlgorithmTest {
 			new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals),
 			new TimeSeriesTypePair(TimeSeriesType.type_price, timeSeriesCollectionForPrice), 
 			new TimeSeriesTypePair(TimeSeriesType.type_value, timeSeriesCollectionForValue),
+			new TimeSeriesTypePair(TimeSeriesType.type_yield, timeSeriesCollectionForYield),
 			new TimeSeriesTypePair(TimeSeriesType.type_long_entry_price, timeSeriesCollectionForLongEntryAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_short_entry_price, timeSeriesCollectionForShortEntryAtPrice),
 			new TimeSeriesTypePair(TimeSeriesType.type_reentry_price, timeSeriesCollectionForReEntryAtPrice),

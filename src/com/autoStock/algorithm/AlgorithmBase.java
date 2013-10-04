@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
+import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmChart;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -224,5 +225,36 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			Co.println("--> Position was cancelled... Disabling: " + position.symbol.symbolName);
 			disable(position.positionType.name());
 		}
+	}
+
+
+	public double getCurrentYield() {	
+		double positionCost = 1;
+		Position currentPosition = null;
+		
+		for (StrategyResponse strategyResponse : listOfStrategyResponse){
+			PositionGovernorResponse positionGovernorResponse = strategyResponse.positionGovernorResponse;
+			if (positionGovernorResponse != null && positionGovernorResponse.position != null){
+				positionCost = Math.max(positionCost, positionGovernorResponse.position.getPositionValue().priceCurrent);
+				
+				if (positionGovernorResponse.position.isFilled()){
+					currentPosition = positionGovernorResponse.position;
+				}
+			}
+		}
+		
+		if (currentPosition != null){
+			Co.println("--> Current position cost: " + currentPosition.getPositionValue().priceCurrentWithFees);
+		}else{
+			Co.println("--> Position is null");
+		}
+		
+		double totalValue = (currentPosition == null ? 0 : currentPosition.getPositionValue().valueCurrentWithFees) + basicAccount.getBalance();
+		totalValue = totalValue - AccountProvider.defaultBalance;
+		totalValue = totalValue / positionCost;
+		
+		Co.println("--> Total value: " + totalValue);
+
+		return totalValue * 100;
 	}
 }
