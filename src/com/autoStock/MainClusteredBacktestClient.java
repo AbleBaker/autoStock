@@ -78,6 +78,10 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	}
 	
 	public void sendBacktestResult(){
+		if (listOfComputeResultForBacktest.size() != computeUnitForBacktest.listOfAlgorithmModel.size()){
+			throw new IllegalStateException("Sizes don't match: " + listOfComputeResultForBacktest.size() + ", " + computeUnitForBacktest.listOfAlgorithmModel.size());
+		}
+		
 		CommandHolder<ComputeResultForBacktest> commandHolder = new CommandHolder<ComputeResultForBacktest>(Command.backtest_results, new ComputeResultForBacktest(computeUnitForBacktest.requestId, listOfComputeResultForBacktest));
 		new CommandSerializer().sendSerializedCommand(commandHolder, clusterClient.printWriter);
 		listOfComputeResultForBacktest.clear();

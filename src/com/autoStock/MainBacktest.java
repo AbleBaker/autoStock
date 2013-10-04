@@ -229,7 +229,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 						BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
-						backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
+						backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, false);
 						
 						backtestContainer.reset();
 						
@@ -256,7 +256,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					return runNextBacktestForDays(false);
 				}else{
 					Co.println("--> No iterations left");
-					backtestEvaluator.pruneForFinish();			
+//					backtestEvaluator.pruneForFinish();	
 					return false;
 				}
 			}

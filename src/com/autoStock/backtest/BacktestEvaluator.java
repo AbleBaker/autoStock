@@ -15,7 +15,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class BacktestEvaluator {
-	private static final int bufferResults = 128;
+	private static final int bufferResults = 256;
 	public static final int maxResults = 32;
 	
 	private ConcurrentHashMap<Symbol, ArrayList<BacktestEvaluation>> hashOfBacktestEvaluation = new ConcurrentHashMap<Symbol, ArrayList<BacktestEvaluation>>();
@@ -39,6 +39,7 @@ public class BacktestEvaluator {
 	}
 	
 	public synchronized void pruneResults(int results, boolean enforceSizeRestriction){
+		Co.println("--> PRUNING RESULTS!!!");
 		for (Symbol symbol : hashOfBacktestEvaluation.keySet()){
 			ArrayList<BacktestEvaluation> listOfBacktestEvaluation = hashOfBacktestEvaluation.get(symbol);
 			if (listOfBacktestEvaluation.size() <= results && enforceSizeRestriction){
