@@ -26,6 +26,10 @@ public abstract class SignalBase {
 		this.signalParameters = signalParameters;
 		maxSignalAverage = signalParameters.maxSignalAverage;
 	}
+	
+	public int[] getStrengthWindow(){
+		return ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue);
+	}
 
 	public int getStrength(){
 		if (listOfNormalizedValue.size() == 0){return 0;}

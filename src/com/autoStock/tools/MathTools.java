@@ -4,6 +4,7 @@
 package com.autoStock.tools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -173,6 +174,88 @@ public class MathTools {
 		}
 		
 		return returnValue == Integer.MAX_VALUE ? 0 : returnValue;
+	}
+	
+	public static boolean isIncreasing(double[] arrayOfDouble, int allowed, boolean average){
+		if (arrayOfDouble.length < 2){
+			throw new IllegalArgumentException("Array length must be at least 2");
+		}
+		
+		if (arrayOfDouble.length %2 != 0){
+			throw new IllegalArgumentException("Array length must be even");
+		}
+		
+		if (average){
+			arrayOfDouble = MathTools.averageArray(arrayOfDouble);
+		}
+		
+		double[] firstHalf = Arrays.copyOfRange(arrayOfDouble, 0, arrayOfDouble.length / 2);
+		double[] secondHalf = Arrays.copyOfRange(arrayOfDouble, arrayOfDouble.length / 2, arrayOfDouble.length);
+		
+		if (MathTools.getAverage(firstHalf) > MathTools.getAverage(secondHalf)){
+			return false;
+		}
+		
+		for (int i=0; i<arrayOfDouble.length-1; i++){
+			double firstNumber = arrayOfDouble[i];
+			double secondNumber = arrayOfDouble[i+1];
+			
+			if (firstNumber > secondNumber){
+				if (allowed == 0){
+					return false;
+				}else{
+					allowed--;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean isDecreasing(double[] arrayOfDouble, int allowed, boolean average){
+		if (arrayOfDouble.length < 2){
+			throw new IllegalArgumentException("Array length must be at least 2");
+		}
+		
+		if (arrayOfDouble.length %2 != 0){
+			throw new IllegalArgumentException("Array length must be even");
+		}
+		
+		if (average){
+			arrayOfDouble = MathTools.averageArray(arrayOfDouble);
+		}
+		
+		double[] firstHalf = Arrays.copyOfRange(arrayOfDouble, 0, arrayOfDouble.length / 2);
+		double[] secondHalf = Arrays.copyOfRange(arrayOfDouble, arrayOfDouble.length / 2, arrayOfDouble.length);
+		
+		if (MathTools.getAverage(firstHalf) < MathTools.getAverage(secondHalf)){
+			return false;
+		}
+		
+		for (int i=0; i<arrayOfDouble.length-1; i++){
+			double firstNumber = arrayOfDouble[i];
+			double secondNumber = arrayOfDouble[i+1];
+			
+			if (firstNumber < secondNumber){
+				if (allowed == 0){
+					return false;
+				}else{
+					allowed--;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean isFlat(double[] arrayOfDouble, double minVarience){
+		double avg = getAverage(arrayOfDouble);
+		
+		if ( Math.abs(arrayOfDouble[arrayOfDouble.length-1] - avg) > minVarience){
+			return false;
+		}
+		
+		return true;
 	}
 	
 //	public static double[] getDeltas(int[] arrayOfInt){

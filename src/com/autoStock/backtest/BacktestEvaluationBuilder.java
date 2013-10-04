@@ -76,7 +76,7 @@ public class BacktestEvaluationBuilder {
 		}
 		
 		for (IndicatorBase indicatorBase : backtestContainer.algorithm.signalGroup.getIndicatorGroup().getListOfIndicatorBaseActive()){
-			DescriptorForIndicator descriptorForIndicator = new DescriptorForIndicator(indicatorBase.getClass().getSimpleName(), indicatorBase.periodLength.value);
+			DescriptorForIndicator descriptorForIndicator = new DescriptorForIndicator(indicatorBase.getClass().getSimpleName(), indicatorBase.periodLength.value, indicatorBase.resultsetLength);
 			backtestEvaluation.listOfDescriptorForIndicator.add(descriptorForIndicator);
 		}
 		

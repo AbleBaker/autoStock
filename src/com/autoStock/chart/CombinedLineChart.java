@@ -71,6 +71,7 @@ public class CombinedLineChart {
 
 			ChartPanel chartPanel = (ChartPanel) createPanel();
 			chartPanel.setPreferredSize(new Dimension(1600, 1000));
+			chartPanel.setHorizontalAxisTrace(true);
 			
 //			JButton button = new JButton("Add New Data Item");
 //	        button.setActionCommand("ADD_DATA");
@@ -89,7 +90,7 @@ public class CombinedLineChart {
 			JFreeChart chart = createChart();
 			chart.setAntiAlias(true);
 			chart.setTextAntiAlias(true);
-			ChartPanel panel = new ChartPanel(chart);
+			ChartPanel panel = new ChartPanel(chart, false);
 			panel.setFillZoomRectangle(true);
 			panel.setMouseWheelEnabled(true);
 			return panel;
@@ -165,6 +166,16 @@ public class CombinedLineChart {
 					markerForShortExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
 				    subPlotForSignals.addRangeMarker(markerForShortExit);
 			    }
+			    
+//				if (getPairForType(TimeSeriesType.type_debug) != null){
+//					subPlotForSignals.setDataset(1, getPairForType(TimeSeriesType.type_debug).timeSeriesCollection);
+////					subPlotForSignals.getRangeAxis(1).setAutoRange(true);
+////					((NumberAxis)subPlotForSignals.getRangeAxis(1)).setAutoRangeIncludesZero(false);
+//					
+//					subPlotForSignals.setRenderer(1, new XYShapeRenderer());
+//					subPlotForSignals.getRenderer(1).setSeriesShape(0, ShapeUtilities.createDiamond(4));
+//					subPlotForSignals.getRenderer(1).setSeriesPaint(0, Color.BLACK);
+//				}
 			    
 			    subPlotForSignals.getRenderer().setBaseToolTipGenerator(StandardXYToolTipGenerator.getTimeSeriesInstance());
 				
@@ -289,7 +300,7 @@ public class CombinedLineChart {
 			if (getPairForType(TimeSeriesType.type_debug) != null){
 				XYPlot subPlotForDebug = new XYPlot(getPairForType(TimeSeriesType.type_debug).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_debug).timeSeriesType.displayName), new StandardXYItemRenderer());
 				subPlotForDebug.getRangeAxis().setAutoRange(true);
-	//			((NumberAxis)subPlotForDebug.getRangeAxis()).setAutoRangeIncludesZero(false);
+				((NumberAxis)subPlotForDebug.getRangeAxis()).setAutoRangeIncludesZero(false);
 				
 				subPlotForDebug.setRenderer(new XYShapeRenderer());
 				subPlotForDebug.getRenderer().setSeriesShape(0, ShapeUtilities.createDiamond(4));

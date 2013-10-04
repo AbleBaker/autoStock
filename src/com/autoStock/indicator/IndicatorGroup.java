@@ -13,6 +13,7 @@ import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.indicator.results.ResultsDI;
 import com.autoStock.indicator.results.ResultsMACD;
 import com.autoStock.indicator.results.ResultsMFI;
+import com.autoStock.indicator.results.ResultsPTD;
 import com.autoStock.indicator.results.ResultsROC;
 import com.autoStock.indicator.results.ResultsRSI;
 import com.autoStock.indicator.results.ResultsTRIX;
@@ -41,6 +42,7 @@ public class IndicatorGroup {
 	public IndicatorOfWILLR indicatorOfWILLR;
 	public IndicatorOfUO indicatorOfUO;
 	public IndicatorOfAR indicatorOfAR;
+	public IndicatorOfPTD indicatorOfPTD;
 	public CandleStickIdentifier candleStickIdentifier;
 
 	public ResultsADX resultsADX;
@@ -55,6 +57,7 @@ public class IndicatorGroup {
 	public ResultsWILLR resultsWILLR;
 	public ResultsUO resultsUO;
 	public ResultsAR resultsAR;
+	public ResultsPTD resultsPTD;
 	public CandleStickIdentifierResult candleStickIdentifierResult;
 	
 	public SignalGroup signalGroup;
@@ -84,6 +87,8 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_uo));
 		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
 		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
+		
+		indicatorOfPTD = new IndicatorOfPTD(new MutableInteger(10), 1, commonAnalysisData, taLibCore, SignalMetricType.none);
 	}
 	
 	public void setDataSet(){
@@ -115,6 +120,18 @@ public class IndicatorGroup {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo)){resultsUO = indicatorOfUO.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_ar_up)){resultsAR = indicatorOfAR.analyize();}
+		
+//		Co.println("-->X: " + signalGroup.signalOfUO.getStrengthWindow().length);
+		
+//		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo) && signalGroup.signalOfUO.getStrengthWindow().length >= 10){
+//			resultsPTD = indicatorOfPTD.analyize(signalGroup.signalOfUO.getStrengthWindow());
+//			
+////			Co.println("--> Have results? " + resultsPTD.arrayOfPTD.length);
+//			
+//			for (int i=0; i<resultsPTD.arrayOfPTD.length; i++){
+//				Co.print(" " + resultsPTD.arrayOfPTD[i]);
+//			}
+//		}
 		
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_candlestick_group)){
 			candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);
