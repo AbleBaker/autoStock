@@ -32,6 +32,7 @@ public class BacktestEvaluation {
 	public double percentGain;
 	public double percentTradeWin;
 	public double percentTradeLoss;
+	public double percentYield;
 	
 	public AlgorithmModel algorithmModel = new AlgorithmModel();
 	
