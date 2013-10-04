@@ -18,7 +18,6 @@ import com.autoStock.types.basic.MutableInteger;
  */
 public class IndicatorOfCCI extends IndicatorBase {
 	public ResultsCCI results;
-	private boolean average = false;
 	
 	public IndicatorOfCCI(MutableInteger periodLength, int resultLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(periodLength, resultLength, commonAnlaysisData, taLibCore, signalMetricType);
@@ -28,14 +27,8 @@ public class IndicatorOfCCI extends IndicatorBase {
 		results = new ResultsCCI(resultsetLength);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
-		RetCode returnCode;
-		
-		if (average){
-			returnCode = taLibCore.cci(0, endIndex, MathTools.averageArray(arrayOfPriceHigh), MathTools.averageArray(arrayOfPriceLow), MathTools.averageArray(arrayOfPriceClose), periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);
-		}else{
-			returnCode = taLibCore.cci(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);
-		}
-		
+		RetCode returnCode = taLibCore.cci(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);
+	
 		handleAnalysisResult(returnCode);
 		
 		return results;
