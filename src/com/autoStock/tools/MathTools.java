@@ -182,11 +182,24 @@ public class MathTools {
 //		}
 //	}
 
+//	public static double pow(double base, double exponent) {
+//		if (base < 0) {
+//			return Math.pow(Math.abs(base), exponent) * -1;
+//		}
+//		return Math.pow(base, exponent);
+//	}
+	
 	public static double pow(double base, double exponent) {
 		if (base < 0) {
-			return Math.pow(Math.abs(base), exponent) * -1;
+			return powFast(Math.abs(base), exponent) * -1;
 		}
-		return Math.pow(base, exponent);
+		return powFast(base, exponent);
+	}
+	
+	public static double powFast(final double a, final double b) {
+	    final long tmp = Double.doubleToLongBits(a);
+	    final long tmp2 = (long)(b * (tmp - 4606921280493453312L)) + 4606921280493453312L;
+	    return Double.longBitsToDouble(tmp2);
 	}
 	
 	public static boolean isOdd(int number){

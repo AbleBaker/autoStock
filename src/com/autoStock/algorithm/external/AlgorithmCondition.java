@@ -89,6 +89,10 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean canTradeAfterLossInterval(Date date, ArrayList<StrategyResponse> listOfStrategyResponse){
+		if (strategyOptions.intervalForEntryAfterExitWithLossMins.value == 0){
+			return true;
+		}
+		
 		for (StrategyResponse strategyResponse : listOfStrategyResponse){
 			if (strategyResponse.positionGovernorResponse != null){
 				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit

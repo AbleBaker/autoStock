@@ -18,6 +18,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
@@ -27,6 +28,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.ValueMarker;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
+import org.jfree.chart.renderer.xy.GradientXYBarPainter;
 import org.jfree.chart.renderer.xy.StandardXYBarPainter;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
@@ -170,16 +172,16 @@ public class CombinedLineChart {
 			}
 			
 			if (getPairForType(TimeSeriesType.type_price) != null){
-				XYPlot subPlotForPrice = new XYPlot(getPairForType(TimeSeriesType.type_price).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_price).timeSeriesType.displayName), new StandardXYItemRenderer());
-				subPlotForPrice.getRenderer().setSeriesPaint(0, Color.BLACK);
+				XYPlot subPlotForPrice = new XYPlot(getPairForType(TimeSeriesType.type_price).timeSeriesCollection, null, new NumberAxis("Action"), new StandardXYItemRenderer());
+				subPlotForPrice.getRenderer().setSeriesPaint(0, Color.DARK_GRAY);
 				subPlotForPrice.getRangeAxis().setAutoRange(true);
 				((NumberAxis)subPlotForPrice.getRangeAxis()).setAutoRangeIncludesZero(false);
-		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.REVERSE);
+		        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 		        
 			    ValueMarker markerForZero = new ValueMarker(0);
 			    markerForZero.setPaint(Color.decode("#33AA00"));
 			    markerForZero.setAlpha(1.0f);
-			    markerForZero.setLabel("");
+			    markerForZero.setLabel("LABEL");
 				markerForZero.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
 				markerForZero.setLabelOffset(new RectangleInsets(8,10,8,0));
 				markerForZero.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
@@ -206,15 +208,9 @@ public class CombinedLineChart {
 		        
 		        subPlotForPrice.setDataset(6, getPairForType(TimeSeriesType.type_reentry_price).timeSeriesCollection);
 		        subPlotForPrice.setRenderer(6, new XYShapeRenderer());
-		        subPlotForPrice.getRenderer(6).setSeriesShape(0, ShapeUtilities.createUpTriangle(4.5f));
+		        subPlotForPrice.getRenderer(6).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
 		        subPlotForPrice.getRenderer(6).setSeriesPaint(0, Color.decode("#A0A0A0"));
-		        
-				subPlotForPrice.setDataset(7, getPairForType(TimeSeriesType.type_value).timeSeriesCollection);
-		        subPlotForPrice.setRangeAxis(7, new NumberAxis(TimeSeriesType.type_value.displayName));
-		        subPlotForPrice.setRangeAxisLocation(7, AxisLocation.BOTTOM_OR_RIGHT);
-		        subPlotForPrice.setRenderer(7, new PostivieNegativeXYBarRenderer(7));
-		        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setShadowVisible(false);
-		        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setBarPainter(new StandardXYBarPainter());
+
 		        subPlotForPrice.mapDatasetToRangeAxis(7, 7);
 		        
 		        subPlotForPrice.getRenderer().setBaseToolTipGenerator(new StandardXYToolTipGenerator() {
@@ -226,6 +222,35 @@ public class CombinedLineChart {
 		        
 				plot.add(subPlotForPrice, 1);
 			}
+			
+			XYPlot subPlotForPrice = new XYPlot(getPairForType(TimeSeriesType.type_value).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_value).timeSeriesType.displayName), new PostivieNegativeXYBarRenderer(0));
+			subPlotForPrice.getRenderer().setSeriesPaint(0, Color.DARK_GRAY);
+			subPlotForPrice.getRangeAxis().setAutoRange(true);
+			((NumberAxis)subPlotForPrice.getRangeAxis()).setAutoRangeIncludesZero(false);
+//			subPlotForPrice.getRangeAxis().setRange(-1, 2);
+	        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+	        
+		    ValueMarker markerForLongEntry = new ValueMarker(0);
+		    markerForLongEntry.setPaint(Color.decode("#CCCCCC"));
+		    markerForLongEntry.setAlpha(1.0f);
+		    markerForLongEntry.setLabel("");
+			markerForLongEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+			markerForLongEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
+			markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+			subPlotForPrice.addRangeMarker(markerForLongEntry);
+	        
+//			subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_value).timeSeriesCollection);
+//			NumberAxis numberAxis = new NumberAxis(TimeSeriesType.type_value.displayName);
+//			numberAxis.setRange(-1, 2);
+//	        subPlotForPrice.setRangeAxis(2, numberAxis);
+//	        subPlotForPrice.setRangeAxisLocation(2, AxisLocation.BOTTOM_OR_RIGHT);
+//	        subPlotForPrice.setRenderer(2, new PostivieNegativeXYBarRenderer(2));
+//	        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setShadowVisible(false);
+//	        ((XYBarRenderer)subPlotForPrice.getRenderer(7)).setBarPainter(new StandardXYBarPainter());
+	        
+	        plot.add(subPlotForPrice);
+	        
+	        
 	        
 //			subPlotForPrice.setDataset(2, getPairForType(TimeSeriesType.type_entry_price).timeSeriesCollection);
 //	        subPlotForPrice.setRenderer(2, new XYShapeRenderer());

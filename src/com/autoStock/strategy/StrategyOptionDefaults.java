@@ -28,7 +28,7 @@ public class StrategyOptionDefaults {
 		
 		strategyOptions.maxTransactionsDay = 16;
 		strategyOptions.maxStopLossPercent.value = -0.45d;
-		strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
+		strategyOptions.maxProfitDrawdownPercent.value = -1.20d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
@@ -38,7 +38,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.intervalForReentryMins.value = 2;
 		strategyOptions.minReentryPercentGain.value = 0.05;
 		strategyOptions.prefillShift.value = 0;
-		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 60;
+		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;
 //		strategyOptions.intervalForExitEntryMins.value = 5;
 		
 		return strategyOptions;

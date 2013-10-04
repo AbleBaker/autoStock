@@ -32,6 +32,7 @@ import com.google.gson.GsonBuilder;
  * 
  */
 public class BacktestContainer implements ReceiverOfQuoteSlice {
+	private final boolean usePrecomputedEvaluation = true;
 	public final Symbol symbol;
 	public final Exchange exchange;
 	public HistoricalData historicalData;
@@ -43,7 +44,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private BasicAccount basicAccount;
 	private ArrayList<DbStockHistoricalPrice> listOfDbHistoricalPrices = new ArrayList<DbStockHistoricalPrice>();
 	public ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
-	private boolean usePrecomputedEvaluation = false;
 	public Date dateContainerStart;
 	public Date dateContainerEnd;
 
