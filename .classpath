@@ -37,5 +37,6 @@
 	<classpathentry kind="lib" path="lib/Rserve.jar"/>
 	<classpathentry kind="lib" path="lib/Rsession.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.16.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.16-swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
