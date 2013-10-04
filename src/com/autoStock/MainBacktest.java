@@ -256,7 +256,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					return runNextBacktestForDays(false);
 				}else{
 					Co.println("--> No iterations left");
-//					backtestEvaluator.pruneForFinish();	
 					return false;
 				}
 			}
