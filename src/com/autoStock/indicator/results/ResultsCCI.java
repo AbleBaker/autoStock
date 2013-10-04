@@ -18,8 +18,4 @@ public class ResultsCCI extends ResultsBase {
 		this.arrayOfDates = new Date[length];
 		this.arrayOfCCI = new double[length];
 	}
-	
-	public double getLastClippedResult(){
-		return arrayOfCCI[0];
-	}
 }

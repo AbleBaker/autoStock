@@ -17,8 +17,4 @@ public class ResultsADX extends ResultsBase {
 		this.arrayOfDates = new Date[length];
 		this.arrayOfADX = new double[length];
 	}
-	
-	public double getLastClippedResult(){
-		return arrayOfADX[0];
-	}
 }

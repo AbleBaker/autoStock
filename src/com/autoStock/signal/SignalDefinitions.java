@@ -157,7 +157,7 @@ public class SignalDefinitions {
 	public static class SignalParametersForCCI extends SignalParameters {
 		public SignalParametersForCCI() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 6);}}, 
-			new MutableInteger(30), new MutableInteger(15),
+			new MutableInteger(30), new MutableInteger(10),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -30)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 0)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 18)},

@@ -18,7 +18,7 @@ import com.autoStock.types.basic.MutableInteger;
  */
 public class IndicatorOfCCI extends IndicatorBase {
 	public ResultsCCI results;
-	private boolean average = true;
+	private boolean average = false;
 	
 	public IndicatorOfCCI(MutableInteger periodLength, int resultLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(periodLength, resultLength, commonAnlaysisData, taLibCore, signalMetricType);

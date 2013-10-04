@@ -122,19 +122,19 @@ public abstract class SignalBase {
 		prune(maxSignalAverage.value);
 	}
 	
-	public void setInput(double[] value){
-//		listOfNormalizedValue.clear();
-//		listOfNormalizedAveragedValue.clear();
-		
-		Co.println("--> Adding length: " + getClass().getSimpleName() + ", " + value.length);
-		
-		for (int i=0;i<value.length;i++){
-			listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value[i]));
-			listOfNormalizedAveragedValue.add(getStrength());
-		}
-		
-		prune(maxSignalAverage.value);
-	}
+//	public void setInput(double[] value){
+////		listOfNormalizedValue.clear();
+////		listOfNormalizedAveragedValue.clear();
+//		
+//		Co.println("--> Adding length: " + getClass().getSimpleName() + ", " + value.length);
+//		
+//		for (int i=0;i<value.length;i++){
+//			listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value[i]));
+//			listOfNormalizedAveragedValue.add(getStrength());
+//		}
+//		
+//		prune(maxSignalAverage.value);
+//	}
 	
 	private void prune(int toLength){
 		Co.println("--> Prune: " + toLength);

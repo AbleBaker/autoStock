@@ -14,7 +14,6 @@ import com.autoStock.types.basic.BasicTimeValuePair;
  *
  */
 public abstract class ResultsBase {
-	
 	public ArrayList<BasicTimeValuePair> getResultsAsListOfBasicTimeValuePair(Date[] arrayOfDates, double[] arrayOfValues){
 		return ResultsTools.getResultsAsListOfBasicTimeValuePair(arrayOfDates, arrayOfValues);
 	}

@@ -19,6 +19,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParametersForRSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
+import com.autoStock.tools.ArrayTools;
 
 /**
  * @author Kevin Kowalewski
@@ -67,18 +68,18 @@ public class SignalGroup {
 	}
 	
 	public void generateSignals(CommonAnalysisData commonAnlaysisData, int periodLength){
-		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(indicatorGroup.resultsCCI.arrayOfCCI[0]);}
-		if (indicatorGroup.resultsADX != null){signalOfADX.setInput(indicatorGroup.resultsADX.arrayOfADX[0]);}
+		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsCCI.arrayOfCCI));}
+		if (indicatorGroup.resultsADX != null){signalOfADX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsADX.arrayOfADX));}
 		if (indicatorGroup.resultsDI != null){signalOfDI.setInput(indicatorGroup.resultsDI.arrayOfDIPlus[0], indicatorGroup.resultsDI.arrayOfDIMinus[0]);}
-		if (indicatorGroup.resultsMACD != null){signalOfMACD.setInput(indicatorGroup.resultsMACD.arrayOfMACDHistogram[0]);}
-		if (indicatorGroup.resultsRSI != null){signalOfRSI.setInput(indicatorGroup.resultsRSI.arrayOfRSI[0]);}
-		if (indicatorGroup.resultsTRIX != null){signalOfTRIX.setInput(indicatorGroup.resultsTRIX.arrayOfTRIX[0]);}
-		if (indicatorGroup.resultsROC != null){signalOfROC.setInput(indicatorGroup.resultsROC.arrayOfROC[0]);}
-		if (indicatorGroup.resultsMFI != null){signalOfMFI.setInput(indicatorGroup.resultsMFI.arrayOfMFI[0]);}
-		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.setInput(indicatorGroup.resultsWILLR.arrayOfWILLR[0]);}
-		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(indicatorGroup.resultsUO.arrayOfUO[0]);}
-		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(indicatorGroup.resultsAR.arrayOfARUp[0]);}
-		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(indicatorGroup.resultsAR.arrayOfARDown[0]);}
+		if (indicatorGroup.resultsMACD != null){signalOfMACD.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMACD.arrayOfMACDHistogram));}
+		if (indicatorGroup.resultsRSI != null){signalOfRSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsRSI.arrayOfRSI));}
+		if (indicatorGroup.resultsTRIX != null){signalOfTRIX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsTRIX.arrayOfTRIX));}
+		if (indicatorGroup.resultsROC != null){signalOfROC.setInput(ArrayTools.getLastElement(indicatorGroup.resultsROC.arrayOfROC));}
+		if (indicatorGroup.resultsMFI != null){signalOfMFI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMFI.arrayOfMFI));}
+		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsWILLR.arrayOfWILLR));}
+		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
+		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARUp));}
+		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
 		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
 		
 		if (signalOfCCI.listOfNormalizedValue.size() >= ENCOG_SIGNAL_INPUT){
