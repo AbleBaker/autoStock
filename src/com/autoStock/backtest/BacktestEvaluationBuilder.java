@@ -62,7 +62,7 @@ public class BacktestEvaluationBuilder {
 				if (arrayOfSignalGuage != null){
 					DescriptorForSignal descriptorForGuage = new DescriptorForSignal();
 					descriptorForGuage.signalName = signalBase.getClass().getSimpleName();
-					descriptorForGuage.signalBoundsName = arrayOfSignalGuage[0].immutableEnumForSignalGuageType.enumValue.name();
+					descriptorForGuage.signalBoundsName = arrayOfSignalGuage[0].mutableEnumForSignalGuageType.enumValue.name();
 					descriptorForGuage.signalBoundsType = arrayOfSignalGuage[0].signalBounds.name();
 					descriptorForGuage.signalPointType = pair.first.name();
 					descriptorForGuage.signalBoundsThreshold = arrayOfSignalGuage[0].threshold;

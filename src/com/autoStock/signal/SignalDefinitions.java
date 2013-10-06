@@ -223,9 +223,9 @@ public class SignalDefinitions {
 	public static class SignalParametersForWILLR extends SignalParameters {
 		public SignalParametersForWILLR() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input  + 50);}}, 
-			new MutableInteger(30), new MutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 30)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -40)},
+			new MutableInteger(30), new MutableInteger(5),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -30)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, 28)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
@@ -233,7 +233,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForSTORSI extends SignalParameters {
 		public SignalParametersForSTORSI() {
-			super(null, 
+			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input);}}, 
 			new MutableInteger(30), new MutableInteger(1),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},

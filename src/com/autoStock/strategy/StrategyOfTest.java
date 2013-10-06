@@ -39,6 +39,7 @@ public class StrategyOfTest extends StrategyBase {
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
 		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_uo);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_storsi);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_up);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_down);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);

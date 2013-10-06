@@ -1,5 +1,7 @@
 package com.autoStock.adjust;
 
+import com.autoStock.Co;
+
 
 /**
  * @author Kevin Kowalewski
@@ -9,11 +11,11 @@ package com.autoStock.adjust;
 public class IterableOfEnum<E extends Enum<E>> extends IterableBase {
 	private E enumObject;
 	
-	public IterableOfEnum(E enumObject){
-		this.enumObject = enumObject;
+	public IterableOfEnum(E... enumObjects){
+		this.enumObject = enumObjects[0];
 		
 		for (E enumbObjectLocal : enumObject.getDeclaringClass().getEnumConstants()){
-//			Co.println("--> Have: " + enumbObjectLocal.name());
+			Co.println("--> Have: " + enumbObjectLocal.name());
 		}
 	}
 	

@@ -11,7 +11,7 @@ import com.autoStock.tools.MathTools;
  * @author Kevin Kowalewski
  *
  */
-public class SignalPointMethod {
+public class SignalPointResolver {
 	public static enum SignalPointTactic {
 		tatic_majority,
 		tatic_change,

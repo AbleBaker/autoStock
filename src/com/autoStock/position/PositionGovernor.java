@@ -8,7 +8,7 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
-import com.autoStock.signal.SignalPointMethod;
+import com.autoStock.signal.SignalPointResolver;
 import com.autoStock.strategy.ReentrantStrategy;
 import com.autoStock.strategy.ReentrantStrategy.ReentryStatus;
 import com.autoStock.strategy.StrategyOptions;
@@ -38,7 +38,7 @@ public class PositionGovernor {
 		SignalPoint signalPoint = new SignalPoint();
 		
 		if (position == null){
-			signalPoint = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
+			signalPoint = SignalPointResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
 				
 			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
 				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
@@ -46,8 +46,8 @@ public class PositionGovernor {
 				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
 			}
 		} else {
-			SignalPoint signalPointForReentry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
-			signalPoint = SignalPointMethod.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTacticForExit);
+			SignalPoint signalPointForReentry = SignalPointResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
+			signalPoint = SignalPointResolver.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTacticForExit);
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {

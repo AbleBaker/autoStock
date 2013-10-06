@@ -3,7 +3,7 @@ package com.autoStock.strategy;
 import java.util.ArrayList;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
+import com.autoStock.signal.SignalPointResolver.SignalPointTactic;
 import com.autoStock.types.basic.MutableDouble;
 import com.autoStock.types.basic.MutableInteger;
 import com.rits.cloning.Cloner;

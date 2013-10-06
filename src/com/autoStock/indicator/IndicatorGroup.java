@@ -16,6 +16,7 @@ import com.autoStock.indicator.results.ResultsMFI;
 import com.autoStock.indicator.results.ResultsPTD;
 import com.autoStock.indicator.results.ResultsROC;
 import com.autoStock.indicator.results.ResultsRSI;
+import com.autoStock.indicator.results.ResultsSTORSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsUO;
 import com.autoStock.indicator.results.ResultsWILLR;
@@ -38,6 +39,7 @@ public class IndicatorGroup {
 	public IndicatorOfTRIX indicatorOfTRIX;
 	public IndicatorOfRSI indicatorOfRSI;
 	public IndicatorOfROC indicatorOfROC;
+	public IndicatorOfSTORSI indicatorOfSTORSI;
 	public IndicatorOfMFI indicatorOfMFI;
 	public IndicatorOfWILLR indicatorOfWILLR;
 	public IndicatorOfUO indicatorOfUO;
@@ -53,6 +55,7 @@ public class IndicatorGroup {
 	public ResultsRSI resultsRSI;
 	public ResultsTRIX resultsTRIX;
 	public ResultsROC resultsROC;
+	public ResultsSTORSI resultsSTORSI;
 	public ResultsMFI resultsMFI;
 	public ResultsWILLR resultsWILLR;
 	public ResultsUO resultsUO;
@@ -83,6 +86,7 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(signalGroup.signalOfTRIX.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_trix));
 		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(signalGroup.signalOfROC.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_roc));
 		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(signalGroup.signalOfMFI.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_mfi));
+		listOfIndicatorBase.add(indicatorOfSTORSI = new IndicatorOfSTORSI(signalGroup.signalOfSTORSI.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_storsi));
 		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(signalGroup.signalOfWILLR.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_willr));
 		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_uo));
 		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
@@ -116,6 +120,7 @@ public class IndicatorGroup {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_rsi)){resultsRSI = indicatorOfRSI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_trix)){resultsTRIX = indicatorOfTRIX.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_roc)){resultsROC = indicatorOfROC.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_storsi)){resultsSTORSI = indicatorOfSTORSI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_mfi)){resultsMFI = indicatorOfMFI.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo)){resultsUO = indicatorOfUO.analyize();}

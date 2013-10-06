@@ -53,25 +53,25 @@ public class BacktestUtils {
 			
 			if (signalBase.signalParameters.arrayOfSignalGuageForLongEntry != null){
 				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForLongEntry){
-					string += " +Long entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
+					string += " +Long entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}
 			
 			if (signalBase.signalParameters.arrayOfSignalGuageForLongExit != null){
 				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForLongExit){
-					string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
+					string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}
 			
 			if (signalBase.signalParameters.arrayOfSignalGuageForShortEntry != null){
 				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForShortEntry){
-					string += " +Short entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
+					string += " +Short entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}
 			
 			if (signalBase.signalParameters.arrayOfSignalGuageForShortExit != null){
 				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForShortExit){
-					string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.immutableEnumForSignalGuageType.enumValue.name() + "\n";
+					string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.enumValue.name() + "\n";
 				}
 			}
 			

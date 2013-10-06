@@ -1,6 +1,6 @@
 package com.autoStock.strategy;
 
-import com.autoStock.signal.SignalPointMethod.SignalPointTactic;
+import com.autoStock.signal.SignalPointResolver.SignalPointTactic;
 
 /**
  * @author Kevin Kowalewski
@@ -27,8 +27,8 @@ public class StrategyOptionDefaults {
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
 		
 		strategyOptions.maxTransactionsDay = 16;
-		strategyOptions.maxStopLossPercent.value = -0.45d;
-		strategyOptions.maxProfitDrawdownPercent.value = -1.20d;
+		strategyOptions.maxStopLossPercent.value = -0.25d;
+		strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
@@ -36,7 +36,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.maxPositionLossTime = 30;
 		strategyOptions.maxReenterTimes.value = 8;
 		strategyOptions.intervalForReentryMins.value = 3;
-		strategyOptions.minReentryPercentGain.value = 0.10;
+		strategyOptions.minReentryPercentGain.value = 0.05;
 		strategyOptions.prefillShift.value = 0;
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;
 //		strategyOptions.intervalForExitEntryMins.value = 5;

@@ -51,10 +51,10 @@ public abstract class SignalBase {
 			boolean isQualified = false;
 			
 			SignalGuage signalGuageForLongEntry = signalParameters.arrayOfSignalGuageForLongEntry[0];
-			SignalGuageType signalGuageTypeForLongEntry = signalGuageForLongEntry.immutableEnumForSignalGuageType.enumValue;
+			SignalGuageType signalGuageTypeForLongEntry = signalGuageForLongEntry.mutableEnumForSignalGuageType.enumValue;
 			
 			SignalGuage signalGuageForShortEntry = signalParameters.arrayOfSignalGuageForShortEntry[0];
-			SignalGuageType signalGuageTypeForShortEntry = signalGuageForShortEntry.immutableEnumForSignalGuageType.enumValue;
+			SignalGuageType signalGuageTypeForShortEntry = signalGuageForShortEntry.mutableEnumForSignalGuageType.enumValue;
 			
 			if (signalGuageTypeForLongEntry == SignalGuageType.guage_threshold_met){
 				isQualified = new GuageOfThresholdMet(signalGuageForLongEntry, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
@@ -80,7 +80,7 @@ public abstract class SignalBase {
 			if (positionType == PositionType.position_long){
 				boolean isQualified = false;
 				SignalGuage signalGuageForLongExit = signalParameters.arrayOfSignalGuageForLongExit[0];
-				SignalGuageType signalGuageTypeForLongExit = signalGuageForLongExit.immutableEnumForSignalGuageType.enumValue;
+				SignalGuageType signalGuageTypeForLongExit = signalGuageForLongExit.mutableEnumForSignalGuageType.enumValue;
 				
 				if (signalGuageTypeForLongExit == SignalGuageType.guage_threshold_met){
 					isQualified = new GuageOfThresholdMet(signalGuageForLongExit, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
@@ -94,7 +94,7 @@ public abstract class SignalBase {
 			}else if (positionType == PositionType.position_short){
 				boolean isQualified = false;
 				SignalGuage signalGuageForShortExit = signalParameters.arrayOfSignalGuageForShortExit[0];
-				SignalGuageType signalGuageTypeForShortExit = signalGuageForShortExit.immutableEnumForSignalGuageType.enumValue;
+				SignalGuageType signalGuageTypeForShortExit = signalGuageForShortExit.mutableEnumForSignalGuageType.enumValue;
 				
 				if (signalGuageTypeForShortExit == SignalGuageType.guage_threshold_met){
 					isQualified = new GuageOfThresholdMet(signalGuageForShortExit, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 

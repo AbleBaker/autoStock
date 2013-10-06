@@ -15,6 +15,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParametersForEncog;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForMACD;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForMFI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForROC;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForSTORSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForRSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
@@ -34,6 +35,7 @@ public class SignalGroup {
 	public SignalOfRSI signalOfRSI = new SignalOfRSI(new SignalParametersForRSI());
 	public SignalOfTRIX signalOfTRIX = new SignalOfTRIX(new SignalParametersForTRIX());
 	public SignalOfROC signalOfROC = new SignalOfROC(new SignalParametersForROC());
+	public SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(new SignalParametersForSTORSI());
 	public SignalOfMFI signalOfMFI = new SignalOfMFI(new SignalParametersForMFI());
 	public SignalOfWILLR signalOfWILLR = new SignalOfWILLR(new SignalParametersForWILLR());
 	public SignalOfUO signalOfUO = new SignalOfUO(new SignalParametersForUO());
@@ -54,6 +56,7 @@ public class SignalGroup {
 		listOfSignalBase.add(signalOfRSI);
 		listOfSignalBase.add(signalOfTRIX);
 		listOfSignalBase.add(signalOfROC);
+		listOfSignalBase.add(signalOfSTORSI);
 		listOfSignalBase.add(signalOfMFI);
 		listOfSignalBase.add(signalOfWILLR);
 		listOfSignalBase.add(signalOfUO);
@@ -75,6 +78,7 @@ public class SignalGroup {
 		if (indicatorGroup.resultsRSI != null){signalOfRSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsRSI.arrayOfRSI));}
 		if (indicatorGroup.resultsTRIX != null){signalOfTRIX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsTRIX.arrayOfTRIX));}
 		if (indicatorGroup.resultsROC != null){signalOfROC.setInput(ArrayTools.getLastElement(indicatorGroup.resultsROC.arrayOfROC));}
+		if (indicatorGroup.resultsSTORSI != null){signalOfSTORSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSTORSI.arrayOfPercentK));}
 		if (indicatorGroup.resultsMFI != null){signalOfMFI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMFI.arrayOfMFI));}
 		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsWILLR.arrayOfWILLR));}
 		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
