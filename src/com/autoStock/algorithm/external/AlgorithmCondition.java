@@ -1,14 +1,17 @@
 package com.autoStock.algorithm.external;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -186,8 +189,13 @@ public class AlgorithmCondition {
 
 	public boolean stopFromProfitDrawdown(Position position) {
 //		Co.print("--> Max Profit was: " +  new DecimalFormat("#.00").format(MathTools.round(position.getPositionHistory().getMaxPercentProfitLoss())));
-//		Co.print("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))));
-//		Co.println("--> Drawdown is: " +  new DecimalFormat("#.00").format()));
-		return position.getPositionProfitDrawdown() <= strategyOptions.maxProfitDrawdownPercent.value;
+		
+		double profitDrawdown = position.getPositionProfitDrawdown();
+		double positionMaxProfitPercent = position.getPositionHistory().getMaxPercentProfitLoss();
+		
+		Co.println("--> Drawdown is: " +  positionMaxProfitPercent + ", " + new DecimalFormat("#.00").format(profitDrawdown));
+		Co.println("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))) + "\n");
+		
+		return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && positionMaxProfitPercent > 0;
 	}
 }

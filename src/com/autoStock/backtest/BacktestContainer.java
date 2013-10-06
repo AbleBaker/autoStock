@@ -32,7 +32,7 @@ import com.google.gson.GsonBuilder;
  * 
  */
 public class BacktestContainer implements ReceiverOfQuoteSlice {
-	private final boolean usePrecomputedEvaluation = true;
+	private final boolean usePrecomputedEvaluation = false;
 	public final Symbol symbol;
 	public final Exchange exchange;
 	public HistoricalData historicalData;

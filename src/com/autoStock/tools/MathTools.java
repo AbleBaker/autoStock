@@ -127,7 +127,7 @@ public class MathTools {
 	}
 	
 	public static double getMaxDouble(ArrayList<Double> listOfDouble){
-		double returnValue = Double.MIN_VALUE;
+		double returnValue = Double.NEGATIVE_INFINITY;
 		
 		if (listOfDouble.size() == 0){return 0;}
 		
@@ -141,7 +141,7 @@ public class MathTools {
 	}
 	
 	public static double getMinDouble(ArrayList<Double> listOfDouble){
-		double returnValue = Double.MAX_VALUE;
+		double returnValue = Double.POSITIVE_INFINITY;
 		
 		if (listOfDouble.size() == 0){return 0;}
 		
