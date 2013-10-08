@@ -1,5 +1,8 @@
 package com.autoStock.adjust;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
@@ -14,6 +17,7 @@ public abstract class AdjustmentCampaign {
 	private Permutation permutation = new Permutation(listOfIterableBase);
 	private boolean hasRun;
 	public boolean isRebasing;
+	private BigDecimal currentIndex = BigDecimal.valueOf(0);
 	
 	public static enum AdjustmentType {
 		signal_metric_long_entry,
@@ -40,6 +44,9 @@ public abstract class AdjustmentCampaign {
 			permutation.masterIterate();
 //			permutation.printIterableSet();
 			applyValues();
+			
+			currentIndex = currentIndex.add(BigDecimal.valueOf(1));
+			
 			return true;
 		}
 	}
@@ -69,7 +76,15 @@ public abstract class AdjustmentCampaign {
 	}
 	
 	public double getPercentComplete(){
-		return 0;
+		BigDecimal maximumIndex = BigDecimal.valueOf(1);
+		
+		for (IterableBase iterableBase : listOfIterableBase){
+			maximumIndex = maximumIndex.multiply(BigDecimal.valueOf(iterableBase.getMaxValues()));
+		}
+		
+		Co.println("--> Current / Max: " + currentIndex.toPlainString() + ", " + maximumIndex.toPlainString());
+		
+		return currentIndex.divide(maximumIndex, 4, RoundingMode.HALF_UP).doubleValue() * 100;
 	}
 	
 	public void applyValues(){

@@ -16,7 +16,7 @@ import com.autoStock.types.Symbol;
  */
 public class BacktestEvaluator {
 	private static final int bufferResults = 256;
-	public static final int maxResults = 32;
+	public static final int maxResults = 4;
 	
 	private ConcurrentHashMap<Symbol, ArrayList<BacktestEvaluation>> hashOfBacktestEvaluation = new ConcurrentHashMap<Symbol, ArrayList<BacktestEvaluation>>();
 

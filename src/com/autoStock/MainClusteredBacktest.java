@@ -1,5 +1,6 @@
 package com.autoStock;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,6 +66,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	public final BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
 	public HashMap<Symbol, AlgorithmBase> hashOfAlgorithmBase = new HashMap<Symbol, AlgorithmBase>();
 	
+	int rebases = 0;
+	
 	public MainClusteredBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
 		this.exchange = exchange;
 		this.listOfSymbols = listOfSymbols;
@@ -117,7 +120,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			int addedUnits = 0;
 			ArrayList<AlgorithmModel> listOfAlgorithmModel = new ArrayList<AlgorithmModel>();
 			
-			Co.println("--> Has more? " + pair.second.hasMore());
+//			Co.println("--> Has more? " + pair.second.hasMore());
 			if (pair.second.rebaseRequired()){
 				Co.println("--> Rebase required...");
 				
@@ -129,6 +132,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 				new AdjustmentRebaser(pair.second, singleBacktest.backtestContainer).rebase();
 				
 				Co.println("--> Algorithm rebased");
+				
+				rebases++;
 			}
 			
 			while (pair.second.hasMore() && addedUnits < computeUnitIterationSize){
@@ -147,6 +152,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 				Co.println("--> Added to unit: " + pair.first.identifier.symbolName + ", " + addedUnits);
 				computeUnit.hashOfAlgorithmModel.put(pair.first.identifier, listOfAlgorithmModel);
 			}
+			
+			Co.println("--> Percent complete: " + new DecimalFormat("#.00").format(pair.second.getPercentComplete()) +"%");
 		}
 		
 		Co.println("--> Issued unit: " + atomicIntForRequestId.get());
@@ -156,7 +163,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		if (computeUnit.hashOfAlgorithmModel.keySet().size() > 0){
 			return computeUnit;
 		}else{
-			Co.println("--> No units left...");
+			Co.println("--> No units left... Rebases: " + rebases);
 			if (threadForWatcher == null) {startWatcher();}
 			return null;
 		}
@@ -185,7 +192,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		threadForWatcher = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				int waitFor = 30;
+				int waitFor = 10;
 
 				while (isComplete() == false) {
 					try {Thread.sleep(1000);}catch(InterruptedException e){return;}

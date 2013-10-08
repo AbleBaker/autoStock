@@ -355,17 +355,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	
 	private void remodelBacktestContainers(){
 		for (BacktestContainer backtestContainer : listOfBacktestContainer) {
-			Co.println("--> About to remodel: " + currentBacktestComputeUnitIndex);
-			
+//			Co.println("--> About to remodel: " + currentBacktestComputeUnitIndex);
 			new AlgorithmRemodeler(backtestContainer.algorithm, hashOfAlgorithmModel.get(backtestContainer.symbol).get(currentBacktestComputeUnitIndex)).remodel();
-			
-//			for (SignalBase signalBase : backtestContainer.algorithm.signalGroup.getListOfSignalBase()){
-//				SignalParameters signalParameter = signalBase.signalParameters;
-//				if (signalParameter.normalizeInterface != null){
-//					Co.println("--> " + signalParameter.arrayOfSignalGuageForLongEntry[0].threshold);
-//					Co.println("--> " + signalParameter.arrayOfSignalGuageForLongExit[0].threshold);
-//				}
-//			}
 		}
 	}
 
