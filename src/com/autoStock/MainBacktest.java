@@ -225,11 +225,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				}
 			}
 		}
-		
-		Co.println("\n\n\n********\n\n\n");
-		
+				
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {
-			Co.println("--> END OF THE DAYS!!!!!");
 			if (backtestType == BacktestType.backtest_default || backtestType == BacktestType.backtest_result_only) {
 				return false;
 			} else if (backtestType == BacktestType.backtest_clustered_client) {

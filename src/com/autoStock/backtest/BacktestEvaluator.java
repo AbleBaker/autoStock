@@ -33,9 +33,9 @@ public class BacktestEvaluator {
 		
 		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", Score: " + backtestEvaluation.getScore() + ", " + backtestEvaluation.transactions + ", %" + backtestEvaluation.percentTradeWin);
 		
-		for (DescriptorForSignal descriptor : backtestEvaluation.listOfDescriptorForSignal){
-			Co.println("--> Descriptor: " + descriptor.toString());
-		}
+//		for (DescriptorForSignal descriptor : backtestEvaluation.listOfDescriptorForSignal){
+//			Co.println("--> Descriptor: " + descriptor.toString());
+//		}
 	}
 	
 	public synchronized void pruneResults(int results, boolean enforceSizeRestriction){
