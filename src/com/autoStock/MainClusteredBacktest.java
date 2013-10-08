@@ -128,11 +128,11 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 				
 				new AdjustmentRebaser(pair.second, singleBacktest.backtestContainer).rebase();
 				
-				Co.println("--> Algorithm rebased!");
+				Co.println("--> Algorithm rebased");
 			}
 			
 			while (pair.second.hasMore() && addedUnits < computeUnitIterationSize){
-				if (atomicIntForRequestId.get() == 0 && addedUnits == 0){
+				if (pair.second.hasRun() == false && addedUnits == 0){
 					pair.second.applyValues();
 				} else {
 					pair.second.runAdjustment();	
@@ -169,8 +169,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			listOfSignalParameters.add(signalBase.signalParameters.copy());
 		}
 		
-//		Co.println("--> Send parameters");
-//		
+//		Co.println("\n--> Send parameters");
+////		
 //		for (SignalParameters signalParameter : listOfSignalParameters){
 //			if (signalParameter.normalizeInterface != null){
 //				Co.println("--> " + signalParameter.arrayOfSignalGuageForLongEntry[0].threshold);

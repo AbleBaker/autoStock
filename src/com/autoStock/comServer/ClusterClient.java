@@ -92,13 +92,8 @@ public class ClusterClient {
 							
 							switch (commandHolder.command){
 								case compute_unit_backtest :
-									Co.println("--> Got compute unit");
+//									Co.println("--> Got compute unit");
 									Type type = new TypeToken<CommandHolder<ComputeUnitForBacktest>>(){}.getType();
-									
-									for (int i=700; i<900; i++){
-										System.out.print(receivedString.charAt(i));
-									}
-									
 									CommandHolder<ComputeUnitForBacktest> commandHolderTyped = gsonBuilder.create().fromJson(receivedString, type);
 									listener.receivedCommand(commandHolderTyped);
 									break;

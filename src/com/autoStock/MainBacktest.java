@@ -17,6 +17,7 @@ import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.backtest.BacktestEvaluation.DescriptorForSignal;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationWriter;
@@ -31,6 +32,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.guage.SignalGuage;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
@@ -38,6 +40,7 @@ import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.strategy.StrategyBase;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -83,6 +86,36 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		if (algorithmMode.displayChart) {
 			Global.callbackLock.requestLock();
 		}
+		
+//		for (Symbol symbol : hashOfAlgorithmModel.keySet()){
+//			ArrayList<AlgorithmModel> listOfAlgorithmModel = hashOfAlgorithmModel.get(symbol);
+//			
+//			for (AlgorithmModel algorithmModel : listOfAlgorithmModel){
+//				for (SignalParameters signalParameters : algorithmModel.listOfSignalParameters){
+//					Co.println("--> Have parameters: " + signalParameters.toString());
+//					
+//					ArrayList<Pair<SignalPointType, SignalGuage[]>> list = signalParameters.getGuages();
+//										
+//					for (Pair<SignalPointType, SignalGuage[]> pair : list){
+//						SignalGuage[] arrayOfSignalGuage = pair.second;
+//						
+//						if (arrayOfSignalGuage != null){
+//							DescriptorForSignal descriptorForGuage = new DescriptorForSignal();
+//							descriptorForGuage.signalName = signalParameters.getClass().getSimpleName();
+//							descriptorForGuage.signalBoundsName = arrayOfSignalGuage[0].mutableEnumForSignalGuageType.enumValue.name();
+//							descriptorForGuage.signalBoundsType = arrayOfSignalGuage[0].signalBounds.name();
+//							descriptorForGuage.signalPointType = pair.first.name();
+//							descriptorForGuage.signalBoundsThreshold = arrayOfSignalGuage[0].threshold;
+//							
+//							descriptorForGuage.periodLength = signalParameters.periodLength.value;
+//							descriptorForGuage.maxSignalAverage = signalParameters.maxSignalAverage.value;
+//							
+//							Co.println(descriptorForGuage.toString());
+//						}
+//					}
+//				}
+//			}
+//		}
 
 		startMainBacktest(dateStart, dateEnd, new ArrayList<Symbol>(hashOfAlgorithmModel.keySet()));
 	}
@@ -124,7 +157,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				pair.second.applyValues();
 			}
 		}else if (backtestType == BacktestType.backtest_clustered_client){
-			
+			//pass
 		}
 		
 		runNextBacktestForDays(false);
@@ -185,7 +218,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private synchronized boolean runNextBacktestForDays(boolean skippedDay) {
 		if (backtestType == BacktestType.backtest_adjustment_boilerplate){
 			throw new UnknownError("Not sure how to handle this becuase I can't rebase");
-		}else if (backtestType == BacktestType.backtest_adjustment_individual || backtestType == BacktestType.backtest_clustered_client){
+		}else if (backtestType == BacktestType.backtest_adjustment_individual){
 			for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
 				if (pair.second.rebaseRequired()){
 					pair.second.isRebasing = true;
@@ -193,7 +226,10 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			}
 		}
 		
+		Co.println("\n\n\n********\n\n\n");
+		
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {
+			Co.println("--> END OF THE DAYS!!!!!");
 			if (backtestType == BacktestType.backtest_default || backtestType == BacktestType.backtest_result_only) {
 				return false;
 			} else if (backtestType == BacktestType.backtest_clustered_client) {
@@ -203,26 +239,14 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					maxUnitSize = Math.max(maxUnitSize, hashOfAlgorithmModel.get(symbol).size());
 				}
 				
-				if (currentBacktestComputeUnitIndex < maxUnitSize){
-					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
-						BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
-						backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, false);
-						
-						backtestContainer.reset();
-						
-						Co.println("--> About to remodel");
-						
-						new AlgorithmRemodeler(backtestContainer.algorithm, hashOfAlgorithmModel.get(backtestContainer.symbol).get(currentBacktestComputeUnitIndex)).remodel();
-						
-//						for (SignalBase signalBase : backtestContainer.algorithm.signalGroup.getListOfSignalBase()){
-//							SignalParameters signalParameter = signalBase.signalParameters;
-//							if (signalParameter.normalizeInterface != null){
-//								Co.println("--> " + signalParameter.arrayOfSignalGuageForLongEntry[0].threshold);
-//								Co.println("--> " + signalParameter.arrayOfSignalGuageForLongExit[0].threshold);
-//							}
-//						}
-					}
+				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
+					backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, false);
 					
+					backtestContainer.reset();
+				}
+								
+				if (currentBacktestComputeUnitIndex < maxUnitSize-1){		
 					currentBacktestDayIndex = 0;
 					currentBacktestComputeUnitIndex++;
 					
@@ -281,9 +305,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					currentBacktestDayIndex = 0;
 					return runNextBacktestForDays(false);
 				}
-				
-				Co.println("--> X");
-				
+								
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 					backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
@@ -322,6 +344,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			return false;
 		} else {
 			Co.println("--> Run on day");
+
+			remodelBacktestContainers();
 			
 			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex);
 			runNextBacktestOnContainers(historicalDataList);
@@ -329,6 +353,22 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				currentBacktestDayIndex++;
 			}
 			return true;
+		}
+	}
+	
+	private void remodelBacktestContainers(){
+		for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+			Co.println("--> About to remodel: " + currentBacktestComputeUnitIndex);
+			
+			new AlgorithmRemodeler(backtestContainer.algorithm, hashOfAlgorithmModel.get(backtestContainer.symbol).get(currentBacktestComputeUnitIndex)).remodel();
+			
+//			for (SignalBase signalBase : backtestContainer.algorithm.signalGroup.getListOfSignalBase()){
+//				SignalParameters signalParameter = signalBase.signalParameters;
+//				if (signalParameter.normalizeInterface != null){
+//					Co.println("--> " + signalParameter.arrayOfSignalGuageForLongEntry[0].threshold);
+//					Co.println("--> " + signalParameter.arrayOfSignalGuageForLongExit[0].threshold);
+//				}
+//			}
 		}
 	}
 

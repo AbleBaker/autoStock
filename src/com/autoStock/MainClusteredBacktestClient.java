@@ -91,13 +91,12 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 		if (commandHolder.command == Command.compute_unit_backtest){
 			computeUnitForBacktest = (ComputeUnitForBacktest) commandHolder.commandParameters;
 			
-			Co.println("--> Compute unit: " + computeUnitForBacktest.requestId + ", " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
-			Co.println("--> Compute unit symbols: " + computeUnitForBacktest.hashOfAlgorithmModel.keySet().size());
-			Co.println("--> Compute unit sizes: ");
+//			Co.println("--> Compute unit: " + computeUnitForBacktest.requestId + ", " + computeUnitForBacktest.dateStart + ", " + computeUnitForBacktest.dateEnd);
+//			Co.println("--> Compute unit symbols: " + computeUnitForBacktest.hashOfAlgorithmModel.keySet().size());
+//			Co.println("--> Compute unit sizes: ");
 			
 			for (Symbol symbol : computeUnitForBacktest.hashOfAlgorithmModel.keySet()){
-				Co.println("--> Symbol, size: " + symbol.symbolName + ", " + computeUnitForBacktest.hashOfAlgorithmModel.get(symbol).size());
-				
+//				Co.println("--> Symbol, size: " + symbol.symbolName + ", " + computeUnitForBacktest.hashOfAlgorithmModel.get(symbol).size());
 				hashOfBacktestEvaluation.put(symbol, new ArrayList<BacktestEvaluation>());
 			}
 			

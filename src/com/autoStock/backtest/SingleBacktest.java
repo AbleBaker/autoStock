@@ -46,7 +46,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 
 	@Override
 	public void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
-		Co.println("--> Backtest completed... " + symbol.symbolName + ", " + currentBacktestDayIndex);
+//		Co.println("--> Backtest completed... " + symbol.symbolName + ", " + currentBacktestDayIndex);
 		currentBacktestDayIndex++;
 		
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {

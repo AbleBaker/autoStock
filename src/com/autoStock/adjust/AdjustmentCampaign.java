@@ -12,6 +12,7 @@ public abstract class AdjustmentCampaign {
 	protected ArrayList<IterableBase> listOfIterableBase = new ArrayList<IterableBase>();
 	protected ArrayList<AdjustmentBase> listOfAdjustmentBase = new ArrayList<AdjustmentBase>();
 	private Permutation permutation = new Permutation(listOfIterableBase);
+	private boolean hasRun;
 	public boolean isRebasing;
 	
 	public static enum AdjustmentType {
@@ -31,6 +32,8 @@ public abstract class AdjustmentCampaign {
 	}
 	
 	public boolean runAdjustment(){
+		hasRun = true;
+		
 		if (permutation.allDone()){
 			return false;
 		}else{
@@ -61,12 +64,16 @@ public abstract class AdjustmentCampaign {
 		return !permutation.allDone();
 	}
 	
+	public boolean hasRun(){
+		return hasRun;
+	}
+	
 	public double getPercentComplete(){
 		return 0;
 	}
 	
 	public void applyValues(){
-		Co.println("--> Apply values");
+//		Co.println("--> Apply values");
 		for (AdjustmentBase adjustmentBase : listOfAdjustmentBase){
 //			Co.println("--> Applied: " + adjustmentBase.getClass().getSimpleName() + ", " + adjustmentBase.description);
 //			Co.println("--> Check: " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue());
