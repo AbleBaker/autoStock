@@ -7,6 +7,8 @@ package com.autoStock.adjust;
  */
 public abstract class IterableBase {
 	protected int currentIndex = 0;
+	protected boolean iterateCausesRebase = false;
+	public boolean rebaseRequired = false;
 	
 	public abstract boolean hasMore();
 	public abstract boolean isDone();

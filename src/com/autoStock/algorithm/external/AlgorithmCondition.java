@@ -193,8 +193,8 @@ public class AlgorithmCondition {
 		double profitDrawdown = position.getPositionProfitDrawdown();
 		double positionMaxProfitPercent = position.getPositionHistory().getMaxPercentProfitLoss();
 		
-		Co.println("--> Drawdown is: " +  positionMaxProfitPercent + ", " + new DecimalFormat("#.00").format(profitDrawdown));
-		Co.println("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))) + "\n");
+//		Co.println("--> Drawdown is: " +  positionMaxProfitPercent + ", " + new DecimalFormat("#.00").format(profitDrawdown));
+//		Co.println("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))) + "\n");
 		
 		return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && positionMaxProfitPercent > 0;
 	}

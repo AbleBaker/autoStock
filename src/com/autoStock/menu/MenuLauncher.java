@@ -26,6 +26,7 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.replay.ReplayController;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.tools.SymbolTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.MarketIndexData;
@@ -101,7 +102,7 @@ public class MenuLauncher {
 				new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
 				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
-				ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "),
+				SymbolTools.getListOfSymbolFromListOfString(ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "), SecurityType.type_stock),
 				BacktestType.valueOf(menuStructure.getArgument(MenuArguments.arg_backtest_type).value)
 			);
 		}
@@ -156,16 +157,16 @@ public class MenuLauncher {
 			
 			switch (menuCommand){
 				case "1" :
-					command = "main_backtest 01/04/2012 01/04/2012 NYSE AIG backtest_adjustment_individual";
+					command = "main_backtest 01/04/2012 01/05/2012 NYSE AIG backtest_adjustment_individual";
 					break;
 				case "2" :
-					command = "main_backtest 01/04/2012 01/04/2012 NYSE AIG backtest_default";
+					command = "main_backtest 01/04/2012 01/05/2012 NYSE AIG backtest_default";
 					break;
 				case "3" :
 					command = "main_backtest 01/20/2012 01/20/2012 NYSE AIG backtest_default";
 					break;
 				case "4":
-					command = "main_clustered_backtest 01/04/2012 01/04/2012 NYSE AIG";
+					command = "main_clustered_backtest 01/04/2012 01/05/2012 NYSE \"AIG T\"";
 					break;
 				case "5":
 					command = "main_clustered_backtest_client";
@@ -179,7 +180,7 @@ public class MenuLauncher {
 			
 			MenuController menuController = new MenuController();
 			MenuStructures menuStructureForQuickCommand = menuController.getRelatedMenu(command.split(" "));
-			menuController.handleMenuStructure(menuStructureForQuickCommand, command.split(" "));
+			menuController.handleMenuStructure(menuStructureForQuickCommand, command.split("[ ]+(?=([^\"]*\"[^\"]*\")*[^\"]*$)"));
 			new MenuLauncher().launchDisplay(menuStructureForQuickCommand);
 		}
 		

@@ -50,4 +50,14 @@ public class AdjustmentCampaignProvider {
 	public boolean runBoilerplateAdjustment() {
 		throw new UnsupportedOperationException();
 	}
+	
+	public boolean isRebasingIndividual(){
+		for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : listOfPair) {
+			if (pair.second.isRebasing){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 } 

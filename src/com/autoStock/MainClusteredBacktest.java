@@ -2,22 +2,30 @@ package com.autoStock;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentCampaignProvider;
 import com.autoStock.adjust.AdjustmentIdentifier;
+import com.autoStock.adjust.AdjustmentRebaser;
 import com.autoStock.adjust.AdjustmentSeriesForAlgorithm;
 import com.autoStock.algorithm.AlgorithmBase;
+import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.DummyAlgorithm;
+import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestContainer;
+import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.BacktestEvaluator;
 import com.autoStock.backtest.BacktestUtils;
+import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
+import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.cluster.ComputeResultForBacktest;
 import com.autoStock.cluster.ComputeUnitForBacktest;
 import com.autoStock.com.CommandHolder;
@@ -30,6 +38,8 @@ import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.Benchmark;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 import com.google.gson.internal.Pair;
@@ -48,12 +58,12 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private AtomicLong atomicIntForRequestId = new AtomicLong();
 	private Date dateStart;
 	private Date dateEnd;
-	private final int computeUnitIterationSize = 128;
+	private final int computeUnitIterationSize = 4;
 	private Benchmark bench = new Benchmark();
 	private Benchmark benchTotal = new Benchmark();
 	private Thread threadForWatcher;
-	private AlgorithmBase algorithm = new DummyAlgorithm(null, null, AlgorithmMode.mode_backtest_with_adjustment, new BasicAccount(0));
 	public final BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
+	public HashMap<Symbol, AlgorithmBase> hashOfAlgorithmBase = new HashMap<Symbol, AlgorithmBase>();
 	
 	public MainClusteredBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
 		this.exchange = exchange;
@@ -66,12 +76,18 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 		
 		for (String string : listOfSymbols){
-			AdjustmentCampaign adjustmentCampaign = new AdjustmentSeriesForAlgorithm(algorithm);
+			Symbol symbol = new Symbol(string, SecurityType.type_stock);
+			AlgorithmBase algorithmBase = new AlgorithmTest(exchange, symbol, AlgorithmMode.mode_backtest_silent, AccountProvider.getInstance().getAccount(symbol));
+			algorithmBase.initialize();
+			
+			AdjustmentCampaign adjustmentCampaign = new AdjustmentSeriesForAlgorithm(algorithmBase);
 			adjustmentCampaign.initialize();
-			adjustmentCampaignProvider.addAdjustmentCampaignForAlgorithm(adjustmentCampaign, new Symbol(string, SecurityType.type_stock));
+			adjustmentCampaign.applyValues();
+			
+			adjustmentCampaignProvider.addAdjustmentCampaignForAlgorithm(adjustmentCampaign, symbol);
+			
+			hashOfAlgorithmBase.put(symbol, algorithmBase);
 		}
-		
-		algorithm.initialize();
 		
 		startRequestServer();
 	}
@@ -87,7 +103,6 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public synchronized ComputeUnitForBacktest getNextComputeUnit(){
-		ArrayList<AlgorithmModel> listOfAlgorithmModel = new ArrayList<AlgorithmModel>();
 		
 		Co.println("--> Generating unit...");
 		
@@ -95,24 +110,42 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			benchTotal.tick();
 		}
 		
-		int addedUnits = 0;
+		ComputeUnitForBacktest computeUnit = new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), exchange, dateStart, dateEnd);
 		
 		for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()){
 			
-			Co.println("--> Has more? " + pair.second.hasMore());
+			int addedUnits = 0;
+			ArrayList<AlgorithmModel> listOfAlgorithmModel = new ArrayList<AlgorithmModel>();
 			
-			listOfAlgorithmModel.clear();
+			Co.println("--> Has more? " + pair.second.hasMore());
+			if (pair.second.rebaseRequired()){
+				Co.println("--> Rebase required...");
+				
+				SingleBacktest singleBacktest = new SingleBacktest(BacktestUtils.getBaseHistoricalData(exchange, pair.first.identifier, dateStart, dateEnd, Resolution.min));
+				singleBacktest.selfPopulateBacktestData();
+				singleBacktest.remodel(getCurrentAlgorithmModel(hashOfAlgorithmBase.get(pair.first.identifier)));
+				singleBacktest.runBacktest();
+				
+				new AdjustmentRebaser(pair.second, singleBacktest.backtestContainer).rebase();
+				
+				Co.println("--> Algorithm rebased!");
+			}
 			
 			while (pair.second.hasMore() && addedUnits < computeUnitIterationSize){
 				if (atomicIntForRequestId.get() == 0 && addedUnits == 0){
 					pair.second.applyValues();
-					listOfAlgorithmModel.add(getCurrentAlgorithmModel());
 				} else {
 					pair.second.runAdjustment();	
-					listOfAlgorithmModel.add(getCurrentAlgorithmModel());
 				}
 				
+				listOfAlgorithmModel.add(getCurrentAlgorithmModel(hashOfAlgorithmBase.get(pair.first.identifier)));
+				
 				addedUnits++;
+			}
+			
+			if (addedUnits > 0){
+				Co.println("--> Added to unit: " + pair.first.identifier.symbolName + ", " + addedUnits);
+				computeUnit.hashOfAlgorithmModel.put(pair.first.identifier, listOfAlgorithmModel);
 			}
 		}
 		
@@ -120,8 +153,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		
 		bench.tick();
 		
-		if (listOfAlgorithmModel.size() > 0){
-			return new ComputeUnitForBacktest(atomicIntForRequestId.getAndIncrement(), listOfAlgorithmModel, exchange, listOfSymbols, dateStart, dateEnd);
+		if (computeUnit.hashOfAlgorithmModel.keySet().size() > 0){
+			return computeUnit;
 		}else{
 			Co.println("--> No units left...");
 			if (threadForWatcher == null) {startWatcher();}
@@ -129,10 +162,10 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		}
 	}
 	
-	private AlgorithmModel getCurrentAlgorithmModel(){
+	private AlgorithmModel getCurrentAlgorithmModel(AlgorithmBase algorithmBase){
 		ArrayList<SignalParameters> listOfSignalParameters = new ArrayList<SignalParameters>();
 		
-		for (SignalBase signalBase : algorithm.signalGroup.getListOfSignalBase()){
+		for (SignalBase signalBase : algorithmBase.signalGroup.getListOfSignalBase()){
 			listOfSignalParameters.add(signalBase.signalParameters.copy());
 		}
 		
@@ -145,26 +178,26 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 //			}
 //		}
 		
-		return new AlgorithmModel(algorithm.strategyBase.strategyOptions, listOfSignalParameters);
+		return new AlgorithmModel(algorithmBase.strategyBase.strategyOptions, listOfSignalParameters);
 	}
 	
 	private void startWatcher() {
 		threadForWatcher = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				int waitCount = 30;
+				int waitFor = 30;
 
 				while (isComplete() == false) {
 					try {Thread.sleep(1000);}catch(InterruptedException e){return;}
-					if (waitCount == 0) {
+					if (waitFor == 0) {
 						displayResultTable();
 						Co.println("--> Warning: compute unit(s) went missing... Sent / Received: " + atomicIntForRequestId.get() + ", " + listOfComputeUnitResultIds.size());
 						Global.callbackLock.releaseLock();
 					}else{
-						Co.println("--> Waiting..." + waitCount);
+						Co.println("--> Waiting..." + waitFor);
 					}
 
-					waitCount--;
+					waitFor--;
 				}
 			}
 		});
@@ -199,8 +232,10 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		
 		listOfComputeUnitResultIds.add(computeResultForBacktest.requestId);
 		
-		for (BacktestEvaluation backtestEvaluation : computeResultForBacktest.listOfBacktestEvaluation){
-			backtestEvaluator.addResult(backtestEvaluation.symbol, backtestEvaluation, true);
+		for (Symbol symbol : computeResultForBacktest.hashOfBacktestEvaluation.keySet()){
+			for (BacktestEvaluation backtestEvaluation : computeResultForBacktest.hashOfBacktestEvaluation.get(symbol)){
+				backtestEvaluator.addResult(symbol, backtestEvaluation, true);				
+			}
 		}
 	}
 	

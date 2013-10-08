@@ -2,12 +2,14 @@ package com.autoStock;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentCampaignProvider;
 import com.autoStock.adjust.AdjustmentIdentifier;
+import com.autoStock.adjust.AdjustmentRebaser;
 import com.autoStock.adjust.AdjustmentSeriesForAlgorithm;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -68,25 +70,25 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private ListenerOfMainBacktestCompleted listenerOfMainBacktestCompleted;
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	public final BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
-	private ArrayList<AlgorithmModel> listOfAlgorithmModel = new ArrayList<AlgorithmModel>();
+	private HashMap<Symbol, ArrayList<AlgorithmModel>> hashOfAlgorithmModel;
 
-	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted, ArrayList<AlgorithmModel> listOfAlgorithmModel) {
+	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted, HashMap<Symbol, ArrayList<AlgorithmModel>> hashOfAlgorithmModel) {
 		this.exchange = exchange;
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		this.listenerOfMainBacktestCompleted = listerListenerOfMainBacktestCompleted;
-		this.listOfAlgorithmModel = listOfAlgorithmModel;
+		this.hashOfAlgorithmModel = hashOfAlgorithmModel;
 		Global.callbackLock.requestLock();
 
 		if (algorithmMode.displayChart) {
 			Global.callbackLock.requestLock();
 		}
 
-		startMainBacktest(dateStart, dateEnd, listOfSymbols);
+		startMainBacktest(dateStart, dateEnd, new ArrayList<Symbol>(hashOfAlgorithmModel.keySet()));
 	}
 
 	@SuppressWarnings("deprecation")
-	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols, BacktestType backtestType) {
+	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<Symbol> listOfSymbols, BacktestType backtestType) {
 		this.exchange = exchange;
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
@@ -100,7 +102,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		startMainBacktest(dateStart, dateEnd, listOfSymbols);
 	}
 
-	private void startMainBacktest(Date dateStart, Date dateEnd, ArrayList<String> listOfSymbols) {
+	private void startMainBacktest(Date dateStart, Date dateEnd, ArrayList<Symbol> listOfSymbols) {
 		if (backtestType != BacktestType.backtest_result_only) {
 			Co.println("Main backtest...\n\n");
 		}
@@ -111,34 +113,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		
 		ListTools.removeDuplicates(listOfSymbols);
 
-		HistoricalData baseHistoricalData = new HistoricalData(exchange, null, dateStart, dateEnd, Resolution.min);
-
-		baseHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
-		baseHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
-		baseHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
-		baseHistoricalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
-
-		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate);
-
-		if (listOfBacktestDates.size() == 0) {
-			throw new IllegalArgumentException("Weekday not entered. Backtest must contain a weekday.");
-		}
-
-		for (Date date : listOfBacktestDates) {
-			HistoricalDataList historicalDataList = new HistoricalDataList();
-
-			for (String symbol : listOfSymbols) {
-				HistoricalData dayHistoricalData = new HistoricalData(exchange, new Symbol(symbol, SecurityType.type_stock), (Date) date.clone(), (Date) date.clone(), baseHistoricalData.resolution);
-				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
-				dayHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
-				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
-				dayHistoricalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
-				
-				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
-			}
-
-			listOfHistoricalDataList.add(historicalDataList);
-		}
+		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(exchange, dateStart, dateEnd, listOfSymbols);
 		
 		setupBacktestContainersAndAdjustment();
 
@@ -184,7 +159,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 		for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 			if (backtestContainer.isIncomplete()) {
-				HistoricalData historicalData = getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
+				HistoricalData historicalData = BacktestUtils.getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
 				ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 
 				if (listOfResults.size() > 0) {
@@ -207,26 +182,28 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 	}
 
-	private HistoricalData getHistoricalDataForSymbol(HistoricalDataList historicalDataList, String symbol) {
-		if (historicalDataList.listOfHistoricalData.size() == 0) {
-			throw new IllegalStateException("Historical data list size is 0 for symbol: " + symbol);
-		}
-		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData) {
-			if (historicalData.symbol.symbolName.equals(symbol)) {
-				return historicalData;
+	private synchronized boolean runNextBacktestForDays(boolean skippedDay) {
+		if (backtestType == BacktestType.backtest_adjustment_boilerplate){
+			throw new UnknownError("Not sure how to handle this becuase I can't rebase");
+		}else if (backtestType == BacktestType.backtest_adjustment_individual || backtestType == BacktestType.backtest_clustered_client){
+			for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
+				if (pair.second.rebaseRequired()){
+					pair.second.isRebasing = true;
+				}
 			}
 		}
-
-		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
-	}
-
-	private synchronized boolean runNextBacktestForDays(boolean skippedDay) {
+		
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {
 			if (backtestType == BacktestType.backtest_default || backtestType == BacktestType.backtest_result_only) {
 				return false;
 			} else if (backtestType == BacktestType.backtest_clustered_client) {
-				if (currentBacktestComputeUnitIndex < listOfAlgorithmModel.size()){
-					
+				int maxUnitSize = 0;
+				
+				for (Symbol symbol : hashOfAlgorithmModel.keySet()){
+					maxUnitSize = Math.max(maxUnitSize, hashOfAlgorithmModel.get(symbol).size());
+				}
+				
+				if (currentBacktestComputeUnitIndex < maxUnitSize){
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 						BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 						backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, false);
@@ -235,7 +212,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						
 						Co.println("--> About to remodel");
 						
-						new AlgorithmRemodeler(backtestContainer.algorithm, listOfAlgorithmModel.get(currentBacktestComputeUnitIndex)).remodel();
+						new AlgorithmRemodeler(backtestContainer.algorithm, hashOfAlgorithmModel.get(backtestContainer.symbol).get(currentBacktestComputeUnitIndex)).remodel();
 						
 //						for (SignalBase signalBase : backtestContainer.algorithm.signalGroup.getListOfSignalBase()){
 //							SignalParameters signalParameter = signalBase.signalParameters;
@@ -245,10 +222,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 //							}
 //						}
 					}
-					
-//					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
-//					
-//					}
 					
 					currentBacktestDayIndex = 0;
 					currentBacktestComputeUnitIndex++;
@@ -284,6 +257,33 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					Global.callbackLock.releaseLock();
 				}
 			} else if (backtestType == BacktestType.backtest_adjustment_individual) {
+				Co.println("--> Finished all days: " + adjustmentCampaignProvider.isRebasingIndividual());
+				
+				if (adjustmentCampaignProvider.isRebasingIndividual()){
+					Co.println("--> Is rebased?");
+					
+					for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
+						if (pair.second.isRebasing){
+							Co.println("--> Need to rebase: " + pair.first.identifier.symbolName);
+							
+							BacktestContainer backtestContainer = BacktestUtils.getBacktestContainerForSymbol(pair.first.identifier, listOfBacktestContainer);
+							
+							new AdjustmentRebaser(pair.second, backtestContainer).rebase();
+							backtestContainer.reset();
+							
+							pair.second.applyValues();
+							pair.second.isRebasing = false;
+						}
+					}
+					
+					Co.println("--> Was rebased! - Re-run current iteration!");
+					
+					currentBacktestDayIndex = 0;
+					return runNextBacktestForDays(false);
+				}
+				
+				Co.println("--> X");
+				
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 					backtestEvaluator.addResult(backtestContainer.symbol, backtestEvaluation, true);
@@ -321,6 +321,8 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 			}
 			return false;
 		} else {
+			Co.println("--> Run on day");
+			
 			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex);
 			runNextBacktestOnContainers(historicalDataList);
 			if (skippedDay == false) {
@@ -335,6 +337,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 		for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
 			if (pair.second.hasMore()) {
+				if (pair.second.rebaseRequired()){
+					throw new IllegalStateException("Need to rebase!");
+				}
 				pair.second.runAdjustment();
 				adjustmentRun = true;
 			} else {

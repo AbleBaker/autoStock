@@ -2,6 +2,8 @@ package com.autoStock.backtest;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
@@ -14,6 +16,7 @@ import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
 import com.autoStock.adjust.AdjustmentOfSignalMetric;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
@@ -26,6 +29,11 @@ import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.trading.types.HistoricalDataList;
+import com.autoStock.types.Exchange;
+import com.autoStock.types.Symbol;
 import com.google.gson.internal.Pair;
 
 /**
@@ -200,6 +208,69 @@ public class BacktestUtils {
 		}
 		
 		return listOfDisplayRows;
+	}
+	
+	public static BacktestContainer getBacktestContainerForSymbol(Symbol symbol, ArrayList<BacktestContainer> listOfBacktestContainer){
+		for (BacktestContainer backtestContainer : listOfBacktestContainer){
+			if (backtestContainer.symbol.equals(symbol)){
+				return backtestContainer;
+			}
+		}
+		return null;
+	}
+	
+	public static ArrayList<HistoricalDataList> getHistoricalDataList(Exchange exchange, Date dateStart, Date dateEnd, List<Symbol> listOfSymbols){
+		ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
+		
+		HistoricalData baseHistoricalData = getBaseHistoricalData(exchange, null, dateStart, dateEnd, Resolution.min);
+
+		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate);
+
+		if (listOfBacktestDates.size() == 0) {
+			throw new IllegalArgumentException("Weekday not entered. Backtest must contain a weekday.");
+		}
+
+		for (Date date : listOfBacktestDates) {
+			HistoricalDataList historicalDataList = new HistoricalDataList();
+
+			for (Symbol symbol : listOfSymbols) {
+				HistoricalData dayHistoricalData = new HistoricalData(exchange, symbol, (Date) date.clone(), (Date) date.clone(), baseHistoricalData.resolution);
+				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
+				dayHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
+				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
+				dayHistoricalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
+				
+				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
+			}
+
+			listOfHistoricalDataList.add(historicalDataList);
+		}
+		
+		return listOfHistoricalDataList;
+	}
+	
+	public static HistoricalData getBaseHistoricalData(Exchange exchange, Symbol symbol, Date dateStart, Date dateEnd, Resolution resolution){
+		HistoricalData baseHistoricalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, resolution);
+
+		baseHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
+		baseHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
+		baseHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
+		baseHistoricalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
+		
+		return baseHistoricalData;
+	}
+	
+	public static HistoricalData getHistoricalDataForSymbol(HistoricalDataList historicalDataList, String symbol) {
+		if (historicalDataList.listOfHistoricalData.size() == 0) {
+			throw new IllegalStateException("Historical data list size is 0 for symbol: " + symbol);
+		}
+		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData) {
+			if (historicalData.symbol.symbolName.equals(symbol)) {
+				return historicalData;
+			}
+		}
+
+		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
 	}
 	
 	public static class BacktestResultTransactionDetails {

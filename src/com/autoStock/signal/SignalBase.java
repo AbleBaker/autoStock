@@ -20,6 +20,7 @@ public abstract class SignalBase {
 	protected ArrayList<Integer> listOfNormalizedAveragedValue = new ArrayList<Integer>();
 	protected MutableInteger maxSignalAverage;
 	public SignalParameters signalParameters;
+	public SignalRangeLimit signalRangeLimit = new SignalRangeLimit();
 	
 	public SignalBase(SignalMetricType signalMetricType, SignalParameters signalParameters){
 		this.signalMetricType = signalMetricType;
@@ -114,8 +115,10 @@ public abstract class SignalBase {
 	}
 	
 	public void setInput(double value){
+		int strength = getStrength();
 		listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value));
-		listOfNormalizedAveragedValue.add(getStrength());
+		listOfNormalizedAveragedValue.add(strength);
+		signalRangeLimit.addValue(strength);
 		
 		prune(maxSignalAverage.value);
 	}
@@ -133,5 +136,6 @@ public abstract class SignalBase {
 	public void reset() {
 		listOfNormalizedAveragedValue.clear();
 		listOfNormalizedValue.clear();
+		signalRangeLimit.reset();
 	}
 }

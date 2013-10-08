@@ -2,6 +2,7 @@ package com.autoStock.com;
 
 import java.io.PrintWriter;
 
+import com.autoStock.Co;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommand;
 import com.autoStock.internal.GsonClassAdapter;
@@ -20,17 +21,20 @@ public class CommandSerializer {
 	
 	public CommandSerializer(){
 		gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+		gsonBuilder.enableComplexMapKeySerialization();
 		gson = gsonBuilder.create();
 	}
 	
 	public void sendSerializedCommand(Command command, PrintWriter printWriter){
 		String string = gson.toJson(new CommandHolder(command), new TypeToken<CommandHolder>(){}.getType());
+		
 		printWriter.println(string);
 		printWriter.println(CommunicationCommand.com_end_command.command);
 	}
 	
 	public void sendSerializedCommand(CommandHolder commandHolder, PrintWriter printWriter){
 		String string = gson.toJson(commandHolder, new TypeToken<CommandHolder>(){}.getType());
+		
 		printWriter.println(string);
 		printWriter.println(CommunicationCommand.com_end_command.command);
 	}

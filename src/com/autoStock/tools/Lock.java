@@ -6,4 +6,6 @@ package com.autoStock.tools;
  */
 public class Lock extends Object{
 	//Synchronize on this
+	
+	public boolean isLocked;
 }

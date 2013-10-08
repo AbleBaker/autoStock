@@ -3,11 +3,13 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
+import com.autoStock.adjust.AdjustmentRebaser;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
@@ -18,6 +20,8 @@ import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalRangeLimit;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
@@ -26,13 +30,14 @@ import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
 import com.google.gson.GsonBuilder;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
  * 
  */
 public class BacktestContainer implements ReceiverOfQuoteSlice {
-	private final boolean usePrecomputedEvaluation = false;
+	private final boolean usePrecomputedEvaluation = true;
 	public final Symbol symbol;
 	public final Exchange exchange;
 	public HistoricalData historicalData;
@@ -44,6 +49,8 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private BasicAccount basicAccount;
 	private ArrayList<DbStockHistoricalPrice> listOfDbHistoricalPrices = new ArrayList<DbStockHistoricalPrice>();
 	public ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
+	public HashMap<SignalBase, SignalRangeLimit> hashOfSignalRangeLimit = new HashMap<SignalBase, SignalRangeLimit>();
+	
 	public Date dateContainerStart;
 	public Date dateContainerEnd;
 
@@ -99,8 +106,11 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 
 	public void runBacktest() {
 		if (listOfDbHistoricalPrices.size() == 0) {
+//			throw new IllegalStateException();
 			endOfFeed(symbol);
+			return;
 		}
+		
 		backtest = new Backtest(historicalData, listOfDbHistoricalPrices, symbol);
 		backtest.performBacktest(this);
 	}
@@ -126,6 +136,8 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	public void reset() {
 		listOfStrategyResponse.clear();
 		algorithm.basicAccount.reset();
+		hashOfSignalRangeLimit.clear();
+//		Co.println("******* RESET");
 	}
 
 	@Override
@@ -137,6 +149,19 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	public synchronized void endOfFeed(Symbol symbol) {
 		listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
 		algorithm.endOfFeed(symbol);
+		
+		for (SignalBase signalBase : algorithm.signalGroup.getListOfSignalBase()){
+			if (signalBase.signalRangeLimit.isSet()){
+				if (hashOfSignalRangeLimit.containsKey(signalBase)){
+					hashOfSignalRangeLimit.put(signalBase, AdjustmentRebaser.getRangeLimit(Arrays.asList(new SignalRangeLimit[]{hashOfSignalRangeLimit.get(signalBase), signalBase.signalRangeLimit.copy()})));
+				}else{
+					hashOfSignalRangeLimit.put(signalBase, signalBase.signalRangeLimit.copy());
+				}
+			}else{
+//				Co.println("--> Signal range limit not set: " + signalBase.getClass().getName());
+			}
+		}
+		
 		listener.backtestCompleted(symbol, algorithm);
 	}
 
