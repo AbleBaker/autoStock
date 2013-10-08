@@ -29,6 +29,7 @@ public class IterableOfInteger extends IterableBase {
 	}
 	
 	public void rebase(int min, int max){
+//		throw new IllegalStateException();
 		if (currentIndex != 0){
 			throw new IllegalStateException("Can't rebase if index isn't 0. Index is: " + currentIndex);
 		}

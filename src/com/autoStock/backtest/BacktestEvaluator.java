@@ -1,5 +1,6 @@
 package com.autoStock.backtest;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,7 +32,7 @@ public class BacktestEvaluator {
 			pruneResults(bufferResults, true);
 		}
 		
-		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", Score: " + backtestEvaluation.getScore() + ", " + backtestEvaluation.transactions + ", %" + backtestEvaluation.percentTradeWin);
+		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", Score: " + backtestEvaluation.getScore() + ", " + backtestEvaluation.transactions + ", %" + new DecimalFormat("0.00").format(backtestEvaluation.percentYield));
 		
 //		for (DescriptorForSignal descriptor : backtestEvaluation.listOfDescriptorForSignal){
 //			Co.println("--> Descriptor: " + descriptor.toString());

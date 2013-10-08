@@ -28,26 +28,29 @@ public class AdjustmentRebaser {
 			if (adjustmentBase instanceof AdjustmentOfSignalMetric){
 				AdjustmentOfSignalMetric adjustmentOfSignalMetric = (AdjustmentOfSignalMetric) adjustmentBase;
 				
-//				Co.println("--> Have adjustment: " + adjustmentOfSignalMetric.description);
 
 				for (SignalBase signalBase : backtestContainer.hashOfSignalRangeLimit.keySet()){
 					if (adjustmentOfSignalMetric.signalBase.getClass() == signalBase.getClass()){
 						IterableOfInteger iterableOfInteger = ((IterableOfInteger)adjustmentOfSignalMetric.iterableBase);
 						
-						if (iterableOfInteger.rebaseRequired){
+						Co.println("--> Rebasing adjustment: " + adjustmentOfSignalMetric.description);
+						
+//						if (iterableOfInteger.rebaseRequired){
 							int min = backtestContainer.hashOfSignalRangeLimit.get(signalBase).getMin();
 							int max = backtestContainer.hashOfSignalRangeLimit.get(signalBase).getMax();
 						
 							iterableOfInteger.rebase(min, max);
 						
 							Co.println("--> " + adjustmentOfSignalMetric.description + ", " + min + ", " + max + " rebase adjusted to: " + iterableOfInteger.getMin() + ", " + iterableOfInteger.getMax());
-						}
+//						}
 					}
 				}
 			}
 		}
 		
 		adjustmentCampaign.rebased();
+		
+//		throw new IllegalStateException();
 	}
 	
 	public static SignalRangeLimit getRangeLimit(List<SignalRangeLimit> list){
