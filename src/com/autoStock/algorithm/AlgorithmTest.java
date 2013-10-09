@@ -71,6 +71,8 @@ public class AlgorithmTest extends AlgorithmBase {
 			if (algorithmMode.displayTable) {
 				algorithmTable.addTableRow(listOfQuoteSlice, strategyBase.signal, signalGroup, strategyResponse, basicAccount);
 			}
+				
+//			Co.println("--> Sizes: " + listOfQuoteSlice.size() + ", " + algorithmTable.listOfDisplayRows.size());
 			
 //			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
 			finishedReceiverOfQuoteSlice();

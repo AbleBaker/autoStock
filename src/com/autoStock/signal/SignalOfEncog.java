@@ -27,6 +27,7 @@ import com.autoStock.tools.ListTools;
 public class SignalOfEncog extends SignalBase {
 	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
+	private SignalPointType lastSignalPointType = SignalPointType.none;
 	
 	public SignalOfEncog(SignalParameters signalParameters) {
 		super(SignalMetricType.metric_encog, signalParameters);
@@ -91,7 +92,13 @@ public class SignalOfEncog extends SignalBase {
         
 //        Co.println("--> " + valueForEntry + ", " + valueForExit);
         
-        return signalPoint;
+        if (signalPoint.signalPointType != lastSignalPointType){
+        	lastSignalPointType = signalPoint.signalPointType;
+        	return signalPoint;        	
+        }else{
+        	return new SignalPoint(SignalPointType.none, SignalMetricType.metric_encog);
+        }
+        
 	}
 	
 	public void setInput(EncogInputWindow encogInputWindow){

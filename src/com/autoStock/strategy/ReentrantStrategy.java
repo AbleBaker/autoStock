@@ -2,6 +2,7 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
@@ -43,6 +44,8 @@ public class ReentrantStrategy {
 				}else{
 //					Co.println("--> Percent gain insufficient: " + percentGainFromPosition);
 				}
+			}else{
+//				Co.println("--> Time difference insufficient or reenteredCount > 8" + reenteredCount);
 			}
 		}
 		

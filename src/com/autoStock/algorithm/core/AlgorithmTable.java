@@ -27,8 +27,9 @@ import com.autoStock.types.Symbol;
  */
 public class AlgorithmTable {
 	private static Lock lock = new Lock();
-	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
+	public ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private Symbol symbol;
+	private static DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	
 	public AlgorithmTable(Symbol symbol) {
 		this.symbol = symbol;
@@ -40,7 +41,7 @@ public class AlgorithmTable {
 
 		columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
-		columnValues.add((new DecimalFormat("#.00").format(quoteSlice.priceClose)));
+		columnValues.add(decimalFormat.format(quoteSlice.priceClose));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
 		columnValues.add(String.valueOf(signalGroup.signalOfDI.getStrength()));
 		columnValues.add(String.valueOf(signalGroup.signalOfCCI.getStrength()));
@@ -56,7 +57,7 @@ public class AlgorithmTable {
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalPointType == SignalPointType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalPointType.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add(getTransactionDetails(strategyResponse));
-		columnValues.add(new DecimalFormat("#.00").format((basicAccount.getBalance())));
+		columnValues.add(decimalFormat.format(basicAccount.getBalance()));
 		
 		listOfDisplayRows.add(columnValues);
 	}

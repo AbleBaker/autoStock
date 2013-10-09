@@ -9,7 +9,12 @@ import com.autoStock.account.AccountProvider;
 public class BacktestScoreProvider {
 	public static double getScore(BacktestEvaluation backtestEvaluation){
 		double score;
-		score = (backtestEvaluation.accountBalance - AccountProvider.defaultBalance); // * backtestEvaluation.percentTradeWin; // * backtestEvaluation.transactions;
+		score = backtestEvaluation.percentYield; //(backtestEvaluation.accountBalance - AccountProvider.defaultBalance); // * backtestEvaluation.percentTradeWin; // * backtestEvaluation.transactions;
+		
+//		score = backtestEvaluation.percentYield * backtestEvaluation.backtestResultTransactionDetails.countForTradeExit;
+		
+//		score = backtestEvaluation.backtestResultTransactionDetails.avgTradeWin * backtestEvaluation.transactions;
+		
 		return score;
 	}
 }

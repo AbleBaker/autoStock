@@ -242,17 +242,12 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 				}
 			}
 		}
-		
-//		if (currentPosition != null){
-//			Co.println("--> Current position cost: " + currentPosition.getPositionValue().priceCurrentWithFees);
-//		}else{
-//			Co.println("--> Position is null");
-//		}
-		
+	
 		double totalValue = (currentPosition == null ? 0 : currentPosition.getPositionValue().valueCurrentWithFees) + basicAccount.getBalance();
 		totalValue = totalValue - AccountProvider.defaultBalance;
 		totalValue = totalValue / positionCost;
 		
+//		Co.println("--> Position cost: " + positionCost);
 //		Co.println("--> Total value: " + totalValue);
 
 		return totalValue * 100;
