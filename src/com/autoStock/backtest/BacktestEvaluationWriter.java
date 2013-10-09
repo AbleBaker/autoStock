@@ -41,7 +41,7 @@ public class BacktestEvaluationWriter {
 			new QueryArg(QueryArgs.symbol, backtestEvaluation.symbol.symbolName),
 			new QueryArg(QueryArgs.balanceInBand, new DecimalFormat("#.00").format(backtestEvaluation.accountBalance)),
 			new QueryArg(QueryArgs.balanceOutBand, new DecimalFormat("#.00").format(outOfSampleEvaluation == null ? 0 : outOfSampleEvaluation.accountBalance)),
-			new QueryArg(QueryArgs.percentGainInBand, "0"),
+			new QueryArg(QueryArgs.percentGainInBand, new DecimalFormat("#.00").format(backtestEvaluation.percentYield)),
 			new QueryArg(QueryArgs.percentGainOutBand, "0"),
 			new QueryArg(QueryArgs.tradeEntry, String.valueOf(backtestEvaluation.backtestResultTransactionDetails.countForTradeEntry)),
 			new QueryArg(QueryArgs.tradeReentry, String.valueOf(backtestEvaluation.backtestResultTransactionDetails.countForTradesReentry)),

@@ -1,5 +1,6 @@
 package com.autoStock;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -278,7 +279,11 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					Global.callbackLock.releaseLock();
 				}
 			} else if (backtestType == BacktestType.backtest_adjustment_individual) {
-				Co.println("--> Finished all days: " + adjustmentCampaignProvider.isRebasingIndividual());
+//				Co.println("--> Finished all days: " + adjustmentCampaignProvider.isRebasingIndividual());
+				
+				for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
+					pair.second.printPercentComplete(pair.first.identifier.symbolName);
+				}
 				
 				if (adjustmentCampaignProvider.isRebasingIndividual()){
 					Co.println("--> Is rebased?");
@@ -342,7 +347,9 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		} else {
 			Co.println("--> Run on day");
 
-			remodelBacktestContainers();
+			if (backtestType == BacktestType.backtest_clustered_client){
+				remodelBacktestContainers();
+			}
 			
 			HistoricalDataList historicalDataList = listOfHistoricalDataList.get(currentBacktestDayIndex);
 			runNextBacktestOnContainers(historicalDataList);

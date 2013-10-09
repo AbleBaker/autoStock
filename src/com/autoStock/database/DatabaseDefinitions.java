@@ -82,7 +82,7 @@ public class DatabaseDefinitions {
 				DbWhitelist.class,
 				false), 
 		
-		basic_get_backtest_evaluation("select * from gson where id = (select id from backtestResults where symbol='%s' and exchange='%s' order by dateRun desc limit 1);",
+		basic_get_backtest_evaluation("select * from gson where id = (select gsonId from backtestResults where symbol='%s' and exchange='%s' order by dateRun desc limit 1);",
 				new QueryArgs[]{QueryArgs.symbol, QueryArgs.exchange},
 				DbGson.class,
 				false),

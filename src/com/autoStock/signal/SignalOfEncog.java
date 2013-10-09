@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.encog.ml.MLRegression;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
@@ -12,6 +13,7 @@ import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -23,7 +25,7 @@ import com.autoStock.tools.ListTools;
  *
  */
 public class SignalOfEncog extends SignalBase {
-	private BasicNetwork basicNetwork;
+	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
 	
 	public SignalOfEncog(SignalParameters signalParameters) {
@@ -36,7 +38,11 @@ public class SignalOfEncog extends SignalBase {
 //			e.printStackTrace();
 		}
 	}
+	
 
+	public void setNetwork(MLRegression network) {
+		this.basicNetwork = network;
+	}
 	
 	@Override
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
@@ -70,11 +76,18 @@ public class SignalOfEncog extends SignalBase {
         
         if (valueForEntry >= 0.99){
         	signalPoint.signalPointType = SignalPointType.long_entry;
-        	signalPoint.signalMetricType = SignalMetricType.none;
+        	signalPoint.signalMetricType = SignalMetricType.metric_encog;
         }else if (valueForExit >= 0.99){
         	signalPoint.signalPointType = SignalPointType.long_exit;
-        	signalPoint.signalMetricType = SignalMetricType.none;
+        	signalPoint.signalMetricType = SignalMetricType.metric_encog;
         }
+        
+//        if (signalPoint.signalPointType == SignalPointType.long_entry || signalPoint.signalPointType == SignalPointType.long_exit){
+//        	Co.println("--> Encog signal with window: " + signalPoint.signalPointType.name());
+//        	for (int i=0; i<inputWindow.length; i++){
+//        		Co.print(" " + inputWindow[i]);
+//        	}
+//        }
         
 //        Co.println("--> " + valueForEntry + ", " + valueForExit);
         
@@ -94,9 +107,6 @@ public class SignalOfEncog extends SignalBase {
 		private List<List<Integer>> list = new ArrayList<List<Integer>>();
 		
 		public EncogInputWindow(){}
-//		public EncogInputWindow(List<?>[] arrayOfInputArrayList){
-//			list = arrayOfInputArrayList;
-//		}
 		
 		public void addInputList(List<Integer> listOfInteger){
 			list.add(listOfInteger);

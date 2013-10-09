@@ -29,5 +29,9 @@ public abstract class StrategyBase {
 		this.algorithmBase = algorithmBase;
 	}
 	
+//	public void setPositionGovernor(PositionGovernor positionGovernor){
+//		this.positionGovener = positionGovernor;
+//	}
+	
 	public abstract StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse, Position position, PositionOptions positionOptions);
 }

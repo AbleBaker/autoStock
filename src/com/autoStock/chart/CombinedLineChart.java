@@ -71,7 +71,7 @@ public class CombinedLineChart {
 
 			ChartPanel chartPanel = (ChartPanel) createPanel();
 			chartPanel.setPreferredSize(new Dimension(1600, 1000));
-			chartPanel.setHorizontalAxisTrace(true);
+//			chartPanel.setHorizontalAxisTrace(true);
 			
 //			JButton button = new JButton("Add New Data Item");
 //	        button.setActionCommand("ADD_DATA");
@@ -178,6 +178,11 @@ public class CombinedLineChart {
 //				}
 			    
 			    subPlotForSignals.getRenderer().setBaseToolTipGenerator(StandardXYToolTipGenerator.getTimeSeriesInstance());
+			    
+			    subPlotForSignals.setDomainCrosshairVisible(true);
+			    subPlotForSignals.setDomainCrosshairLockedOnData(true);
+//			    subPlotForSignals.setRangeCrosshairVisible(true);
+//			    subPlotForSignals.setRangeCrosshairLockedOnData(true);
 				
 				plot.add(subPlotForSignals, 1);
 			}
@@ -337,7 +342,7 @@ public class CombinedLineChart {
 		}
 		
 		public Color getColor(){
-			Color[] arrayOfColors = new Color[]{Color.BLUE, Color.GREEN, Color.RED, Color.PINK, Color.MAGENTA, Color.CYAN, Color.ORANGE, Color.DARK_GRAY, Color.LIGHT_GRAY};
+			Color[] arrayOfColors = new Color[]{Color.BLACK, Color.BLUE, Color.GREEN, Color.RED, Color.PINK, Color.MAGENTA, Color.CYAN, Color.ORANGE, Color.DARK_GRAY, Color.LIGHT_GRAY};
 			if (usedColor >= arrayOfColors.length-1){usedColor = -1;}
 			usedColor++;
 			return arrayOfColors[usedColor];

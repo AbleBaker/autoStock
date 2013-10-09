@@ -27,16 +27,16 @@ public class StrategyOptionDefaults {
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
 		
 		strategyOptions.maxTransactionsDay = 16;
-		strategyOptions.maxStopLossPercent.value = -0.20d;
-		strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
+		strategyOptions.maxStopLossPercent.value = -.05d;
+		strategyOptions.maxProfitDrawdownPercent.value = -.15d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
-		strategyOptions.maxPositionLossTime = 30;
+		strategyOptions.maxPositionLossTime = 0;
 		strategyOptions.maxReenterTimes.value = 8;
-		strategyOptions.intervalForReentryMins.value = 3;
-		strategyOptions.minReentryPercentGain.value = 0.05;
+		strategyOptions.intervalForReentryMins.value = 2;
+		strategyOptions.minReentryPercentGain.value = 0.15;
 		strategyOptions.prefillShift.value = 0;
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;
 //		strategyOptions.intervalForExitEntryMins.value = 5;

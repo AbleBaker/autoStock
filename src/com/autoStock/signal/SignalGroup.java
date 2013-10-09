@@ -2,6 +2,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -20,6 +21,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParametersForRSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
+import com.autoStock.signal.SignalOfEncog.EncogInputWindow;
 import com.autoStock.tools.ArrayTools;
 
 /**
@@ -44,7 +46,7 @@ public class SignalGroup {
 	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
 	
-	public static final int ENCOG_SIGNAL_INPUT = 15;
+	public static final int ENCOG_SIGNAL_INPUT = 10;
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	
@@ -87,20 +89,20 @@ public class SignalGroup {
 		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
 		
 		if (signalOfCCI.listOfNormalizedValue.size() >= ENCOG_SIGNAL_INPUT){
-//			Co.println("--> Size: " + signalOfCCI.listOfNormalizedValue.size());
+//			Co.println("--> Trying to use Encog!");
 			
-//			EncogInputWindow encogWindow = new EncogInputWindow();
-//			encogWindow.addInputList(signalOfCCI.listOfNormalizedValue.subList(signalOfCCI.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfCCI.listOfNormalizedValue.size()));
+			EncogInputWindow encogWindow = new EncogInputWindow();
+			encogWindow.addInputArray(signalOfCCI.getStrengthWindow());
 //			encogWindow.addInputList(signalOfRSI.listOfNormalizedValue.subList(signalOfRSI.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfRSI.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfUO.listOfNormalizedValue.subList(signalOfUO.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfUO.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfARUp.listOfNormalizedValue.subList(signalOfARUp.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARUp.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfARDown.listOfNormalizedValue.subList(signalOfARDown.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARDown.listOfNormalizedValue.size()));
-			
+//			
 //			for (int i=0; i<encogWindow.getAsWindow().length; i++){
 //				Co.print(" " + encogWindow.getAsWindow()[i]);
 //			}
 			
-//			signalOfEncog.setInput(encogWindow);
+			signalOfEncog.setInput(encogWindow);
 		}
 	}
 	

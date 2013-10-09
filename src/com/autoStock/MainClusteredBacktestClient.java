@@ -112,12 +112,15 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	public void backtestCompleted(){
 		for (Symbol symbol : hashOfBacktestEvaluation.keySet()){
 			ArrayList<BacktestEvaluation> listOfBacktestEvaluation = mainBacktest.backtestEvaluator.getResults(symbol);
-			Co.println("--> Have results: " + symbol.symbolName + ", " + listOfBacktestEvaluation.size());
+			Co.println("--> Have results: " + symbol.symbolName + ", " + (listOfBacktestEvaluation ==  null ? "0" : listOfBacktestEvaluation.size()));
 			
 			if (hashOfBacktestEvaluation.get(symbol).size() != 0){
 				throw new IllegalStateException();
 			}
-			hashOfBacktestEvaluation.get(symbol).addAll(listOfBacktestEvaluation);
+			
+			if (listOfBacktestEvaluation != null){
+				hashOfBacktestEvaluation.get(symbol).addAll(listOfBacktestEvaluation);
+			}
 		}
 		
 		sendBacktestResult();

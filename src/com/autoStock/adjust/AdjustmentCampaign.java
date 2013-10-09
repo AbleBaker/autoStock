@@ -3,6 +3,7 @@ package com.autoStock.adjust;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
@@ -75,16 +76,14 @@ public abstract class AdjustmentCampaign {
 		return hasRun;
 	}
 	
-	public double getPercentComplete(){
+	public void printPercentComplete(String prefix){
 		BigDecimal maximumIndex = BigDecimal.valueOf(1);
 		
 		for (IterableBase iterableBase : listOfIterableBase){
 			maximumIndex = maximumIndex.multiply(BigDecimal.valueOf(iterableBase.getMaxValues()));
 		}
 		
-		Co.println("--> Current / Max: " + currentIndex.toPlainString() + ", " + maximumIndex.toPlainString());
-		
-		return currentIndex.divide(maximumIndex, 4, RoundingMode.HALF_UP).doubleValue() * 100;
+		Co.println("--> [" + prefix + "] Current / Max: " + currentIndex.toPlainString() + ", " + maximumIndex.toPlainString() + " " + new DecimalFormat("0.00").format(currentIndex.divide(maximumIndex, 4, RoundingMode.HALF_UP).doubleValue() * 100) +"%");
 	}
 	
 	public void applyValues(){

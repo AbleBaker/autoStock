@@ -292,4 +292,14 @@ public class MathTools {
 	public static boolean isEven(int number){
 		return number % 2 == 0 ? true : false;
 	}
+
+	public static int[] getDeltas(int[] arrayOfInt) {
+		int[] results = new int[arrayOfInt.length];
+		
+		for (int i=0; i<arrayOfInt.length-1; i++){
+			results[i] = arrayOfInt[i] = arrayOfInt[i+1];
+		}
+		
+		return results;
+	}
 }

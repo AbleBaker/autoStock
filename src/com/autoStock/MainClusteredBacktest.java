@@ -59,7 +59,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private AtomicLong atomicIntForRequestId = new AtomicLong();
 	private Date dateStart;
 	private Date dateEnd;
-	private final int computeUnitIterationSize = 4;
+	private final int computeUnitIterationSize = 64;
 	private Benchmark bench = new Benchmark();
 	private Benchmark benchTotal = new Benchmark();
 	private Thread threadForWatcher;
@@ -153,7 +153,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 				computeUnit.hashOfAlgorithmModel.put(pair.first.identifier, listOfAlgorithmModel);
 			}
 			
-			Co.println("--> Percent complete: " + new DecimalFormat("#.00").format(pair.second.getPercentComplete()) +"%");
+			pair.second.printPercentComplete(pair.first.identifier.symbolName);
 		}
 		
 		Co.println("--> Issued unit: " + atomicIntForRequestId.get());
@@ -192,7 +192,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		threadForWatcher = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				int waitFor = 15;
+				int waitFor = 5;
 
 				while (isComplete() == false) {
 					try {Thread.sleep(1000);}catch(InterruptedException e){return;}
@@ -221,6 +221,12 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		for (String string : listOfSymbols){
 			Symbol symbol = new Symbol(string, SecurityType.type_stock);
 			Co.println("--> SYMBOL BACKTEST: " + symbol.symbolName);
+			
+			if (backtestEvaluator.getResults(symbol) == null){
+				Co.println("--> No positive results");
+				return;
+			}
+			
 			for (BacktestEvaluation backtestEvaluation : backtestEvaluator.getResults(symbol)){
 				Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
 			}

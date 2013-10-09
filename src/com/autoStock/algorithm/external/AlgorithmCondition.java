@@ -144,7 +144,11 @@ public class AlgorithmCondition {
 		return false;
 	}
 	
-	public boolean requestExitAfterLossDate(Date date, Position position, ArrayList<StrategyResponse> listOfStrategyResponse){			
+	public boolean requestExitAfterLossDate(Date date, Position position, ArrayList<StrategyResponse> listOfStrategyResponse){
+		if (strategyOptions.maxPositionLossTime == 0){
+			return false;
+		}
+		
 		if (((date.getTime() - position.getPositionHistory().dateOfCreation.getTime()) / 60 / 1000) > strategyOptions.maxPositionLossTime && position.getPositionProfitLossAfterComission(true) <= 0){
 			return true;
 		}

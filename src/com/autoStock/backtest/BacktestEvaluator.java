@@ -17,11 +17,17 @@ import com.autoStock.types.Symbol;
  */
 public class BacktestEvaluator {
 	private static final int bufferResults = 256;
-	public static final int maxResults = 4;
+	public static final int maxResults = 16;
 	
 	private ConcurrentHashMap<Symbol, ArrayList<BacktestEvaluation>> hashOfBacktestEvaluation = new ConcurrentHashMap<Symbol, ArrayList<BacktestEvaluation>>();
 
 	public void addResult(Symbol symbol, BacktestEvaluation backtestEvaluation, boolean autoPrune){
+		
+		if (backtestEvaluation.getScore() <= 0){
+			Co.println("--> Score is <= 0: " + backtestEvaluation.getScore());
+			return;
+		}
+		
 		if (hashOfBacktestEvaluation.containsKey(symbol) == false){
 			hashOfBacktestEvaluation.put(symbol, new ArrayList<BacktestEvaluation>(Arrays.asList(new BacktestEvaluation[]{backtestEvaluation})));
 		}else{
@@ -32,11 +38,29 @@ public class BacktestEvaluator {
 			pruneResults(bufferResults, true);
 		}
 		
-		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", Score: " + backtestEvaluation.getScore() + ", " + backtestEvaluation.transactions + ", %" + new DecimalFormat("0.00").format(backtestEvaluation.percentYield));
+//		Co.println("--> Added: " + symbol.symbolName + ", " + backtestEvaluation.accountBalance + ", Score: " + backtestEvaluation.getScore() + ", " + backtestEvaluation.transactions + ", %" + new DecimalFormat("0.00").format(backtestEvaluation.percentYield));
 		
 //		for (DescriptorForSignal descriptor : backtestEvaluation.listOfDescriptorForSignal){
 //			Co.println("--> Descriptor: " + descriptor.toString());
 //		}
+		
+		
+		printBest();
+		
+		if (backtestEvaluation.percentYield > 0.20){
+			throw new IllegalAccessError();
+		}
+//		throw new IllegalStateException();
+	}
+	
+	public void printBest(){
+		for (Symbol symbol : hashOfBacktestEvaluation.keySet()){
+			ArrayList<BacktestEvaluation> listOfBacktestEvaluation = hashOfBacktestEvaluation.get(symbol);
+			
+			for (BacktestEvaluation backtestEvaluation : (ArrayList<BacktestEvaluation>) ListTools.reverseList(listOfBacktestEvaluation)){
+				Co.println("--> BEST SCORES: " + backtestEvaluation.percentYield + ", " + backtestEvaluation.getScore());
+			}
+		}
 	}
 	
 	public synchronized void pruneResults(int results, boolean enforceSizeRestriction){
