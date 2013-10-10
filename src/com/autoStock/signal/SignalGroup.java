@@ -1,6 +1,7 @@
 package com.autoStock.signal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnalysisData;
@@ -92,7 +93,7 @@ public class SignalGroup {
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
-			encogWindow.addInputArray(signalOfCCI.getStrengthWindow());
+			encogWindow.addInputArray(Arrays.copyOfRange(signalOfCCI.getStrengthWindow(), 0, ENCOG_SIGNAL_INPUT));
 //			encogWindow.addInputList(signalOfRSI.listOfNormalizedValue.subList(signalOfRSI.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfRSI.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfUO.listOfNormalizedValue.subList(signalOfUO.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfUO.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfARUp.listOfNormalizedValue.subList(signalOfARUp.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARUp.listOfNormalizedValue.size()));

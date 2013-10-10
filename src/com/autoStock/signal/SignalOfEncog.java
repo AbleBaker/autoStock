@@ -61,12 +61,12 @@ public class SignalOfEncog extends SignalBase {
 //			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
 //		}		
 		
-//		Co.println("--> Inputs... ");
+//		Co.println("--> Inputs... " + inputWindow.length);
 		
 		if (havePosition){
-			input.add(0, 1);
-		}else{
 			input.add(0, -1);
+		}else{
+			input.add(0, 1);
 		}
 		
 		for (int i=0; i<inputWindow.length; i++){
