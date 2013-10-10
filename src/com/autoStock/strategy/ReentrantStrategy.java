@@ -32,13 +32,15 @@ public class ReentrantStrategy {
 		int reenteredCount = 0;
 		
 		for (PositionGovernorResponse positionGovernorResponse : listOfPair.second){
-			if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
-				reenteredCount++;
+			if (positionGovernorResponse.position == position){
+				if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
+					reenteredCount++;
+				}
 			}
 		}
 
 		if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short){
-			if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins.value || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount < strategyOptions.maxReenterTimes.value){
+			if ((timeOfLastOccurrenceDifference.minutes >= strategyOptions.intervalForReentryMins.value || timeOfLastOccurrenceDifference.hours > 0) && reenteredCount < strategyOptions.maxReenterTimesPerPosition.value){
 				if (percentGainFromPosition > strategyOptions.minReentryPercentGain.value){
 					return ReentryStatus.status_reenter;
 				}else{

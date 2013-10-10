@@ -80,7 +80,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 				gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
 				
 				BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);
-				algorithm.remodel(backtestEvaluation);
+				algorithm.remodel(backtestEvaluation, false, true);
 			}
 		}
 	}
