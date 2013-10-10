@@ -1,6 +1,7 @@
 package com.autoStock.indicator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
@@ -161,14 +162,14 @@ public class IndicatorGroup {
 		return listOfIndicatorBase;
 	}
 
-	public int getMinPeriodLength() {
+	public int getMinPeriodLength(boolean includeAll) {
 		int min = 0;
 		IndicatorBase indcatorBase = null;
 		
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			if (indicator instanceof CandleStickIdentifier == false){
 				for (SignalMetricType signalMetricType : indicator.getSignalMetricType()){
-					if (listOfSignalMetricType.contains(signalMetricType)){
+					if (listOfSignalMetricType.contains(signalMetricType) || includeAll){
 						if (indicator.getRequiredDatasetLength() > min){
 							min = indicator.getRequiredDatasetLength();
 							indcatorBase = indicator;

@@ -47,9 +47,9 @@ public class BacktestEvaluator {
 		
 		printBest();
 		
-		if (backtestEvaluation.percentYield > 0.20){
-			throw new IllegalAccessError();
-		}
+//		if (backtestEvaluation.percentYield > 0.20){
+//			throw new IllegalAccessError();
+//		}
 //		throw new IllegalStateException();
 	}
 	

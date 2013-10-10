@@ -100,7 +100,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		indicatorGroup.initialize();
 		
 		indicatorGroup.setActive(listOfSignalMetricType);
-		periodLength = indicatorGroup.getMinPeriodLength();
+		periodLength = indicatorGroup.getMinPeriodLength(true);
 		
 		listOfQuoteSlice.clear();
 		listOfStrategyResponse.clear();

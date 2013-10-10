@@ -57,31 +57,46 @@ public class SignalOfEncog extends SignalBase {
 		
 		int[] inputWindow = encogInputWindow.getAsWindow();
 		
-		if (inputWindow.length != basicNetwork.getInputCount()){
-			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
-		}
+//		if (inputWindow.length != basicNetwork.getInputCount()){
+//			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
+//		}		
 		
 //		Co.println("--> Inputs... ");
 		
-		for (int i=0; i<inputWindow.length; i++){
-//			Co.print(" " + inputWindow[i]);
-			input.add(i, normalizedFieldForSignals.normalize(inputWindow[i]));
+		if (havePosition){
+			input.add(0, 1);
+		}else{
+			input.add(0, -1);
 		}
 		
-//		System.exit(0);
+		for (int i=0; i<inputWindow.length; i++){
+//			Co.print(" " + inputWindow[i]);
+			input.add(i+1, normalizedFieldForSignals.normalize(inputWindow[i]));
+		}
         
         MLData output = basicNetwork.compute(input);
         
-        double valueForEntry = output.getData(0);
-        double valueForExit = output.getData(1);
+        double valueForLongEntry = output.getData(0);
+        double valueForShortEntry = output.getData(1);
+        double valueForAnyExit = output.getData(2);
         
-        if (valueForEntry >= 0.99){
+        if (valueForLongEntry >= 0.99){
         	signalPoint.signalPointType = SignalPointType.long_entry;
         	signalPoint.signalMetricType = SignalMetricType.metric_encog;
-        }else if (valueForExit >= 0.99){
-        	signalPoint.signalPointType = SignalPointType.long_exit;
+        }else if (valueForShortEntry >= 0.99){
+        	signalPoint.signalPointType = SignalPointType.short_entry;
+        	signalPoint.signalMetricType = SignalMetricType.metric_encog;
+        }else if (valueForAnyExit >= 0.99 && havePosition){
+        	if (positionType == PositionType.position_long){
+        		signalPoint.signalPointType = SignalPointType.long_exit;
+        	}else if (positionType == PositionType.position_short){
+        		signalPoint.signalPointType = SignalPointType.short_exit;
+        	}else{
+        		throw new IllegalStateException("Have position of type: " + positionType.name());
+        	}
         	signalPoint.signalMetricType = SignalMetricType.metric_encog;
         }
+        
         
 //        if (signalPoint.signalPointType == SignalPointType.long_entry || signalPoint.signalPointType == SignalPointType.long_exit){
 //        	Co.println("--> Encog signal with window: " + signalPoint.signalPointType.name());

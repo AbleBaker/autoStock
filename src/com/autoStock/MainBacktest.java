@@ -330,8 +330,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					
 					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 						Co.println("--> SYMBOL BACKTEST: " + backtestContainer.symbol.symbolName);
-						for (BacktestEvaluation backtestEvaluation : backtestEvaluator.getResults(backtestContainer.symbol)){
-							Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
+						ArrayList<BacktestEvaluation> listOfBacktestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol); 
+						if (listOfBacktestEvaluation == null){
+							Co.println("--> No results");
+						}else{
+							for (BacktestEvaluation backtestEvaluation : listOfBacktestEvaluation){
+								Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
+							}							
 						}
 						
 						BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
