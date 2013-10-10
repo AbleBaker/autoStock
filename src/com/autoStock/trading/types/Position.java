@@ -13,6 +13,7 @@ import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.order.OrderDefinitions.OrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderStatusListener;
+import com.autoStock.order.OrderTools;
 import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionCallback;
 import com.autoStock.position.PositionDefinitions.PositionType;
@@ -136,10 +137,17 @@ public class Position implements OrderStatusListener {
 		}
 	}
 
-	public boolean isFilled() {
+	public boolean isFilledAndOpen() {
 		if (positionType == PositionType.position_long || positionType == PositionType.position_short) {
 			return true;
 		}
+		
+//		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
+//		
+//		if (positionUtils.getOrderUnitsFilled() == positionUtils.getOrderUnitsRequested()){
+//			return true;
+//		}
+		
 		return false;
 	}
 

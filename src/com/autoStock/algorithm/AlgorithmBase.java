@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.jfree.data.time.Year;
+
 import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
@@ -228,28 +230,66 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 
 
-	public double getCurrentYield() {	
-		double positionCost = 1;
+	public synchronized double getCurrentYield() {	
+		double positionCost = 0;
 		Position currentPosition = null;
 		
 		for (StrategyResponse strategyResponse : listOfStrategyResponse){
 			PositionGovernorResponse positionGovernorResponse = strategyResponse.positionGovernorResponse;
+			
 			if (positionGovernorResponse != null && positionGovernorResponse.position != null){
 				positionCost = Math.max(positionCost, positionGovernorResponse.position.getPositionValue().priceCurrent);
 				
-				if (positionGovernorResponse.position.isFilled()){
+				if (positionGovernorResponse.position.isFilledAndOpen()){
 					currentPosition = positionGovernorResponse.position;
 				}
 			}
 		}
-	
-		double totalValue = (currentPosition == null ? 0 : currentPosition.getPositionValue().valueCurrentWithFees) + basicAccount.getBalance();
-		totalValue = totalValue - AccountProvider.defaultBalance;
-		totalValue = totalValue / positionCost;
 		
-//		Co.println("--> Position cost: " + positionCost);
-//		Co.println("--> Total value: " + totalValue);
+//		if (currentPosition == null && basicAccount.getBalance() != AccountProvider.defaultBalance){
+//			Co.println("--> CHECK");
+//			
+//			for (StrategyResponse strategyResponse : listOfStrategyResponse){
+//				PositionGovernorResponse positionGovernorResponse = strategyResponse.positionGovernorResponse;
+//				
+//				Co.println("--> Response: " + strategyResponse.strategyAction + ", " + positionGovernorResponse.status.name() + ", " + positionGovernorResponse.position);
+//				
+//				if (positionGovernorResponse.position != null){
+//					if (positionGovernorResponse.position.isFilled()){
+//						Co.println("--> Filled");
+//					}else{
+//						Co.println("--> Not filled... " + positionGovernorResponse.position.positionType.name());
+//					}
+//				}
+//			}
+//			
+//			try {Thread.sleep(250);}catch(Exception e){}
+//			throw new IllegalStateException("No positions, but balance is: " + basicAccount.getBalance());
+//		}
+		
+		double yield = 0;
+		
+		if (currentPosition != null){
+			double totalValue = currentPosition.getPositionValue().valueCurrentWithFees + basicAccount.getBalance();
+			double increasedValue = totalValue - AccountProvider.defaultBalance;
+			yield = (increasedValue / positionCost) * 100;
+		}else if (positionCost != 0){
+			double increasedValue = basicAccount.getBalance() - AccountProvider.defaultBalance;
+			yield = (increasedValue / positionCost) * 100;
+		}else{
+			//pass, no positions!
+		}
+		
+		if (yield > 10){
+//			Co.println("--> Have current position: " + currentPosition);
+//			Co.println("--> Position cost: " + positionCost);
+//			Co.println("--> Increased value: " + increasedValue);
+//			Co.println("--> Total value: " + totalValue);
+//			Co.println("--> Yield: " + yield);
+//			
+			throw new IllegalStateException();
+		}
 
-		return totalValue * 100;
+		return yield;
 	}
 }

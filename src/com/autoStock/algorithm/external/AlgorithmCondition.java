@@ -116,7 +116,7 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean stopLoss(Position position){
-		if (position.isFilled()){			
+		if (position.isFilledAndOpen()){			
 			return position.getCurrentPercentGainLoss(false) < strategyOptions.maxStopLossPercent.value;
 		}
 		
