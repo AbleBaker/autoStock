@@ -172,7 +172,7 @@ public class BacktestUtils {
 		}
 		
 		if (backtestTransactions.countForTradesProfit > 0){backtestTransactions.avgTradeWin /= backtestTransactions.countForTradesProfit;}
-//		if (backtestTransactions.countForTradesLoss > 0){backtestTransactions.avgTradeLoss /= backtestTransactions.countForTradesLoss;}
+		if (backtestTransactions.countForTradesLoss > 0){backtestTransactions.avgTradeLoss /= backtestTransactions.countForTradesLoss;}
 		
 		return backtestTransactions;
 	}

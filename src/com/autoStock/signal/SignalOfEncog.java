@@ -2,8 +2,6 @@ package com.autoStock.signal;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.encog.ml.MLRegression;
 import org.encog.ml.data.MLData;
@@ -13,12 +11,11 @@ import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
-import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
-import com.autoStock.tools.ListTools;
+import com.autoStock.signal.extras.EncogInputWindow;
 
 /**
  * @author Kevin Kowalewski
@@ -35,11 +32,8 @@ public class SignalOfEncog extends SignalBase {
 		try {
 			PersistBasicNetwork persistBasicNetwork = new PersistBasicNetwork();
 			basicNetwork = (BasicNetwork) persistBasicNetwork.read(new FileInputStream(new File("../EncogTest/encog.file")));
-		}catch(Exception e){
-//			e.printStackTrace();
-		}
-	}
-	
+		}catch(Exception e){}
+	}	
 
 	public void setNetwork(MLRegression network) {
 		this.basicNetwork = network;
@@ -49,7 +43,7 @@ public class SignalOfEncog extends SignalBase {
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		SignalPoint signalPoint = new SignalPoint();
 		
-		if (encogInputWindow == null){return signalPoint;}
+		if (encogInputWindow == null || basicNetwork == null){return signalPoint;}
 		
 		NormalizedField normalizedFieldForSignals = new NormalizedField(NormalizationAction.Normalize, "Signal Normalizer", 50, -50, 1, -1);
 		
@@ -57,21 +51,15 @@ public class SignalOfEncog extends SignalBase {
 		
 		int[] inputWindow = encogInputWindow.getAsWindow();
 		
-//		if (inputWindow.length != basicNetwork.getInputCount()){
-//			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
-//		}		
+		if (inputWindow.length != basicNetwork.getInputCount()){
+			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
+		}		
 		
 //		Co.println("--> Inputs... " + inputWindow.length);
 		
-		if (havePosition){
-			input.add(0, -1);
-		}else{
-			input.add(0, 1);
-		}
-		
 		for (int i=0; i<inputWindow.length; i++){
 //			Co.print(" " + inputWindow[i]);
-			input.add(i+1, normalizedFieldForSignals.normalize(inputWindow[i]));
+			input.add(i, normalizedFieldForSignals.normalize(inputWindow[i]));
 		}
         
         MLData output = basicNetwork.compute(input);
@@ -80,13 +68,13 @@ public class SignalOfEncog extends SignalBase {
         double valueForShortEntry = output.getData(1);
         double valueForAnyExit = output.getData(2);
         
-        if (valueForLongEntry >= 0.99){
+        if (valueForLongEntry >= 0.95){
         	signalPoint.signalPointType = SignalPointType.long_entry;
         	signalPoint.signalMetricType = SignalMetricType.metric_encog;
-        }else if (valueForShortEntry >= 0.99){
+        }else if (valueForShortEntry >= 0.95){
         	signalPoint.signalPointType = SignalPointType.short_entry;
         	signalPoint.signalMetricType = SignalMetricType.metric_encog;
-        }else if (valueForAnyExit >= 0.99 && havePosition){
+        }else if (valueForAnyExit >= 0.95 && havePosition){
         	if (positionType == PositionType.position_long){
         		signalPoint.signalPointType = SignalPointType.long_exit;
         	}else if (positionType == PositionType.position_short){
@@ -96,7 +84,6 @@ public class SignalOfEncog extends SignalBase {
         	}
         	signalPoint.signalMetricType = SignalMetricType.metric_encog;
         }
-        
         
 //        if (signalPoint.signalPointType == SignalPointType.long_entry || signalPoint.signalPointType == SignalPointType.long_exit){
 //        	Co.println("--> Encog signal with window: " + signalPoint.signalPointType.name());
@@ -123,41 +110,5 @@ public class SignalOfEncog extends SignalBase {
 	@Override
 	public void setInput(double value) {
 		throw new NoSuchMethodError("Don't call this");
-	}
-	
-	public static class EncogInputWindow {
-		private List<List<Integer>> list = new ArrayList<List<Integer>>();
-		
-		public EncogInputWindow(){}
-		
-		public void addInputList(List<Integer> listOfInteger){
-			list.add(listOfInteger);
-		}
-		
-		public void addInputArray(int[] arrayOfInput){
-			list.add((ArrayList<Integer>) ListTools.getListFromArray(arrayOfInput));
-		}
-		
-		public int[] getAsWindow(){
-			int items = 0;
-			
-			for (List<?> arrayList : list){
-				for (Object object : arrayList){
-					items++;
-				}
-			}
-			
-			int[] arrayOfInt = new int[items];
-			int i=0;
-			
-			for (List<Integer> arrayList : list){
-				for (Integer integer : arrayList){
-					arrayOfInt[i] = integer;
-					i++;
-				}
-			}
-			
-			return arrayOfInt;
-		}
 	}
 }

@@ -3,7 +3,6 @@ package com.autoStock.signal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -17,12 +16,12 @@ import com.autoStock.signal.SignalDefinitions.SignalParametersForEncog;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForMACD;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForMFI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForROC;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForSTORSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForRSI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForSTORSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
-import com.autoStock.signal.SignalOfEncog.EncogInputWindow;
+import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.tools.ArrayTools;
 
 /**

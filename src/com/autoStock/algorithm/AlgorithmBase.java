@@ -280,15 +280,15 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			//pass, no positions!
 		}
 		
-		if (yield > 10){
-//			Co.println("--> Have current position: " + currentPosition);
-//			Co.println("--> Position cost: " + positionCost);
-//			Co.println("--> Increased value: " + increasedValue);
-//			Co.println("--> Total value: " + totalValue);
-//			Co.println("--> Yield: " + yield);
-//			
-			throw new IllegalStateException();
-		}
+//		if (yield > 10){
+////			Co.println("--> Have current position: " + currentPosition);
+////			Co.println("--> Position cost: " + positionCost);
+////			Co.println("--> Increased value: " + increasedValue);
+////			Co.println("--> Total value: " + totalValue);
+////			Co.println("--> Yield: " + yield);
+////			
+//			throw new IllegalStateException();
+//		}
 
 		return yield;
 	}
