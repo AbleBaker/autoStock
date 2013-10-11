@@ -200,6 +200,17 @@ public class AlgorithmCondition {
 //		Co.println("--> Drawdown is: " +  positionMaxProfitPercent + ", " + new DecimalFormat("#.00").format(profitDrawdown));
 //		Co.println("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))) + "\n");
 		
-		return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && positionMaxProfitPercent > 0;
+//		if (position.getCurrentPercentGainLoss(false) > 0 && positionMaxProfitPercent <= 0){
+//			Co.println("--> P&L: ");
+//			for (Double value : position.getPositionHistory().listOfProfitLossPercent){
+//				Co.println("--> Value: " + value);
+//			}
+//			
+//			Co.println("--> Unit prices: " + position.getFirstKnownUnitPrice() + ", " + position.getLastKnownUnitPrice());
+//			
+//			throw new IllegalStateException("Have gain yet max profit is zero! " + position.getCurrentPercentGainLoss(false) + ", " + positionMaxProfitPercent);
+//		}
+		
+		return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && position.getCurrentPercentGainLoss(false) > 0;
 	}
 }

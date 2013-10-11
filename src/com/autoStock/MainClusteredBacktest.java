@@ -156,7 +156,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			pair.second.printPercentComplete(pair.first.identifier.symbolName);
 		}
 		
-		Co.println("--> Issued unit: " + atomicIntForRequestId.get());
+		Co.println("--> Issued unit: " + atomicIntForRequestId.get() + "\n");
 		
 		bench.tick();
 		
@@ -192,7 +192,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		threadForWatcher = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				int waitFor = 5;
+				int waitFor = 30;
 
 				while (isComplete() == false) {
 					try {Thread.sleep(1000);}catch(InterruptedException e){return;}
@@ -253,6 +253,6 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	}
 	
 	public boolean isComplete(){
-		return false;
+		return atomicIntForRequestId.get() == listOfComputeUnitResultIds.size();
 	}
 }

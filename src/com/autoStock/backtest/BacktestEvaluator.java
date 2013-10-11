@@ -45,7 +45,7 @@ public class BacktestEvaluator {
 //		}
 		
 		
-		printBest();
+//		printBest();
 		
 //		if (backtestEvaluation.percentYield > 0.20){
 //			throw new IllegalAccessError();
@@ -76,6 +76,7 @@ public class BacktestEvaluator {
 	}
 
 	public void pruneForFinish() {
+		printBest();
 		pruneResults(maxResults, false);
 	}
 

@@ -43,7 +43,7 @@ public abstract class AdjustmentCampaign {
 			return false;
 		}else{
 			permutation.masterIterate();
-			permutation.printIterableSet();
+//			permutation.printIterableSet();
 			applyValues();
 			
 			currentIndex = currentIndex.add(BigDecimal.valueOf(1));

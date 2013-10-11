@@ -34,6 +34,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 	private ComputeUnitForBacktest computeUnitForBacktest;
 	private HashMap<Symbol, ArrayList<BacktestEvaluation>> hashOfBacktestEvaluation = new HashMap<Symbol, ArrayList<BacktestEvaluation>>();
 	private MainBacktest mainBacktest;
+	private long processedUnits = 0;
 
 	public MainClusteredBacktestClient() {
 		Global.callbackLock.requestLock();
@@ -101,8 +102,10 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 			}
 			
 			runNextBacktest();
+			
+			processedUnits++;
 		}else if(commandHolder.command == Command.no_units_left){
-			Co.println("--> No units left... exiting...");
+			Co.println("--> No units left... exiting... Processed units: " + processedUnits);
 			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
 			ApplicationStates.shutdown();
 		}

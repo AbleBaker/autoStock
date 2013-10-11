@@ -97,6 +97,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			algorithmTable = new AlgorithmTable(symbol);
 		}
 		
+		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
+			//Check Strategy actually contains adjustment values... 
+		}
+		
 		indicatorGroup.initialize();
 		
 		indicatorGroup.setActive(listOfSignalMetricType);
