@@ -1,8 +1,10 @@
 package com.autoStock.signal.extras;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
 
 /**
@@ -10,36 +12,18 @@ import com.autoStock.tools.ListTools;
  *
  */
 public class EncogInputWindow {
-	private List<List<Integer>> list = new ArrayList<List<Integer>>();
+	private ArrayList<Double> listOfDouble = new ArrayList<Double>();
 	public EncogInputWindow(){}
 	
-	public void addInputList(List<Integer> listOfInteger){
-		list.add(listOfInteger);
+	public void addInputList(List<Double> list){
+		listOfDouble.addAll(list);
 	}
 	
-	public void addInputArray(int[] arrayOfInput){
-		list.add((ArrayList<Integer>) ListTools.getListFromArray(arrayOfInput));
+	public void addInputArray(double[] arrayOfDouble){
+		listOfDouble.addAll(ListTools.getListFromArray(arrayOfDouble));
 	}
 	
-	public int[] getAsWindow(){
-		int items = 0;
-		
-		for (List<?> arrayList : list){
-			for (Object object : arrayList){
-				items++;
-			}
-		}
-		
-		int[] arrayOfInt = new int[items];
-		int i=0;
-		
-		for (List<Integer> arrayList : list){
-			for (Integer integer : arrayList){
-				arrayOfInt[i] = integer;
-				i++;
-			}
-		}
-		
-		return arrayOfInt;
+	public double[] getAsWindow(){
+		return ArrayTools.getArrayFromListOfDouble(listOfDouble);
 	}
 }

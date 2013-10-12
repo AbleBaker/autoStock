@@ -257,20 +257,13 @@ public class MathTools {
 		
 		return true;
 	}
-	
-//	public static double[] getDeltas(int[] arrayOfInt){
-//		double[] returnArray = new double[arrayOfInt.length];
-//		for (int i=0; i<arrayOfInt.length; i++){
-//			returnArray[i] = arrayOfInt
-//		}
-//	}
 
-//	public static double pow(double base, double exponent) {
-//		if (base < 0) {
-//			return Math.pow(Math.abs(base), exponent) * -1;
-//		}
-//		return Math.pow(base, exponent);
-//	}
+	public static double powAccurate(double base, double exponent) {
+		if (base < 0) {
+			return Math.pow(Math.abs(base), exponent) * -1;
+		}
+		return Math.pow(base, exponent);
+	}
 	
 	public static double pow(double base, double exponent) {
 		if (base < 0) {
@@ -298,6 +291,20 @@ public class MathTools {
 		
 		for (int i=0; i<arrayOfInt.length-1; i++){
 			results[i] = arrayOfInt[i] = arrayOfInt[i+1];
+		}
+		
+		return results;
+	}
+	
+	public static double[] getDeltasAsPercent(double[] arrayOfDouble) {
+		double[] results = new double[arrayOfDouble.length];
+		
+		for (int i=0; i<arrayOfDouble.length-1; i++){
+			if (arrayOfDouble[i] == 0){
+				results[i] = 0;
+			}else{
+				results[i] = (arrayOfDouble[i+1] / arrayOfDouble[i]) - 1;
+			}
 		}
 		
 		return results;

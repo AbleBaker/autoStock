@@ -52,4 +52,13 @@ public class ListTools {
 		
 		return listOfInteger;
 	}
+
+	public static Collection<? extends Double> getListFromArray(double[] arrayOfDouble) {
+		ArrayList<Double> listOfDouble = new ArrayList<Double>();
+		for (double value : arrayOfDouble){
+			listOfDouble.add(new Double(value));
+		}
+
+		return listOfDouble;
+	}
 }

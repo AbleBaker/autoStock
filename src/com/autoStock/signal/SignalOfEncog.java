@@ -49,7 +49,7 @@ public class SignalOfEncog extends SignalBase {
 		
 		MLData input = new BasicMLData(basicNetwork.getInputCount());
 		
-		int[] inputWindow = encogInputWindow.getAsWindow();
+		double[] inputWindow = encogInputWindow.getAsWindow();
 		
 		if (inputWindow.length != basicNetwork.getInputCount()){
 			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
