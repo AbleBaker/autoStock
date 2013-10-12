@@ -3,6 +3,8 @@ package com.autoStock.backtest;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.encog.ml.MLRegression;
+
 import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentBase;
@@ -107,28 +109,40 @@ public class BacktestEvaluationBuilder {
 		return backtestEvaluation;
 	}
 	
-	public BacktestEvaluation buildOutOfSampleEvaluation(BacktestEvaluation backtestEvaluation){	
-		Co.println("--> Building out of sample evaluation");
+	public BacktestEvaluation buildOutOfSampleEvaluation(BacktestEvaluation backtestEvaluation){
+		return buildOutOfSampleEvaluation(backtestEvaluation, null);
+	}
+	
+	public BacktestEvaluation buildOutOfSampleEvaluation(BacktestEvaluation backtestEvaluation, MLRegression neuralNetwork){	
+//		Co.println("--> Building out of sample evaluation");
 		Date dateStart = DateTools.getFirstWeekdayAfter(backtestEvaluation.dateEnd);
 		Date dateEnd = (Date) dateStart.clone();
-		
-		dateStart.setHours(backtestEvaluation.exchange.timeOpenForeign.hours);
-		dateStart.setMinutes(backtestEvaluation.exchange.timeOpenForeign.minutes);
-		dateEnd.setHours(backtestEvaluation.exchange.timeCloseForeign.hours);
-		dateEnd.setMinutes(backtestEvaluation.exchange.timeCloseForeign.minutes);
-		
+	   
 		HistoricalData historicalData = new HistoricalData(backtestEvaluation.exchange, backtestEvaluation.symbol, dateStart, dateEnd, Resolution.min);
+		historicalData.setStartAndEndDatesToExchange();
+		
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
+		
+		while (listOfResults.size() == 0){
+//			Co.println("Couldn't find any out of sample data for: " + backtestEvaluation.symbol.symbolName + " on " + historicalData.startDate);
+			
+			historicalData.startDate = DateTools.getFirstWeekdayAfter(historicalData.startDate);
+			historicalData.endDate = new Date(historicalData.startDate.getTime());
+			historicalData.setStartAndEndDatesToExchange();
+
+			listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));			
+		}
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData);
 		
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, backtestEvaluation.algorithmModel);
-		
 		singleBacktest.setBacktestData(listOfResults);
+		
+		if (neuralNetwork != null){
+			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(neuralNetwork);
+		}
+		
 		singleBacktest.runBacktest();
-			
-		Co.println("********");
-		Co.println(buildEvaluation(singleBacktest.backtestContainer).toString());
 		
 		return buildEvaluation(singleBacktest.backtestContainer);
 	}

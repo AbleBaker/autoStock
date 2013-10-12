@@ -46,7 +46,7 @@ public class SignalGroup {
 	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
 	
-	public static final int ENCOG_SIGNAL_INPUT = 10;
+	public static final int ENCOG_SIGNAL_INPUT = 1;
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	

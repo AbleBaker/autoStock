@@ -22,6 +22,7 @@ import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestEvaluation;
+import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.BacktestEvaluator;
 import com.autoStock.backtest.BacktestUtils;
@@ -233,7 +234,11 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			
 			BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(symbol).get(backtestEvaluator.getResults(symbol).size() -1);
 			
-			new BacktestEvaluationWriter().writeToDatabase(bestEvaluation, true);
+			new BacktestEvaluationWriter().writeToDatabase(bestEvaluation, false);
+			
+			Co.println("********");
+			
+			Co.print(new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(bestEvaluation).toString());
 		}
 	}
 

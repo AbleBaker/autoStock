@@ -49,7 +49,7 @@ public class BacktestUtils {
 		string += "\n --> Total transactions: " + basicAccount.getTransactions();
 		string += "\n --> Fees: $" + MiscTools.getCommifiedValue(basicAccount.getTransactionFees());
 		
-		string += "\n --> Entered, reentered, exited: " + + backtestResultDetails.countForTradeEntry + ", " + backtestResultDetails.countForTradesReentry + ", " + backtestResultDetails.countForTradeExit;
+		string += "\n --> Entered (Long / Short), reentered, exited: " + + backtestResultDetails.countForTradeLongEntry + " / " + backtestResultDetails.countForTradeShortEntry  + ", " + backtestResultDetails.countForTradesReentry + ", " + backtestResultDetails.countForTradeExit;
 		string += "\n --> Transactions profit / loss: " + MathTools.round(((double)backtestResultDetails.countForTradesProfit / (double)(backtestResultDetails.countForTradesProfit + backtestResultDetails.countForTradesLoss)) * 100) + "%, " + backtestResultDetails.countForTradesProfit + ", " + backtestResultDetails.countForTradesLoss;
 		
 		if (basicAccount.getTransactions() > 0 && backtestResultDetails.countForTradesProfit == 0 && backtestResultDetails.countForTradesLoss == 0){
@@ -125,7 +125,8 @@ public class BacktestUtils {
 		for (BacktestContainer backtestContainer : listOfBacktestContainer){
 			BacktestResultTransactionDetails backtestTransactions = getBacktestResultTransactionDetails(backtestContainer);
 			
-			backtestProfitLossType.countForTradeEntry += backtestTransactions.countForTradeEntry;
+			backtestProfitLossType.countForTradeLongEntry += backtestTransactions.countForTradeLongEntry;
+			backtestProfitLossType.countForTradeShortEntry += backtestTransactions.countForTradeShortEntry;
 			backtestProfitLossType.countForTradeExit += backtestTransactions.countForTradeExit;
 			backtestProfitLossType.countForTradesLoss += backtestTransactions.countForTradesLoss;
 			backtestProfitLossType.countForTradesProfit += backtestTransactions.countForTradesProfit;
@@ -162,9 +163,10 @@ public class BacktestUtils {
 				}
 				
 				backtestTransactions.countForTradeExit++;
-			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
-				backtestTransactions.countForTradeEntry++;
+			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
+				backtestTransactions.countForTradeLongEntry++;
+			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
+				backtestTransactions.countForTradeShortEntry++;
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry
 					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
 				backtestTransactions.countForTradesReentry++;
@@ -274,7 +276,8 @@ public class BacktestUtils {
 	}
 	
 	public static class BacktestResultTransactionDetails {
-		public int countForTradeEntry;
+		public int countForTradeLongEntry;
+		public int countForTradeShortEntry;
 		public int countForTradeExit;
 		public int countForTradesProfit;
 		public int countForTradesLoss;

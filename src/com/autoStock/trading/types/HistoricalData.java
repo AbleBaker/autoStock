@@ -28,6 +28,15 @@ public class HistoricalData implements Cloneable {
 		this.duration = (endDate.getTime() / 1000 - startDate.getTime() / 1000);
 	}
 	
+	public void setStartAndEndDatesToExchange(){
+		startDate.setHours(exchange.timeOpenForeign.hours);
+		startDate.setMinutes(exchange.timeOpenForeign.minutes);
+		endDate.setHours(exchange.timeCloseForeign.hours);
+		endDate.setMinutes(exchange.timeCloseForeign.minutes);
+		
+		this.duration = (endDate.getTime() / 1000 - startDate.getTime() / 1000);
+	}
+	
 	@Override
 	public HistoricalData clone(){
 		try {

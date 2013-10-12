@@ -65,8 +65,8 @@ public class SignalOfEncog extends SignalBase {
         MLData output = basicNetwork.compute(input);
         
         double valueForLongEntry = output.getData(0);
-        double valueForShortEntry = output.getData(1);
-        double valueForAnyExit = output.getData(2);
+        double valueForShortEntry = 0; //output.getData(1);
+        double valueForAnyExit = output.getData(1);
         
         if (valueForLongEntry >= 0.95){
         	signalPoint.signalPointType = SignalPointType.long_entry;
