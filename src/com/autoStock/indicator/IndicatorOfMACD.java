@@ -23,26 +23,14 @@ public class IndicatorOfMACD extends IndicatorBase {
 	}
 	
 	public ResultsMACD analize(){
-		results = new ResultsMACD(1);
+		results = new ResultsMACD(resultsetLength);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode;
 		
-		Co.println("--> Period length: " + periodLength.value + ", " + commonAnlaysisData.arrayOfDates.length);
+		returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, 6, 22, 9, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
 		
-//		if (periodLength.value <= 30){ //TODO: Fix this, periods are wrong
-			returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, 6, 22, 9, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
-		
-//			returnCode = taLibCore.macdFix(0, 30, arrayOfPriceClose, 9, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
-//		}else{
-//			try {
-//				returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, immutableIntegerForShort.value, immutableIntegerForLong.value, 17, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
-//				handleAnalysisResult(returnCode);
-//			}catch(ArrayIndexOutOfBoundsException e){
-//				e.printStackTrace();
-//			}
-//		}
-		
+		handleAnalysisResult(returnCode);
 		return results;
 	}
 }

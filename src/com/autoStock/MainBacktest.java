@@ -48,6 +48,7 @@ import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.tools.TimeToCompletionEstimate;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.HistoricalDataList;
@@ -75,6 +76,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	private ArrayList<String> listOfStringBestBacktestResults = new ArrayList<String>();
 	public final BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
 	private HashMap<Symbol, ArrayList<AlgorithmModel>> hashOfAlgorithmModel;
+	private TimeToCompletionEstimate eta = new TimeToCompletionEstimate();
 
 	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted, HashMap<Symbol, ArrayList<AlgorithmModel>> hashOfAlgorithmModel) {
 		this.exchange = exchange;
@@ -279,10 +281,13 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 					Global.callbackLock.releaseLock();
 				}
 			} else if (backtestType == BacktestType.backtest_adjustment_individual) {
-//				Co.println("--> Finished all days: " + adjustmentCampaignProvider.isRebasingIndividual());
-				
+				Co.println("--> Finished all days: " + adjustmentCampaignProvider.isRebasingIndividual());
+
 				for (Pair<AdjustmentIdentifier, AdjustmentCampaign> pair : adjustmentCampaignProvider.getListOfAdjustmentCampaign()) {
-					pair.second.printPercentComplete(pair.first.identifier.symbolName);
+					eta.setMaxIndex(pair.second.getMaxIndex());
+					eta.update(pair.second.getCurrentIndex());
+					
+					pair.second.printPercentComplete(pair.first.identifier.symbolName + " - " + (int) eta.getETAInMinutes() + " minutes");
 				}
 				
 				if (adjustmentCampaignProvider.isRebasingIndividual()){

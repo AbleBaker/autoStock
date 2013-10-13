@@ -77,13 +77,23 @@ public abstract class AdjustmentCampaign {
 	}
 	
 	public void printPercentComplete(String prefix){
+		BigDecimal maximumIndex = getMaxIndex();
+		
+		Co.println("--> [" + prefix + "] Current / Max: " + currentIndex.toPlainString() + ", " + maximumIndex.toPlainString() + " " + new DecimalFormat("0.00").format(currentIndex.divide(maximumIndex, 4, RoundingMode.HALF_UP).doubleValue() * 100) +"%");
+	}
+	
+	public BigDecimal getMaxIndex(){
 		BigDecimal maximumIndex = BigDecimal.valueOf(1);
 		
 		for (IterableBase iterableBase : listOfIterableBase){
 			maximumIndex = maximumIndex.multiply(BigDecimal.valueOf(iterableBase.getMaxValues()));
 		}
 		
-		Co.println("--> [" + prefix + "] Current / Max: " + currentIndex.toPlainString() + ", " + maximumIndex.toPlainString() + " " + new DecimalFormat("0.00").format(currentIndex.divide(maximumIndex, 4, RoundingMode.HALF_UP).doubleValue() * 100) +"%");
+		return maximumIndex;
+	}
+	
+	public BigDecimal getCurrentIndex(){
+		return currentIndex;
 	}
 	
 	public void applyValues(){

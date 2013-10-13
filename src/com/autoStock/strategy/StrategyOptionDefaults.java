@@ -16,7 +16,7 @@ public class StrategyOptionDefaults {
 		StrategyOptions strategyOptions = new StrategyOptions();
 		strategyOptions.canGoLong = true;
 		strategyOptions.canGoShort = true;
-		strategyOptions.canReenter = false;
+		strategyOptions.canReenter = true;
 		strategyOptions.mustHavePositiveSlice = false;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
@@ -28,14 +28,14 @@ public class StrategyOptionDefaults {
 		
 		strategyOptions.maxTransactionsDay = 16;
 		strategyOptions.maxStopLossPercent.value = -0.15d;
-		strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
+		strategyOptions.maxProfitDrawdownPercent.value = -0.25d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionLossTime = 0;
 		strategyOptions.maxReenterTimesPerPosition.value = 1;
-		strategyOptions.intervalForReentryMins.value = 3;
+		strategyOptions.intervalForReentryMins.value = 8;
 		strategyOptions.minReentryPercentGain.value = 0.15;
 		strategyOptions.prefillShift.value = 0;
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;

@@ -245,13 +245,15 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForUO extends SignalParameters {
 		public SignalParametersForUO() {
-			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input, 1) - 50);}}, 
-			new MutableInteger(60), new MutableInteger(10),
+			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input, 1.04) - 55);}}, 
+			new MutableInteger(30), new MutableInteger(10),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -10)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 13)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 12)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -8)});
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -8)});
 		}
+		
+		public double preComputedMiddle = 0;
 	}
 	
 	public static class SignalParametersForARUp extends SignalParameters {
@@ -298,39 +300,4 @@ public class SignalDefinitions {
 			super(null, null, null, null, null, null, null);
 		}
 	}
-	
-//	public enum SignalMetricType {
-//		
-//		metric_encog,
-//		metric_candlestick_group,
-//		
-//		none,
-//		no_change,
-//		mixed,
-//		;
-//		
-//		NormalizeInterface normalizeInterface;
-//		public ImmutableInteger periodLength;
-//		public ImmutableInteger maxSignalAverage;
-//		public SignalGuage[] arrayOfSignalGuageForLongEntry;
-//		public SignalGuage[] arrayOfSignalGuageForLongExit;
-//		public SignalGuage[] arrayOfSignalGuageForShortEntry;
-//		public SignalGuage[] arrayOfSignalGuageForShortExit;
-//		
-//		private SignalMetricType(){}
-//		
-//		private SignalMetricType(NormalizeInterface normalizeInterface, ImmutableInteger periodLength, ImmutableInteger maxSignalAverage, SignalGuage[] arrayOfSignalGuageForLongEntry, SignalGuage[] arrayOfSignalGuageForLongExit, SignalGuage[] arrayOfSignalGuageForShortEntry, SignalGuage[] arrayOfSignalGuageForShortExit){
-//			this.periodLength = periodLength;
-//			this.normalizeInterface = normalizeInterface;
-//			this.maxSignalAverage = maxSignalAverage;
-//			this.arrayOfSignalGuageForLongEntry = arrayOfSignalGuageForLongEntry;
-//			this.arrayOfSignalGuageForLongExit = arrayOfSignalGuageForLongExit;
-//			this.arrayOfSignalGuageForShortEntry = arrayOfSignalGuageForShortEntry;
-//			this.arrayOfSignalGuageForShortExit = arrayOfSignalGuageForShortExit;
-//		}
-//
-//		public synchronized int getNormalizedValue(double input) {
-//			return this.normalizeInterface.normalize(input);
-//		}
-//	}
 }

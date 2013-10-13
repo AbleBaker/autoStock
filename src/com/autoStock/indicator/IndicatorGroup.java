@@ -135,7 +135,7 @@ public class IndicatorGroup {
 //		Co.println("-->X: " + signalGroup.signalOfUO.getStrengthWindow().length);
 		
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo) && signalGroup.signalOfUO.getStrengthWindow().length >= 10){
-			resultsPTD = indicatorOfPTD.analyize(signalGroup.signalOfUO.getStrengthWindow());
+//			resultsPTD = indicatorOfPTD.analyize(signalGroup.signalOfUO.getStrengthWindow());
 			
 //			Co.println("--> Have results? " + resultsPTD.arrayOfPTD.length);
 			

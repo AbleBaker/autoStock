@@ -40,6 +40,7 @@ import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.Benchmark;
+import com.autoStock.tools.TimeToCompletionEstimate;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
@@ -66,6 +67,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 	private Thread threadForWatcher;
 	public final BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
 	public HashMap<Symbol, AlgorithmBase> hashOfAlgorithmBase = new HashMap<Symbol, AlgorithmBase>();
+	private TimeToCompletionEstimate eta = new TimeToCompletionEstimate();
 	
 	int rebases = 0;
 	
@@ -154,7 +156,10 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 				computeUnit.hashOfAlgorithmModel.put(pair.first.identifier, listOfAlgorithmModel);
 			}
 			
-			pair.second.printPercentComplete(pair.first.identifier.symbolName);
+			eta.setMaxIndex(pair.second.getMaxIndex());
+			eta.update(pair.second.getCurrentIndex());
+			
+			pair.second.printPercentComplete(pair.first.identifier.symbolName + " - " + (int) eta.getETAInMinutes() + " minutes");
 		}
 		
 		Co.println("--> Issued unit: " + atomicIntForRequestId.get() + "\n");

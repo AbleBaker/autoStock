@@ -1,5 +1,6 @@
 package com.autoStock.indicator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.autoStock.Co;
@@ -41,8 +42,10 @@ public class IndicatorOfPTD extends IndicatorBase {
 		for (int i=0; i< arrayOfValues.length; i++){
 			Co.print(" " + arrayOfValues[i]);
 		}
+				
+		Co.println("--> Is Decresing: " + isDecresing);
 		
-		Co.println("--> Is Decresing: " + isDecresing); 
+		isDecresing = isDecresing && current > -2.884;
 	
 		if (isDecresing){ // && arrayOfValues[9] < middle){
 			result = 1;
