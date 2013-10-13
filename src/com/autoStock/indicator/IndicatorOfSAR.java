@@ -32,7 +32,7 @@ public class IndicatorOfSAR extends IndicatorBase {
 				
 				//taLibCore.cci(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);
 		
-		Co.println("--> Last result: " + results.arrayOfSAR[27]);
+//		Co.println("--> Last result: " + results.arrayOfSAR[27]);
 	
 		handleAnalysisResult(returnCode);
 		

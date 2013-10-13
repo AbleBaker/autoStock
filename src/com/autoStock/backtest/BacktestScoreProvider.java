@@ -11,10 +11,10 @@ public class BacktestScoreProvider {
 		double score;
 		
 		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry == 0){return 0;}
-//		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry == 0){return 0;}
+		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry == 0){return 0;}
 		if (backtestEvaluation.backtestResultTransactionDetails.countForTradesProfit == 0){return 0;} 
 		
-		score = backtestEvaluation.percentYield * (backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry + backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry); //(backtestEvaluation.accountBalance - AccountProvider.defaultBalance); // * backtestEvaluation.percentTradeWin; // * backtestEvaluation.transactions;
+		score = backtestEvaluation.percentYield; // * (backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry + backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry);
 		
 //		score = backtestEvaluation.percentYield * backtestEvaluation.backtestResultTransactionDetails.countForTradeExit;
 		

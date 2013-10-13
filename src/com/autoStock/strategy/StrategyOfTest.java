@@ -31,7 +31,7 @@ public class StrategyOfTest extends StrategyBase {
 
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
-//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
+		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 
@@ -42,7 +42,7 @@ public class StrategyOfTest extends StrategyBase {
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_storsi);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_up);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_down);
-		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);
+//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_sar);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_candlestick_group);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
