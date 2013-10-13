@@ -115,6 +115,7 @@ public class CombinedLineChart {
 					subPlotForSignals.getRenderer().setSeriesPaint(i, getColor());	
 				}
 				subPlotForSignals.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+				((NumberAxis)subPlotForSignals.getRangeAxis()).setAutoRangeIncludesZero(false);
 			
 				StandardXYItemRenderer renderer  = (StandardXYItemRenderer) subPlotForSignals.getRenderer();
 				renderer.setLegendLine(new Rectangle2D.Double(-4.0, -4.0, 4.0, 4.0));
@@ -124,6 +125,10 @@ public class CombinedLineChart {
 			    
 			    for (TimeSeries timeSeries : (List<TimeSeries>) getPairForType(TimeSeriesType.type_signals).timeSeriesCollection.getSeries()){
 			    	SignalMetricType signalMetricType = SignalDefinitions.SignalMetricType.valueOf(timeSeries.getDescription());
+			    	
+			    	if (algorithmBase.signalGroup.getSignalBaseForType(signalMetricType) == null){
+			    		continue;
+			    	}
 			    	
 			    	int thresholdForLongEntry = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForLongEntry[0].threshold;
 			    	int thresholdForLongExit = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForLongExit[0].threshold;
@@ -167,16 +172,16 @@ public class CombinedLineChart {
 				    subPlotForSignals.addRangeMarker(markerForShortExit);
 			    }
 			    
-//				if (getPairForType(TimeSeriesType.type_debug) != null){
-//					subPlotForSignals.setDataset(1, getPairForType(TimeSeriesType.type_debug).timeSeriesCollection);
-////					subPlotForSignals.getRangeAxis(1).setAutoRange(true);
-////					((NumberAxis)subPlotForSignals.getRangeAxis(1)).setAutoRangeIncludesZero(false);
-//					
-//					subPlotForSignals.setRenderer(1, new XYShapeRenderer());
-//					subPlotForSignals.getRenderer(1).setSeriesShape(0, ShapeUtilities.createDiamond(4));
-//					subPlotForSignals.getRenderer(1).setSeriesPaint(0, Color.BLACK);
-//				}
-			    
+				if (getPairForType(TimeSeriesType.type_debug) != null){
+					subPlotForSignals.setDataset(1, getPairForType(TimeSeriesType.type_debug).timeSeriesCollection);
+//					subPlotForSignals.getRangeAxis(1).setAutoRange(true);
+//					((NumberAxis)subPlotForSignals.getRangeAxis(1)).setAutoRangeIncludesZero(false);
+					
+					subPlotForSignals.setRenderer(1, new XYShapeRenderer());
+					subPlotForSignals.getRenderer(1).setSeriesShape(0, ShapeUtilities.createDiamond(4));
+					subPlotForSignals.getRenderer(1).setSeriesPaint(0, Color.BLACK);
+				}
+//			    
 			    subPlotForSignals.getRenderer().setBaseToolTipGenerator(StandardXYToolTipGenerator.getTimeSeriesInstance());
 			    
 			    subPlotForSignals.setDomainCrosshairVisible(true);
@@ -227,7 +232,7 @@ public class CombinedLineChart {
 		        subPlotForPrice.getRenderer(6).setSeriesShape(0, ShapeUtilities.createUpTriangle(4));
 		        subPlotForPrice.getRenderer(6).setSeriesPaint(0, Color.decode("#A0A0A0"));
 
-		        subPlotForPrice.mapDatasetToRangeAxis(7, 7);
+//		        subPlotForPrice.mapDatasetToRangeAxis(7, 7);
 		        
 		        subPlotForPrice.getRenderer().setBaseToolTipGenerator(new StandardXYToolTipGenerator() {
 					@Override
@@ -239,29 +244,28 @@ public class CombinedLineChart {
 				plot.add(subPlotForPrice, 1);
 			}
 			
-			XYPlot subPlotForPrice = new XYPlot(getPairForType(TimeSeriesType.type_value).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_value).timeSeriesType.displayName), new PostivieNegativeXYBarRenderer(0));
-			subPlotForPrice.getRenderer().setSeriesPaint(0, Color.DARK_GRAY);
+			XYPlot subPlotForYield = new XYPlot(getPairForType(TimeSeriesType.type_value).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_value).timeSeriesType.displayName), new PostivieNegativeXYBarRenderer(0));
+			subPlotForYield.getRenderer().setSeriesPaint(0, Color.DARK_GRAY);
 //			subPlotForPrice.getRangeAxis().setAutoRange(true);
-			((NumberAxis)subPlotForPrice.getRangeAxis()).setAutoRangeIncludesZero(false);
-			subPlotForPrice.setRangeAxisLocation(0, AxisLocation.BOTTOM_OR_RIGHT);
-			subPlotForPrice.getRangeAxis().setRange(-0.5, 1.5);
-	        subPlotForPrice.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
+			((NumberAxis)subPlotForYield.getRangeAxis()).setAutoRangeIncludesZero(false);
+			subPlotForYield.setRangeAxisLocation(0, AxisLocation.BOTTOM_OR_RIGHT);
+			subPlotForYield.getRangeAxis().setRange(-0.5, 1.5);
+	        subPlotForYield.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 	        
 //	        subPlotForPrice.setDataset(5, getPairForType(TimeSeriesType.type_short_exit_price).timeSeriesCollection);
 //	        subPlotForPrice.setRenderer(5, new XYShapeRenderer());
 //	        subPlotForPrice.getRenderer(5).setSeriesShape(0, ShapeUtilities.createDownTriangle(4));
 //	        subPlotForPrice.getRenderer(5).setSeriesPaint(0, Color.decode("#FF8000"));
 	        
-			subPlotForPrice.setDataset(1, getPairForType(TimeSeriesType.type_yield).timeSeriesCollection);
-	        subPlotForPrice.setRangeAxis(1, new NumberAxis(TimeSeriesType.type_yield.displayName));
-	        subPlotForPrice.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_LEFT);
-	        subPlotForPrice.setRenderer(1, new StandardXYItemRenderer());
-	        subPlotForPrice.getRenderer(1).setSeriesPaint(0, Color.decode("#CCCCCC"));
-	        subPlotForPrice.getRangeAxis(1).setRange(-0.5, 1.5);
+			subPlotForYield.setDataset(1, getPairForType(TimeSeriesType.type_yield).timeSeriesCollection);
+	        subPlotForYield.setRangeAxis(1, new NumberAxis(TimeSeriesType.type_yield.displayName));
+	        subPlotForYield.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_LEFT);
+	        subPlotForYield.setRenderer(1, new StandardXYItemRenderer());
+	        subPlotForYield.getRenderer(1).setSeriesPaint(0, Color.decode("#CCCCCC"));
+	        subPlotForYield.getRangeAxis(1).setRange(-0.5, 1.5);
 //			((NumberAxis)subPlotForPrice.getRangeAxis(1)).setAutoRangeIncludesZero(false);
 //	        subPlotForPrice.getRangeAxis().setAutoRange(true);
-	        subPlotForPrice.mapDatasetToRangeAxis(1, 1);
-
+	        subPlotForYield.mapDatasetToRangeAxis(1, 1);
 			
 		    ValueMarker markerForLongEntry = new ValueMarker(0);
 		    markerForLongEntry.setPaint(Color.decode("#CCCCCC"));
@@ -270,9 +274,9 @@ public class CombinedLineChart {
 			markerForLongEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
 			markerForLongEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
 			markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-			subPlotForPrice.addRangeMarker(markerForLongEntry);
+			subPlotForYield.addRangeMarker(markerForLongEntry);
 	        
-	        plot.add(subPlotForPrice);
+	        plot.add(subPlotForYield);
 	        
 	        
 	        

@@ -4,6 +4,7 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tools.ArrayTools;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -39,6 +40,9 @@ public class AlgorithmChart {
 		chart.listOfSignalUO.add(algorithmBase.signalGroup.signalOfUO.getStrength());
 		chart.listOfSignalARUp.add(algorithmBase.signalGroup.signalOfARUp.getStrength());
 		chart.listOfSignalARDown.add(algorithmBase.signalGroup.signalOfARDown.getStrength());
+//		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
+//		chart.listOfIndicatorSAR.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsSAR.arrayOfSAR));
+		
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		chart.listOfYield.add(algorithmBase.getCurrentYield());
 

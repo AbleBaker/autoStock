@@ -1,5 +1,6 @@
 package com.autoStock.indicator;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.results.ResultsMACD;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
@@ -22,21 +23,25 @@ public class IndicatorOfMACD extends IndicatorBase {
 	}
 	
 	public ResultsMACD analize(){
-		results = new ResultsMACD(resultsetLength);
+		results = new ResultsMACD(1);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
 		RetCode returnCode;
 		
-		if (periodLength.value <= 30){ //TODO: Fix this, periods are wrong
-			returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, 9, periodLength.value-8, 9, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
-		}else{
-			try {
-				returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, immutableIntegerForShort.value, immutableIntegerForLong.value, 17, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
-				handleAnalysisResult(returnCode);
-			}catch(ArrayIndexOutOfBoundsException e){
-				e.printStackTrace();
-			}
-		}
+		Co.println("--> Period length: " + periodLength.value + ", " + commonAnlaysisData.arrayOfDates.length);
+		
+//		if (periodLength.value <= 30){ //TODO: Fix this, periods are wrong
+			returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, 6, 22, 9, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+		
+//			returnCode = taLibCore.macdFix(0, 30, arrayOfPriceClose, 9, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+//		}else{
+//			try {
+//				returnCode = taLibCore.macd(0, endIndex, arrayOfPriceClose, immutableIntegerForShort.value, immutableIntegerForLong.value, 17, new MInteger(), new MInteger(), results.arrayOfMACD, results.arrayOfMACDSignal, results.arrayOfMACDHistogram);
+//				handleAnalysisResult(returnCode);
+//			}catch(ArrayIndexOutOfBoundsException e){
+//				e.printStackTrace();
+//			}
+//		}
 		
 		return results;
 	}

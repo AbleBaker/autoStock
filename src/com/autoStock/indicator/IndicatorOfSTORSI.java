@@ -23,11 +23,10 @@ public class IndicatorOfSTORSI extends IndicatorBase {
 	}
 	
 	public ResultsSTORSI analyize(){
-		results = new ResultsSTORSI(endIndex+1);
-		
+		results = new ResultsSTORSI(50);
 		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
 		
-		RetCode returnCode = taLibCore.stochRsi(0, endIndex, arrayOfPriceClose, periodLength.value-1, 16, 4, MAType.Tema, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
+		RetCode returnCode = taLibCore.stochRsi(0, endIndex, arrayOfPriceClose, 15, 12, 3, MAType.Trima, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
 		handleAnalysisResult(returnCode);
 		
 		return results;

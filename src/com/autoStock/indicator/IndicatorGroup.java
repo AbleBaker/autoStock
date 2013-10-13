@@ -17,6 +17,7 @@ import com.autoStock.indicator.results.ResultsMFI;
 import com.autoStock.indicator.results.ResultsPTD;
 import com.autoStock.indicator.results.ResultsROC;
 import com.autoStock.indicator.results.ResultsRSI;
+import com.autoStock.indicator.results.ResultsSAR;
 import com.autoStock.indicator.results.ResultsSTORSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsUO;
@@ -46,6 +47,7 @@ public class IndicatorGroup {
 	public IndicatorOfUO indicatorOfUO;
 	public IndicatorOfAR indicatorOfAR;
 	public IndicatorOfPTD indicatorOfPTD;
+	public IndicatorOfSAR indicatorOfSAR;
 	public CandleStickIdentifier candleStickIdentifier;
 
 	public ResultsADX resultsADX;
@@ -62,6 +64,7 @@ public class IndicatorGroup {
 	public ResultsUO resultsUO;
 	public ResultsAR resultsAR;
 	public ResultsPTD resultsPTD;
+	public ResultsSAR resultsSAR;
 	public CandleStickIdentifierResult candleStickIdentifierResult;
 	
 	public SignalGroup signalGroup;
@@ -91,6 +94,7 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(signalGroup.signalOfWILLR.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_willr));
 		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_uo));
 		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
+		listOfIndicatorBase.add(indicatorOfSAR = new IndicatorOfSAR(signalGroup.signalOfARUp.signalParameters.periodLength, 0, commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
 		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
 		
 		indicatorOfPTD = new IndicatorOfPTD(new MutableInteger(10), 1, commonAnalysisData, taLibCore, SignalMetricType.none);
@@ -126,18 +130,19 @@ public class IndicatorGroup {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo)){resultsUO = indicatorOfUO.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_ar_up)){resultsAR = indicatorOfAR.analyize();}
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_sar)){resultsSAR = indicatorOfSAR.analyize();}
 		
 //		Co.println("-->X: " + signalGroup.signalOfUO.getStrengthWindow().length);
 		
-//		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo) && signalGroup.signalOfUO.getStrengthWindow().length >= 10){
-//			resultsPTD = indicatorOfPTD.analyize(signalGroup.signalOfUO.getStrengthWindow());
-//			
-////			Co.println("--> Have results? " + resultsPTD.arrayOfPTD.length);
-//			
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo) && signalGroup.signalOfUO.getStrengthWindow().length >= 10){
+			resultsPTD = indicatorOfPTD.analyize(signalGroup.signalOfUO.getStrengthWindow());
+			
+//			Co.println("--> Have results? " + resultsPTD.arrayOfPTD.length);
+			
 //			for (int i=0; i<resultsPTD.arrayOfPTD.length; i++){
 //				Co.print(" " + resultsPTD.arrayOfPTD[i]);
 //			}
-//		}
+		}
 		
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_candlestick_group)){
 			candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);

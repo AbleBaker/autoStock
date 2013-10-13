@@ -21,6 +21,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParametersForRSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForSTORSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForSAR;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.tools.ArrayTools;
@@ -45,6 +46,7 @@ public class SignalGroup {
 	public SignalOfUO signalOfUO = new SignalOfUO(new SignalParametersForUO());
 	public SignalOfARUp signalOfARUp = new SignalOfARUp(new SignalParametersForARUp());
 	public SignalOfARDown signalOfARDown = new SignalOfARDown(new SignalParametersForARDown());
+	
 	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
 	
@@ -66,6 +68,7 @@ public class SignalGroup {
 		listOfSignalBase.add(signalOfUO);
 		listOfSignalBase.add(signalOfARUp);
 		listOfSignalBase.add(signalOfARDown);
+		
 		listOfSignalBase.add(signalOfCandlestickGroup);
 		listOfSignalBase.add(signalOfEncog);
 	}
@@ -88,6 +91,7 @@ public class SignalGroup {
 		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
 		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARUp));}
 		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
+		
 		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
 		
 		if (signalOfCCI.listOfNormalizedValue.size() >= ENCOG_SIGNAL_INPUT){

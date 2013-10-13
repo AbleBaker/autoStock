@@ -30,10 +30,13 @@ public class IndicatorOfPTD extends IndicatorBase {
 		double max = MathTools.getMax(arrayOfValues);
 		double min = MathTools.getMin(arrayOfValues);
 		double middle = (arrayOfValues[4] + arrayOfValues[5]) / 2;
+		double current = arrayOfValues[arrayOfValues.length-1];
 		
 		boolean isIncreasing = MathTools.isIncreasing(ArrayTools.convertToDouble(Arrays.copyOfRange(arrayOfValues, 6, 10)), 1, false);
 		boolean isDecresing = MathTools.isDecreasing(ArrayTools.convertToDouble(Arrays.copyOfRange(arrayOfValues, 6, 10)), 1, false);
 		boolean isFlat = MathTools.isFlat(ArrayTools.convertToDouble(Arrays.copyOfRange(arrayOfValues, 6, 10)), 0.5);
+		
+		double max2 = MathTools.getMax(Arrays.copyOfRange(arrayOfValues, 6, 10));
 
 		for (int i=0; i< arrayOfValues.length; i++){
 			Co.print(" " + arrayOfValues[i]);
@@ -52,7 +55,7 @@ public class IndicatorOfPTD extends IndicatorBase {
 			lastResult = result;
 			
 			if (isDecresing){
-				Co.println("--> With values: ");
+				Co.println("--> With values: " + current + ", " + max2);
 				int[] values = Arrays.copyOfRange(arrayOfValues, 6, 10);
 				
 				for (int i=0; i< values.length; i++){
