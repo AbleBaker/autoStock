@@ -20,8 +20,12 @@ public class AdjustmentSeriesForAlgorithm extends AdjustmentCampaign {
 	@Override
 	protected void initializeAdjustmentCampaign() {
 		
-		addTypicalSignalRange(algorithmBase.signalGroup.signalOfRSI);
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("RSI Period", algorithmBase.signalGroup.signalOfRSI.signalParameters.periodLength, new IterableOfInteger(20, 40, 2, true)));
+		
+		addTypicalSignalRange(algorithmBase.signalGroup.signalOfUO);
+     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("UO Period", algorithmBase.signalGroup.signalOfUO.signalParameters.periodLength, new IterableOfInteger(20, 30, 2, true)));
+		
+//		addTypicalSignalRange(algorithmBase.signalGroup.signalOfARUp);
+//		addTypicalSignalRange(algorithmBase.signalGroup.signalOfARDown);
 		
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfCCI, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-30, 30, 3, false)));
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfCCI, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-30, 30, 3, false)));

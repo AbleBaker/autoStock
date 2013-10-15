@@ -157,7 +157,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForCCI extends SignalParameters {
 		public SignalParametersForCCI() {
-			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 8) + 5;}}, 
+			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 8);}}, 
 			new MutableInteger(30), new MutableInteger(10),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -30)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 0)},
@@ -245,7 +245,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForUO extends SignalParameters {
 		public SignalParametersForUO() {
-			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (MathTools.pow(input, 1.04) - 55);}}, 
+			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((double)input / 1.2 - 45);}}, 
 			new MutableInteger(30), new MutableInteger(10),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -10)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 13)},
