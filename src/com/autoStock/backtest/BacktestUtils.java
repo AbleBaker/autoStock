@@ -113,9 +113,11 @@ public class BacktestUtils {
 	}
 	
 	public static void printBestBacktestResults(ArrayList<String> listOfStringBestBacktestResults){
-		Co.println("Best backtest results...");
-		for (String string : listOfStringBestBacktestResults){
-			Co.println(string);
+		if (listOfStringBestBacktestResults!= null && listOfStringBestBacktestResults.size() > 0){
+			Co.println("Best backtest results...");
+			for (String string : listOfStringBestBacktestResults){
+				Co.println(string);
+			}
 		}
 	}
 	

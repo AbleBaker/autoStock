@@ -21,8 +21,8 @@ public class AdjustmentSeriesForAlgorithm extends AdjustmentCampaign {
 	protected void initializeAdjustmentCampaign() {
 		
 		
-		addTypicalSignalRange(algorithmBase.signalGroup.signalOfUO);
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("UO Period", algorithmBase.signalGroup.signalOfUO.signalParameters.periodLength, new IterableOfInteger(20, 30, 2, true)));
+//		addTypicalSignalRange(algorithmBase.signalGroup.signalOfUO);
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("UO Period", algorithmBase.signalGroup.signalOfUO.signalParameters.periodLength, new IterableOfInteger(20, 30, 2, true)));
 		
 //		addTypicalSignalRange(algorithmBase.signalGroup.signalOfARUp);
 //		addTypicalSignalRange(algorithmBase.signalGroup.signalOfARDown);
@@ -34,10 +34,10 @@ public class AdjustmentSeriesForAlgorithm extends AdjustmentCampaign {
 
 ////		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("CCI Average", SignalMetricType.metric_cci.maxSignalAverage, new IterableOfInteger(1, 10, 1)));
 		
-//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-30, 30, 5, false)));
-//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-30, 30, 5, false)));
-//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_short_entry, new IterableOfInteger(-30, 30, 5, false)));
-//		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-30, 30, 5, false)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_long_entry, new IterableOfInteger(-30, 30, 1, false)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_long_exit, new IterableOfInteger(-30, 30, 1, false)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_short_entry, new IterableOfInteger(-30, 30, 1, false)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-30, 30, 1, false)));
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("UO Period", algorithmBase.signalGroup.signalOfUO.signalParameters.periodLength, new IterableOfInteger(20, 30, 5, true)));
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("UO Average", algorithmBase.signalGroup.signalOfUO.signalParameters.maxSignalAverage, new IterableOfInteger(1, 10, 1)));
 		

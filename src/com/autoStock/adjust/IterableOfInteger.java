@@ -28,14 +28,8 @@ public class IterableOfInteger extends IterableBase {
 		}
 	}
 	
-	public void rebase(int min, int max){
-//		throw new IllegalStateException();
-		if (currentIndex != 0){
-//			throw new IllegalStateException("Can't rebase if index isn't 0. Index is: " + currentIndex);
-		}
-		
+	public void rebase(int min, int max){	
 		while ((min - max) % step != 0){
-//			Co.println("Warning! Max adjusted due to step remainder: Min - max % step: " + min + ", " + max + ", " + step + ", " + Math.abs(((min - max) % step)));
 			max++;
 		}
 		
@@ -49,6 +43,10 @@ public class IterableOfInteger extends IterableBase {
 	
 	public int getMax(){
 		return max;
+	}
+
+	public int getStep() {
+		return step;
 	}
 	
 	@Override

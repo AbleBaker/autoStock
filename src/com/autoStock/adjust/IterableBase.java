@@ -1,5 +1,9 @@
 package com.autoStock.adjust;
 
+import java.util.Random;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
 
 /**
  * @author Kevin Kowalewski
@@ -24,8 +28,23 @@ public abstract class IterableBase {
 		currentIndex = 0;
 	}
 	
+	public void randomize(Random random){
+		currentIndex = random.nextInt(getMaxIndex());
+	}
+	
 	public void overrideAndSetCurrentIndex(int currentIndex){
 		this.currentIndex = currentIndex;
+	}
+	
+	public int getCurrentIndex(){
+		return currentIndex;
+	}
+	
+	public void setCurrentIndex(int index){
+		if (currentIndex > getMaxIndex()){
+			throw new IllegalArgumentException("index > max");
+		}
+		currentIndex = index;
 	}
 	
 	public double getPercentComplete(){

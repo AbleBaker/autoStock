@@ -15,6 +15,7 @@ import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
 import com.autoStock.MainTest;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.backtest.watchmaker.WMBacktest;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
 import com.autoStock.display.DisplayMarketSymbolData;
@@ -157,10 +158,10 @@ public class MenuLauncher {
 			
 			switch (menuCommand){
 				case "1" :
-					command = "main_backtest 01/09/2012 01/13/2012 NYSE AIG backtest_adjustment_individual";
+					command = "main_backtest 01/09/2012 01/09/2012 NYSE AIG backtest_adjustment_individual";
 					break;
 				case "2" :
-					command = "main_backtest 01/09/2012 01/13/2012 NYSE AIG backtest_default";
+					command = "main_backtest 01/09/2012 01/09/2012 NYSE AIG backtest_default";
 					break;
 				case "3" :
 					command = "main_backtest 01/17/2012 01/17/2012 NYSE AIG backtest_default";
@@ -182,6 +183,13 @@ public class MenuLauncher {
 			MenuStructures menuStructureForQuickCommand = menuController.getRelatedMenu(command.split(" "));
 			menuController.handleMenuStructure(menuStructureForQuickCommand, command.split("[ ]+(?=([^\"]*\"[^\"]*\")*[^\"]*$)"));
 			new MenuLauncher().launchDisplay(menuStructureForQuickCommand);
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_backtest_wm){
+			new WMBacktest(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
+			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
+			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
+			SymbolTools.getListOfSymbolFromListOfString(ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "), SecurityType.type_stock));
 		}
 		
 		else {

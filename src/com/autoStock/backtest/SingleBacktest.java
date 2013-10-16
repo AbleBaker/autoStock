@@ -81,6 +81,6 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 	}
 
 	public void remodel(AlgorithmModel algorithmModel) {
-		new AlgorithmRemodeler(backtestContainer.algorithm, algorithmModel);
+		new AlgorithmRemodeler(backtestContainer.algorithm, algorithmModel).remodel();
 	}
 }

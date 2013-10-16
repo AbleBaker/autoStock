@@ -135,7 +135,7 @@ public class BacktestEvaluationBuilder {
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData);
 		
-		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, backtestEvaluation.algorithmModel);
+		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, backtestEvaluation.algorithmModel).remodel();
 		singleBacktest.setBacktestData(listOfResults);
 		
 		if (neuralNetwork != null){

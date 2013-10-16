@@ -1,5 +1,6 @@
 package com.autoStock.adjust;
 
+import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
 import com.autoStock.signal.SignalBase;
 
@@ -32,7 +33,7 @@ public class AdjustmentOfSignalMetric extends AdjustmentBase {
 			throw new UnsupportedOperationException("Unknown adjustment type: " + adjustmentType.name());
 		}
 		
-//		Co.println("--> Adjusted: " + adjustmentType.name() + ", " + ((IterableOfInteger)iterableBase).getInt());
+//		Co.println("--> Adjusted: " + adjustmentType.name() + ", " + iterableBase.getCurrentIndex() + "," + ((IterableOfInteger)iterableBase).getInt());
 	}
 	
 	public int getValue(){

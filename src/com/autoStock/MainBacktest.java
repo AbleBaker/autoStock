@@ -148,7 +148,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		}
 		
 		ListTools.removeDuplicates(listOfSymbols);
-
 		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(exchange, dateStart, dateEnd, listOfSymbols);
 		
 		setupBacktestContainersAndAdjustment();
@@ -341,17 +340,16 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 						}else{
 							for (BacktestEvaluation backtestEvaluation : listOfBacktestEvaluation){
 								Co.println("\n\n--> String representation: " + backtestEvaluation.toString());
-							}							
+							}
+							
+							BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
+							new BacktestEvaluationWriter().writeToDatabase(bestEvaluation, true);
 						}
-						
-						BacktestEvaluation bestEvaluation = backtestEvaluator.getResults(backtestContainer.symbol).get(backtestEvaluator.getResults(backtestContainer.symbol).size() -1);
-						new BacktestEvaluationWriter().writeToDatabase(bestEvaluation, true);
 					}
 					
 					BacktestUtils.printBestBacktestResults(listOfStringBestBacktestResults);
 					Global.callbackLock.releaseLock();
 				}
-
 			}
 			return false;
 		} else {
