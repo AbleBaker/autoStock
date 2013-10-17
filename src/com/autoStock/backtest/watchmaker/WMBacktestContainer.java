@@ -79,6 +79,12 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		System.out.printf("Generation %d: %s %f\n", data.getGenerationNumber(), data.getBestCandidate(), data.getBestCandidateFitness());	
+		Co.println("Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());	
+		
+		Co.print("--> " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
+		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
+		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
+		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
+		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).periodLength.value);
 	}
 }

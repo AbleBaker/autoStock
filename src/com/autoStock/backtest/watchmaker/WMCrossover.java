@@ -45,9 +45,9 @@ public class WMCrossover extends AbstractCrossover<AlgorithmModel> {
 			throw new UnsupportedOperationException("Can't handle crossover points other than 1");
 		}
 		
-		if (parent1.wmAdjustment.listOfAdjustmentBase.size() % (crossoverPoints+1) != 0){
-			throw new IllegalArgumentException("Crossover point remainder needs to be zero: " + (parent1.wmAdjustment.listOfAdjustmentBase.size() % (crossoverPoints+1) != 0));
-		}
+//		if (parent1.wmAdjustment.listOfAdjustmentBase.size() % (crossoverPoints+1) != 0){
+//			throw new IllegalArgumentException("Crossover point remainder needs to be zero: " + (parent1.wmAdjustment.listOfAdjustmentBase.size() % (crossoverPoints+1) != 0));
+//		}
 		
 		int crossoverSize = parent1.wmAdjustment.listOfAdjustmentBase.size() / (crossoverPoints +1);
 		
