@@ -67,7 +67,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 	}
 	
 	public void runBacktest(){
-		AlgorithmModel algorithmModel = evolutionEngine.evolve(100, 5, new TargetFitness(999999, true), new GenerationCount(50));
+		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(100));
 		
 		Co.print("\n\n --> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
 		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
