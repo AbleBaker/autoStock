@@ -52,7 +52,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 		
 		wmCandidateFactory = new WMCandidateFactory(this);
 		List<EvolutionaryOperator<AlgorithmModel>> operators = new ArrayList<EvolutionaryOperator<AlgorithmModel>>();
-		operators.add(new WMMutation(new Probability(0.25d)));
+		operators.add(new WMMutation(new Probability(0.10)));
 		operators.add(new WMCrossover(1));
 		
 		EvolutionaryOperator<AlgorithmModel> evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
@@ -69,19 +69,18 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = evolutionEngine.evolve(100, 5, new TargetFitness(999999, true), new GenerationCount(30));
 		
-		Co.println("--> Model: ");
-		
-		Co.println("--> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
-		Co.println("--> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
-		Co.println("--> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
-		Co.println("--> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
+		Co.print(" --> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
+		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
+		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
+		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
+		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).periodLength.value);
 	}
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		Co.println("Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());	
+		Co.print("\nGeneration " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());	
 		
-		Co.print("--> " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
+		Co.print(" --> " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
 		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
 		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
 		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
