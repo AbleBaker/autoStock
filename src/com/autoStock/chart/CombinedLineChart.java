@@ -306,17 +306,17 @@ public class CombinedLineChart {
 				plot.add(subPlotForCandleStick, 1);
 			}catch(Exception e){}
 			
-			if (getPairForType(TimeSeriesType.type_debug) != null){
-				XYPlot subPlotForDebug = new XYPlot(getPairForType(TimeSeriesType.type_debug).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_debug).timeSeriesType.displayName), new StandardXYItemRenderer());
-				subPlotForDebug.getRangeAxis().setAutoRange(true);
-				((NumberAxis)subPlotForDebug.getRangeAxis()).setAutoRangeIncludesZero(false);
-				
-				subPlotForDebug.setRenderer(new XYShapeRenderer());
-				subPlotForDebug.getRenderer().setSeriesShape(0, ShapeUtilities.createDiamond(4));
-				subPlotForDebug.getRenderer().setSeriesPaint(0, Color.BLACK);
-				
-				plot.add(subPlotForDebug, 1);
-			}
+//			if (getPairForType(TimeSeriesType.type_debug) != null){
+//				XYPlot subPlotForDebug = new XYPlot(getPairForType(TimeSeriesType.type_debug).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_debug).timeSeriesType.displayName), new StandardXYItemRenderer());
+//				subPlotForDebug.getRangeAxis().setAutoRange(true);
+//				((NumberAxis)subPlotForDebug.getRangeAxis()).setAutoRangeIncludesZero(false);
+//				
+//				subPlotForDebug.setRenderer(new XYShapeRenderer());
+//				subPlotForDebug.getRenderer().setSeriesShape(0, ShapeUtilities.createDiamond(4));
+//				subPlotForDebug.getRenderer().setSeriesPaint(0, Color.BLACK);
+//				
+//				plot.add(subPlotForDebug, 1);
+//			}
 			
 			plot.setOrientation(PlotOrientation.VERTICAL);
 			plot.setBackgroundPaint(Color.lightGray);
