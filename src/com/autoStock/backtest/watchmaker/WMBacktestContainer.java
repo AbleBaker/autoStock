@@ -10,6 +10,8 @@ import org.uncommons.watchmaker.framework.EvolutionObserver;
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 import org.uncommons.watchmaker.framework.GenerationalEvolutionEngine;
 import org.uncommons.watchmaker.framework.PopulationData;
+import org.uncommons.watchmaker.framework.islands.IslandEvolution;
+import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
@@ -58,6 +60,14 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 		operators.add(new WMCrossover(1));
 		
 		EvolutionaryOperator<AlgorithmModel> evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
+		
+//		new IslandEvolution<>(10, 
+//				new RingMigration(), 
+//				wmCandidateFactory, 
+//				evolutionaryPipeline, 
+//				new WMBacktestEvaluator(), 
+//				new RouletteWheelSelection(), 
+//				randomNumberGenerator);
 		
 		evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
 			evolutionaryPipeline, 
