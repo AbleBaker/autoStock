@@ -31,7 +31,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 	
 	private Lock lock = new Lock();
 	
-	public SingleBacktest(HistoricalData historicalData){
+	public SingleBacktest(HistoricalData historicalData, AlgorithmMode algorithmMode){
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
 
 		if (listOfBacktestDates.size() == 0) {
@@ -41,7 +41,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(historicalData.exchange, historicalData.startDate, historicalData.endDate, Arrays.asList(new Symbol[]{historicalData.symbol}));
 		
 		this.historicalData = historicalData;
-		backtestContainer = new BacktestContainer(historicalData.symbol, historicalData.exchange, this, AlgorithmMode.mode_backtest_single);
+		backtestContainer = new BacktestContainer(historicalData.symbol, historicalData.exchange, this, algorithmMode);
 	}
 
 	@Override

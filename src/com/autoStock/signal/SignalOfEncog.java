@@ -11,6 +11,7 @@ import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -65,7 +66,7 @@ public class SignalOfEncog extends SignalBase {
         MLData output = basicNetwork.compute(input);
         
         double valueForLongEntry = output.getData(0);
-        double valueForShortEntry = 0; //output.getData(1);
+        double valueForShortEntry = output.getData(1);
         double valueForAnyExit = output.getData(1);
         
         if (valueForLongEntry >= 0.95){

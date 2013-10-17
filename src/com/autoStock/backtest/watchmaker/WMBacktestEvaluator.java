@@ -5,6 +5,7 @@ import java.util.List;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
@@ -51,7 +52,7 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 //		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
 //		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).periodLength.value);
 		
-		SingleBacktest singleBacktest = new SingleBacktest(historicalData);
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		singleBacktest.remodel(algorithmModel);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();

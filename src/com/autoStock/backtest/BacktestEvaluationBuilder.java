@@ -14,6 +14,7 @@ import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
 import com.autoStock.adjust.AdjustmentOfSignalMetric;
 import com.autoStock.algorithm.core.AlgorithmRemodeler;
+import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForAdjustment;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForIndicator;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForSignal;
@@ -133,7 +134,7 @@ public class BacktestEvaluationBuilder {
 			listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));			
 		}
 		
-		SingleBacktest singleBacktest = new SingleBacktest(historicalData);
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_silent);
 		
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, backtestEvaluation.algorithmModel).remodel();
 		singleBacktest.setBacktestData(listOfResults);
