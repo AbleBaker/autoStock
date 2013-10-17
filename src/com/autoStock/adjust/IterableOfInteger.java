@@ -28,6 +28,10 @@ public class IterableOfInteger extends IterableBase {
 		}
 	}
 	
+	public IterableOfInteger(int min, int max, int step){
+		this(min, max, step, false);
+	}
+	
 	public void rebase(int min, int max){	
 		while ((min - max) % step != 0){
 			max++;

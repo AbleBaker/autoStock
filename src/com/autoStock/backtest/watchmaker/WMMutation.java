@@ -30,7 +30,7 @@ public class WMMutation implements EvolutionaryOperator<AlgorithmModel> {
 	
 	@Override
 	public List<AlgorithmModel> apply(List<AlgorithmModel> listOfAlgorithmModel, Random random) {
-		Co.println("--> Asked to mutate");
+//		Co.println("--> Asked to mutate");
 		ArrayList<AlgorithmModel> list = new ArrayList<AlgorithmModel>();
 		
 		for (AlgorithmModel algorithmModel : listOfAlgorithmModel){

@@ -29,7 +29,7 @@ public class WMCrossover extends AbstractCrossover<AlgorithmModel> {
 
 	@Override
 	protected List<AlgorithmModel> mate(AlgorithmModel parent1, AlgorithmModel parent2, int crossoverPoints, Random random) {
-		Co.println("--> Asked to crossover");
+//		Co.println("--> Asked to crossover");
 		ArrayList<AlgorithmModel> listOfAlgorithmModel = new ArrayList<AlgorithmModel>();
 		
 		if (parent1 == parent2){
