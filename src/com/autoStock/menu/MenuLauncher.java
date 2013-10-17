@@ -172,6 +172,9 @@ public class MenuLauncher {
 				case "5":
 					command = "main_clustered_backtest_client";
 					break;
+				case "6":
+					command = "main_backtest_wm 01/09/2012 01/09/2012 NYSE AIG";
+					break;
 			}
 			
 			if (command == null){

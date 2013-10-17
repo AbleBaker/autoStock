@@ -10,6 +10,7 @@ public class AlgorithmDefinitions {
 	public static enum AlgorithmMode {
 		mode_backtest(true, true, false),
 		mode_backtest_with_adjustment(false, false, false),
+		mode_backtest_single(false, false, false),
 		mode_engagement(false, true, false),
 		mode_backtest_silent(false, false, false);
 		;

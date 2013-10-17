@@ -41,7 +41,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(historicalData.exchange, historicalData.startDate, historicalData.endDate, Arrays.asList(new Symbol[]{historicalData.symbol}));
 		
 		this.historicalData = historicalData;
-		backtestContainer = new BacktestContainer(historicalData.symbol, historicalData.exchange, this, AlgorithmMode.mode_backtest_silent);
+		backtestContainer = new BacktestContainer(historicalData.symbol, historicalData.exchange, this, AlgorithmMode.mode_backtest_single);
 	}
 
 	@Override

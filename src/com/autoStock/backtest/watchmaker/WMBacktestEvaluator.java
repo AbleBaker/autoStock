@@ -49,11 +49,15 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 //		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
 //		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
 //		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
+//		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).periodLength.value);
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData);
-		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.remodel(algorithmModel);
+		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
+		
+//		Co.print("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.periodLength.value);
+//		Co.print("Check B: " + singleBacktest.backtestContainer.algorithm.getPeriodLength());
 		
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 		
