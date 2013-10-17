@@ -85,29 +85,33 @@ public class BacktestEvaluationBuilder {
 		
 		if (AdjustmentCampaignProvider.getInstance().getAdjustmentCampaignForAlgorithm(backtestContainer.symbol) != null){
 			for (AdjustmentBase adjustmentBase : AdjustmentCampaignProvider.getInstance().getAdjustmentCampaignForAlgorithm(backtestContainer.symbol).getListOfAdjustmentBase()){
-				DescriptorForAdjustment descriptorForAdjustment = new DescriptorForAdjustment();
-				descriptorForAdjustment.adjustmentType = adjustmentBase.getClass().getSimpleName();
-				descriptorForAdjustment.adjustmentDescription = adjustmentBase.getDescription();
-				
-				if (adjustmentBase instanceof AdjustmentOfBasicInteger){
-					descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicInteger)adjustmentBase).getValue());
-				}else if (adjustmentBase instanceof AdjustmentOfBasicDouble){
-					descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicDouble)adjustmentBase).getValue());
-				}else if (adjustmentBase instanceof AdjustmentOfEnum){
-					descriptorForAdjustment.adjustmentValue = ((AdjustmentOfEnum)adjustmentBase).getValue().name();
-				}else if (adjustmentBase instanceof AdjustmentOfSignalMetric){
-					descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfSignalMetric)adjustmentBase).getValue());
-				}else{
-					throw new UnsupportedOperationException("Unknown adjustment class: " + adjustmentBase.getClass().getName());
-				}
-				
-				backtestEvaluation.listOfDescriptorForAdjustment.add(descriptorForAdjustment);
+				backtestEvaluation.listOfDescriptorForAdjustment.add(getAdjustmentDescriptor(adjustmentBase));
 			}
 		}
 		
 		backtestEvaluation.listOfDisplayRowsFromStrategyResponse = BacktestUtils.getTableDisplayRows(backtestContainer);
 		
 		return backtestEvaluation;
+	}
+	
+	public DescriptorForAdjustment getAdjustmentDescriptor(AdjustmentBase adjustmentBase){
+		DescriptorForAdjustment descriptorForAdjustment = new DescriptorForAdjustment();
+		descriptorForAdjustment.adjustmentType = adjustmentBase.getClass().getSimpleName();
+		descriptorForAdjustment.adjustmentDescription = adjustmentBase.getDescription();
+		
+		if (adjustmentBase instanceof AdjustmentOfBasicInteger){
+			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicInteger)adjustmentBase).getValue());
+		}else if (adjustmentBase instanceof AdjustmentOfBasicDouble){
+			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicDouble)adjustmentBase).getValue());
+		}else if (adjustmentBase instanceof AdjustmentOfEnum){
+			descriptorForAdjustment.adjustmentValue = ((AdjustmentOfEnum)adjustmentBase).getValue().name();
+		}else if (adjustmentBase instanceof AdjustmentOfSignalMetric){
+			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfSignalMetric)adjustmentBase).getValue());
+		}else{
+			throw new UnsupportedOperationException("Unknown adjustment class: " + adjustmentBase.getClass().getName());
+		}
+		
+		return descriptorForAdjustment;
 	}
 	
 	public BacktestEvaluation buildOutOfSampleEvaluation(BacktestEvaluation backtestEvaluation){

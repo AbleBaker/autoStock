@@ -18,10 +18,12 @@ import org.uncommons.watchmaker.framework.termination.TargetFitness;
 import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
+import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.DummyAlgorithm;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
+import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.ListenerOfBacktestCompleted;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -78,12 +80,10 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		Co.print("\nGeneration " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());	
+		Co.print("\nGeneration " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n");	
 		
-		Co.print(" --> " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
-		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
-		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
-		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
-		Co.print(" " + data.getBestCandidate().listOfSignalParameters.get(10).periodLength.value);
+		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
+			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
+		}
 	}
 }
