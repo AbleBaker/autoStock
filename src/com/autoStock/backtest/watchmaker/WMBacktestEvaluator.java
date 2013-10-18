@@ -46,30 +46,8 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 		PositionGovernor.getInstance().reset();
 		PositionManager.getInstance().reset();
 		
-//		Co.println("\n--> Evaluating:");
-//		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
-//		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
-//		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
-//		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
-//		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).periodLength.value);
-		
 		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel);
-		
-//		if (algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_left &&
-//			algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_met &&
-//			algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_left &&
-//			algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_met){
-//			Co.println("--> Check: " + backtestEvaluation.getScore());
-//		}
-		
-//		Co.println("Check A: " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType.enumValue.name());
-//		Co.println("Check B: " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].mutableEnumForSignalGuageType.enumValue.name());
-//		Co.println("Check C: " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].mutableEnumForSignalGuageType.enumValue.name());
-//		Co.println("Check D: " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].mutableEnumForSignalGuageType.enumValue.name() + "\n\n");
 
-
-//		Co.println("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType.enumValue.name());
-		
 //		Co.print("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.periodLength.value);
 //		Co.print("Check B: " + singleBacktest.backtestContainer.algorithm.getPeriodLength());		
 //		Co.println("--> Yield: " + backtestEvaluation.percentYield);
@@ -85,7 +63,6 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 		
 		return new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 	}
-
 
 	@Override
 	public boolean isNatural() {
