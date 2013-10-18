@@ -82,19 +82,16 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 	
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = evolutionEngine.evolve(128, 5, new TargetFitness(999999, true), new GenerationCount(25));
+		double fitness = new WMBacktestEvaluator().getFitness(algorithmModel, null);
 		
-		Co.println("\n\n Best result: ");
+		Co.println("\n\n Best result: " + fitness);
 		
 		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
 		}
 		
-		double fitness = new WMBacktestEvaluator().getFitness(algorithmModel, null);
-		
 		if (bestResult != fitness){
 			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
-		}else{
-			Co.println("--> Best result and derived fitness match: " + bestResult + ", " + fitness);
 		}
 		
 		Co.print(new WMBacktestEvaluator().getBacktestEvaluation(algorithmModel).toString());
