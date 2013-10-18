@@ -13,6 +13,7 @@ import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -52,20 +53,37 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 //		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
 //		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).periodLength.value);
 		
+		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel);
+		
+//		if (algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_left &&
+//			algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_met &&
+//			algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_left &&
+//			algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_met){
+//			Co.println("--> Check: " + backtestEvaluation.getScore());
+//		}
+		
+//		Co.println("Check A: " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType.enumValue.name());
+//		Co.println("Check B: " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].mutableEnumForSignalGuageType.enumValue.name());
+//		Co.println("Check C: " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].mutableEnumForSignalGuageType.enumValue.name());
+//		Co.println("Check D: " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].mutableEnumForSignalGuageType.enumValue.name() + "\n\n");
+
+
+//		Co.println("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType.enumValue.name());
+		
+//		Co.print("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.periodLength.value);
+//		Co.print("Check B: " + singleBacktest.backtestContainer.algorithm.getPeriodLength());		
+//		Co.println("--> Yield: " + backtestEvaluation.percentYield);
+		
+		return backtestEvaluation.percentYield > 0 ? backtestEvaluation.percentYield : 0;
+	}
+	
+	public BacktestEvaluation getBacktestEvaluation(AlgorithmModel algorithmModel){
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		singleBacktest.remodel(algorithmModel);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		
-		Co.println("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType.enumValue.name());
-//		Co.print("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.periodLength.value);
-//		Co.print("Check B: " + singleBacktest.backtestContainer.algorithm.getPeriodLength());
-		
-		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
-		
-//		Co.println("--> Yield: " + backtestEvaluation.percentYield);
-		
-		return backtestEvaluation.percentYield > 0 ? backtestEvaluation.percentYield : 0;
+		return new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 	}
 
 

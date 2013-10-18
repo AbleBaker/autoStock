@@ -1,5 +1,6 @@
 package com.autoStock.backtest.watchmaker;
 
+import java.awt.IllegalComponentStateException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 	public Exchange exchange;
 	public Date dateStart;
 	public Date dateEnd;
+	private double bestResult = 0;
 
 	private WMCandidateFactory wmCandidateFactory;
 	private MersenneTwisterRNG randomNumberGenerator = new MersenneTwisterRNG();
@@ -86,6 +88,16 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
 		}
+		
+		double fitness = new WMBacktestEvaluator().getFitness(algorithmModel, null);
+		
+		if (bestResult != fitness){
+			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
+		}else{
+			Co.println("--> Best result and derived fitness match: " + bestResult + ", " + fitness);
+		}
+		
+		Co.print(new WMBacktestEvaluator().getBacktestEvaluation(algorithmModel).toString());
 	}
 
 	@Override
@@ -95,5 +107,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
 		}
+		
+		bestResult = data.getBestCandidateFitness();
 	}
 }

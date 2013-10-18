@@ -7,10 +7,10 @@ import com.autoStock.types.basic.MutableEnum;
  * @author Kevin Kowalewski
  *
  */
-public class AdjustmentOfEnum<E extends Enum<E>> extends AdjustmentBase {
-	private MutableEnum<E> immutableEnum;
+public class AdjustmentOfEnum<T extends Enum<T>> extends AdjustmentBase {
+	private MutableEnum<T> immutableEnum;
 	
-	public AdjustmentOfEnum(String description, IterableOfEnum<E> iterableOfEnum, MutableEnum<E> immutableEnum){
+	public AdjustmentOfEnum(String description, IterableOfEnum<T> iterableOfEnum, MutableEnum<T> immutableEnum){
 		this.iterableBase = iterableOfEnum;
 		this.description = description;
 		this.immutableEnum = immutableEnum;
@@ -21,7 +21,7 @@ public class AdjustmentOfEnum<E extends Enum<E>> extends AdjustmentBase {
 		immutableEnum.enumValue = getValue();
 	}
 	
-	public E getValue(){
-		return ((IterableOfEnum<E>)iterableBase).getEnum();
+	public T getValue(){
+		return ((IterableOfEnum<T>)iterableBase).getEnum();
 	}
 }
