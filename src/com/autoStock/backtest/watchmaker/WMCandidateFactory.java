@@ -37,14 +37,14 @@ public class WMCandidateFactory extends AbstractCandidateFactory<AlgorithmModel>
 		
 		for (AdjustmentBase adjustmentBase : listOfAdjustmentBase){
 //			Co.println("--> Have adjustment: " + adjustmentBase.getDescription() + ", " + adjustmentBase.getClass().getSimpleName());
-			if (adjustmentBase instanceof AdjustmentOfSignalMetric){
+//			if (adjustmentBase instanceof AdjustmentOfSignalMetric){
 //				Co.println("--> Adjustment min, max: " + ((IterableOfInteger)adjustmentBase.getIterableBase()).getMin() + ", " + ((IterableOfInteger)adjustmentBase.getIterableBase()).getMin() + ", " + ((IterableOfInteger)adjustmentBase.getIterableBase()).getStep());
 				
 				adjustmentBase.getIterableBase().randomize(random);			
 				adjustmentBase.applyValue();
 				
 //				Co.println("--> And now " + ((AdjustmentOfSignalMetric)adjustmentBase).getValue());
-			}
+//			}
 		}
 		
 		AlgorithmModel algorithmModel = getCurrentAlgorithmModel(dummyAlgorithm, listOfAdjustmentBase);

@@ -57,6 +57,7 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		
+		Co.println("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType.enumValue.name());
 //		Co.print("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.periodLength.value);
 //		Co.print("Check B: " + singleBacktest.backtestContainer.algorithm.getPeriodLength());
 		

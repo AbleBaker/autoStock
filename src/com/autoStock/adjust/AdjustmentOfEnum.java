@@ -1,5 +1,6 @@
 package com.autoStock.adjust;
 
+import com.autoStock.Co;
 import com.autoStock.types.basic.MutableEnum;
 
 /**
@@ -17,7 +18,7 @@ public class AdjustmentOfEnum<E extends Enum<E>> extends AdjustmentBase {
 	
 	@Override
 	public void applyValue() {
-		 immutableEnum.enumValue = getValue();
+		immutableEnum.enumValue = getValue();
 	}
 	
 	public E getValue(){
