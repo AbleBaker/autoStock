@@ -23,7 +23,6 @@ public class StrategyOptionDefaults {
 		strategyOptions.disableAfterLoss = false;
 		strategyOptions.prefillEnabled = false;
 		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
-		strategyOptions.signalPointTacticForReentry = SignalPointTactic.tatic_change;
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
 		
 		strategyOptions.maxTransactionsDay = 16;

@@ -25,6 +25,8 @@ import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.chart.renderer.xy.XYStepAreaRenderer;
 import org.jfree.data.xy.XYDataset;
 
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  * 
@@ -41,15 +43,14 @@ public class PostivieNegativeXYBarRenderer extends XYAreaRenderer2 {
 	
 	@Override
 	public Paint getItemPaint(int x_row, int x_col) {
+		Co.println("--> Check");
+		
 		XYDataset xyDataset = getPlot().getDataset(rendererIndex);
-		
 		double l_value = xyDataset.getYValue(x_row, x_col);
-		
+
 		if (l_value < 0) {
-			setOutlinePaint(Color.decode("#FFC7C7"));
 			return Color.decode("#FFC7C7");
 		} else {
-			setOutlinePaint(Color.decode("#A8FFB7"));
 			return Color.decode("#A8FFB7");
 		}
 	}

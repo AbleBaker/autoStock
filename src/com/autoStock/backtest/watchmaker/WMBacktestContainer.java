@@ -79,18 +79,18 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 	}
 	
 	public void runBacktest(){
-		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(100));
+		AlgorithmModel algorithmModel = evolutionEngine.evolve(128, 5, new TargetFitness(999999, true), new GenerationCount(25));
 		
-		Co.print("\n\n --> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
-		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
-		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
-		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortExit[0].threshold);
-		Co.print(" " + algorithmModel.listOfSignalParameters.get(10).periodLength.value);
+		Co.println("\n\n Best result: ");
+		
+		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){
+			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
+		}
 	}
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		Co.print("\nGeneration " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n");	
+		Co.print("\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n");	
 		
 		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());

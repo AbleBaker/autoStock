@@ -1,7 +1,9 @@
 package com.autoStock.adjust;
 
-import com.autoStock.Co;
+import java.util.ArrayList;
+import java.util.Random;
 
+import com.autoStock.Co;
 
 /**
  * @author Kevin Kowalewski
@@ -10,17 +12,25 @@ import com.autoStock.Co;
  */
 public class IterableOfEnum<E extends Enum<E>> extends IterableBase {
 	private E enumObject;
+	private ArrayList<E> listOfEnum = new ArrayList<E>();
 	
 	public IterableOfEnum(E... enumObjects){
 		this.enumObject = enumObjects[0];
 		
 		for (E enumbObjectLocal : enumObject.getDeclaringClass().getEnumConstants()){
-			Co.println("--> Have: " + enumbObjectLocal.name());
+			listOfEnum.add(enumbObjectLocal);
 		}
 	}
 	
 	public E getEnum() {
-		return enumObject.getDeclaringClass().getEnumConstants()[currentIndex];
+		Co.println("--> Get? " + currentIndex);
+		return listOfEnum.get(currentIndex);
+	}
+	
+	@Override
+	public void randomize(Random random) {
+		super.randomize(random);
+		Co.println("--> Randomize! " + currentIndex + ", " + getMaxIndex() + ", " + getMaxValues());
 	}
 	
 	public Class<E> getEnumObject(){
@@ -34,12 +44,12 @@ public class IterableOfEnum<E extends Enum<E>> extends IterableBase {
 
 	@Override
 	public int getMaxIndex() {
-		return enumObject.getDeclaringClass().getEnumConstants().length-1;
+		return getMaxValues()-1;
 	}
 
 	@Override
 	public int getMaxValues() {
-		return enumObject.getDeclaringClass().getEnumConstants().length;
+		return listOfEnum.size();
 	}
 
 	@Override

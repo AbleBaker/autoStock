@@ -267,14 +267,14 @@ public class CombinedLineChart {
 //	        subPlotForPrice.getRangeAxis().setAutoRange(true);
 	        subPlotForYield.mapDatasetToRangeAxis(1, 1);
 			
-		    ValueMarker markerForLongEntry = new ValueMarker(0);
-		    markerForLongEntry.setPaint(Color.decode("#CCCCCC"));
-		    markerForLongEntry.setAlpha(1.0f);
-		    markerForLongEntry.setLabel("");
-			markerForLongEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
-			markerForLongEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
-			markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-			subPlotForYield.addRangeMarker(markerForLongEntry);
+		    ValueMarker valueMarker = new ValueMarker(0);
+		    valueMarker.setPaint(Color.decode("#CCCCCC"));
+		    valueMarker.setAlpha(1.0f);
+		    valueMarker.setLabel("");
+			valueMarker.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+			valueMarker.setLabelOffset(new RectangleInsets(8,10,8,0));
+			valueMarker.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+			subPlotForYield.addRangeMarker(valueMarker);
 	        
 	        plot.add(subPlotForYield);
 	        

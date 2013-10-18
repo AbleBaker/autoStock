@@ -21,7 +21,6 @@ public class StrategyOptions implements Cloneable {
 	public boolean mustHavePositiveSlice;
 	public boolean disableAfterLoss; 
 	public SignalPointTactic signalPointTacticForEntry;
-	public SignalPointTactic signalPointTacticForReentry;
 	public SignalPointTactic signalPointTacticForExit;
 	
 	public int maxTransactionsDay;
@@ -59,7 +58,6 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Max profit drawdown percent: " +  maxProfitDrawdownPercent.value;
 		string += "\n - Max transactions per day: " + maxTransactionsDay;
 		string += "\n - Signal point tactic (entry): " + signalPointTacticForEntry.name();
-		string += "\n - Signal point tactic (reentry): " + signalPointTacticForReentry.name();
 		string += "\n - Signal point tactic (exit): " + signalPointTacticForExit.name();
 		string += "\n - Entry after loss interval minutes: " + intervalForEntryAfterExitWithLossMins.value;
 		string += "\n - Reentry interval minutes: " + intervalForReentryMins.value;
