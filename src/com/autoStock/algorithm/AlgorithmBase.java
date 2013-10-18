@@ -154,6 +154,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			listOfStrategyResponse.add(strategyResponse);
 		}else if (strategyResponse.strategyAction == StrategyAction.algorithm_proceed){
 			algorithmListener.receiveStrategyResponse(strategyResponse);
+		}else if (strategyResponse.strategyAction== StrategyAction.algorithm_pass){
+			listOfStrategyResponse.add(strategyResponse);
 		}
 	}
 	

@@ -58,6 +58,8 @@ public abstract class SignalBase {
 			SignalGuage signalGuageForShortEntry = signalParameters.arrayOfSignalGuageForShortEntry[0];
 			SignalGuageType signalGuageTypeForShortEntry = signalGuageForShortEntry.mutableEnumForSignalGuageType.enumValue;
 			
+			Co.println("--> Guages for entry: " + signalGuageTypeForLongEntry.name() + ", " + signalGuageTypeForShortEntry.name());
+			
 			if (signalGuageTypeForLongEntry == SignalGuageType.guage_threshold_met){
 				isQualified = new GuageOfThresholdMet(signalGuageForLongEntry, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
 			}else if (signalGuageTypeForLongEntry == SignalGuageType.guage_threshold_left){
@@ -84,6 +86,8 @@ public abstract class SignalBase {
 				SignalGuage signalGuageForLongExit = signalParameters.arrayOfSignalGuageForLongExit[0];
 				SignalGuageType signalGuageTypeForLongExit = signalGuageForLongExit.mutableEnumForSignalGuageType.enumValue;
 				
+				Co.println("--> Guage for long exit: " + signalGuageTypeForLongExit.name());
+				
 				if (signalGuageTypeForLongExit == SignalGuageType.guage_threshold_met){
 					isQualified = new GuageOfThresholdMet(signalGuageForLongExit, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
 				}else if (signalGuageTypeForLongExit == SignalGuageType.guage_threshold_left){
@@ -97,6 +101,8 @@ public abstract class SignalBase {
 				boolean isQualified = false;
 				SignalGuage signalGuageForShortExit = signalParameters.arrayOfSignalGuageForShortExit[0];
 				SignalGuageType signalGuageTypeForShortExit = signalGuageForShortExit.mutableEnumForSignalGuageType.enumValue;
+				
+				Co.println("--> Guage for long exit: " + signalGuageTypeForShortExit.name());
 				
 				if (signalGuageTypeForShortExit == SignalGuageType.guage_threshold_met){
 					isQualified = new GuageOfThresholdMet(signalGuageForShortExit, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
