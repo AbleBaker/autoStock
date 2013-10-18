@@ -31,7 +31,7 @@ public abstract class IterableBase {
 	}
 	
 	public void randomize(Random random){
-		currentIndex = random.nextInt(getMaxIndex());
+		currentIndex = random.nextInt(getMaxIndex()+1);
 	}
 	
 	public void overrideAndSetCurrentIndex(int currentIndex){

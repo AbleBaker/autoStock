@@ -43,8 +43,6 @@ public class PostivieNegativeXYBarRenderer extends XYAreaRenderer2 {
 	
 	@Override
 	public Paint getItemPaint(int x_row, int x_col) {
-		Co.println("--> Check");
-		
 		XYDataset xyDataset = getPlot().getDataset(rendererIndex);
 		double l_value = xyDataset.getYValue(x_row, x_col);
 

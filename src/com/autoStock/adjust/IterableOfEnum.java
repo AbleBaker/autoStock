@@ -23,14 +23,12 @@ public class IterableOfEnum<E extends Enum<E>> extends IterableBase {
 	}
 	
 	public E getEnum() {
-		Co.println("--> Get? " + currentIndex);
 		return listOfEnum.get(currentIndex);
 	}
 	
 	@Override
 	public void randomize(Random random) {
 		super.randomize(random);
-		Co.println("--> Randomize! " + currentIndex + ", " + getMaxIndex() + ", " + getMaxValues());
 	}
 	
 	public Class<E> getEnumObject(){
