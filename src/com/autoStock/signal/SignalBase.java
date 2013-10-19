@@ -49,70 +49,7 @@ public abstract class SignalBase {
 	}
 	
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
-		if (havePosition == false){
-			boolean isQualified = false;
-			
-			SignalGuage signalGuageForLongEntry = signalParameters.arrayOfSignalGuageForLongEntry[0];
-			SignalGuageType signalGuageTypeForLongEntry = signalGuageForLongEntry.mutableEnumForSignalGuageType.enumValue;
-			
-			SignalGuage signalGuageForShortEntry = signalParameters.arrayOfSignalGuageForShortEntry[0];
-			SignalGuageType signalGuageTypeForShortEntry = signalGuageForShortEntry.mutableEnumForSignalGuageType.enumValue;
-						
-			if (signalGuageTypeForLongEntry == SignalGuageType.guage_threshold_met){
-				isQualified = new GuageOfThresholdMet(signalGuageForLongEntry, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
-			}else if (signalGuageTypeForLongEntry == SignalGuageType.guage_threshold_left){
-				isQualified = new GuageOfThresholdLeft(signalGuageForLongEntry, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified();
-			}
-			
-			if (isQualified){
-				return new SignalPoint(SignalPointType.long_entry, signalMetricType);
-			}
-			
-			if (signalGuageTypeForShortEntry == SignalGuageType.guage_threshold_met){
-				isQualified = new GuageOfThresholdMet(signalGuageForShortEntry, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
-			}else if (signalGuageTypeForShortEntry == SignalGuageType.guage_threshold_left){
-				isQualified = new GuageOfThresholdLeft(signalGuageForShortEntry, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified();
-			}
-			
-			if (isQualified){
-				return new SignalPoint(SignalPointType.short_entry, signalMetricType);
-			}
-			
-		} else{
-			if (positionType == PositionType.position_long){
-				boolean isQualified = false;
-				SignalGuage signalGuageForLongExit = signalParameters.arrayOfSignalGuageForLongExit[0];
-				SignalGuageType signalGuageTypeForLongExit = signalGuageForLongExit.mutableEnumForSignalGuageType.enumValue;
-				
-				if (signalGuageTypeForLongExit == SignalGuageType.guage_threshold_met){
-					isQualified = new GuageOfThresholdMet(signalGuageForLongExit, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
-				}else if (signalGuageTypeForLongExit == SignalGuageType.guage_threshold_left){
-					isQualified = new GuageOfThresholdLeft(signalGuageForLongExit, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified();
-				}
-				
-				if (isQualified){
-					return new SignalPoint(SignalPointType.long_exit, signalMetricType);
-				}
-			}else if (positionType == PositionType.position_short){
-				boolean isQualified = false;
-				SignalGuage signalGuageForShortExit = signalParameters.arrayOfSignalGuageForShortExit[0];
-				SignalGuageType signalGuageTypeForShortExit = signalGuageForShortExit.mutableEnumForSignalGuageType.enumValue;
-				
-				if (signalGuageTypeForShortExit == SignalGuageType.guage_threshold_met){
-					isQualified = new GuageOfThresholdMet(signalGuageForShortExit, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified(); 
-				}else if (signalGuageTypeForShortExit == SignalGuageType.guage_threshold_left){
-					isQualified = new GuageOfThresholdLeft(signalGuageForShortExit, ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue)).isQualified();
-				}
-				
-				if (isQualified){
-					return new SignalPoint(SignalPointType.short_exit, signalMetricType);
-				}
-			}else{
-//				throw new IllegalStateException("PositionType: " + positionType.name());
-			}
-		}
-		
-		return new SignalPoint();
+		return new SignalPointResolver(this).getSignalPoint(havePosition, positionType);
 	}
 	
 	public void setInput(double value){
