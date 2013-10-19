@@ -1,4 +1,4 @@
-package com.autoStock.signal;
+package com.autoStock.signal.signalMetrics;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +13,9 @@ import org.encog.util.arrayutil.NormalizedField;
 
 import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalDefinitions;
+import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;

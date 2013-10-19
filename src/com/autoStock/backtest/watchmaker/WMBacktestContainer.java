@@ -81,7 +81,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 	}
 	
 	public void runBacktest(){
-		AlgorithmModel algorithmModel = evolutionEngine.evolve(128, 5, new TargetFitness(999999, true), new GenerationCount(25));
+		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(100));
 		double fitness = new WMBacktestEvaluator().getFitness(algorithmModel, null);
 		
 		Co.println("\n\n Best result: " + fitness);
