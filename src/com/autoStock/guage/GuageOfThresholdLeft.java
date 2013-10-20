@@ -8,12 +8,8 @@ import com.autoStock.tools.ArrayTools;
  *
  */
 public class GuageOfThresholdLeft extends GuageBase {
-	private SignalGuage signalGuage;
-	private int[] arrayOfValues;
-	
-	public GuageOfThresholdLeft(SignalGuage signalGuage, int[] arrayOfValues){
-		this.arrayOfValues = arrayOfValues;
-		this.signalGuage = signalGuage;
+	public GuageOfThresholdLeft(SignalGuage signalGuage, double[] arrayOfValues) {
+		super(signalGuage, arrayOfValues);
 	}
 
 	@Override

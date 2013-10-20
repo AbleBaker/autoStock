@@ -189,7 +189,7 @@ public class BacktestUtils {
 			listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 			listOfString.add(backtestContainer.symbol.symbolName);
 			listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
-			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("changed", "").replaceAll("proceed_", "-"));
+			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("changed", "").replaceAll("proceed_", "..."));
 			listOfString.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", ""));
 
 			String stringForSignal = new String();

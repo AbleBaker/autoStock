@@ -46,7 +46,6 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 	private WMCandidateFactory wmCandidateFactory;
 	private MersenneTwisterRNG randomNumberGenerator = new MersenneTwisterRNG();
 	private GenerationalEvolutionEngine<AlgorithmModel> evolutionEngine;
-	
 
 	public WMBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
 		this.symbol = symbol;
