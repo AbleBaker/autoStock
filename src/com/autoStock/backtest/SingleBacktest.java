@@ -62,7 +62,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 		
 		if (listOfResults.size() == 0){
-			Co.println("--> Warning! No backtest data for symbol: " + historicalData.symbol.symbolName + " on " + historicalData.startDate + " to " + historicalData.endDate);
+//			Co.println("--> Warning! No backtest data for symbol: " + historicalData.symbol.symbolName + " on " + historicalData.startDate + " to " + historicalData.endDate);
 		}
 		
 		backtestContainer.setBacktestData(listOfResults, historicalData);

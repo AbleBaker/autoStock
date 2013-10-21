@@ -26,8 +26,13 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.DummyAlgorithm;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
+import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.ListenerOfBacktestCompleted;
+import com.autoStock.backtest.SingleBacktest;
+import com.autoStock.tools.DateTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 
@@ -72,7 +77,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 		
 		evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
 			evolutionaryPipeline, 
-			new WMBacktestEvaluator(), 
+			new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min)), 
 			new RouletteWheelSelection(), 
 			randomNumberGenerator);
 		
@@ -81,7 +86,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 	
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(100));
-		double fitness = new WMBacktestEvaluator().getFitness(algorithmModel, null);
+		double fitness = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min)).getFitness(algorithmModel, null);
 		
 		Co.println("\n\n Best result: " + fitness);
 		
@@ -93,12 +98,21 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
 		}
 		
-		Co.print(new WMBacktestEvaluator().getBacktestEvaluation(algorithmModel).toString());
+		Co.print(new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min)).getBacktestEvaluation(algorithmModel).toString());
 	}
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		Co.print("\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n");	
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("01/23/2012"), DateTools.getDateFromString("01/27/2012"), Resolution.min);
+		
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		singleBacktest.remodel(data.getBestCandidate());
+		singleBacktest.selfPopulateBacktestData();
+		singleBacktest.runBacktest();
+		
+		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
+		
+		Co.print("\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + " Out of sample: " + backtestEvaluation.getScore() + "\n");
 		
 		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());

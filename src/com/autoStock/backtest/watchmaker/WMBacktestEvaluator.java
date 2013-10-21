@@ -29,16 +29,11 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 	private Exchange exchange;
 	private Symbol symbol;
 	
-	public WMBacktestEvaluator(){
+	public WMBacktestEvaluator(HistoricalData historicalData){
 		exchange = new Exchange("NYSE");
 		symbol = new Symbol("AIG", SecurityType.type_stock); 
-		
-		historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("01/09/2012"), DateTools.getDateFromString("01/13/2012"), Resolution.min);
-		
-		historicalData.startDate.setHours(historicalData.exchange.timeOpenForeign.hours);
-		historicalData.startDate.setMinutes(historicalData.exchange.timeOpenForeign.minutes);
-		historicalData.endDate.setHours(historicalData.exchange.timeCloseForeign.hours);
-		historicalData.endDate.setMinutes(historicalData.exchange.timeCloseForeign.minutes);
+		this.historicalData = historicalData;
+		historicalData.setStartAndEndDatesToExchange();
 	}
 	
 	@Override
