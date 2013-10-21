@@ -8,19 +8,28 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.awt.geom.Rectangle2D;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.entity.XYItemEntity;
 import org.jfree.chart.labels.StandardXYToolTipGenerator;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.DatasetRenderingOrder;
@@ -42,11 +51,13 @@ import org.jfree.ui.RefineryUtilities;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ShapeUtilities;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
@@ -54,6 +65,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  */
 public class CombinedLineChart {
 	public int usedColor = -1;
+	private ArrayList<Pair<Integer, Double>> listOfPair = new ArrayList<Pair<Integer, Double>>();
 
 	public class LineChartDisplay extends ApplicationFrame implements ActionListener {
 		public String title;
@@ -93,6 +105,39 @@ public class CombinedLineChart {
 			ChartPanel panel = new ChartPanel(chart, false);
 			panel.setFillZoomRectangle(true);
 			panel.setMouseWheelEnabled(true);
+			
+			panel.addChartMouseListener(new ChartMouseListener() {
+				@Override
+				public void chartMouseMoved(ChartMouseEvent arg0) {
+					
+				}
+				
+				@Override
+				public void chartMouseClicked(ChartMouseEvent arg0) {
+					Co.println("--> Chart mouse clicked");
+					
+					if (arg0.getEntity() != null && arg0.getEntity() instanceof XYItemEntity){
+						XYDataset xyDataSet = ((XYItemEntity)arg0.getEntity()).getDataset();
+
+						int index = ((XYItemEntity)arg0.getEntity()).getItem();
+						double value = xyDataSet.getYValue(((XYItemEntity)arg0.getEntity()).getSeriesIndex(), ((XYItemEntity)arg0.getEntity()).getItem());
+						
+						Co.println("--> Added entity: " + index + ", " + value);
+						
+						listOfPair.add(new Pair<Integer, Double>(index, value));
+						
+						Co.println("\n\n");
+						
+						for (Pair<Integer, Double> pair : listOfPair){
+							Co.println("--> Index, value: " + pair.first + ", " + pair.second);
+						}
+						
+					}else{
+						Co.println("--> Try again!");
+					}
+				}
+			});
+			
 			return panel;
 		}
 
