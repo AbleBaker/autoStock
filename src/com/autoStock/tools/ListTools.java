@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,7 +45,7 @@ public class ListTools {
 		return new ArrayList<String>(Arrays.asList(input.split(separator)));
 	}
 
-	public static Collection<? extends Integer> getListFromArray(int[] arrayOfInt) {
+	public static ArrayList<Integer> getListFromArray(int[] arrayOfInt) {
 		ArrayList<Integer> listOfInteger = new ArrayList<Integer>();
 		for (int integer : arrayOfInt){
 			listOfInteger.add(new Integer(integer));	
@@ -53,7 +54,7 @@ public class ListTools {
 		return listOfInteger;
 	}
 
-	public static Collection<? extends Double> getListFromArray(double[] arrayOfDouble) {
+	public static ArrayList<Double> getListFromArray(double[] arrayOfDouble) {
 		ArrayList<Double> listOfDouble = new ArrayList<Double>();
 		for (double value : arrayOfDouble){
 			listOfDouble.add(new Double(value));

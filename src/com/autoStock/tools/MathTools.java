@@ -296,6 +296,10 @@ public class MathTools {
 		return results;
 	}
 	
+	public static ArrayList<Double> getDeltasAsPercent(ArrayList<Double> listOfDouble){
+		return ListTools.getListFromArray(getDeltasAsPercent(ArrayTools.getArrayFromListOfDouble(listOfDouble)));
+	}
+	
 	public static double[] getDeltasAsPercent(double[] arrayOfDouble) {
 		double[] results = new double[arrayOfDouble.length];
 		
