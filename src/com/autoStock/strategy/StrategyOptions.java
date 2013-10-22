@@ -35,6 +35,7 @@ public class StrategyOptions implements Cloneable {
 	public MutableInteger maxReenterTimesPerPosition = new MutableInteger();
 	public MutableInteger intervalForReentryMins = new MutableInteger();
 	public MutableInteger intervalForEntryAfterExitWithLossMins = new MutableInteger();
+	public MutableInteger intervalForEntryAfterExitWithSameSignalPoint = new MutableInteger();
 	public MutableInteger prefillShift = new MutableInteger();
 	public MutableDouble disableAfterYield = new MutableDouble();
 	public boolean prefillEnabled;

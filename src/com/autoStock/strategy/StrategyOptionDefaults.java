@@ -37,9 +37,8 @@ public class StrategyOptionDefaults {
 		strategyOptions.intervalForReentryMins.value = 3;
 		strategyOptions.minReentryPercentGain.value = 0.25;
 		strategyOptions.prefillShift.value = 0;
-		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 0; //Change back to 10
+		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;
 		strategyOptions.disableAfterYield.value = 0.75d;
-//		strategyOptions.intervalForExitEntryMins.value = 5;
 		
 		return strategyOptions;
 	}

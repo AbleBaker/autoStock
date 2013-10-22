@@ -1,6 +1,7 @@
 package com.autoStock.guage;
 
 import com.autoStock.Co;
+import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalBounds;
 
 /**
@@ -8,8 +9,8 @@ import com.autoStock.signal.SignalDefinitions.SignalBounds;
  *
  */
 public class GuageOfThresholdMet extends GuageBase {
-	public GuageOfThresholdMet(SignalGuage signalGuage, double[] arrayOfValues) {
-		super(signalGuage, arrayOfValues);
+	public GuageOfThresholdMet(SignalBase signalBase, SignalGuage signalGuage, double[] arrayOfValues) {
+		super(signalBase, signalGuage, arrayOfValues);
 	}
 
 	@Override

@@ -58,13 +58,13 @@ public class SignalPointResolver {
 	private boolean getQualification(SignalGuage signalGuage){
 		boolean isQualified = false;
 		if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_met){
-			isQualified = new GuageOfThresholdMet(signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified(); 
+			isQualified = new GuageOfThresholdMet(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified(); 
 		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_left){
-			isQualified = new GuageOfThresholdLeft(signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
+			isQualified = new GuageOfThresholdLeft(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
 		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_peak){
-			isQualified = new GuageOfPeakAndTrough(signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
+			isQualified = new GuageOfPeakAndTrough(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
 		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_trough){
-			isQualified = new GuageOfPeakAndTrough(signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
+			isQualified = new GuageOfPeakAndTrough(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
 		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.none){
 			return false;
 		}else {

@@ -3,7 +3,9 @@ package com.autoStock.guage;
 import java.util.Arrays;
 
 import com.autoStock.Co;
+import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalBounds;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
 
@@ -12,13 +14,18 @@ import com.autoStock.tools.MathTools;
  *
  */
 public class GuageOfPeakAndTrough extends GuageBase {
-	private double upperBounds = 8;
-	private double lowerBounds = -10;
+	private int lowerBounds;
+	private int upperBounds;
 	private double currentValue;
 	
-	public GuageOfPeakAndTrough(SignalGuage signalGuage, double[] arrayOfValues) {
-		super(signalGuage, arrayOfValues);
+	public GuageOfPeakAndTrough(SignalBase signalBase, SignalGuage signalGuage, double[] arrayOfValues) {
+		super(signalBase, signalGuage, arrayOfValues);
 		currentValue = arrayOfValues[arrayOfValues.length-1];
+		
+		if (signalBase.signalParameters instanceof SignalParametersForUO){
+			lowerBounds = ((SignalParametersForUO)signalBase.signalParameters).lowerBounds.value;
+			upperBounds = ((SignalParametersForUO)signalBase.signalParameters).upperBounds.value;
+		}
 	}
 
 	@Override
@@ -50,8 +57,6 @@ public class GuageOfPeakAndTrough extends GuageBase {
 	
 	private boolean hasTroughed(){
 		boolean hasTroughed = false;
-		
-		Co.println("--> Index: " + getIndexOfMin());
 		
 		if (getIndexOfMin() == 6){
 			if (MathTools.isIncreasing(Arrays.copyOfRange(arrayOfValues, 6, 10), 1, false)){

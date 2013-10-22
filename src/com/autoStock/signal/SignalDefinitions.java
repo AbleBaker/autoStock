@@ -246,7 +246,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForUO extends SignalParameters {
 		public SignalParametersForUO() {
-			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((double)input / 1.2 - 45);}}, 
+			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((double)input / 1.2 - 40);}}, 
 			new MutableInteger(36), new MutableInteger(10),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_peak), SignalBounds.bounds_lower, 0)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_upper, 0)},
@@ -255,6 +255,9 @@ public class SignalDefinitions {
 		}
 		
 		public double preComputedMiddle = 0;
+		
+		public MutableInteger upperBounds = new MutableInteger(5);
+		public MutableInteger lowerBounds = new MutableInteger(-6);
 	}
 	
 	public static class SignalParametersForARUp extends SignalParameters {

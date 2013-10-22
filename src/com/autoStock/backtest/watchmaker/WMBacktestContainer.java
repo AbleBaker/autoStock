@@ -84,18 +84,18 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		islandEvolutionEngine.addEvolutionObserver(this);
 		
-//		evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
-//			evolutionaryPipeline, 
-//			new WMBacktestEvaluator(historicalData), 
-//			new RouletteWheelSelection(), 
-//			randomNumberGenerator);
-//		
-//		evolutionEngine.addEvolutionObserver(this);
+		evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
+			evolutionaryPipeline, 
+			new WMBacktestEvaluator(historicalData), 
+			new RouletteWheelSelection(), 
+			randomNumberGenerator);
+		
+		evolutionEngine.addEvolutionObserver(this);
 	}
 	
 	public void runBacktest(){
-		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(32, 5, 5, 5, new TargetFitness(999999, true), new GenerationCount(10));
-//		AlgorithmModel algorithmModel = evolutionEngine.evolve(128, 5, new TargetFitness(999999, true), new GenerationCount(10));
+//		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(32, 5, 5, 5, new TargetFitness(999999, true), new GenerationCount(10));
+		AlgorithmModel algorithmModel = evolutionEngine.evolve(128, 5, new TargetFitness(999999, true), new GenerationCount(20));
 		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
 		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel);
 		
