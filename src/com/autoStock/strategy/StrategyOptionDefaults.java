@@ -39,7 +39,6 @@ public class StrategyOptionDefaults {
 		strategyOptions.prefillShift.value = 0;
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 0; //Change back to 10
 		strategyOptions.disableAfterYield.value = 0.75d;
-//		strategyOptions.disableAfterYeildFromStruggle = 0.50d;
 //		strategyOptions.intervalForExitEntryMins.value = 5;
 		
 		return strategyOptions;
