@@ -75,6 +75,8 @@ public class DatabaseQuery {
 	}
 	
 	public int insert(BasicQueries basicQuery, QueryArg... queryArg){
+		int rowId = -1;
+		
 		try {
 			String query = new QueryFormatter().format(basicQuery, queryArg);
 		
@@ -84,24 +86,22 @@ public class DatabaseQuery {
 			statement.execute(query);
 			ResultSet resultSet = statement.executeQuery("select LAST_INSERT_ID()");
 			
+			
 			if (resultSet.next()){
-				resultSet.close();
-				statement.close();
-				connection.close();
-				return resultSet.getInt(1);
+				rowId = resultSet.getInt(1);
 			}
 			
 			resultSet.close();
 			statement.close();
 			connection.close();
 			
-			return -1;
+			return rowId;
 		}catch(Exception e){
 			Co.println("Could not execute query: " + new QueryFormatter().format(basicQuery, queryArg));
 			e.printStackTrace();
 		}
 
-		return -1;
+		return rowId;
 	}
 
 	private Type getGsonType(BasicQueries dbQuery) {

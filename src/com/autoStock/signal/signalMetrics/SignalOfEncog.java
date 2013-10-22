@@ -69,16 +69,19 @@ public class SignalOfEncog extends SignalBase {
         MLData output = basicNetwork.compute(input);
         
         double valueForLongEntry = output.getData(0);
-        double valueForShortEntry = output.getData(1);
+//        double valueForShortEntry = output.getData(1);
         double valueForAnyExit = output.getData(1);
         
-        if (valueForLongEntry >= 0.95){
+        if (valueForLongEntry >= 0.90){
+//        	Co.println("--> Long entry?");
         	signalPoint.signalPointType = SignalPointType.long_entry;
         	signalPoint.signalMetricType = SignalMetricType.metric_encog;
-        }else if (valueForShortEntry >= 0.95){
-        	signalPoint.signalPointType = SignalPointType.short_entry;
-        	signalPoint.signalMetricType = SignalMetricType.metric_encog;
-        }else if (valueForAnyExit >= 0.95 && havePosition){
+        }
+//        }else if (valueForShortEntry >= 0.90){
+//        	signalPoint.signalPointType = SignalPointType.short_entry;
+//        	signalPoint.signalMetricType = SignalMetricType.metric_encog;
+//        }
+	else if (valueForAnyExit >= 0.90 && havePosition){
         	if (positionType == PositionType.position_long){
         		signalPoint.signalPointType = SignalPointType.long_exit;
         	}else if (positionType == PositionType.position_short){

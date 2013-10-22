@@ -80,8 +80,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 				BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);
 				algorithm.remodel(backtestEvaluation);
 			}
-		}else{
-			Co.println("--> Not using pre-computed evaluation");
 		}
 	}
 

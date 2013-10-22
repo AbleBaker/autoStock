@@ -12,6 +12,7 @@ import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 import org.uncommons.watchmaker.framework.GenerationalEvolutionEngine;
 import org.uncommons.watchmaker.framework.PopulationData;
 import org.uncommons.watchmaker.framework.islands.IslandEvolution;
+import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
@@ -41,23 +42,28 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
+public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
 	public Exchange exchange;
 	public Date dateStart;
 	public Date dateEnd;
 	private double bestResult = 0;
+	private HistoricalData historicalData;
 
 	private WMCandidateFactory wmCandidateFactory;
 	private MersenneTwisterRNG randomNumberGenerator = new MersenneTwisterRNG();
+	
 	private GenerationalEvolutionEngine<AlgorithmModel> evolutionEngine;
+	private IslandEvolution<AlgorithmModel> islandEvolutionEngine;
 
 	public WMBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;
+		
+		this.historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 	
 		algorithm = new DummyAlgorithm(exchange, symbol, AlgorithmMode.mode_backtest_with_adjustment, new BasicAccount(AccountProvider.defaultBalance));
 		
@@ -68,25 +74,28 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 		
 		EvolutionaryOperator<AlgorithmModel> evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
 		
-//		new IslandEvolution<>(10, 
-//				new RingMigration(), 
-//				wmCandidateFactory, 
-//				evolutionaryPipeline, 
-//				new WMBacktestEvaluator(), 
-//				new RouletteWheelSelection(), 
-//				randomNumberGenerator);
+		islandEvolutionEngine = new IslandEvolution<>(3, 
+				new RingMigration(), 
+				wmCandidateFactory, 
+				evolutionaryPipeline, 
+				new WMBacktestEvaluator(historicalData), 
+				new RouletteWheelSelection(), 
+				randomNumberGenerator);
 		
-		evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
-			evolutionaryPipeline, 
-			new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min)), 
-			new RouletteWheelSelection(), 
-			randomNumberGenerator);
+		islandEvolutionEngine.addEvolutionObserver(this);
 		
-		evolutionEngine.addEvolutionObserver(this);
+//		evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
+//			evolutionaryPipeline, 
+//			new WMBacktestEvaluator(historicalData), 
+//			new RouletteWheelSelection(), 
+//			randomNumberGenerator);
+//		
+//		evolutionEngine.addEvolutionObserver(this);
 	}
 	
 	public void runBacktest(){
-		AlgorithmModel algorithmModel = evolutionEngine.evolve(128, 5, new TargetFitness(999999, true), new GenerationCount(25));
+		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(32, 5, 5, 5, new TargetFitness(999999, true), new GenerationCount(10));
+//		AlgorithmModel algorithmModel = evolutionEngine.evolve(128, 5, new TargetFitness(999999, true), new GenerationCount(10));
 		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
 		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel);
 		
@@ -126,5 +135,10 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel> {
 		}
 		
 		bestResult = data.getBestCandidateFitness();
+	}
+
+	@Override
+	public void islandPopulationUpdate(int islandIndex, PopulationData<? extends AlgorithmModel> data) {
+		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
 	}
 }
