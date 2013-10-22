@@ -306,7 +306,7 @@ public class CombinedLineChart {
 	        subPlotForYield.setRangeAxis(1, new NumberAxis(TimeSeriesType.type_yield.displayName));
 	        subPlotForYield.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_LEFT);
 	        subPlotForYield.setRenderer(1, new StandardXYItemRenderer());
-	        subPlotForYield.getRenderer(1).setSeriesPaint(0, Color.decode("#CCCCCC"));
+	        subPlotForYield.getRenderer(1).setSeriesPaint(0, Color.decode("#D0D0D0"));
 	        subPlotForYield.getRangeAxis(1).setRange(-0.5, 1.5);
 //			((NumberAxis)subPlotForPrice.getRangeAxis(1)).setAutoRangeIncludesZero(false);
 //	        subPlotForPrice.getRangeAxis().setAutoRange(true);

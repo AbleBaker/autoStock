@@ -37,7 +37,7 @@ import com.google.gson.internal.Pair;
  * 
  */
 public class BacktestContainer implements ReceiverOfQuoteSlice {
-	private final boolean usePrecomputedEvaluation = false;
+	private final boolean usePrecomputedEvaluation = true;
 	public final Symbol symbol;
 	public final Exchange exchange;
 	public HistoricalData historicalData;
@@ -70,8 +70,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
 
 		if (algorithmMode == AlgorithmMode.mode_backtest && usePrecomputedEvaluation){
-			Co.println("--> Checking for an available evaluation...");
-			
 			ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));
 			
 			if (listOfGsonResults.size() > 0){
@@ -82,6 +80,8 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 				BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);
 				algorithm.remodel(backtestEvaluation);
 			}
+		}else{
+			Co.println("--> Not using pre-computed evaluation");
 		}
 	}
 

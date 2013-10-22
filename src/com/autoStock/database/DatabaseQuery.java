@@ -85,15 +85,22 @@ public class DatabaseQuery {
 			ResultSet resultSet = statement.executeQuery("select LAST_INSERT_ID()");
 			
 			if (resultSet.next()){
+				resultSet.close();
+				statement.close();
+				connection.close();
 				return resultSet.getInt(1);
 			}
+			
+			resultSet.close();
+			statement.close();
+			connection.close();
 			
 			return -1;
 		}catch(Exception e){
 			Co.println("Could not execute query: " + new QueryFormatter().format(basicQuery, queryArg));
 			e.printStackTrace();
 		}
-		
+
 		return -1;
 	}
 
