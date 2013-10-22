@@ -64,9 +64,9 @@ public class StrategyOfTest extends StrategyBase {
 			strategyResponse.strategyAction = StrategyAction.algorithm_disable;
 			strategyResponse.strategyActionCause = StrategyActionCause.cease_disabled;
 		} else if (algorithmCondition.disableAfterNilChanges(listOfQuoteSlice)) {
-			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilchange, quoteSlice, position, strategyResponse);
+			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.disable_condition_nilchange, quoteSlice, position, strategyResponse);
 		} else if (algorithmCondition.disableAfterNilVolume(listOfQuoteSlice)) {
-			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_nilvolume, quoteSlice, position, strategyResponse);
+			strategyResponse.positionGovernorResponse = cease(StrategyActionCause.disable_condition_nilvolume, quoteSlice, position, strategyResponse);
 		} else if (position != null) {
 			if (algorithmCondition.stopLoss(position)) {
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_stoploss, quoteSlice, position, strategyResponse);
@@ -76,18 +76,21 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_exit, quoteSlice, position, strategyResponse);
 			} else if (algorithmCondition.requestExitAfterLossDate(quoteSlice.dateTime, position, listOfStrategyResponse)){
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_loss, quoteSlice, position, strategyResponse);
-			} else {
+			}
+			else {
 				strategyResponse.positionGovernorResponse = proceed(quoteSlice, position, null);
 			}
 		} else {
-			if (algorithmCondition.canEnterTradeOnDate(quoteSlice.dateTime, algorithmBase.exchange) == false) {
+			if (algorithmBase.algorithmState.isDisabled) {
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);
+			} else if (algorithmCondition.canEnterTradeOnDate(quoteSlice.dateTime, algorithmBase.exchange) == false) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.disable_condition_time_entry, quoteSlice, position, strategyResponse);
 			} else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_trans, quoteSlice, position, strategyResponse);
 			}else if (strategyOptions.disableAfterLoss && algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_loss, quoteSlice, position, strategyResponse);
-			} else if (algorithmBase.algorithmState.isDisabled) {
-				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_disabled, quoteSlice, position, strategyResponse);
+			} else if (algorithmCondition.disableAfterYield(algorithmBase)){
+				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.disable_condition_profit_yield, quoteSlice, position, strategyResponse);
 			}else if (algorithmCondition.canTradeAfterLossInterval(quoteSlice.dateTime, listOfStrategyResponse) == false){
 				pass(strategyResponse, StrategyActionCause.pass_condition_previous_loss);
 			}

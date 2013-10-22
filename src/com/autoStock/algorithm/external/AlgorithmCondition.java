@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
@@ -189,6 +190,13 @@ public class AlgorithmCondition {
 		}
 		
 		return countOfNilChanges >= strategyOptions.maxNilChangeVolume;
+	}
+	
+	public boolean disableAfterYield(AlgorithmBase algorithmBase){
+		if (strategyOptions.disableAfterYield.value != 0 && algorithmBase.getCurrentYield() >= strategyOptions.disableAfterYield.value){
+			return true;
+		}
+		return false;
 	}
 
 	public boolean stopFromProfitDrawdown(Position position) {

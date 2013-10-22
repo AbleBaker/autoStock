@@ -26,7 +26,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
 		
 		strategyOptions.maxTransactionsDay = 16;
-		strategyOptions.maxStopLossPercent.value = -0.15d;
+		strategyOptions.maxStopLossPercent.value = -0.10d;
 		strategyOptions.maxProfitDrawdownPercent.value = -0.25d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
@@ -37,7 +37,9 @@ public class StrategyOptionDefaults {
 		strategyOptions.intervalForReentryMins.value = 3;
 		strategyOptions.minReentryPercentGain.value = 0.25;
 		strategyOptions.prefillShift.value = 0;
-		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;
+		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 0; //Change back to 10
+		strategyOptions.disableAfterYield.value = 0.75d;
+//		strategyOptions.disableAfterYeildFromStruggle = 0.50d;
 //		strategyOptions.intervalForExitEntryMins.value = 5;
 		
 		return strategyOptions;

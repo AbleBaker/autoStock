@@ -83,7 +83,7 @@ public class CombinedLineChart {
 
 			ChartPanel chartPanel = (ChartPanel) createPanel();
 			chartPanel.setPreferredSize(new Dimension(1600, 1000));
-//			chartPanel.setHorizontalAxisTrace(true);
+			chartPanel.setHorizontalAxisTrace(true);
 			
 //			JButton button = new JButton("Add New Data Item");
 //	        button.setActionCommand("ADD_DATA");

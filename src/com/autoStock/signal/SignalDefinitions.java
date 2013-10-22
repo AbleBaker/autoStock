@@ -36,7 +36,8 @@ public class SignalDefinitions {
 		guage_peak,
 		guage_trough,
 		guage_threshold_met,
-		guage_threshold_left,
+		guage_threshold_left, 
+		none,
 		;
 	}
 	
@@ -247,10 +248,10 @@ public class SignalDefinitions {
 		public SignalParametersForUO() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((double)input / 1.2 - 45);}}, 
 			new MutableInteger(36), new MutableInteger(10),
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -12)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, 12)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, 12)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -18)});
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_peak), SignalBounds.bounds_lower, 0)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_upper, 0)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_upper, 0)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_peak), SignalBounds.bounds_lower, 0)});
 		}
 		
 		public double preComputedMiddle = 0;

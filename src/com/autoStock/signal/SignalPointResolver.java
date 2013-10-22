@@ -65,7 +65,9 @@ public class SignalPointResolver {
 			isQualified = new GuageOfPeakAndTrough(signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
 		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_trough){
 			isQualified = new GuageOfPeakAndTrough(signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
-		}else{
+		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.none){
+			return false;
+		}else {
 			throw new UnsupportedOperationException("No guage matched: " + signalGuage.mutableEnumForSignalGuageType.enumValue.name());
 		}
 		

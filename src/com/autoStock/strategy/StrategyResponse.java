@@ -26,6 +26,7 @@ public class StrategyResponse {
 	
 	public enum StrategyActionCause {
 		disable_condition_time_entry,
+		disable_condition_profit_yield,
 		cease_condition_time_exit,
 		cease_condition_time_loss,
 		cease_condition_trans,
@@ -33,11 +34,11 @@ public class StrategyResponse {
 		cease_condition_stoploss,
 		cease_condition_profit_drawdown,
 		cease_condition_loss,
-		cease_condition_nilchange,
-		cease_condition_nilvolume,
+		disable_condition_nilchange,
+		disable_condition_nilvolume,
+		cease_disabled,
 		pass_condition_quotslice,
 		pass_condition_previous_loss,
-		cease_disabled,
 		position_governor_failure,
 		proceed_changed,
 		none,
