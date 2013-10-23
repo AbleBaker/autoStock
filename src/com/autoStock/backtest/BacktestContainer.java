@@ -162,7 +162,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			}
 		}
 		
-		listOfYield.add(new Pair<Date, Double>(historicalData.startDate, algorithm.getCurrentYield()));
+		listOfYield.add(new Pair<Date, Double>(historicalData.startDate, algorithm.getYieldCurrent()));
 		
 		listener.backtestCompleted(symbol, algorithm);
 	}

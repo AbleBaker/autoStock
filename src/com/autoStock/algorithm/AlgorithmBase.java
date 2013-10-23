@@ -70,6 +70,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public Date startingDate;
 	protected FundamentalData fundamentalData;
 	public final BasicAccount basicAccount;
+	public Double dayStartingBalance;
 	
 	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount){
 		this.exchange = exchange;
@@ -102,9 +103,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		indicatorGroup.initialize();
-		
 		indicatorGroup.setActive(listOfSignalMetricType);
 		periodLength = indicatorGroup.getMinPeriodLength(algorithmMode != AlgorithmMode.mode_backtest_single);
+		
+		dayStartingBalance = basicAccount.getBalance();
 		
 		listOfQuoteSlice.clear();
 		listOfStrategyResponse.clear();
@@ -234,9 +236,17 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			disable(position.positionType.name());
 		}
 	}
+	
+	public double getYieldCurrent(){
+		return getCurrentYield(false);
+	}
+	
+	public double getYieldComplete(){
+		return getCurrentYield(true);
+	}
 
 
-	public synchronized double getCurrentYield() {	
+	private synchronized double getCurrentYield(boolean complete) {	
 		double positionCost = 0;
 		Position currentPosition = null;
 		
@@ -252,35 +262,14 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			}
 		}
 		
-//		if (currentPosition == null && basicAccount.getBalance() != AccountProvider.defaultBalance){
-//			Co.println("--> CHECK");
-//			
-//			for (StrategyResponse strategyResponse : listOfStrategyResponse){
-//				PositionGovernorResponse positionGovernorResponse = strategyResponse.positionGovernorResponse;
-//				
-//				Co.println("--> Response: " + strategyResponse.strategyAction + ", " + positionGovernorResponse.status.name() + ", " + positionGovernorResponse.position);
-//				
-//				if (positionGovernorResponse.position != null){
-//					if (positionGovernorResponse.position.isFilled()){
-//						Co.println("--> Filled");
-//					}else{
-//						Co.println("--> Not filled... " + positionGovernorResponse.position.positionType.name());
-//					}
-//				}
-//			}
-//			
-//			try {Thread.sleep(250);}catch(Exception e){}
-//			throw new IllegalStateException("No positions, but balance is: " + basicAccount.getBalance());
-//		}
-		
 		double yield = 0;
 		
 		if (currentPosition != null){
 			double totalValue = currentPosition.getPositionValue().valueCurrentWithFees + basicAccount.getBalance();
-			double increasedValue = totalValue - AccountProvider.defaultBalance;
+			double increasedValue = totalValue - (complete == true ? AccountProvider.defaultBalance : dayStartingBalance);
 			yield = (increasedValue / positionCost) * 100;
 		}else if (positionCost != 0){
-			double increasedValue = basicAccount.getBalance() - AccountProvider.defaultBalance;
+			double increasedValue = basicAccount.getBalance() - (complete == true ? AccountProvider.defaultBalance : dayStartingBalance);
 			yield = (increasedValue / positionCost) * 100;
 		}else{
 			//pass, no positions!

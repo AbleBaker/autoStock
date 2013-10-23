@@ -193,7 +193,7 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean disableAfterYield(AlgorithmBase algorithmBase){
-		if (strategyOptions.disableAfterYield.value != 0 && algorithmBase.getCurrentYield() >= strategyOptions.disableAfterYield.value){
+		if (strategyOptions.disableAfterYield.value != 0 && algorithmBase.getYieldCurrent() >= strategyOptions.disableAfterYield.value){
 			return true;
 		}
 		return false;

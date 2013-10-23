@@ -46,7 +46,7 @@ public class AlgorithmChart {
 //		chart.listOfIndicatorSAR.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsSAR.arrayOfSAR));
 		
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
-		chart.listOfYield.add(algorithmBase.getCurrentYield());
+		chart.listOfYield.add(algorithmBase.getYieldCurrent());
 
 		if (algorithmBase.signalGroup != null && algorithmBase.indicatorGroup.resultsPTD != null) {
 			if (algorithmBase.indicatorGroup.resultsPTD.arrayOfPTD[0] == 1){

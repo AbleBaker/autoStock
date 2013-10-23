@@ -55,7 +55,7 @@ public class BacktestEvaluationBuilder {
 		backtestEvaluation.percentGain = backtestContainer.algorithm.basicAccount.getBalance() / AccountProvider.getInstance().defaultBalance;
 		if (backtestResultTransactionDetails.countForTradesProfit > 0){backtestEvaluation.percentTradeWin = 100 * (double)backtestResultTransactionDetails.countForTradesProfit / (double)backtestResultTransactionDetails.countForTradeExit;}
 		if (backtestResultTransactionDetails.countForTradesLoss > 0){backtestEvaluation.percentTradeLoss = 100 * (double)backtestResultTransactionDetails.countForTradesLoss / (double)backtestResultTransactionDetails.countForTradeExit;}
-		backtestEvaluation.percentYield = backtestContainer.algorithm.getCurrentYield();
+		backtestEvaluation.percentYield = backtestContainer.algorithm.getYieldComplete();
 		
 		backtestEvaluation.algorithmModel.strategyOptions = backtestContainer.algorithm.strategyBase.strategyOptions.copy();
 		
