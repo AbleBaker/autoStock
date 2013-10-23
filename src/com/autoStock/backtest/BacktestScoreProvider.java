@@ -17,12 +17,6 @@ public class BacktestScoreProvider {
 //		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry == 0){return 0;}
 //		if (backtestEvaluation.backtestResultTransactionDetails.countForTradesProfit == 0){return 0;} 
 		
-		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
-			if (pair.second == 0){
-				return 0;
-			}
-		}
-		
 		score = backtestEvaluation.percentYield; // * (backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry + backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry);
 		
 //		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
@@ -30,6 +24,12 @@ public class BacktestScoreProvider {
 //		score = backtestEvaluation.percentYield * backtestEvaluation.backtestResultTransactionDetails.countForTradeExit;
 		
 //		score = backtestEvaluation.backtestResultTransactionDetails.avgTradeWin * backtestEvaluation.transactions;
+		
+		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
+			if (pair.second <= 0){
+				score /= 2;
+			}
+		}
 		
 		return score > 0 ? score : 0;
 	}
