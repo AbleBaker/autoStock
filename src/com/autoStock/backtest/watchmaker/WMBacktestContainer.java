@@ -127,17 +127,17 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/16/2012"), Resolution.min);
-		historicalData.setStartAndEndDatesToExchange();
+//		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/16/2012"), Resolution.min);
+//		historicalData.setStartAndEndDatesToExchange();
+//		
+//		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+//		singleBacktest.remodel(data.getBestCandidate());
+//		singleBacktest.selfPopulateBacktestData();
+//		singleBacktest.runBacktest();
 		
-		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-		singleBacktest.remodel(data.getBestCandidate());
-		singleBacktest.selfPopulateBacktestData();
-		singleBacktest.runBacktest();
+//		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 		
-		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
-		
-		Co.print("\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + " Out of sample: " + backtestEvaluation.getScore() + "\n");
+		Co.println("\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness()); // + " Out of sample: " + backtestEvaluation.getScore() + "\n");
 		
 		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
