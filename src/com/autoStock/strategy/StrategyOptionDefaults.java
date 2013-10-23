@@ -15,7 +15,7 @@ public class StrategyOptionDefaults {
 	public StrategyOptions getDefaultStrategyOptions(){
 		StrategyOptions strategyOptions = new StrategyOptions();
 		strategyOptions.canGoLong = true;
-		strategyOptions.canGoShort = false;
+		strategyOptions.canGoShort = true;
 		strategyOptions.canReenter = false;
 		strategyOptions.mustHavePositiveSlice = false;
 		strategyOptions.disableAfterNilChanges = true;

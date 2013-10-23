@@ -136,7 +136,7 @@ public class BacktestEvaluation {
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
 		string += "\n--> Transaction details: " + backtestResultTransactionDetails.countForTradeLongEntry + " / " + backtestResultTransactionDetails.countForTradeShortEntry + ", " + backtestResultTransactionDetails.countForTradesReentry + ", " + backtestResultTransactionDetails.countForTradeExit;
-		string += "\n--> Transaction profit / loss: " + percentTradeWin + "%, " + backtestResultTransactionDetails.countForTradesProfit + ", " + backtestResultTransactionDetails.countForTradesLoss;
+		string += "\n--> Transaction profit / loss: " + new DecimalFormat("#.00").format(percentTradeWin) + "%, " + backtestResultTransactionDetails.countForTradesProfit + ", " + backtestResultTransactionDetails.countForTradesLoss;
 		string += "\n--> Transaction avg profit / loss: $" + new DecimalFormat("#.00").format(backtestResultTransactionDetails.avgTradeWin) + ", $" + new DecimalFormat("#.00").format(backtestResultTransactionDetails.avgTradeLoss);
 		string += "\n--> Trasaction max profit, loss: " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.maxTradeWin)
 			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.maxTradeLoss)
