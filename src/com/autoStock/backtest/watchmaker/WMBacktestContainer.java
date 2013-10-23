@@ -106,21 +106,24 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		Co.println("\n\n Best result: " + fitness);
 		
-//		if (bestResult != fitness){
-//			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
-//		}
+		if (bestResult != fitness){
+			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
+		}		
 		
 		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
 		}
 		
+		Co.print(wmBacktestEvaluator.getBacktestEvaluation(algorithmModel).toString());
+
+		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/16/2012"), Resolution.min)).getBacktestEvaluation(algorithmModel);
+		
+		Co.println("\n\n Out of sample");
+		
+		Co.print(backtestEvaluationOutOfSample.toString());
+		
+		
 		new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
-		
-		Co.print(new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min)).getBacktestEvaluation(algorithmModel).toString());
-		
-		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
-			Co.println("Daily yield: " + new SimpleDateFormat("dd/MM/yyyy").format(pair.first) + ", %" + new DecimalFormat("#.00").format(pair.second));
-		}
 	}
 
 	@Override
