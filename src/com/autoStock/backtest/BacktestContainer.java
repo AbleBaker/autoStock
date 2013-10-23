@@ -20,12 +20,16 @@ import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.position.PositionGovernor;
+import com.autoStock.position.PositionManager;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalRangeLimit;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -137,7 +141,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		algorithm.basicAccount.reset();
 		hashOfSignalRangeLimit.clear();
 		listOfYield.clear();
-//		Co.println("******* RESET");
+		Co.println("******* RESET");
 	}
 
 	@Override
@@ -163,6 +167,22 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}
 		
 		listOfYield.add(new Pair<Date, Double>(historicalData.startDate, algorithm.getYieldCurrent()));
+		
+		if (PositionManager.getInstance().getPosition(symbol) != null){
+//			Co.println("--> Warning! Exchange data ends before exchange close and a position exists...");
+			Position position = PositionManager.getInstance().getPosition(symbol);
+		
+			if (position.positionType == PositionType.position_long){
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signal, PositionType.position_long_exit, position, null, basicAccount);
+			}else if (position.positionType == PositionType.position_short){
+				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signal, PositionType.position_short_exit, position, null, basicAccount);
+			}else{
+				throw new IllegalStateException();
+			}
+			
+//			Co.print(new BacktestEvaluationBuilder().buildEvaluation(this).toString());
+//			throw new IllegalStateException("Position manager still has position for: " + symbol.symbolName);
+		}
 		
 		listener.backtestCompleted(symbol, algorithm);
 	}

@@ -87,7 +87,7 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.disable_condition_time_entry, quoteSlice, position, strategyResponse);
 			} else if (algorithmCondition.canTadeAfterTransactions(algorithmBase.algorithmState.transactions) == false) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_trans, quoteSlice, position, strategyResponse);
-			}else if (strategyOptions.disableAfterLoss && algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false) {
+			} else if (strategyOptions.disableAfterLoss && algorithmCondition.canTradeAfterLoss(listOfStrategyResponse) == false) {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_condition_loss, quoteSlice, position, strategyResponse);
 			} else if (algorithmCondition.disableAfterYield(algorithmBase)){
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.disable_condition_profit_yield, quoteSlice, position, strategyResponse);

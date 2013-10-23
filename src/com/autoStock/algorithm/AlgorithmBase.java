@@ -106,6 +106,11 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		indicatorGroup.setActive(listOfSignalMetricType);
 		periodLength = indicatorGroup.getMinPeriodLength(algorithmMode != AlgorithmMode.mode_backtest_single);
 		
+		if (PositionManager.getInstance().getPositionListSize() != 0){
+			PositionManager pm = PositionManager.getInstance();
+			throw new IllegalStateException();
+		}
+		
 		dayStartingBalance = basicAccount.getBalance();
 		
 		listOfQuoteSlice.clear();
@@ -275,15 +280,16 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			//pass, no positions!
 		}
 		
-//		if (yield > 10){
-////			Co.println("--> Have current position: " + currentPosition);
-////			Co.println("--> Position cost: " + positionCost);
-////			Co.println("--> Increased value: " + increasedValue);
-////			Co.println("--> Total value: " + totalValue);
-////			Co.println("--> Yield: " + yield);
-////			
-//			throw new IllegalStateException();
-//		}
+		if (yield > 25){
+			Co.println("--> Have current position: " + currentPosition);
+			Co.println("--> Position cost: " + positionCost);
+			Co.println("--> Balance: " +  basicAccount.getBalance());
+			Co.println("--> Starting Balance: " + dayStartingBalance);
+			Co.println("--> Yield: " + yield);
+			Co.println("--> Complete: " + complete);
+
+			throw new IllegalStateException();
+		}
 
 		return yield;
 	}
