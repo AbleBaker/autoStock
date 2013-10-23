@@ -19,6 +19,7 @@ import com.autoStock.backtest.BacktestEvaluation.DescriptorForAdjustment;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForGuage;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForIndicator;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForSignal;
+import com.autoStock.backtest.BacktestUtils.BacktestDayResultDetails;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
@@ -27,12 +28,15 @@ import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
+import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.google.gson.internal.Pair;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -46,7 +50,7 @@ public class BacktestEvaluationBuilder {
 		
 		backtestEvaluation.transactions = backtestContainer.algorithm.basicAccount.getTransactions();
 		backtestEvaluation.transactionFeesPaid = backtestContainer.algorithm.basicAccount.getTransactionFees();
-		backtestEvaluation.backtestResultTransactionDetails = backtestResultTransactionDetails;
+		backtestEvaluation.transactionDetails = backtestResultTransactionDetails;
 		backtestEvaluation.accountBalance = backtestContainer.algorithm.basicAccount.getBalance();
 		backtestEvaluation.percentGain = backtestContainer.algorithm.basicAccount.getBalance() / AccountProvider.getInstance().defaultBalance;
 		if (backtestResultTransactionDetails.countForTradesProfit > 0){backtestEvaluation.percentTradeWin = 100 * (double)backtestResultTransactionDetails.countForTradesProfit / (double)backtestResultTransactionDetails.countForTradeExit;}
@@ -91,6 +95,8 @@ public class BacktestEvaluationBuilder {
 		}
 		
 		backtestEvaluation.listOfDisplayRowsFromStrategyResponse = BacktestUtils.getTableDisplayRows(backtestContainer);
+		
+		backtestEvaluation.listOfDailyYield = new Cloner().deepClone(backtestContainer.listOfYield);
 		
 		return backtestEvaluation;
 	}

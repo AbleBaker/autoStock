@@ -1,9 +1,13 @@
 package com.autoStock.backtest;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.text.DateFormatter;
+
+import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
 import com.autoStock.guage.SignalGuage;
@@ -14,13 +18,14 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MiscTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class BacktestEvaluation {
-	public BacktestResultTransactionDetails backtestResultTransactionDetails;
+	public BacktestResultTransactionDetails transactionDetails;
 	
 	public final Symbol symbol;
 	public final Exchange exchange;
@@ -42,6 +47,7 @@ public class BacktestEvaluation {
 	public ArrayList<DescriptorForAdjustment> listOfDescriptorForAdjustment = new ArrayList<DescriptorForAdjustment>();
 	
 	public ArrayList<ArrayList<String>> listOfDisplayRowsFromStrategyResponse;
+	public ArrayList<Pair<Date, Double>> listOfDailyYield;
 	
 	public BacktestEvaluation(BacktestContainer backtestContainer){
 		this.symbol = backtestContainer.symbol;
@@ -135,13 +141,19 @@ public class BacktestEvaluation {
 		string += "\n--> Date " + DateTools.getPrettyDate(dateStart) + " to " + DateTools.getPrettyDate(dateEnd);
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
-		string += "\n--> Transaction details: " + backtestResultTransactionDetails.countForTradeLongEntry + " / " + backtestResultTransactionDetails.countForTradeShortEntry + ", " + backtestResultTransactionDetails.countForTradesReentry + ", " + backtestResultTransactionDetails.countForTradeExit;
-		string += "\n--> Transaction profit / loss: " + new DecimalFormat("#.00").format(percentTradeWin) + "%, " + backtestResultTransactionDetails.countForTradesProfit + ", " + backtestResultTransactionDetails.countForTradesLoss;
-		string += "\n--> Transaction avg profit / loss: $" + new DecimalFormat("#.00").format(backtestResultTransactionDetails.avgTradeWin) + ", $" + new DecimalFormat("#.00").format(backtestResultTransactionDetails.avgTradeLoss);
-		string += "\n--> Trasaction max profit, loss: " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.maxTradeWin)
-			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.maxTradeLoss)
-			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.minTradeWin)
-			+ ", " + new DecimalFormat("#.00").format(backtestResultTransactionDetails.minTradeLoss);
+		string += "\n--> Transaction details: " + transactionDetails.countForTradeLongEntry + " / " + transactionDetails.countForTradeShortEntry + ", " + transactionDetails.countForTradesReentry + ", " + transactionDetails.countForTradeExit;
+		string += "\n--> Transaction profit / loss: %" + new DecimalFormat("#.00").format(percentTradeWin) + ", " + transactionDetails.countForTradesProfit + ", " + transactionDetails.countForTradesLoss;
+		string += "\n--> Transaction avg profit / loss: $" + new DecimalFormat("#.00").format(transactionDetails.avgTradeWin) + ", $" + new DecimalFormat("#.00").format(transactionDetails.avgTradeLoss);
+		string += "\n--> Trasaction max profit, loss: " + new DecimalFormat("#.00").format(transactionDetails.maxTradeWin)
+			+ ", " + new DecimalFormat("#.00").format(transactionDetails.maxTradeLoss)
+			+ ", " + new DecimalFormat("#.00").format(transactionDetails.minTradeWin)
+			+ ", " + new DecimalFormat("#.00").format(transactionDetails.minTradeLoss);
+		
+		string += "\n";
+		
+		for (Pair<Date, Double> pair : listOfDailyYield){
+			string += "\n - Daily yield: " + new SimpleDateFormat("dd/MM/yyyy").format(pair.first) + ", %" + new DecimalFormat("#.00").format(pair.second);
+		}
 		
 		string += "\n";
 		

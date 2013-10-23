@@ -33,7 +33,7 @@ public class WMAdjustmentProvider {
 //		listOfAdjustmentBase.add(new AdjustmentOfSignalMetric(algorithmBase.signalGroup.signalOfUO, AdjustmentType.signal_metric_short_exit, new IterableOfInteger(-30, 30, 1, false)));
      	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.signalGroup.signalOfUO.signalParameters.periodLength, new IterableOfInteger(20, 60, 1)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.signalGroup.signalOfCCI.signalParameters.periodLength, new IterableOfInteger(20, 60, 1)));
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Average", algorithmBase.signalGroup.signalOfUO.signalParameters.maxSignalAverage, new IterableOfInteger(1, 20, 1)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Average", algorithmBase.signalGroup.signalOfUO.signalParameters.maxSignalAverage, new IterableOfInteger(1, 20, 1)));
 
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Long Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType));
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Long Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongExit[0].mutableEnumForSignalGuageType));

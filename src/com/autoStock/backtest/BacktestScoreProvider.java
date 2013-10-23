@@ -16,10 +16,12 @@ public class BacktestScoreProvider {
 		
 		score = backtestEvaluation.percentYield; // * (backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry + backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry);
 		
+//		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
+		
 //		score = backtestEvaluation.percentYield * backtestEvaluation.backtestResultTransactionDetails.countForTradeExit;
 		
 //		score = backtestEvaluation.backtestResultTransactionDetails.avgTradeWin * backtestEvaluation.transactions;
 		
-		return score;
+		return score > 0 ? score : 0;
 	}
 }

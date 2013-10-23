@@ -95,7 +95,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	
 	public void runBacktest(){
 //		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(32, 5, 5, 5, new TargetFitness(999999, true), new GenerationCount(10));
-		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(50));
+		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(10));
 		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
 		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel);
 		
@@ -118,7 +118,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("01/17/2012"), DateTools.getDateFromString("01/17/2012"), Resolution.min);
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/12/2012"), Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);

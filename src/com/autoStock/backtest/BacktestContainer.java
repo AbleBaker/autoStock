@@ -50,6 +50,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private ArrayList<DbStockHistoricalPrice> listOfDbHistoricalPrices = new ArrayList<DbStockHistoricalPrice>();
 	public ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	public HashMap<SignalBase, SignalRangeLimit> hashOfSignalRangeLimit = new HashMap<SignalBase, SignalRangeLimit>();
+	public ArrayList<Pair<Date, Double>> listOfYield = new ArrayList<Pair<Date, Double>>();
 	
 	public Date dateContainerStart;
 	public Date dateContainerEnd;
@@ -135,6 +136,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		listOfStrategyResponse.clear();
 		algorithm.basicAccount.reset();
 		hashOfSignalRangeLimit.clear();
+		listOfYield.clear();
 //		Co.println("******* RESET");
 	}
 
@@ -159,6 +161,8 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 //				Co.println("--> Signal range limit not set: " + signalBase.getClass().getName());
 			}
 		}
+		
+		listOfYield.add(new Pair<Date, Double>(historicalData.startDate, algorithm.getCurrentYield()));
 		
 		listener.backtestCompleted(symbol, algorithm);
 	}

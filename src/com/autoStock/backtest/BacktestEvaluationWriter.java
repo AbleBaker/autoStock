@@ -43,11 +43,11 @@ public class BacktestEvaluationWriter {
 			new QueryArg(QueryArgs.balanceOutBand, new DecimalFormat("#.00").format(outOfSampleEvaluation == null ? 0 : outOfSampleEvaluation.accountBalance)),
 			new QueryArg(QueryArgs.percentGainInBand, new DecimalFormat("#.00").format(backtestEvaluation.percentYield)),
 			new QueryArg(QueryArgs.percentGainOutBand, "0"),
-			new QueryArg(QueryArgs.tradeEntry, String.valueOf(backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry + backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry)),
-			new QueryArg(QueryArgs.tradeReentry, String.valueOf(backtestEvaluation.backtestResultTransactionDetails.countForTradesReentry)),
-			new QueryArg(QueryArgs.tradeExit, String.valueOf(backtestEvaluation.backtestResultTransactionDetails.countForTradeExit)),
-			new QueryArg(QueryArgs.tradeWins, String.valueOf(backtestEvaluation.backtestResultTransactionDetails.countForTradesProfit)),
-			new QueryArg(QueryArgs.tradeLoss, String.valueOf(backtestEvaluation.backtestResultTransactionDetails.countForTradesLoss)),
+			new QueryArg(QueryArgs.tradeEntry, String.valueOf(backtestEvaluation.transactionDetails.countForTradeLongEntry + backtestEvaluation.transactionDetails.countForTradeShortEntry)),
+			new QueryArg(QueryArgs.tradeReentry, String.valueOf(backtestEvaluation.transactionDetails.countForTradesReentry)),
+			new QueryArg(QueryArgs.tradeExit, String.valueOf(backtestEvaluation.transactionDetails.countForTradeExit)),
+			new QueryArg(QueryArgs.tradeWins, String.valueOf(backtestEvaluation.transactionDetails.countForTradesProfit)),
+			new QueryArg(QueryArgs.tradeLoss, String.valueOf(backtestEvaluation.transactionDetails.countForTradesLoss)),
 			new QueryArg(QueryArgs.gsonId, String.valueOf(gsonId))
 		);
 	}

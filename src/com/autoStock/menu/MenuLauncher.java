@@ -158,25 +158,25 @@ public class MenuLauncher {
 			
 			switch (menuCommand){
 				case "1" :
-					command = "main_backtest 01/09/2012 01/09/2012 NYSE AIG backtest_adjustment_individual";
+					command = "main_backtest 03/05/2012 03/05/2012 NYSE AIG backtest_adjustment_individual";
 					break;
 				case "2" :
-					command = "main_backtest 01/09/2012 01/09/2012 NYSE AIG backtest_default";
+					command = "main_backtest 03/05/2012 03/05/2012 NYSE AIG backtest_default";
 					break;
 				case "3" :
-					command = "main_backtest 01/13/2012 01/13/2012 NYSE AIG backtest_default";
+					command = "main_backtest 03/05/2012 03/09/2012 NYSE AIG backtest_default";
 					break;
 				case "4":
-					command = "main_clustered_backtest 01/09/2012 01/13/2012 NYSE \"AIG\"";
+					command = "main_clustered_backtest 03/05/2012 03/09/2012 NYSE \"AIG\"";
 					break;
 				case "5":
 					command = "main_clustered_backtest_client";
 					break;
 				case "6":
-					command = "main_backtest_wm 01/09/2012 01/09/2012 NYSE AIG";
+					command = "main_backtest_wm 03/05/2012 03/09/2012 NYSE AIG";
 					break;
 				case "7" :
-					command = "main_backtest 01/17/2012 01/17/2012 NYSE AIG backtest_default";
+					command = "main_backtest 03/12/2012 03/12/2012 NYSE AIG backtest_default";
 					break;
 			}
 			

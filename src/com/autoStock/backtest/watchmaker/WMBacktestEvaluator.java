@@ -42,12 +42,19 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 		PositionManager.getInstance().reset();
 		
 		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel);
+		
+		BacktestEvaluation backtestEvaluationOutOfSample = new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(backtestEvaluation); 
+
 
 //		Co.print("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.periodLength.value);
 //		Co.print("Check B: " + singleBacktest.backtestContainer.algorithm.getPeriodLength());		
 //		Co.println("--> Yield: " + backtestEvaluation.percentYield);
 		
-		return backtestEvaluation.percentYield > 0 ? backtestEvaluation.percentYield : 0;
+		if (backtestEvaluationOutOfSample.getScore() == 0){
+			return 0;
+		}
+		
+		return backtestEvaluation.getScore() + backtestEvaluationOutOfSample.getScore();
 	}
 	
 	public BacktestEvaluation getBacktestEvaluation(AlgorithmModel algorithmModel){

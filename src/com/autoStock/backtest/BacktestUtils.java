@@ -149,19 +149,19 @@ public class BacktestUtils {
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
 				|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 				
-				double transactionYield = strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true);
+				double transactionProfit = strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true);
 				
-				if (transactionYield > 0){
+				if (transactionProfit > 0){
 					backtestTransactions.countForTradesProfit++;
-					backtestTransactions.avgTradeWin += transactionYield;
-					if (transactionYield > backtestTransactions.maxTradeWin){backtestTransactions.maxTradeWin = transactionYield;}
-					if (transactionYield < backtestTransactions.minTradeWin || backtestTransactions.minTradeWin == 0){backtestTransactions.minTradeWin = transactionYield;}
-				}else if (transactionYield <= 0){
+					backtestTransactions.avgTradeWin += transactionProfit;
+					if (transactionProfit > backtestTransactions.maxTradeWin){backtestTransactions.maxTradeWin = transactionProfit;}
+					if (transactionProfit < backtestTransactions.minTradeWin || backtestTransactions.minTradeWin == 0){backtestTransactions.minTradeWin = transactionProfit;}
+				}else if (transactionProfit <= 0){
 					backtestTransactions.countForTradesLoss++;
-					backtestTransactions.avgTradeLoss += transactionYield;
+					backtestTransactions.avgTradeLoss += transactionProfit;
 					
-					if (transactionYield < backtestTransactions.maxTradeLoss){backtestTransactions.maxTradeLoss = transactionYield;}
-					if (transactionYield > backtestTransactions.minTradeLoss || backtestTransactions.minTradeLoss == 0){backtestTransactions.minTradeLoss = transactionYield;}
+					if (transactionProfit < backtestTransactions.maxTradeLoss){backtestTransactions.maxTradeLoss = transactionProfit;}
+					if (transactionProfit > backtestTransactions.minTradeLoss || backtestTransactions.minTradeLoss == 0){backtestTransactions.minTradeLoss = transactionProfit;}
 				}
 				
 				backtestTransactions.countForTradeExit++;
@@ -275,6 +275,17 @@ public class BacktestUtils {
 		}
 
 		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
+	}
+	
+	public static class BacktestDayResultDetails {
+		public Date dateStart;
+		public Date dateEnd;
+		public double percentYield;
+		
+		public BacktestDayResultDetails(Date dateStart, Date dateEnd) {
+			this.dateStart = dateStart;
+			this.dateEnd = dateEnd;
+		}
 	}
 	
 	public static class BacktestResultTransactionDetails {
