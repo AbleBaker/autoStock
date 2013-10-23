@@ -1,6 +1,8 @@
 package com.autoStock.backtest.watchmaker;
 
 import java.awt.IllegalComponentStateException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +39,7 @@ import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.R
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
@@ -95,7 +98,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	
 	public void runBacktest(){
 //		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(32, 5, 5, 5, new TargetFitness(999999, true), new GenerationCount(10));
-		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(10));
+		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(30));
 		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
 		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel);
 		
@@ -114,11 +117,15 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
 		
 		Co.print(new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min)).getBacktestEvaluation(algorithmModel).toString());
+		
+		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
+			Co.println("Daily yield: " + new SimpleDateFormat("dd/MM/yyyy").format(pair.first) + ", %" + new DecimalFormat("#.00").format(pair.second));
+		}
 	}
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/12/2012"), Resolution.min);
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/16/2012"), Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
