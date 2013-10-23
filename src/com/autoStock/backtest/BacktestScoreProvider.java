@@ -1,6 +1,9 @@
 package com.autoStock.backtest;
 
+import java.util.Date;
+
 import com.autoStock.account.AccountProvider;
+import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
@@ -13,6 +16,12 @@ public class BacktestScoreProvider {
 //		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry == 0){return 0;}
 //		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry == 0){return 0;}
 //		if (backtestEvaluation.backtestResultTransactionDetails.countForTradesProfit == 0){return 0;} 
+		
+		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
+			if (pair.second == 0){
+				return 0;
+			}
+		}
 		
 		score = backtestEvaluation.percentYield; // * (backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry + backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry);
 		
