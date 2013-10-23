@@ -14,18 +14,11 @@ import com.autoStock.tools.MathTools;
  *
  */
 public class GuageOfPeakAndTrough extends GuageBase {
-	private int lowerBounds;
-	private int upperBounds;
 	private double currentValue;
 	
 	public GuageOfPeakAndTrough(SignalBase signalBase, SignalGuage signalGuage, double[] arrayOfValues) {
 		super(signalBase, signalGuage, arrayOfValues);
 		currentValue = arrayOfValues[arrayOfValues.length-1];
-		
-		if (signalBase.signalParameters instanceof SignalParametersForUO){
-			lowerBounds = ((SignalParametersForUO)signalBase.signalParameters).lowerBounds.value;
-			upperBounds = ((SignalParametersForUO)signalBase.signalParameters).upperBounds.value;
-		}
 	}
 
 	@Override
@@ -46,9 +39,7 @@ public class GuageOfPeakAndTrough extends GuageBase {
 		
 		if (getIndexOfMax() == 7){
 			if (MathTools.isDecreasing(Arrays.copyOfRange(arrayOfValues, 6, 10), 1, false)){
-				if (currentValue >= upperBounds){
-					return true;
-				}
+				return true;
 			}
 		}
 		
@@ -60,9 +51,7 @@ public class GuageOfPeakAndTrough extends GuageBase {
 		
 		if (getIndexOfMin() == 6){
 			if (MathTools.isIncreasing(Arrays.copyOfRange(arrayOfValues, 6, 10), 1, false)){
-				if (currentValue <= lowerBounds){
-					return true;
-				}
+				return true;
 			}
 		}	
 		

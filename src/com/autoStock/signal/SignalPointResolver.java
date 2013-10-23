@@ -1,5 +1,7 @@
 package com.autoStock.signal;
 
+import java.util.ArrayList;
+
 import com.autoStock.guage.GuageOfPeakAndTrough;
 import com.autoStock.guage.GuageOfThresholdLeft;
 import com.autoStock.guage.GuageOfThresholdMet;
@@ -22,38 +24,44 @@ public class SignalPointResolver {
 	
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
 		if (havePosition == false){
-			SignalGuage signalGuageForLongEntry = signalBase.signalParameters.arrayOfSignalGuageForLongEntry[0];
-			SignalGuage signalGuageForShortEntry = signalBase.signalParameters.arrayOfSignalGuageForShortEntry[0];
+			ArrayList<SignalGuage> listOfSignalGuageForLongEntry = signalBase.signalParameters.getGuagesForType(SignalPointType.long_entry, SignalGuageType.values());
+			ArrayList<SignalGuage> listOfSignalGuageForShortEntry = signalBase.signalParameters.getGuagesForType(SignalPointType.short_entry, SignalGuageType.values());
 			
-			if (getQualification(signalGuageForLongEntry)){
+			if (allQualified(listOfSignalGuageForLongEntry)){
 				return new SignalPoint(SignalPointType.long_entry, signalBase.signalMetricType);
 			}
 			
-			if (getQualification(signalGuageForShortEntry)){
+			else if (allQualified(listOfSignalGuageForShortEntry)){
 				return new SignalPoint(SignalPointType.short_entry, signalBase.signalMetricType);
 			}
+		}else{
+			ArrayList<SignalGuage> listOfSignalGuageForLongExit = signalBase.signalParameters.getGuagesForType(SignalPointType.long_exit, SignalGuageType.values());
+			ArrayList<SignalGuage> listOfSignalGuageForShortExit = signalBase.signalParameters.getGuagesForType(SignalPointType.short_exit, SignalGuageType.values());
 			
-		} else{
 			if (positionType == PositionType.position_long){
-				SignalGuage signalGuageForLongExit = signalBase.signalParameters.arrayOfSignalGuageForLongExit[0];
-				
-				if (getQualification(signalGuageForLongExit)){
+				if (allQualified(listOfSignalGuageForLongExit)){
 					return new SignalPoint(SignalPointType.long_exit, signalBase.signalMetricType);
 				}
-				
 			}else if (positionType == PositionType.position_short){
-				SignalGuage signalGuageForShortExit = signalBase.signalParameters.arrayOfSignalGuageForShortExit[0];
-				
-				if (getQualification(signalGuageForShortExit)){
+				if (allQualified(listOfSignalGuageForShortExit)){
 					return new SignalPoint(SignalPointType.short_exit, signalBase.signalMetricType);
 				}
-			}else{
-				//throw new IllegalStateException("PositionType: " + positionType.name());
 			}
 		}
 		
 		return new SignalPoint();
 	}
+	
+	private boolean allQualified(ArrayList<SignalGuage> listOfSignalGuage){
+		for (SignalGuage signalGuage : listOfSignalGuage){
+			if (getQualification(signalGuage) == false){
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	
 	private boolean getQualification(SignalGuage signalGuage){
 		boolean isQualified = false;

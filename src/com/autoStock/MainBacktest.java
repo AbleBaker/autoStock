@@ -89,36 +89,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		if (algorithmMode.displayChart) {
 			Global.callbackLock.requestLock();
 		}
-		
-//		for (Symbol symbol : hashOfAlgorithmModel.keySet()){
-//			ArrayList<AlgorithmModel> listOfAlgorithmModel = hashOfAlgorithmModel.get(symbol);
-//			
-//			for (AlgorithmModel algorithmModel : listOfAlgorithmModel){
-//				for (SignalParameters signalParameters : algorithmModel.listOfSignalParameters){
-//					Co.println("--> Have parameters: " + signalParameters.toString());
-//					
-//					ArrayList<Pair<SignalPointType, SignalGuage[]>> list = signalParameters.getGuages();
-//										
-//					for (Pair<SignalPointType, SignalGuage[]> pair : list){
-//						SignalGuage[] arrayOfSignalGuage = pair.second;
-//						
-//						if (arrayOfSignalGuage != null){
-//							DescriptorForSignal descriptorForGuage = new DescriptorForSignal();
-//							descriptorForGuage.signalName = signalParameters.getClass().getSimpleName();
-//							descriptorForGuage.signalBoundsName = arrayOfSignalGuage[0].mutableEnumForSignalGuageType.enumValue.name();
-//							descriptorForGuage.signalBoundsType = arrayOfSignalGuage[0].signalBounds.name();
-//							descriptorForGuage.signalPointType = pair.first.name();
-//							descriptorForGuage.signalBoundsThreshold = arrayOfSignalGuage[0].threshold;
-//							
-//							descriptorForGuage.periodLength = signalParameters.periodLength.value;
-//							descriptorForGuage.maxSignalAverage = signalParameters.maxSignalAverage.value;
-//							
-//							Co.println(descriptorForGuage.toString());
-//						}
-//					}
-//				}
-//			}
-//		}
 
 		startMainBacktest(dateStart, dateEnd, new ArrayList<Symbol>(hashOfAlgorithmModel.keySet()));
 	}

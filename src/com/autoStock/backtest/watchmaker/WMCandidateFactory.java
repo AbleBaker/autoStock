@@ -10,7 +10,7 @@ import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.adjust.AdjustmentOfSignalMetric;
+import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.adjust.IterableOfInteger;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.DummyAlgorithm;

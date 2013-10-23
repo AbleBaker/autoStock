@@ -56,7 +56,9 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
 import com.autoStock.signal.SignalDefinitions;
+import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.google.gson.internal.Pair;
 
 /**
@@ -175,10 +177,10 @@ public class CombinedLineChart {
 			    		continue;
 			    	}
 			    	
-			    	int thresholdForLongEntry = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForLongEntry[0].threshold;
-			    	int thresholdForLongExit = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForLongExit[0].threshold;
-			    	int thresholdForShortEntry = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForShortEntry[0].threshold;
-			    	int thresholdForShortExit = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.arrayOfSignalGuageForShortExit[0].threshold;
+			    	int thresholdForLongEntry = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.getGuagesForType(SignalPointType.long_entry, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold;
+			    	int thresholdForLongExit = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.getGuagesForType(SignalPointType.long_exit, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold;
+			    	int thresholdForShortEntry = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.getGuagesForType(SignalPointType.short_entry, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold;
+			    	int thresholdForShortExit = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.getGuagesForType(SignalPointType.short_exit, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold;
 			    	
 				    ValueMarker markerForLongEntry = new ValueMarker(thresholdForLongEntry);
 				    markerForLongEntry.setPaint(Color.decode("#33AA00"));

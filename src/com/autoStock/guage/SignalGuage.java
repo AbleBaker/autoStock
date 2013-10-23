@@ -13,6 +13,11 @@ public class SignalGuage {
 	public final SignalBounds signalBounds;
 	public int threshold;
 	
+	public SignalGuage(MutableEnum<SignalGuageType> mutableEnumForSignalGuageType, SignalBounds signalBounds) {
+		this.mutableEnumForSignalGuageType = mutableEnumForSignalGuageType;
+		this.signalBounds = signalBounds;
+	}
+	
 	public SignalGuage(MutableEnum<SignalGuageType> mutableEnumForSignalGuageType, SignalBounds signalBounds, int threshold) {
 		this.mutableEnumForSignalGuageType = mutableEnumForSignalGuageType;
 		this.signalBounds = signalBounds;

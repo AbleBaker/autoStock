@@ -6,6 +6,7 @@ import java.util.Date;
 
 import com.autoStock.account.AccountProvider;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
+import com.autoStock.guage.SignalGuage;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -55,20 +56,42 @@ public class BacktestEvaluation {
 	
 	public static class DescriptorForSignal {
 		public String signalName;
-		public String signalBoundsName;
-		public String signalBoundsType;
 		public String signalPointType;
-		public double signalBoundsThreshold;
 		public int periodLength;
 		public int maxSignalAverage;
+		
+		public ArrayList<DescriptorForGuage> listOfDescriptorForGuage = new ArrayList<DescriptorForGuage>();
 		
 		public SignalParameters signalParamaters;
 		
 		@Override
 		public String toString() {
 			String string = new String();
-			string += signalName + "(" + periodLength + ", " + maxSignalAverage + "), " + signalBoundsName + ", " + signalBoundsType + ", " + signalPointType + ", " + signalBoundsThreshold;
+			string += signalName + "(" + periodLength + ", " + maxSignalAverage + "), " + signalPointType;
+			string += "\n";
+			
+			for (DescriptorForGuage descriptorForGuage : listOfDescriptorForGuage){
+				string += descriptorForGuage.toString() + "\n";
+			}
+			
 			return string;
+		}
+	}
+	
+	public static class DescriptorForGuage {
+		public String guageType;
+		public String guageBoundsName;
+		public String guageThreshold;
+		
+		public DescriptorForGuage(SignalGuage signalGuage) {
+			guageType = signalGuage.mutableEnumForSignalGuageType.enumValue.name();
+			guageBoundsName = signalGuage.signalBounds.name();
+			guageThreshold = String.valueOf(signalGuage.threshold);
+		}
+
+		@Override
+		public String toString() {
+			return "   " + guageType + ", " + guageBoundsName + ", " + guageThreshold;
 		}
 	}
 	

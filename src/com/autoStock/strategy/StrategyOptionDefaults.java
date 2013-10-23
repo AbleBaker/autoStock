@@ -15,7 +15,7 @@ public class StrategyOptionDefaults {
 	public StrategyOptions getDefaultStrategyOptions(){
 		StrategyOptions strategyOptions = new StrategyOptions();
 		strategyOptions.canGoLong = true;
-		strategyOptions.canGoShort = true;
+		strategyOptions.canGoShort = false;
 		strategyOptions.canReenter = false;
 		strategyOptions.mustHavePositiveSlice = false;
 		strategyOptions.disableAfterNilChanges = true;
@@ -38,7 +38,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.minReentryPercentGain.value = 0.25;
 		strategyOptions.prefillShift.value = 0;
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;
-		strategyOptions.disableAfterYield.value = 0.75d;
+		strategyOptions.disableAfterYield.value = 8.75d;
 		
 		return strategyOptions;
 	}

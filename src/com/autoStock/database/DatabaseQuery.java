@@ -86,7 +86,6 @@ public class DatabaseQuery {
 			statement.execute(query);
 			ResultSet resultSet = statement.executeQuery("select LAST_INSERT_ID()");
 			
-			
 			if (resultSet.next()){
 				rowId = resultSet.getInt(1);
 			}

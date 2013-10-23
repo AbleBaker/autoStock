@@ -117,6 +117,25 @@ public class SignalDefinitions {
 			return listOfGuages;
 		}
 		
+		public ArrayList<SignalGuage> getGuagesForType(SignalPointType signalPointType, SignalGuageType... arrayOfSignalGuageTypes){
+			ArrayList<Pair<SignalPointType, SignalGuage[]>> listOfGuages = getGuages();
+			ArrayList<SignalGuage> listOfGuagesForType = new ArrayList<SignalGuage>();
+			
+			for (Pair<SignalPointType, SignalGuage[]> pair : listOfGuages){
+				if (pair.first == signalPointType){
+					for (SignalGuage signalGuage : pair.second){
+						for (SignalGuageType signalGuageType : arrayOfSignalGuageTypes){
+							if (signalGuage.mutableEnumForSignalGuageType.enumValue == signalGuageType){
+								listOfGuagesForType.add(signalGuage);
+							}
+						}
+					}
+				}
+			}
+			
+			return listOfGuagesForType;
+		}
+		
 		public SignalParameters copy(){
 //			return new Gson().fromJson(new Gson().toJson(this), this.getClass());
 			return new Cloner().deepClone(this);
@@ -159,7 +178,7 @@ public class SignalDefinitions {
 	public static class SignalParametersForCCI extends SignalParameters {
 		public SignalParametersForCCI() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) (input / 8);}}, 
-			new MutableInteger(54), new MutableInteger(10),
+			new MutableInteger(30), new MutableInteger(10),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -30)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 0)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 18)},
@@ -248,16 +267,22 @@ public class SignalDefinitions {
 		public SignalParametersForUO() {
 			super(new NormalizeInterface(){@Override public int normalize(double input) {return (int) ((double)input / 1.2 - 40);}}, 
 			new MutableInteger(36), new MutableInteger(10),
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_peak), SignalBounds.bounds_lower, 0)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_upper, 0)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_upper, 0)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_peak), SignalBounds.bounds_lower, 0)});
+			
+			new SignalGuage[]{//new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_lower), 
+							  new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -13)},
+				
+			new SignalGuage[]{//new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_peak), SignalBounds.bounds_upper),
+							  new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 13)},
+							  
+			new SignalGuage[]{//new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_peak), SignalBounds.bounds_upper),
+							  new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 10)},
+							
+			new SignalGuage[]{//new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_lower),
+							  new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -10)}
+			);
 		}
 		
 		public double preComputedMiddle = 0;
-		
-		public MutableInteger upperBounds = new MutableInteger(5);
-		public MutableInteger lowerBounds = new MutableInteger(-6);
 	}
 	
 	public static class SignalParametersForARUp extends SignalParameters {

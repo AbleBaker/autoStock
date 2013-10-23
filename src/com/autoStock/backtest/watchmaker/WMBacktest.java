@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.autoStock.Co;
-import com.autoStock.adjust.AdjustmentOfSignalMetric;
+import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.adjust.IterableOfInteger;
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
 import com.autoStock.backtest.BacktestEvaluator;

@@ -25,8 +25,8 @@ public class AdjustmentRebaser {
 	public void rebase(){	
 		Co.println("--> Rebasing");
 		for (AdjustmentBase adjustmentBase : adjustmentCampaign.listOfAdjustmentBase){
-			if (adjustmentBase instanceof AdjustmentOfSignalMetric){
-				AdjustmentOfSignalMetric adjustmentOfSignalMetric = (AdjustmentOfSignalMetric) adjustmentBase;
+			if (adjustmentBase instanceof AdjustmentOfSignalMetricThreshold){
+				AdjustmentOfSignalMetricThreshold adjustmentOfSignalMetric = (AdjustmentOfSignalMetricThreshold) adjustmentBase;
 				
 
 				for (SignalBase signalBase : backtestContainer.hashOfSignalRangeLimit.keySet()){

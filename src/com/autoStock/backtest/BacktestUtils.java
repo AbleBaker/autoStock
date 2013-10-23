@@ -14,7 +14,7 @@ import com.autoStock.adjust.AdjustmentCampaignProvider;
 import com.autoStock.adjust.AdjustmentIdentifier;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
-import com.autoStock.adjust.AdjustmentOfSignalMetric;
+import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.guage.SignalGuage;
@@ -97,8 +97,8 @@ public class BacktestUtils {
 						string += " +AdjustmentOfBasicInteger " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfBasicInteger)adjustmentBase).getValue() + "\n";
 					}else if (adjustmentBase instanceof AdjustmentOfEnum){
 						string += " +AdjustmentOfEnum " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfEnum)adjustmentBase).getValue().name() + "\n";
-					}else if (adjustmentBase instanceof AdjustmentOfSignalMetric){
-						string += " +AdjustmentOfSignalMetric " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfSignalMetric)adjustmentBase).getValue() + "\n";
+					}else if (adjustmentBase instanceof AdjustmentOfSignalMetricThreshold){
+						string += " +AdjustmentOfSignalMetric " + adjustmentBase.getDescription() + " : " + ((AdjustmentOfSignalMetricThreshold)adjustmentBase).getValue() + "\n";
 					}
 			}
 		}

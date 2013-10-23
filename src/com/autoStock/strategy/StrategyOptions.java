@@ -35,7 +35,6 @@ public class StrategyOptions implements Cloneable {
 	public MutableInteger maxReenterTimesPerPosition = new MutableInteger();
 	public MutableInteger intervalForReentryMins = new MutableInteger();
 	public MutableInteger intervalForEntryAfterExitWithLossMins = new MutableInteger();
-	public MutableInteger intervalForEntryAfterExitWithSameSignalPoint = new MutableInteger();
 	public MutableInteger prefillShift = new MutableInteger();
 	public MutableDouble disableAfterYield = new MutableDouble();
 	public boolean prefillEnabled;
@@ -53,6 +52,7 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Disable after nil changes in price: " + maxNilChangePrice;
 		string += "\n - Disable after nil changes in volume: " + maxNilChangeVolume;
 		string += "\n - Disable after a loss: " + disableAfterLoss;
+		string += "\n - Disable after yield: " + disableAfterYield.value;
 		string += "\n - Max position entry time: " + maxPositionEntryTime;
 		string += "\n - Max position exit time: " + maxPositionExitTime;
 		string += "\n - Max position loss time: " + maxPositionLossTime;

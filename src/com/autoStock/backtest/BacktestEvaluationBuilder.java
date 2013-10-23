@@ -12,10 +12,11 @@ import com.autoStock.adjust.AdjustmentCampaignProvider;
 import com.autoStock.adjust.AdjustmentOfBasicDouble;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
-import com.autoStock.adjust.AdjustmentOfSignalMetric;
+import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForAdjustment;
+import com.autoStock.backtest.BacktestEvaluation.DescriptorForGuage;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForIndicator;
 import com.autoStock.backtest.BacktestEvaluation.DescriptorForSignal;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
@@ -62,19 +63,19 @@ public class BacktestEvaluationBuilder {
 			for (Pair<SignalPointType, SignalGuage[]> pair : list){
 				SignalGuage[] arrayOfSignalGuage = pair.second;
 				
+				DescriptorForSignal descriptorForSignal = new DescriptorForSignal();
+				descriptorForSignal.signalName = signalBase.getClass().getSimpleName();
+				descriptorForSignal.signalPointType = pair.first.name();
+				descriptorForSignal.periodLength = signalBase.signalParameters.periodLength.value;
+				descriptorForSignal.maxSignalAverage = signalBase.signalParameters.maxSignalAverage.value;
+				
 				if (arrayOfSignalGuage != null){
-					DescriptorForSignal descriptorForGuage = new DescriptorForSignal();
-					descriptorForGuage.signalName = signalBase.getClass().getSimpleName();
-					descriptorForGuage.signalBoundsName = arrayOfSignalGuage[0].mutableEnumForSignalGuageType.enumValue.name();
-					descriptorForGuage.signalBoundsType = arrayOfSignalGuage[0].signalBounds.name();
-					descriptorForGuage.signalPointType = pair.first.name();
-					descriptorForGuage.signalBoundsThreshold = arrayOfSignalGuage[0].threshold;
-					
-					descriptorForGuage.periodLength = signalBase.signalParameters.periodLength.value;
-					descriptorForGuage.maxSignalAverage = signalBase.signalParameters.maxSignalAverage.value;
-					
-					backtestEvaluation.listOfDescriptorForSignal.add(descriptorForGuage);
+					for (SignalGuage signalGuage : arrayOfSignalGuage){
+						descriptorForSignal.listOfDescriptorForGuage.add(new DescriptorForGuage(signalGuage));
+					}
 				}
+				
+				backtestEvaluation.listOfDescriptorForSignal.add(descriptorForSignal);
 			}
 		}
 		
@@ -105,8 +106,8 @@ public class BacktestEvaluationBuilder {
 			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicDouble)adjustmentBase).getValue());
 		}else if (adjustmentBase instanceof AdjustmentOfEnum){
 			descriptorForAdjustment.adjustmentValue = ((AdjustmentOfEnum)adjustmentBase).getValue().name();
-		}else if (adjustmentBase instanceof AdjustmentOfSignalMetric){
-			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfSignalMetric)adjustmentBase).getValue());
+		}else if (adjustmentBase instanceof AdjustmentOfSignalMetricThreshold){
+			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfSignalMetricThreshold)adjustmentBase).getValue());
 		}else{
 			throw new UnsupportedOperationException("Unknown adjustment class: " + adjustmentBase.getClass().getName());
 		}
