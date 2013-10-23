@@ -70,16 +70,4 @@ public class WMMutation implements EvolutionaryOperator<AlgorithmModel> {
 		
 		return algorithmModelNew;
 	}
-	
-	
-	public String getStringOfParams(SignalParameters signalParmeters){
-		String string = new String();
-		
-		string += signalParmeters.arrayOfSignalGuageForLongEntry[0].threshold + ", ";
-		string += signalParmeters.arrayOfSignalGuageForLongExit[0].threshold + ", ";
-		string += signalParmeters.arrayOfSignalGuageForShortEntry[0].threshold + ", ";
-		string += signalParmeters.arrayOfSignalGuageForShortExit[0].threshold + ", ";
-		
-		return string;
-	}
 }
