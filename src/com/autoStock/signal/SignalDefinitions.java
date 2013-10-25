@@ -371,7 +371,7 @@ public class SignalDefinitions {
 	}
 	
 	public static class IndicatorParametersForSAR extends IndicatorParameters {
-		public IndicatorParametersForSAR() {super(new MutableInteger(30), 1);}
+		public IndicatorParametersForSAR() {super(new MutableInteger(30), 3);}
 	}
 	
 	public static class SignalParametersForEMAFirst extends SignalParameters {

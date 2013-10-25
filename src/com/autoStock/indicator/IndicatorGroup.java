@@ -38,6 +38,7 @@ import com.autoStock.signal.SignalDefinitions.IndicatorParametersForWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.taLib.Core;
+import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -116,7 +117,7 @@ public class IndicatorGroup {
 //		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(signalGroup.signalOfARUp.signalParameters.periodLength, 0, commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
 		
 		
-		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters() {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
+		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters(new MutableInteger(30), 1) {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
 	}
 	
 	public void setDataSet(){
