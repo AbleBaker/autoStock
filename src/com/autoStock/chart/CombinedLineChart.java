@@ -231,8 +231,8 @@ public class CombinedLineChart {
 //			    
 			    subPlotForSignals.getRenderer().setBaseToolTipGenerator(StandardXYToolTipGenerator.getTimeSeriesInstance());
 			    
-			    subPlotForSignals.setDomainCrosshairVisible(true);
-			    subPlotForSignals.setDomainCrosshairLockedOnData(true);
+//			    subPlotForSignals.setDomainCrosshairVisible(true);
+//			    subPlotForSignals.setDomainCrosshairLockedOnData(true);
 //			    subPlotForSignals.setRangeCrosshairVisible(true);
 //			    subPlotForSignals.setRangeCrosshairLockedOnData(true);
 				

@@ -22,12 +22,12 @@ public class StrategyOptionDefaults {
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.disableAfterLoss = false;
 		strategyOptions.prefillEnabled = false;
-		strategyOptions.signalPointTacticForEntry = SignalPointTactic.tatic_combined;
-		strategyOptions.signalPointTacticForExit = SignalPointTactic.tatic_combined;
+		strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_combined;
+		strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_combined;
 		
-		strategyOptions.maxTransactionsDay = 16;
+		strategyOptions.maxTransactionsDay = 32;
 		strategyOptions.maxStopLossPercent.value = -0.10d;
-		strategyOptions.maxProfitDrawdownPercent.value = -0.25d;
+		strategyOptions.maxProfitDrawdownPercent.value = -0.20d;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;

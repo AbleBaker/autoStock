@@ -65,18 +65,18 @@ public class SignalPointResolver {
 	
 	private boolean getQualification(SignalGuage signalGuage){
 		boolean isQualified = false;
-		if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_met){
+		if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.guage_threshold_met){
 			isQualified = new GuageOfThresholdMet(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified(); 
-		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_threshold_left){
+		}else if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.guage_threshold_left){
 			isQualified = new GuageOfThresholdLeft(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
-		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_peak){
+		}else if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.guage_peak){
 			isQualified = new GuageOfPeakAndTrough(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
-		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.guage_trough){
+		}else if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.guage_trough){
 			isQualified = new GuageOfPeakAndTrough(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
-		}else if (signalGuage.mutableEnumForSignalGuageType.enumValue == SignalGuageType.none){
+		}else if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.none){
 			return false;
 		}else {
-			throw new UnsupportedOperationException("No guage matched: " + signalGuage.mutableEnumForSignalGuageType.enumValue.name());
+			throw new UnsupportedOperationException("No guage matched: " + signalGuage.mutableEnumForSignalGuageType.value.name());
 		}
 		
 		return isQualified;

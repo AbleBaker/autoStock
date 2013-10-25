@@ -38,7 +38,7 @@ public class PositionGovernor {
 		SignalPoint signalPoint = new SignalPoint();
 		
 		if (position == null){
-			signalPoint = SignalPointTacticResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
+			signalPoint = SignalPointTacticResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
 				
 			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
 				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
@@ -47,7 +47,7 @@ public class PositionGovernor {
 			}
 		} else {
 			SignalPoint signalPointForReentry = null; //SignalPointResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
-			signalPoint = SignalPointTacticResolver.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTacticForExit);
+			signalPoint = SignalPointTacticResolver.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTacticForExit.value);
 
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {

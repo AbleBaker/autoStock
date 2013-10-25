@@ -102,7 +102,6 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			//Check Strategy actually contains adjustment values... 
 		}
 		
-		indicatorGroup.initialize();
 		indicatorGroup.setActive(listOfSignalMetricType);
 		periodLength = indicatorGroup.getMinPeriodLength(algorithmMode != AlgorithmMode.mode_backtest_single);
 		

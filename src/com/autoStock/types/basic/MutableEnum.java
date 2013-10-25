@@ -5,9 +5,13 @@ package com.autoStock.types.basic;
  *
  */
 public class MutableEnum<T extends Enum<T>> {
-	public T enumValue;
+	public T value;
+	
+	public MutableEnum(){
+		
+	}
 	
 	public MutableEnum(T enumObject){
-		this.enumValue = enumObject;
+		this.value = enumObject;
 	}
 }

@@ -26,7 +26,7 @@ public class BacktestScoreProvider {
 //		score = backtestEvaluation.backtestResultTransactionDetails.avgTradeWin * backtestEvaluation.transactions;
 		
 		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
-			if (pair.second <= 0){
+			if (pair.second < 0){
 				score /= 2;
 			}
 		}

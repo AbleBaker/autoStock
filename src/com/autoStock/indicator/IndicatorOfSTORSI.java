@@ -4,6 +4,7 @@
 package com.autoStock.indicator;
 
 import com.autoStock.indicator.results.ResultsSTORSI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MAType;
@@ -18,8 +19,8 @@ import com.autoStock.types.basic.MutableInteger;
 public class IndicatorOfSTORSI extends IndicatorBase {
 	public ResultsSTORSI results;
 	
-	public IndicatorOfSTORSI(MutableInteger periodLength,  int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
-		super(periodLength, resultsetLength, commonAnlaysisData, taLibCore, signalMetricType);
+	public IndicatorOfSTORSI(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
 	public ResultsSTORSI analyize(){

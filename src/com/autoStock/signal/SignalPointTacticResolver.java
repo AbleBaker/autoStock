@@ -13,23 +13,22 @@ import com.autoStock.tools.MathTools;
  */
 public class SignalPointTacticResolver {
 	public static enum SignalPointTactic {
-		tatic_majority,
-		tatic_change,
-		tatic_combined,
-		tatic_mixed,
-		//tactic_same
+		tactic_majority,
+		tactic_any,
+		tactic_combined,
+		tactic_mixed,
 	}
 	
 	public static synchronized SignalPoint getSignalPoint(boolean havePosition, Signal signal, PositionType positionType, SignalPointTactic signalPointTactic){
 		SignalPoint signalPoint;
 		
-		if (signalPointTactic == SignalPointTactic.tatic_majority){
+		if (signalPointTactic == SignalPointTactic.tactic_majority){
 			signalPoint = getSignalPointMajority(havePosition, positionType, signal);
-		}else if (signalPointTactic == SignalPointTactic.tatic_change){
+		}else if (signalPointTactic == SignalPointTactic.tactic_any){
 			signalPoint = getSignalPointChange(havePosition, positionType, signal);
-		}else if (signalPointTactic == SignalPointTactic.tatic_combined){
+		}else if (signalPointTactic == SignalPointTactic.tactic_combined){
 			signalPoint = getSignalPointCombined(havePosition, positionType, signal);
-		}else if (signalPointTactic == SignalPointTactic.tatic_mixed){
+		}else if (signalPointTactic == SignalPointTactic.tactic_mixed){
 			return getSignalPointMixed(havePosition, positionType, signal);
 		}else{
 			throw new UnsupportedOperationException();

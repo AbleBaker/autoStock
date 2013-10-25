@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalPointTacticResolver.SignalPointTactic;
 import com.autoStock.types.basic.MutableDouble;
+import com.autoStock.types.basic.MutableEnum;
 import com.autoStock.types.basic.MutableInteger;
 import com.rits.cloning.Cloner;
 
@@ -20,8 +21,8 @@ public class StrategyOptions implements Cloneable {
 	public boolean disableAfterNilVolumes;
 	public boolean mustHavePositiveSlice;
 	public boolean disableAfterLoss; 
-	public SignalPointTactic signalPointTacticForEntry;
-	public SignalPointTactic signalPointTacticForExit;
+	public MutableEnum<SignalPointTactic> signalPointTacticForEntry = new MutableEnum<SignalPointTactic>();
+	public MutableEnum<SignalPointTactic> signalPointTacticForExit = new MutableEnum<SignalPointTactic>();
 	
 	public int maxTransactionsDay;
 	public MutableDouble minReentryPercentGain = new MutableDouble();
@@ -59,8 +60,8 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Max stop loss percent: " +  maxStopLossPercent.value;
 		string += "\n - Max profit drawdown percent: " +  maxProfitDrawdownPercent.value;
 		string += "\n - Max transactions per day: " + maxTransactionsDay;
-		string += "\n - Signal point tactic (entry): " + signalPointTacticForEntry.name();
-		string += "\n - Signal point tactic (exit): " + signalPointTacticForExit.name();
+		string += "\n - Signal point tactic (entry): " + signalPointTacticForEntry.value.name();
+		string += "\n - Signal point tactic (exit): " + signalPointTacticForExit.value.name();
 		string += "\n - Entry after loss interval minutes: " + intervalForEntryAfterExitWithLossMins.value;
 		string += "\n - Reentry interval minutes: " + intervalForReentryMins.value;
 		string += "\n - Reentry maximum frequency: " + maxReenterTimesPerPosition.value;

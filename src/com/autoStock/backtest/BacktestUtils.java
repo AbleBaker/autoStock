@@ -61,25 +61,25 @@ public class BacktestUtils {
 			
 			if (signalBase.signalParameters.arrayOfSignalGuageForLongEntry != null){
 				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForLongEntry){
-					string += " +Long entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.enumValue.name() + "\n";
+					string += " +Long entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.value.name() + "\n";
 				}
 			}
 			
 			if (signalBase.signalParameters.arrayOfSignalGuageForLongExit != null){
 				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForLongExit){
-					string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.enumValue.name() + "\n";
+					string += " +Long exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.value.name() + "\n";
 				}
 			}
 			
 			if (signalBase.signalParameters.arrayOfSignalGuageForShortEntry != null){
 				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForShortEntry){
-					string += " +Short entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.enumValue.name() + "\n";
+					string += " +Short entry: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.value.name() + "\n";
 				}
 			}
 			
 			if (signalBase.signalParameters.arrayOfSignalGuageForShortExit != null){
 				for (SignalGuage signalGuage : signalBase.signalParameters.arrayOfSignalGuageForShortExit){
-					string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.enumValue.name() + "\n";
+					string += " +Short exit: " + signalGuage.threshold + ", " + signalGuage.signalBounds.name() + ", " + signalGuage.mutableEnumForSignalGuageType.value.name() + "\n";
 				}
 			}
 			
@@ -87,7 +87,7 @@ public class BacktestUtils {
 		}
 		
 		for (IndicatorBase indicatorBase : signal.getSignalGroup().getIndicatorGroup().getListOfIndicatorBase()){
-			string += " +Indicator period: " + indicatorBase.getClass().getSimpleName() + ", " + indicatorBase.periodLength.value + "\n";
+			string += " +Indicator period: " + indicatorBase.getClass().getSimpleName() + ", " + indicatorBase.indicatorParameters.periodLength.value + "\n";
 		}
 		
 		if (backtestType == BacktestType.backtest_adjustment_boilerplate || backtestType == BacktestType.backtest_adjustment_individual || backtestType == BacktestType.backtest_clustered_client){

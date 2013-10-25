@@ -70,7 +70,6 @@ public class BacktestEvaluationBuilder {
 				DescriptorForSignal descriptorForSignal = new DescriptorForSignal();
 				descriptorForSignal.signalName = signalBase.getClass().getSimpleName();
 				descriptorForSignal.signalPointType = pair.first.name();
-				descriptorForSignal.periodLength = signalBase.signalParameters.periodLength.value;
 				descriptorForSignal.maxSignalAverage = signalBase.signalParameters.maxSignalAverage.value;
 				
 				if (arrayOfSignalGuage != null){
@@ -84,7 +83,7 @@ public class BacktestEvaluationBuilder {
 		}
 		
 		for (IndicatorBase indicatorBase : backtestContainer.algorithm.signalGroup.getIndicatorGroup().getListOfIndicatorBaseActive()){
-			DescriptorForIndicator descriptorForIndicator = new DescriptorForIndicator(indicatorBase.getClass().getSimpleName(), indicatorBase.periodLength.value, indicatorBase.resultsetLength);
+			DescriptorForIndicator descriptorForIndicator = new DescriptorForIndicator(indicatorBase.getClass().getSimpleName(), indicatorBase.indicatorParameters.periodLength.value, indicatorBase.indicatorParameters.resultSetLength);
 			backtestEvaluation.listOfDescriptorForIndicator.add(descriptorForIndicator);
 		}
 		

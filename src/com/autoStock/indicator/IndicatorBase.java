@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
 import com.autoStock.taLib.RetCode;
@@ -20,8 +21,7 @@ public abstract class IndicatorBase {
 	public Core taLibCore;
 	public CommonAnalysisData commonAnlaysisData;
 	
-	public final MutableInteger periodLength;
-	public final int resultsetLength;
+	public final IndicatorParameters indicatorParameters;
 	public int datasetLength;
 	public double[] arrayOfPriceOpen;
 	public double[] arrayOfPriceHigh;
@@ -31,21 +31,20 @@ public abstract class IndicatorBase {
 	public int endIndex = 0;
 	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	
-	public IndicatorBase(MutableInteger periodLength, int resultsetLength, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType){
-		this.periodLength = periodLength;
+	public IndicatorBase(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType){
+		this.indicatorParameters = indicatorParameters;
 		this.commonAnlaysisData = commonAnlaysisData;
 		this.taLibCore = taLibCore;
-		this.resultsetLength = resultsetLength;
 		
 		listOfSignalMetricType.add(signalMetricType);
 	}
 
 	public void setDataSet(){
-		if (commonAnlaysisData.arrayOfDates.length < periodLength.value){
-			throw new IllegalArgumentException("List size was too small: " + getClass().getSimpleName() + ", " + commonAnlaysisData.arrayOfDates.length + ", expected: " + periodLength.value);
+		if (commonAnlaysisData.arrayOfDates.length < indicatorParameters.periodLength.value){
+			throw new IllegalArgumentException("List size was too small: " + getClass().getSimpleName() + ", " + commonAnlaysisData.arrayOfDates.length + ", expected: " + indicatorParameters.periodLength.value);
 		}
 		
-		if (periodLength.value == 0){
+		if (indicatorParameters.periodLength.value == 0){
 			return;
 		}
 		
@@ -89,7 +88,7 @@ public abstract class IndicatorBase {
 	}
 	
 	public int getRequiredDatasetLength(){
-		return periodLength.value + resultsetLength -1;
+		return indicatorParameters.periodLength.value + indicatorParameters.resultSetLength -1;
 	}
 	
 	public void setDataSetFromDatabase(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice){

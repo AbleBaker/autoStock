@@ -63,7 +63,6 @@ public class BacktestEvaluation {
 	public static class DescriptorForSignal {
 		public String signalName;
 		public String signalPointType;
-		public int periodLength;
 		public int maxSignalAverage;
 		
 		public ArrayList<DescriptorForGuage> listOfDescriptorForGuage = new ArrayList<DescriptorForGuage>();
@@ -73,7 +72,7 @@ public class BacktestEvaluation {
 		@Override
 		public String toString() {
 			String string = new String();
-			string += signalName + "(" + periodLength + ", " + maxSignalAverage + "), " + signalPointType;
+			string += signalName + "(" + maxSignalAverage + "), " + signalPointType;
 			string += "\n";
 			
 			for (DescriptorForGuage descriptorForGuage : listOfDescriptorForGuage){
@@ -90,7 +89,7 @@ public class BacktestEvaluation {
 		public String guageThreshold;
 		
 		public DescriptorForGuage(SignalGuage signalGuage) {
-			guageType = signalGuage.mutableEnumForSignalGuageType.enumValue.name();
+			guageType = signalGuage.mutableEnumForSignalGuageType.value.name();
 			guageBoundsName = signalGuage.signalBounds.name();
 			guageThreshold = String.valueOf(signalGuage.threshold);
 		}

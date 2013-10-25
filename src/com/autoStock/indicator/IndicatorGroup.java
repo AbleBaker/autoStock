@@ -1,9 +1,7 @@
 package com.autoStock.indicator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
@@ -12,6 +10,7 @@ import com.autoStock.indicator.results.ResultsAR;
 import com.autoStock.indicator.results.ResultsBB;
 import com.autoStock.indicator.results.ResultsCCI;
 import com.autoStock.indicator.results.ResultsDI;
+import com.autoStock.indicator.results.ResultsEMA;
 import com.autoStock.indicator.results.ResultsMACD;
 import com.autoStock.indicator.results.ResultsMFI;
 import com.autoStock.indicator.results.ResultsPTD;
@@ -22,10 +21,23 @@ import com.autoStock.indicator.results.ResultsSTORSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsUO;
 import com.autoStock.indicator.results.ResultsWILLR;
+import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForADX;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForARUp;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForCCI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForDI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMACD;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMFI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForROC;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForRSI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForSAR;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForSTORSI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForTRIX;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForUO;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.taLib.Core;
-import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -46,8 +58,10 @@ public class IndicatorGroup {
 	public IndicatorOfWILLR indicatorOfWILLR;
 	public IndicatorOfUO indicatorOfUO;
 	public IndicatorOfAR indicatorOfAR;
-	public IndicatorOfPTD indicatorOfPTD;
 	public IndicatorOfSAR indicatorOfSAR;
+	public IndicatorOfEMA indicatorOfEMAFirst;
+	public IndicatorOfEMA indicatorOfEMASecond;
+	
 	public CandleStickIdentifier candleStickIdentifier;
 
 	public ResultsADX resultsADX;
@@ -65,6 +79,10 @@ public class IndicatorGroup {
 	public ResultsAR resultsAR;
 	public ResultsPTD resultsPTD;
 	public ResultsSAR resultsSAR;
+	
+	public ResultsEMA resultsEMAFirst;
+	public ResultsEMA resultsEMASecond;
+	
 	public CandleStickIdentifierResult candleStickIdentifierResult;
 	
 	public SignalGroup signalGroup;
@@ -77,27 +95,28 @@ public class IndicatorGroup {
 		int resultLength = SignalGroup.ENCOG_SIGNAL_INPUT;
 		this.signalGroup = signalGroup;
 		this.commonAnalysisData = commonAnlaysisData;
-	}
-	
-	public void initialize(){
-		listOfIndicatorBase.clear();
-		listOfIndicatorBase.add(indicatorOfADX = new IndicatorOfADX(signalGroup.signalOfADX.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_adx));
-		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(signalGroup.signalOfCCI.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_cci));
-		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(signalGroup.signalOfDI.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_di));
-		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(signalGroup.signalOfMACD.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_macd));
-		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.none));
-		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(signalGroup.signalOfRSI.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_rsi));
-		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(signalGroup.signalOfTRIX.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_trix));
-		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(signalGroup.signalOfROC.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_roc));
-		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(signalGroup.signalOfMFI.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_mfi));
-		listOfIndicatorBase.add(indicatorOfSTORSI = new IndicatorOfSTORSI(signalGroup.signalOfSTORSI.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_storsi));
-		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(signalGroup.signalOfWILLR.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_willr));
-		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(signalGroup.signalOfUO.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_uo));
-		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(signalGroup.signalOfARUp.signalParameters.periodLength, 1, commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
-		listOfIndicatorBase.add(indicatorOfSAR = new IndicatorOfSAR(signalGroup.signalOfARUp.signalParameters.periodLength, 0, commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
-		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
 		
-		indicatorOfPTD = new IndicatorOfPTD(new MutableInteger(10), 1, commonAnalysisData, taLibCore, SignalMetricType.none);
+		listOfIndicatorBase.clear();
+		listOfIndicatorBase.add(indicatorOfADX = new IndicatorOfADX(new IndicatorParametersForADX(), commonAnalysisData, taLibCore, SignalMetricType.metric_adx));
+		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(new IndicatorParametersForCCI(), commonAnalysisData, taLibCore, SignalMetricType.metric_cci));
+		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(new IndicatorParametersForDI(), commonAnalysisData, taLibCore, SignalMetricType.metric_di));
+		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(new IndicatorParametersForMACD(), commonAnalysisData, taLibCore, SignalMetricType.metric_macd));
+//		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.none));
+		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(new IndicatorParametersForRSI(), commonAnalysisData, taLibCore, SignalMetricType.metric_rsi));
+		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(new IndicatorParametersForTRIX(), commonAnalysisData, taLibCore, SignalMetricType.metric_trix));
+		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(new IndicatorParametersForROC(), commonAnalysisData, taLibCore, SignalMetricType.metric_roc));
+		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(new IndicatorParametersForMFI(), commonAnalysisData, taLibCore, SignalMetricType.metric_mfi));
+		listOfIndicatorBase.add(indicatorOfSTORSI = new IndicatorOfSTORSI(new IndicatorParametersForSTORSI(), commonAnalysisData, taLibCore, SignalMetricType.metric_storsi));
+		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(new IndicatorParametersForWILLR(), commonAnalysisData, taLibCore, SignalMetricType.metric_willr));
+		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(new IndicatorParametersForUO(), commonAnalysisData, taLibCore, SignalMetricType.metric_uo));
+		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(new IndicatorParametersForARUp(), commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
+		listOfIndicatorBase.add(indicatorOfSAR = new IndicatorOfSAR(new IndicatorParametersForSAR(), commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
+		
+//		listOfIndicatorBase.add(indicatorOfEMAFirst = new IndicatorOfEMA(signalGroup.signalOfEMAF.signalParameters.periodLength, 0, commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
+//		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(signalGroup.signalOfARUp.signalParameters.periodLength, 0, commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
+		
+		
+		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters() {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
 	}
 	
 	public void setDataSet(){

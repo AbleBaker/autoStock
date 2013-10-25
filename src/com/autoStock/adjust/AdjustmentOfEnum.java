@@ -18,7 +18,7 @@ public class AdjustmentOfEnum<T extends Enum<T>> extends AdjustmentBase {
 	
 	@Override
 	public void applyValue() {
-		immutableEnum.enumValue = getValue();
+		immutableEnum.value = getValue();
 	}
 	
 	public T getValue(){
