@@ -97,7 +97,7 @@ public class SignalGroup {
 		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
 		
 		if (indicatorGroup.resultsEMAFirst != null && indicatorGroup.resultsEMASecond != null){
-			signalOfCrossover.setInput(ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA), ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA));
+			signalOfCrossover.setInput(ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA), ArrayTools.getLastElement(indicatorGroup.resultsEMASecond.arrayOfEMA));
 		}
 		
 		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}

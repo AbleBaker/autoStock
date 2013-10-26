@@ -2,6 +2,7 @@ package com.autoStock.signal.signalMetrics;
 
 import java.awt.IllegalComponentStateException;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -21,7 +22,8 @@ public class SignalOfCrossover extends SignalWithSignalPoint {
 	}
 	
 	public void setInput(double valueFirst, double valueSecond){
-		super.setInput(valueSecond - valueFirst);
+		Co.println("--> ? " + valueFirst + ", " + valueSecond);
+		super.setInput((valueSecond - valueFirst) * 200);
 	}
 	
 	@Override
@@ -31,10 +33,22 @@ public class SignalOfCrossover extends SignalWithSignalPoint {
 
 	@Override
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
-		if (havePosition == false){
-			return new SignalPoint(SignalPointType.long_entry, signalMetricType);
-		}else{
+		double currentGap = getStrength();
+		
+		Co.println("--> Current gap: " + currentGap);
+		
+		if (currentGap > 2 && havePosition == false){
+			return new SignalPoint(SignalPointType.long_entry, signalMetricType); 
+		}else if (currentGap < 0){
 			return new SignalPoint(SignalPointType.long_exit, signalMetricType);
+		}else{
+			return new SignalPoint();
 		}
+		
+//		if (havePosition == false){
+//			return new SignalPoint(SignalPointType.long_entry, signalMetricType);
+//		}else{
+//			return new SignalPoint(SignalPointType.long_exit, signalMetricType);
+//		}
 	}
 }
