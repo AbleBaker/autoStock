@@ -20,6 +20,7 @@ import com.autoStock.signal.signalMetrics.SignalOfMACD;
 import com.autoStock.signal.signalMetrics.SignalOfMFI;
 import com.autoStock.signal.signalMetrics.SignalOfROC;
 import com.autoStock.signal.signalMetrics.SignalOfRSI;
+import com.autoStock.signal.signalMetrics.SignalOfSAR;
 import com.autoStock.signal.signalMetrics.SignalOfSTORSI;
 import com.autoStock.signal.signalMetrics.SignalOfTRIX;
 import com.autoStock.signal.signalMetrics.SignalOfUO;
@@ -46,6 +47,7 @@ public class SignalGroup {
 	public SignalOfUO signalOfUO = new SignalOfUO(new SignalParametersForUO());
 	public SignalOfARUp signalOfARUp = new SignalOfARUp(new SignalParametersForARUp());
 	public SignalOfARDown signalOfARDown = new SignalOfARDown(new SignalParametersForARDown());
+	public SignalOfSAR signalOfSAR = new SignalOfSAR(new SignalParametersForSAR());
 	
 	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover(){});
 	
@@ -70,6 +72,7 @@ public class SignalGroup {
 		listOfSignalBase.add(signalOfUO);
 		listOfSignalBase.add(signalOfARUp);
 		listOfSignalBase.add(signalOfARDown);
+		listOfSignalBase.add(signalOfSAR);
 		
 		listOfSignalBase.add(signalOfCrossover);
 		
@@ -95,6 +98,7 @@ public class SignalGroup {
 		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
 		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARUp));}
 		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
+		if (indicatorGroup.resultsSAR != null){signalOfSAR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSAR.arrayOfSAR));}
 		
 		if (indicatorGroup.resultsEMAFirst != null && indicatorGroup.resultsEMASecond != null){
 			signalOfCrossover.setInput(ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA), ArrayTools.getLastElement(indicatorGroup.resultsEMASecond.arrayOfEMA));

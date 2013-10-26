@@ -42,12 +42,13 @@ public class AlgorithmChart {
 		chart.listOfSignalUO.add(algorithmBase.signalGroup.signalOfUO.getStrength());
 		chart.listOfSignalARUp.add(algorithmBase.signalGroup.signalOfARUp.getStrength());
 		chart.listOfSignalARDown.add(algorithmBase.signalGroup.signalOfARDown.getStrength());
+//		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
 		
-		chart.listOfIndicatorEMAFirst.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMAFirst.arrayOfEMA));
-		chart.listOfIndicatorEMASecond.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMASecond.arrayOfEMA));
+//		chart.listOfIndicatorEMAFirst.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMAFirst.arrayOfEMA));
+//		chart.listOfIndicatorEMASecond.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMASecond.arrayOfEMA));
 		
 //		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
-//		chart.listOfIndicatorSAR.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsSAR.arrayOfSAR));
+		chart.listOfIndicatorSAR.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsSAR.arrayOfSAR));
 		
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		chart.listOfYield.add(algorithmBase.getYieldCurrent());

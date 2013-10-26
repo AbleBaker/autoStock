@@ -156,16 +156,22 @@ public class CombinedLineChart {
 //			}
 			
 			if (getPairForType(TimeSeriesType.type_signals) != null){
-				resetColor();
 				XYPlot subPlotForSignals = new XYPlot(getPairForType(TimeSeriesType.type_signals).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_signals).timeSeriesType.displayName), new StandardXYItemRenderer());
 				for (int i=0; i < getPairForType(TimeSeriesType.type_signals).timeSeriesCollection.getSeriesCount(); i++){
-					subPlotForSignals.getRenderer().setSeriesPaint(i, getColor());	
+//					subPlotForSignals.getRenderer().setSeriesPaint(i, getColor());
+					
+					subPlotForSignals.setRenderer(i, new XYShapeRenderer());
+					subPlotForSignals.getRenderer().setSeriesShape(i, ShapeUtilities.createDiamond(2));
+					subPlotForSignals.getRenderer().setSeriesPaint(i, Color.BLACK);
+					
 				}
+				
+				
 				subPlotForSignals.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 				((NumberAxis)subPlotForSignals.getRangeAxis()).setAutoRangeIncludesZero(false);
 			
-				StandardXYItemRenderer renderer  = (StandardXYItemRenderer) subPlotForSignals.getRenderer();
-				renderer.setLegendLine(new Rectangle2D.Double(-4.0, -4.0, 4.0, 4.0));
+//				StandardXYItemRenderer renderer  = (StandardXYItemRenderer) subPlotForSignals.getRenderer();
+//				renderer.setLegendLine(new Rectangle2D.Double(-4.0, -4.0, 4.0, 4.0));
 //				renderer.setBaseLegendShape(new Rectangle2D.Double(-4.0, -4.0, 4.0, 4.0));
 
 //			    subPlotForSignals.setRangeCrosshairVisible(true);
