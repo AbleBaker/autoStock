@@ -2,6 +2,7 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
@@ -113,11 +114,11 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(new IndicatorParametersForARUp(), commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
 		listOfIndicatorBase.add(indicatorOfSAR = new IndicatorOfSAR(new IndicatorParametersForSAR(), commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
 		
-		listOfIndicatorBase.add(indicatorOfEMAFirst = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(30), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_ema));
-		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(15), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_ema));
+		listOfIndicatorBase.add(indicatorOfEMAFirst = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(9), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
+		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(28), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
 		
 		
-		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters(new MutableInteger(30), 1) {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
+//		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters(new MutableInteger(30), 1) {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
 	}
 	
 	public void setDataSet(){
@@ -129,7 +130,7 @@ public class IndicatorGroup {
 			}
 		}
 		
-		candleStickIdentifier.setDataSet(); 
+		if (candleStickIdentifier != null){candleStickIdentifier.setDataSet();} 
 	}
 	
 	public void setActive(ArrayList<SignalMetricType> listOfSignalMetricType) {
@@ -169,7 +170,7 @@ public class IndicatorGroup {
 //			}
 		}
 		
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_candlestick_group)){
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_candlestick_group) && candleStickIdentifier != null){
 			candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);
 		}
 	}
@@ -209,7 +210,7 @@ public class IndicatorGroup {
 			}
 		}
 		
-//		Co.println("--> Longest required period length from: " + indcatorBase.getClass().getSimpleName() + ", with: " + min);
+		Co.println("--> Longest required period length from: " + indcatorBase.getClass().getSimpleName() + ", with: " + min);
 		return min;
 	}
 }

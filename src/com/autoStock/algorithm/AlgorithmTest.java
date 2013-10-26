@@ -28,11 +28,11 @@ public class AlgorithmTest extends AlgorithmBase {
 	public void init(Date startingDate){
 		this.startingDate = startingDate;
 		
-		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment || algorithmMode == AlgorithmMode.mode_backtest_single){
+//		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment || algorithmMode == AlgorithmMode.mode_backtest_single){
 			listOfSignalMetricType = strategyBase.strategyOptions.listOfSignalMetricType;
-		}else{
-			listOfSignalMetricType.addAll(Arrays.asList(SignalMetricType.values()));	
-		}
+//		}else{
+//			listOfSignalMetricType.addAll(Arrays.asList(SignalMetricType.values()));	
+//		}
 	
 		initialize();
 		

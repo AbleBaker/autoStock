@@ -72,7 +72,6 @@ public class SignalDefinitions {
 		metric_ar_up,
 		metric_ar_down,
 		metric_sar,
-		metric_ema,
 		metric_crossover,
 		
 		metric_candlestick_group,
@@ -380,7 +379,7 @@ public class SignalDefinitions {
 	}
 	
 	public static class IndicatorParametersForSAR extends IndicatorParameters {
-		public IndicatorParametersForSAR() {super(new MutableInteger(30), 3);}
+		public IndicatorParametersForSAR() {super(new MutableInteger(30), 1);}
 	}
 	
 	public static class SignalParametersForEMAFirst extends SignalParameters {
