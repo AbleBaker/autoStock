@@ -5,7 +5,9 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -19,10 +21,11 @@ import com.autoStock.types.basic.MutableInteger;
  */
 public abstract class IndicatorBase {
 	public Core taLibCore;
-	public CommonAnalysisData commonAnlaysisData;
+	private CommonAnalysisData commonAnlaysisData;
 	
 	public final IndicatorParameters indicatorParameters;
 	public int datasetLength;
+	public Date[] arrayOfDates;
 	public double[] arrayOfPriceOpen;
 	public double[] arrayOfPriceHigh;
 	public double[] arrayOfPriceLow;
@@ -55,13 +58,15 @@ public abstract class IndicatorBase {
 		}
 	
 		if (initialLength != getRequiredDatasetLength()){
-//			Co.println("-->  N " + initialLength + ", " + requiredInputLength);
+			Co.println("-->  N " + (initialLength - getRequiredDatasetLength()) + ", " + getRequiredDatasetLength() + ", " + initialLength);
+			arrayOfDates = Arrays.copyOfRange(commonAnlaysisData.arrayOfDates, initialLength - getRequiredDatasetLength(), initialLength);
 			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, initialLength - getRequiredDatasetLength(), initialLength);
 			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, initialLength -getRequiredDatasetLength(), initialLength);
 			arrayOfPriceLow = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceLow, initialLength - getRequiredDatasetLength(), initialLength);
 			arrayOfPriceClose = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceClose, initialLength - getRequiredDatasetLength(), initialLength);
 			arrayOfSizeVolume = Arrays.copyOfRange(commonAnlaysisData.arrayOfSizeVolume, initialLength - getRequiredDatasetLength(), initialLength);
 		}else{
+			arrayOfDates = commonAnlaysisData.arrayOfDates;
 			arrayOfPriceOpen = commonAnlaysisData.arrayOfPriceOpen;
 			arrayOfPriceHigh = commonAnlaysisData.arrayOfPriceHigh;
 			arrayOfPriceLow = commonAnlaysisData.arrayOfPriceLow;

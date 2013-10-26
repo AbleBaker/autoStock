@@ -27,8 +27,8 @@ public class IndicatorOfWILLR extends IndicatorBase{
 	public ResultsWILLR analyize(){
 		results = new ResultsWILLR(indicatorParameters.resultSetLength+1); //WILLR Specific
 		
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
+		results.arrayOfDates = arrayOfDates;
+		results.arrayOfPrice = arrayOfPriceClose;
 		
 		RetCode returnCode = taLibCore.willR(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfWILLR);
 		

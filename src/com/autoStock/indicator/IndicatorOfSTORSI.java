@@ -25,7 +25,7 @@ public class IndicatorOfSTORSI extends IndicatorBase {
 	
 	public ResultsSTORSI analyize(){
 		results = new ResultsSTORSI(50);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
 		RetCode returnCode = taLibCore.stochRsi(0, endIndex, arrayOfPriceClose, 15, 12, 3, MAType.Trima, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
 		handleAnalysisResult(returnCode);

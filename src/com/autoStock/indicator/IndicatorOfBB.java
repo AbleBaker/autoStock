@@ -28,7 +28,7 @@ public class IndicatorOfBB extends IndicatorBase {
 	public ResultsBB analyize(){	
 		results = new ResultsBB(indicatorParameters.resultSetLength);
 		
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
 		RetCode returnCode = taLibCore.bbands(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value, optionDeviationUp, optionDeviationDown, MAType.Kama, new MInteger(), new MInteger(), results.arrayOfUpperBand, results.arrayOfMiddleBand, results.arrayOfLowerBand);
 		handleAnalysisResult(returnCode);

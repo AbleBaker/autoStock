@@ -27,9 +27,9 @@ public class IndicatorOfEMA extends IndicatorBase {
 	
 	public ResultsEMA analyize(){
 		results = new ResultsEMA(indicatorParameters.resultSetLength);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
-		RetCode returnCode = taLibCore.ema(0, endIndex, commonAnlaysisData.arrayOfPriceClose, indicatorParameters.periodLength.value, new MInteger(), new MInteger(), results.arrayOfEMA);
+		RetCode returnCode = taLibCore.ema(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value, new MInteger(), new MInteger(), results.arrayOfEMA);
 		
 		handleAnalysisResult(returnCode);
 		

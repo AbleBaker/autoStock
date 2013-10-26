@@ -24,7 +24,7 @@ public class IndicatorOfADX extends IndicatorBase {
 	
 	public ResultsADX analyize(){
 		results = new ResultsADX(indicatorParameters.resultSetLength);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
 		RetCode returnCode = taLibCore.adx(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, indicatorParameters.periodLength.value/2, new MInteger(), new MInteger(), results.arrayOfADX);
 		handleAnalysisResult(returnCode);

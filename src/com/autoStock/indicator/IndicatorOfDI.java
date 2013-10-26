@@ -25,7 +25,7 @@ public class IndicatorOfDI extends IndicatorBase {
 	
 	public ResultsDI analyize(){
 		results = new ResultsDI(indicatorParameters.resultSetLength);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
 		RetCode returnCode = taLibCore.plusDI(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfDIPlus);
 		if (returnCode == RetCode.Success){

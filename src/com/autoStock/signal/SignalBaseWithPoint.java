@@ -8,8 +8,8 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  * @author Kevin Kowalewski
  *
  */
-public abstract class SignalWithSignalPoint extends SignalBase {
-	public SignalWithSignalPoint(SignalMetricType signalMetricType, SignalParameters signalParameters) {
+public abstract class SignalBaseWithPoint extends SignalBase {
+	public SignalBaseWithPoint(SignalMetricType signalMetricType, SignalParameters signalParameters) {
 		super(signalMetricType, signalParameters);
 	}
 	

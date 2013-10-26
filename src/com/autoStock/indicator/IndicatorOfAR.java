@@ -24,7 +24,7 @@ public class IndicatorOfAR extends IndicatorBase {
 	
 	public ResultsAR analyize(){
 		results = new ResultsAR(indicatorParameters.resultSetLength);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
 		RetCode returnCode = taLibCore.aroon(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfARUp, results.arrayOfARDown);
 		handleAnalysisResult(returnCode);

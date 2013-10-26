@@ -26,7 +26,7 @@ public class IndicatorOfUO extends IndicatorBase {
 	
 	public ResultsUO analyize(){
 		results = new ResultsUO(indicatorParameters.resultSetLength);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
 		RetCode returnCode = taLibCore.ultOsc(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, 7, 14, endIndex-indicatorParameters.resultSetLength+1, new MInteger(), new MInteger(), results.arrayOfUO);
 		

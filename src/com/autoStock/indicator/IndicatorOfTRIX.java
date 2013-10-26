@@ -27,8 +27,8 @@ public class IndicatorOfTRIX extends IndicatorBase {
 	public ResultsTRIX analyize(){
 		results = new ResultsTRIX(indicatorParameters.resultSetLength+1); //TRIX Specific
 		
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
-		results.arrayOfPrice = commonAnlaysisData.arrayOfPriceClose;
+		results.arrayOfDates = arrayOfDates;
+		results.arrayOfPrice = arrayOfPriceClose;
 		
 		RetCode returnCode = taLibCore.trix(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value/3, new MInteger(), new MInteger(), results.arrayOfTRIX);
 		

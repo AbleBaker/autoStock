@@ -25,7 +25,7 @@ public class IndicatorOfMACD extends IndicatorBase {
 	
 	public ResultsMACD analize(){
 		results = new ResultsMACD(indicatorParameters.resultSetLength);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
 		RetCode returnCode;
 		

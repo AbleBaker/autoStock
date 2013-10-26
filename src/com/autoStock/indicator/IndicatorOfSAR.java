@@ -27,9 +27,9 @@ public class IndicatorOfSAR extends IndicatorBase {
 	
 	public ResultsSAR analyize(){
 		results = new ResultsSAR(indicatorParameters.periodLength.value + 1);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
-		RetCode returnCode = taLibCore.sar(0, endIndex, commonAnlaysisData.arrayOfPriceHigh, commonAnlaysisData.arrayOfPriceLow, 0.01, 0.20, new MInteger(), new MInteger(), results.arrayOfSAR); 
+		RetCode returnCode = taLibCore.sar(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, 0.01, 0.20, new MInteger(), new MInteger(), results.arrayOfSAR); 
 				
 				//taLibCore.cci(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, periodLength.value, new MInteger(), new MInteger(), results.arrayOfCCI);
 		

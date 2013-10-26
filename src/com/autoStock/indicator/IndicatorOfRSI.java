@@ -24,7 +24,7 @@ public class IndicatorOfRSI extends IndicatorBase{
 	
 	public ResultsRSI analyize(){
 		results = new ResultsRSI(indicatorParameters.resultSetLength);
-		results.arrayOfDates = commonAnlaysisData.arrayOfDates;
+		results.arrayOfDates = arrayOfDates;
 		
 		RetCode returnCode = taLibCore.rsi(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfRSI);
 		handleAnalysisResult(returnCode);

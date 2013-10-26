@@ -23,8 +23,8 @@ public class SignalPointResolver {
 	}
 	
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
-		if (signalBase instanceof SignalWithSignalPoint){
-			return ((SignalWithSignalPoint)signalBase).getSignalPoint(havePosition, positionType);
+		if (signalBase instanceof SignalBaseWithPoint){
+			return ((SignalBaseWithPoint)signalBase).getSignalPoint(havePosition, positionType);
 		}
 		
 		if (havePosition == false){

@@ -100,22 +100,22 @@ public class IndicatorGroup {
 		
 		listOfIndicatorBase.clear();
 		listOfIndicatorBase.add(indicatorOfADX = new IndicatorOfADX(new IndicatorParametersForADX(), commonAnalysisData, taLibCore, SignalMetricType.metric_adx));
-		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(new IndicatorParametersForCCI(), commonAnalysisData, taLibCore, SignalMetricType.metric_cci));
-		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(new IndicatorParametersForDI(), commonAnalysisData, taLibCore, SignalMetricType.metric_di));
-		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(new IndicatorParametersForMACD(), commonAnalysisData, taLibCore, SignalMetricType.metric_macd));
-//		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.none));
-		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(new IndicatorParametersForRSI(), commonAnalysisData, taLibCore, SignalMetricType.metric_rsi));
-		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(new IndicatorParametersForTRIX(), commonAnalysisData, taLibCore, SignalMetricType.metric_trix));
-		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(new IndicatorParametersForROC(), commonAnalysisData, taLibCore, SignalMetricType.metric_roc));
-		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(new IndicatorParametersForMFI(), commonAnalysisData, taLibCore, SignalMetricType.metric_mfi));
-		listOfIndicatorBase.add(indicatorOfSTORSI = new IndicatorOfSTORSI(new IndicatorParametersForSTORSI(), commonAnalysisData, taLibCore, SignalMetricType.metric_storsi));
-		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(new IndicatorParametersForWILLR(), commonAnalysisData, taLibCore, SignalMetricType.metric_willr));
-		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(new IndicatorParametersForUO(), commonAnalysisData, taLibCore, SignalMetricType.metric_uo));
-		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(new IndicatorParametersForARUp(), commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
-		listOfIndicatorBase.add(indicatorOfSAR = new IndicatorOfSAR(new IndicatorParametersForSAR(), commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
+//		listOfIndicatorBase.add(indicatorOfCCI = new IndicatorOfCCI(new IndicatorParametersForCCI(), commonAnalysisData, taLibCore, SignalMetricType.metric_cci));
+//		listOfIndicatorBase.add(indicatorOfDI = new IndicatorOfDI(new IndicatorParametersForDI(), commonAnalysisData, taLibCore, SignalMetricType.metric_di));
+//		listOfIndicatorBase.add(indicatorOfMACD = new IndicatorOfMACD(new IndicatorParametersForMACD(), commonAnalysisData, taLibCore, SignalMetricType.metric_macd));
+////		listOfIndicatorBase.add(indicatorOfBB = new IndicatorOfBB(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.none));
+//		listOfIndicatorBase.add(indicatorOfRSI = new IndicatorOfRSI(new IndicatorParametersForRSI(), commonAnalysisData, taLibCore, SignalMetricType.metric_rsi));
+//		listOfIndicatorBase.add(indicatorOfTRIX = new IndicatorOfTRIX(new IndicatorParametersForTRIX(), commonAnalysisData, taLibCore, SignalMetricType.metric_trix));
+//		listOfIndicatorBase.add(indicatorOfROC = new IndicatorOfROC(new IndicatorParametersForROC(), commonAnalysisData, taLibCore, SignalMetricType.metric_roc));
+//		listOfIndicatorBase.add(indicatorOfMFI = new IndicatorOfMFI(new IndicatorParametersForMFI(), commonAnalysisData, taLibCore, SignalMetricType.metric_mfi));
+//		listOfIndicatorBase.add(indicatorOfSTORSI = new IndicatorOfSTORSI(new IndicatorParametersForSTORSI(), commonAnalysisData, taLibCore, SignalMetricType.metric_storsi));
+//		listOfIndicatorBase.add(indicatorOfWILLR = new IndicatorOfWILLR(new IndicatorParametersForWILLR(), commonAnalysisData, taLibCore, SignalMetricType.metric_willr));
+//		listOfIndicatorBase.add(indicatorOfUO = new IndicatorOfUO(new IndicatorParametersForUO(), commonAnalysisData, taLibCore, SignalMetricType.metric_uo));
+//		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(new IndicatorParametersForARUp(), commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
+//		listOfIndicatorBase.add(indicatorOfSAR = new IndicatorOfSAR(new IndicatorParametersForSAR(), commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
 		
 		listOfIndicatorBase.add(indicatorOfEMAFirst = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(9), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
-		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(28), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
+		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(3), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
 		
 		
 //		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters(new MutableInteger(30), 1) {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
