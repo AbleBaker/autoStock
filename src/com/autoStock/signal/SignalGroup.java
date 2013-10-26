@@ -6,29 +6,14 @@ import java.util.Arrays;
 import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForADX;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForARDown;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForARUp;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForCCI;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForCandlestickGroup;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForDI;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForEncog;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForMACD;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForMFI;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForROC;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForRSI;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForSTORSI;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForSAR;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
+import com.autoStock.signal.SignalDefinitions.*;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.signalMetrics.SignalOfADX;
 import com.autoStock.signal.signalMetrics.SignalOfARDown;
 import com.autoStock.signal.signalMetrics.SignalOfARUp;
 import com.autoStock.signal.signalMetrics.SignalOfCCI;
 import com.autoStock.signal.signalMetrics.SignalOfCandlestickGroup;
+import com.autoStock.signal.signalMetrics.SignalOfCrossover;
 import com.autoStock.signal.signalMetrics.SignalOfDI;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.signal.signalMetrics.SignalOfMACD;
@@ -62,6 +47,8 @@ public class SignalGroup {
 	public SignalOfARUp signalOfARUp = new SignalOfARUp(new SignalParametersForARUp());
 	public SignalOfARDown signalOfARDown = new SignalOfARDown(new SignalParametersForARDown());
 	
+	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover(){});
+	
 	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
 	
@@ -83,6 +70,8 @@ public class SignalGroup {
 		listOfSignalBase.add(signalOfUO);
 		listOfSignalBase.add(signalOfARUp);
 		listOfSignalBase.add(signalOfARDown);
+		
+		listOfSignalBase.add(signalOfCrossover);
 		
 		listOfSignalBase.add(signalOfCandlestickGroup);
 		listOfSignalBase.add(signalOfEncog);
@@ -106,6 +95,10 @@ public class SignalGroup {
 		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
 		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARUp));}
 		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
+		
+		if (indicatorGroup.resultsEMAFirst != null && indicatorGroup.resultsEMASecond != null){
+			signalOfCrossover.setInput(ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA), ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA));
+		}
 		
 		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
 		

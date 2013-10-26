@@ -37,6 +37,10 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Integer> listOfSignalARUp = new ArrayList<Integer>();
 	public ArrayList<Integer> listOfSignalARDown = new ArrayList<Integer>();
 	public ArrayList<Double> listOfIndicatorSAR = new ArrayList<Double>();
+	
+	public ArrayList<Double> listOfIndicatorEMAFirst = new ArrayList<Double>();
+	public ArrayList<Double> listOfIndicatorEMASecond = new ArrayList<Double>();
+	
 	//public ArrayList<Integer> listOfSignalSTORSID = new ArrayList<Integer>();
 
 	public ArrayList<Date> listOfDate = new ArrayList<Date>();
@@ -129,6 +133,10 @@ public class ChartForAlgorithmTest {
 		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_uo)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal UO", SignalMetricType.metric_uo, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalUO))));}
 		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_ar_up)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal AR", SignalMetricType.metric_ar_up, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalARUp))));}
 		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_ar_down)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal AR", SignalMetricType.metric_ar_down, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfInt(listOfSignalARDown))));}
+				
+		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Indicator EMA First", SignalMetricType.metric_crossover, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorEMAFirst))));
+		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Indicator EMA Second", SignalMetricType.metric_crossover, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorEMASecond))));
+		
 //		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_sar)){
 //		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal SAR", SignalMetricType.metric_sar, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorSAR))));//;}
 

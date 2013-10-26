@@ -23,6 +23,10 @@ public class SignalPointResolver {
 	}
 	
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
+		if (signalBase instanceof SignalWithSignalPoint){
+			return ((SignalWithSignalPoint)signalBase).getSignalPoint(havePosition, positionType);
+		}
+		
 		if (havePosition == false){
 			ArrayList<SignalGuage> listOfSignalGuageForLongEntry = signalBase.signalParameters.getGuagesForType(SignalPointType.long_entry, SignalGuageType.values());
 			ArrayList<SignalGuage> listOfSignalGuageForShortEntry = signalBase.signalParameters.getGuagesForType(SignalPointType.short_entry, SignalGuageType.values());
@@ -53,6 +57,10 @@ public class SignalPointResolver {
 	}
 	
 	private boolean allQualified(ArrayList<SignalGuage> listOfSignalGuage){
+		if (listOfSignalGuage.size() == 0){
+			return false;
+		}
+		
 		for (SignalGuage signalGuage : listOfSignalGuage){
 			if (getQualification(signalGuage) == false){
 				return false;

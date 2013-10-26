@@ -113,8 +113,8 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(new IndicatorParametersForARUp(), commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
 		listOfIndicatorBase.add(indicatorOfSAR = new IndicatorOfSAR(new IndicatorParametersForSAR(), commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
 		
-//		listOfIndicatorBase.add(indicatorOfEMAFirst = new IndicatorOfEMA(signalGroup.signalOfEMAF.signalParameters.periodLength, 0, commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
-//		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(signalGroup.signalOfARUp.signalParameters.periodLength, 0, commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
+		listOfIndicatorBase.add(indicatorOfEMAFirst = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(30), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_ema));
+		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(15), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_ema));
 		
 		
 		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters(new MutableInteger(30), 1) {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
@@ -151,6 +151,11 @@ public class IndicatorGroup {
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo)){resultsUO = indicatorOfUO.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_ar_up)){resultsAR = indicatorOfAR.analyize();}
 		if (listOfSignalMetricType.contains(SignalMetricType.metric_sar)){resultsSAR = indicatorOfSAR.analyize();}
+		
+		if (listOfSignalMetricType.contains(SignalMetricType.metric_crossover)){
+			resultsEMAFirst = indicatorOfEMAFirst.analyize();
+			resultsEMASecond = indicatorOfEMASecond.analyize();
+		}
 		
 //		Co.println("-->X: " + signalGroup.signalOfUO.getStrengthWindow().length);
 		

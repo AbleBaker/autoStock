@@ -102,7 +102,7 @@ public abstract class IndicatorBase {
 	
 	public void handleAnalysisResult(RetCode returnCode){
 		if (returnCode != RetCode.Success){
-//			throw new IllegalStateException("Result code was not success...");
+			throw new IllegalStateException("Result code was not success...");
 		}
 	}
 }

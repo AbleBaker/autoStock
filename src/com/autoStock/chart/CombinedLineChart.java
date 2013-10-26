@@ -173,7 +173,7 @@ public class CombinedLineChart {
 			    for (TimeSeries timeSeries : (List<TimeSeries>) getPairForType(TimeSeriesType.type_signals).timeSeriesCollection.getSeries()){
 			    	SignalMetricType signalMetricType = SignalDefinitions.SignalMetricType.valueOf(timeSeries.getDescription());
 			    	
-			    	if (algorithmBase.signalGroup.getSignalBaseForType(signalMetricType) == null){
+			    	if (algorithmBase.signalGroup.getSignalBaseForType(signalMetricType) == null || algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.hasValidGuages() == false){
 			    		continue;
 			    	}
 			    	

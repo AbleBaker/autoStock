@@ -72,6 +72,8 @@ public class SignalDefinitions {
 		metric_ar_up,
 		metric_ar_down,
 		metric_sar,
+		metric_ema,
+		metric_crossover,
 		
 		metric_candlestick_group,
 		metric_encog,
@@ -132,7 +134,7 @@ public class SignalDefinitions {
 			ArrayList<SignalGuage> listOfGuagesForType = new ArrayList<SignalGuage>();
 			
 			for (Pair<SignalPointType, SignalGuage[]> pair : listOfGuages){
-				if (pair.first == signalPointType){
+				if (pair.first == signalPointType && pair.second != null){
 					for (SignalGuage signalGuage : pair.second){
 						for (SignalGuageType signalGuageType : arrayOfSignalGuageTypes){
 							if (signalGuage.mutableEnumForSignalGuageType.value == signalGuageType){
@@ -149,6 +151,13 @@ public class SignalDefinitions {
 		public SignalParameters copy(){
 //			return new Gson().fromJson(new Gson().toJson(this), this.getClass());
 			return new Cloner().deepClone(this);
+		}
+
+		public boolean hasValidGuages() {
+			if (arrayOfSignalGuageForLongEntry == null || arrayOfSignalGuageForLongExit == null || arrayOfSignalGuageForShortEntry == null || arrayOfSignalGuageForShortExit == null){
+				return false;
+			}
+			return true;
 		}
 	}
 	
