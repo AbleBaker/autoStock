@@ -20,7 +20,7 @@ public class SignalOfSAR extends SignalBase {
 	}
 	
 	public void setInput(double value, double priceClose){
-		Co.println("--> Set value: " + value + ", " + priceClose);
+//		Co.println("--> Set value: " + value + ", " + priceClose);
 		super.setInput(priceClose);
 	}
 	

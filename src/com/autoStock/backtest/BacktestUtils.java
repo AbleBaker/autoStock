@@ -195,7 +195,7 @@ public class BacktestUtils {
 			String stringForSignal = new String();
 
 			for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()) {
-				stringForSignal += signalMoment.signalMetricType.name() + ":" + signalMoment.strength + ", ";
+				stringForSignal += signalMoment.signalMetricType.name() + ":" + new DecimalFormat("0.00").format(signalMoment.strength) + ", ";
 			}
 
 			listOfString.add(stringForSignal);

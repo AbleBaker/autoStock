@@ -27,13 +27,13 @@ public class AdjustmentOfSignalMetricThreshold extends AdjustmentBase {
 	@Override
 	public void applyValue() {
 		if (adjustmentType == AdjustmentType.signal_metric_long_entry){
-			signalBase.signalParameters.getGuagesForType(SignalPointType.long_entry, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold = ((IterableOfInteger)iterableBase).getInt();			
+			signalBase.signalParameters.getGuagesForType(SignalPointType.long_entry, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold = ((IterableOfDouble)iterableBase).getDouble();			
 		}else if (adjustmentType == AdjustmentType.signal_metric_long_exit){
-			signalBase.signalParameters.getGuagesForType(SignalPointType.long_exit, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold = ((IterableOfInteger)iterableBase).getInt();
+			signalBase.signalParameters.getGuagesForType(SignalPointType.long_exit, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold = ((IterableOfDouble)iterableBase).getDouble();
 		}else if (adjustmentType == AdjustmentType.signal_metric_short_entry){
-			signalBase.signalParameters.getGuagesForType(SignalPointType.short_entry, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold = ((IterableOfInteger)iterableBase).getInt();
+			signalBase.signalParameters.getGuagesForType(SignalPointType.short_entry, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold = ((IterableOfDouble)iterableBase).getDouble();
 		}else if (adjustmentType == AdjustmentType.signal_metric_short_exit){
-			signalBase.signalParameters.getGuagesForType(SignalPointType.short_exit, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold = ((IterableOfInteger)iterableBase).getInt();
+			signalBase.signalParameters.getGuagesForType(SignalPointType.short_exit, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold = ((IterableOfDouble)iterableBase).getDouble();
 		}else {
 			throw new UnsupportedOperationException("Unknown adjustment type: " + adjustmentType.name());
 		}
@@ -41,7 +41,7 @@ public class AdjustmentOfSignalMetricThreshold extends AdjustmentBase {
 //		Co.println("--> Adjusted: " + adjustmentType.name() + ", " + iterableBase.getCurrentIndex() + "," + ((IterableOfInteger)iterableBase).getInt());
 	}
 	
-	public int getValue(){
-		return ((IterableOfInteger)iterableBase).getInt();
+	public double getValue(){
+		return ((IterableOfDouble)iterableBase).getDouble();
 	}
 }

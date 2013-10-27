@@ -11,14 +11,14 @@ import com.autoStock.types.basic.MutableEnum;
 public class SignalGuage {
 	public final MutableEnum<SignalGuageType> mutableEnumForSignalGuageType;
 	public final SignalBounds signalBounds;
-	public int threshold;
+	public double threshold;
 	
 	public SignalGuage(MutableEnum<SignalGuageType> mutableEnumForSignalGuageType, SignalBounds signalBounds) {
 		this.mutableEnumForSignalGuageType = mutableEnumForSignalGuageType;
 		this.signalBounds = signalBounds;
 	}
 	
-	public SignalGuage(MutableEnum<SignalGuageType> mutableEnumForSignalGuageType, SignalBounds signalBounds, int threshold) {
+	public SignalGuage(MutableEnum<SignalGuageType> mutableEnumForSignalGuageType, SignalBounds signalBounds, double threshold) {
 		this.mutableEnumForSignalGuageType = mutableEnumForSignalGuageType;
 		this.signalBounds = signalBounds;
 		this.threshold = threshold;
