@@ -64,6 +64,7 @@ public class BacktestEvaluation {
 		public String signalName;
 		public String signalPointType;
 		public int maxSignalAverage;
+		public String extras;
 		
 		public ArrayList<DescriptorForGuage> listOfDescriptorForGuage = new ArrayList<DescriptorForGuage>();
 		
@@ -72,7 +73,7 @@ public class BacktestEvaluation {
 		@Override
 		public String toString() {
 			String string = new String();
-			string += signalName + "(" + maxSignalAverage + "), " + signalPointType;
+			string += signalName + "(" + maxSignalAverage + extras + "), " + signalPointType;
 			string += "\n";
 			
 			for (DescriptorForGuage descriptorForGuage : listOfDescriptorForGuage){

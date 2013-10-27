@@ -30,7 +30,9 @@ import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.signalMetrics.SignalOfCrossover;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -74,6 +76,10 @@ public class BacktestEvaluationBuilder {
 					for (SignalGuage signalGuage : arrayOfSignalGuage){
 						descriptorForSignal.listOfDescriptorForGuage.add(new DescriptorForGuage(signalGuage));
 					}
+				}
+				
+				if (signalBase instanceof SignalOfCrossover){
+					descriptorForSignal.extras = " Long/Short gap: " + ((SignalParametersForCrossover)signalBase.signalParameters).longGapSize.value + ", " + ((SignalParametersForCrossover)signalBase.signalParameters).shortGapSize.value;
 				}
 				
 				backtestEvaluation.listOfDescriptorForSignal.add(descriptorForSignal);

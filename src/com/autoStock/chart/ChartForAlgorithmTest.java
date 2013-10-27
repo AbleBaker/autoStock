@@ -83,8 +83,8 @@ public class ChartForAlgorithmTest {
 	public static enum TimeSeriesType {
 		type_signals("Signals"),
 		type_price("Price"),
-		type_value("Value"),
-		type_yield("Yield"),
+		type_value("Yield"),
+		type_yield("Value"),
 		type_long_entry_price("Long Entry"),
 		type_short_entry_price("Short Entry"),
 		type_reentry_price("Reentry"),

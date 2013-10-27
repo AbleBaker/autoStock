@@ -289,7 +289,7 @@ public class CombinedLineChart {
 //			subPlotForPrice.getRangeAxis().setAutoRange(true);
 			((NumberAxis)subPlotForYield.getRangeAxis()).setAutoRangeIncludesZero(false);
 			subPlotForYield.setRangeAxisLocation(0, AxisLocation.BOTTOM_OR_RIGHT);
-			subPlotForYield.getRangeAxis().setRange(-0.5, 1.5);
+			subPlotForYield.getRangeAxis().setRange(-0.5, 3.0);
 	        subPlotForYield.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
 	        
 //	        subPlotForPrice.setDataset(5, getPairForType(TimeSeriesType.type_short_exit_price).timeSeriesCollection);
@@ -302,7 +302,7 @@ public class CombinedLineChart {
 	        subPlotForYield.setRangeAxisLocation(1, AxisLocation.BOTTOM_OR_LEFT);
 	        subPlotForYield.setRenderer(1, new StandardXYItemRenderer());
 	        subPlotForYield.getRenderer(1).setSeriesPaint(0, Color.decode("#D0D0D0"));
-	        subPlotForYield.getRangeAxis(1).setRange(-0.5, 1.5);
+	        subPlotForYield.getRangeAxis(1).setRange(-0.5, 3.0);
 //			((NumberAxis)subPlotForPrice.getRangeAxis(1)).setAutoRangeIncludesZero(false);
 //	        subPlotForPrice.getRangeAxis().setAutoRange(true);
 	        subPlotForYield.mapDatasetToRangeAxis(1, 1);
