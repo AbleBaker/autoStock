@@ -22,20 +22,7 @@ import com.autoStock.indicator.results.ResultsSTORSI;
 import com.autoStock.indicator.results.ResultsTRIX;
 import com.autoStock.indicator.results.ResultsUO;
 import com.autoStock.indicator.results.ResultsWILLR;
-import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForADX;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForARUp;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForCCI;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForDI;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMACD;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMFI;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForROC;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForRSI;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForSAR;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForSTORSI;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForTRIX;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForUO;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForWILLR;
+import com.autoStock.signal.SignalDefinitions.*;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.taLib.Core;
@@ -114,8 +101,8 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(indicatorOfAR = new IndicatorOfAR(new IndicatorParametersForARUp(), commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
 		listOfIndicatorBase.add(indicatorOfSAR = new IndicatorOfSAR(new IndicatorParametersForSAR(), commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
 		
-		listOfIndicatorBase.add(indicatorOfEMAFirst = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(10), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
-		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(new IndicatorParameters(new MutableInteger(3), 1){}, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
+		listOfIndicatorBase.add(indicatorOfEMAFirst = new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
+		listOfIndicatorBase.add(indicatorOfEMASecond = new IndicatorOfEMA(new IndicatorParametersForEMASecond(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
 		
 		
 //		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters(new MutableInteger(30), 1) {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));

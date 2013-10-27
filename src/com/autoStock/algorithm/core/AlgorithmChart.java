@@ -44,8 +44,8 @@ public class AlgorithmChart {
 		chart.listOfSignalARDown.add(algorithmBase.signalGroup.signalOfARDown.getStrength());
 		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
 		
-//		chart.listOfIndicatorEMAFirst.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMAFirst.arrayOfEMA));
-//		chart.listOfIndicatorEMASecond.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMASecond.arrayOfEMA));
+		chart.listOfIndicatorEMAFirst.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMAFirst.arrayOfEMA));
+		chart.listOfIndicatorEMASecond.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMASecond.arrayOfEMA));
 		
 		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
 		chart.listOfIndicatorSAR.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsSAR.arrayOfSAR));

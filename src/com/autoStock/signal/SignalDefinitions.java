@@ -91,7 +91,7 @@ public class SignalDefinitions {
 			this.resultSetLength = resultSetLength;
 		}
 		
-		public IndicatorParameters(){}
+		public IndicatorParameters(){} //For Gson
 		
 		public IndicatorParameters copy(){
 			return new Cloner().deepClone(this);
@@ -395,6 +395,10 @@ public class SignalDefinitions {
 		}
 	}
 	
+	public static class IndicatorParametersForEMAFirst extends IndicatorParameters {
+		public IndicatorParametersForEMAFirst() {super(new MutableInteger(30), 1);}
+	}
+	
 	public static class SignalParametersForEMASecond extends SignalParameters {
 		public SignalParametersForEMASecond(){
 			super(new NormalizeInterface(){@Override public double normalize(double input) {return input;}}, new MutableInteger(3),
@@ -403,6 +407,10 @@ public class SignalDefinitions {
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
 		}
+	}
+	
+	public static class IndicatorParametersForEMASecond extends IndicatorParameters {
+		public IndicatorParametersForEMASecond() {super(new MutableInteger(30), 1);}
 	}
 	
 	public static class SignalParametersForCrossover extends SignalParameters {

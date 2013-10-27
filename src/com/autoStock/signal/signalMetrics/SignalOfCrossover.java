@@ -12,6 +12,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.SignalBaseWithPoint;
+import com.autoStock.types.basic.MutableDouble;
 import com.autoStock.types.basic.MutableInteger;
 
 /**
@@ -19,8 +20,8 @@ import com.autoStock.types.basic.MutableInteger;
  *
  */
 public class SignalOfCrossover extends SignalBaseWithPoint {
-	public MutableInteger longGapSize = new MutableInteger(5);
-	public MutableInteger shortGapSize = new MutableInteger(-10);
+	public MutableDouble longGapSize = new MutableDouble(5);
+	public MutableDouble shortGapSize = new MutableDouble(-10);
 
 	public SignalOfCrossover(SignalMetricType signalMetricType, SignalParameters signalParameters) {
 		super(signalMetricType, signalParameters);

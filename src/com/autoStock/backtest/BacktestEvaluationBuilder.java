@@ -57,12 +57,10 @@ public class BacktestEvaluationBuilder {
 		if (backtestResultTransactionDetails.countForTradesLoss > 0){backtestEvaluation.percentTradeLoss = 100 * (double)backtestResultTransactionDetails.countForTradesLoss / (double)backtestResultTransactionDetails.countForTradeExit;}
 		backtestEvaluation.percentYield = backtestContainer.algorithm.getYieldComplete();
 		
-		backtestEvaluation.algorithmModel.strategyOptions = backtestContainer.algorithm.strategyBase.strategyOptions.copy();
+		backtestEvaluation.algorithmModel = AlgorithmModel.getCurrentAlgorithmModel(backtestContainer.algorithm);
 		
 		for (SignalBase signalBase : backtestContainer.algorithm.strategyBase.signal.getListOfSignalBase()){
 			ArrayList<Pair<SignalPointType, SignalGuage[]>> list = signalBase.signalParameters.getGuages();
-			
-			backtestEvaluation.algorithmModel.listOfSignalParameters.add(signalBase.signalParameters.copy());
 			
 			for (Pair<SignalPointType, SignalGuage[]> pair : list){
 				SignalGuage[] arrayOfSignalGuage = pair.second;

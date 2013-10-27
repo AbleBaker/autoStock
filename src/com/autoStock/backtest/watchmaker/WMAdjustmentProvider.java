@@ -25,24 +25,29 @@ public class WMAdjustmentProvider {
 	public ArrayList<AdjustmentBase> getListOfAdjustmentBase(AlgorithmBase algorithmBase){
 		ArrayList<AdjustmentBase> listOfAdjustmentBase = new ArrayList<AdjustmentBase>();
 		
-		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfUO);
+     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 1", algorithmBase.indicatorGroup.indicatorOfEMAFirst.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
+     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 2", algorithmBase.indicatorGroup.indicatorOfEMASecond.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
+     	
+     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Long gap size", algorithmBase.signalGroup.signalOfCrossover.longGapSize, new IterableOfDouble(3, 60, 1)));
+		
+//		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfUO);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfRSI);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfWILLR);
 		
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.indicatorGroup.indicatorOfUO.indicatorParameters.periodLength, new IterableOfInteger(20, 60, 1)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.indicatorGroup.indicatorOfUO.indicatorParameters.periodLength, new IterableOfInteger(20, 60, 1)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.signalGroup.signalOfCCI.signalParameters.periodLength, new IterableOfInteger(20, 60, 1)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.signalGroup.signalOfRSI.signalParameters.periodLength, new IterableOfInteger(20, 60, 1)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.indicatorGroup.indicatorOfWILLR.indicatorParameters.periodLength, new IterableOfInteger(20, 60, 1)));
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Average UO", algorithmBase.signalGroup.signalOfUO.signalParameters.maxSignalAverage, new IterableOfInteger(1, 20, 1)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Average UO", algorithmBase.signalGroup.signalOfUO.signalParameters.maxSignalAverage, new IterableOfInteger(1, 20, 1)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Average CCI", algorithmBase.signalGroup.signalOfCCI.signalParameters.maxSignalAverage, new IterableOfInteger(1, 20, 1)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Average RSI", algorithmBase.signalGroup.signalOfRSI.signalParameters.maxSignalAverage, new IterableOfInteger(1, 20, 1)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Average WILLR", algorithmBase.signalGroup.signalOfWILLR.signalParameters.maxSignalAverage, new IterableOfInteger(1, 20, 1)));
-
-		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Long Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType));
-		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Long Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongExit[0].mutableEnumForSignalGuageType));
-		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Short Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForShortEntry[0].mutableEnumForSignalGuageType));
-		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Short Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForShortExit[0].mutableEnumForSignalGuageType));
+//
+//		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Long Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType));
+//		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Long Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForLongExit[0].mutableEnumForSignalGuageType));
+//		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Short Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForShortEntry[0].mutableEnumForSignalGuageType));
+//		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("UO Guage Short Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfUO.signalParameters.arrayOfSignalGuageForShortExit[0].mutableEnumForSignalGuageType));
      	
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("CCI Guage Long Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfCCI.signalParameters.arrayOfSignalGuageForLongEntry[0].mutableEnumForSignalGuageType));
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("CCI Guage Long Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfCCI.signalParameters.arrayOfSignalGuageForLongExit[0].mutableEnumForSignalGuageType));
