@@ -9,6 +9,7 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.SignalBaseWithPoint;
@@ -20,9 +21,6 @@ import com.autoStock.types.basic.MutableInteger;
  *
  */
 public class SignalOfCrossover extends SignalBaseWithPoint {
-	public MutableDouble longGapSize = new MutableDouble(5);
-	public MutableDouble shortGapSize = new MutableDouble(-10);
-
 	public SignalOfCrossover(SignalMetricType signalMetricType, SignalParameters signalParameters) {
 		super(signalMetricType, signalParameters);
 	}
@@ -43,17 +41,24 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 		
 //		Co.println("--> Current gap: " + currentGap);
 		
-		if (currentGap > longGapSize.value && havePosition == false){
-			return new SignalPoint(SignalPointType.long_entry, signalMetricType); 
+		if (currentGap > ((SignalParametersForCrossover)signalParameters).longGapSize.value && havePosition == false){
+			return new SignalPoint(SignalPointType.long_entry, signalMetricType);
 		}else if (currentGap <= 0 && havePosition){
-			if (positionType == PositionType.position_long){
-				return new SignalPoint(SignalPointType.long_exit, signalMetricType);
-			}else if (positionType == PositionType.position_short){
-				return new SignalPoint(SignalPointType.short_exit, signalMetricType);	
-			}
-		}else if (currentGap < shortGapSize.value && havePosition == false){
-//			return new SignalPoint(SignalPointType.short_entry, signalMetricType);
+			return new SignalPoint(SignalPointType.long_exit, signalMetricType);
 		}
+		
+//		
+//		if (currentGap > longGapSize.value && havePosition == false){
+//			return new SignalPoint(SignalPointType.long_entry, signalMetricType); 
+//		}else if (currentGap <= 0 && havePosition){
+//			if (positionType == PositionType.position_long){
+//				return new SignalPoint(SignalPointType.long_exit, signalMetricType);
+//			}else if (positionType == PositionType.position_short){
+//				return new SignalPoint(SignalPointType.short_exit, signalMetricType);	
+//			}
+//		}else if (currentGap < shortGapSize.value && havePosition == false){
+////			return new SignalPoint(SignalPointType.short_entry, signalMetricType);
+//		}
 		
 		return new SignalPoint();
 	}

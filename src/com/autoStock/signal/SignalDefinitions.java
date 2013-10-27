@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
+import com.autoStock.types.basic.MutableDouble;
 import com.autoStock.types.basic.MutableEnum;
 import com.autoStock.types.basic.MutableInteger;
 import com.google.gson.internal.Pair;
@@ -421,6 +422,9 @@ public class SignalDefinitions {
 			null,
 			null);
 		}
+		
+		public MutableDouble longGapSize = new MutableDouble(0);
+		public MutableDouble shortGapSize = new MutableDouble(0);
 	}
 	
 	public static class SignalParametersForEncog extends SignalParameters {

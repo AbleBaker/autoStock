@@ -14,6 +14,7 @@ import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
 import com.autoStock.signal.SignalPointTacticResolver.SignalPointTactic;
 
@@ -28,7 +29,7 @@ public class WMAdjustmentProvider {
      	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 1", algorithmBase.indicatorGroup.indicatorOfEMAFirst.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
      	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 2", algorithmBase.indicatorGroup.indicatorOfEMASecond.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
      	
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Long gap size", algorithmBase.signalGroup.signalOfCrossover.longGapSize, new IterableOfDouble(3, 60, 1)));
+     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Long gap size", ((SignalParametersForCrossover)algorithmBase.signalGroup.signalOfCrossover.signalParameters).longGapSize, new IterableOfDouble(1, 15, 0.25)));
 		
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfUO);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
