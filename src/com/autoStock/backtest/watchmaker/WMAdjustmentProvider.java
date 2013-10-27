@@ -30,6 +30,7 @@ public class WMAdjustmentProvider {
      	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 2", algorithmBase.indicatorGroup.indicatorOfEMASecond.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
      	
      	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Long gap size", ((SignalParametersForCrossover)algorithmBase.signalGroup.signalOfCrossover.signalParameters).longGapSize, new IterableOfDouble(1, 15, 0.25)));
+     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Short gap size", ((SignalParametersForCrossover)algorithmBase.signalGroup.signalOfCrossover.signalParameters).shortGapSize, new IterableOfDouble(-15, 1, 0.25)));
 		
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfUO);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);

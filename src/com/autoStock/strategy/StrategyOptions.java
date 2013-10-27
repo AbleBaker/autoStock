@@ -36,6 +36,7 @@ public class StrategyOptions implements Cloneable {
 	public MutableInteger maxReenterTimesPerPosition = new MutableInteger();
 	public MutableInteger intervalForReentryMins = new MutableInteger();
 	public MutableInteger intervalForEntryAfterExitWithLossMins = new MutableInteger();
+	public MutableInteger intervalForEntryWithSameSignalPointType = new MutableInteger();
 	public MutableInteger prefillShift = new MutableInteger();
 	public MutableDouble disableAfterYield = new MutableDouble();
 	public boolean prefillEnabled;
@@ -63,6 +64,7 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Signal point tactic (entry): " + signalPointTacticForEntry.value.name();
 		string += "\n - Signal point tactic (exit): " + signalPointTacticForExit.value.name();
 		string += "\n - Entry after loss interval minutes: " + intervalForEntryAfterExitWithLossMins.value;
+		string += "\n - Entry after exit with same signal point type: " + intervalForEntryWithSameSignalPointType.value;
 		string += "\n - Reentry interval minutes: " + intervalForReentryMins.value;
 		string += "\n - Reentry maximum frequency: " + maxReenterTimesPerPosition.value;
 		string += "\n - Reentry minimum gain: " + minReentryPercentGain.value;

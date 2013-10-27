@@ -39,6 +39,8 @@ public class StrategyResponse {
 		cease_disabled,
 		pass_condition_quotslice,
 		pass_condition_previous_loss,
+		pass_condition_previous_exit_long,
+		pass_condition_previous_exit_short,
 		position_governor_failure,
 		proceed_changed,
 		none,
