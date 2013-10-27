@@ -32,8 +32,6 @@ public class IndicatorOfUO extends IndicatorBase {
 		
 		handleAnalysisResult(returnCode);
 		
-		Co.println("--> Period length is: " + indicatorParameters.periodLength.value);
-		
 		return results;
 	}
 }
