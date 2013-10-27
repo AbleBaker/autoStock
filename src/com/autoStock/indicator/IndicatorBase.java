@@ -58,7 +58,7 @@ public abstract class IndicatorBase {
 		}
 	
 		if (initialLength != getRequiredDatasetLength()){
-			Co.println("-->  N " + (initialLength - getRequiredDatasetLength()) + ", " + getRequiredDatasetLength() + ", " + initialLength);
+//			Co.println("-->  N " + (initialLength - getRequiredDatasetLength()) + ", " + getRequiredDatasetLength() + ", " + initialLength);
 			arrayOfDates = Arrays.copyOfRange(commonAnlaysisData.arrayOfDates, initialLength - getRequiredDatasetLength(), initialLength);
 			arrayOfPriceOpen = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceOpen, initialLength - getRequiredDatasetLength(), initialLength);
 			arrayOfPriceHigh = Arrays.copyOfRange(commonAnlaysisData.arrayOfPriceHigh, initialLength -getRequiredDatasetLength(), initialLength);

@@ -27,7 +27,7 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 	}
 	
 	public void setInput(double valueFirst, double valueSecond){
-		Co.println("--> ? " + valueFirst + ", " + valueSecond);
+//		Co.println("--> ? " + valueFirst + ", " + valueSecond);
 		super.setInput((valueSecond - valueFirst) * 100);
 	}
 	
@@ -40,7 +40,7 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		double currentGap = getStrength();
 		
-		Co.println("--> Current gap: " + currentGap);
+//		Co.println("--> Current gap: " + currentGap);
 		
 		if (currentGap > longGapSize.value && havePosition == false){
 			return new SignalPoint(SignalPointType.long_entry, signalMetricType); 

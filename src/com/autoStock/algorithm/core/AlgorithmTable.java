@@ -43,14 +43,14 @@ public class AlgorithmTable {
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
 		columnValues.add(decimalFormat.format(quoteSlice.priceClose));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
-		columnValues.add(String.valueOf(signalGroup.signalOfDI.getStrength()));
-		columnValues.add(String.valueOf(signalGroup.signalOfCCI.getStrength()));
-		columnValues.add(String.valueOf(signalGroup.signalOfRSI.getStrength()));
-		columnValues.add(String.valueOf(signalGroup.signalOfMACD.getStrength()));
-		columnValues.add(String.valueOf(signalGroup.signalOfTRIX.getStrength()));
-		columnValues.add(String.valueOf(signalGroup.signalOfROC.getStrength()));
-		columnValues.add(String.valueOf(signalGroup.signalOfMFI.getStrength()));
-		columnValues.add(String.valueOf(signalGroup.signalOfWILLR.getStrength()));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfDI.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfCCI.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfRSI.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMACD.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfTRIX.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfROC.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMFI.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfWILLR.getStrength())));
 		
 		columnValues.add(strategyResponse.positionGovernorResponse.status.name());
 		columnValues.add(strategyResponse.strategyAction == StrategyAction.no_change ? "-" : (strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name()));
