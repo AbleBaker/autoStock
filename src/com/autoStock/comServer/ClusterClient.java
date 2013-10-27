@@ -20,6 +20,7 @@ import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommand;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -88,6 +89,7 @@ public class ClusterClient {
 						} else if (receivedLine.trim().equals(CommunicationCommand.com_end_command.command)) {
 							GsonBuilder gsonBuilder = new GsonBuilder();
 							gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+							gsonBuilder.registerTypeAdapter(IndicatorParameters.class, new GsonClassAdapter());
 							CommandHolder<?> commandHolder = gsonBuilder.create().fromJson(receivedString, CommandHolder.class);
 							
 							switch (commandHolder.command){

@@ -49,7 +49,7 @@ public class SignalGroup {
 	public SignalOfARDown signalOfARDown = new SignalOfARDown(new SignalParametersForARDown());
 	public SignalOfSAR signalOfSAR = new SignalOfSAR(new SignalParametersForSAR());
 	
-	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover(){});
+	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover());
 	
 	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());

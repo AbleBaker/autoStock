@@ -25,6 +25,7 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalRangeLimit;
+import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
@@ -81,6 +82,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 				Co.println("--> Evaluation available");
 				GsonBuilder gsonBuilder = new GsonBuilder();
 				gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
+				gsonBuilder.registerTypeAdapter(IndicatorParameters.class, new GsonClassAdapter());
 				
 				BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);
 				algorithm.remodel(backtestEvaluation);
