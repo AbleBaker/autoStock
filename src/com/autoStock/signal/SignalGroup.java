@@ -98,7 +98,7 @@ public class SignalGroup {
 		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
 		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARUp));}
 		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
-		if (indicatorGroup.resultsSAR != null){signalOfSAR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSAR.arrayOfSAR));}
+		if (indicatorGroup.resultsSAR != null){signalOfSAR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSAR.arrayOfSAR), ArrayTools.getLastElement(commonAnlaysisData.arrayOfPriceClose));}
 		
 		if (indicatorGroup.resultsEMAFirst != null && indicatorGroup.resultsEMASecond != null){
 			signalOfCrossover.setInput(ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA), ArrayTools.getLastElement(indicatorGroup.resultsEMASecond.arrayOfEMA));
@@ -110,7 +110,7 @@ public class SignalGroup {
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
-			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(ArrayTools.convertToDouble(signalOfUO.getStrengthWindow())), 0, ENCOG_SIGNAL_INPUT));
+			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfUO.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
 //			encogWindow.addInputList(signalOfRSI.listOfNormalizedValue.subList(signalOfRSI.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfRSI.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfUO.listOfNormalizedValue.subList(signalOfUO.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfUO.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfARUp.listOfNormalizedValue.subList(signalOfARUp.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARUp.listOfNormalizedValue.size()));

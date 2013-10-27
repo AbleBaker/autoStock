@@ -33,7 +33,7 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 	
 	@Override
 	public void setInput(double value) {
-		throw new IllegalComponentStateException("Not possible");
+		throw new IllegalAccessError("Use the other signature");
 	}
 
 	@Override

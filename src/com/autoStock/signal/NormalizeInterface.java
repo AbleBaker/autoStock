@@ -5,5 +5,5 @@ package com.autoStock.signal;
  *
  */
 public interface NormalizeInterface {
-	public int normalize(double input);
+	public double normalize(double input);
 }

@@ -7,11 +7,11 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
  *
  */
 public class SignalMoment {
-	public final int strength;
+	public final double strength;
 	public final SignalMetricType signalMetricType;
 	public final SignalPoint signalPoint;
 	
-	public SignalMoment(SignalMetricType signalMetricType, int strength, SignalPoint signalPoint) {
+	public SignalMoment(SignalMetricType signalMetricType, double strength, SignalPoint signalPoint) {
 		this.strength = strength;
 		this.signalMetricType = signalMetricType;
 		this.signalPoint = signalPoint;

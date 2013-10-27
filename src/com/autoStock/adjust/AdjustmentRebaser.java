@@ -31,17 +31,17 @@ public class AdjustmentRebaser {
 
 				for (SignalBase signalBase : backtestContainer.hashOfSignalRangeLimit.keySet()){
 					if (adjustmentOfSignalMetric.signalBase.getClass() == signalBase.getClass()){
-						IterableOfInteger iterableOfInteger = ((IterableOfInteger)adjustmentOfSignalMetric.iterableBase);
+						IterableOfDouble iterableOfDouble = ((IterableOfDouble)adjustmentOfSignalMetric.iterableBase);
 						
 						Co.println("--> Rebasing adjustment: " + adjustmentOfSignalMetric.description);
 						
 //						if (iterableOfInteger.rebaseRequired){
-							int min = backtestContainer.hashOfSignalRangeLimit.get(signalBase).getMin();
-							int max = backtestContainer.hashOfSignalRangeLimit.get(signalBase).getMax();
+							double min = backtestContainer.hashOfSignalRangeLimit.get(signalBase).getMin();
+							double max = backtestContainer.hashOfSignalRangeLimit.get(signalBase).getMax();
 						
-							iterableOfInteger.rebase(min, max);
+							iterableOfDouble.rebase(min, max);
 						
-							Co.println("--> " + adjustmentOfSignalMetric.description + ", " + min + ", " + max + " rebase adjusted to: " + iterableOfInteger.getMin() + ", " + iterableOfInteger.getMax());
+							Co.println("--> " + adjustmentOfSignalMetric.description + ", " + min + ", " + max + " rebase adjusted to: " + iterableOfDouble.getMin() + ", " + iterableOfDouble.getMax());
 //						}
 					}
 				}

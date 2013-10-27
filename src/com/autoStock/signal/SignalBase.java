@@ -16,9 +16,9 @@ import com.autoStock.types.basic.MutableInteger;
 
 public abstract class SignalBase {
 	public SignalMetricType signalMetricType = SignalMetricType.none;
-	protected ArrayList<Integer> listOfNormalizedValue = new ArrayList<Integer>();
-	protected ArrayList<Integer> listOfNormalizedAveragedValue = new ArrayList<Integer>();
-	protected ArrayList<Integer> listOfNormalizedAveragedValuePersist = new ArrayList<Integer>();
+	protected ArrayList<Double> listOfNormalizedValue = new ArrayList<Double>();
+	protected ArrayList<Double> listOfNormalizedAveragedValue = new ArrayList<Double>();
+	protected ArrayList<Double> listOfNormalizedAveragedValuePersist = new ArrayList<Double>();
 	protected MutableInteger maxSignalAverage;
 	public SignalParameters signalParameters;
 	public SignalRangeLimit signalRangeLimit = new SignalRangeLimit();
@@ -29,11 +29,11 @@ public abstract class SignalBase {
 		maxSignalAverage = signalParameters.maxSignalAverage;
 	}
 	
-	public int[] getStrengthWindow(){
-		return ArrayTools.getArrayFromListOfInt(listOfNormalizedAveragedValue);
+	public double[] getStrengthWindow(){
+		return ArrayTools.getArrayFromListOfDouble(listOfNormalizedAveragedValue);
 	}
 
-	public int getStrength(){
+	public double getStrength(){
 		if (listOfNormalizedValue.size() == 0){return 0;}
 //		Co.println("--> Size: " + listOfNormalizedValue.size() + ", " +maxSignalAverage.value + this.getClass().getName());
 
@@ -44,7 +44,7 @@ public abstract class SignalBase {
 			normalizedValue += listOfNormalizedValue.get(listOfNormalizedValue.size() - i -1);
 		}
 		
-		return (int)normalizedValue / normalizationSize;
+		return normalizedValue / normalizationSize;
 //		return listOfNormalizedValue.get(listOfNormalizedValue.size()-1);
 	}
 	
@@ -53,7 +53,7 @@ public abstract class SignalBase {
 	}
 	
 	public void setInput(double value){
-		int strength = getStrength();
+		double strength = getStrength();
 		listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value));
 		listOfNormalizedAveragedValue.add(strength);
 		signalRangeLimit.addValue(strength);
@@ -75,7 +75,7 @@ public abstract class SignalBase {
 	public double getMiddle(){
 		double middle = 0;
 		
-		for (Integer value : listOfNormalizedAveragedValuePersist){
+		for (Double value : listOfNormalizedAveragedValuePersist){
 			middle += value;
 		}
 		

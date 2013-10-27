@@ -42,7 +42,7 @@ public class AlgorithmChart {
 		chart.listOfSignalUO.add(algorithmBase.signalGroup.signalOfUO.getStrength());
 		chart.listOfSignalARUp.add(algorithmBase.signalGroup.signalOfARUp.getStrength());
 		chart.listOfSignalARDown.add(algorithmBase.signalGroup.signalOfARDown.getStrength());
-//		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
+		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
 		
 //		chart.listOfIndicatorEMAFirst.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMAFirst.arrayOfEMA));
 //		chart.listOfIndicatorEMASecond.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMASecond.arrayOfEMA));

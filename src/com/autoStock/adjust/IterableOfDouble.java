@@ -11,7 +11,7 @@ public class IterableOfDouble extends IterableBase {
 	private double max;
 	private double step;
 	
-	public IterableOfDouble(double min, double max, double step){
+	public IterableOfDouble(double min, double max, double step, boolean iterateCausesRebase){
 		this.min = min;
 		this.max = max;
 		this.step = step;
@@ -19,6 +19,23 @@ public class IterableOfDouble extends IterableBase {
 		if ((min - max) % step != 0){
 //			throw new IllegalArgumentException();
 		}
+		
+		if (iterateCausesRebase){
+			rebaseRequired = true;
+		}
+	}
+	
+	public IterableOfDouble(double min, double max, double step){
+		this(min, max, step, false);
+	}
+	
+	public void rebase(double min, double max){	
+		while ((min - max) % step != 0){
+			max++;
+		}
+		
+		this.min = min;
+		this.max = max;
 	}
 	
 	public double getDouble(){
@@ -43,6 +60,27 @@ public class IterableOfDouble extends IterableBase {
 	@Override
 	public int getMaxValues() {
 		return getMaxIndex() + 1;
+	}
+	
+	public double getMin(){
+		return min;
+	}
+	
+	public double getMax(){
+		return max;
+	}
+	
+	public double getStep() {
+		return step;
+	}
+	
+	@Override
+	public void iterate() {
+		super.iterate();
+		
+		if (iterateCausesRebase){
+			rebaseRequired = true;
+		}
 	}
 
 	@Override

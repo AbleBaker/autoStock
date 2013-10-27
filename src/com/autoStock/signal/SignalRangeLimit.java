@@ -1,42 +1,42 @@
 package com.autoStock.signal;
 
 public class SignalRangeLimit {
-	private int max;
-	private int min;
+	private double max;
+	private double min;
 	
 	public SignalRangeLimit(){
 		reset();
 	}
 	
-	public SignalRangeLimit(int min, int max){
+	public SignalRangeLimit(double min, double max){
 		this.min = min;
 		this.max = max;
 	}
 	
-	public void addValue(int value){
+	public void addValue(double value){
 		min = Math.min(min, value);
 		max = Math.max(max, value);
 	}
 	
 	public boolean isSet(){
-		if (min != Integer.MAX_VALUE && max != Integer.MIN_VALUE){
+		if (min != Double.POSITIVE_INFINITY && max != Double.NEGATIVE_INFINITY){
 			return true;
 		}
 		return false;
 	}
 	
 	public void reset(){
-		min = Integer.MAX_VALUE;
-		max = Integer.MIN_VALUE;
+		min = Double.POSITIVE_INFINITY;
+		max = Double.NEGATIVE_INFINITY;
 	}	
 	
-	public int getMin(){
-		if (min == Integer.MAX_VALUE){throw new IllegalAccessError("Can't access min because it was never set");}
+	public double getMin(){
+		if (min == Double.POSITIVE_INFINITY){throw new IllegalAccessError("Can't access min because it was never set");}
 		return min;
 	}
 	
-	public int getMax(){
-		if (max == Integer.MIN_VALUE){throw new IllegalAccessError("Can't access max because it was never set");}
+	public double getMax(){
+		if (max == Double.NEGATIVE_INFINITY){throw new IllegalAccessError("Can't access max because it was never set");}
 		return max;
 	}
 	

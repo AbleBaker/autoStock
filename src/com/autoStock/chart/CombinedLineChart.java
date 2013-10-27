@@ -148,22 +148,13 @@ public class CombinedLineChart {
 			plot.setGap(10);
 			resetColor();
 			
-//			if (getPairForType(TimeSeriesType.type_signal_total) != null){
-//				XYPlot subPlotForSignalTotal = new XYPlot(getPairForType(TimeSeriesType.type_signal_total).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_signal_total).timeSeriesType.displayName), new StandardXYItemRenderer());
-//				subPlotForSignalTotal.getRenderer().setSeriesPaint(0, Color.BLACK);
-//
-//				plot.add(subPlotForSignalTotal, 1);
-//			}
-			
 			if (getPairForType(TimeSeriesType.type_signals) != null){
 				XYPlot subPlotForSignals = new XYPlot(getPairForType(TimeSeriesType.type_signals).timeSeriesCollection, null, new NumberAxis(getPairForType(TimeSeriesType.type_signals).timeSeriesType.displayName), new StandardXYItemRenderer());
 				for (int i=0; i < getPairForType(TimeSeriesType.type_signals).timeSeriesCollection.getSeriesCount(); i++){
-//					subPlotForSignals.getRenderer().setSeriesPaint(i, getColor());
 					
 					subPlotForSignals.setRenderer(i, new XYShapeRenderer());
 					subPlotForSignals.getRenderer().setSeriesShape(i, ShapeUtilities.createDiamond(2));
-					subPlotForSignals.getRenderer().setSeriesPaint(i, Color.BLACK);
-					
+					subPlotForSignals.getRenderer().setSeriesPaint(i, getColor());
 				}
 				
 				

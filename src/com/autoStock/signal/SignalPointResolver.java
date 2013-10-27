@@ -74,13 +74,13 @@ public class SignalPointResolver {
 	private boolean getQualification(SignalGuage signalGuage){
 		boolean isQualified = false;
 		if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.guage_threshold_met){
-			isQualified = new GuageOfThresholdMet(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified(); 
+			isQualified = new GuageOfThresholdMet(signalBase, signalGuage, ArrayTools.getArrayFromListOfDouble(signalBase.listOfNormalizedAveragedValue)).isQualified(); 
 		}else if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.guage_threshold_left){
-			isQualified = new GuageOfThresholdLeft(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
+			isQualified = new GuageOfThresholdLeft(signalBase, signalGuage, ArrayTools.getArrayFromListOfDouble(signalBase.listOfNormalizedAveragedValue)).isQualified();
 		}else if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.guage_peak){
-			isQualified = new GuageOfPeakAndTrough(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
+			isQualified = new GuageOfPeakAndTrough(signalBase, signalGuage, ArrayTools.getArrayFromListOfDouble(signalBase.listOfNormalizedAveragedValue)).isQualified();
 		}else if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.guage_trough){
-			isQualified = new GuageOfPeakAndTrough(signalBase, signalGuage, ArrayTools.convertToDouble(ArrayTools.getArrayFromListOfInt(signalBase.listOfNormalizedAveragedValue))).isQualified();
+			isQualified = new GuageOfPeakAndTrough(signalBase, signalGuage, ArrayTools.getArrayFromListOfDouble(signalBase.listOfNormalizedAveragedValue)).isQualified();
 		}else if (signalGuage.mutableEnumForSignalGuageType.value == SignalGuageType.none){
 			return false;
 		}else {
