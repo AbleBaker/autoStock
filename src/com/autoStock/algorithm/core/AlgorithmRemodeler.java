@@ -42,7 +42,7 @@ public class AlgorithmRemodeler {
 		}
 		
 		if (includeIndicatorParameters){
-			setSignalBaseParamaters(algorithmBase.signalGroup.getListOfSignalBase(), algorithmModel.listOfSignalParameters);
+			setIndicatorBaseParameters(algorithmBase.indicatorGroup.getListOfIndicatorBase(), algorithmModel.listOfIndicatorParameters);
 		}else{
 			Co.println("--> Warning: Remodeler discarding indicator parameters");
 		}
