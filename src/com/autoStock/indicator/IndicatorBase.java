@@ -23,7 +23,7 @@ public abstract class IndicatorBase {
 	public Core taLibCore;
 	private CommonAnalysisData commonAnlaysisData;
 	
-	public final IndicatorParameters indicatorParameters;
+	public IndicatorParameters indicatorParameters;
 	public int datasetLength;
 	public Date[] arrayOfDates;
 	public double[] arrayOfPriceOpen;

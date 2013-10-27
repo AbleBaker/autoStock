@@ -6,7 +6,9 @@ import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
+import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
@@ -23,10 +25,10 @@ public class AlgorithmRemodeler {
 	}
 	
 	public void remodel(){
-		remodel(true, true);
+		remodel(true, true, true);
 	}
 
-	public void remodel(boolean includeStrategyOptions, boolean includeSignalParameters){
+	public void remodel(boolean includeStrategyOptions, boolean includeSignalParameters, boolean includeIndicatorParameters){
 		if (includeStrategyOptions){
 			algorithmBase.strategyBase.strategyOptions = algorithmModel.strategyOptions;
 		}else{
@@ -38,6 +40,12 @@ public class AlgorithmRemodeler {
 		}else{
 			Co.println("--> Warning: Remodeler discarding signal parameters");
 		}
+		
+		if (includeIndicatorParameters){
+			setSignalBaseParamaters(algorithmBase.signalGroup.getListOfSignalBase(), algorithmModel.listOfSignalParameters);
+		}else{
+			Co.println("--> Warning: Remodeler discarding indicator parameters");
+		}
 	}
 	
 	public void setSignalBaseParamaters(List<SignalBase> listOfSignalBase, List<SignalParameters> listOfSignalParameters){
@@ -45,6 +53,16 @@ public class AlgorithmRemodeler {
 			for (SignalParameters signalParameters : listOfSignalParameters){
 				if (signalBase.signalParameters.getClass() == signalParameters.getClass()){
 					signalBase.signalParameters = signalParameters;
+				}
+			}
+		}
+	}
+	
+	public void setIndicatorBaseParameters(List<IndicatorBase> listOfIndicatorBase, List<IndicatorParameters> listOfIndicatorParameters){
+		for (IndicatorBase indicatorBase : listOfIndicatorBase){
+			for (IndicatorParameters indicatorParameters : listOfIndicatorParameters){
+				if (indicatorBase.indicatorParameters.getClass() == indicatorParameters.getClass()){
+					indicatorBase.indicatorParameters = indicatorParameters;
 				}
 			}
 		}

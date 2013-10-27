@@ -59,8 +59,8 @@ public class WMCrossover extends AbstractCrossover<AlgorithmModel> {
 		DummyAlgorithm dummyAlgorithmFor1 = new DummyAlgorithm(null, null, AlgorithmMode.mode_backtest_with_adjustment, null);
 		DummyAlgorithm dummyAlgorithmFor2 = new DummyAlgorithm(null, null, AlgorithmMode.mode_backtest_with_adjustment, null);
 		
-		new AlgorithmRemodeler(dummyAlgorithmFor1, offspring1).remodel(true, true);
-		new AlgorithmRemodeler(dummyAlgorithmFor2, offspring2).remodel(true, true);
+		new AlgorithmRemodeler(dummyAlgorithmFor1, offspring1).remodel();
+		new AlgorithmRemodeler(dummyAlgorithmFor2, offspring2).remodel();
 		
 		ArrayList<AdjustmentBase> listOfAdjustmentBaseForOffspring1 = new WMAdjustmentProvider().getListOfAdjustmentBase(dummyAlgorithmFor1);
 		ArrayList<AdjustmentBase> listOfAdjustmentBaseForOffspring2 = new WMAdjustmentProvider().getListOfAdjustmentBase(dummyAlgorithmFor2);

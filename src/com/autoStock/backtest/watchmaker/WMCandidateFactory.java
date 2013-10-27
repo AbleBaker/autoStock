@@ -55,6 +55,7 @@ public class WMCandidateFactory extends AbstractCandidateFactory<AlgorithmModel>
 //		Co.println("--> CHECK **** " + algorithmModel.wmAdjustment.listOfAdjustmentBase.get(0).getIterableBase().getCurrentIndex());
 		
 //		Co.println("\n--> Candidate");
+		
 //		Co.println("--> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongEntry[0].threshold);
 //		Co.println("--> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForLongExit[0].threshold);
 //		Co.println("--> " + algorithmModel.listOfSignalParameters.get(10).arrayOfSignalGuageForShortEntry[0].threshold);
@@ -64,13 +65,7 @@ public class WMCandidateFactory extends AbstractCandidateFactory<AlgorithmModel>
 	}
 	
 	private AlgorithmModel getCurrentAlgorithmModel(AlgorithmBase algorithmBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){
-		ArrayList<SignalParameters> listOfSignalParameters = new ArrayList<SignalParameters>();
-		
-		for (SignalBase signalBase : algorithmBase.signalGroup.getListOfSignalBase()){
-			listOfSignalParameters.add(signalBase.signalParameters.copy());
-		}
-		
-		AlgorithmModel algorithmModel = new AlgorithmModel(algorithmBase.strategyBase.strategyOptions, listOfSignalParameters);
+		AlgorithmModel algorithmModel = AlgorithmModel.getCurrentAlgorithmModel(algorithmBase);
 		algorithmModel.wmAdjustment = new WMAdjustment();
 		algorithmModel.wmAdjustment.listOfAdjustmentBase = listOfAdjustmentBase;
 		

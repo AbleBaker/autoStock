@@ -129,7 +129,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 				
 				SingleBacktest singleBacktest = new SingleBacktest(BacktestUtils.getBaseHistoricalData(exchange, pair.first.identifier, dateStart, dateEnd, Resolution.min), AlgorithmMode.mode_backtest_silent);
 				singleBacktest.selfPopulateBacktestData();
-				singleBacktest.remodel(getCurrentAlgorithmModel(hashOfAlgorithmBase.get(pair.first.identifier)));
+				singleBacktest.remodel(AlgorithmModel.getCurrentAlgorithmModel(hashOfAlgorithmBase.get(pair.first.identifier)));
 				singleBacktest.runBacktest();
 				
 				new AdjustmentRebaser(pair.second, singleBacktest.backtestContainer).rebase();
@@ -146,7 +146,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 					pair.second.runAdjustment();	
 				}
 				
-				listOfAlgorithmModel.add(getCurrentAlgorithmModel(hashOfAlgorithmBase.get(pair.first.identifier)));
+				listOfAlgorithmModel.add(AlgorithmModel.getCurrentAlgorithmModel(hashOfAlgorithmBase.get(pair.first.identifier)));
 				
 				addedUnits++;
 			}
@@ -173,25 +173,6 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			if (threadForWatcher == null) {startWatcher();}
 			return null;
 		}
-	}
-	
-	private AlgorithmModel getCurrentAlgorithmModel(AlgorithmBase algorithmBase){
-		ArrayList<SignalParameters> listOfSignalParameters = new ArrayList<SignalParameters>();
-		
-		for (SignalBase signalBase : algorithmBase.signalGroup.getListOfSignalBase()){
-			listOfSignalParameters.add(signalBase.signalParameters.copy());
-		}
-		
-//		Co.println("\n--> Send parameters");
-////		
-//		for (SignalParameters signalParameter : listOfSignalParameters){
-//			if (signalParameter.normalizeInterface != null){
-//				Co.println("--> " + signalParameter.arrayOfSignalGuageForLongEntry[0].threshold);
-//				Co.println("--> " + signalParameter.arrayOfSignalGuageForLongExit[0].threshold);
-//			}
-//		}
-		
-		return new AlgorithmModel(algorithmBase.strategyBase.strategyOptions, listOfSignalParameters);
 	}
 	
 	private void startWatcher() {

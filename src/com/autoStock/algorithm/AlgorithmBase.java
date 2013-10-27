@@ -213,11 +213,11 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 	
 	public void remodel(BacktestEvaluation backtestEvaluation){
-		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel(true, true);
+		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel();
 	}
 	
-	public void remodel(BacktestEvaluation backtestEvaluation, boolean includeStrategyOptions, boolean includeSignalParameters){
-		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel(includeStrategyOptions, includeSignalParameters);
+	public void remodel(BacktestEvaluation backtestEvaluation, boolean includeStrategyOptions, boolean includeSignalParameters, boolean includeIndicatorParameters){
+		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel(includeStrategyOptions, includeSignalParameters, includeIndicatorParameters);
 	}
 	
 	public void setFundamentalData(FundamentalData fundamentalData){

@@ -92,6 +92,10 @@ public class SignalDefinitions {
 		}
 		
 		public IndicatorParameters(){}
+		
+		public IndicatorParameters copy(){
+			return new Cloner().deepClone(this);
+		}
 	}
 	
 	public static abstract class SignalParameters {
@@ -148,7 +152,6 @@ public class SignalDefinitions {
 		}
 		
 		public SignalParameters copy(){
-//			return new Gson().fromJson(new Gson().toJson(this), this.getClass());
 			return new Cloner().deepClone(this);
 		}
 
