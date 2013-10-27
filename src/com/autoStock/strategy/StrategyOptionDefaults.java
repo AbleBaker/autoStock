@@ -1,6 +1,6 @@
 package com.autoStock.strategy;
 
-import com.autoStock.signal.SignalPointTacticResolver.SignalPointTactic;
+import com.autoStock.signal.TacticResolver.SignalPointTactic;
 
 /**
  * @author Kevin Kowalewski

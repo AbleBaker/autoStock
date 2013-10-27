@@ -11,12 +11,13 @@ import com.autoStock.tools.MathTools;
  * @author Kevin Kowalewski
  *
  */
-public class SignalPointTacticResolver {
+public class TacticResolver {
 	public static enum SignalPointTactic {
 		tactic_majority,
 		tactic_any,
 		tactic_combined,
 		tactic_mixed,
+		tactic_conjugate,
 	}
 	
 	public static synchronized SignalPoint getSignalPoint(boolean havePosition, Signal signal, PositionType positionType, SignalPointTactic signalPointTactic){

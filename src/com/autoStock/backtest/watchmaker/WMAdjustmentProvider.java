@@ -16,7 +16,7 @@ import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
-import com.autoStock.signal.SignalPointTacticResolver.SignalPointTactic;
+import com.autoStock.signal.TacticResolver.SignalPointTactic;
 
 /**
  * @author Kevin Kowalewski
@@ -26,16 +26,19 @@ public class WMAdjustmentProvider {
 	public ArrayList<AdjustmentBase> getListOfAdjustmentBase(AlgorithmBase algorithmBase){
 		ArrayList<AdjustmentBase> listOfAdjustmentBase = new ArrayList<AdjustmentBase>();
 		
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 1", algorithmBase.indicatorGroup.indicatorOfEMAFirst.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 2", algorithmBase.indicatorGroup.indicatorOfEMASecond.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
-     	
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Long gap size", ((SignalParametersForCrossover)algorithmBase.signalGroup.signalOfCrossover.signalParameters).longGapSize, new IterableOfDouble(1, 15, 0.25)));
-     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Short gap size", ((SignalParametersForCrossover)algorithmBase.signalGroup.signalOfCrossover.signalParameters).shortGapSize, new IterableOfDouble(-15, 1, 0.25)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 1", algorithmBase.indicatorGroup.indicatorOfEMAFirst.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length EMA 2", algorithmBase.indicatorGroup.indicatorOfEMASecond.indicatorParameters.periodLength, new IterableOfInteger(3, 60, 1)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Long gap size", ((SignalParametersForCrossover)algorithmBase.signalGroup.signalOfCrossover.signalParameters).longGapSize, new IterableOfDouble(-15, 15, 0.25)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("Short gap size", ((SignalParametersForCrossover)algorithmBase.signalGroup.signalOfCrossover.signalParameters).shortGapSize, new IterableOfDouble(-15, 15, 0.25)));
 		
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfUO);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfRSI);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfWILLR);
+		
+		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfARUp);
+		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfARDown);
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.indicatorGroup.indicatorOfAR.indicatorParameters.periodLength, new IterableOfInteger(20, 60, 1)));
 		
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.indicatorGroup.indicatorOfUO.indicatorParameters.periodLength, new IterableOfInteger(20, 60, 1)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.signalGroup.signalOfCCI.signalParameters.periodLength, new IterableOfInteger(20, 60, 1)));
@@ -79,10 +82,10 @@ public class WMAdjustmentProvider {
 	}
 	
 	private void addTypicalSignalRange(ArrayList<AdjustmentBase> listOfAdjustmentBase, SignalBase signalBase){
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_entry, new IterableOfDouble(-30, 30, 1)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_exit, new IterableOfDouble(-30, 30, 1)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_entry, new IterableOfDouble(-30, 30, 1)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_exit, new IterableOfDouble(-30, 30, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_entry, new IterableOfDouble(-35, 35, 0.5)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_exit, new IterableOfDouble(-35, 35, 0.5)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_entry, new IterableOfDouble(-35, 35, 0.5)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_exit, new IterableOfDouble(-35, 35, 0.5)));
 	}
 }
 

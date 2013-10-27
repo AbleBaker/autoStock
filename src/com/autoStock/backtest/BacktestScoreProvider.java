@@ -21,7 +21,7 @@ public class BacktestScoreProvider {
 		
 //		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
 		
-//		score = backtestEvaluation.percentYield * backtestEvaluation.backtestResultTransactionDetails.countForTradeExit;
+//		score = backtestEvaluation.transactionDetails.countForTradesProfit;
 		
 //		score = backtestEvaluation.backtestResultTransactionDetails.avgTradeWin * backtestEvaluation.transactions;
 		
