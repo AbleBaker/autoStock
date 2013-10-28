@@ -64,7 +64,7 @@ public class BacktestEvaluation {
 		public String signalName;
 		public String signalPointType;
 		public int maxSignalAverage;
-		public String extras;
+		public String extras = "";
 		
 		public ArrayList<DescriptorForGuage> listOfDescriptorForGuage = new ArrayList<DescriptorForGuage>();
 		
