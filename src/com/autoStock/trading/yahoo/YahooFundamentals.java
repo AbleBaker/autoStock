@@ -23,7 +23,17 @@ public class YahooFundamentals extends HTTPRequestBase {
 	}
 	
 	public void execute(){
-		sendHttpGetRequest("http://finance.yahoo.com/d/quotes.csv?s="+ symbol.symbolName.replaceAll(" ", "-") +"&f=sa2vdyehgj1rs7");
+		String requestString;
+		
+		if (exchange.exchangeName.equals("NYSE") || exchange.exchangeName.equals("NASDAQ")){
+			requestString = "http://finance.yahoo.com/d/quotes.csv?s="+ symbol.symbolName.replaceAll(" ", "-") + "&f=sa2vdyehgj1rs7";
+		}else if (exchange.exchangeName.equals("ASX")){
+			requestString = "http://finance.yahoo.com/d/quotes.csv?s="+ symbol.symbolName.replaceAll(" ", "-") + ".AX&f=sa2vdyehgj1rs7";
+		}else{
+			throw new IllegalStateException("Yahoo fundamentals doesn't know how to handle exchange: " + exchange.exchangeName);
+		}
+		
+		sendHttpGetRequest(requestString);
 	}
 
 	@Override

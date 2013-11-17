@@ -16,6 +16,7 @@ import com.autoStock.signal.signalMetrics.SignalOfCandlestickGroup;
 import com.autoStock.signal.signalMetrics.SignalOfCrossover;
 import com.autoStock.signal.signalMetrics.SignalOfDI;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
+import com.autoStock.signal.signalMetrics.SignalOfHT;
 import com.autoStock.signal.signalMetrics.SignalOfMACD;
 import com.autoStock.signal.signalMetrics.SignalOfMFI;
 import com.autoStock.signal.signalMetrics.SignalOfROC;
@@ -27,6 +28,7 @@ import com.autoStock.signal.signalMetrics.SignalOfUO;
 import com.autoStock.signal.signalMetrics.SignalOfWILLR;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -53,6 +55,13 @@ public class SignalGroup {
 	
 	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
+	
+	public SignalOfHT signalOfHT = new SignalOfHT(SignalMetricType.none, new SignalParameters(new NormalizeInterface() {
+		@Override
+		public double normalize(double input) {
+			return input;
+		}
+	}, new MutableInteger(1), null, null, null, null){});
 	
 	public static final int ENCOG_SIGNAL_INPUT = 10;
 	
@@ -105,6 +114,8 @@ public class SignalGroup {
 		}
 		
 		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
+		
+		signalOfHT.analyize(signalOfUO.getStrengthWindow());
 		
 		if (signalOfUO.listOfNormalizedValue.size() >= ENCOG_SIGNAL_INPUT){
 //			Co.println("--> Trying to use Encog!");

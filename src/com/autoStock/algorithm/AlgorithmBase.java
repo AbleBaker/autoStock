@@ -71,6 +71,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	protected FundamentalData fundamentalData;
 	public final BasicAccount basicAccount;
 	public Double dayStartingBalance;
+	public String algorithmSource;
 	
 	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount){
 		this.exchange = exchange;

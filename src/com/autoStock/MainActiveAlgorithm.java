@@ -16,7 +16,7 @@ public class MainActiveAlgorithm implements ActivationListener {
 	public MainActiveAlgorithm(Exchange exchange, Symbol symbol) {
 		Global.callbackLock.requestLock();
 		
-		activeAlgorithmContainer = new ActiveAlgorithmContainer(exchange, symbol, this);
+		activeAlgorithmContainer = new ActiveAlgorithmContainer(exchange, symbol, null, this);
 		activeAlgorithmContainer.activate();
 	}
 

@@ -15,8 +15,8 @@ public class Config {
 	public static int dbMaxConnectionsPerParition = 3;
 	public static String dbUsername = "autoStock";
 	public static String dbPassword = "SSmxynk--autoStock";
-	public static String plIbUsername = "cmiha621";
-	public static String plIbPassword = "paper123";
+	public static String plIbUsername = "wealth000";
+	public static String plIbPassword = "Fishing2";
 	public static int plIbTwsPort = 888;
-	public static String plIbTwsHost = "192.168.1.137";
+	public static String plIbTwsHost = "192.168.1.150";
 }

@@ -49,7 +49,7 @@ public class AlgorithmManagerTable {
 		}
 		
 		columnValues.add(algorithm.getCurrentQuoteSlice() != null && algorithm.getCurrentQuoteSlice().dateTime != null ? DateTools.getPrettyDate(algorithm.getCurrentQuoteSlice().dateTime) : "?"); 
-		columnValues.add(algorithm.symbol.symbolName);
+		columnValues.add(algorithm.symbol.symbolName + ", " + algorithm.algorithmSource);
 		columnValues.add(algorithm.algorithmState.isDisabled == true ? ("disabled (" + algorithm.algorithmState.disabledReason + ")") : " - ");
 		columnValues.add(algorithm.strategyBase.lastStrategyResponse == null ? "-" : (algorithm.strategyBase.lastStrategyResponse.positionGovernorResponse.signalPoint.signalPointType.name() + ", " + algorithm.strategyBase.lastStrategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name()));
 		columnValues.add(algorithm.strategyBase.currentStrategyResponse == null ? "-" : (algorithm.strategyBase.currentStrategyResponse.strategyActionCause.name()));

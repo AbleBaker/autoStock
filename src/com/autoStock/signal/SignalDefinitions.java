@@ -197,8 +197,8 @@ public class SignalDefinitions {
 			super(new NormalizeInterface(){@Override public double normalize(double input) {return input * 1;}}, new MutableInteger(1),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)});
 		}
 	}
 	
@@ -236,7 +236,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForRSI extends SignalParameters {
 		public SignalParametersForRSI(){
-			super(new NormalizeInterface(){@Override public double normalize(double input) {return (input / 2) - 22;}}, new MutableInteger(10),
+			super(new NormalizeInterface(){@Override public double normalize(double input) {return (input / 2) - 22;}}, new MutableInteger(3),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_lower, -15)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, 30)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_left), SignalBounds.bounds_upper, -15)},
@@ -321,7 +321,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForUO extends SignalParameters {
 		public SignalParametersForUO() {
-			super(new NormalizeInterface(){@Override public double normalize(double input) {return ((double)input / 1.2 - 40);}}, new MutableInteger(10),
+			super(new NormalizeInterface(){@Override public double normalize(double input) {return ((double)input / 1.2 - 40);}}, new MutableInteger(60),
 			
 			new SignalGuage[]{//new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_lower), 
 							  new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -13)},

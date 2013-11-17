@@ -52,17 +52,19 @@ public class AlgorithmChart {
 		
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		chart.listOfYield.add(algorithmBase.getYieldCurrent());
+		
+		chart.listOfDebugAlpha.add(algorithmBase.signalGroup.signalOfHT.getStrength());
 
-		if (algorithmBase.signalGroup != null && algorithmBase.indicatorGroup.resultsPTD != null) {
-			if (algorithmBase.indicatorGroup.resultsPTD.arrayOfPTD[0] == 1){
-				chart.listOfDebugAlpha.add((double)algorithmBase.signalGroup.signalOfUO.getStrength());	
-			}else{
-				chart.listOfDebugAlpha.add(Double.MIN_VALUE);
-			}
-			 //algorithmBase.signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue() == 0 ? Double.MIN_VALUE : algorithmBase.signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue());
-		}else{
-			chart.listOfDebugAlpha.add(0d);
-		}
+//		if (algorithmBase.signalGroup != null && algorithmBase.indicatorGroup.resultsPTD != null) {
+//			if (algorithmBase.indicatorGroup.resultsPTD.arrayOfPTD[0] == 1){
+//				chart.listOfDebugAlpha.add((double)algorithmBase.signalGroup.signalOfUO.getStrength());	
+//			}else{
+//				chart.listOfDebugAlpha.add(Double.MIN_VALUE);
+//			}
+//			 //algorithmBase.signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue() == 0 ? Double.MIN_VALUE : algorithmBase.signalGroup.getIndicatorGroup().candleStickIdentifierResult.getLastValue());
+//		}else{
+//			chart.listOfDebugAlpha.add(0d);
+//		}
 
 		chart.listOfLongEntryAtPrice.add(Double.MIN_VALUE);
 		chart.listOfShortEntryAtPrice.add(Double.MIN_VALUE);

@@ -36,11 +36,12 @@ public class ActiveAlgorithmContainer {
 	private ActivationListener activationListener;
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	
-	public ActiveAlgorithmContainer(Exchange exchange, Symbol symbol, ActivationListener activationListener){
+	public ActiveAlgorithmContainer(Exchange exchange, Symbol symbol, String additionSource, ActivationListener activationListener){
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.activationListener = activationListener;
 		algorithm = new AlgorithmTest(exchange, symbol, AlgorithmMode.mode_engagement, AccountProvider.getInstance().getGlobalAccount());
+		algorithm.algorithmSource = additionSource;
 	}
 	
 	public void activate(){
@@ -53,7 +54,7 @@ public class ActiveAlgorithmContainer {
 			
 			@Override
 			public void success(FundamentalData fundamentalData) {
-				if (fundamentalData.avgDailyVolume < 400000 && fundamentalData.todaysVolume < 300000){
+				if (fundamentalData.avgDailyVolume < 500000 && fundamentalData.todaysVolume < 300000){
 					activationListener.failed(ActiveAlgorithmContainer.this, "Low volume");
 					return;
 				}

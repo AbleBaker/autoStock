@@ -55,12 +55,12 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_top_trade_rate);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_volume);
 		
-		indexMarketDataProvider = new IndexMarketDataProvider(exchange, new Index("INDU"));
+		if (exchange.exchangeName.equals("NYSE")){indexMarketDataProvider = new IndexMarketDataProvider(exchange, new Index("INDU"));}
 		multipleRequestMarketScanner.startScanners();
 	}
 	
 	private void engagementWarn(ExchangeState exchangeState){
-		Co.println("--> Received warning: " + exchangeState.timeUntilFuture.hours + ":" + exchangeState.timeUntilFuture.minutes + ":" + exchangeState.timeUntilFuture.seconds);
+		Co.println("--> Received warning, time: " + exchangeState.timeUntilFuture.hours + ":" + exchangeState.timeUntilFuture.minutes + ":" + exchangeState.timeUntilFuture.seconds);
 		if (exchangeState == ExchangeState.status_close_future && exchangeState.timeUntilFuture.hours == 0 && exchangeState.timeUntilFuture.minutes <= ExternalConditionDefintions.maxScannerExitMinutes){
 			multipleRequestMarketScanner.stopScanner();
 		}

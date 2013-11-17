@@ -47,6 +47,19 @@ public class AlgorithmManager implements ActivationListener {
 		threadForDisplay.start();
 	}
 	
+	public boolean setListOfSymbols(ArrayList<Symbol> listOfSymbols, Exchange exchange, String additionSource){
+		for (Symbol symbol : listOfSymbols){
+			if (listOfActiveAlgorithmContainer.size() >= 100){
+				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + symbol);
+				return false;
+			}else if (getAlgorithmContainerForSymbol(symbol.symbolName, exchange.exchangeName) == null && isInDiscard(new Pair<Symbol,Exchange>(symbol, exchange)) == false){
+				Co.println("Will run algorithm for symbol: " + additionSource  + ", " + symbol.symbolName);
+			}
+		}
+		
+		return true;
+	}
+	
 	public boolean setListOfSymbols(ArrayList<MultipleResultRowMarketScanner> listOfMultipleResultRowMarketScanner, Exchange exchange){
 		for (MultipleResultRowMarketScanner result : listOfMultipleResultRowMarketScanner){
 			if (listOfActiveAlgorithmContainer.size() >= 100){
@@ -55,7 +68,7 @@ public class AlgorithmManager implements ActivationListener {
 			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.exchangeName) == null && isInDiscard(new Pair<Symbol,Exchange>(new Symbol(result.symbol, SecurityType.type_stock), exchange)) == false){
 				Co.println("Will run algorithm for symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				
-				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(exchange, new Symbol(result.symbol, SecurityType.type_stock), this);
+				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(exchange, new Symbol(result.symbol, SecurityType.type_stock), result.marketScannerType.name(), this);
 				container.activate();
 			}
 		}
