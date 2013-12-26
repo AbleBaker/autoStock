@@ -1,5 +1,7 @@
 package com.autoStock.account;
 
+import com.autoStock.tools.MathTools;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -13,6 +15,6 @@ public class TransactionFees {
 			cost = (500 * 0.013) + ((units - 500) * 0.008);
 		}
 
-		return Math.max(1.30, cost);
+		return MathTools.round(Math.max(1.30, cost));
 	}
 }

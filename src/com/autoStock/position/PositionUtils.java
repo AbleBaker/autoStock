@@ -159,8 +159,6 @@ public class PositionUtils {
 			
 			priceTotal -= (includeTransactionFee ? transactionFees : 0);
 			
-			Co.println("--> Price total: " + unitPriceFilled + ", " + priceTotal);
-			
 			return priceTotal;
 		}
 	}

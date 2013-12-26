@@ -13,11 +13,11 @@ import java.util.Arrays;
  */
 public class MathTools {
 	public static double round(double value){
-		return Math.round(value*1000.0)/1000.0;
+		return Math.round(value*100.0)/100.0;
 	}
 	
 	public static double roundAccurate(double value){
-		return Math.round(value*1000000.0)/1000000.0;
+		return Math.round(value*100000.0)/100000.0;
 	}
 	
 	public static int[] averageArray(int[] arrayOfInt){
