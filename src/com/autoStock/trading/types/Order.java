@@ -281,7 +281,7 @@ public class Order {
 		return priceFilled;
 	}
 
-	private double getUnitPriceIntrinsic() {
+	public double getUnitPriceIntrinsic() {
 		if (orderStatus == OrderStatus.status_filled) {
 			return priceFilled;
 		} else {

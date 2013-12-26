@@ -15,19 +15,19 @@ public class PositionValueTable {
 				   + "\n valueFilled -> " + positionValue.valueFilled //OK
 				   + "\n valueIntrinsic -> " + positionValue.valueIntrinsic //OK
 				   
-				   + "\n\n valueRequestedWithFees -> " + positionValue.valueRequestedWithFees //OK
-				   + "\n valueFilledWithFees -> " + positionValue.valueFilledWithFees  //OK 
-				   + "\n valueInstrinsicWithFees -> " + positionValue.valueIntrinsicWithFees //OK
+				   + "\n\n valueRequestedWithFees -> " + positionValue.valueRequestedWithFee //OK
+				   + "\n valueFilledWithFees -> " + positionValue.valueFilledWithFee  //OK 
+				   + "\n valueInstrinsicWithFees -> " + positionValue.valueIntrinsicWithFee //OK
 				   
-				   + "\n\n priceRequestedWithFees -> " + positionValue.priceRequestedWithFees //OK
-				   + "\n priceFilledWithFees -> " + positionValue.priceFilledWithFees //OK
-				   + "\n priceIntrinsicWithFees -> " + positionValue.priceIntrinsicWithFees //OK
+				   + "\n\n priceRequestedWithFees -> " + positionValue.priceRequestedWithFee //OK
+				   + "\n priceFilledWithFees -> " + positionValue.priceFilledWithFee //OK
+				   + "\n priceIntrinsicWithFees -> " + positionValue.priceIntrinsicWithFee //OK
 				   
 				   + "\n\n valueCurrent -> " + positionValue.valueCurrent //OK
-				   + "\n valueCurrentWithFees -> " + positionValue.valueCurrentWithFees //OK
+				   + "\n valueCurrentWithFees -> " + positionValue.valueCurrentWithFee //OK
 
 				   + "\n\n priceCurrent -> " + positionValue.priceCurrent //OK
-				   + "\n priceCurrentWithFees -> " + positionValue.priceCurrentWithFees //OK	
+				   + "\n priceCurrentWithFees -> " + positionValue.priceCurrentWithFee //OK	
 
 				   + "\n\n unitPriceRequested -> " + positionValue.unitPriceRequested //OK
 				   + "\n unitPriceFilled -> " + positionValue.unitPriceFilled //OK

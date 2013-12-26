@@ -3,14 +3,14 @@
  */
 package com.autoStock.osPlatform;
 
-import com.autoStock.osPlatform.Os.OsTypes;
+import com.autoStock.osPlatform.Os.OsType;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class OsShell {
-	public OsShell(OsTypes osType){
+	public OsShell(OsType osType){
 		
 	}
 }

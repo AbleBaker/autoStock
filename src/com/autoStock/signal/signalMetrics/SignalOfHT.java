@@ -28,11 +28,11 @@ public class SignalOfHT extends SignalBase {
 		
 		RetCode returnCode = new Core().htTrendline(0, 32, arrayOfValues, new MInteger(), new MInteger(), arrayOfResults);
 		
-		for (int i=0; i<arrayOfValues.length; i++){
-			Co.println("--> Value: " + arrayOfValues[i]);
-		}
-		
-		Co.println("--> Return: " + returnCode.name() + ", " + arrayOfResults[0]);
+//		for (int i=0; i<arrayOfValues.length; i++){
+//			Co.println("--> Value: " + arrayOfValues[i]);
+//		}
+//		
+//		Co.println("--> Return: " + returnCode.name() + ", " + arrayOfResults[0]);
 		
 		setInput(ArrayTools.getLastElement(arrayOfResults));
 		

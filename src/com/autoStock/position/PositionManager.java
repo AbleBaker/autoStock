@@ -147,7 +147,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 		synchronized(lock){
 			double valueOfAllPositions = 0; 
 			for (Position position : listOfPosition){
-				valueOfAllPositions += position.getPositionValue().valueCurrentWithFees;
+				valueOfAllPositions += position.getPositionValue().valueCurrentWithFee;
 			}
 			
 			return valueOfAllPositions;

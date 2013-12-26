@@ -10,19 +10,19 @@ public class PositionValue {
 	public final double valueFilled;
 	public final double valueIntrinsic;
 
-	public final double valueRequestedWithFees;
-	public final double valueFilledWithFees;
-	public final double valueIntrinsicWithFees;
+	public final double valueRequestedWithFee;
+	public final double valueFilledWithFee;
+	public final double valueIntrinsicWithFee;
 	
-	public final double priceRequestedWithFees;
-	public final double priceFilledWithFees;
-	public final double priceIntrinsicWithFees;
+	public final double priceRequestedWithFee;
+	public final double priceFilledWithFee;
+	public final double priceIntrinsicWithFee;
 
 	public final double valueCurrent;
-	public final double valueCurrentWithFees;
+	public final double valueCurrentWithFee;
 	
 	public final double priceCurrent;
-	public final double priceCurrentWithFees;
+	public final double priceCurrentWithFee;
 	
 	public final double unitPriceRequested;
 	public final double unitPriceIntrinsic;
@@ -39,16 +39,16 @@ public class PositionValue {
 		this.valueRequested = valueRequested;
 		this.valueFilled = valueFilled;
 		this.valueIntrinsic = valueIntrinsic;
-		this.valueRequestedWithFees = valueRequestedWithFees;
-		this.valueFilledWithFees = valueFilledWithFees;
-		this.valueIntrinsicWithFees = valueIntrinsicWithFees;
-		this.priceRequestedWithFees = priceRequestedWithFees;
-		this.priceFilledWithFees = priceFilledWithFees;
-		this.priceIntrinsicWithFees = priceIntrinsicWithFees;
+		this.valueRequestedWithFee = valueRequestedWithFees;
+		this.valueFilledWithFee = valueFilledWithFees;
+		this.valueIntrinsicWithFee = valueIntrinsicWithFees;
+		this.priceRequestedWithFee = priceRequestedWithFees;
+		this.priceFilledWithFee = priceFilledWithFees;
+		this.priceIntrinsicWithFee = priceIntrinsicWithFees;
 		this.valueCurrent = valueCurrent;
-		this.valueCurrentWithFees = valueCurrentWithFees;
+		this.valueCurrentWithFee = valueCurrentWithFees;
 		this.priceCurrent = priceCurrent;
-		this.priceCurrentWithFees = priceCurrentWithFees;
+		this.priceCurrentWithFee = priceCurrentWithFees;
 		this.unitPriceRequested = unitPriceRequested;
 		this.unitPriceIntrinsic = unitPriceIntrinsic;
 		this.unitPriceFilled = unitPriceFilled;

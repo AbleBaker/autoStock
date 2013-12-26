@@ -17,8 +17,8 @@ import com.autoStock.types.QuoteSlice;
  */
 public class PositionGenerator {
 	private boolean throwOnInsufficientBalance = false;
-	private static final int entryPositionFunding = 15000;
-	private static final int reentryPositionFunding = 5000;
+	private static final int entryPositionFunding = 4000;
+	private static final int reentryPositionFunding = 500;
 	
 	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount){
 		int positionUnits = getPositionInitialUnits(quoteSlice.priceClose, signal, basicAccount);

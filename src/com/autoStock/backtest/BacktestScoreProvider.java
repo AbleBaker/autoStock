@@ -17,17 +17,17 @@ public class BacktestScoreProvider {
 //		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry == 0){return 0;}
 //		if (backtestEvaluation.backtestResultTransactionDetails.countForTradesProfit == 0){return 0;} 
 		
-		score = backtestEvaluation.percentYield;
+//		score = backtestEvaluation.percentYield;
 		
 //		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
 		
-//		score = backtestEvaluation.transactionDetails.countForTradesProfit;
+		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
 		
-//		score = backtestEvaluation.backtestResultTransactionDetails.avgTradeWin * backtestEvaluation.transactions;
+//		score = backtestEvaluation.transactionDetails.avgTradeWin * backtestEvaluation.transactions;
 		
 		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
 			if (pair.second <= 0){
-				score /= 2;
+				score /= 4;
 			}
 		}
 		

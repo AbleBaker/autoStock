@@ -65,19 +65,29 @@ public class AlgorithmTable {
 	public String getTransactionDetails(StrategyResponse strategyResponse){ 
 		String responseString = "none";
 		if (strategyResponse.positionGovernorResponse.position != null){
-			String percentGainString = "%" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true));
-			responseString = StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false))  + ", ";
-			responseString += percentGainString;
+			String percentGainString = "$" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false);
+			percentGainString += " (" + "%" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true)) + ")";
+			responseString = percentGainString;
 			
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
-				responseString = new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFees);
-				responseString += " | " + strategyResponse.positionGovernorResponse.position.getInitialUnitsFilled();
-				responseString += " | " + strategyResponse.positionGovernorResponse.position.getPositionUtils().getOrderTransactionFeesIntrinsic();
+				responseString = "(" + strategyResponse.positionGovernorResponse.position.getInitialUnitsFilled();
+				responseString += " * " + strategyResponse.positionGovernorResponse.position.getPositionValue().unitPriceFilled;
+				responseString += ") + " + strategyResponse.positionGovernorResponse.position.getPositionUtils().getOrderTransactionFeesIntrinsic();
+				responseString += " = $" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFee);
+				responseString += " | " + percentGainString;
+			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
+				responseString = "(" + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getUnitsIntrinsic();
+				responseString += " * " + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getUnitPriceFilled();
+				responseString += ") + " + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getTransactionFees();
+				responseString += " = $" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getOrderValue().priceIntrinsicWithFees);
 				responseString += " | " + percentGainString;
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-				responseString = new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFees);
-				responseString += " (" + StringTools.addPlusToPositiveNumbers(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)) + ") ";
-				responseString += percentGainString;
+				responseString = "(" + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getUnitsIntrinsic();
+				responseString += " * " + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getUnitPriceFilled();
+				responseString += ") - " + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getTransactionFees();
+				responseString += " = $" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFee);
+				responseString += " | $" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true);
+				responseString += " (" + "%" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true)) + ")";
 			}else{
 				//pass
 			}

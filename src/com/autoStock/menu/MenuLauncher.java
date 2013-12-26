@@ -173,10 +173,10 @@ public class MenuLauncher {
 					command = "main_clustered_backtest_client";
 					break;
 				case "6":
-					command = "main_backtest_wm 03/06/2012 03/09/2012 NYSE AIG";
+					command = "main_backtest_wm 03/05/2012 03/08/2012 NYSE AIG";
 					break;
 				case "7" :
-					command = "main_backtest 03/12/2012 03/12/2012 NYSE AIG backtest_default";
+					command = "main_backtest 03/05/2012 03/05/2012 NYSE AIG backtest_default";
 					break;
 			}
 			

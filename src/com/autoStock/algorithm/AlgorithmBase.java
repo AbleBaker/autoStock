@@ -104,7 +104,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		indicatorGroup.setActive(listOfSignalMetricType);
-		periodLength = indicatorGroup.getMinPeriodLength(algorithmMode != AlgorithmMode.mode_backtest_single);
+		periodLength = indicatorGroup.getMinPeriodLength(true); //algorithmMode != AlgorithmMode.mode_backtest_single);
 		
 		if (PositionManager.getInstance().getPositionListSize() != 0){
 			PositionManager pm = PositionManager.getInstance();
@@ -270,7 +270,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		double yield = 0;
 		
 		if (currentPosition != null){
-			double totalValue = currentPosition.getPositionValue().valueCurrentWithFees + basicAccount.getBalance();
+			double totalValue = currentPosition.getPositionValue().valueCurrentWithFee + basicAccount.getBalance();
 			double increasedValue = totalValue - (complete == true ? AccountProvider.defaultBalance : dayStartingBalance);
 			yield = (increasedValue / positionCost) * 100;
 		}else if (positionCost != 0){

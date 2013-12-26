@@ -8,6 +8,8 @@ import org.math.R.RserverConf;
 import org.math.R.Rsession;
 
 import com.autoStock.Co;
+import com.autoStock.osPlatform.Os;
+import com.autoStock.osPlatform.Os.OsType;
 
 public class RServeController {
 	private static final int instancePoolSize = 10;
@@ -15,6 +17,12 @@ public class RServeController {
 	private ArrayList<RProcess> listOfRServeProcesses = new ArrayList<RProcess>();
 	
 	public void start(){
+		// should use Os.OsShell
+		
+		if (Os.identifyOS() != OsType.windows){
+			throw new UnsupportedOperationException("R support not available for anything other than Windows");
+		}
+		
 		for (int i=0; i<instancePoolSize; i++){
 			try {
 				Process process = Runtime.getRuntime().exec("C:\\Program Files\\R\\R-3.0.1\\bin\\R.exe -e \"library(Rserve);Rserve(FALSE,args='--no-save --slave --RS-port 100" + i + "')\" --no-save --slave");

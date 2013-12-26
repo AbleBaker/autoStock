@@ -36,7 +36,7 @@ public class BacktestEvaluation {
 	public double transactionFeesPaid;
 	public double accountBalance;
 	public double percentGain;
-	public double percentTradeWin;
+	public double percentTradeProfit;
 	public double percentTradeLoss;
 	public double percentYield;
 	
@@ -137,16 +137,16 @@ public class BacktestEvaluation {
 			throw new IllegalStateException("List can't be zero sized... Transactions: " + transactions);
 		}
 		
-		string += "***** $" +  MiscTools.getCommifiedValue(accountBalance - AccountProvider.defaultBalance) + " / %" + new DecimalFormat("#.00").format(percentYield) + " Score: " + MiscTools.getCommifiedValue(getScore()) + " *****";
+		string += "\n***** $" +  MiscTools.getCommifiedValue(accountBalance - AccountProvider.defaultBalance) + " / %" + new DecimalFormat("#.00").format(percentYield) + " Score: " + MiscTools.getCommifiedValue(getScore()) + " *****";
 		string += "\n--> Date " + DateTools.getPrettyDate(dateStart) + " to " + DateTools.getPrettyDate(dateEnd);
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
-		string += "\n--> Transaction details: " + transactionDetails.countForTradeLongEntry + " / " + transactionDetails.countForTradeShortEntry + ", " + transactionDetails.countForTradesReentry + ", " + transactionDetails.countForTradeExit;
-		string += "\n--> Transaction profit / loss: %" + new DecimalFormat("#.00").format(percentTradeWin) + ", " + transactionDetails.countForTradesProfit + ", " + transactionDetails.countForTradesLoss;
+		string += "\n--> Transaction details (long, short, re-entry, exit): " + transactionDetails.countForTradeLongEntry + " / " + transactionDetails.countForTradeShortEntry + ", " + transactionDetails.countForTradesReentry + ", " + transactionDetails.countForTradeExit;
+		string += "\n--> Transaction profit / loss (profit, loss): %" + new DecimalFormat("#.00").format(percentTradeProfit) + ", %" + new DecimalFormat("#.00").format(percentTradeLoss) + " / " + transactionDetails.countForTradesProfit + ", " + transactionDetails.countForTradesLoss;
 		string += "\n--> Transaction avg profit / loss: $" + new DecimalFormat("#.00").format(transactionDetails.avgTradeWin) + ", $" + new DecimalFormat("#.00").format(transactionDetails.avgTradeLoss);
-		string += "\n--> Trasaction max profit, loss: " + new DecimalFormat("#.00").format(transactionDetails.maxTradeWin)
+		string += "\n--> Trade max profit, loss / min profit, loss : " + new DecimalFormat("#.00").format(transactionDetails.maxTradeWin)
 			+ ", " + new DecimalFormat("#.00").format(transactionDetails.maxTradeLoss)
-			+ ", " + new DecimalFormat("#.00").format(transactionDetails.minTradeWin)
+			+ " / " + new DecimalFormat("#.00").format(transactionDetails.minTradeWin)
 			+ ", " + new DecimalFormat("#.00").format(transactionDetails.minTradeLoss);
 		
 		string += "\n";
@@ -154,6 +154,8 @@ public class BacktestEvaluation {
 		for (Pair<Date, Double> pair : listOfDailyYield){
 			string += "\n - Daily yield: " + new SimpleDateFormat("dd/MM/yyyy").format(pair.first) + ", %" + new DecimalFormat("#.00").format(pair.second);
 		}
+		
+		string += "\n * Average daily yield: " + new DecimalFormat("#.00").format(getAverageDailyYield()) + "%"; 
 		
 		string += "\n";
 		
@@ -182,5 +184,16 @@ public class BacktestEvaluation {
 		string += "\n" + (listOfDisplayRowsFromStrategyResponse.size() == 0 ? "No transactions occurred" : new TableController().getTable(AsciiTables.backtest_strategy_response, listOfDisplayRowsFromStrategyResponse));
 		
 		return string;
+	}
+	
+	private double getAverageDailyYield(){
+		double average = 0;
+		if (listOfDailyYield.size() == 0){return 0;}
+		
+		for (Pair<Date, Double> pair : listOfDailyYield){
+			average += pair.second;
+		}
+		
+		return average / listOfDailyYield.size();
 	}
 }

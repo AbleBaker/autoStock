@@ -2,6 +2,7 @@ package com.autoStock.position;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.account.TransactionFees;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderValue;
@@ -17,6 +18,8 @@ public class PositionUtils {
 	private Position position;
 	private ArrayList<Order> listOfOrder;
 	private ArrayList<OrderValue> listOfOrderValue = new ArrayList<OrderValue>();
+	
+	// * Price is impact to bank account, value is amount once sold
 
 	public PositionUtils(Position position, ArrayList<Order> listOfOrder) {
 		if (position == null){throw new NullPointerException("Position can't be null");}
@@ -131,12 +134,12 @@ public class PositionUtils {
 		}
 	}
 
-	public double getPositionValueCurrent(boolean includeTransactionFees) {
+	public double getPositionValueCurrent(boolean includeTransactionFee) {
 		synchronized (listOfOrder) {
 			double priceTotal = 0;
-			double unitPriceFilled = getOrderUnitPriceFilled();
+			double unitPriceFilled = getOrderUnitPriceIntrinsic();
 			double unitPriceLastKnown = position.getLastKnownUnitPrice();
-			int unitsFilled = getOrderUnitsFilled();
+			int unitsFilled = getOrderUnitsIntrinsic();
 			
 			if (position.positionType == PositionType.position_long_entry
 				|| position.positionType == PositionType.position_long
@@ -154,8 +157,10 @@ public class PositionUtils {
 			
 			double transactionFees = TransactionFees.getTransactionCost(unitsFilled, unitPriceLastKnown);
 			
-			priceTotal -= (includeTransactionFees ? transactionFees : 0);
-
+			priceTotal -= (includeTransactionFee ? transactionFees : 0);
+			
+			Co.println("--> Price total: " + unitPriceFilled + ", " + priceTotal);
+			
 			return priceTotal;
 		}
 	}
@@ -173,30 +178,51 @@ public class PositionUtils {
 	public double getOrderUnitPriceRequested() {
 		synchronized (listOfOrder) {
 			double priceTotal = 0;
-			for (OrderValue orderValue : listOfOrderValue) {
-				priceTotal += orderValue.unitPriceRequested;
+			int totalUnits = 0;
+			
+			for (Order order : listOfOrder){
+				totalUnits += order.getUnitsRequested();
 			}
-			return priceTotal / listOfOrderValue.size();
+			
+			for (Order order : listOfOrder){
+				priceTotal += ((double)order.getUnitsRequested() / totalUnits) * order.getUnitPriceRequested();
+			}
+			
+			return priceTotal;
 		}
 	}
 
 	public double getOrderUnitPriceFilled() {
 		synchronized (listOfOrder) {
 			double priceTotal = 0;
-			for (OrderValue orderValue : listOfOrderValue) {
-				priceTotal += orderValue.unitPriceFilled;
+			int totalUnits = 0;
+			
+			for (Order order : listOfOrder){
+				totalUnits += order.getUnitsFilled();
 			}
-			return priceTotal / listOfOrderValue.size();
+			
+			for (Order order : listOfOrder){
+				priceTotal += ((double)order.getUnitsFilled() / totalUnits) * order.getUnitPriceFilled();
+			}
+			
+			return priceTotal;
 		}
 	}
 
 	public double getOrderUnitPriceIntrinsic() {
 		synchronized (listOfOrder) {
 			double priceTotal = 0;
-			for (OrderValue orderValue : listOfOrderValue) {
-				priceTotal += orderValue.unitPriceIntrinsic;
+			int totalUnits = 0;
+			
+			for (Order order : listOfOrder){
+				totalUnits += order.getUnitsIntrinsic();
 			}
-			return priceTotal / listOfOrderValue.size();
+			
+			for (Order order : listOfOrder){
+				priceTotal += ((double)order.getUnitsIntrinsic() / totalUnits) * order.getUnitPriceIntrinsic();
+			}
+			
+			return priceTotal;
 		}
 	}
 }

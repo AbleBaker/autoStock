@@ -43,7 +43,8 @@ public class Position implements OrderStatusListener {
 	private ListenerOfPositionStatusChange positionStatusListener;
 	private PositionOptions positionOptions;
 	private Lock lock = new Lock();
-	private final ArrayList<Order> listOfOrder = new ArrayList<Order>();
+	private final ArrayList<Order> listOfOrderEntry = new ArrayList<Order>();
+	private final ArrayList<Order> listOfOrderExit = new ArrayList<Order>();
 	private PositionHistory positionHistory = new PositionHistory();
 
 	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, BasicAccount basicAccount, Date dateTime) {
@@ -74,22 +75,24 @@ public class Position implements OrderStatusListener {
 				Co.println("--> Warning initial units are 0!!!");
 				positionType = PositionType.position_failed;
 			}else{
-				PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
+				PositionUtils positionUtils = new PositionUtils(this, listOfOrderEntry);
 				
 				if (positionType == PositionType.position_long_entry) {
 					Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, initialUnits, unitPriceLastKnown, this);
 					order.executeOrder();
-					listOfOrder.add(order);
+					listOfOrderEntry.add(order);
 				} else if (positionType == PositionType.position_short_entry) {
 					Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, initialUnits, unitPriceLastKnown, this);
 					order.executeOrder();
-					listOfOrder.add(order);
+					listOfOrderEntry.add(order);
 				} else if (positionType == PositionType.position_long_exit) {
 					Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
 					order.executeOrder();
+					listOfOrderExit.add(order);
 				} else if (positionType == PositionType.position_short_exit) {
 					Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
 					order.executeOrder();
+					listOfOrderExit.add(order);
 				} else {
 					throw new IllegalStateException("Position is already executed... PositionType: " + positionType.name());
 				}
@@ -103,15 +106,15 @@ public class Position implements OrderStatusListener {
 				positionType = PositionType.position_long_entry;
 				Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, units, currentPrice, this);
 				order.executeOrder();
-				synchronized (listOfOrder){
-					listOfOrder.add(order);
+				synchronized (listOfOrderEntry){
+					listOfOrderEntry.add(order);
 				}
 			}else if (positionType == PositionType.position_short){
 				positionType = PositionType.position_short_entry;
 				Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, units, currentPrice , this);
 				order.executeOrder();
-				synchronized (listOfOrder){
-					listOfOrder.add(order);
+				synchronized (listOfOrderEntry){
+					listOfOrderEntry.add(order);
 				}
 			}else{
 				throw new IllegalStateException("Cannot re-enter with position in state: " + positionType.name());
@@ -127,8 +130,8 @@ public class Position implements OrderStatusListener {
 				throw new IllegalStateException();
 			}
 		
-			synchronized (listOfOrder){
-				for (Order order : listOfOrder){
+			synchronized (listOfOrderEntry){
+				for (Order order : listOfOrderEntry){
 					order.cancelOrder();
 				}
 			}
@@ -152,7 +155,7 @@ public class Position implements OrderStatusListener {
 	}
 
 	public double getPositionProfitLossAfterComission(boolean bothComissions) {
-		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
+		PositionUtils positionUtils = new PositionUtils(this, listOfOrderEntry);
 		
 		if (positionUtils.getOrderUnitsFilled() == 0){return 0;}
 		
@@ -168,7 +171,7 @@ public class Position implements OrderStatusListener {
 	}
 	
 	public double getPositionProfitLossBeforeComission() {
-		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
+		PositionUtils positionUtils = new PositionUtils(this, listOfOrderEntry);
 		
 		if (positionUtils.getOrderUnitsFilled() == 0){return 0;}
 		
@@ -176,17 +179,19 @@ public class Position implements OrderStatusListener {
 		return MathTools.round(positionValue);
 	}
 	
-	public double getCurrentPercentGainLoss(boolean includeEntryTransactionFee){
-		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
+	public double getCurrentPercentGainLoss(boolean includeEntryTransactionFees){
+		PositionUtils positionUtils = new PositionUtils(this, listOfOrderEntry);
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
 		double comission = 0;
 		
 		comission += positionUtils.getOrderTransactionFeesIntrinsic();
 		comission += TransactionFees.getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		
-		if (includeEntryTransactionFee){
+		if (includeEntryTransactionFees){
 			positionValue -= comission;
 		}
+		
+//		Co.println("--> Percent gain loss: " + positionType.name() + ", " + getLastKnownUnitPrice() + ", " + positionUtils.getPositionValueCurrent(false) + ", " + positionUtils.getOrderValueIntrinsic(false));
 		
 		return (positionValue / positionUtils.getOrderValueIntrinsic(false)) * 100;
 	}
@@ -209,7 +214,7 @@ public class Position implements OrderStatusListener {
 	}
 	
 	public synchronized PositionValue getPositionValue(){
-		PositionUtils positionUtils = new PositionUtils(this, listOfOrder);
+		PositionUtils positionUtils = new PositionUtils(this, listOfOrderEntry);
 		PositionValue positionValue = new PositionValue(
 			positionUtils.getOrderValueRequested(false), positionUtils.getOrderValueFilled(false), positionUtils.getOrderValueIntrinsic(false),  
 			positionUtils.getOrderValueRequested(true), positionUtils.getOrderValueFilled(true), positionUtils.getOrderValueIntrinsic(true), 
@@ -225,7 +230,7 @@ public class Position implements OrderStatusListener {
 	}
 	
 	public PositionUtils getPositionUtils(){
-		return new PositionUtils(this, listOfOrder);
+		return new PositionUtils(this, listOfOrderEntry);
 	}
 	
 	public PositionHistory getPositionHistory(){
@@ -234,6 +239,16 @@ public class Position implements OrderStatusListener {
 	
 	public double getPositionProfitDrawdown(){
 		return MathTools.round(getCurrentPercentGainLoss(true) - positionHistory.getMaxPercentProfitLoss());
+	}
+	
+	public Order getLastEntryOrder(){
+		if (listOfOrderEntry.size() == 0){return null;}
+		return listOfOrderEntry.get(listOfOrderEntry.size()-1);
+	}
+	
+	public Order getLastExitOrder(){
+		if (listOfOrderExit.size() == 0){return null;}
+		return listOfOrderExit.get(listOfOrderExit.size()-1);
 	}
 
 	@Override
@@ -244,7 +259,7 @@ public class Position implements OrderStatusListener {
 			Co.println("--> Received order status change: " + order.symbol.symbolName + ", " + order.orderType.name() + ", " + orderStatus.name());
 		}
 		
-		positionUtils = new PositionUtils(this, listOfOrder);
+		positionUtils = new PositionUtils(this, listOfOrderEntry);
 		
 		if (orderStatus == OrderStatus.status_filled) {
 			if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
@@ -265,9 +280,9 @@ public class Position implements OrderStatusListener {
 			}
 			PositionCallback.affectBankBalance(order, PositionManager.getInstance().orderMode, basicAccount, this);
 		}else if (orderStatus == OrderStatus.status_cancelled){
-			if (listOfOrder.size() > 1){
-				synchronized(listOfOrder){
-					listOfOrder.remove(order);
+			if (listOfOrderEntry.size() > 1){
+				synchronized(listOfOrderEntry){
+					listOfOrderEntry.remove(order);
 				}
 			}else{
 				positionType = PositionType.position_cancelled;	
