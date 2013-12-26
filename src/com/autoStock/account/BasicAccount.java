@@ -32,7 +32,6 @@ public class BasicAccount {
 	}
 	
 	public void modifyBalance(double amount, double transactionCost){
-		Co.println("--> Modify Balance: " + amount + ", " + transactionCost);
 		accountBalance.addAndGet(amount);
 		accountBalance.addAndGet(transactionCost * -1);
 		transactionFeesPaid.addAndGet(transactionCost);
