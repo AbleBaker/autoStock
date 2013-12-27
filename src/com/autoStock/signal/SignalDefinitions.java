@@ -37,7 +37,10 @@ public class SignalDefinitions {
 		guage_peak,
 		guage_trough,
 		guage_threshold_met,
-		guage_threshold_left, 
+		guage_threshold_left,
+		
+		custom_always_true,
+		custom_always_false,
 		none,
 		;
 	}

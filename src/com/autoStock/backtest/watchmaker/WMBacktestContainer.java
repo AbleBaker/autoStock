@@ -97,8 +97,8 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	}
 	
 	public void runBacktest(){
-//		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(256, 5, 10, 5, new TargetFitness(999999, true), new GenerationCount(10));
-		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 10, new TargetFitness(999999, true), new GenerationCount(10));
+		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(256, 5, 10, 5, new TargetFitness(999999, true), new GenerationCount(5));
+//		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 10, new TargetFitness(999999, true), new GenerationCount(10));
 		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
 		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel);
 		

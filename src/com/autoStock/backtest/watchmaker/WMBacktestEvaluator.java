@@ -30,9 +30,9 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 	private Symbol symbol;
 	
 	public WMBacktestEvaluator(HistoricalData historicalData){
+		this.historicalData = historicalData;
 		exchange = new Exchange("NYSE");
 		symbol = new Symbol("AIG", SecurityType.type_stock); 
-		this.historicalData = historicalData;
 		historicalData.setStartAndEndDatesToExchange();
 	}
 	
@@ -42,10 +42,6 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 		PositionManager.getInstance().reset();
 		
 		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel); 
-
-//		Co.print("Check A: " + singleBacktest.backtestContainer.algorithm.signalGroup.signalOfUO.signalParameters.periodLength.value);
-//		Co.print("Check B: " + singleBacktest.backtestContainer.algorithm.getPeriodLength());		
-//		Co.println("--> Yield: " + backtestEvaluation.percentYield);
 		
 		return backtestEvaluation.getScore();
 	}
