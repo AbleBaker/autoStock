@@ -97,8 +97,8 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	}
 	
 	public void runBacktest(){
-//		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(32, 5, 5, 5, new TargetFitness(999999, true), new GenerationCount(10));
-		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 5, new TargetFitness(999999, true), new GenerationCount(10));
+//		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(256, 5, 10, 5, new TargetFitness(999999, true), new GenerationCount(10));
+		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 10, new TargetFitness(999999, true), new GenerationCount(10));
 		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
 		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel);
 		
@@ -116,7 +116,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		Co.print(wmBacktestEvaluator.getBacktestEvaluation(algorithmModel).toString());
 
-		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/16/2012"), Resolution.min)).getBacktestEvaluation(algorithmModel);
+		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/09/2012"), DateTools.getDateFromString("03/09/2012"), Resolution.min)).getBacktestEvaluation(algorithmModel);
 		
 		Co.println("\n\n Out of sample");
 		

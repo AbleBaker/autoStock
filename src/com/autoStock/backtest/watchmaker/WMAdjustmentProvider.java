@@ -33,6 +33,7 @@ public class WMAdjustmentProvider {
 		
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfUO);
 		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
+		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfDI);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfRSI);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfWILLR);
 		
@@ -69,8 +70,8 @@ public class WMAdjustmentProvider {
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("WILLR Guage Short Entry", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfWILLR.signalParameters.arrayOfSignalGuageForShortEntry[0].mutableEnumForSignalGuageType));
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalGuageType>("WILLR Guage Short Exit", new IterableOfEnum<SignalGuageType>(SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left), algorithmBase.signalGroup.signalOfWILLR.signalParameters.arrayOfSignalGuageForShortExit[0].mutableEnumForSignalGuageType));
      	
-//		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Entry", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForEntry));
-//		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Exit", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForExit));		
+		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Entry", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForEntry));
+		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Exit", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForExit));		
 		
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO maxStopLossPercent", algorithmBase.strategyBase.strategyOptions.maxStopLossPercent, new IterableOfDouble(-0.25, 0, 0.01)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO maxProfitDrawdownPercent", algorithmBase.strategyBase.strategyOptions.maxProfitDrawdownPercent, new IterableOfDouble(-0.25, 0, 0.01)));
@@ -82,10 +83,10 @@ public class WMAdjustmentProvider {
 	}
 	
 	private void addTypicalSignalRange(ArrayList<AdjustmentBase> listOfAdjustmentBase, SignalBase signalBase){
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_entry, new IterableOfDouble(-35, 35, 0.5)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_exit, new IterableOfDouble(-35, 35, 0.5)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_entry, new IterableOfDouble(-35, 35, 0.5)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_exit, new IterableOfDouble(-35, 35, 0.5)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_entry, new IterableOfDouble(-35, 35, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_exit, new IterableOfDouble(-35, 35, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_entry, new IterableOfDouble(-35, 35, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_exit, new IterableOfDouble(-35, 35, 1)));
 	}
 }
 
