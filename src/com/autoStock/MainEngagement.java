@@ -5,7 +5,7 @@ package com.autoStock;
 
 import java.util.ArrayList;
 
-import com.autoStock.algorithm.core.AlgorithmManager;
+import com.autoStock.algorithm.core.ActiveAlgorithmManager;
 import com.autoStock.algorithm.external.ExternalConditionDefintions;
 import com.autoStock.exchange.ExchangeStatusListener;
 import com.autoStock.exchange.ExchangeStatusObserver;
@@ -29,7 +29,7 @@ import com.autoStock.types.Index;
 public class MainEngagement implements MultipleRequestMarketScannerListener, ExchangeStatusListener {
 	private Exchange exchange;
 	private ExchangeStatusObserver exchangeStatusObserver;
-	private AlgorithmManager algorithmManager = new AlgorithmManager();
+	private ActiveAlgorithmManager activeAlgorithmManager = new ActiveAlgorithmManager();
 	private MultipleRequestMarketScanner multipleRequestMarketScanner = new MultipleRequestMarketScanner(this);
 	private IndexMarketDataProvider indexMarketDataProvider;
 
@@ -40,9 +40,9 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 		exchangeStatusObserver = new ExchangeStatusObserver(exchange);
 		exchangeStatusObserver.addListener(this);
 		exchangeStatusObserver.observeExchangeStatus();
-		PositionManager.getInstance().orderMode = OrderMode.mode_exchange;
+		PositionManager.getGlobalInstance().orderMode = OrderMode.mode_exchange;
 		
-		algorithmManager.initalize();
+		activeAlgorithmManager.initalize();
 	}
 
 	private void engagementStart() {
@@ -64,15 +64,15 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 		if (exchangeState == ExchangeState.status_close_future && exchangeState.timeUntilFuture.hours == 0 && exchangeState.timeUntilFuture.minutes <= ExternalConditionDefintions.maxScannerExitMinutes){
 			multipleRequestMarketScanner.stopScanner();
 		}
-		algorithmManager.warnAll(exchangeState);
+		activeAlgorithmManager.warnAll(exchangeState);
 	}
 	
 	private void engagementStop(){
 		Co.println("--> Received stop");
-		ArrayList<ArrayList<String>> listOfAlgorithmManagerRows = (ArrayList<ArrayList<String>>) algorithmManager.getAlgorithmTable().clone();
+		ArrayList<ArrayList<String>> listOfAlgorithmManagerRows = (ArrayList<ArrayList<String>>) activeAlgorithmManager.getAlgorithmTable().clone();
 		if (indexMarketDataProvider != null){indexMarketDataProvider.cancel();}
-		algorithmManager.stopAll();
-		algorithmManager.displayEndOfDayStats(listOfAlgorithmManagerRows);
+		activeAlgorithmManager.stopAll();
+		activeAlgorithmManager.displayEndOfDayStats(listOfAlgorithmManagerRows);
 		Global.callbackLock.releaseLock();
 		ApplicationStates.shutdown();
 	}
@@ -80,7 +80,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 	public synchronized void handleCompletedMarketScanner(MultipleResultSetMarketScanner multipleResultSetMarketScanner) {
 		ArrayList<String> listOfString = new ArrayList<String>();
 //		algorithmManager.pruneListOfSymbols(listOfString, exchange);
-		if (algorithmManager.setListOfSymbols(multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner, exchange) == false){
+		if (activeAlgorithmManager.setListOfSymbols(multipleResultSetMarketScanner.listOfMultipleResultRowMarketScanner, exchange) == false){
 			multipleRequestMarketScanner.stopScanner();
 		}
 	}

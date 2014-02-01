@@ -25,11 +25,11 @@ import com.google.gson.internal.Pair;
  * @author Kevin Kowalewski
  *
  */
-public class AlgorithmManager implements ActivationListener {
+public class ActiveAlgorithmManager implements ActivationListener {
 	private ArrayList<ActiveAlgorithmContainer> listOfActiveAlgorithmContainer = new ArrayList<ActiveAlgorithmContainer>();
 	private ArrayList<Pair<Symbol,Exchange>> listOfDiscards = new ArrayList<Pair<Symbol,Exchange>>();
 	private AlgorithmInfoManager algorithmInfoManager = new AlgorithmInfoManager();
-	private AlgorithmManagerTable algorithmManagerTable = new AlgorithmManagerTable();
+	private ActiveAlgorithmManagerTable activeAlgorithmManagerTable = new ActiveAlgorithmManagerTable();
 	private Thread threadForDisplay;
 	
 	public void initalize() {
@@ -125,9 +125,9 @@ public class AlgorithmManager implements ActivationListener {
 		
 		int count = 0;
 		
-		while (PositionManager.getInstance().getPositionListSize() > 0){
+		while (PositionManager.getGlobalInstance().getPositionListSize() > 0){
 			try {Thread.sleep(1000);}catch(InterruptedException e){return;}
-			Co.println("Position manager still has: " + PositionManager.getInstance().getPositionListSize() + " positions..." + count);
+			Co.println("Position manager still has: " + PositionManager.getGlobalInstance().getPositionListSize() + " positions..." + count);
 			if (count == 30){
 				Co.println("Warning, position(s) still not exited");
 				deactivateAll();
@@ -158,23 +158,23 @@ public class AlgorithmManager implements ActivationListener {
 	
 	public void displayAlgorithmTable(){
 		new TableController().displayTable(AsciiTables.algorithm_manager, getAlgorithmTable());
-		Co.println("--> Current entered position P&L: " + PositionManager.getInstance().getCurrentProfitLossBeforeComission() + " / " + PositionManager.getInstance().getCurrentProfitLossAfterComission(false));
+		Co.println("--> Current entered position P&L: " + PositionManager.getGlobalInstance().getCurrentProfitLossBeforeComission() + " / " + PositionManager.getGlobalInstance().getCurrentProfitLossAfterComission(false));
 		Co.println("--> Current fees paid: " + AccountProvider.getInstance().getGlobalAccount().getTransactionFees());
 		Co.println("--> Current account balance: " + AccountProvider.getInstance().getGlobalAccount().getBalance());
-		Co.println("--> All position value including fees: " + PositionManager.getInstance().getAllPositionValueIncludingFees()); 
-		Co.println("--> Complete gain from starting account balance: $" + new DecimalFormat("#.###").format((AccountProvider.getInstance().getGlobalAccount().getBalance() + PositionManager.getInstance().getAllPositionValueIncludingFees()) - AccountProvider.getInstance().defaultBalance));
+		Co.println("--> All position value including fees: " + PositionManager.getGlobalInstance().getAllPositionValueIncludingFees()); 
+		Co.println("--> Complete gain from starting account balance: $" + new DecimalFormat("#.###").format((AccountProvider.getInstance().getGlobalAccount().getBalance() + PositionManager.getGlobalInstance().getAllPositionValueIncludingFees()) - AccountProvider.getInstance().defaultBalance));
 	}
 	
 	public ArrayList<ArrayList<String>> getAlgorithmTable(){
-		algorithmManagerTable.clear();
+		activeAlgorithmManagerTable.clear();
 		
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();
 			
-			algorithmManagerTable.addRow(container.algorithm, container.algorithm.listOfQuoteSlice);
+			activeAlgorithmManagerTable.addRow(container.algorithm, container.algorithm.listOfQuoteSlice);
 		}
 		
-		return algorithmManagerTable.getListOfDisplayRows();
+		return activeAlgorithmManagerTable.getListOfDisplayRows();
 	}
 	
 	public void displayEndOfDayStats(ArrayList<ArrayList<String>> listOfAlgorithmDisplayRows){

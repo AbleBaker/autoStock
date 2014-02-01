@@ -99,7 +99,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		this.backtestType = backtestType;
 		this.algorithmMode = AlgorithmMode.getFromBacktestType(backtestType);
 		Global.callbackLock.requestLock();
-		PositionManager.getInstance().orderMode = OrderMode.mode_simulated;
+		PositionManager.getGlobalInstance().orderMode = OrderMode.mode_simulated;
 
 		if (algorithmMode.displayChart) {
 			Global.callbackLock.requestLock();
@@ -159,7 +159,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 		boolean backtestContainedNoData = false;
 
-		PositionManager.getInstance().reset();
+		PositionManager.getGlobalInstance().reset();
 
 		for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 			if (backtestContainer.isIncomplete()) {
@@ -378,7 +378,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 				bench.printTick("Backtested all symbols");
 			}
 
-			PositionManager.getInstance().executeExitAll();
+			PositionManager.getGlobalInstance().executeExitAll();
 
 			if (runNextBacktestForDays(false) == false) {
 				if (backtestType == BacktestType.backtest_default) {

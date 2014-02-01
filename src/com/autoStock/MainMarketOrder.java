@@ -30,7 +30,7 @@ public class MainMarketOrder implements ListenerOfPositionStatusChange {
 	
 	public MainMarketOrder(final Exchange exchange, final PositionType positionType, final String symbol, final int units) {
 		Global.callbackLock.requestLock();
-		PositionManager.getInstance().orderMode = OrderMode.mode_exchange;
+		PositionManager.getGlobalInstance().orderMode = OrderMode.mode_exchange;
 		
 		requestMarketSymbolData = new RequestMarketSymbolData(new RequestHolder(null), new RequestMarketSymbolDataListener() {
 			@Override
@@ -42,7 +42,7 @@ public class MainMarketOrder implements ListenerOfPositionStatusChange {
 			public void receiveQuoteSlice(RequestHolder requestHolder, QuoteSlice quoteSlice) {
 				requestMarketSymbolData.cancel();
 				
-				Position position = new Position(positionType, units, new Symbol(symbol, SecurityType.type_stock), exchange, quoteSlice.priceClose, null, AccountProvider.getInstance().getGlobalAccount(), new Date());
+				Position position = new Position(positionType, units, new Symbol(symbol, SecurityType.type_stock), exchange, quoteSlice.priceClose, null, AccountProvider.getInstance().getGlobalAccount(), new Date(), PositionManager.getGlobalInstance());
 				position.setPositionListener(MainMarketOrder.this);
 				position.executePosition();
 			}

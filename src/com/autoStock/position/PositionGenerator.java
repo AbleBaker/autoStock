@@ -20,11 +20,11 @@ public class PositionGenerator {
 	private static final int entryPositionFunding = 4000;
 	private static final int reentryPositionFunding = 500;
 	
-	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount){
+	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount, PositionManager positionManager){
 		int positionUnits = getPositionInitialUnits(quoteSlice.priceClose, signal, basicAccount);
 		
 		if (positionUnits != 0){
-			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, quoteSlice.priceClose, positionOptions, basicAccount, quoteSlice.dateTime);
+			return new Position(positionType, positionUnits, quoteSlice.symbol, exchange, quoteSlice.priceClose, positionOptions, basicAccount, quoteSlice.dateTime, positionManager);
 		}
 		
 		return null;

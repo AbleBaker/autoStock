@@ -23,10 +23,14 @@ import com.google.gson.internal.Pair;
  *
  */
 public class PositionGovernor {
-	private PositionManager positionManager = PositionManager.getInstance(); 
+	private PositionManager positionManager;
 	private ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>> listOfPairedResponses = new ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>>();
 	private ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 	private PositionGenerator positionGenerator = new PositionGenerator();
+	
+	public PositionGovernor(PositionManager positionManager){
+		this.positionManager = positionManager;
+	}
 	
 	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions, BasicAccount basicAccount){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
@@ -146,6 +150,10 @@ public class PositionGovernor {
 		}
 		position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_short_exit, position, null, position.basicAccount);
 		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_short_exit;
+	}
+	
+	public PositionManager getPositionManager(){
+		return positionManager;
 	}
 	
 	private Pair<Symbol,ArrayList<PositionGovernorResponse>> getPair(Symbol symbol){

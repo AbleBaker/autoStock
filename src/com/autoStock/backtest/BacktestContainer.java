@@ -171,14 +171,14 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		
 		listOfYield.add(new Pair<Date, Double>(historicalData.startDate, algorithm.getYieldCurrent()));
 		
-		if (PositionManager.getInstance().getPosition(symbol) != null){
+		if (PositionManager.getGlobalInstance().getPosition(symbol) != null){
 //			Co.println("--> Warning! Exchange data ends before exchange close and a position exists...");
-			Position position = PositionManager.getInstance().getPosition(symbol);
+			Position position = PositionManager.getGlobalInstance().getPosition(symbol);
 		
 			if (position.positionType == PositionType.position_long){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signal, PositionType.position_long_exit, position, null, basicAccount);
+				PositionManager.getGlobalInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signal, PositionType.position_long_exit, position, null, basicAccount);
 			}else if (position.positionType == PositionType.position_short){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signal, PositionType.position_short_exit, position, null, basicAccount);
+				PositionManager.getGlobalInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signal, PositionType.position_short_exit, position, null, basicAccount);
 			}else{
 				throw new IllegalStateException();
 			}

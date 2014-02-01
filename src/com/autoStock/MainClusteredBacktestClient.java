@@ -38,7 +38,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 
 	public MainClusteredBacktestClient() {
 		Global.callbackLock.requestLock();
-		PositionManager.getInstance().orderMode = OrderMode.mode_simulated;
+		PositionManager.getGlobalInstance().orderMode = OrderMode.mode_simulated;
 		
 		clusterClient = new ClusterClient(this);
 		clusterClient.startClient();
@@ -52,7 +52,7 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 
 	public void runNextBacktest(){
 		AccountProvider.getInstance().getGlobalAccount().reset();
-		PositionManager.getInstance().reset();
+		PositionManager.getGlobalInstance().reset();
 		
 //		for (AlgorithmModel algorithmModel : computeUnitForBacktest.listOfAlgorithmModel){
 //			Co.println("--> Received parameters");

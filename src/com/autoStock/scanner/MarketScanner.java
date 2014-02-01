@@ -26,7 +26,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	private ArrayList<Backtest> listOfBacktest = new ArrayList<Backtest>();
 	private ArrayList<AlgorithmTest> listOfAlgorithmTest = new ArrayList<AlgorithmTest>();
 	private Shortlist shortlist = new Shortlist("NYSE");
-	private PositionManager positionManager = PositionManager.getInstance();
+	private PositionManager positionManager = PositionManager.getGlobalInstance();
 	private int endOfAlgorithmCount = 0;
 	
 	public MarketScanner(){

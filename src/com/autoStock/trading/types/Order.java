@@ -41,6 +41,7 @@ public class Order {
 	private double priceFilled = 0;
 	private OrderStatus orderStatus = OrderStatus.none;
 	public OrderType orderType = OrderType.none;
+	public final OrderMode orderMode;
 	private RequestMarketOrder requestMarketOrder;
 	private OrderStatusListener orderStatusListener;
 	private OrderTools orderTools = new OrderTools();
@@ -48,23 +49,24 @@ public class Order {
 	private OrderTable orderTable = new OrderTable();
 	private OrderWatcher orderWatcher = new OrderWatcher(this);
 
-	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, int unitsRequested, double priceRequested, OrderStatusListener orderStatusListener) {
+	public Order(Symbol symbol, Exchange exchange, Position position, OrderType orderType, OrderMode orderMode, int unitsRequested, double priceRequested, OrderStatusListener orderStatusListener) {
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.position = position;
 		this.unitsRequested = unitsRequested;
 		this.priceRequested = priceRequested;
 		this.orderType = orderType;
+		this.orderMode = orderMode;
 		this.orderStatusListener = orderStatusListener;
 	}
 
 	public void executeOrder() {
-		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange) {
-			Co.println("--> Executing order with mode: " + PositionManager.getInstance().orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
+		if (orderMode == OrderMode.mode_exchange) {
+			Co.println("--> Executing order with mode: " + orderMode.name() + ", " + position.positionType.name() + ", " + orderType.name());
 		}
 
 		if (orderStatus == OrderStatus.none) {
-			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange) {
+			if (orderMode == OrderMode.mode_exchange) {
 				orderStatus = OrderStatus.status_presubmit;
 				OrderIdProvider.getInstance().getNextOrderId(new RequestMarketOrderIdListener() {
 					@Override

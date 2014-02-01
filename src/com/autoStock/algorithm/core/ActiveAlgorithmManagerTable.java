@@ -18,13 +18,13 @@ import com.autoStock.types.QuoteSlice;
  * @author Kevin Kowalewski
  *
  */
-public class AlgorithmManagerTable {
+public class ActiveAlgorithmManagerTable {
 	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	
 	public void addRow(AlgorithmTest algorithm, ArrayList<QuoteSlice> listOfQuoteSlice){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		
-		Position position = PositionManager.getInstance().getPosition(algorithm.symbol);
+		Position position = PositionManager.getGlobalInstance().getPosition(algorithm.symbol);
 		PositionValue positionValue = position == null ? null : position.getPositionValue();
 		
 		double percentGainFromAlgorithm = 0;

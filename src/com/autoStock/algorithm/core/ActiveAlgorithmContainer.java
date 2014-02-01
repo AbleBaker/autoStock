@@ -96,12 +96,12 @@ public class ActiveAlgorithmContainer {
 		if (requestMarketData != null){requestMarketData.cancel();}
 		if (yahooFundamentals != null){yahooFundamentals.cancel();}
 		algorithm.endOfFeed(symbol);
-		Position position = PositionManager.getInstance().getPosition(symbol);
+		Position position = PositionManager.getGlobalInstance().getPosition(symbol);
 		if (position != null){
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategyBase.signal, PositionType.position_long_exit, position, null, position.basicAccount);
+				PositionManager.getGlobalInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategyBase.signal, PositionType.position_long_exit, position, null, position.basicAccount);
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry){
-				PositionManager.getInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategyBase.signal, PositionType.position_short_exit, position, null, position.basicAccount);
+				PositionManager.getGlobalInstance().executePosition(algorithm.getCurrentQuoteSlice(), position.exchange, algorithm.strategyBase.signal, PositionType.position_short_exit, position, null, position.basicAccount);
 			}else if (position.positionType == PositionType.position_failed){
 				Co.println("--> Warning! Position status was failed while deactivating algorithm...");
 			}else if (position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_cancelled){

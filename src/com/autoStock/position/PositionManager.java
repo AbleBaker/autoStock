@@ -29,11 +29,11 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 	public OrderMode orderMode = OrderMode.none;
 	private Lock lock = new Lock();
 	
-	public static PositionManager getInstance(){
+	public static PositionManager getGlobalInstance(){
 		return instance;
 	}
 	
-	private PositionManager(){}
+	public PositionManager(){}
 	
 	public PositionManager(OrderMode orderMode){
 		this.orderMode = orderMode;
@@ -42,7 +42,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 	public Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType, Position inboundPosition, PositionOptions positionOptions, BasicAccount basicAccount) {
 		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry) {
-				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions, basicAccount);
+				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions, basicAccount, this);
 				if (position != null){
 					position.setPositionListener(this);
 					listOfPosition.add(position);
@@ -50,7 +50,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 				}
 				return position;
 			} else if (positionType == PositionType.position_short_entry) {
-				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions, basicAccount);
+				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions, basicAccount, this);
 				if (position != null){
 					position.setPositionListener(this);
 					listOfPosition.add(position);

@@ -46,8 +46,9 @@ public class Position implements OrderStatusListener {
 	private final ArrayList<Order> listOfOrderEntry = new ArrayList<Order>();
 	private final ArrayList<Order> listOfOrderExit = new ArrayList<Order>();
 	private PositionHistory positionHistory = new PositionHistory();
+	private final PositionManager positionManager;
 
-	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, BasicAccount basicAccount, Date dateTime) {
+	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, BasicAccount basicAccount, Date dateTime, PositionManager positionManager) {
 		this.positionType = positionType;
 		this.initialUnits = units;
 		this.symbol = symbol;
@@ -57,6 +58,7 @@ public class Position implements OrderStatusListener {
 		this.positionOptions = positionOptions;
 		this.basicAccount = basicAccount;
 		this.positionHistory.dateOfCreation = dateTime;
+		this.positionManager = positionManager;
 	}
 
 	public void setPositionListener(ListenerOfPositionStatusChange positionStatusListener) {
@@ -64,11 +66,11 @@ public class Position implements OrderStatusListener {
 	}
 
 	public void executePosition() {
-		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+		if (positionManager.orderMode == OrderMode.mode_exchange){
 			Co.println("--> Asked to execute " + positionType.name() + ", " + symbol.symbolName);
 		}
 		synchronized (lock){
-			if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+			if (positionManager.orderMode == OrderMode.mode_exchange){
 				Co.println("--> Synchronized " + positionType.name() + ", " + symbol.symbolName);
 			}
 			if (initialUnits == 0){
@@ -78,19 +80,19 @@ public class Position implements OrderStatusListener {
 				PositionUtils positionUtils = new PositionUtils(this, listOfOrderEntry);
 				
 				if (positionType == PositionType.position_long_entry) {
-					Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, initialUnits, unitPriceLastKnown, this);
+					Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, positionManager.orderMode, initialUnits, unitPriceLastKnown, this);
 					order.executeOrder();
 					listOfOrderEntry.add(order);
 				} else if (positionType == PositionType.position_short_entry) {
-					Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, initialUnits, unitPriceLastKnown, this);
+					Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, positionManager.orderMode, initialUnits, unitPriceLastKnown, this);
 					order.executeOrder();
 					listOfOrderEntry.add(order);
 				} else if (positionType == PositionType.position_long_exit) {
-					Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
+					Order order = new Order(symbol, exchange, this, OrderType.order_long_exit, positionManager.orderMode, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
 					order.executeOrder();
 					listOfOrderExit.add(order);
 				} else if (positionType == PositionType.position_short_exit) {
-					Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
+					Order order = new Order(symbol, exchange, this, OrderType.order_short_exit, positionManager.orderMode, positionUtils.getOrderUnitsFilled() != 0 ? positionUtils.getOrderUnitsFilled() : initialUnits, unitPriceLastKnown, this);
 					order.executeOrder();
 					listOfOrderExit.add(order);
 				} else {
@@ -104,14 +106,14 @@ public class Position implements OrderStatusListener {
 		synchronized(lock){
 			if (positionType == PositionType.position_long){
 				positionType = PositionType.position_long_entry;
-				Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, units, currentPrice, this);
+				Order order = new Order(symbol, exchange, this, OrderType.order_long_entry, positionManager.orderMode, units, currentPrice, this);
 				order.executeOrder();
 				synchronized (listOfOrderEntry){
 					listOfOrderEntry.add(order);
 				}
 			}else if (positionType == PositionType.position_short){
 				positionType = PositionType.position_short_entry;
-				Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, units, currentPrice , this);
+				Order order = new Order(symbol, exchange, this, OrderType.order_short_entry, positionManager.orderMode, units, currentPrice , this);
 				order.executeOrder();
 				synchronized (listOfOrderEntry){
 					listOfOrderEntry.add(order);
@@ -255,7 +257,7 @@ public class Position implements OrderStatusListener {
 	public void orderStatusChanged(Order order, OrderStatus orderStatus) {
 		PositionUtils positionUtils;
 		
-		if (PositionManager.getInstance().orderMode == OrderMode.mode_exchange){
+		if (positionManager.orderMode == OrderMode.mode_exchange){
 			Co.println("--> Received order status change: " + order.symbol.symbolName + ", " + order.orderType.name() + ", " + orderStatus.name());
 		}
 		
@@ -278,7 +280,7 @@ public class Position implements OrderStatusListener {
 			}else{
 				throw new IllegalStateException();
 			}
-			PositionCallback.affectBankBalance(order, PositionManager.getInstance().orderMode, basicAccount, this);
+			PositionCallback.affectBankBalance(order, positionManager.orderMode, basicAccount, this);
 		}else if (orderStatus == OrderStatus.status_cancelled){
 			if (listOfOrderEntry.size() > 1){
 				synchronized(listOfOrderEntry){

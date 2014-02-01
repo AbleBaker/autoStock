@@ -60,7 +60,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public IndicatorGroup indicatorGroup;
 	public SignalGroup signalGroup;
 	public CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
-	public final PositionGovernor positionGovernor = new PositionGovernor();
+	public final PositionGovernor positionGovernor;
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	protected ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
@@ -82,6 +82,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		
 		signalGroup = new SignalGroup();
 		indicatorGroup = new IndicatorGroup(commonAnalysisData, signalGroup);
+		positionGovernor = new PositionGovernor(algorithmMode == AlgorithmMode.mode_backtest_single ? new PositionManager() : PositionManager.getGlobalInstance());
 	}
 	
 
@@ -106,11 +107,6 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		
 		indicatorGroup.setActive(listOfSignalMetricType);
 		periodLength = indicatorGroup.getMinPeriodLength(true); //algorithmMode != AlgorithmMode.mode_backtest_single);
-		
-		if (PositionManager.getInstance().getPositionListSize() != 0){
-			PositionManager pm = PositionManager.getInstance();
-			throw new IllegalStateException();
-		}
 		
 		dayStartingBalance = basicAccount.getBalance();
 		
@@ -180,8 +176,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		listOfQuoteSlice.add(quoteSlice);
-		position = PositionManager.getInstance().getPosition(quoteSlice.symbol);
-		PositionManager.getInstance().updatePositionPrice(quoteSlice, position);
+		position = positionGovernor.getPositionManager().getPosition(quoteSlice.symbol);
+		positionGovernor.getPositionManager().updatePositionPrice(quoteSlice, position);
 	}
 	
 	public void finishedReceiverOfQuoteSlice(){
