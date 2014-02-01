@@ -153,7 +153,7 @@ public class PositionGovernor {
 		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_short_exit;
 	}
 	
-	public Pair<Symbol,ArrayList<PositionGovernorResponse>> getPair(Symbol symbol){
+	private Pair<Symbol,ArrayList<PositionGovernorResponse>> getPair(Symbol symbol){
 		synchronized (listOfPairedResponses){
 			for (Pair<Symbol,ArrayList<PositionGovernorResponse>> pair : listOfPairedResponses){
 				if (pair.first.symbolName.equals(symbol.symbolName)){

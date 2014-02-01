@@ -14,6 +14,7 @@ import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -37,7 +38,7 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 	}
 	
 	@Override
-	public synchronized double getFitness(AlgorithmModel algorithmModel, List<? extends AlgorithmModel> arg1) {
+	public synchronized double getFitness(AlgorithmModel algorithmModel, List<? extends AlgorithmModel> notUsed) {
 		PositionGovernor.getInstance().reset();
 		PositionManager.getInstance().reset();
 		
