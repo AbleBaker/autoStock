@@ -1,5 +1,6 @@
 package com.autoStock.backtest.watchmaker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
