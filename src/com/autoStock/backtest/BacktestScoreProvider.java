@@ -21,13 +21,18 @@ public class BacktestScoreProvider {
 		
 //		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
 		
-		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
+//		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
 		
-//		score = backtestEvaluation.transactionDetails.avgTradeWin * backtestEvaluation.transactions;
+//		score = backtestEvaluation.percentTradeProfit * (backtestEvaluation.percentYield * 2);
+		
+		score = 0;
 		
 		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
+			
+			score += Math.min(pair.second, 1);
+			
 			if (pair.second <= 0){
-				score /= 4;
+				score /= 3;
 			}
 		}
 		
