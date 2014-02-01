@@ -3,6 +3,7 @@ package com.autoStock.strategy;
 import java.util.ArrayList;
 
 import com.autoStock.algorithm.AlgorithmBase;
+import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionGovernor;
@@ -21,7 +22,7 @@ public abstract class StrategyBase {
 	public StrategyOptions strategyOptions;
 	public AlgorithmCondition algorithmCondition;
 	public AlgorithmBase algorithmBase;
-	public final PositionGovernor positionGovener = PositionGovernor.getInstance();
+	public final PositionGovernor positionGovener = new PositionGovernor();
 	public StrategyResponse lastStrategyResponse = new StrategyResponse();
 	public StrategyResponse currentStrategyResponse = new StrategyResponse();
 

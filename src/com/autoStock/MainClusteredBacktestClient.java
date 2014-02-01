@@ -52,7 +52,6 @@ public class MainClusteredBacktestClient implements ListenerOfCommandHolderResul
 
 	public void runNextBacktest(){
 		AccountProvider.getInstance().getGlobalAccount().reset();
-		PositionGovernor.getInstance().reset();
 		PositionManager.getInstance().reset();
 		
 //		for (AlgorithmModel algorithmModel : computeUnitForBacktest.listOfAlgorithmModel){

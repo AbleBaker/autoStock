@@ -143,6 +143,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		algorithm.basicAccount.reset();
 		hashOfSignalRangeLimit.clear();
 		listOfYield.clear();
+		algorithm.strategyBase.positionGovener.reset();
 		Co.println("******* RESET");
 	}
 

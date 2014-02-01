@@ -39,7 +39,7 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 	
 	@Override
 	public synchronized double getFitness(AlgorithmModel algorithmModel, List<? extends AlgorithmModel> notUsed) {
-		PositionGovernor.getInstance().reset();
+//		PositionGovernor.getInstance().reset();
 		PositionManager.getInstance().reset();
 		
 		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel); 

@@ -23,15 +23,10 @@ import com.google.gson.internal.Pair;
  *
  */
 public class PositionGovernor {
-	private static PositionGovernor instance = new PositionGovernor();
 	private PositionManager positionManager = PositionManager.getInstance(); 
 	private ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>> listOfPairedResponses = new ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>>();
 	private ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 	private PositionGenerator positionGenerator = new PositionGenerator();
-	
-	public static PositionGovernor getInstance(){
-		return instance;
-	}
 	
 	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions, BasicAccount basicAccount){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();

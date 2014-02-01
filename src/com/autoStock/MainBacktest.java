@@ -159,7 +159,6 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 
 		boolean backtestContainedNoData = false;
 
-		PositionGovernor.getInstance().reset();
 		PositionManager.getInstance().reset();
 
 		for (BacktestContainer backtestContainer : listOfBacktestContainer) {
