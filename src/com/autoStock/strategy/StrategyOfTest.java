@@ -151,7 +151,7 @@ public class StrategyOfTest extends StrategyBase {
 
 	private PositionGovernorResponse proceed(QuoteSlice quoteSlice, Position position, PositionOptions positionOptions) {
 		// Co.println("--> Asked to proceed");
-		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, false, position, positionOptions, algorithmBase.basicAccount);
+		PositionGovernorResponse positionGovernorResponse = algorithmBase.positionGovernor.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, false, position, positionOptions, algorithmBase.basicAccount);
 		return positionGovernorResponse;
 	}
 
@@ -159,7 +159,7 @@ public class StrategyOfTest extends StrategyBase {
 		// Co.println("--> Asked to cease: " + strategyActionCause.name());
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		if (position != null) {
-			positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
+			positionGovernorResponse = algorithmBase.positionGovernor.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
 		}
 		strategyResponse.strategyAction = StrategyAction.algorithm_disable;
 		strategyResponse.strategyActionCause = strategyActionCause;
@@ -169,7 +169,7 @@ public class StrategyOfTest extends StrategyBase {
 
 	private PositionGovernorResponse exit(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse) {
 		// Co.println("--> Asked to exit");
-		PositionGovernorResponse positionGovernorResponse = positionGovener.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
+		PositionGovernorResponse positionGovernorResponse = algorithmBase.positionGovernor.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
 
 		strategyResponse.strategyAction = StrategyAction.algorithm_changed;
 		strategyResponse.strategyActionCause = strategyActionCause;

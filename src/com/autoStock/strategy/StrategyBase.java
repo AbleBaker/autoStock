@@ -22,7 +22,6 @@ public abstract class StrategyBase {
 	public StrategyOptions strategyOptions;
 	public AlgorithmCondition algorithmCondition;
 	public AlgorithmBase algorithmBase;
-	public final PositionGovernor positionGovener = new PositionGovernor();
 	public StrategyResponse lastStrategyResponse = new StrategyResponse();
 	public StrategyResponse currentStrategyResponse = new StrategyResponse();
 

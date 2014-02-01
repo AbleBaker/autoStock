@@ -25,6 +25,7 @@ import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
@@ -58,8 +59,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public AlgorithmTable algorithmTable;
 	public IndicatorGroup indicatorGroup;
 	public SignalGroup signalGroup;
-	public PositionGovernorResponse PGResponsePrevious = new PositionGovernorResponse();
 	public CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
+	public final PositionGovernor positionGovernor = new PositionGovernor();
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	protected ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
@@ -118,8 +119,6 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		commonAnalysisData.reset();
 		signalGroup.reset();
 		algorithmState.reset();
-		
-		PGResponsePrevious = null;
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){
