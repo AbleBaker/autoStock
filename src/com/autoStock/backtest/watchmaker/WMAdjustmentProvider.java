@@ -36,7 +36,7 @@ public class WMAdjustmentProvider {
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfDI);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfRSI);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfWILLR);
-		
+
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfARUp);
 //		addTypicalSignalRange(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfARDown);
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("Period length", algorithmBase.indicatorGroup.indicatorOfAR.indicatorParameters.periodLength, new IterableOfInteger(20, 60, 1)));
