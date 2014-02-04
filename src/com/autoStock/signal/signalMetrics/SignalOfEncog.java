@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import org.encog.ml.MLRegression;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
+import org.encog.neural.neat.NEATNetwork;
+import org.encog.neural.neat.PersistNEATNetwork;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
@@ -26,7 +28,8 @@ import com.autoStock.signal.extras.EncogInputWindow;
  *
  */
 public class SignalOfEncog extends SignalBase {
-	private MLRegression basicNetwork;
+//	private MLRegression basicNetwork;
+	private NEATNetwork neatNetwork;
 	private EncogInputWindow encogInputWindow;
 	private SignalPointType lastSignalPointType = SignalPointType.none;
 	
@@ -35,28 +38,37 @@ public class SignalOfEncog extends SignalBase {
 		
 		try {
 			PersistBasicNetwork persistBasicNetwork = new PersistBasicNetwork();
-			basicNetwork = (BasicNetwork) persistBasicNetwork.read(new FileInputStream(new File("../EncogTest/encog.file")));
+//			basicNetwork = (BasicNetwork) persistBasicNetwork.read(new FileInputStream(new File("../EncogTest/encog.file")));
 		}catch(Exception e){}
+		
+		PersistNEATNetwork persistBasicNetwork = new PersistNEATNetwork();
+		try {
+			neatNetwork = (NEATNetwork) persistBasicNetwork.read(new FileInputStream(new File("../EncogTest/encog.file")));
+//			Co.println("--> Read network...");
+		}catch(Exception e2){
+			e2.printStackTrace();
+		}
 	}	
 
 	public void setNetwork(MLRegression network) {
-		this.basicNetwork = network;
+//		this.basicNetwork = network;
+		neatNetwork = (NEATNetwork) network;
 	}
 	
 	@Override
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		SignalPoint signalPoint = new SignalPoint();
 		
-		if (encogInputWindow == null || basicNetwork == null){return signalPoint;}
+		if (encogInputWindow == null || neatNetwork == null){return signalPoint;}
 		
 		NormalizedField normalizedFieldForSignals = new NormalizedField(NormalizationAction.Normalize, "Signal Normalizer", 50, -50, 1, -1);
 		
-		MLData input = new BasicMLData(basicNetwork.getInputCount());
+		MLData input = new BasicMLData(neatNetwork.getInputCount());
 		
 		double[] inputWindow = encogInputWindow.getAsWindow();
 		
-		if (inputWindow.length != basicNetwork.getInputCount()){
-			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
+		if (inputWindow.length != neatNetwork.getInputCount()){
+			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + neatNetwork.getInputCount());
 		}		
 		
 //		Co.println("--> Inputs... " + inputWindow.length);
@@ -66,22 +78,22 @@ public class SignalOfEncog extends SignalBase {
 			input.add(i, normalizedFieldForSignals.normalize(inputWindow[i]));
 		}
         
-        MLData output = basicNetwork.compute(input);
+        MLData output = neatNetwork.compute(input);
         
         double valueForLongEntry = output.getData(0);
-//        double valueForShortEntry = output.getData(1);
+        double valueForShortEntry = output.getData(1);
         double valueForAnyExit = output.getData(1);
         
-        if (valueForLongEntry >= 0.90){
+        if (valueForLongEntry >= 0.99){
 //        	Co.println("--> Long entry?");
         	signalPoint.signalPointType = SignalPointType.long_entry;
         	signalPoint.signalMetricType = SignalMetricType.metric_encog;
-        }
-//        }else if (valueForShortEntry >= 0.90){
-//        	signalPoint.signalPointType = SignalPointType.short_entry;
-//        	signalPoint.signalMetricType = SignalMetricType.metric_encog;
 //        }
-	else if (valueForAnyExit >= 0.90 && havePosition){
+        }else if (valueForShortEntry >= 0.99){
+        	signalPoint.signalPointType = SignalPointType.short_entry;
+        	signalPoint.signalMetricType = SignalMetricType.metric_encog;
+        }
+	else if (valueForAnyExit >= 0.99 && havePosition){
         	if (positionType == PositionType.position_long){
         		signalPoint.signalPointType = SignalPointType.long_exit;
         	}else if (positionType == PositionType.position_short){

@@ -63,7 +63,7 @@ public class SignalGroup {
 		}
 	}, new MutableInteger(1), null, null, null, null){});
 	
-	public static final int ENCOG_SIGNAL_INPUT = 10;
+	public static final int ENCOG_SIGNAL_INPUT = 1;
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	
@@ -121,7 +121,18 @@ public class SignalGroup {
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
-			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfUO.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
+			
+			encogWindow.addInput(signalOfUO.getStrength());
+//			encogWindow.addInput(signalOfCCI.getStrength());
+			encogWindow.addInput(signalOfARUp.getStrength());
+			encogWindow.addInput(signalOfARDown.getStrength());
+//			encogWindow.addInput(signalOfTRIX.getStrength());
+			
+//			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfUO.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
+//			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfCCI.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
+//			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfTRIX.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
+//			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfARUp.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
+//			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfARDown.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
 //			encogWindow.addInputList(signalOfRSI.listOfNormalizedValue.subList(signalOfRSI.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfRSI.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfUO.listOfNormalizedValue.subList(signalOfUO.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfUO.listOfNormalizedValue.size()));
 //			encogWindow.addInputList(signalOfARUp.listOfNormalizedValue.subList(signalOfARUp.listOfNormalizedValue.size() - ENCOG_SIGNAL_INPUT, signalOfARUp.listOfNormalizedValue.size()));

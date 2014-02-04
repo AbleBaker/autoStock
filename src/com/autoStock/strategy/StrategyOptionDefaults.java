@@ -22,8 +22,8 @@ public class StrategyOptionDefaults {
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.disableAfterLoss = false;
 		strategyOptions.prefillEnabled = false;
-		strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_combined;
-		strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_combined;
+		strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_any;
+		strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_any;
 		
 		strategyOptions.maxTransactionsDay = 32;
 		strategyOptions.maxStopLossPercent.value = -0.10d;
@@ -34,12 +34,12 @@ public class StrategyOptionDefaults {
 		strategyOptions.maxPositionExitTime = 10;
 		strategyOptions.maxPositionLossTime = 0;
 		strategyOptions.maxReenterTimesPerPosition.value = 3;
-		strategyOptions.intervalForReentryMins.value = 3;
+		strategyOptions.intervalForReentryMins.value = 2;
 		strategyOptions.minReentryPercentGain.value = 0.25;
 		strategyOptions.prefillShift.value = 0;
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;
 		strategyOptions.intervalForEntryWithSameSignalPointType.value = 10;
-		strategyOptions.disableAfterYield.value = 1.25d;
+		strategyOptions.disableAfterYield.value = 2.00d;
 		
 		return strategyOptions;
 	}

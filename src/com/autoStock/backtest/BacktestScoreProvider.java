@@ -2,6 +2,7 @@ package com.autoStock.backtest;
 
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.google.gson.internal.Pair;
 
@@ -21,7 +22,7 @@ public class BacktestScoreProvider {
 		
 //		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
 		
-//		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
+		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
 		
 //		score = backtestEvaluation.percentTradeProfit * (backtestEvaluation.percentYield * 2);
 		
@@ -29,10 +30,10 @@ public class BacktestScoreProvider {
 		
 		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
 			
-			score += Math.min(pair.second, 1);
+			score += Math.min(pair.second, 2);
 			
 			if (pair.second <= 0){
-				score /= 3;
+				score /= 2;
 			}
 		}
 		

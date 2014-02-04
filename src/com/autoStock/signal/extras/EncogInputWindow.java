@@ -23,6 +23,10 @@ public class EncogInputWindow {
 		listOfDouble.addAll(ListTools.getListFromArray(arrayOfDouble));
 	}
 	
+	public void addInput(double input){
+		listOfDouble.add(input);
+	}
+	
 	public double[] getAsWindow(){
 		return ArrayTools.getArrayFromListOfDouble(listOfDouble);
 	}

@@ -70,7 +70,7 @@ public class BacktestEvaluationBuilder {
 				DescriptorForSignal descriptorForSignal = new DescriptorForSignal();
 				descriptorForSignal.signalName = signalBase.getClass().getSimpleName();
 				descriptorForSignal.signalPointType = pair.first.name();
-				descriptorForSignal.maxSignalAverage = signalBase.signalParameters.maxSignalAverage.value;
+				descriptorForSignal.maxSignalAverage = signalBase.signalParameters.maxSignalAverage != null ? signalBase.signalParameters.maxSignalAverage.value : 0;
 				
 				if (arrayOfSignalGuage != null){
 					for (SignalGuage signalGuage : arrayOfSignalGuage){

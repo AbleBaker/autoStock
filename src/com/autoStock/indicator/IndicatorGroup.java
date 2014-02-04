@@ -122,7 +122,7 @@ public class IndicatorGroup {
 	
 	public void setActive(ArrayList<SignalMetricType> listOfSignalMetricType) {
 		if (listOfSignalMetricType == null){throw new NullPointerException();}
-		this.listOfSignalMetricType = listOfSignalMetricType;
+		this.listOfSignalMetricType = (ArrayList<SignalMetricType>) listOfSignalMetricType.clone();
 	}
 
 	public void analyize() {
