@@ -19,7 +19,6 @@ public class AdjustmentOfBasicDouble extends AdjustmentBase {
 	public void applyValue() {
 		immutableDouble.value = ((IterableOfDouble)iterableBase).getDouble();
 	}
-	
 
 	public double getValue() {
 		return ((IterableOfDouble)iterableBase).getDouble();

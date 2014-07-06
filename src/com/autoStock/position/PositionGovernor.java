@@ -39,9 +39,9 @@ public class PositionGovernor {
 		if (position == null){
 			signalPoint = TacticResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
 				
-			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong){
+			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong.value){
 				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
-			}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort){
+			}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort.value){
 				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
 			}
 		} else {
@@ -51,7 +51,7 @@ public class PositionGovernor {
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
-				}else if (strategyOptions.canReenter){ //signalPointForReentry.signalPointType == SignalPointType.long_entry && 
+				}else if (strategyOptions.canReenter.value){ //signalPointForReentry.signalPointType == SignalPointType.long_entry && 
 					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
 						governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
 					}
@@ -59,7 +59,7 @@ public class PositionGovernor {
 			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
 				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
-				}else if (strategyOptions.canReenter){ 
+				}else if (strategyOptions.canReenter.value){ 
 					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
 						governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
 					}

@@ -122,11 +122,11 @@ public class SignalGroup {
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
 			
-			encogWindow.addInput(signalOfUO.getStrength());
-//			encogWindow.addInput(signalOfCCI.getStrength());
-			encogWindow.addInput(signalOfARUp.getStrength());
-			encogWindow.addInput(signalOfARDown.getStrength());
-//			encogWindow.addInput(signalOfTRIX.getStrength());
+//			encogWindow.addInput(signalOfUO.getStrength());
+////			encogWindow.addInput(signalOfCCI.getStrength());
+//			encogWindow.addInput(signalOfARUp.getStrength());
+//			encogWindow.addInput(signalOfARDown.getStrength());
+////			encogWindow.addInput(signalOfTRIX.getStrength());
 			
 //			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfUO.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
 //			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfCCI.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));

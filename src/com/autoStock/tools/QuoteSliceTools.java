@@ -22,7 +22,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class QuoteSliceTools {
-	public synchronized QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketSymbolData> listOfExResultRowMarketData, Symbol symbol){
+	public QuoteSlice getQuoteSlice(ArrayList<ExResultRowMarketSymbolData> listOfExResultRowMarketData, Symbol symbol){
 		QuoteSlice quoteSlice = new QuoteSlice();
 		quoteSlice.symbol = symbol;
 			

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.TacticResolver.SignalPointTactic;
+import com.autoStock.types.basic.MutableBoolean;
 import com.autoStock.types.basic.MutableDouble;
 import com.autoStock.types.basic.MutableEnum;
 import com.autoStock.types.basic.MutableInteger;
@@ -14,9 +15,9 @@ import com.rits.cloning.Cloner;
  *
  */
 public class StrategyOptions implements Cloneable {
-	public boolean canGoLong;
-	public boolean canGoShort;
-	public boolean canReenter;
+	public MutableBoolean canGoLong = new MutableBoolean(true);
+	public MutableBoolean canGoShort = new MutableBoolean(true);
+	public MutableBoolean canReenter = new MutableBoolean(true);
 	public boolean disableAfterNilChanges;
 	public boolean disableAfterNilVolumes;
 	public boolean mustHavePositiveSlice;
@@ -24,7 +25,7 @@ public class StrategyOptions implements Cloneable {
 	public MutableEnum<SignalPointTactic> signalPointTacticForEntry = new MutableEnum<SignalPointTactic>();
 	public MutableEnum<SignalPointTactic> signalPointTacticForExit = new MutableEnum<SignalPointTactic>();
 	
-	public int maxTransactionsDay;
+	public MutableInteger maxTransactionsDay = new MutableInteger();
 	public MutableDouble minReentryPercentGain = new MutableDouble();
 	public MutableDouble maxStopLossPercent = new MutableDouble();
 	public MutableDouble maxProfitDrawdownPercent = new MutableDouble();
@@ -46,9 +47,9 @@ public class StrategyOptions implements Cloneable {
 	@Override
 	public String toString() {
 		String string = new String();
-		string += "\n - Can go long: " + canGoLong;
-		string += "\n - Can go short: " + canGoShort;
-		string += "\n - Can reenter: " + canReenter;
+		string += "\n - Can go long: " + canGoLong.value;
+		string += "\n - Can go short: " + canGoShort.value;
+		string += "\n - Can reenter: " + canReenter.value;
 		string += "\n - Enable prefill: " + prefillEnabled;
 		string += "\n - Disable after nil changes: " + disableAfterNilChanges;
 		string += "\n - Disable after nil changes in price: " + maxNilChangePrice;
@@ -60,7 +61,7 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Max position loss time: " + maxPositionLossTime;
 		string += "\n - Max stop loss percent: " +  maxStopLossPercent.value;
 		string += "\n - Max profit drawdown percent: " +  maxProfitDrawdownPercent.value;
-		string += "\n - Max transactions per day: " + maxTransactionsDay;
+		string += "\n - Max transactions per day: " + maxTransactionsDay.value;
 		string += "\n - Signal point tactic (entry): " + signalPointTacticForEntry.value.name();
 		string += "\n - Signal point tactic (exit): " + signalPointTacticForExit.value.name();
 		string += "\n - Entry after loss interval minutes: " + intervalForEntryAfterExitWithLossMins.value;

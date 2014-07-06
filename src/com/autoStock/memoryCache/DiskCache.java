@@ -16,8 +16,8 @@ import com.google.gson.Gson;
  *
  */
 public class DiskCache {
-	private final String cacheRoot = "./cache/";
-	private final File fileForCacheRoot = new File(cacheRoot);
+	private final String CACHE_ROOT = "./cache/";
+	private final File fileForCacheRoot = new File(CACHE_ROOT);
 	private Gson gson = new Gson();
 	
 	public DiskCache(){
@@ -27,7 +27,7 @@ public class DiskCache {
 	}
 
 	public boolean containsKey(String queryHash) {
-		if (new File(cacheRoot + queryHash + ".sql").exists()){
+		if (new File(CACHE_ROOT + queryHash + ".sql").exists()){
 			return true;
 		}
 		return false;
@@ -35,7 +35,7 @@ public class DiskCache {
 
 	public ArrayList<?> getValue(String queryHash, Type classForGson) {
 		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(cacheRoot + queryHash + ".sql"));
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(CACHE_ROOT + queryHash + ".sql"));
 			return gson.fromJson(bufferedReader, classForGson);
 		}catch(Exception e){e.printStackTrace();}
 		
@@ -44,11 +44,11 @@ public class DiskCache {
 
 	public void addValue(String queryHash, ArrayList<Object> listOfResults) {
 		try {
-			File file = new File(cacheRoot + queryHash + ".tmp");
+			File file = new File(CACHE_ROOT + queryHash + ".tmp");
 			Writer output = new BufferedWriter(new FileWriter(file));
 			output.write(gson.toJson(listOfResults));
 			output.close();
-			file.renameTo(new File(cacheRoot + queryHash + ".sql"));
+			file.renameTo(new File(CACHE_ROOT + queryHash + ".sql"));
 		}catch(Exception e){e.printStackTrace();}
 	}
 }

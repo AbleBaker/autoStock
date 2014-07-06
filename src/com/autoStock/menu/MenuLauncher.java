@@ -179,7 +179,7 @@ public class MenuLauncher {
 					command = "main_backtest 03/05/2012 03/05/2012 NYSE AIG backtest_default";
 					break;
 				case "8" :
-					command = "main_backtest 03/08/2012 03/08/2012 NYSE AIG backtest_default";
+					command = "main_backtest 03/09/2012 03/09/2012 NYSE AIG backtest_default";
 					break;
 			}
 			

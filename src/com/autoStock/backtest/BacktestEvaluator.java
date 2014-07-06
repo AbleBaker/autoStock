@@ -63,7 +63,7 @@ public class BacktestEvaluator {
 		}
 	}
 	
-	public synchronized void pruneResults(int results, boolean enforceSizeRestriction){
+	public void pruneResults(int results, boolean enforceSizeRestriction){
 		for (Symbol symbol : hashOfBacktestEvaluation.keySet()){
 			ArrayList<BacktestEvaluation> listOfBacktestEvaluation = hashOfBacktestEvaluation.get(symbol);
 			if (listOfBacktestEvaluation.size() <= results && enforceSizeRestriction){

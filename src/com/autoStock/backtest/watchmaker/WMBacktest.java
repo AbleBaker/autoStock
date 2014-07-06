@@ -17,6 +17,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.indicator.results.ResultsSAR;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.trading.types.HistoricalData;
@@ -37,6 +38,7 @@ public class WMBacktest {
 	private Date dateStart;
 	private Date dateEnd;
 	private int currentDayIndex = 0;
+	private Benchmark bench = new Benchmark();
 	
 	public WMBacktest(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<Symbol> listOfSymbols) {
 		this.exchange = exchange;
@@ -53,8 +55,13 @@ public class WMBacktest {
 		ListTools.removeDuplicates(listOfSymbols);
 		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(exchange, dateStart, dateEnd, listOfSymbols);
 		
+		bench.printTick("Started");
+		
 		setupBacktestContainers();
 		runBacktest();
+		
+		bench.printTick("Ended");
+		Global.callbackLock.releaseLock();
 	}
 	
 	private void setupBacktestContainers(){
@@ -62,8 +69,6 @@ public class WMBacktest {
 			HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, null);
 			
 			WMBacktestContainer wmBacktestContainer = new WMBacktestContainer(symbol, exchange, dateStart, dateEnd);
-			
-//			wmAdjustment.listOfAdjustmentBase.addAll(new WMAdjustmentProvider().getListOfAdjustmentBase(wmBacktestContainer.algorithm));
 			
 			listOfWMBacktestContainer.add(wmBacktestContainer);
 		}

@@ -246,7 +246,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 
 
-	private synchronized double getCurrentYield(boolean complete) {	
+	private double getCurrentYield(boolean complete) {	
 		double positionCost = 0;
 		Position currentPosition = null;
 		

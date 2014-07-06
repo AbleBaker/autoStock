@@ -1,8 +1,6 @@
 package com.autoStock.backtest.watchmaker;
 
 import java.awt.IllegalComponentStateException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +16,8 @@ import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
+import org.uncommons.watchmaker.framework.selection.SigmaScaling;
+import org.uncommons.watchmaker.framework.selection.StochasticUniversalSampling;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
 
@@ -25,27 +25,27 @@ import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.adjust.AdjustmentBase;
-import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.DummyAlgorithm;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationWriter;
-import com.autoStock.backtest.ListenerOfBacktestCompleted;
-import com.autoStock.backtest.SingleBacktest;
+import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
+import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
-import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
  *
  */
 public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
+	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
+	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
 	public Exchange exchange;
@@ -57,6 +57,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	private WMCandidateFactory wmCandidateFactory;
 	private MersenneTwisterRNG randomNumberGenerator = new MersenneTwisterRNG();
 	
+	private EvolutionaryOperator<AlgorithmModel> evolutionaryPipeline;
 	private GenerationalEvolutionEngine<AlgorithmModel> evolutionEngine;
 	private IslandEvolution<AlgorithmModel> islandEvolutionEngine;
 
@@ -75,30 +76,46 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		operators.add(new WMMutation(new Probability(0.25)));
 		operators.add(new WMCrossover(1));
 		
-		EvolutionaryOperator<AlgorithmModel> evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
-		
-		islandEvolutionEngine = new IslandEvolution<>(3, 
-				new RingMigration(), 
-				wmCandidateFactory, 
-				evolutionaryPipeline, 
-				new WMBacktestEvaluator(historicalData), 
-				new RouletteWheelSelection(), 
-				randomNumberGenerator);
-		
-		islandEvolutionEngine.addEvolutionObserver(this);
-		
-		evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
-			evolutionaryPipeline, 
-			new WMBacktestEvaluator(historicalData), 
-			new RouletteWheelSelection(), 
-			randomNumberGenerator);
-		
-		evolutionEngine.addEvolutionObserver(this);
+		evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
 	}
 	
 	public void runBacktest(){
-		AlgorithmModel algorithmModel = islandEvolutionEngine.evolve(256, 5, 10, 5, new TargetFitness(999999, true), new GenerationCount(2));
-//		AlgorithmModel algorithmModel = evolutionEngine.evolve(256, 10, new TargetFitness(999999, true), new GenerationCount(10));
+		AlgorithmModel algorithmModel = null;
+		
+		if (evolutionType == WMEvolutionType.type_island){
+			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick? 8 : 16, 
+					new RingMigration(), 
+					wmCandidateFactory, 
+					evolutionaryPipeline, 
+					new WMBacktestEvaluator(historicalData), 
+					new StochasticUniversalSampling(), 
+					randomNumberGenerator);
+			
+			islandEvolutionEngine.addEvolutionObserver(this);
+			
+			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
+				algorithmModel = islandEvolutionEngine.evolve(256, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(3));
+			}else{
+				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(999999, true), new GenerationCount(8));
+			}
+		}else if (evolutionType == WMEvolutionType.type_generational){
+			evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
+				evolutionaryPipeline, 
+				new WMBacktestEvaluator(historicalData), 
+				new StochasticUniversalSampling(),
+				randomNumberGenerator);
+			
+			evolutionEngine.addEvolutionObserver(this);
+			
+			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
+				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(999999, true), new GenerationCount(16));
+			}else{
+				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(999999, true), new GenerationCount(32));
+			}
+		}else{
+			throw new IllegalArgumentException();
+		}
+				
 		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
 		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel);
 		
@@ -137,7 +154,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 //		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 		
-		Co.println("\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness()); // + " Out of sample: " + backtestEvaluation.getScore() + "\n");
+		Co.println("\n\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n"); // + " Out of sample: " + backtestEvaluation.getScore() + "\n");
 		
 		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());

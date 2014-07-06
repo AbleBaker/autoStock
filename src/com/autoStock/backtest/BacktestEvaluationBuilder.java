@@ -9,6 +9,7 @@ import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentCampaignProvider;
+import com.autoStock.adjust.AdjustmentOfBasicBoolean;
 import com.autoStock.adjust.AdjustmentOfBasicDouble;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
@@ -113,6 +114,8 @@ public class BacktestEvaluationBuilder {
 			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicInteger)adjustmentBase).getValue());
 		}else if (adjustmentBase instanceof AdjustmentOfBasicDouble){
 			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicDouble)adjustmentBase).getValue());
+		}else if (adjustmentBase instanceof AdjustmentOfBasicBoolean){
+			descriptorForAdjustment.adjustmentValue = String.valueOf(((AdjustmentOfBasicBoolean)adjustmentBase).getValue());
 		}else if (adjustmentBase instanceof AdjustmentOfEnum){
 			descriptorForAdjustment.adjustmentValue = ((AdjustmentOfEnum)adjustmentBase).getValue().name();
 		}else if (adjustmentBase instanceof AdjustmentOfSignalMetricThreshold){

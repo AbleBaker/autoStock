@@ -30,7 +30,7 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean canTadeAfterTransactions(int transactions){
-		if (transactions >= strategyOptions.maxTransactionsDay){
+		if (transactions >= strategyOptions.maxTransactionsDay.value){
 			return false;
 		}
 		

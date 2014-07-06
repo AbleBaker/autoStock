@@ -8,7 +8,7 @@ public class Config {
 	public static int comListenPort = 8888;
 	public static int comSocketTimeout = 30;
 	public static int dbPort = 3306;
-	public static String dbHost = "192.168.1.137";
+	public static String dbHost = "192.168.1.132";
 	public static String dbDatabase = "autoStock";
 	public static int dbConnectionPartitions = 1;
 	public static int dbMinConnectionsPerParition = 1;
@@ -18,5 +18,5 @@ public class Config {
 	public static String plIbUsername = "wealth000";
 	public static String plIbPassword = "Fishing2";
 	public static int plIbTwsPort = 888;
-	public static String plIbTwsHost = "192.168.1.150";
+	public static String plIbTwsHost = "192.168.1.132";
 }

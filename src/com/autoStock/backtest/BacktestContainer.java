@@ -148,12 +148,12 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	}
 
 	@Override
-	public synchronized void receiveQuoteSlice(QuoteSlice quoteSlice) {
+	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		algorithm.receiveQuoteSlice(quoteSlice);
 	}
 
 	@Override
-	public synchronized void endOfFeed(Symbol symbol) {
+	public void endOfFeed(Symbol symbol) {
 		listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
 		algorithm.endOfFeed(symbol);
 		

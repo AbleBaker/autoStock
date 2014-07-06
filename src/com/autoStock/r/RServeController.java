@@ -26,7 +26,7 @@ public class RServeController {
 		for (int i=0; i<instancePoolSize; i++){
 			try {
 				Process process = Runtime.getRuntime().exec("C:\\Program Files\\R\\R-3.0.1\\bin\\R.exe -e \"library(Rserve);Rserve(FALSE,args='--no-save --slave --RS-port 100" + i + "')\" --no-save --slave");
-				listOfRServeProcesses.add(new RProcess(i, 1000 + i, process));
+				listOfRServeProcesses.add(new RProcess(i, 5000 + i, process));
 			}catch(Exception e){
 				e.printStackTrace();
 			}
