@@ -78,10 +78,10 @@ public class IndicatorGroup {
 	public CommonAnalysisData commonAnalysisData;
 
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
-	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
+	private ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
+	private ArrayList<SignalMetricType> listOfSignalMetricTypeActive = new ArrayList<SignalMetricType>();
 
 	public IndicatorGroup(CommonAnalysisData commonAnlaysisData, SignalGroup signalGroup) {
-		int resultLength = SignalGroup.ENCOG_SIGNAL_INPUT;
 		this.signalGroup = signalGroup;
 		this.commonAnalysisData = commonAnlaysisData;
 		
@@ -111,7 +111,7 @@ public class IndicatorGroup {
 	public void setDataSet(){
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			for (SignalMetricType signalMetricType : indicator.getSignalMetricType()){
-				if (listOfSignalMetricType.contains(signalMetricType)){
+				if (listOfSignalMetricTypeAnalyze.contains(signalMetricType)){
 					indicator.setDataSet();
 				}
 			}
@@ -120,34 +120,39 @@ public class IndicatorGroup {
 		if (candleStickIdentifier != null){candleStickIdentifier.setDataSet();} 
 	}
 	
+	public void setAnalyze(ArrayList<SignalMetricType> listOfSignalMetricType) {
+		if (listOfSignalMetricType == null){throw new NullPointerException();}
+		this.listOfSignalMetricTypeAnalyze = (ArrayList<SignalMetricType>) listOfSignalMetricType.clone();
+	}
+	
 	public void setActive(ArrayList<SignalMetricType> listOfSignalMetricType) {
 		if (listOfSignalMetricType == null){throw new NullPointerException();}
-		this.listOfSignalMetricType = (ArrayList<SignalMetricType>) listOfSignalMetricType.clone();
+		this.listOfSignalMetricTypeActive = (ArrayList<SignalMetricType>) listOfSignalMetricType.clone();
 	}
 
-	public void analyize() {
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_adx)){resultsADX = indicatorOfADX.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_cci)){resultsCCI = indicatorOfCCI.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_di)){resultsDI = indicatorOfDI.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_macd)){resultsMACD = indicatorOfMACD.analize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_rsi)){resultsRSI = indicatorOfRSI.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_trix)){resultsTRIX = indicatorOfTRIX.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_roc)){resultsROC = indicatorOfROC.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_storsi)){resultsSTORSI = indicatorOfSTORSI.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_mfi)){resultsMFI = indicatorOfMFI.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo)){resultsUO = indicatorOfUO.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_ar_up)){resultsAR = indicatorOfAR.analyize();}
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_sar)){resultsSAR = indicatorOfSAR.analyize();}
+	public void analyze() {
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_adx)){resultsADX = indicatorOfADX.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_cci)){resultsCCI = indicatorOfCCI.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_di)){resultsDI = indicatorOfDI.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_macd)){resultsMACD = indicatorOfMACD.analize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_rsi)){resultsRSI = indicatorOfRSI.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_trix)){resultsTRIX = indicatorOfTRIX.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_roc)){resultsROC = indicatorOfROC.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_storsi)){resultsSTORSI = indicatorOfSTORSI.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_mfi)){resultsMFI = indicatorOfMFI.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_uo)){resultsUO = indicatorOfUO.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_ar_up)){resultsAR = indicatorOfAR.analyize();}
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_sar)){resultsSAR = indicatorOfSAR.analyize();}
 		
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_crossover)){
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_crossover)){
 			resultsEMAFirst = indicatorOfEMAFirst.analyize();
 			resultsEMASecond = indicatorOfEMASecond.analyize();
 		}
 		
 //		Co.println("-->X: " + signalGroup.signalOfUO.getStrengthWindow().length);
 		
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_uo) && signalGroup.signalOfUO.getStrengthWindow().length >= 10){
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_uo) && signalGroup.signalOfUO.getStrengthWindow().length >= 10){
 //			resultsPTD = indicatorOfPTD.analyize(signalGroup.signalOfUO.getStrengthWindow());
 			
 //			Co.println("--> Have results? " + resultsPTD.arrayOfPTD.length);
@@ -157,7 +162,7 @@ public class IndicatorGroup {
 //			}
 		}
 		
-		if (listOfSignalMetricType.contains(SignalMetricType.metric_candlestick_group) && candleStickIdentifier != null){
+		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_candlestick_group) && candleStickIdentifier != null){
 			candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);
 		}
 	}
@@ -167,7 +172,7 @@ public class IndicatorGroup {
 		
 		for (IndicatorBase indicatorBase : listOfIndicatorBase){
 			for (SignalMetricType signalMetricType : indicatorBase.getSignalMetricType()){
-				if (listOfSignalMetricType.contains(signalMetricType)){
+				if (listOfSignalMetricTypeActive.contains(signalMetricType)){
 					list.add(indicatorBase);
 				}
 			}
@@ -187,7 +192,7 @@ public class IndicatorGroup {
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			if (indicator instanceof CandleStickIdentifier == false){
 				for (SignalMetricType signalMetricType : indicator.getSignalMetricType()){
-					if (listOfSignalMetricType.contains(signalMetricType) || includeAll){
+					if (listOfSignalMetricTypeAnalyze.contains(signalMetricType) || includeAll){
 						if (indicator.getRequiredDatasetLength() > min){
 							min = indicator.getRequiredDatasetLength();
 							indcatorBase = indicator;

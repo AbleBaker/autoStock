@@ -139,7 +139,9 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		Co.print(backtestEvaluationOutOfSample.toString());
 		
-		new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
+		if (backtestEvaluation.getScore() > 0){
+			new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
+		}
 	}
 
 	@Override

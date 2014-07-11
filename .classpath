@@ -37,6 +37,6 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.20.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.14.jar"/>
 	<classpathentry kind="lib" path="lib/uncommons-maths-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/watchmaker-framework-0.7.1.jar" sourcepath="C:/Users/Kevin/Desktop/watchmaker-framework-0.7.1/src/watchmaker-framework-0.7.1-src.jar"/>
+	<classpathentry kind="lib" path="lib/watchmaker-framework-0.7.1.jar" sourcepath="lib/watchmaker-framework-0.7.1-src.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

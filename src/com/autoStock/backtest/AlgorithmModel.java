@@ -37,8 +37,8 @@ public class AlgorithmModel {
 	public AlgorithmModel copy(){
 		AlgorithmModel algorithmModel = new AlgorithmModel();
 		
-		algorithmModel.strategyOptions = this.strategyOptions.copy();
-		algorithmModel.wmAdjustment = this.wmAdjustment.copy();
+		algorithmModel.strategyOptions = strategyOptions.copy();
+		algorithmModel.wmAdjustment = wmAdjustment.copy();
 		
 		for (SignalParameters signalParameters : listOfSignalParameters){
 			algorithmModel.listOfSignalParameters.add(signalParameters.copy());

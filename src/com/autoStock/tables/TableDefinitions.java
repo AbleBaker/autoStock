@@ -40,6 +40,15 @@ public class TableDefinitions {
 			
 			return this;
 		}
+		
+		public boolean containsColumn(AsciiColumns column){
+			for (AsciiColumns asciiColumn : this.arrayOfColumns){
+				if (asciiColumn == column){
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 	
 	public static enum AsciiColumns {

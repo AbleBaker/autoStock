@@ -16,7 +16,6 @@ public class TableController {
 		if (checkTable(table, values)){
 			ASCIITable.getInstance().printTable(new TableHelper().getArrayOfColumns(table.arrayOfColumns), new TableHelper().getArrayOfRows(table.arrayOfColumns,values));
 		}
-//		Co.println("\n" + getTable(table, values));
 	}
 	
 	public boolean checkTable(TableDefinitions.AsciiTables table, ArrayList<ArrayList<String>> values){

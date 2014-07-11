@@ -12,12 +12,14 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.ArrayTools;
+import com.autoStock.tools.PrintTools;
 import com.autoStock.types.basic.MutableInteger;
 
 public abstract class SignalBase {
 	public SignalMetricType signalMetricType = SignalMetricType.none;
 	protected ArrayList<Double> listOfNormalizedValue = new ArrayList<Double>();
 	protected ArrayList<Double> listOfNormalizedAveragedValue = new ArrayList<Double>();
+	protected ArrayList<Double> listOfNormalizedValuePersist = new ArrayList<Double>();
 	protected ArrayList<Double> listOfNormalizedAveragedValuePersist = new ArrayList<Double>();
 	protected MutableInteger maxSignalAverage;
 	public SignalParameters signalParameters;
@@ -31,6 +33,16 @@ public abstract class SignalBase {
 	
 	public double[] getStrengthWindow(){
 		return ArrayTools.getArrayFromListOfDouble(listOfNormalizedAveragedValue);
+	}
+	
+	public double[] getNormalizedAveragedWindow(int windowSize){
+		if (windowSize <= 0 || listOfNormalizedAveragedValuePersist.size() - windowSize < 0){throw new IllegalArgumentException();}
+		return ArrayTools.getArrayFromListOfDouble(listOfNormalizedAveragedValuePersist.subList(listOfNormalizedAveragedValuePersist.size()-windowSize, listOfNormalizedAveragedValuePersist.size()));
+	}
+	
+	public double[] getNormalizedWindow(int windowSize){
+		if (windowSize <= 0 || listOfNormalizedValuePersist.size() - windowSize < 0){throw new IllegalArgumentException();}
+		return ArrayTools.getArrayFromListOfDouble(listOfNormalizedValuePersist.subList(listOfNormalizedValuePersist.size()-windowSize, listOfNormalizedValuePersist.size()));
 	}
 
 	public double getStrength(){
@@ -53,11 +65,13 @@ public abstract class SignalBase {
 	}
 	
 	public void setInput(double value){
-		double strength = getStrength();
 		listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value));
+		double strength = getStrength();
+		
 		listOfNormalizedAveragedValue.add(strength);
 		signalRangeLimit.addValue(strength);
 		listOfNormalizedAveragedValuePersist.add(strength);
+		listOfNormalizedValuePersist.add(strength);
 		
 		prune(maxSignalAverage.value);
 	}
@@ -85,6 +99,7 @@ public abstract class SignalBase {
 	public void reset() {
 		listOfNormalizedAveragedValuePersist.clear();
 		listOfNormalizedAveragedValue.clear();
+		listOfNormalizedValuePersist.clear();
 		listOfNormalizedValue.clear();
 		signalRangeLimit.reset();
 	}

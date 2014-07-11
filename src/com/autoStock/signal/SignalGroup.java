@@ -28,6 +28,7 @@ import com.autoStock.signal.signalMetrics.SignalOfUO;
 import com.autoStock.signal.signalMetrics.SignalOfWILLR;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.tools.PrintTools;
 import com.autoStock.types.basic.MutableInteger;
 
 /**
@@ -63,7 +64,7 @@ public class SignalGroup {
 		}
 	}, new MutableInteger(1), null, null, null, null){});
 	
-	public static final int ENCOG_SIGNAL_INPUT = 1;
+	public static final int ENCOG_SIGNAL_INPUT = 3;
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	
@@ -117,10 +118,27 @@ public class SignalGroup {
 		
 		signalOfHT.analyize(signalOfUO.getStrengthWindow());
 		
-		if (signalOfUO.listOfNormalizedValue.size() >= ENCOG_SIGNAL_INPUT){
+//		Co.println("--> " + signalOfCCI.listOfNormalizedValuePersist.size());
+		
+		if (signalOfCCI.listOfNormalizedValuePersist.size() >= ENCOG_SIGNAL_INPUT + 1){
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
+			
+//			Co.println("--> A: " + PrintTools.getString(signalOfCCI.getNormalizedWindow(4)));
+			
+			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfCCI.getNormalizedWindow(4)), 1, 4));
+			
+//			Co.println("--> B: " + encogWindow.getAsWindow().length);
+			
+//			Co.println(PrintTools.getString(encogWindow.getAsWindow()));
+			
+//			Co.println("--> C");
+			
+//			Co.println(PrintTools.getStringFromArray(MathTools.getDeltasAsPercent(signalOfCCI.getStrengthWindow())));
+			
+//			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfCCI.getStrengthWindow()), 1, 5));
+			
 			
 //			encogWindow.addInput(signalOfUO.getStrength());
 ////			encogWindow.addInput(signalOfCCI.getStrength());
@@ -129,7 +147,6 @@ public class SignalGroup {
 ////			encogWindow.addInput(signalOfTRIX.getStrength());
 			
 //			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfUO.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
-//			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfCCI.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
 //			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfTRIX.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
 //			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfARUp.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));
 //			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfARDown.getStrengthWindow()), 0, ENCOG_SIGNAL_INPUT));

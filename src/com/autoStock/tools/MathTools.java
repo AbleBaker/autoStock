@@ -6,6 +6,8 @@ package com.autoStock.tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.autoStock.Co;
+
 
 /**
  * @author Kevin Kowalewski
@@ -289,8 +291,24 @@ public class MathTools {
 	public static int[] getDeltas(int[] arrayOfInt) {
 		int[] results = new int[arrayOfInt.length];
 		
-		for (int i=0; i<arrayOfInt.length-1; i++){
-			results[i] = arrayOfInt[i] = arrayOfInt[i+1];
+		for (int i=0; i<arrayOfInt.length; i++){
+			if (i == 0){
+				results[i] = 0;
+			}
+			results[i] = arrayOfInt[i] - arrayOfInt[i-1];
+		}
+		
+		return results;
+	}
+	
+	public static double[] getDeltas(double[] arrayOfDouble) {
+		double[] results = new double[arrayOfDouble.length];
+		
+		for (int i=0; i<arrayOfDouble.length; i++){
+			if (i == 0){
+				results[i] = 0;
+			}
+			results[i] = arrayOfDouble[i] - arrayOfDouble[i-1];
 		}
 		
 		return results;
@@ -303,11 +321,12 @@ public class MathTools {
 	public static double[] getDeltasAsPercent(double[] arrayOfDouble) {
 		double[] results = new double[arrayOfDouble.length];
 		
-		for (int i=0; i<arrayOfDouble.length-1; i++){
-			if (arrayOfDouble[i] == 0){
+		for (int i=0; i<arrayOfDouble.length; i++){
+			if (i == 0){
 				results[i] = 0;
 			}else{
-				results[i] = (arrayOfDouble[i+1] / arrayOfDouble[i]) - 1;
+//				Co.println("--> X["+i+"]: " + arrayOfDouble[i] + ", " + arrayOfDouble[i-1]);
+				results[i] = ((arrayOfDouble[i] / arrayOfDouble[i-1]) -1) * 100;
 			}
 		}
 		

@@ -39,7 +39,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.prefillShift.value = 0;
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 10;
 		strategyOptions.intervalForEntryWithSameSignalPointType.value = 10;
-		strategyOptions.disableAfterYield.value = 2.00d;
+		strategyOptions.disableAfterYield.value = 10.00d;
 		
 		return strategyOptions;
 	}

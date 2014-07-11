@@ -2,6 +2,7 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
@@ -15,6 +16,7 @@ import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
+import com.autoStock.tools.PrintTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.QuoteSlice;
 
@@ -27,7 +29,6 @@ public class StrategyOfTest extends StrategyBase {
 		super(algorithmBase);
 		
 		strategyOptions = StrategyOptionDefaults.getInstance().getDefaultStrategyOptions();
-		algorithmCondition = new AlgorithmCondition(strategyOptions);
 
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
@@ -35,7 +36,7 @@ public class StrategyOfTest extends StrategyBase {
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 
-		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
+//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_uo);
@@ -45,7 +46,7 @@ public class StrategyOfTest extends StrategyBase {
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_willr);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_sar);
 		// strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_candlestick_group);
-//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
+		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
 		
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_crossover);
 
@@ -55,6 +56,7 @@ public class StrategyOfTest extends StrategyBase {
 	public StrategyResponse informStrategy(IndicatorGroup indicatorGroup, SignalGroup signalGroup, ArrayList<QuoteSlice> listOfQuoteSlice, ArrayList<StrategyResponse> listOfStrategyResponse, Position position, PositionOptions positionOptions) {
 		StrategyResponse strategyResponse = new StrategyResponse();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size() - 1);
+		AlgorithmCondition algorithmCondition = new AlgorithmCondition(strategyOptions);
 
 		signal = new Signal(SignalSource.from_algorithm, signalGroup);
 		signal.addSignalBaseFromMetrics(strategyOptions.listOfSignalMetricType);

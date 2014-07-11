@@ -11,6 +11,7 @@ import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.adjust.AdjustmentRebaser;
 import com.autoStock.algorithm.AlgorithmTest;
+import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
@@ -42,7 +43,7 @@ import com.google.gson.internal.Pair;
  * 
  */
 public class BacktestContainer implements ReceiverOfQuoteSlice {
-	private final boolean usePrecomputedEvaluation = false;
+	private final boolean USE_PRECOMPUTED_ALGORITHM_MODEL = true;
 	public final Symbol symbol;
 	public final Exchange exchange;
 	public HistoricalData historicalData;
@@ -60,7 +61,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	public Date dateContainerStart;
 	public Date dateContainerEnd;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, AlgorithmMode algorithmMode) {
 		this.symbol = symbol;
 		this.exchange = exchange;
@@ -75,17 +76,11 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		
 		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
 
-		if (algorithmMode == AlgorithmMode.mode_backtest && usePrecomputedEvaluation){
-			ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));
-			
-			if (listOfGsonResults.size() > 0){
+		if (algorithmMode == AlgorithmMode.mode_backtest && USE_PRECOMPUTED_ALGORITHM_MODEL){
+			AlgorithmModel algorithmModel = BacktestEvaluationReader.getPrecomputedModel(exchange, symbol);
+			if (algorithmModel != null){
 				Co.println("--> Evaluation available");
-				GsonBuilder gsonBuilder = new GsonBuilder();
-				gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
-				gsonBuilder.registerTypeAdapter(IndicatorParameters.class, new GsonClassAdapter());
-				
-				BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);
-				algorithm.remodel(backtestEvaluation);
+				new AlgorithmRemodeler(algorithm, algorithmModel).remodel(true, true, true, false);
 			}
 		}
 	}

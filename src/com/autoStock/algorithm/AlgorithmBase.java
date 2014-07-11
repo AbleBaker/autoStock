@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.jfree.data.time.Year;
 
@@ -64,6 +65,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	protected ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
+	protected ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
 	public QuoteSlice firstQuoteSlice;
 	protected Position position;
 	public StrategyBase strategyBase;
@@ -105,7 +107,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			//Check Strategy actually contains adjustment values... 
 		}
 		
-		indicatorGroup.setActive(listOfSignalMetricType);
+		indicatorGroup.setAnalyze(listOfSignalMetricTypeAnalyze);
+		indicatorGroup.setActive(listOfSignalMetricTypeAnalyze);
 		periodLength = indicatorGroup.getMinPeriodLength(true); //algorithmMode != AlgorithmMode.mode_backtest_single);
 		
 		dayStartingBalance = basicAccount.getBalance();
@@ -115,6 +118,11 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		commonAnalysisData.reset();
 		signalGroup.reset();
 		algorithmState.reset();
+	}
+	
+	protected void setAnalyzeAndActive(ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze, ArrayList<SignalMetricType> listOfSignalMetricTypeActive) {
+		this.listOfSignalMetricTypeAnalyze = listOfSignalMetricTypeAnalyze;
+		listOfSignalMetricType = listOfSignalMetricTypeActive;
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){
@@ -208,14 +216,6 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 	}
 	
-	public void remodel(BacktestEvaluation backtestEvaluation){
-		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel();
-	}
-	
-	public void remodel(BacktestEvaluation backtestEvaluation, boolean includeStrategyOptions, boolean includeSignalParameters, boolean includeIndicatorParameters){
-		new AlgorithmRemodeler(this, backtestEvaluation.algorithmModel).remodel(includeStrategyOptions, includeSignalParameters, includeIndicatorParameters);
-	}
-	
 	public void setFundamentalData(FundamentalData fundamentalData){
 		this.fundamentalData = fundamentalData;
 	}
@@ -273,17 +273,6 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			yield = (increasedValue / positionCost) * 100;
 		}else{
 			//pass, no positions!
-		}
-		
-		if (yield > 25){
-			Co.println("--> Have current position: " + currentPosition);
-			Co.println("--> Position cost: " + positionCost);
-			Co.println("--> Balance: " +  basicAccount.getBalance());
-			Co.println("--> Starting Balance: " + dayStartingBalance);
-			Co.println("--> Yield: " + yield);
-			Co.println("--> Complete: " + complete);
-
-			throw new IllegalStateException();
 		}
 
 		return yield;
