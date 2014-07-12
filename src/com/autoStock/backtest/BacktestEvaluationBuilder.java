@@ -35,6 +35,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.signalMetrics.SignalOfCrossover;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tables.TableForStrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -98,7 +99,8 @@ public class BacktestEvaluationBuilder {
 			}
 		}
 		
-		backtestEvaluation.listOfDisplayRowsFromStrategyResponse = BacktestUtils.getTableDisplayRows(backtestContainer);
+		backtestEvaluation.listOfDisplayRowsFromStrategyResponse = new TableForStrategyResponse(backtestContainer).getDisplayRows();
+		backtestEvaluation.listOfDisplayRowsFromAlgorithm = backtestContainer.algorithm.tableForAlgorithm.getDisplayRows();
 		
 		backtestEvaluation.listOfDailyYield = new Cloner().deepClone(backtestContainer.listOfYield);
 		
@@ -152,8 +154,7 @@ public class BacktestEvaluationBuilder {
 		}
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_silent);
-		
-		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, backtestEvaluation.algorithmModel).remodel();
+		singleBacktest.remodel(backtestEvaluation.algorithmModel);
 		singleBacktest.setBacktestData(listOfResults);
 		
 		if (neuralNetwork != null){

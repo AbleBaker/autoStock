@@ -11,6 +11,9 @@ import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tables.TableController;
+import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.ListTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -28,7 +31,12 @@ public class AlgorithmTest extends AlgorithmBase {
 	public void init(Date startingDate){
 		this.startingDate = startingDate;
 		
-		setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+		if (algorithmMode == AlgorithmMode.mode_backtest_single){
+			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo})), strategyBase.strategyOptions.listOfSignalMetricType);
+			//setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+		}else{
+			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+		}
 
 		initialize();
 		
@@ -65,7 +73,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			}
 			
 			if (algorithmMode.displayTable) {
-				algorithmTable.addTableRow(listOfQuoteSlice, strategyBase.signal, signalGroup, strategyResponse, basicAccount);
+				tableForAlgorithm.addTableRow(listOfQuoteSlice, strategyBase.signal, signalGroup, strategyResponse, basicAccount);
 			}
 				
 //			Co.println("--> Sizes: " + listOfQuoteSlice.size() + ", " + algorithmTable.listOfDisplayRows.size());
@@ -81,7 +89,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			algorithmChart.display();
 		}
 		if (algorithmMode.displayTable) {
-			algorithmTable.display();
+			new TableController().displayTable(AsciiTables.algorithm_test, tableForAlgorithm.getDisplayRows());
 		}
 		if (algorithmListener != null) {
 			algorithmListener.endOfAlgorithm();

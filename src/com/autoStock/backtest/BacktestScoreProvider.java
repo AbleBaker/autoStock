@@ -22,16 +22,16 @@ public class BacktestScoreProvider {
 		
 //		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
 		
-//		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
+		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
 		
 //		score = backtestEvaluation.percentTradeProfit * (backtestEvaluation.percentYield * 2);
 		
-		score = 0;
-		
-		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
-			score += Math.min(pair.second, 2);
-			if (pair.second < 0){score /= 2;}
-		}
+//		score = 0;
+//		
+//		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
+//			score += Math.min(pair.second, 3);
+//			if (pair.second < 0){score /= 2;}
+//		}
 		
 		return score > 0 ? score : 0;
 	}

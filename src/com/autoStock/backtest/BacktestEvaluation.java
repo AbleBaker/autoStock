@@ -47,6 +47,8 @@ public class BacktestEvaluation {
 	public ArrayList<DescriptorForAdjustment> listOfDescriptorForAdjustment = new ArrayList<DescriptorForAdjustment>();
 	
 	public ArrayList<ArrayList<String>> listOfDisplayRowsFromStrategyResponse;
+	public ArrayList<ArrayList<String>> listOfDisplayRowsFromAlgorithm;
+	
 	public ArrayList<Pair<Date, Double>> listOfDailyYield;
 	
 	public BacktestEvaluation(BacktestContainer backtestContainer){
@@ -77,7 +79,7 @@ public class BacktestEvaluation {
 			string += "\n";
 			
 			for (DescriptorForGuage descriptorForGuage : listOfDescriptorForGuage){
-				string += descriptorForGuage.toString() + "\n";
+				string += descriptorForGuage.toString();
 			}
 			
 			return string;
@@ -164,6 +166,8 @@ public class BacktestEvaluation {
 		}
 		
 		string += "\n";
+		
+		string += " - Algorithm period: " + algorithmModel.periodLength + "\n";
 		
 		for (DescriptorForIndicator descriptorForIndicator : listOfDescriptorForIndicator){
 			string += "\n - " + descriptorForIndicator.toString();

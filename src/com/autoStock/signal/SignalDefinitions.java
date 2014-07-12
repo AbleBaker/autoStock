@@ -30,8 +30,9 @@ public class SignalDefinitions {
 		long_exit,
 		short_entry,
 		short_exit,
+		reentry,
 		no_change,
-		none
+		none,
 	}
 	
 	public static enum SignalGuageType {

@@ -128,8 +128,8 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 				Co.println("--> Rebase required...");
 				
 				SingleBacktest singleBacktest = new SingleBacktest(BacktestUtils.getBaseHistoricalData(exchange, pair.first.identifier, dateStart, dateEnd, Resolution.min), AlgorithmMode.mode_backtest_silent);
-				singleBacktest.selfPopulateBacktestData();
 				singleBacktest.remodel(AlgorithmModel.getCurrentAlgorithmModel(hashOfAlgorithmBase.get(pair.first.identifier)));
+				singleBacktest.selfPopulateBacktestData();
 				singleBacktest.runBacktest();
 				
 				new AdjustmentRebaser(pair.second, singleBacktest.backtestContainer).rebase();

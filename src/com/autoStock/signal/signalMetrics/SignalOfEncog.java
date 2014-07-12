@@ -30,6 +30,7 @@ import com.autoStock.tools.PrintTools;
  * 
  */
 public class SignalOfEncog extends SignalBase {
+	private static final double NEURON_THRESHOLD = 0.95;
 	// private MLRegression basicNetwork;
 	private NEATNetwork neatNetwork;
 	private EncogInputWindow encogInputWindow;
@@ -86,19 +87,19 @@ public class SignalOfEncog extends SignalBase {
 
 		double valueForLongEntry = output.getData(0);
 		double valueForShortEntry = output.getData(1);
-		double valueForAnyExit = output.getData(1);
+		double valueForAnyExit = output.getData(2);
 		
 //		Co.println("--> Values: " + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit);
 
-		if (valueForLongEntry >= 0.99) {
+		if (valueForLongEntry >= NEURON_THRESHOLD) {
 			// Co.println("--> Long entry?");
 			signalPoint.signalPointType = SignalPointType.long_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 			// }
-		} else if (valueForShortEntry >= 0.99) {
+		} else if (valueForShortEntry >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.short_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
-		} else if (valueForAnyExit >= 0.99 && havePosition) {
+		} else if (valueForAnyExit >= NEURON_THRESHOLD && havePosition) {
 			if (positionType == PositionType.position_long) {
 				signalPoint.signalPointType = SignalPointType.long_exit;
 			} else if (positionType == PositionType.position_short) {

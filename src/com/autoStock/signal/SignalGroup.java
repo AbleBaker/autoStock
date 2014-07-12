@@ -120,7 +120,8 @@ public class SignalGroup {
 		
 //		Co.println("--> " + signalOfCCI.listOfNormalizedValuePersist.size());
 		
-		if (signalOfCCI.listOfNormalizedValuePersist.size() >= ENCOG_SIGNAL_INPUT + 1){
+		if (signalOfCCI.listOfNormalizedValuePersist.size() >= ENCOG_SIGNAL_INPUT + 1 &&
+			signalOfUO.listOfNormalizedValuePersist.size() >= ENCOG_SIGNAL_INPUT + 1){
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
@@ -128,6 +129,7 @@ public class SignalGroup {
 //			Co.println("--> A: " + PrintTools.getString(signalOfCCI.getNormalizedWindow(4)));
 			
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfCCI.getNormalizedWindow(4)), 1, 4));
+			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfUO.getNormalizedWindow(4)), 1, 4));
 			
 //			Co.println("--> B: " + encogWindow.getAsWindow().length);
 			

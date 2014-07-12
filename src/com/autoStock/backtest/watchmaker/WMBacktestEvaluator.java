@@ -30,6 +30,8 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 	private HistoricalData historicalData;
 	private Exchange exchange;
 	private Symbol symbol;
+	private double bestScore = 0;
+	private BacktestEvaluation bestEvaluation = null;
 	
 	public WMBacktestEvaluator(HistoricalData historicalData){
 		this.historicalData = historicalData;

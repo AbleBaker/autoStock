@@ -31,6 +31,7 @@ import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationWriter;
+import com.autoStock.backtest.encog.TrainEncogSignal;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.tools.DateTools;
@@ -94,7 +95,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(256, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(64, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(999999, true), new GenerationCount(8));
 			}
@@ -121,7 +122,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		double fitness = backtestEvaluation.getScore();
 		
-		Co.println("\n\n Best result: " + fitness);
+		Co.println("\n\nBest result: " + fitness + "\n");
 		
 		if (bestResult != fitness){
 			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
@@ -163,10 +164,18 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		}
 		
 		bestResult = data.getBestCandidateFitness();
+		
+//		if (data.getGenerationNumber() != 2){
+//			trainEncog(data.getBestCandidate(), historicalData);
+//		}
 	}
 
 	@Override
 	public void islandPopulationUpdate(int islandIndex, PopulationData<? extends AlgorithmModel> data) {
 		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
+	}
+	
+	private void trainEncog(AlgorithmModel algorithmModel, HistoricalData historicalData){		
+		new TrainEncogSignal(algorithmModel, historicalData).execute();
 	}
 }

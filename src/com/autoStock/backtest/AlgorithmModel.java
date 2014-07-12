@@ -25,13 +25,15 @@ public class AlgorithmModel {
 	public ArrayList<SignalParameters> listOfSignalParameters = new ArrayList<SignalParameters>();
 	public ArrayList<IndicatorParameters> listOfIndicatorParameters = new ArrayList<IndicatorParameters>();
 	public WMAdjustment wmAdjustment;
+	public int periodLength;
 	
 	public AlgorithmModel(){ }
 	
-	public AlgorithmModel(StrategyOptions strategyOptions, ArrayList<SignalParameters> listOfSignalParameters, ArrayList<IndicatorParameters> listOfIndicatorParameters) {
+	public AlgorithmModel(StrategyOptions strategyOptions, ArrayList<SignalParameters> listOfSignalParameters, ArrayList<IndicatorParameters> listOfIndicatorParameters, int periodLength) {
 		this.strategyOptions = strategyOptions;
 		this.listOfSignalParameters = listOfSignalParameters;
 		this.listOfIndicatorParameters = listOfIndicatorParameters;
+		this.periodLength = periodLength;
 	}
 	
 	public AlgorithmModel copy(){
@@ -39,6 +41,7 @@ public class AlgorithmModel {
 		
 		algorithmModel.strategyOptions = strategyOptions.copy();
 		algorithmModel.wmAdjustment = wmAdjustment.copy();
+		algorithmModel.periodLength = periodLength;
 		
 		for (SignalParameters signalParameters : listOfSignalParameters){
 			algorithmModel.listOfSignalParameters.add(signalParameters.copy());
@@ -63,7 +66,7 @@ public class AlgorithmModel {
 			listOfIndicatorParameters.add(indicatorBase.indicatorParameters.copy());
 		}
 		
-		return new AlgorithmModel(algorithmBase.strategyBase.strategyOptions, listOfSignalParameters, listOfIndicatorParameters);
+		return new AlgorithmModel(algorithmBase.strategyBase.strategyOptions, listOfSignalParameters, listOfIndicatorParameters, algorithmBase.getPeriodLength());
 	}
 	
 	public String getUniqueIdentifier(){

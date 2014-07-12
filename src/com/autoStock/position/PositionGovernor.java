@@ -51,7 +51,7 @@ public class PositionGovernor {
 			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
-				}else if (strategyOptions.canReenter.value){ //signalPointForReentry.signalPointType == SignalPointType.long_entry && 
+				}else if (strategyOptions.canReenter.value){ 
 					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
 						governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
 					}

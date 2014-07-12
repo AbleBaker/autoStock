@@ -10,6 +10,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -61,5 +63,9 @@ public class ListTools {
 		}
 
 		return listOfDouble;
+	}
+
+	public static <T> ArrayList<T> getList(List<T> asList) {
+		return new ArrayList<T>(asList);
 	}
 }

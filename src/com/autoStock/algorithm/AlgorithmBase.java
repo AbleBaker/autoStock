@@ -19,7 +19,6 @@ import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
 import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.core.AlgorithmState;
-import com.autoStock.algorithm.core.AlgorithmTable;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.indicator.CommonAnalysisData;
@@ -37,6 +36,7 @@ import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyBase;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
+import com.autoStock.tables.TableForAlgorithm;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
@@ -57,7 +57,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public AlgorithmMode algorithmMode;
 	public AlgorithmListener algorithmListener;
 	public AlgorithmChart algorithmChart;
-	public AlgorithmTable algorithmTable;
+	public TableForAlgorithm tableForAlgorithm;
 	public IndicatorGroup indicatorGroup;
 	public SignalGroup signalGroup;
 	public CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
@@ -99,8 +99,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			algorithmChart = new AlgorithmChart(symbol.symbolName + " - " + new SimpleDateFormat("EEE MMM dd yyyy").format(startingDate), this);
 		}
 		
-		if (algorithmMode.displayTable){
-			algorithmTable = new AlgorithmTable(symbol);
+		if (algorithmMode.populateTable){
+			tableForAlgorithm = new TableForAlgorithm();
 		}
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){

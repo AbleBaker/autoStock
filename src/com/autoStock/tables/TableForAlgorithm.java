@@ -1,40 +1,32 @@
-package com.autoStock.algorithm.core;
+/**
+ * 
+ */
+package com.autoStock.tables;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
+import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
-import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
-import com.autoStock.tables.TableController;
-import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
-import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.StringTools;
 import com.autoStock.types.QuoteSlice;
-import com.autoStock.types.Symbol;
 
 /**
- * @author Kevin Kowalewski
+ * @author Kevin
  *
  */
-public class AlgorithmTable {
-	private static Lock lock = new Lock();
-	public ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
-	private Symbol symbol;
+public class TableForAlgorithm extends BaseTable {
+	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	
-	public AlgorithmTable(Symbol symbol) {
-		this.symbol = symbol;
-	}
-
 	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse, BasicAccount basicAccount){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
@@ -96,11 +88,9 @@ public class AlgorithmTable {
 		return responseString;
 	}
 
-	public void display() {
-		synchronized (lock) {
-			Co.println("\n--> Symbol " + symbol.symbolName);
-			new TableController().displayTable(AsciiTables.algorithm_test, listOfDisplayRows);	
-//			Co.print(new ExportTools().exportToString(AsciiTables.algorithm_test, listOfDisplayRows));
-		}
+	@Override
+	public ArrayList<ArrayList<String>> getDisplayRows() {
+		return 	listOfDisplayRows;
 	}
+
 }
