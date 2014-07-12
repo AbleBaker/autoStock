@@ -64,7 +64,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public final PositionGovernor positionGovernor;
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
-	protected ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
+	protected ArrayList<SignalMetricType> listOfSignalMetricTypeActive = new ArrayList<SignalMetricType>();
 	protected ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
 	public QuoteSlice firstQuoteSlice;
 	protected Position position;
@@ -109,7 +109,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		
 		indicatorGroup.setAnalyze(listOfSignalMetricTypeAnalyze);
 		indicatorGroup.setActive(listOfSignalMetricTypeAnalyze);
-		periodLength = indicatorGroup.getMinPeriodLength(true); //algorithmMode != AlgorithmMode.mode_backtest_single);
+		periodLength = indicatorGroup.getMinPeriodLength(true);
 		
 		dayStartingBalance = basicAccount.getBalance();
 		
@@ -122,7 +122,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	
 	protected void setAnalyzeAndActive(ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze, ArrayList<SignalMetricType> listOfSignalMetricTypeActive) {
 		this.listOfSignalMetricTypeAnalyze = listOfSignalMetricTypeAnalyze;
-		listOfSignalMetricType = listOfSignalMetricTypeActive;
+		this.listOfSignalMetricTypeActive = listOfSignalMetricTypeActive;
 	}
 	
 	public void setAlgorithmListener(AlgorithmListener algorithmListener){

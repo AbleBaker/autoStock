@@ -28,9 +28,8 @@ public class AlgorithmTest extends AlgorithmBase {
 	public void init(Date startingDate){
 		this.startingDate = startingDate;
 		
-		listOfSignalMetricTypeAnalyze.addAll(Arrays.asList(SignalMetricType.values()));
-		listOfSignalMetricType = strategyBase.strategyOptions.listOfSignalMetricType;
-	
+		setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+
 		initialize();
 		
 		if (strategyBase.strategyOptions.prefillEnabled){

@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.tools.MathTools;
@@ -84,6 +85,12 @@ public class SignalDefinitions {
 		none,
 		mixed,
 		no_change,
+		
+		;
+		
+		public static ArrayList<SignalMetricType> asList(){
+			return new ArrayList<SignalMetricType>(Arrays.asList(values()));
+		}
 	}
 	
 	public static abstract class IndicatorParameters {
