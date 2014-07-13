@@ -95,7 +95,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(256, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(512, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(8));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(999999, true), new GenerationCount(8));
 			}
@@ -167,7 +167,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		bestResult = data.getBestCandidateFitness();
 		
-		if (data.getGenerationNumber() != 2){
+		if (data.getGenerationNumber() != 7){
 			trainEncog(data.getBestCandidate(), historicalData);
 		}
 	}
