@@ -95,7 +95,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(64, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(64, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(1));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(999999, true), new GenerationCount(8));
 			}
@@ -131,6 +131,8 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){
 			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
 		}
+		
+//		Co.print(new TableController().displayTable(AsciiTables.algorithm_test,);)
 		
 		Co.print(wmBacktestEvaluator.getBacktestEvaluation(algorithmModel).toString());
 

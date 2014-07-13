@@ -47,7 +47,6 @@ public class EncogScoreProvider implements CalculateScore {
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
-//		singleBacktest.remodel(AlgorithmModel.getCurrentAlgorithmModel(singleBacktest.backtestContainer.algorithm));
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network);
 		singleBacktest.runBacktest();
 		
@@ -55,7 +54,7 @@ public class EncogScoreProvider implements CalculateScore {
 		
 		String table = null;
 		if (singleBacktest.backtestContainer.algorithm.tableForAlgorithm != null){
-			table = new TableController().getTable(AsciiTables.algorithm_test, singleBacktest.backtestContainer.algorithm.tableForAlgorithm.getDisplayRows());
+			table = new TableController().getTable(AsciiTables.algorithm, singleBacktest.backtestContainer.algorithm.tableForAlgorithm.getDisplayRows());
 		}
 		
 		if (backtestEvaluation.getScore() > TrainEncogSignal.bestScore && backtestEvaluation.getScore() != 0){

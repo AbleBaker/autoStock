@@ -9,21 +9,18 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.PersistNEATNetwork;
-import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
-import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
-import com.autoStock.signal.SignalDefinitions;
-import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.extras.EncogInputWindow;
-import com.autoStock.tools.PrintTools;
+import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski
@@ -119,23 +116,38 @@ public class SignalOfEncog extends SignalBase {
 		// }
 		// }
 
+		return signalPoint;
 		// Co.println("--> " + valueForEntry + ", " + valueForExit);
 
-		if (signalPoint.signalPointType != lastSignalPointType) {
-			lastSignalPointType = signalPoint.signalPointType;
-			return signalPoint;
-		} else {
-			return new SignalPoint(SignalPointType.none, SignalMetricType.metric_encog);
-		}
+		//if (signalPoint.signalPointType != lastSignalPointType) {
+		//	lastSignalPointType = signalPoint.signalPointType;
+		//} else {
+		//	return new SignalPoint(SignalPointType.none, SignalMetricType.metric_encog);
+		//}
 
 	}
 
 	public void setInput(EncogInputWindow encogInputWindow) {
 		this.encogInputWindow = encogInputWindow;
 	}
+	
+	public double[] getInputWindowRounded(){
+		if (encogInputWindow == null){return null;}
+		double[] array = new double[encogInputWindow.getAsWindow().length];
+		
+		for (int i=0; i<array.length; i++){
+			array[i] = MathTools.round(encogInputWindow.getAsWindow()[i]);
+		}
+		
+		return array;
+	}
 
 	@Override
 	public void setInput(double value) {
 		throw new NoSuchMethodError("Don't call this");
+	}
+
+	public EncogInputWindow getInputWindow() {
+		return encogInputWindow;
 	}
 }

@@ -165,6 +165,10 @@ public class BacktestEvaluation {
 			string += "\n - " + descriptorForSignal.toString();
 		}
 		
+		if (listOfDescriptorForSignal != null && listOfDescriptorForSignal.size() > 0){
+			string += "\n";	
+		}
+		
 		string += "\n";
 		
 		string += " - Algorithm period: " + algorithmModel.periodLength + "\n";

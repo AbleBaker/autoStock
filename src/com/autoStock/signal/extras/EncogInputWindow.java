@@ -14,6 +14,7 @@ import com.autoStock.tools.ListTools;
 public class EncogInputWindow {
 	private ArrayList<Double> listOfDouble = new ArrayList<Double>();
 	public EncogInputWindow(){}
+	public String debug = "";
 	
 	public void addInputList(List<Double> list){
 		listOfDouble.addAll(list);
@@ -29,5 +30,13 @@ public class EncogInputWindow {
 	
 	public double[] getAsWindow(){
 		return ArrayTools.getArrayFromListOfDouble(listOfDouble);
+	}
+
+	public void eraseDebug() {
+		debug = "";
+	}
+	
+	public void addDebug(String string){
+		debug += " " + string;
 	}
 }

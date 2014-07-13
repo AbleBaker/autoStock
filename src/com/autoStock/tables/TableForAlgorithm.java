@@ -24,7 +24,6 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class TableForAlgorithm extends BaseTable {
-	private ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	
 	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse, BasicAccount basicAccount){
@@ -36,6 +35,7 @@ public class TableForAlgorithm extends BaseTable {
 		columnValues.add(decimalFormat.format(quoteSlice.priceClose));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfDI.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfUO.getStrength())));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfCCI.getStrength())));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfRSI.getStrength())));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMACD.getStrength())));
@@ -48,44 +48,10 @@ public class TableForAlgorithm extends BaseTable {
 		columnValues.add(strategyResponse.strategyAction == StrategyAction.no_change ? "-" : (strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name()));
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalPointType == SignalPointType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalPointType.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
-		columnValues.add(getTransactionDetails(strategyResponse));
+		columnValues.add(TableTools.getTransactionDetails(strategyResponse));
 		columnValues.add(decimalFormat.format(basicAccount.getBalance()));
 		
 		listOfDisplayRows.add(columnValues);
-	}
-	
-	public String getTransactionDetails(StrategyResponse strategyResponse){ 
-		String responseString = "none";
-		if (strategyResponse.positionGovernorResponse.position != null){
-			String percentGainString = "$" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false);
-			percentGainString += " (" + "%" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true)) + ")";
-			responseString = percentGainString;
-			
-			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
-				responseString = "(" + strategyResponse.positionGovernorResponse.position.getInitialUnitsFilled();
-				responseString += " * " + strategyResponse.positionGovernorResponse.position.getPositionValue().unitPriceFilled;
-				responseString += ") + " + strategyResponse.positionGovernorResponse.position.getPositionUtils().getOrderTransactionFeesIntrinsic();
-				responseString += " = $" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFee);
-				responseString += " | " + percentGainString;
-			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
-				responseString = "(" + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getUnitsIntrinsic();
-				responseString += " * " + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getUnitPriceFilled();
-				responseString += ") + " + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getTransactionFees();
-				responseString += " = $" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getOrderValue().priceIntrinsicWithFees);
-				responseString += " | " + percentGainString;
-			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-				responseString = "(" + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getUnitsIntrinsic();
-				responseString += " * " + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getUnitPriceFilled();
-				responseString += ") - " + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getTransactionFees();
-				responseString += " = $" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFee);
-				responseString += " | $" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true);
-				responseString += " (" + "%" + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true)) + ")";
-			}else{
-				//pass
-			}
-		}
-		
-		return responseString;
 	}
 
 	@Override

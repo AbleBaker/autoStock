@@ -94,7 +94,7 @@ public class SignalGroup {
 		this.indicatorGroup = indicatorGroup;
 	}
 	
-	public void generateSignals(CommonAnalysisData commonAnlaysisData, int periodLength){
+	public void generateSignals(CommonAnalysisData commonAnlaysisData){
 		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsCCI.arrayOfCCI));}
 		if (indicatorGroup.resultsADX != null){signalOfADX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsADX.arrayOfADX));}
 		if (indicatorGroup.resultsDI != null){signalOfDI.setInput(indicatorGroup.resultsDI.arrayOfDIPlus[0], indicatorGroup.resultsDI.arrayOfDIMinus[0]);}

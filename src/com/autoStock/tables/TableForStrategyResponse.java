@@ -25,8 +25,6 @@ public class TableForStrategyResponse extends BaseTable {
 
 	@Override
 	public ArrayList<ArrayList<String>> getDisplayRows() {
-		ArrayList<ArrayList<String>> listOfDisplayRows = new ArrayList<ArrayList<String>>();
-
 		for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse) {
 			ArrayList<String> listOfString = new ArrayList<String>();
 			listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
@@ -39,17 +37,20 @@ public class TableForStrategyResponse extends BaseTable {
 
 			for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()) {
 				stringForSignal += signalMoment.signalMetricType.name() + ":" + new DecimalFormat("0.00").format(signalMoment.strength) + ", ";
+				stringForSignal += " - " + signalMoment.debug;
 			}
 
 			listOfString.add(stringForSignal);
 
-			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
-				listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
-			} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
-				listOfString.add("-");
-			} else {
-				listOfString.add("-");
-			}
+			listOfString.add(TableTools.getTransactionDetails(strategyResponse));
+			
+//			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
+//				listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
+//			} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
+//				listOfString.add("");
+//			} else {
+//				listOfString.add("");
+//			}
 
 			listOfDisplayRows.add(listOfString);
 		}

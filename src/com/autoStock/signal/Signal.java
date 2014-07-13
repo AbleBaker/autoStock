@@ -33,7 +33,14 @@ public class Signal {
 	
 	public void generateSignalMoments(boolean havePosition, PositionType positionType){
 		for (SignalBase signalBase : listOfSignalBase){
-			listOfSignalMoment.add(new SignalMoment(signalBase.signalMetricType, signalBase.getStrength(), signalBase.getSignalPoint(havePosition, positionType)));
+			String debug = "";
+//			if (signalBase instanceof SignalOfEncog){
+//				if (((SignalOfEncog)signalBase).getInputWindowRounded() != null && ((SignalOfEncog)signalBase).getInputWindowRounded().length > 0){
+//					debug = PrintTools.getString((((SignalOfEncog)signalBase).getInputWindowRounded()));
+//					debug += " / " + ((SignalOfEncog)signalBase).getInputWindow().debug;
+//				}
+//			}
+			listOfSignalMoment.add(new SignalMoment(signalBase.signalMetricType, signalBase.getStrength(), signalBase.getSignalPoint(havePosition, positionType), debug));
 		}
 	}
 	
