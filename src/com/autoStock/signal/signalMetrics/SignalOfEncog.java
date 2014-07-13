@@ -45,7 +45,7 @@ public class SignalOfEncog extends SignalBase {
 
 		PersistNEATNetwork persistBasicNetwork = new PersistNEATNetwork();
 		try {
-			neatNetwork = (NEATNetwork) persistBasicNetwork.read(new FileInputStream(new File("../EncogTest/encog.file")));
+			neatNetwork = (NEATNetwork) persistBasicNetwork.read(new FileInputStream(new File("encog.file")));
 //			 Co.println("--> Read network...");
 		} catch (FileNotFoundException e) {
 			// Co.println("--> Warning, encog network definition not found");
