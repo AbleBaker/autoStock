@@ -43,6 +43,7 @@ public class TableForStrategyResponse extends BaseTable {
 			listOfString.add(stringForSignal);
 
 			listOfString.add(TableTools.getTransactionDetails(strategyResponse));
+			listOfString.add(TableTools.getProfitLossDetails(strategyResponse));
 			
 //			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
 //				listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));

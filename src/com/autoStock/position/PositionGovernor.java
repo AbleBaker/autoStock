@@ -17,6 +17,7 @@ import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
 import com.google.gson.internal.Pair;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -72,6 +73,7 @@ public class PositionGovernor {
 		}
 
 		positionGovernorResponse.position = position;
+		if (position != null){positionGovernorResponse.positionValue = position.getPositionValue();}
 		positionGovernorResponse.signalPoint = signalPoint;
 		positionGovernorResponse.dateOccurred = quoteSlice.dateTime;
 		signal.currentSignalPoint = signalPoint;

@@ -14,6 +14,7 @@ import com.autoStock.trading.types.Position;
  */
 public class PositionGovernorResponse {
 	public Position position;
+	public PositionValue positionValue;
 	public PositionGovernorResponseStatus status = PositionGovernorResponseStatus.none;
 	public PositionGovernorResponseReason reason = PositionGovernorResponseReason.none;
 	public SignalPoint signalPoint = new SignalPoint();

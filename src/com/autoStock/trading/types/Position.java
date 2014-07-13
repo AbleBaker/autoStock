@@ -27,6 +27,7 @@ import com.autoStock.tools.MathTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -40,13 +41,13 @@ public class Position implements OrderStatusListener {
 	private double unitPriceFirstKnown;
 	private double unitPriceLastKnown;
 	public PositionType positionType = PositionType.position_none;
-	private ListenerOfPositionStatusChange positionStatusListener;
+	private transient ListenerOfPositionStatusChange positionStatusListener;
 	private PositionOptions positionOptions;
 	private Lock lock = new Lock();
 	private final ArrayList<Order> listOfOrderEntry = new ArrayList<Order>();
 	private final ArrayList<Order> listOfOrderExit = new ArrayList<Order>();
 	private PositionHistory positionHistory = new PositionHistory();
-	private final PositionManager positionManager;
+	private transient final PositionManager positionManager;
 
 	public Position(PositionType positionType, int units, Symbol symbol, Exchange exchange, double currentPrice, PositionOptions positionOptions, BasicAccount basicAccount, Date dateTime, PositionManager positionManager) {
 		this.positionType = positionType;
@@ -224,7 +225,7 @@ public class Position implements OrderStatusListener {
 			positionUtils.getPositionValueCurrent(false), positionUtils.getPositionValueCurrent(true),
 			positionUtils.getPositionPriceCurrent(false), positionUtils.getPositionPriceCurrent(true),
 			positionUtils.getOrderUnitPriceRequested(), positionUtils.getOrderUnitPriceFilled(), positionUtils.getOrderUnitPriceIntrinsic(),
-			unitPriceLastKnown
+			unitPriceLastKnown, getPositionProfitLossAfterComission(false), getCurrentPercentGainLoss(true)
 		);
 //		new PositionValueTable().printTable(this, positionValue);
 		

@@ -29,13 +29,16 @@ public class PositionValue {
 	public final double unitPriceFilled;
 	public final double unitPriceCurrent;
 	
+	public final double profitLossAfterComission;
+	public final double percentGainLoss;
+	
 	public PositionValue(double valueRequested, double valueFilled, double valueIntrinsic, 
 						 double valueRequestedWithFees, double valueFilledWithFees, double valueIntrinsicWithFees, 
 						 double priceRequestedWithFees, double priceFilledWithFees, double priceIntrinsicWithFees, 
 						 double valueCurrent, double valueCurrentWithFees, 
 						 double priceCurrent, double priceCurrentWithFees, 
 						 double unitPriceRequested, double unitPriceIntrinsic, double unitPriceFilled, 
-						 double unitPriceCurrent) {
+						 double unitPriceCurrent, double profitLossAfterComission, double percentGainLoss) {
 		this.valueRequested = valueRequested;
 		this.valueFilled = valueFilled;
 		this.valueIntrinsic = valueIntrinsic;
@@ -52,6 +55,8 @@ public class PositionValue {
 		this.unitPriceRequested = unitPriceRequested;
 		this.unitPriceIntrinsic = unitPriceIntrinsic;
 		this.unitPriceFilled = unitPriceFilled;
-		this.unitPriceCurrent = unitPriceCurrent;	
+		this.unitPriceCurrent = unitPriceCurrent;
+		this.profitLossAfterComission = profitLossAfterComission;
+		this.percentGainLoss = percentGainLoss;
 	}	
 }
