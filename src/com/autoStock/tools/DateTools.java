@@ -55,11 +55,14 @@ public class DateTools {
 						return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);	
 					}catch (ParseException e4){
 						try {
-							return new SimpleDateFormat("MM/dd/yyyy").parse(date);
-						}catch (ParseException e5){
-							Co.println("Could not parse: " + date);
-							return null;	
-						}
+							return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss a").parse(date);			
+						}catch(ParseException e5){
+							}try {
+								return new SimpleDateFormat("MM/dd/yyyy").parse(date);
+							}catch (ParseException e6){
+								Co.println("Could not parse: " + date);
+								return null;	
+							}
 					}
 				}
 			}
