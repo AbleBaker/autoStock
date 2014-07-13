@@ -13,6 +13,7 @@ import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -51,6 +52,9 @@ public class AlgorithmTest extends AlgorithmBase {
 			
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
 //			Co.print("\n --> QS: " + quoteSlice.dateTime);
+//			if (quoteSlice.dateTime.equals(DateTools.getDateFromString("2012/03/09 09:59:00 AM"))){
+//				Co.println("--> Debug...");
+//			}
 			
 			commonAnalysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet();

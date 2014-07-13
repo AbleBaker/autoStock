@@ -150,4 +150,10 @@ public class SignalOfEncog extends SignalBase {
 	public EncogInputWindow getInputWindow() {
 		return encogInputWindow;
 	}
+	
+	@Override
+	public void reset() {
+		super.reset();
+		encogInputWindow = null;
+	}
 }

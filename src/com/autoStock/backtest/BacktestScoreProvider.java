@@ -28,10 +28,10 @@ public class BacktestScoreProvider {
 		
 //		score = 0;
 //		
-//		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
+		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
 //			score += Math.min(pair.second, 3);
-//			if (pair.second < 0){score /= 2;}
-//		}
+			if (pair.second < 0){score /= 2;}
+		}
 		
 		return score > 0 ? score : 0;
 	}
