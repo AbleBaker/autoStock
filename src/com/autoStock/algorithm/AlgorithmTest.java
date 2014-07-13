@@ -56,7 +56,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			indicatorGroup.setDataSet();
 			indicatorGroup.analyze();
 			signalGroup.setIndicatorGroup(indicatorGroup);
-			signalGroup.generateSignals(commonAnalysisData, getPeriodLength());
+			signalGroup.generateSignals(commonAnalysisData);
 //			
 //			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
 //				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);
@@ -89,7 +89,8 @@ public class AlgorithmTest extends AlgorithmBase {
 			algorithmChart.display();
 		}
 		if (algorithmMode.displayTable) {
-			new TableController().displayTable(AsciiTables.algorithm_test, tableForAlgorithm.getDisplayRows());
+			Co.println("--> " + symbol.symbolName);
+			new TableController().displayTable(AsciiTables.algorithm, tableForAlgorithm.getDisplayRows());
 		}
 		if (algorithmListener != null) {
 			algorithmListener.endOfAlgorithm();
