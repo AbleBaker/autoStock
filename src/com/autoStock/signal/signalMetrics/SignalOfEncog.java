@@ -28,6 +28,9 @@ import com.autoStock.tools.MathTools;
  */
 public class SignalOfEncog extends SignalBase {
 	private static final double NEURON_THRESHOLD = 0.95;
+	public static final int INPUT_WINDOW_PS = 5;
+	public static final int INPUTS = 2;
+	
 	// private MLRegression basicNetwork;
 	private NEATNetwork neatNetwork;
 	private EncogInputWindow encogInputWindow;
@@ -141,19 +144,33 @@ public class SignalOfEncog extends SignalBase {
 		
 		return array;
 	}
+	
+	public EncogInputWindow getInputWindow() {
+		return encogInputWindow;
+	}
+	
+	public static int getInputWindowLength(){
+		return INPUT_WINDOW_PS * INPUTS;
+	}
 
 	@Override
 	public void setInput(double value) {
 		throw new NoSuchMethodError("Don't call this");
-	}
-
-	public EncogInputWindow getInputWindow() {
-		return encogInputWindow;
 	}
 	
 	@Override
 	public void reset() {
 		super.reset();
 		encogInputWindow = null;
+	}
+
+	public boolean isLongEnough(SignalBase... arrayOfSignalBase) {
+		for (SignalBase signalBase : arrayOfSignalBase){
+			if (signalBase.listOfNormalizedValuePersist.size() <= INPUT_WINDOW_PS){
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

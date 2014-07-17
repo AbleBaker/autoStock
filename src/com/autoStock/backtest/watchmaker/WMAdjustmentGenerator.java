@@ -28,9 +28,9 @@ public class WMAdjustmentGenerator {
 	public ArrayList<AdjustmentBase> getTypicalAdjustmentForSignal(SignalBase signalBase){
 		ArrayList<AdjustmentBase> listOfAdjustmentBase = new ArrayList<AdjustmentBase>();
 		
-		addSignalGuageThresholdMetAndLeft(signalBase, listOfAdjustmentBase, 0);
-		addSignalGuagePeakAndTrough(signalBase, listOfAdjustmentBase, 1);
-		addTypicalSignalRanges(signalBase, listOfAdjustmentBase);
+		//addSignalGuageThresholdMetAndLeft(signalBase, listOfAdjustmentBase, 0);
+		//addSignalGuagePeakAndTrough(signalBase, listOfAdjustmentBase, 1);
+		//addTypicalSignalRanges(signalBase, listOfAdjustmentBase);
 		
 		return listOfAdjustmentBase;
 	}

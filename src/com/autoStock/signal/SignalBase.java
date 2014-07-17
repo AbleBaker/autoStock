@@ -19,7 +19,7 @@ public abstract class SignalBase {
 	public SignalMetricType signalMetricType = SignalMetricType.none;
 	protected ArrayList<Double> listOfNormalizedValue = new ArrayList<Double>();
 	protected ArrayList<Double> listOfNormalizedAveragedValue = new ArrayList<Double>();
-	protected ArrayList<Double> listOfNormalizedValuePersist = new ArrayList<Double>();
+	public ArrayList<Double> listOfNormalizedValuePersist = new ArrayList<Double>();
 	protected ArrayList<Double> listOfNormalizedAveragedValuePersist = new ArrayList<Double>();
 	protected MutableInteger maxSignalAverage;
 	public SignalParameters signalParameters;

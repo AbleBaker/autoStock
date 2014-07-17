@@ -24,17 +24,17 @@ public class TableTools {
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				responseString = "(" + strategyResponse.positionGovernorResponse.position.getInitialUnitsFilled();
 				responseString += " * " + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionValue().unitPriceFilled);
-				responseString += ") + " + strategyResponse.positionGovernorResponse.position.getPositionUtils().getOrderTransactionFeesIntrinsic();
+				responseString += ") + " + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionUtils().getOrderTransactionFeesIntrinsic());
 				responseString += " = $" + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFee);
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
 				responseString = "(" + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getUnitsIntrinsic();
 				responseString += " * " + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getUnitPriceFilled();
-				responseString += ") + " + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getTransactionFees();
+				responseString += ") + " + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getTransactionFees());
 				responseString += " = $" + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getOrderValue().priceIntrinsicWithFees);
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 				responseString = "(" + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getUnitsIntrinsic();
 				responseString += " * " + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getUnitPriceFilled();
-				responseString += ") - " + strategyResponse.positionGovernorResponse.position.getLastExitOrder().getTransactionFees();
+				responseString += ") - " + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getLastExitOrder().getTransactionFees());
 				responseString += " = $" + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionValue().valueCurrentWithFee);
 			}
 		}

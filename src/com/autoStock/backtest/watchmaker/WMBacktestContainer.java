@@ -95,7 +95,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(256, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(2));
+				algorithmModel = islandEvolutionEngine.evolve(256, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(8));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(999999, true), new GenerationCount(8));
 			}
@@ -125,7 +125,8 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		Co.println("\n\nBest result: " + fitness + "\n");
 		
 		if (bestResult != fitness){
-			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
+			Co.println("--> Warning: bestResult != current evaluation\n");
+//			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
 		}		
 		
 		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){

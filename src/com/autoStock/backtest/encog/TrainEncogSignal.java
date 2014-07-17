@@ -47,6 +47,7 @@ import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.EncogScoreProvider.EncogTest;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
+import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -57,7 +58,7 @@ import com.google.gson.Gson;
  * 
  */
 public class TrainEncogSignal {
-	private static final int TRAINING_ITERATIONS = 16;
+	private static final int TRAINING_ITERATIONS = 32;
 	private int epoch = 0;
 	public static double bestScore = 0;
 	private AlgorithmModel algorithmModel;
@@ -85,10 +86,10 @@ public class TrainEncogSignal {
 //		pattern.setActivationFunction(new ActivationTANH());
 		
 		if (train == null){
-			train = new NEATTraining(encogScoreProvider, new NEATPopulation(6, 3, 256));
-			train.setMutationPercent(25f);
-			train.setPercentToMate(25f);
-			train.setMatingPopulation(25f);
+			train = new NEATTraining(encogScoreProvider, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 3, 512));
+			//train.setMutationPercent(25f);
+			//train.setPercentToMate(25f);
+			//train.setMatingPopulation(25f);
 			Co.println("--> New Train: " + train.hashCode());
 		}else{
 			Co.println("--> Old Train: " + train.hashCode());
