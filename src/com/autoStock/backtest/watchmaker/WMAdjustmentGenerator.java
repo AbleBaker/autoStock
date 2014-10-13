@@ -23,8 +23,6 @@ import com.autoStock.signal.SignalDefinitions.SignalGuageType;
  *
  */
 public class WMAdjustmentGenerator {
-	
-	
 	public ArrayList<AdjustmentBase> getTypicalAdjustmentForSignal(SignalBase signalBase){
 		ArrayList<AdjustmentBase> listOfAdjustmentBase = new ArrayList<AdjustmentBase>();
 		
@@ -44,6 +42,10 @@ public class WMAdjustmentGenerator {
 	}
 	
 	private void addTypicalIndicatorParameters(IndicatorBase indicatorBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(indicatorBase.getClass().getSimpleName() + " Period Length", indicatorBase.indicatorParameters.periodLength, new IterableOfInteger(10, 60, 1)));
+	}
+	
+	public void addCustomIndicatorParameters(IndicatorBase indicatorBase, ArrayList<AdjustmentBase> listOfAdjustmentBase, int min, int max){
 		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(indicatorBase.getClass().getSimpleName() + " Period Length", indicatorBase.indicatorParameters.periodLength, new IterableOfInteger(10, 50, 1)));
 	}
 	

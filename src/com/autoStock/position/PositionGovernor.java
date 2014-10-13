@@ -53,7 +53,7 @@ public class PositionGovernor {
 				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
 				}else if (strategyOptions.canReenter.value){ 
-					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
+					if (signalPoint.signalPointType == SignalPointType.reentry && reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
 						governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
 					}
 				}
@@ -61,7 +61,7 @@ public class PositionGovernor {
 				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
 					governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
 				}else if (strategyOptions.canReenter.value){ 
-					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
+					if (signalPoint.signalPointType == SignalPointType.reentry &&  reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
 						governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
 					}
 				}

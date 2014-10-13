@@ -13,6 +13,7 @@ import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -28,8 +29,9 @@ import com.autoStock.tools.MathTools;
  */
 public class SignalOfEncog extends SignalBase {
 	private static final double NEURON_THRESHOLD = 0.95;
+	public static final int INPUT_WINDOW_EXTRAS = 0;
 	public static final int INPUT_WINDOW_PS = 5;
-	public static final int INPUTS = 2;
+	public static final int INPUTS = 3;
 	
 	// private MLRegression basicNetwork;
 	private NEATNetwork neatNetwork;
@@ -88,6 +90,7 @@ public class SignalOfEncog extends SignalBase {
 		double valueForLongEntry = output.getData(0);
 		double valueForShortEntry = output.getData(1);
 		double valueForAnyExit = output.getData(2);
+		double valueForReeentry = output.getData(3);
 		
 //		Co.println("--> Values: " + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit);
 
@@ -98,6 +101,9 @@ public class SignalOfEncog extends SignalBase {
 			// }
 		} else if (valueForShortEntry >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.short_entry;
+			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+		} else if (valueForReeentry >= NEURON_THRESHOLD) {
+			signalPoint.signalPointType = SignalPointType.reentry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 		} else if (valueForAnyExit >= NEURON_THRESHOLD && havePosition) {
 			if (positionType == PositionType.position_long) {
@@ -150,7 +156,7 @@ public class SignalOfEncog extends SignalBase {
 	}
 	
 	public static int getInputWindowLength(){
-		return INPUT_WINDOW_PS * INPUTS;
+		return (INPUT_WINDOW_PS * INPUTS) + INPUT_WINDOW_EXTRAS;
 	}
 
 	@Override

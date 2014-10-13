@@ -33,7 +33,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		this.startingDate = startingDate;
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_single){
-			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo})), strategyBase.strategyOptions.listOfSignalMetricType);
+			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo, SignalMetricType.metric_willr})), strategyBase.strategyOptions.listOfSignalMetricType);
 			//setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
 		}else{
 			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
@@ -60,7 +60,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			indicatorGroup.setDataSet();
 			indicatorGroup.analyze();
 			signalGroup.setIndicatorGroup(indicatorGroup);
-			signalGroup.generateSignals(commonAnalysisData);
+			signalGroup.generateSignals(commonAnalysisData, position);
 //			
 //			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
 //				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);

@@ -109,8 +109,8 @@ public class DateTools {
 		calendarAtCurrent.setTime(startDate);
 		calendarAtEnd.setTime(endDate);
 		
-		while (calendarAtCurrent.before(calendarAtEnd)){
-			if (calendarAtCurrent.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && calendarAtCurrent.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY){
+		while (calendarAtCurrent.before(calendarAtEnd) || calendarAtCurrent.equals(calendarAtEnd)){
+			if (isWeekday(calendarAtCurrent)){
 				listOfDate.add(new Date(calendarAtCurrent.getTimeInMillis()));
 			}
 			
@@ -118,6 +118,10 @@ public class DateTools {
 		}
 		
 		return listOfDate;
+	}
+	
+	public static boolean isWeekday(Calendar calendar){
+		return calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY;
 	}
 	
 	public static Date getFirstWeekdayAfter(Date date){

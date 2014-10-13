@@ -16,6 +16,7 @@ import com.autoStock.MainMarketOrder;
 import com.autoStock.MainTest;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.watchmaker.WMBacktest;
+import com.autoStock.backtest.watchmaker.WMBacktestDoD;
 import com.autoStock.database.BuildDatabaseDefinitions;
 import com.autoStock.display.DisplayHistoricalPrices;
 import com.autoStock.display.DisplayMarketSymbolData;
@@ -174,12 +175,15 @@ public class MenuLauncher {
 					command = "main_clustered_backtest_client";
 					break;
 				case "6":
-					command = "main_backtest_wm 03/05/2012 03/09/2012 NYSE AIG";
+					command = "main_backtest_wm 03/05/2012 03/08/2012 NYSE AIG";
 					break;
 				case "7" :
-					command = "main_backtest 03/08/2012 03/09/2012 NYSE AIG backtest_default";
+					command = "main_backtest_wm_dod 03/05/2012 03/23/2012 NYSE AIG backtest_default";
 					break;
 				case "8" :
+					command = "main_backtest 03/09/2012 03/09/2012 NYSE AIG backtest_default";
+					break;
+				case "9" :
 					command = "main_backtest 03/09/2012 03/09/2012 NYSE AIG backtest_default";
 					break;
 			}
@@ -197,6 +201,13 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_main_backtest_wm){
 			new WMBacktest(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
+			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
+			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
+			SymbolTools.getListOfSymbolFromListOfString(ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "), SecurityType.type_stock));
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_backtest_wm_dod){
+			new WMBacktestDoD(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
 			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
 			SymbolTools.getListOfSymbolFromListOfString(ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "), SecurityType.type_stock));

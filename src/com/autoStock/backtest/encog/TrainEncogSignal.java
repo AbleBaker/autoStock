@@ -58,7 +58,7 @@ import com.google.gson.Gson;
  * 
  */
 public class TrainEncogSignal {
-	private static final int TRAINING_ITERATIONS = 32;
+	private static final int TRAINING_ITERATIONS = 8;
 	private int epoch = 0;
 	public static double bestScore = 0;
 	private AlgorithmModel algorithmModel;
@@ -86,20 +86,20 @@ public class TrainEncogSignal {
 //		pattern.setActivationFunction(new ActivationTANH());
 		
 		if (train == null){
-			train = new NEATTraining(encogScoreProvider, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 3, 512));
+			train = new NEATTraining(encogScoreProvider, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 4, 256));
 			//train.setMutationPercent(25f);
 			//train.setPercentToMate(25f);
 			//train.setMatingPopulation(25f);
-			Co.println("--> New Train: " + train.hashCode());
+//			Co.println("--> New Train: " + train.hashCode());
 		}else{
-			Co.println("--> Old Train: " + train.hashCode());
+//			Co.println("--> Old Train: " + train.hashCode());
 		}
 		
 		Co.println("...");
 		
 		for (int i=0; i<TRAINING_ITERATIONS; i++){
 			train.iteration();
-			Co.println("--> Error: [" + i + "] " + train.getError());
+//			Co.println("--> Error: [" + i + "] " + train.getError());
 			bestScore = Math.max(train.getError(), bestScore);
 		}
 		

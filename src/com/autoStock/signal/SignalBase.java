@@ -41,7 +41,7 @@ public abstract class SignalBase {
 	}
 	
 	public double[] getNormalizedWindow(int windowSize){
-		if (windowSize <= 0 || listOfNormalizedValuePersist.size() - windowSize < 0){throw new IllegalArgumentException();}
+		if (windowSize <= 0 || listOfNormalizedValuePersist.size() - windowSize < 0){throw new IllegalArgumentException("Could not satisfy window size: " + windowSize + ", available: " + listOfNormalizedValuePersist.size());}
 		return ArrayTools.getArrayFromListOfDouble(listOfNormalizedValuePersist.subList(listOfNormalizedValuePersist.size()-windowSize, listOfNormalizedValuePersist.size()));
 	}
 

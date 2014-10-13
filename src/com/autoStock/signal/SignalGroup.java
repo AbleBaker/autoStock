@@ -29,6 +29,7 @@ import com.autoStock.signal.signalMetrics.SignalOfWILLR;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.PrintTools;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.basic.MutableInteger;
 
 /**
@@ -92,7 +93,7 @@ public class SignalGroup {
 		this.indicatorGroup = indicatorGroup;
 	}
 	
-	public void generateSignals(CommonAnalysisData commonAnlaysisData){
+	public void generateSignals(CommonAnalysisData commonAnlaysisData, Position position){
 		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsCCI.arrayOfCCI));}
 		if (indicatorGroup.resultsADX != null){signalOfADX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsADX.arrayOfADX));}
 		if (indicatorGroup.resultsDI != null){signalOfDI.setInput(indicatorGroup.resultsDI.arrayOfDIPlus[0], indicatorGroup.resultsDI.arrayOfDIMinus[0]);}
@@ -118,7 +119,7 @@ public class SignalGroup {
 		
 //		Co.println("--> " + signalOfCCI.listOfNormalizedValuePersist.size());
 		
-		if (signalOfEncog.isLongEnough(signalOfCCI, signalOfUO)){
+		if (signalOfEncog.isLongEnough(signalOfCCI, signalOfUO, signalOfWILLR)){
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
@@ -127,6 +128,10 @@ public class SignalGroup {
 			
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfCCI.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfUO.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfWILLR.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+
+			//encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfARUp.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+			//encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfARDown.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			
 //			Co.println("--> B: " + encogWindow.getAsWindow().length);
 			

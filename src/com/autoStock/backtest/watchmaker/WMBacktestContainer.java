@@ -30,7 +30,9 @@ import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
+import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.BacktestEvaluationWriter;
+import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.TrainEncogSignal;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
@@ -83,8 +85,10 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = null;
 		
+//		trainEncog(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol), historicalData, true);
+		
 		if (evolutionType == WMEvolutionType.type_island){
-			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick? 8 : 16, 
+			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick? 4 : 16, 
 					new RingMigration(), 
 					wmCandidateFactory, 
 					evolutionaryPipeline, 
@@ -95,7 +99,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(256, 8, 8, 8, new TargetFitness(999999, true), new GenerationCount(8));
+				algorithmModel = islandEvolutionEngine.evolve(64, 8, 4, 8, new TargetFitness(999999, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(999999, true), new GenerationCount(8));
 			}
@@ -129,19 +133,20 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 //			throw new IllegalComponentStateException("Backtest result did not match best: " + bestResult + ", " + fitness); 
 		}		
 		
-		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){
-			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
-		}
+//		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){
+//			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
+//		}
+//		Co.print(wmBacktestEvaluator.getBacktestEvaluation(algorithmModel).toString());
 		
 //		Co.print(new TableController().displayTable(AsciiTables.algorithm_test,);)
 		
-		Co.print(wmBacktestEvaluator.getBacktestEvaluation(algorithmModel).toString());
+		Date dateOutOfSample = DateTools.getFirstWeekdayAfter(dateEnd);
 
-		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/09/2012"), DateTools.getDateFromString("03/09/2012"), Resolution.min)).getBacktestEvaluation(algorithmModel);
+		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateOutOfSample, dateOutOfSample, Resolution.min)).getBacktestEvaluation(algorithmModel);
 		
-		Co.println("\n\n Out of sample");
+		Co.println("\n\n Out of sample: " + dateOutOfSample + ", " + backtestEvaluationOutOfSample.percentYield);
 		
-		Co.print(backtestEvaluationOutOfSample.toString());
+//		Co.print(backtestEvaluationOutOfSample.toString());
 		
 		if (backtestEvaluation.getScore() > 0){
 			new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
@@ -150,32 +155,32 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-//		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/16/2012"), Resolution.min);
-//		historicalData.setStartAndEndDatesToExchange();
-//		
-//		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-//		singleBacktest.remodel(data.getBestCandidate());
-//		singleBacktest.selfPopulateBacktestData();
-//		singleBacktest.runBacktest();
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/16/2012"), Resolution.min);
+		historicalData.setStartAndEndDatesToExchange();
 		
-//		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		singleBacktest.remodel(data.getBestCandidate());
+		singleBacktest.selfPopulateBacktestData();
+		singleBacktest.runBacktest();
+		
+		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 		
 		Co.println("\n\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n"); // + " Out of sample: " + backtestEvaluation.getScore() + "\n");
 		
-		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
-			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
-		}
+//		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
+//			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
+//		}
 		
 		bestResult = data.getBestCandidateFitness();
 		
-		if (data.getGenerationNumber() != 7){
+		if (data.getGenerationNumber() != 2){
 			trainEncog(data.getBestCandidate(), historicalData);
 		}
 	}
 
 	@Override
 	public void islandPopulationUpdate(int islandIndex, PopulationData<? extends AlgorithmModel> data) {
-		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
+//		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
 	}
 	
 	private void trainEncog(AlgorithmModel algorithmModel, HistoricalData historicalData){		

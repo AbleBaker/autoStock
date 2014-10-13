@@ -206,11 +206,7 @@ public class BacktestUtils {
 
 			for (Symbol symbol : listOfSymbols) {
 				HistoricalData dayHistoricalData = new HistoricalData(exchange, symbol, (Date) date.clone(), (Date) date.clone(), baseHistoricalData.resolution);
-				dayHistoricalData.startDate.setHours(exchange.timeOpenForeign.hours);
-				dayHistoricalData.startDate.setMinutes(exchange.timeOpenForeign.minutes);
-				dayHistoricalData.endDate.setHours(exchange.timeCloseForeign.hours);
-				dayHistoricalData.endDate.setMinutes(exchange.timeCloseForeign.minutes);
-				
+				dayHistoricalData.setStartAndEndDatesToExchange();
 				historicalDataList.listOfHistoricalData.add(dayHistoricalData);
 			}
 
