@@ -59,7 +59,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 			AlgorithmTest algorithmTest = new AlgorithmTest(null, null, null, null);
 			algorithmTest.init(new Date());
 			algorithmTest.setAlgorithmListener(this);
-			backtest.performBacktest(algorithmTest.getReceiver());
+			backtest.performBacktest(algorithmTest.getReceiver(), false);
 			listOfAlgorithmTest.add(algorithmTest);
 		}
 	}

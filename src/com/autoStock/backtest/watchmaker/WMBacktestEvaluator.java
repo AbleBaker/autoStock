@@ -28,24 +28,15 @@ import com.autoStock.types.Symbol;
  */
 public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 	private HistoricalData historicalData;
-	private Exchange exchange;
-	private Symbol symbol;
-	private double bestScore = 0;
-	private BacktestEvaluation bestEvaluation = null;
 	
 	public WMBacktestEvaluator(HistoricalData historicalData){
 		this.historicalData = historicalData;
-		exchange = new Exchange("NYSE");
-		symbol = new Symbol("AIG", SecurityType.type_stock); 
 		historicalData.setStartAndEndDatesToExchange();
 	}
 	
 	@Override
 	public double getFitness(AlgorithmModel algorithmModel, List<? extends AlgorithmModel> notUsed) {
-//		PositionManager.getGlobalInstance().reset();
-		
-		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel); 
-		
+		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel);
 		return backtestEvaluation.getScore();
 	}
 	
@@ -55,7 +46,9 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		
-		return new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
+		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
+		
+		return backtestEvaluation;
 	}
 
 	@Override

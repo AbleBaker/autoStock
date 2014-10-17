@@ -47,7 +47,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
-	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
+	private WMEvolutionType evolutionType = WMEvolutionType.type_generational;
 	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
@@ -113,9 +113,9 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(999999, true), new GenerationCount(16));
+				algorithmModel = evolutionEngine.evolve(128, 32, new TargetFitness(999999, true), new GenerationCount(3));
 			}else{
-				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(999999, true), new GenerationCount(32));
+				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(999999, true), new GenerationCount(16));
 			}
 		}else{
 			throw new IllegalArgumentException();
@@ -154,16 +154,13 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	}
 
 	@Override
-	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {
-		HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("03/12/2012"), DateTools.getDateFromString("03/16/2012"), Resolution.min);
-		historicalData.setStartAndEndDatesToExchange();
-		
-		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-		singleBacktest.remodel(data.getBestCandidate());
-		singleBacktest.selfPopulateBacktestData();
-		singleBacktest.runBacktest();
-		
-		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
+	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {		
+//		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+//		singleBacktest.remodel(data.getBestCandidate());
+//		singleBacktest.selfPopulateBacktestData();
+//		singleBacktest.runBacktest();
+//		
+//		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 		
 		Co.println("\n\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n"); // + " Out of sample: " + backtestEvaluation.getScore() + "\n");
 		
@@ -180,7 +177,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 
 	@Override
 	public void islandPopulationUpdate(int islandIndex, PopulationData<? extends AlgorithmModel> data) {
-//		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
+		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
 	}
 	
 	private void trainEncog(AlgorithmModel algorithmModel, HistoricalData historicalData){		

@@ -1,5 +1,9 @@
 package com.autoStock.tools;
 
+import java.lang.Thread.State;
+
+import com.autoStock.Co;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -7,5 +11,24 @@ package com.autoStock.tools;
 public class Lock extends Object{
 	//Synchronize on this
 	
-	public boolean isLocked;
+	public void blockThread(){
+		synchronized(this){
+//			if (Thread.currentThread().getState() == State.WAITING){
+//				throw new IllegalStateException("Thread already blocked");
+//			}
+			
+			try {wait();} catch (InterruptedException e) {e.printStackTrace();}
+		}
+	}
+	
+	public void releaseThread(){
+		synchronized (this) {
+//			if (Thread.currentThread().getState() != State.WAITING){
+//				Co.println("--> State: " + Thread.currentThread().getState().name());
+//				throw new IllegalStateException("Thread wasn't blocked");
+//			}
+			
+			notify();
+		}
+	}
 }

@@ -15,6 +15,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.Lock;
+import com.autoStock.tools.ThreadTools;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.HistoricalDataList;
 import com.autoStock.types.Symbol;
@@ -28,8 +29,6 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 	private HistoricalData historicalData;
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private int currentBacktestDayIndex = 0;
-	
-	private Lock lock = new Lock();
 	
 	public SingleBacktest(HistoricalData historicalData, AlgorithmMode algorithmMode){
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
@@ -46,11 +45,12 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 
 	@Override
 	public void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
-//		Co.println("--> Backtest completed... " + symbol.symbolName + ", " + currentBacktestDayIndex);
+		//Co.println("--> Backtest completed... " + symbol.symbolName + ", " + currentBacktestDayIndex);
+		
 		currentBacktestDayIndex++;
 		
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {
-			synchronized(lock){lock.isLocked = false; try {lock.notify();}catch(Exception e){}}
+			//pass, used to release lock
 		}else{
 			selfPopulateBacktestData();
 			runBacktest();
@@ -62,7 +62,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 		
 		if (listOfResults.size() == 0){
-//			Co.println("--> Warning! No backtest data for symbol: " + historicalData.symbol.symbolName + " on " + historicalData.startDate + " to " + historicalData.endDate);
+			Co.println("--> Warning! No backtest data for symbol: " + historicalData.symbol.symbolName + " on " + historicalData.startDate + " to " + historicalData.endDate);
 		}
 		
 		backtestContainer.setBacktestData(listOfResults, historicalData);
@@ -76,8 +76,8 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 	}
 
 	public void runBacktest() {
-		backtestContainer.runBacktest();
-		if (lock.isLocked == false){synchronized(lock){try {lock.isLocked = true; lock.wait();}catch(Exception e){e.printStackTrace();}}}
+		backtestContainer.prepare();
+		backtestContainer.perform(true);
 	}
 
 	public void remodel(AlgorithmModel algorithmModel) {

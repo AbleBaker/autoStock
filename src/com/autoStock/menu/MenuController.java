@@ -52,7 +52,7 @@ public class MenuController {
 			}
 		}
 		
-		if (arguments[0].contains("QC")){
+		if (arguments[0].toUpperCase().contains("QC")){
 			return MenuStructures.menu_quick_command;
 		}
 		

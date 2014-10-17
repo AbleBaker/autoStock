@@ -157,15 +157,33 @@ public class MenuLauncher {
 			String menuCommand = menuStructure.getArgument(MenuArguments.arg_command).value;
 			String command = null;
 			
+			String typicalSymbol = "AIG";
+			
 			switch (menuCommand){
-				case "1" :
+				case "wm_sd":
+					command = String.format("main_backtest_wm 03/05/2012 03/05/2012 NYSE %s", typicalSymbol);
+					break;
+				case "wm_md":
+					command = String.format("main_backtest_wm 03/05/2012 03/08/2012 NYSE %s", typicalSymbol);
+					break;
+				case "wm_dod":
+					command = String.format("main_backtest_wm_dod 03/05/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
+					break;
+				case "bt_is":
+					command = String.format("main_backtest 03/05/2012 03/05/2012 NYSE %s backtest_default", typicalSymbol);
+					break;
+				case "bt_os":
+					command = String.format("main_backtest 03/06/2012 03/06/2012 NYSE %s backtest_default", typicalSymbol);
+					break;	
+					
+					// -- Older backtest styles
+				case "1":
 					command = "main_backtest 03/05/2012 03/05/2012 NYSE AIG backtest_adjustment_individual";
 					break;
-				case "2" :
+				case "2":
 					command = "main_backtest 03/05/2012 03/05/2012 NYSE AIG backtest_default";
 					break;
-					
-				case "3" :
+				case "3":
 					command = "main_backtest 03/05/2012 03/09/2012 NYSE AIG backtest_default";
 					break;
 				case "4":
@@ -173,18 +191,6 @@ public class MenuLauncher {
 					break;
 				case "5":
 					command = "main_clustered_backtest_client";
-					break;
-				case "6":
-					command = "main_backtest_wm 03/05/2012 03/08/2012 NYSE AIG";
-					break;
-				case "7" :
-					command = "main_backtest_wm_dod 03/05/2012 03/23/2012 NYSE AIG backtest_default";
-					break;
-				case "8" :
-					command = "main_backtest 03/09/2012 03/09/2012 NYSE AIG backtest_default";
-					break;
-				case "9" :
-					command = "main_backtest 03/09/2012 03/09/2012 NYSE AIG backtest_default";
 					break;
 			}
 			

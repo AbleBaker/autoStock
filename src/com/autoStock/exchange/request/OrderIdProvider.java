@@ -8,7 +8,7 @@ import com.autoStock.exchange.request.listener.RequestMarketOrderIdListener;
  *
  */
 public class OrderIdProvider {
-	public static OrderIdProvider orderIdProvider = new OrderIdProvider();
+	private static OrderIdProvider orderIdProvider = new OrderIdProvider();
 	private RequestMarketOrderIdListener requestMarketOrderIdListener; 
 	
 	public static OrderIdProvider getInstance() {

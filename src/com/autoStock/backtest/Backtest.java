@@ -20,7 +20,7 @@ import com.autoStock.types.Symbol;
  */
 public class Backtest implements DataFeedListenerOfQuoteSlice {
 	private HistoricalData typeHistoricalData;
-	private DataFeedHistoricalPrices dataFeedHistoricalPrices;
+	public DataFeedHistoricalPrices dataFeedHistoricalPrices;
 	private ArrayList<DbStockHistoricalPrice> listOfPrices;
 	private ReceiverOfQuoteSlice receiverOfQuoteSlice;
 	private Symbol symbol;
@@ -32,14 +32,15 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 		this.symbol = symbol;
 	}
 	
-	public void performBacktest(ReceiverOfQuoteSlice reciever){
+	public void performBacktest(ReceiverOfQuoteSlice reciever, boolean beBlocking){
 		receiverOfQuoteSlice = reciever;
 		dataFeedHistoricalPrices.addListener(this);
 		
 		if (listOfPrices.size() == 0){
 			endOfFeed();
 		}else{
-			dataFeedHistoricalPrices.startFeed();	
+			dataFeedHistoricalPrices.setupFeed();
+			dataFeedHistoricalPrices.startFeed(beBlocking);
 		}
 	}
 

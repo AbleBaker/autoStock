@@ -103,8 +103,8 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			}
 		}
 	}
-
-	public void runBacktest() {
+	
+	public void prepare(){
 		if (listOfDbHistoricalPrices.size() == 0) {
 //			throw new IllegalStateException();
 			endOfFeed(symbol);
@@ -112,7 +112,15 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}
 		
 		backtest = new Backtest(historicalData, listOfDbHistoricalPrices, symbol);
-		backtest.performBacktest(this);
+	}
+	
+	public void perform(boolean beBlocking){
+		backtest.performBacktest(this, beBlocking);
+	}
+
+	public void runBacktest() {
+		prepare();
+		perform(false);
 	}
 	
 	private void setContainerDates(){

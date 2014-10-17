@@ -6,6 +6,7 @@ package com.autoStock.dataFeed;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.backtest.BacktestRevolverListener;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
@@ -26,13 +27,13 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 	private Resolution resolution;
 	private Thread threadForDelivery;
 	
-	public DataFeedHistoricalPrices(HistoricalData typeHistoricalData, ArrayList<DbStockHistoricalPrice> listOfPrices){
+	public DataFeedHistoricalPrices(HistoricalData typeHistoricalData, ArrayList<DbStockHistoricalPrice> listOfHistoricalPrices){
 		this.typeHistoricalData = typeHistoricalData;
-		this.listOfPrices = listOfPrices;
+		this.listOfPrices = listOfHistoricalPrices;
 		this.resolution = typeHistoricalData.resolution;
 	}
 	
-	public void startFeed(){		
+	public void setupFeed(){
 		threadForDelivery = new Thread(new Runnable(){
 			@Override
 			public void run() {
@@ -52,7 +53,14 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 				ApplicationStates.shutdown();
 			}
 		});
+	}
+	
+	public void startFeed(boolean joinThread){
 		threadForDelivery.start();
+		
+		if (joinThread){
+			try {threadForDelivery.join();}catch(Exception e){e.printStackTrace();}
+		}
 	}
 	
 	private void feedFinished(){
