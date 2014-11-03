@@ -157,24 +157,26 @@ public class MenuLauncher {
 			String menuCommand = menuStructure.getArgument(MenuArguments.arg_command).value;
 			String command = null;
 			
-			String typicalSymbol = "AIG";
+			String typicalSymbol = "MS";
 			
 			switch (menuCommand){
 				case "wm_sd":
 					command = String.format("main_backtest_wm 03/05/2012 03/05/2012 NYSE %s", typicalSymbol);
 					break;
 				case "wm_md":
-					command = String.format("main_backtest_wm 03/05/2012 03/08/2012 NYSE %s", typicalSymbol);
+					command = String.format("main_backtest_wm 03/05/2012 03/19/2012 NYSE %s", typicalSymbol);
 					break;
 				case "wm_dod":
-					command = String.format("main_backtest_wm_dod 03/05/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest_wm_dod 03/05/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_is":
 					command = String.format("main_backtest 03/05/2012 03/05/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_os":
-					command = String.format("main_backtest 03/06/2012 03/06/2012 NYSE %s backtest_default", typicalSymbol);
-					break;	
+					command = String.format("main_backtest 03/09/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
+					break;
+				case "bt_dod":
+					command = String.format("main_backtest 03/05/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
 					
 					// -- Older backtest styles
 				case "1":
@@ -215,7 +217,7 @@ public class MenuLauncher {
 		else if (menuStructure == MenuStructures.menu_main_backtest_wm_dod){
 			new WMBacktestDoD(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value),
 			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
-			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
+			//DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
 			SymbolTools.getListOfSymbolFromListOfString(ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "), SecurityType.type_stock));
 		}
 		

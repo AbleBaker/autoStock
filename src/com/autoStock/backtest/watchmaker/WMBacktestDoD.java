@@ -42,14 +42,15 @@ public class WMBacktestDoD {
 	private Date dateEnd;
 	private int currentDayIndex = 0;
 	private Benchmark bench = new Benchmark();
-	private static final int DOD_RUN_PERIOD = 5;
+	private static final int DOD_RUN_PERIOD = 12;
 	private static final int DOD_TEST_PERIOD = 1;
+	private static final int DOD_RUNS = 1;
 	
-	public WMBacktestDoD(Exchange exchange, Date dateStart, Date dateEnd, ArrayList<Symbol> listOfSymbols) {
+	public WMBacktestDoD(Exchange exchange, Date dateStart, ArrayList<Symbol> listOfSymbols) {
 		this.exchange = exchange;
 		this.listOfSymbols = listOfSymbols;
 		this.dateStart = dateStart;
-		this.dateEnd = dateEnd;
+		//this.dateEnd = dateEnd;
 		
 		Global.callbackLock.requestLock();
 		
@@ -57,14 +58,21 @@ public class WMBacktestDoD {
 			throw new IllegalArgumentException("No symbols specified");
 		}
 		
-		Co.println("--> Day over Day backtest for range: " + DateTools.getPrettyDate(dateStart) + ", " + DateTools.getPrettyDate(dateEnd));
+		Co.println(String.format("--> Day over Day backtest starting at %s for %s days", DateTools.getPrettyDate(dateStart), DOD_RUN_PERIOD));
 		
-		if (DateTools.getListOfDatesOnWeekdays(dateStart, dateEnd).size() < 5){
-			throw new IllegalArgumentException("Insufficient days for DoD: " + (DateTools.getListOfDatesOnWeekdays(dateStart, dateEnd).size()));
-		}
+//		if (DateTools.getListOfDatesOnWeekdays(dateStart, dateEnd).size() < DOD_RUN_PERIOD){
+//			throw new IllegalArgumentException("Insufficient days for DoD. Needs / Supplied: " + DOD_RUN_PERIOD + ", " + (DateTools.getListOfDatesOnWeekdays(dateStart, dateEnd).size()));
+//		}
 		
 		ListTools.removeDuplicates(listOfSymbols);
 		bench.printTick("Started");
+		
+		for (int i=0; i<DOD_RUNS; i++){
+			Pair <Date, Date> pair = getRunPeriodAtIndex(i);
+			Co.println("--> DoD: " + pair.first + " to " + pair.second);
+		}
+		
+		Co.println("\n");
 		
 		runStage1();
 		
@@ -73,15 +81,14 @@ public class WMBacktestDoD {
 	}
 	
 	private void runStage1(){
-		for (int i=0; i<3; i++){
+		for (int i=0; i<DOD_RUNS; i++){
 			Pair <Date, Date> pair = getRunPeriodAtIndex(i);
 			
 			Co.println("--> DoD: " + pair.first + ", " + pair.second);
 			
-//			listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(exchange, dateStart, dateEnd, listOfSymbols);
-//			setupBacktestContainers(pair.first, pair.second);
-//			runBacktest();
-
+			//listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(exchange, dateStart, dateEnd, listOfSymbols);
+			setupBacktestContainers(pair.first, pair.second);
+			runBacktest();
 		}
 	}
 	

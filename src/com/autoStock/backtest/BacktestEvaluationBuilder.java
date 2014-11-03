@@ -48,6 +48,10 @@ import com.rits.cloning.Cloner;
  */
 public class BacktestEvaluationBuilder {
 	public BacktestEvaluation buildEvaluation(BacktestContainer backtestContainer){
+		return buildEvaluation(backtestContainer, true, true);
+	}
+	
+	public BacktestEvaluation buildEvaluation(BacktestContainer backtestContainer, boolean includeDescriptors, boolean includeTables){
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluation(backtestContainer);
 		
 		BacktestResultTransactionDetails backtestResultTransactionDetails = BacktestUtils.getBacktestResultTransactionDetails(backtestContainer);
@@ -56,51 +60,55 @@ public class BacktestEvaluationBuilder {
 		backtestEvaluation.transactionFeesPaid = backtestContainer.algorithm.basicAccount.getTransactionFees();
 		backtestEvaluation.transactionDetails = backtestResultTransactionDetails;
 		backtestEvaluation.accountBalance = backtestContainer.algorithm.basicAccount.getBalance();
-		backtestEvaluation.percentGain = backtestContainer.algorithm.basicAccount.getBalance() / AccountProvider.getInstance().defaultBalance;
+		backtestEvaluation.percentGain = backtestContainer.algorithm.basicAccount.getBalance() / AccountProvider.defaultBalance;
 		if (backtestResultTransactionDetails.countForTradesProfit > 0){backtestEvaluation.percentTradeProfit = 100 * (double)backtestResultTransactionDetails.countForTradesProfit / (double)backtestResultTransactionDetails.countForTradeExit;}
 		if (backtestResultTransactionDetails.countForTradesLoss > 0){backtestEvaluation.percentTradeLoss = 100 * (double)backtestResultTransactionDetails.countForTradesLoss / (double)backtestResultTransactionDetails.countForTradeExit;}
 		backtestEvaluation.percentYield = backtestContainer.algorithm.getYieldComplete();
 		
 		backtestEvaluation.algorithmModel = AlgorithmModel.getCurrentAlgorithmModel(backtestContainer.algorithm);
 		
-		for (SignalBase signalBase : backtestContainer.algorithm.strategyBase.signal.getListOfSignalBase()){
-			ArrayList<Pair<SignalPointType, SignalGuage[]>> list = signalBase.signalParameters.getGuages();
-			
-			for (Pair<SignalPointType, SignalGuage[]> pair : list){
-				SignalGuage[] arrayOfSignalGuage = pair.second;
+		if (includeDescriptors){
+			for (SignalBase signalBase : backtestContainer.algorithm.strategyBase.signal.getListOfSignalBase()){
+				ArrayList<Pair<SignalPointType, SignalGuage[]>> list = signalBase.signalParameters.getGuages();
 				
-				DescriptorForSignal descriptorForSignal = new DescriptorForSignal();
-				descriptorForSignal.signalName = signalBase.getClass().getSimpleName();
-				descriptorForSignal.signalPointType = pair.first.name();
-				descriptorForSignal.maxSignalAverage = signalBase.signalParameters.maxSignalAverage != null ? signalBase.signalParameters.maxSignalAverage.value : 0;
-				
-				if (arrayOfSignalGuage != null){
-					for (SignalGuage signalGuage : arrayOfSignalGuage){
-						descriptorForSignal.listOfDescriptorForGuage.add(new DescriptorForGuage(signalGuage));
+				for (Pair<SignalPointType, SignalGuage[]> pair : list){
+					SignalGuage[] arrayOfSignalGuage = pair.second;
+					
+					DescriptorForSignal descriptorForSignal = new DescriptorForSignal();
+					descriptorForSignal.signalName = signalBase.getClass().getSimpleName();
+					descriptorForSignal.signalPointType = pair.first.name();
+					descriptorForSignal.maxSignalAverage = signalBase.signalParameters.maxSignalAverage != null ? signalBase.signalParameters.maxSignalAverage.value : 0;
+					
+					if (arrayOfSignalGuage != null){
+						for (SignalGuage signalGuage : arrayOfSignalGuage){
+							descriptorForSignal.listOfDescriptorForGuage.add(new DescriptorForGuage(signalGuage));
+						}
 					}
+					
+					if (signalBase instanceof SignalOfCrossover){
+						descriptorForSignal.extras = " Long/Short gap: " + ((SignalParametersForCrossover)signalBase.signalParameters).longGapSize.value + ", " + ((SignalParametersForCrossover)signalBase.signalParameters).shortGapSize.value;
+					}
+					
+					backtestEvaluation.listOfDescriptorForSignal.add(descriptorForSignal);
 				}
-				
-				if (signalBase instanceof SignalOfCrossover){
-					descriptorForSignal.extras = " Long/Short gap: " + ((SignalParametersForCrossover)signalBase.signalParameters).longGapSize.value + ", " + ((SignalParametersForCrossover)signalBase.signalParameters).shortGapSize.value;
+			}
+			
+			for (IndicatorBase indicatorBase : backtestContainer.algorithm.signalGroup.getIndicatorGroup().getListOfIndicatorBaseActive()){
+				DescriptorForIndicator descriptorForIndicator = new DescriptorForIndicator(indicatorBase.getClass().getSimpleName(), indicatorBase.indicatorParameters.periodLength.value, indicatorBase.indicatorParameters.resultSetLength);
+				backtestEvaluation.listOfDescriptorForIndicator.add(descriptorForIndicator);
+			}
+			
+			if (AdjustmentCampaignProvider.getInstance().getAdjustmentCampaignForAlgorithm(backtestContainer.symbol) != null){
+				for (AdjustmentBase adjustmentBase : AdjustmentCampaignProvider.getInstance().getAdjustmentCampaignForAlgorithm(backtestContainer.symbol).getListOfAdjustmentBase()){
+					backtestEvaluation.listOfDescriptorForAdjustment.add(getAdjustmentDescriptor(adjustmentBase));
 				}
-				
-				backtestEvaluation.listOfDescriptorForSignal.add(descriptorForSignal);
 			}
 		}
 		
-		for (IndicatorBase indicatorBase : backtestContainer.algorithm.signalGroup.getIndicatorGroup().getListOfIndicatorBaseActive()){
-			DescriptorForIndicator descriptorForIndicator = new DescriptorForIndicator(indicatorBase.getClass().getSimpleName(), indicatorBase.indicatorParameters.periodLength.value, indicatorBase.indicatorParameters.resultSetLength);
-			backtestEvaluation.listOfDescriptorForIndicator.add(descriptorForIndicator);
+		if (includeTables){
+			backtestEvaluation.listOfDisplayRowsFromStrategyResponse = new TableForStrategyResponse(backtestContainer).getDisplayRows();
+			backtestEvaluation.listOfDisplayRowsFromAlgorithm = backtestContainer.algorithm.tableForAlgorithm.getDisplayRows();
 		}
-		
-		if (AdjustmentCampaignProvider.getInstance().getAdjustmentCampaignForAlgorithm(backtestContainer.symbol) != null){
-			for (AdjustmentBase adjustmentBase : AdjustmentCampaignProvider.getInstance().getAdjustmentCampaignForAlgorithm(backtestContainer.symbol).getListOfAdjustmentBase()){
-				backtestEvaluation.listOfDescriptorForAdjustment.add(getAdjustmentDescriptor(adjustmentBase));
-			}
-		}
-		
-		backtestEvaluation.listOfDisplayRowsFromStrategyResponse = new TableForStrategyResponse(backtestContainer).getDisplayRows();
-		backtestEvaluation.listOfDisplayRowsFromAlgorithm = backtestContainer.algorithm.tableForAlgorithm.getDisplayRows();
 		
 		backtestEvaluation.listOfDailyYield = new Cloner().deepClone(backtestContainer.listOfYield);
 		

@@ -16,7 +16,7 @@ public class Benchmark {
 	public void tick(){
 		if (hasTicked == false){hasTicked = true;}
 		long currentTimeMills = new Date().getTime();
-		Co.log("Tick: " + (currentTimeMills - lastMark) + "ms");
+		//Co.log("Tick: " + (currentTimeMills - lastMark) + "ms");
 		lastMark = currentTimeMills;
 	}
 	

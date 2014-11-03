@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * @author Kevin Kowalewski
@@ -18,7 +19,7 @@ import com.google.gson.Gson;
 public class DiskCache {
 	private final String CACHE_ROOT = "./cache/";
 	private final File fileForCacheRoot = new File(CACHE_ROOT);
-	private Gson gson = new Gson();
+	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	public DiskCache(){
 		if (fileForCacheRoot.exists() == false){

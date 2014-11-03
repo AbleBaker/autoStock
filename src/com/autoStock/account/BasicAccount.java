@@ -39,7 +39,7 @@ public class BasicAccount {
 	}
 	
 	public void reset(){
-		accountBalance.set(AccountProvider.getInstance().defaultBalance);
+		accountBalance.set(AccountProvider.defaultBalance);
 		transactionFeesPaid.set(0);
 		transactions.set(0);
 	}

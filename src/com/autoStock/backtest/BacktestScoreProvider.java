@@ -12,28 +12,21 @@ import com.google.gson.internal.Pair;
  */
 public class BacktestScoreProvider {
 	public static double getScore(BacktestEvaluation backtestEvaluation){
-		double score;
-		
-//		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeLongEntry == 0){return 0;}
-//		if (backtestEvaluation.backtestResultTransactionDetails.countForTradeShortEntry == 0){return 0;}
-//		if (backtestEvaluation.backtestResultTransactionDetails.countForTradesProfit == 0){return 0;} 
-		
+		double score = 0;
 //		score = backtestEvaluation.percentYield;
-		
 //		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
-		
 //		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
-		
 //		score = backtestEvaluation.percentTradeProfit * (backtestEvaluation.percentYield * 2);
-		
-		score = 0;
 
 		int penalty = 1;
 		
 		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
-			score += Math.min(pair.second, 2);
+			score += pair.second;
+			//score += Math.min(pair.second, 2);
 			if (pair.second < 0){penalty++;}
 		}
+		
+//		penalty += backtestEvaluation.transactionDetails.countForTradesLoss;
 		
 		score /= penalty;
 		

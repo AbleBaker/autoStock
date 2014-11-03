@@ -30,8 +30,9 @@ import com.autoStock.tools.MathTools;
 public class SignalOfEncog extends SignalBase {
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_EXTRAS = 0;
-	public static final int INPUT_WINDOW_PS = 5;
+	public static final int INPUT_WINDOW_PS = 15;
 	public static final int INPUTS = 3;
+	public static final File ENCOG_FILE = new File("encog.file"); 
 	
 	// private MLRegression basicNetwork;
 	private NEATNetwork neatNetwork;
@@ -50,7 +51,10 @@ public class SignalOfEncog extends SignalBase {
 
 		PersistNEATNetwork persistBasicNetwork = new PersistNEATNetwork();
 		try {
-			neatNetwork = (NEATNetwork) persistBasicNetwork.read(new FileInputStream(new File("encog.file")));
+			neatNetwork = (NEATNetwork) persistBasicNetwork.read(new FileInputStream(ENCOG_FILE));
+			if (neatNetwork.getInputCount() == 0){
+				neatNetwork = null;
+			}
 //			 Co.println("--> Read network...");
 		} catch (FileNotFoundException e) {
 			// Co.println("--> Warning, encog network definition not found");

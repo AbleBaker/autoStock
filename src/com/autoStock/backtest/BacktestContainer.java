@@ -20,6 +20,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
@@ -90,7 +91,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		this.historicalData = historicalData;
 		
 		setContainerDates();
-				
+
 		algorithm.init(historicalData.startDate);
 		
 		Iterator<DbStockHistoricalPrice> iterator = this.listOfDbHistoricalPrices.iterator();

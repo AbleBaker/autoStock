@@ -50,7 +50,7 @@ public class EncogScoreProvider implements CalculateScore {
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network);
 		singleBacktest.runBacktest();
 		
-		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
+		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false);
 		
 		String table = null;
 		if (singleBacktest.backtestContainer.algorithm.tableForAlgorithm != null){
@@ -63,7 +63,9 @@ public class EncogScoreProvider implements CalculateScore {
 		
 		runCount++;
 		
-		return backtestEvaluation.getScore();
+		double score = backtestEvaluation.getScore();
+		
+		return score > 0 ? score : Double.MIN_VALUE;
 	}
 
 	@Override

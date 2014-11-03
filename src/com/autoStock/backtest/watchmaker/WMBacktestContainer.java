@@ -47,7 +47,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
-	private WMEvolutionType evolutionType = WMEvolutionType.type_generational;
+	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
 	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
@@ -88,7 +88,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 //		trainEncog(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol), historicalData, true);
 		
 		if (evolutionType == WMEvolutionType.type_island){
-			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick? 4 : 16, 
+			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick ? 4 : 16, 
 					new RingMigration(), 
 					wmCandidateFactory, 
 					evolutionaryPipeline, 
@@ -99,7 +99,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(64, 8, 4, 8, new TargetFitness(999999, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(256, 8, 4, 8, new TargetFitness(999999, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(999999, true), new GenerationCount(8));
 			}
@@ -113,7 +113,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(128, 32, new TargetFitness(999999, true), new GenerationCount(3));
+				algorithmModel = evolutionEngine.evolve(64, 16, new TargetFitness(999999, true), new GenerationCount(3));
 			}else{
 				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(999999, true), new GenerationCount(16));
 			}
@@ -122,7 +122,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		}
 				
 		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
-		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel);
+		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel, true);
 		
 		double fitness = backtestEvaluation.getScore();
 		
@@ -136,13 +136,14 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 //		for (AdjustmentBase adjustmentBase : algorithmModel.wmAdjustment.listOfAdjustmentBase){
 //			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
 //		}
-//		Co.print(wmBacktestEvaluator.getBacktestEvaluation(algorithmModel).toString());
+		
+		Co.print(wmBacktestEvaluator.getBacktestEvaluation(algorithmModel, true).toString());
 		
 //		Co.print(new TableController().displayTable(AsciiTables.algorithm_test,);)
 		
 		Date dateOutOfSample = DateTools.getFirstWeekdayAfter(dateEnd);
 
-		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateOutOfSample, dateOutOfSample, Resolution.min)).getBacktestEvaluation(algorithmModel);
+		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateOutOfSample, dateOutOfSample, Resolution.min)).getBacktestEvaluation(algorithmModel, true);
 		
 		Co.println("\n\n Out of sample: " + dateOutOfSample + ", " + backtestEvaluationOutOfSample.percentYield);
 		

@@ -58,7 +58,7 @@ import com.google.gson.Gson;
  * 
  */
 public class TrainEncogSignal {
-	private static final int TRAINING_ITERATIONS = 8;
+	private static final int TRAINING_ITERATIONS = 3;
 	private int epoch = 0;
 	public static double bestScore = 0;
 	private AlgorithmModel algorithmModel;
@@ -99,18 +99,18 @@ public class TrainEncogSignal {
 		
 		for (int i=0; i<TRAINING_ITERATIONS; i++){
 			train.iteration();
-//			Co.println("--> Error: [" + i + "] " + train.getError());
+			Co.println("--> Error: [" + i + "] " + train.getError());
 			bestScore = Math.max(train.getError(), bestScore);
 		}
 		
-		Co.println("--> All done");
+		//Co.println("--> All done");
 		
 		NEATNetwork network = (NEATNetwork) train.getMethod();
 		
 		try {
 			PersistNEATNetwork persistNEATNetwork = new PersistNEATNetwork();
-			persistNEATNetwork.save(new FileOutputStream(new File("encog.file")), network);
-		}catch(Exception e){e.printStackTrace();}
+			persistNEATNetwork.save(new FileOutputStream(SignalOfEncog.ENCOG_FILE), network);
+		}catch(Exception e){Co.println("--> Failed to save network score could be zero.");}
 		
 		if (true){
 			return;

@@ -113,6 +113,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		
 		dayStartingBalance = basicAccount.getBalance();
 		
+//		if (dayStartingBalance - AccountProvider.defaultBalance < -3000){
+//			throw new IllegalStateException(String.format("Large default balance gap. Difference: %s", (dayStartingBalance - AccountProvider.defaultBalance)));
+//		}
+		
 		listOfQuoteSlice.clear();
 		listOfStrategyResponse.clear();
 		commonAnalysisData.reset();
@@ -143,10 +147,11 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		if (strategyResponse.strategyAction == StrategyAction.algorithm_disable){
 			if (algorithmState.isDisabled == false){
 				disable(strategyResponse.strategyActionCause.name());
+				listOfStrategyResponse.add(strategyResponse);
+				
 				if (algorithmListener != null){
 					algorithmListener.receiveChangedStrategyResponse(strategyResponse);
 				}
-				listOfStrategyResponse.add(strategyResponse);
 			}
 		}else if (strategyResponse.strategyAction == StrategyAction.algorithm_changed){
 			PositionGovernorResponse positionGovernorResponse = strategyResponse.positionGovernorResponse;
@@ -158,10 +163,12 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			}else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
 				handlePositionChange(true, strategyResponse.positionGovernorResponse.position);
 			}
+			
+			listOfStrategyResponse.add(strategyResponse);
+			
 			if (algorithmListener != null){
 				algorithmListener.receiveChangedStrategyResponse(strategyResponse);
 			}
-			listOfStrategyResponse.add(strategyResponse);
 		}else if (strategyResponse.strategyAction == StrategyAction.algorithm_proceed){
 			algorithmListener.receiveStrategyResponse(strategyResponse);
 		}else if (strategyResponse.strategyAction== StrategyAction.algorithm_pass){
@@ -273,6 +280,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			yield = (increasedValue / positionCost) * 100;
 		}else{
 			//pass, no positions!
+		}
+		
+		if (yield > 20){
+			throw new IllegalStateException("Yield for one day is very high");
 		}
 
 		return yield;

@@ -36,17 +36,17 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 	
 	@Override
 	public double getFitness(AlgorithmModel algorithmModel, List<? extends AlgorithmModel> notUsed) {
-		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel);
+		BacktestEvaluation backtestEvaluation = getBacktestEvaluation(algorithmModel, false);
 		return backtestEvaluation.getScore();
 	}
 	
-	public BacktestEvaluation getBacktestEvaluation(AlgorithmModel algorithmModel){
+	public synchronized BacktestEvaluation getBacktestEvaluation(AlgorithmModel algorithmModel, boolean includeExtras){
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		singleBacktest.remodel(algorithmModel);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		
-		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
+		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, includeExtras, includeExtras);
 		
 		return backtestEvaluation;
 	}
