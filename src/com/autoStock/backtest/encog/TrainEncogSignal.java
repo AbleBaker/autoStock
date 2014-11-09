@@ -64,7 +64,6 @@ public class TrainEncogSignal {
 	public static double bestScore = 0;
 	private AlgorithmModel algorithmModel;
 	private HistoricalData historicalData;
-	private Benchmark bench = new Benchmark();
 	private static NEATTraining train;
 	private static EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
 	
@@ -88,15 +87,19 @@ public class TrainEncogSignal {
 		
 		if (train == null){
 			train = new NEATTraining(encogScoreProvider, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 4, 512));
-			//train.setMutationPercent(25f);
-			//train.setPercentToMate(25f);
-			//train.setMatingPopulation(25f);
+			train.setMutationPercent(0.15f);
+			train.setPercentToMate(0.25f);
+			train.setMatingPopulation(0.50f);
 //			Co.println("--> New Train: " + train.hashCode());
 		}else{
 //			Co.println("--> Old Train: " + train.hashCode());
 		}
 		
 		Co.println("...");
+		
+		SignalCache signalCache = new SignalCache();
+		SignalCache.erase();
+		encogScoreProvider.setSignalCache(signalCache);
 
 		for (int i=0; i<TRAINING_ITERATIONS; i++){
 			train.iteration();
@@ -174,9 +177,7 @@ public class TrainEncogSignal {
 		for (int i = 0; i < count; i++) {
 			mlTrain.iteration();
 			System.out.println("Epoch #" + epoch + " Score:" + mlTrain.getError());
-			
-			bench.printTick("Trained");
-			
+					
 			bestScore = Math.max(mlTrain.getError(), bestScore);
 			
 			epoch++;

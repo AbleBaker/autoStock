@@ -35,6 +35,7 @@ public class EncogScoreProvider implements CalculateScore {
 	public static long runCount;
 	private AlgorithmModel algorithmModel;
 	public static ArrayList<EncogTest> listOfEncogTest = new ArrayList<EncogTest>();
+	private SignalCache signalCache;
 	private Benchmark bench = new Benchmark();
 	
 	public void setDetails(AlgorithmModel algorithmModel, HistoricalData historicalData){
@@ -53,6 +54,7 @@ public class EncogScoreProvider implements CalculateScore {
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network);
+		singleBacktest.backtestContainer.setSignalCache(signalCache);
 		singleBacktest.runBacktest();
 		
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false);
@@ -70,7 +72,7 @@ public class EncogScoreProvider implements CalculateScore {
 		
 		double score = backtestEvaluation.getScore();
 		
-		bench.printTick("Scored");
+//		bench.printTick("Scored");
 		
 		return score > 0 ? score : Double.MIN_VALUE;
 	}
@@ -90,5 +92,9 @@ public class EncogScoreProvider implements CalculateScore {
 			this.backtestEvaluation = backtestEvaluation;
 			this.table = table;
 		}
+	}
+
+	public void setSignalCache(SignalCache signalCache) {
+		this.signalCache = signalCache;
 	}
 }

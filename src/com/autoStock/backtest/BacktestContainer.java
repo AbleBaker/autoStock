@@ -67,6 +67,8 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	public HashMap<SignalBase, SignalRangeLimit> hashOfSignalRangeLimit = new HashMap<SignalBase, SignalRangeLimit>();
 	public ArrayList<Pair<Date, Double>> listOfYield = new ArrayList<Pair<Date, Double>>();
 	
+	public SignalCache signalCache;
+	
 	public Date dateContainerStart;
 	public Date dateContainerEnd;
 
@@ -84,7 +86,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}
 		
 		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
-//		algorithm.signalCache = signalCache;
+		algorithm.signalCache = signalCache;
 
 		if (algorithmMode == AlgorithmMode.mode_backtest && USE_PRECOMPUTED_ALGORITHM_MODEL){
 			AlgorithmModel algorithmModel = BacktestEvaluationReader.getPrecomputedModel(exchange, symbol);
@@ -96,13 +98,13 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}
 	}
 	
-//	public void setSignalCache(SignalCache signalCache){
-//		if (signalCache != null){
-//			this.signalCache = signalCache;
-//			this.signalCache.algorithmBase = algorithm;
-//			algorithm.signalCache = this.signalCache;
-//		}
-//	}
+	public void setSignalCache(SignalCache signalCache){
+		if (signalCache != null){
+			this.signalCache = signalCache;
+			this.signalCache.algorithmBase = algorithm;
+			algorithm.signalCache = this.signalCache;
+		}
+	}
 
 	public void setBacktestData(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, HistoricalData historicalData){
 		this.listOfDbHistoricalPrices = listOfDbStockHistoricalPrice;
@@ -228,7 +230,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	}
 
 	public void markAsComplete() {
-		//if (algorithm.signalCache != null && SignalCache.CACHE_FILE.exists() == false){algorithm.signalCache.writeToDisk();}
+//		if (algorithm.signalCache != null && SignalCache.CACHE_FILE.exists() == false){algorithm.signalCache.writeToDisk();}
 		isComplete = true;
 	}
 

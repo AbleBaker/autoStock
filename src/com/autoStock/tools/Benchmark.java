@@ -22,12 +22,12 @@ public class Benchmark {
 	
 	public void printTick(String action){
 		long currentTimeMills = new Date().getTime();
-		Co.log("Tick: [" + action + "] " + (currentTimeMills - lastMark) + "ms");
+		Co.log("Tick: [" + action + "] " + MiscTools.getCommifiedValue((currentTimeMills - lastMark), 0) + "ms");
 		lastMark = currentTimeMills;
 	}
 	
 	public void printTotal(){
 		long currentTimeMills = new Date().getTime();
-		Co.log("Benchmark: " + (currentTimeMills - startMark));
+		Co.log("Benchmark: " + MiscTools.getCommifiedValue((currentTimeMills - startMark), 0));
 	}
 }

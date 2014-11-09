@@ -95,7 +95,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		if (evolutionType == WMEvolutionType.type_island){
 			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick ? ISLAND_COUNT : ISLAND_COUNT * 2, 
-					new WMIslandMigration(), 
+					new RingMigration(), 
 					wmCandidateFactory, 
 					evolutionaryPipeline, 
 					new WMBacktestEvaluator(historicalData), 
@@ -105,7 +105,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(256, 16, 3, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(512, 16, 8, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(8));
 			}

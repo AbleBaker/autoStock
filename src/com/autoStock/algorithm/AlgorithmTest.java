@@ -54,16 +54,15 @@ public class AlgorithmTest extends AlgorithmBase {
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
 			//Co.print("\n --> QS: " + quoteSlice.toString());
 			
-			commonAnalysisData.setAnalysisData(listOfQuoteSlice);
-			indicatorGroup.setDataSet();
-			indicatorGroup.analyze();
-			signalGroup.generateSignals(commonAnalysisData, position);
-			
-//			if (signalCache != null && signalCache.isAvailable()){
-//				signalCache.setToQuoteSlice(quoteSlice, receiveIndex);
-//				signalGroup.generateSignalsCached();
-//			}else{
-//			}
+			if (signalCache != null && signalCache.isAvailable()){
+				signalCache.setToQuoteSlice(quoteSlice, receiveIndex);
+				signalGroup.generateSignalsCached();
+			}else{
+				commonAnalysisData.setAnalysisData(listOfQuoteSlice);
+				indicatorGroup.setDataSet();
+				indicatorGroup.analyze();
+				signalGroup.generateSignals(commonAnalysisData, position);
+			}
 			
 			baseInformStrategy(quoteSlice);
 			

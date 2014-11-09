@@ -29,8 +29,14 @@ public class MiscTools {
 	}
 	
 	public static String getCommifiedValue(double number){
+		return getCommifiedValue(number, 2);
+	}
+	
+	public static String getCommifiedValue(double number, int decimalPlaces){
 		NumberFormat numberFormat = NumberFormat.getInstance();
-		numberFormat.setMinimumFractionDigits(2);
+		if (decimalPlaces != 0){
+			numberFormat.setMinimumFractionDigits(decimalPlaces);
+		}
 		return numberFormat.format(number);
 	}
 	
