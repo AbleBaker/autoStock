@@ -51,6 +51,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 		
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {
 			//pass, used to release lock
+			backtestContainer.markAsComplete();
 		}else{
 			selfPopulateBacktestData();
 			runBacktest();

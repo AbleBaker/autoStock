@@ -88,7 +88,7 @@ public class DateTools {
 		return time;
 	}
 	
-	public static Date getChangedDate(Date date, int minutes){
+	public static Date getChangedBySubtracting(Date date, int minutes){
 		return new Date(date.getTime() - (minutes * 60) * 1000);
 	}
 	

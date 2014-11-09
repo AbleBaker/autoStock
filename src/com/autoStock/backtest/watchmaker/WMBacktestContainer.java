@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvolutionObserver;
@@ -15,6 +17,7 @@ import org.uncommons.watchmaker.framework.islands.IslandEvolution;
 import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
+import org.uncommons.watchmaker.framework.selection.RankSelection;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
 import org.uncommons.watchmaker.framework.selection.SigmaScaling;
 import org.uncommons.watchmaker.framework.selection.StochasticUniversalSampling;
@@ -47,6 +50,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
+	private static final int ISLAND_COUNT = Runtime.getRuntime().availableProcessors();
 	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
 	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
 	public DummyAlgorithm algorithm;
@@ -85,23 +89,25 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = null;
 		
-//		trainEncog(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol), historicalData, true);
+		if (TrainEncogSignal.networkExists() == false){
+			trainEncog(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol), historicalData);
+		}
 		
 		if (evolutionType == WMEvolutionType.type_island){
-			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick ? 4 : 16, 
-					new RingMigration(), 
+			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick ? ISLAND_COUNT : ISLAND_COUNT * 2, 
+					new WMIslandMigration(), 
 					wmCandidateFactory, 
 					evolutionaryPipeline, 
 					new WMBacktestEvaluator(historicalData), 
-					new StochasticUniversalSampling(), 
+					new RouletteWheelSelection(), 
 					randomNumberGenerator);
 			
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(256, 8, 4, 8, new TargetFitness(999999, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(256, 16, 3, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
-				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(999999, true), new GenerationCount(8));
+				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(8));
 			}
 		}else if (evolutionType == WMEvolutionType.type_generational){
 			evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,

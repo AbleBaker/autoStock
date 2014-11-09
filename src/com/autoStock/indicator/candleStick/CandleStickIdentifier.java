@@ -15,8 +15,6 @@ import com.autoStock.types.basic.MutableInteger;
  *
  */
 public class CandleStickIdentifier extends IndicatorBase {
-	private Core taLibCore;
-	
 	public CandleStickIdentifier(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 		this.taLibCore = taLibCore;

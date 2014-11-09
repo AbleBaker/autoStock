@@ -16,6 +16,11 @@ public class Symbol {
 	}
 	
 	@Override
+	public String toString() {
+		return symbolName + ", " + securityType.name();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		return ((Symbol)obj).symbolName.equals(symbolName);
 	}

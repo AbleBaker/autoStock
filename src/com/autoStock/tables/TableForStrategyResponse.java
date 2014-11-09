@@ -11,6 +11,7 @@ import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalMoment;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.MiscTools;
 
 /**
  * @author Kevin
@@ -44,6 +45,7 @@ public class TableForStrategyResponse extends BaseTable {
 
 			listOfString.add(TableTools.getTransactionDetails(strategyResponse));
 			listOfString.add(TableTools.getProfitLossDetails(strategyResponse));
+			listOfString.add(MiscTools.getCommifiedValue(strategyResponse.basicAccountCopy.getBalance()));
 			
 //			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
 //				listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));

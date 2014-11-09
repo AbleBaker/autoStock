@@ -141,7 +141,7 @@ public class MenuLauncher {
 		}
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_replay_from_file){
-			new ReplayController().buildFromTextFile(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), menuStructure.getArgument(MenuArguments.arg_file_name).value);
+			ReplayController.buildFromTextFile(new Exchange(menuStructure.getArgument(MenuArguments.arg_exchange).value), menuStructure.getArgument(MenuArguments.arg_file_name).value);
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_indicator_test){
@@ -180,13 +180,13 @@ public class MenuLauncher {
 					
 					// -- Older backtest styles
 				case "1":
-					command = "main_backtest 03/05/2012 03/05/2012 NYSE AIG backtest_adjustment_individual";
+					command = String.format("main_backtest 03/05/2012 03/05/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "2":
-					command = "main_backtest 03/05/2012 03/05/2012 NYSE AIG backtest_default";
+					command = String.format("main_backtest 03/05/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "3":
-					command = "main_backtest 03/05/2012 03/09/2012 NYSE AIG backtest_default";
+					command = String.format("main_backtest 03/05/2012 03/19/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "4":
 					command = "main_clustered_backtest 03/05/2012 03/09/2012 NYSE \"AIG\"";

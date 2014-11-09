@@ -47,6 +47,7 @@ import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.EncogScoreProvider.EncogTest;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
+import com.autoStock.signal.SignalCache;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -58,7 +59,7 @@ import com.google.gson.Gson;
  * 
  */
 public class TrainEncogSignal {
-	private static final int TRAINING_ITERATIONS = 3;
+	private static final int TRAINING_ITERATIONS = 8;
 	private int epoch = 0;
 	public static double bestScore = 0;
 	private AlgorithmModel algorithmModel;
@@ -86,7 +87,7 @@ public class TrainEncogSignal {
 //		pattern.setActivationFunction(new ActivationTANH());
 		
 		if (train == null){
-			train = new NEATTraining(encogScoreProvider, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 4, 256));
+			train = new NEATTraining(encogScoreProvider, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 4, 512));
 			//train.setMutationPercent(25f);
 			//train.setPercentToMate(25f);
 			//train.setMatingPopulation(25f);
@@ -96,7 +97,7 @@ public class TrainEncogSignal {
 		}
 		
 		Co.println("...");
-		
+
 		for (int i=0; i<TRAINING_ITERATIONS; i++){
 			train.iteration();
 			Co.println("--> Error: [" + i + "] " + train.getError());
@@ -180,5 +181,9 @@ public class TrainEncogSignal {
 			
 			epoch++;
 		}
+	}
+
+	public static boolean networkExists() {
+		return SignalOfEncog.ENCOG_FILE.exists();
 	}
 }

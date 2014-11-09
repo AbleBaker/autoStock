@@ -13,7 +13,6 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  *
  */
 public class SignalOfARDown extends SignalBase {
-	
 	public SignalOfARDown(SignalParameters signalParameters){
 		super(SignalMetricType.metric_ar_down, signalParameters);
 	}

@@ -67,11 +67,11 @@ public class StringTools {
 		return returnString;
 	}
 	
-	public static String listOfStringToString(ArrayList<String> listOfString){
+	public static String listOfStringToString(ArrayList<String> listOfString, boolean addSpace){
 		String returnString = new String();
 		
 		for (String string : listOfString){
-			returnString = returnString.concat(string);
+			returnString = returnString.concat(addSpace ? " " + string : string);
 		}
 		
 		return returnString;

@@ -5,6 +5,8 @@ package com.autoStock.types;
 
 import java.util.Date;
 
+import com.autoStock.tools.ReflectionHelper;
+import com.autoStock.tools.StringTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 
 /**
@@ -37,6 +39,11 @@ public class QuoteSlice implements Cloneable {
 		this.priceAsk = priceAsk;
 		this.sizeVolume = sizeVolume;
 		this.dateTime = dateTime;
+	}
+	
+	@Override
+	public String toString() {
+		return StringTools.listOfStringToString(new ReflectionHelper().getValuesToStringArryay(this), true);
 	}
 	
 //	@Override

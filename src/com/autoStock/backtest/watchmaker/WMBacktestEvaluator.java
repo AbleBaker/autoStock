@@ -40,7 +40,7 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 		return backtestEvaluation.getScore();
 	}
 	
-	public synchronized BacktestEvaluation getBacktestEvaluation(AlgorithmModel algorithmModel, boolean includeExtras){
+	public BacktestEvaluation getBacktestEvaluation(AlgorithmModel algorithmModel, boolean includeExtras){
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		singleBacktest.remodel(algorithmModel);
 		singleBacktest.selfPopulateBacktestData();

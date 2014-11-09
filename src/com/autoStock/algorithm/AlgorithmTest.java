@@ -8,6 +8,7 @@ import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalCache;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.strategy.StrategyResponse;
@@ -42,7 +43,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		initialize();
 		
 		if (strategyBase.strategyOptions.prefillEnabled){
-			prefill();			
+			prefill();
 		}
 	}
 
@@ -51,39 +52,22 @@ public class AlgorithmTest extends AlgorithmBase {
 		receivedQuoteSlice(quoteSlice);
 			
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
-//			Co.print("\n --> QS: " + quoteSlice.dateTime);
-//			if (quoteSlice.dateTime.equals(DateTools.getDateFromString("2012/03/09 09:59:00 AM"))){
-//				Co.println("--> Debug...");
-//			}
+			//Co.print("\n --> QS: " + quoteSlice.toString());
 			
 			commonAnalysisData.setAnalysisData(listOfQuoteSlice);
 			indicatorGroup.setDataSet();
 			indicatorGroup.analyze();
-			signalGroup.setIndicatorGroup(indicatorGroup);
 			signalGroup.generateSignals(commonAnalysisData, position);
-//			
-//			for (int i=0; i<indicatorGroup.indicatorOfRSI.results.arrayOfRSI.length; i++){
-//				Co.print(" " + indicatorGroup.indicatorOfRSI.results.arrayOfRSI[i]);
+			
+//			if (signalCache != null && signalCache.isAvailable()){
+//				signalCache.setToQuoteSlice(quoteSlice, receiveIndex);
+//				signalGroup.generateSignalsCached();
+//			}else{
 //			}
-//			
-//			System.exit(0);
 			
-			StrategyResponse strategyResponse = strategyBase.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position, new PositionOptions(this));
-		
-			handleStrategyResponse(strategyResponse);
-
-			if (algorithmMode.displayChart) {
-				algorithmChart.addChartPointData(firstQuoteSlice, quoteSlice, strategyResponse);
-			}
+			baseInformStrategy(quoteSlice);
 			
-			if (algorithmMode.displayTable) {
-				tableForAlgorithm.addTableRow(listOfQuoteSlice, strategyBase.signal, signalGroup, strategyResponse, basicAccount);
-			}
-				
-//			Co.println("--> Sizes: " + listOfQuoteSlice.size() + ", " + algorithmTable.listOfDisplayRows.size());
-			
-//			periodLength = StrategyHelper.getUpdatedPeriodLength(quoteSlice.dateTime, exchange, periodLength, strategy.strategyOptions);
-			finishedReceiverOfQuoteSlice();
+			finishedReceiveQuoteSlice();
 		}
 	}
 

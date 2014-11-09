@@ -18,14 +18,11 @@ public class TableTools {
 	public static String getTransactionDetails(StrategyResponse strategyResponse){ 
 		String responseString = "";
 		if (strategyResponse.positionGovernorResponse.position != null){
-			String valueGainString = "$" + strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(false);
-			String percentGainString = "(" + "%" + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(true)) + ")";
-			
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				responseString = "(" + strategyResponse.positionGovernorResponse.position.getInitialUnitsFilled();
 				responseString += " * " + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionValue().unitPriceFilled);
 				responseString += ") + " + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionUtils().getOrderTransactionFeesIntrinsic());
-				responseString += " = $" + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionValue().priceCurrentWithFee);
+				responseString += " = $" + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionValue().priceFilledWithFee);
 			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
 				responseString = "(" + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getUnitsIntrinsic();
 				responseString += " * " + strategyResponse.positionGovernorResponse.position.getLastEntryOrder().getUnitPriceFilled();

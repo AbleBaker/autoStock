@@ -163,13 +163,13 @@ public class PositionUtils {
 		}
 	}
 
-	public double getPositionPriceCurrent(boolean includeTransactionFees) {
+	public double getPositionPriceCurrent(boolean includeTransactionFee) {
 		synchronized (listOfOrder) {
 			double unitPriceLastKnown = position.getLastKnownUnitPrice();
 			double priceTotal = getOrderUnitsFilled() * unitPriceLastKnown;
 			double transactionFees = TransactionFees.getTransactionCost(getOrderUnitsFilled(), unitPriceLastKnown);
 
-			return priceTotal + (includeTransactionFees ? transactionFees : 0);
+			return priceTotal + (includeTransactionFee ? transactionFees : 0);
 		}
 	}
 

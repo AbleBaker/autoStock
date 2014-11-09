@@ -16,14 +16,21 @@ public class ReflectionHelper {
 		try {
 			ArrayList<String> listOfString = new ArrayList<String>();
 			for (Field field : object.getClass().getFields()) {
-				if (field.getType() == String.class){
-					listOfString.add((String) field.get(object));
-				}else if (field.getType() == long.class || field.getType() == int.class || field.getType() == float.class){
-					listOfString.add((String) String.valueOf(field.get(object)));
-				}else if (field.getType() == Date.class){
-					listOfString.add(DateTools.getPrettyDate((Date)field.get(object)));
-				}else {
-					throw new UnsatisfiedLinkError("Can't handle type");
+				Object fieldObject = field.get(object);
+				
+				if (fieldObject != null){
+					if (field.getType() == String.class){
+						listOfString.add(field.getName() + " = " + (String) fieldObject);
+					}else if (field.getType() == long.class || field.getType() == int.class || field.getType() == float.class || field.getType() == double.class){
+						listOfString.add(field.getName() + " = " + (String) String.valueOf(fieldObject));
+					}else if (field.getType() == Date.class){
+						listOfString.add(field.getName() + " = " + DateTools.getPrettyDate((Date)fieldObject));
+					}else {
+						listOfString.add(fieldObject.toString());
+						//throw new UnsatisfiedLinkError("Can't handle type: " + field.getType().getSimpleName());
+					}
+				}else{
+					listOfString.add(field.getName() + " = null");
 				}
 			}
 

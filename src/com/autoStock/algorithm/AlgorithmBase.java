@@ -29,16 +29,20 @@ import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
+import com.autoStock.position.PositionOptions;
 import com.autoStock.retrospect.Prefill;
 import com.autoStock.retrospect.Prefill.PrefillMethod;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalCache;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyBase;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tables.TableForAlgorithm;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.Position;
 import com.autoStock.trading.yahoo.FundamentalData;
 import com.autoStock.types.Exchange;
@@ -64,10 +68,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public final PositionGovernor positionGovernor;
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
-	protected ArrayList<SignalMetricType> listOfSignalMetricTypeActive = new ArrayList<SignalMetricType>();
-	protected ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
+	public ArrayList<SignalMetricType> listOfSignalMetricTypeActive = new ArrayList<SignalMetricType>();
+	public ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
 	public QuoteSlice firstQuoteSlice;
-	protected Position position;
+	public Position position;
 	public StrategyBase strategyBase;
 	private Prefill prefill;
 	public Date startingDate;
@@ -75,6 +79,9 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public final BasicAccount basicAccount;
 	public Double dayStartingBalance;
 	public String algorithmSource;
+	protected int receiveIndex;
+	protected Benchmark bench = new Benchmark();
+	public SignalCache signalCache;
 	
 	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount){
 		this.exchange = exchange;
@@ -107,6 +114,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			//Check Strategy actually contains adjustment values... 
 		}
 		
+		signalGroup.setIndicatorGroup(indicatorGroup);
 		indicatorGroup.setAnalyze(listOfSignalMetricTypeAnalyze);
 		indicatorGroup.setActive(listOfSignalMetricTypeAnalyze);
 		periodLength = indicatorGroup.getMinPeriodLength(true);
@@ -122,6 +130,36 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		commonAnalysisData.reset();
 		signalGroup.reset();
 		algorithmState.reset();
+		
+		if (signalCache != null){
+			signalCache.restoreFromDisk();
+		}
+	}
+	
+	public StrategyResponse requestExitExternally(){
+		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
+		quoteSlice.dateTime = DateTools.getChangedBySubtracting(quoteSlice.dateTime, -1);
+		StrategyResponse strategyResponse = strategyBase.requestExit(position, quoteSlice, new PositionOptions(this));
+		handleStrategyResponse(strategyResponse);
+		populateAlgorithmDetails(quoteSlice, strategyResponse);
+		
+		return strategyResponse;
+	}
+	
+	public void baseInformStrategy(QuoteSlice quoteSlice){
+		StrategyResponse strategyResponse = strategyBase.informStrategy(indicatorGroup, signalGroup, listOfQuoteSlice, listOfStrategyResponse, position, new PositionOptions(this));
+		handleStrategyResponse(strategyResponse);
+		populateAlgorithmDetails(quoteSlice, strategyResponse);
+	}
+	
+	public void populateAlgorithmDetails(QuoteSlice quoteSlice, StrategyResponse strategyResponse){
+		if (algorithmMode.displayChart) {
+			algorithmChart.addChartPointData(firstQuoteSlice, quoteSlice, strategyResponse);
+		}
+		
+		if (algorithmMode.displayTable || algorithmMode.populateTable) {
+			tableForAlgorithm.addTableRow(listOfQuoteSlice, strategyBase.signal, signalGroup, strategyResponse, basicAccount);
+		}
 	}
 	
 	protected void setAnalyzeAndActive(ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze, ArrayList<SignalMetricType> listOfSignalMetricTypeActive) {
@@ -195,10 +233,12 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		positionGovernor.getPositionManager().updatePositionPrice(quoteSlice, position);
 	}
 	
-	public void finishedReceiverOfQuoteSlice(){
+	public void finishedReceiveQuoteSlice(){
 		if (listOfQuoteSlice.size() >= periodLength) {
 			listOfQuoteSlice.remove(0);
 		}
+		
+		receiveIndex++;
 	}
 	
 	public QuoteSlice getCurrentQuoteSlice(){
@@ -283,7 +323,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		if (yield > 20){
-			throw new IllegalStateException("Yield for one day is very high");
+			Co.println("--> " + getCurrentQuoteSlice().toString());
+			throw new IllegalStateException("Yield for one day is very high at " + yield);
 		}
 
 		return yield;

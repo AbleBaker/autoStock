@@ -64,14 +64,28 @@ public abstract class SignalBase {
 		return new SignalPointResolver(this).getSignalPoint(havePosition, positionType);
 	}
 	
+	public void setInputCached(double strength, double normalizedValue){
+		listOfNormalizedValue.add(normalizedValue);
+		listOfNormalizedValuePersist.add(normalizedValue);
+		
+		listOfNormalizedAveragedValue.add(strength);
+		listOfNormalizedAveragedValuePersist.add(strength);
+		signalRangeLimit.addValue(strength);
+		
+		prune(maxSignalAverage.value);
+	}
+	
 	public void setInput(double value){
-		listOfNormalizedValue.add(signalParameters.normalizeInterface.normalize(value));
+		double normalizedValue = signalParameters.normalizeInterface.normalize(value);
+		
+		listOfNormalizedValue.add(normalizedValue);
+		listOfNormalizedValuePersist.add(normalizedValue);
+		
 		double strength = getStrength();
 		
 		listOfNormalizedAveragedValue.add(strength);
-		signalRangeLimit.addValue(strength);
 		listOfNormalizedAveragedValuePersist.add(strength);
-		listOfNormalizedValuePersist.add(strength);
+		signalRangeLimit.addValue(strength);
 		
 		prune(maxSignalAverage.value);
 	}

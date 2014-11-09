@@ -10,7 +10,7 @@ import com.google.gson.internal.Pair;
  *
  */
 public class AccountProvider {
-	public static final double defaultBalance = 1000000;
+	public static final double defaultBalance = 100000;
 	private static AccountProvider instance = new AccountProvider();
 	private BasicAccount accountForGlobalAccess = new BasicAccount(defaultBalance);
 	private ArrayList<Pair<Symbol, BasicAccount>> listOfAccount = new ArrayList<Pair<Symbol, BasicAccount>>();

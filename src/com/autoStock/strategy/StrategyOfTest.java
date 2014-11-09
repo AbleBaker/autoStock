@@ -115,7 +115,19 @@ public class StrategyOfTest extends StrategyBase {
 		strategyResponse.signal = signal;
 		strategyResponse.signal.generateSignalMoments(position != null && position.isFilledAndOpen(), position == null ? PositionType.position_none : position.positionType);
 		strategyResponse.quoteSlice = quoteSlice;
+		strategyResponse.basicAccountCopy = algorithmBase.basicAccount.copy();
 
+		return formulateStrategyResponse(strategyResponse);
+	}
+	
+	@Override
+	public StrategyResponse requestExit(Position position, QuoteSlice quoteSlice, PositionOptions positionOptions) {
+		StrategyResponse strategyResponse = new StrategyResponse();
+		strategyResponse.signal = new Signal(SignalSource.from_manual, null);
+		strategyResponse.quoteSlice = quoteSlice;
+		strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_end_of_feed, quoteSlice, position, strategyResponse);
+		strategyResponse.basicAccountCopy = algorithmBase.basicAccount.copy();
+		
 		return formulateStrategyResponse(strategyResponse);
 	}
 

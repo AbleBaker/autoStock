@@ -9,6 +9,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.internal.GsonProvider;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.tools.DateTools;
@@ -29,11 +30,7 @@ public class BacktestEvaluationWriter {
 			 outOfSampleEvaluation = new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(backtestEvaluation);
 		}
 		
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
-		gsonBuilder.registerTypeAdapter(IndicatorParameters.class, new GsonClassAdapter());
-		
-		int gsonId = new DatabaseQuery().insert(BasicQueries.basic_insert_gson, new QueryArg(QueryArgs.gsonString, gsonBuilder.create().toJson(backtestEvaluation).replace("\"", "\\\"")));
+		int gsonId = new DatabaseQuery().insert(BasicQueries.basic_insert_gson, new QueryArg(QueryArgs.gsonString, new GsonProvider().getGsonForBacktestEvaluations().toJson(backtestEvaluation).replace("\"", "\\\"")));
 		
 		new DatabaseQuery().insert(BasicQueries.basic_insert_backtest_results,
 			new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(backtestEvaluation.dateStart)),

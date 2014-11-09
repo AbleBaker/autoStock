@@ -16,8 +16,10 @@ import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.SignalCache;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -33,6 +35,7 @@ public class EncogScoreProvider implements CalculateScore {
 	public static long runCount;
 	private AlgorithmModel algorithmModel;
 	public static ArrayList<EncogTest> listOfEncogTest = new ArrayList<EncogTest>();
+	private Benchmark bench = new Benchmark();
 	
 	public void setDetails(AlgorithmModel algorithmModel, HistoricalData historicalData){
 		this.algorithmModel = algorithmModel;
@@ -40,9 +43,11 @@ public class EncogScoreProvider implements CalculateScore {
 	}
 	
 	@Override
-	public synchronized double calculateScore(MLRegression network) {
+	public double calculateScore(MLRegression network) {
 //		Co.println("--> Calculate score... ");
 //		Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
+		
+		bench.tick();
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
@@ -52,18 +57,20 @@ public class EncogScoreProvider implements CalculateScore {
 		
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false);
 		
-		String table = null;
-		if (singleBacktest.backtestContainer.algorithm.tableForAlgorithm != null){
-			table = new TableController().getTable(AsciiTables.algorithm, singleBacktest.backtestContainer.algorithm.tableForAlgorithm.getDisplayRows());
-		}
-		
-		if (backtestEvaluation.getScore() > TrainEncogSignal.bestScore && backtestEvaluation.getScore() != 0){
-			listOfEncogTest.add(new EncogTest(network, backtestEvaluation, table));
-		}
+//		String table = null;
+//		if (singleBacktest.backtestContainer.algorithm.tableForAlgorithm != null){
+//			table = new TableController().getTable(AsciiTables.algorithm, singleBacktest.backtestContainer.algorithm.tableForAlgorithm.getDisplayRows());
+//		}
+//		
+//		if (backtestEvaluation.getScore() > TrainEncogSignal.bestScore && backtestEvaluation.getScore() != 0){
+//			listOfEncogTest.add(new EncogTest(network, backtestEvaluation, table));
+//		}
 		
 		runCount++;
 		
 		double score = backtestEvaluation.getScore();
+		
+		bench.printTick("Scored");
 		
 		return score > 0 ? score : Double.MIN_VALUE;
 	}

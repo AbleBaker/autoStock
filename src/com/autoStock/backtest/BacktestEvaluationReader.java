@@ -11,6 +11,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.internal.GsonClassAdapter;
+import com.autoStock.internal.GsonProvider;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.types.Exchange;
@@ -26,11 +27,7 @@ public class BacktestEvaluationReader {
 		ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));
 		
 		if (listOfGsonResults.size() > 0){
-			GsonBuilder gsonBuilder = new GsonBuilder();
-			gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());
-			gsonBuilder.registerTypeAdapter(IndicatorParameters.class, new GsonClassAdapter());
-			
-			BacktestEvaluation backtestEvaluation = gsonBuilder.create().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);				
+			BacktestEvaluation backtestEvaluation = new GsonProvider().getGsonForBacktestEvaluations().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);				
 			return backtestEvaluation;
 		}
 		return null;

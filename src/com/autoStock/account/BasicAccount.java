@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.autoStock.Co;
 import com.autoStock.tools.MathTools;
 import com.google.common.util.concurrent.AtomicDouble;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -50,5 +51,9 @@ public class BasicAccount {
 
 	public double getTransactionFees() {
 		return MathTools.round(transactionFeesPaid.get());
+	}
+
+	public BasicAccount copy() {
+		return new Cloner().deepClone(this);
 	}
 }

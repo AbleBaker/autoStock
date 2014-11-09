@@ -26,10 +26,18 @@ import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalCache;
+import com.autoStock.signal.SignalCachePackage;
+import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalRangeLimit;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tables.TableController;
+import com.autoStock.tables.TableForAlgorithm;
+import com.autoStock.tables.TableForStrategyResponse;
+import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.Position;
@@ -76,15 +84,25 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}
 		
 		algorithm = new AlgorithmTest(exchange, symbol, algorithmMode, basicAccount);
+//		algorithm.signalCache = signalCache;
 
 		if (algorithmMode == AlgorithmMode.mode_backtest && USE_PRECOMPUTED_ALGORITHM_MODEL){
 			AlgorithmModel algorithmModel = BacktestEvaluationReader.getPrecomputedModel(exchange, symbol);
 			if (algorithmModel != null){
 				Co.println("--> Evaluation available");
+				
 				new AlgorithmRemodeler(algorithm, algorithmModel).remodel(true, true, true, false);
 			}
 		}
 	}
+	
+//	public void setSignalCache(SignalCache signalCache){
+//		if (signalCache != null){
+//			this.signalCache = signalCache;
+//			this.signalCache.algorithmBase = algorithm;
+//			algorithm.signalCache = this.signalCache;
+//		}
+//	}
 
 	public void setBacktestData(ArrayList<DbStockHistoricalPrice> listOfDbStockHistoricalPrice, HistoricalData historicalData){
 		this.listOfDbHistoricalPrices = listOfDbStockHistoricalPrice;
@@ -154,29 +172,38 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	@Override
 	public void receiveQuoteSlice(QuoteSlice quoteSlice) {
 		algorithm.receiveQuoteSlice(quoteSlice);
+		
+//		try {
+//		}catch(IllegalStateException e){
+//			e.printStackTrace();
+//			Co.println(new BacktestEvaluationBuilder().buildEvaluation(this).toString());
+//			
+//			Co.println("--> Len: " + algorithm.tableForAlgorithm.getDisplayRows().size());
+//			
+//			new TableController().displayTable(AsciiTables.algorithm, algorithm.tableForAlgorithm.getDisplayRows());
+//			ApplicationStates.shutdown();
+//		}
 	}
 
 	@Override
 	public void endOfFeed(Symbol symbol) {
-		listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
-		algorithm.endOfFeed(symbol);
-		
-		for (SignalBase signalBase : algorithm.signalGroup.getListOfSignalBase()){
-			if (signalBase.signalRangeLimit.isSet()){
-				if (hashOfSignalRangeLimit.containsKey(signalBase)){
-					hashOfSignalRangeLimit.put(signalBase, AdjustmentRebaser.getRangeLimit(Arrays.asList(new SignalRangeLimit[]{hashOfSignalRangeLimit.get(signalBase), signalBase.signalRangeLimit.copy()})));
-				}else{
-					hashOfSignalRangeLimit.put(signalBase, signalBase.signalRangeLimit.copy());
-				}
-			}else{
-//				Co.println("--> Signal range limit not set: " + signalBase.getClass().getName());
-			}
-		}
+//		for (SignalBase signalBase : algorithm.signalGroup.getListOfSignalBase()){
+//			if (signalBase.signalRangeLimit.isSet()){
+//				if (hashOfSignalRangeLimit.containsKey(signalBase)){
+//					hashOfSignalRangeLimit.put(signalBase, AdjustmentRebaser.getRangeLimit(Arrays.asList(new SignalRangeLimit[]{hashOfSignalRangeLimit.get(signalBase), signalBase.signalRangeLimit.copy()})));
+//				}else{
+//					hashOfSignalRangeLimit.put(signalBase, signalBase.signalRangeLimit.copy());
+//				}
+//			}else{
+////				Co.println("--> Signal range limit not set: " + signalBase.getClass().getName());
+//			}
+//		}
 		
 		listOfYield.add(new Pair<Date, Double>(historicalData.startDate, algorithm.getYieldCurrent()));
 		
-		if (PositionManager.getGlobalInstance().getPosition(symbol) != null){
-//			Co.println("--> Warning! Exchange data ends before exchange close and a position exists...");
+		//If running with mode exchange
+		if (algorithmMode == AlgorithmMode.mode_engagement && PositionManager.getGlobalInstance().getPosition(symbol) != null){
+			Co.println("--> Warning! Exchange data ends before exchange close and a position exists...");
 			Position position = PositionManager.getGlobalInstance().getPosition(symbol);
 		
 			if (position.positionType == PositionType.position_long){
@@ -189,12 +216,19 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			
 //			Co.print(new BacktestEvaluationBuilder().buildEvaluation(this).toString());
 //			throw new IllegalStateException("Position manager still has position for: " + symbol.symbolName);
+		}else if (algorithm.position != null && (algorithmMode == AlgorithmMode.mode_backtest_single || algorithmMode == AlgorithmMode.mode_backtest) && (algorithm.position.positionType == PositionType.position_long || algorithm.position.positionType == PositionType.position_short)){
+			algorithm.requestExitExternally();
+			//throw new IllegalStateException("EOF Yet position exists: " + symbol.symbolName);
 		}
 		
+		listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
+		
+		algorithm.endOfFeed(symbol);
 		listener.backtestCompleted(symbol, algorithm);
 	}
 
 	public void markAsComplete() {
+		//if (algorithm.signalCache != null && SignalCache.CACHE_FILE.exists() == false){algorithm.signalCache.writeToDisk();}
 		isComplete = true;
 	}
 

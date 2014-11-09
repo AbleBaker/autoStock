@@ -74,7 +74,6 @@ public class StrategyOptions implements Cloneable {
 	}
 
 	public StrategyOptions copy() {
-//		return new Gson().fromJson(new Gson().toJson(this), getClass());
 		return new Cloner().deepClone(this);
 	}
 }

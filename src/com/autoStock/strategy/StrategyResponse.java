@@ -1,5 +1,6 @@
 package com.autoStock.strategy;
 
+import com.autoStock.account.BasicAccount;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.signal.Signal;
 import com.autoStock.types.QuoteSlice;
@@ -14,6 +15,7 @@ public class StrategyResponse {
 	public StrategyActionCause strategyActionCause = StrategyActionCause.none;
 	public QuoteSlice quoteSlice;
 	public Signal signal;
+	public BasicAccount basicAccountCopy;
 	
 	public enum StrategyAction {
 		algorithm_disable,
@@ -34,6 +36,7 @@ public class StrategyResponse {
 		cease_condition_stoploss,
 		cease_condition_profit_drawdown,
 		cease_condition_loss,
+		cease_end_of_feed,
 		disable_condition_nilchange,
 		disable_condition_nilvolume,
 		cease_disabled,
