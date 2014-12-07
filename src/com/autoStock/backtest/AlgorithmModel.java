@@ -11,6 +11,7 @@ import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.MiscTools;
 import com.google.gson.Gson;
@@ -72,5 +73,11 @@ public class AlgorithmModel {
 	public String getUniqueIdentifier(){
 		GsonBuilder builder = new GsonBuilder().serializeSpecialFloatingPointValues();
 		return MiscTools.getHash(builder.create().toJson(this));
+	}
+
+	public static AlgorithmModel getEmptyModel() {
+		AlgorithmModel algorithmModel = new AlgorithmModel();
+		algorithmModel.strategyOptions = new StrategyOptionDefaults().getDefaultStrategyOptions();
+		return algorithmModel;
 	}
 }

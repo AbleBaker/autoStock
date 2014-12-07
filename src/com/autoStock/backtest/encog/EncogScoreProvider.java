@@ -51,7 +51,7 @@ public class EncogScoreProvider implements CalculateScore {
 		bench.tick();
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(); //true, true, true, false);
+		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(); //(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network);
 //		singleBacktest.backtestContainer.setSignalCache(signalCache);

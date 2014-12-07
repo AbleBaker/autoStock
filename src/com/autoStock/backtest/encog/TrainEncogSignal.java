@@ -83,7 +83,7 @@ public class TrainEncogSignal {
 		}
 	}
 	
-	public void execute(AlgorithmModel algorithmModel) {
+	public void execute(AlgorithmModel algorithmModel, double score) {
 		encogScoreProvider.setDetails(algorithmModel, historicalData);
 		
 		Co.println("...");
@@ -92,7 +92,7 @@ public class TrainEncogSignal {
 //		SignalCache.erase();
 //		encogScoreProvider.setSignalCache(signalCache);
 		
-		encogTrainer.train(TRAINING_ITERATIONS);
+		encogTrainer.train(TRAINING_ITERATIONS, score);
 		encogTrainer.saveNetwork();
 	}
 	

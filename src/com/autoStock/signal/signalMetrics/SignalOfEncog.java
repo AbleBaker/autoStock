@@ -32,7 +32,7 @@ import com.autoStock.tools.MathTools;
  * 
  */
 public class SignalOfEncog extends SignalBase {
-	public static EncogNetworkType encogNetworkType = EncogNetworkType.neat;
+	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_EXTRAS = 0;
 	public static final int INPUT_WINDOW_PS = 15;

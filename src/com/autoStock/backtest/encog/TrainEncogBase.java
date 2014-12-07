@@ -23,7 +23,7 @@ public abstract class TrainEncogBase {
 		encogNetworkProvider = new EncogNetworkProvider(networkName);
 	}
 	
-	public abstract void train(int count);
+	public abstract void train(int count, double score);
 	public abstract boolean saveNetwork();
 
 	public boolean networkExists() {//Get the network, don't just check for its existance 

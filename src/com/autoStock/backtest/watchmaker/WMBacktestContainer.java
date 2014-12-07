@@ -39,6 +39,7 @@ import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.TrainEncogSignal;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
+import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -87,7 +88,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
 		
-		trainEncogSignal = new TrainEncogSignal(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol), historicalData);
+		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData);
 	}
 	
 	public void runBacktest(){
@@ -107,7 +108,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(32, 16, 3, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(1));
+				algorithmModel = islandEvolutionEngine.evolve(32, 16, 1, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(8));
 			}
@@ -180,16 +181,12 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		bestResult = data.getBestCandidateFitness();
 		
 		if (data.getGenerationNumber() != 2){
-			trainEncog(data.getBestCandidate());
+			trainEncogSignal.execute(data.getBestCandidate(), bestResult);
 		}
 	}
 
 	@Override
 	public void islandPopulationUpdate(int islandIndex, PopulationData<? extends AlgorithmModel> data) {
 		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
-	}
-	
-	private void trainEncog(AlgorithmModel algorithmModel){		
-		trainEncogSignal.execute(algorithmModel);
 	}
 }

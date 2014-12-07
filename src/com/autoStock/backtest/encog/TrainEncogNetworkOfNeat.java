@@ -27,10 +27,13 @@ public class TrainEncogNetworkOfNeat extends TrainEncogBase {
 	}
 	
 	@Override
-	public void train(int count) {
+	public void train(int count, double score) {
 		for (int i = 0; i < count; i++) {
 			train.iteration();
+			
 			Co.println("--> Training... " + i + ", " + train.getError());
+			if (train.getError() < score){throw new IllegalStateException();}
+			
 			bestScore = Math.max(train.getError(), bestScore);
 		}
 	}
