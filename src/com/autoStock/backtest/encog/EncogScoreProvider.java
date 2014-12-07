@@ -43,9 +43,9 @@ public class EncogScoreProvider implements CalculateScore {
 		this.historicalData = historicalData;
 	}
 	
-	@Override
-	public double calculateScore(MLRegression network) {
-//		Co.println("--> Calculate score... ");
+	@Override //Needs to stay synchronized despite the performance hit. The network almost doesn't "see" the updated algorithm model no idea why.
+	public synchronized double calculateScore(MLRegression network) {
+//		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
 //		Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
 		
 		bench.tick();
@@ -72,6 +72,8 @@ public class EncogScoreProvider implements CalculateScore {
 		
 		double score = backtestEvaluation.getScore();
 		
+//		Co.println("" + score);
+		
 //		bench.printTick("Scored");
 		
 		return score > 0 ? score : Double.MIN_VALUE;
@@ -96,5 +98,9 @@ public class EncogScoreProvider implements CalculateScore {
 
 	public void setSignalCache(SignalCache signalCache) {
 		this.signalCache = signalCache;
+	}
+
+	public AlgorithmModel getAlgorithmModel() {
+		return algorithmModel;
 	}
 }

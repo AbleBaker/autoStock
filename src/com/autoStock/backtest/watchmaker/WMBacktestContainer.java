@@ -39,6 +39,8 @@ import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.TrainEncogSignal;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
+import com.autoStock.internal.ApplicationStates;
+import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -108,7 +110,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(32, 16, 1, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(64, 16, 3, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(8));
 			}
@@ -122,7 +124,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(64, 16, new TargetFitness(999999, true), new GenerationCount(3));
+				algorithmModel = evolutionEngine.evolve(128, 16, new TargetFitness(999999, true), new GenerationCount(3));
 			}else{
 				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(999999, true), new GenerationCount(16));
 			}
@@ -180,8 +182,18 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		bestResult = data.getBestCandidateFitness();
 		
+		//trainEncogSignal.setDetails(data.getBestCandidate());
+		//double escore = trainEncogSignal.getScoreProvider().calculateScore(new EncogNetworkProvider(historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName).getBasicNetwork());
+		//Co.println("--> EScore: " + escore);
+		//Co.println(data.getBestCandidate().getUniqueIdentifier());
+		
 		if (data.getGenerationNumber() != 2){
-			trainEncogSignal.execute(data.getBestCandidate(), bestResult);
+			try {
+				trainEncogSignal.execute(data.getBestCandidate(), bestResult);
+			}catch(IllegalStateException e){
+				e.printStackTrace();
+				ApplicationStates.shutdown();
+			}
 		}
 	}
 

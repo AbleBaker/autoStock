@@ -18,6 +18,7 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MiscTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.google.gson.GsonBuilder;
 import com.google.gson.internal.Pair;
 
 /**
@@ -203,5 +204,10 @@ public class BacktestEvaluation {
 		}
 		
 		return average / listOfDailyYield.size();
+	}
+	
+	public String getUniqueIdentifier(){
+		GsonBuilder builder = new GsonBuilder().serializeSpecialFloatingPointValues();
+		return MiscTools.getHash(builder.create().toJson(this));
 	}
 }

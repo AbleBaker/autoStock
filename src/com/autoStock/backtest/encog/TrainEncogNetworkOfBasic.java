@@ -49,7 +49,7 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase{
 			train.iteration();
 			
 			Co.println("--> Training... " + i + ", " + train.getError());
-			if (train.getError() < score){throw new IllegalStateException();}
+			if (train.getError() < score){throw new IllegalStateException("Score would have been: " + train.getError());}
 			
 			bestScore = Math.max(train.getError(), bestScore);
 		}

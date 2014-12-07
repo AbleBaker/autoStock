@@ -74,6 +74,11 @@ public class AlgorithmModel {
 		GsonBuilder builder = new GsonBuilder().serializeSpecialFloatingPointValues();
 		return MiscTools.getHash(builder.create().toJson(this));
 	}
+	
+	public String getSerializedVersion(){
+		GsonBuilder builder = new GsonBuilder().serializeSpecialFloatingPointValues();
+		return builder.create().toJson(this);
+	}
 
 	public static AlgorithmModel getEmptyModel() {
 		AlgorithmModel algorithmModel = new AlgorithmModel();

@@ -62,9 +62,9 @@ import com.google.gson.Gson;
  * 
  */
 public class TrainEncogSignal {
-	private static final int TRAINING_ITERATIONS = 32;
+	private static final int TRAINING_ITERATIONS = 1;
 	private HistoricalData historicalData;
-	private static EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
+	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
 	private TrainEncogBase encogTrainer;
 	
 	public static enum EncogNetworkType {
@@ -96,11 +96,19 @@ public class TrainEncogSignal {
 		encogTrainer.saveNetwork();
 	}
 	
+	public void setDetails(AlgorithmModel algorithmModel) {
+		encogScoreProvider.setDetails(algorithmModel, historicalData);
+	}
+	
 	public TrainEncogBase getTrainer(){
 		return encogTrainer;
 	}
 
 	public boolean networkExists() {
 		return encogTrainer.networkExists();
+	}
+
+	public EncogScoreProvider getScoreProvider() {
+		return encogScoreProvider;
 	}
 }
