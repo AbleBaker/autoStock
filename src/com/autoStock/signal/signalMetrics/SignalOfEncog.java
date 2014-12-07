@@ -32,10 +32,10 @@ import com.autoStock.tools.MathTools;
  * 
  */
 public class SignalOfEncog extends SignalBase {
-	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
+	public static EncogNetworkType encogNetworkType = EncogNetworkType.neat;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_EXTRAS = 0;
-	public static final int INPUT_WINDOW_PS = 30;
+	public static final int INPUT_WINDOW_PS = 15;
 	public static final int INPUTS = 5;
 	private String networkName;
 	private MLRegression basicNetwork;
@@ -52,7 +52,7 @@ public class SignalOfEncog extends SignalBase {
 	}
 
 	public void setNetwork(MLRegression network) {
-		 this.basicNetwork = network;
+		this.basicNetwork = network;
 	}
 	
 	public void setNetworkName(String networkName) {
@@ -63,7 +63,7 @@ public class SignalOfEncog extends SignalBase {
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		SignalPoint signalPoint = new SignalPoint();
 
-		if (encogInputWindow == null){ // || neatNetwork == null) {
+		if (encogInputWindow == null){
 			return signalPoint;
 		}
 
@@ -78,7 +78,7 @@ public class SignalOfEncog extends SignalBase {
 		}
 
 		for (int i = 0; i < inputWindow.length; i++) {
-			// Co.print(" " + inputWindow[i]);
+			//Co.print(" " + inputWindow[i]);
 			input.add(i, normalizedFieldForSignals.normalize(inputWindow[i]));
 		}
 

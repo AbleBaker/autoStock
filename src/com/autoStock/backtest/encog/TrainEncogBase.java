@@ -25,17 +25,7 @@ public abstract class TrainEncogBase {
 	
 	public abstract void train(int count);
 	public abstract boolean saveNetwork();
-	
-//	public boolean saveNetwork(){
-//		if (this instanceof TrainEncogNetworkOfBasic){
-//			
-//		}else if (this instanceof TrainEncogNetworkOfNeat){
-//			encogNetworkProvider.saveNeatNetwork(neatNetwork);
-//		}
-//		
-//		throw new IllegalComponentStateException("Don't understand network type!");
-//	}
-	
+
 	public boolean networkExists() {//Get the network, don't just check for its existance 
 		if (this instanceof TrainEncogNetworkOfBasic){
 			return encogNetworkProvider.getNeatNetwork() != null; 

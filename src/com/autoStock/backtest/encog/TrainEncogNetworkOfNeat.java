@@ -24,7 +24,6 @@ public class TrainEncogNetworkOfNeat extends TrainEncogBase {
 		train.setPercentToMate(0.25);
 		train.setMutationPercent(0.25f);
 		train.setMatingPopulation(0.50f);
-		train.setSnapshot(true);
 	}
 	
 	@Override

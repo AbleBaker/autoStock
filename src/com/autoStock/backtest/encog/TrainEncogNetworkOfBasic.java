@@ -37,8 +37,8 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase{
 		//((SystemLoggingPlugin)Encog.getInstance().getLoggingPlugin()).startConsoleLogging();
 		
 		mlTrainMain = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 128);
-		mlTrainMain.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, calculateScore, 10, 2, 128), 0.10, 32, 15));
-		mlTrainMain.addStrategy(new HybridStrategy(new NeuralGeneticAlgorithm(network, new NguyenWidrowRandomizer(), calculateScore, 128, 0.10f, 0.25f), 0.10, 32, 15));
+		mlTrainMain.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, calculateScore, 10, 2, 128), 0.10, 10, 15));
+		mlTrainMain.addStrategy(new HybridStrategy(new NeuralGeneticAlgorithm(network, new NguyenWidrowRandomizer(), calculateScore, 128, 0.10f, 0.25f), 0.10, 10, 15));
 		//mlTrainMain.addStrategy(new StopTrainingStrategy(0.01, 10));
 		
 		new NguyenWidrowRandomizer().randomize(network);
