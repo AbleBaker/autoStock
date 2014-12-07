@@ -43,10 +43,10 @@ public class EncogScoreProvider implements CalculateScore {
 		this.historicalData = historicalData;
 	}
 	
-	@Override //Needs to stay synchronized despite the performance hit. The network almost doesn't "see" the updated algorithm model no idea why.
+	@Override //Needs to stay synchronized despite the performance hit. Looks like a bug with Encog!
 	public synchronized double calculateScore(MLRegression network) {
-//		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
-//		Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
+		//Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
+		//Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
 		
 		bench.tick();
 		
@@ -59,21 +59,11 @@ public class EncogScoreProvider implements CalculateScore {
 		
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false);
 		
-//		String table = null;
-//		if (singleBacktest.backtestContainer.algorithm.tableForAlgorithm != null){
-//			table = new TableController().getTable(AsciiTables.algorithm, singleBacktest.backtestContainer.algorithm.tableForAlgorithm.getDisplayRows());
-//		}
-//		
-//		if (backtestEvaluation.getScore() > TrainEncogSignal.bestScore && backtestEvaluation.getScore() != 0){
-//			listOfEncogTest.add(new EncogTest(network, backtestEvaluation, table));
-//		}
-		
 		runCount++;
 		
 		double score = backtestEvaluation.getScore();
 		
-//		Co.println("" + score);
-		
+		//Co.println("" + score);
 //		bench.printTick("Scored");
 		
 		return score > 0 ? score : Double.MIN_VALUE;

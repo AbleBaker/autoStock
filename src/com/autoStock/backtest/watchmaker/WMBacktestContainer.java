@@ -182,10 +182,10 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		bestResult = data.getBestCandidateFitness();
 		
-		//trainEncogSignal.setDetails(data.getBestCandidate());
-		//double escore = trainEncogSignal.getScoreProvider().calculateScore(new EncogNetworkProvider(historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName).getBasicNetwork());
-		//Co.println("--> EScore: " + escore);
-		//Co.println(data.getBestCandidate().getUniqueIdentifier());
+//		trainEncogSignal.setDetails(data.getBestCandidate());
+//		double escore = trainEncogSignal.getScoreProvider().calculateScore(new EncogNetworkProvider(historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName).getBasicNetwork());
+//		Co.println("--> EScore: " + escore);
+//		Co.println(data.getBestCandidate().getUniqueIdentifier());
 		
 		if (data.getGenerationNumber() != 2){
 			try {
