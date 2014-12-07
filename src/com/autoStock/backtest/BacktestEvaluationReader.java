@@ -14,6 +14,7 @@ import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.internal.GsonProvider;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 import com.google.gson.GsonBuilder;
@@ -35,6 +36,13 @@ public class BacktestEvaluationReader {
 	
 	public static AlgorithmModel getPrecomputedModel(Exchange exchange, Symbol symbol){
 		BacktestEvaluation backtestEvaluation = getPrecomputedEvaluation(exchange, symbol);
-		return backtestEvaluation == null ? null : backtestEvaluation.algorithmModel;
+		
+		if (backtestEvaluation == null){
+			AlgorithmModel algorithmModel = new AlgorithmModel();
+			algorithmModel.strategyOptions = new StrategyOptionDefaults().getDefaultStrategyOptions();
+			return algorithmModel;
+		}
+		
+		return backtestEvaluation.algorithmModel;
 	}
 }

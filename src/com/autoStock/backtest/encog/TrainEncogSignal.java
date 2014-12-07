@@ -7,14 +7,17 @@ import org.encog.ConsoleStatusReportable;
 import org.encog.engine.network.activation.ActivationBiPolar;
 import org.encog.engine.network.activation.ActivationFunction;
 import org.encog.engine.network.activation.ActivationSigmoid;
+import org.encog.engine.network.activation.ActivationSteepenedSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.mathutil.randomize.ConsistentRandomizer;
+import org.encog.mathutil.randomize.FanInRandomizer;
 import org.encog.ml.factory.method.SOMFactory;
 import org.encog.ml.factory.train.PSOFactory;
 import org.encog.ml.train.MLTrain;
 import org.encog.ml.train.strategy.Greedy;
 import org.encog.ml.train.strategy.HybridStrategy;
 import org.encog.ml.train.strategy.StopTrainingStrategy;
+import org.encog.ml.train.strategy.Strategy;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
 import org.encog.neural.neat.PersistNEATNetwork;
@@ -59,132 +62,45 @@ import com.google.gson.Gson;
  * 
  */
 public class TrainEncogSignal {
-	private static final int TRAINING_ITERATIONS = 8;
-	private int epoch = 0;
-	public static double bestScore = 0;
-	private AlgorithmModel algorithmModel;
+	private static final int TRAINING_ITERATIONS = 64;
 	private HistoricalData historicalData;
-	private static NEATTraining train;
 	private static EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
+	private TrainEncogBase encogTrainer;
 	
-	public TrainEncogSignal(AlgorithmModel algoritmModel, HistoricalData historicalData){
-		this.algorithmModel = algoritmModel;
-		this.historicalData = historicalData;
-		
-		encogScoreProvider.setDetails(algoritmModel, historicalData);
+	public static enum EncogNetworkType {
+		neat,
+		basic,
 	}
 	
-	public void execute() {
-//		ElmanPattern pattern = new ElmanPattern();
-//		JordanPattern pattern = new JordanPattern();
+	public TrainEncogSignal(AlgorithmModel algorithmModel, HistoricalData historicalData){
+		this.historicalData = historicalData;
+		encogScoreProvider.setDetails(algorithmModel, historicalData);		
 		
-//		FeedForwardPattern pattern = new FeedForwardPattern();
-//		pattern.setInputNeurons(3);
-//		pattern.addHiddenLayer(3);
-////		pattern.addHiddenLayer(2);
-//		pattern.setOutputNeurons(3);
-//		pattern.setActivationFunction(new ActivationTANH());
-		
-		if (train == null){
-			train = new NEATTraining(encogScoreProvider, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 4, 512));
-			train.setMutationPercent(0.15f);
-			train.setPercentToMate(0.25f);
-			train.setMatingPopulation(0.50f);
-//			Co.println("--> New Train: " + train.hashCode());
-		}else{
-//			Co.println("--> Old Train: " + train.hashCode());
+		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
+		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
 		}
+	}
+	
+	public void execute(AlgorithmModel algorithmModel) {
+		encogScoreProvider.setDetails(algorithmModel, historicalData);
 		
 		Co.println("...");
 		
-		SignalCache signalCache = new SignalCache();
-		SignalCache.erase();
-		encogScoreProvider.setSignalCache(signalCache);
-
-		for (int i=0; i<TRAINING_ITERATIONS; i++){
-			train.iteration();
-			Co.println("--> Error: [" + i + "] " + train.getError());
-			bestScore = Math.max(train.getError(), bestScore);
-		}
+//		SignalCache signalCache = new SignalCache();
+//		SignalCache.erase();
+//		encogScoreProvider.setSignalCache(signalCache);
 		
-		//Co.println("--> All done");
-		
-		NEATNetwork network = (NEATNetwork) train.getMethod();
-		
-		try {
-			PersistNEATNetwork persistNEATNetwork = new PersistNEATNetwork();
-			persistNEATNetwork.save(new FileOutputStream(SignalOfEncog.ENCOG_FILE), network);
-		}catch(Exception e){Co.println("--> Failed to save network score could be zero.");}
-		
-		if (true){
-			return;
-		}
-		
-//		System.exit(0);
-		
-//		BasicNetwork network = (BasicNetwork) pattern.generate();
-//		network.reset();
-		
-//		new ConsistentRandomizer(-1,1).randomize(network);
-//
-//		MLTrain mlTrainMain = new NeuralPSO(network, new ConsistentRandomizer(-1, 1), new FeedScore(), 128);
-//		MLTrain mlTrainAlt = new NeuralSimulatedAnnealing(network, new FeedScore(), 10, 2, 128);
-
-//		final StopTrainingStrategy stop = new StopTrainingStrategy(0.001, 10);
-//		mlTrainMain.addStrategy(new Greedy());
-//		mlTrainMain.addStrategy(new HybridStrategy(mlTrainAlt));
-//		train(mlTrainMain, 100);
-	
-//		train(mlTrainMain, TRAINING_ITERATIONS);
-//		train(mlTrainAlt, TRAINING_ITERATIONS);
-//		train(mlTrainMain, TRAINING_ITERATIONS);
-//		train(mlTrainAlt, TRAINING_ITERATIONS);
-//
-//		try {
-//			PersistBasicNetwork persistBasicNetwork = new PersistBasicNetwork();
-//			persistBasicNetwork.save(new FileOutputStream(new File("encog.file")), network);
-//		}catch(Exception e){e.printStackTrace();}
-		
-//		System.exit(0);
-		
-		Co.println("--> All done. Runs: " + EncogScoreProvider.runCount);
-		Co.println("--> Have results: " + EncogScoreProvider.listOfEncogTest.size());
-		Co.println("--> Best score: " + bestScore);
-		
-		for (EncogTest result : EncogScoreProvider.listOfEncogTest){
-			//Co.println("--> Result: " + result.backtestEvaluation.getScore() + ", " + result.backtestEvaluation.percentYield + ", " + new BacktestEvaluationBuilder().buildOutOfSampleEvaluation(result.backtestEvaluation, result.network).percentYield);
-			
-			if (result.backtestEvaluation.getScore() == bestScore){
-//				Co.print(result.table + "\n");
-				
-				Co.print(result.backtestEvaluation.toString());
-				
-//				SingleBacktest singleBacktest = new SingleBacktest(new HistoricalData(result.backtestEvaluation.exchange, result.backtestEvaluation.symbol, result.backtestEvaluation.dateStart, result.backtestEvaluation.dateEnd, Resolution.min), AlgorithmMode.mode_backtest);
-//				singleBacktest.selfPopulateBacktestData();
-//				singleBacktest.remodel(result.backtestEvaluation.algorithmModel);
-//				singleBacktest.runBacktest();
-//				Global.callbackLock.requestLock();
-				
-				break;
-			}
-		}
-		
-//		ApplicationStates.shutdown();
-		
+		encogTrainer.train(TRAINING_ITERATIONS);
+		encogTrainer.saveNetwork();
 	}
 	
-	private void train(MLTrain mlTrain, int count){
-		for (int i = 0; i < count; i++) {
-			mlTrain.iteration();
-			System.out.println("Epoch #" + epoch + " Score:" + mlTrain.getError());
-					
-			bestScore = Math.max(mlTrain.getError(), bestScore);
-			
-			epoch++;
-		}
+	public TrainEncogBase getTrainer(){
+		return encogTrainer;
 	}
 
-	public static boolean networkExists() {
-		return SignalOfEncog.ENCOG_FILE.exists();
+	public boolean networkExists() {
+		return encogTrainer.networkExists();
 	}
 }

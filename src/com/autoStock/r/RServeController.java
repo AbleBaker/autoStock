@@ -3,6 +3,7 @@ package com.autoStock.r;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.math.R.RserverConf;
 import org.math.R.Rsession;
@@ -37,8 +38,8 @@ public class RServeController {
 	
 	public synchronized Rsession getRSession(){
 		for (RProcess rProcess : listOfRServeProcesses){
-			if (rProcess.isBusy == false){
-				rProcess.isBusy = true;
+			if (rProcess.isBusy.get() == false){
+				rProcess.isBusy.set(true);
 				
 				Co.println("--> Providing instnace at port: " + rProcess.port);
 				
@@ -54,7 +55,7 @@ public class RServeController {
 		public int index;
 		public int port;
 		public Process process;
-		public boolean isBusy;
+		public AtomicBoolean isBusy;
 		
 		public RProcess(int index, int port, Process process) {
 			this.index = index;

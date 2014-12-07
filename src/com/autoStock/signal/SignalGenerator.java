@@ -15,7 +15,7 @@ import com.autoStock.tools.MathTools;
  */
 public class SignalGenerator {
 	public void generateEncogSignal(SignalGroup signalGroup){
-		if (signalGroup.signalOfEncog.isLongEnough(signalGroup.signalOfCCI, signalGroup.signalOfUO, signalGroup.signalOfWILLR)){
+		if (signalGroup.signalOfEncog.isLongEnough(signalGroup.signalOfCCI, signalGroup.signalOfUO, signalGroup.signalOfWILLR, signalGroup.signalOfADX, signalGroup.signalOfDI)){
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
@@ -25,6 +25,9 @@ public class SignalGenerator {
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfCCI.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfUO.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfWILLR.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfADX.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfDI.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+			
 //			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfSAR.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 
 			//encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfARUp.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));

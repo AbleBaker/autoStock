@@ -9,11 +9,14 @@ import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.PersistNEATNetwork;
+import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
 import com.autoStock.Co;
+import com.autoStock.backtest.encog.TrainEncogBase;
+import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -21,6 +24,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.extras.EncogInputWindow;
+import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.tools.MathTools;
 
 /**
@@ -28,60 +32,49 @@ import com.autoStock.tools.MathTools;
  * 
  */
 public class SignalOfEncog extends SignalBase {
+	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_EXTRAS = 0;
-	public static final int INPUT_WINDOW_PS = 15;
-	public static final int INPUTS = 3;
-	public static final File ENCOG_FILE = new File("encog.file"); 
-	
-	// private MLRegression basicNetwork;
-	private NEATNetwork neatNetwork;
+	public static final int INPUT_WINDOW_PS = 30;
+	public static final int INPUTS = 5;
+	private String networkName;
+	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
-	private SignalPointType lastSignalPointType = SignalPointType.none;
 
 	public SignalOfEncog(SignalParameters signalParameters) {
 		super(SignalMetricType.metric_encog, signalParameters);
 
-		try {
-			PersistBasicNetwork persistBasicNetwork = new PersistBasicNetwork();
-			// basicNetwork = (BasicNetwork) persistBasicNetwork.read(new
-			// FileInputStream(new File("../EncogTest/encog.file")));
-		} catch (Exception e) {
-		}
-
-		PersistNEATNetwork persistBasicNetwork = new PersistNEATNetwork();
-		try {
-			neatNetwork = (NEATNetwork) persistBasicNetwork.read(new FileInputStream(ENCOG_FILE));
-			if (neatNetwork.getInputCount() == 0){
-				neatNetwork = null;
-			}
-//			 Co.println("--> Read network...");
-		} catch (FileNotFoundException e) {
-			// Co.println("--> Warning, encog network definition not found");
+		if (encogNetworkType == EncogNetworkType.basic){
+			basicNetwork = new EncogNetworkProvider("NYSE-MS").getBasicNetwork();
+		}else if (encogNetworkType == EncogNetworkType.neat){
+			basicNetwork = new EncogNetworkProvider("NYSE-MS").getNeatNetwork();
 		}
 	}
 
 	public void setNetwork(MLRegression network) {
-		// this.basicNetwork = network;
-		neatNetwork = (NEATNetwork) network;
+		 this.basicNetwork = network;
+	}
+	
+	public void setNetworkName(String networkName) {
+		this.networkName = networkName;
 	}
 
 	@Override
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		SignalPoint signalPoint = new SignalPoint();
 
-		if (encogInputWindow == null || neatNetwork == null) {
+		if (encogInputWindow == null){ // || neatNetwork == null) {
 			return signalPoint;
 		}
 
 		NormalizedField normalizedFieldForSignals = new NormalizedField(NormalizationAction.Normalize, "Signal Normalizer", 50, -50, 1, -1);
 
-		MLData input = new BasicMLData(neatNetwork.getInputCount());
+		MLData input = new BasicMLData(basicNetwork.getInputCount());
 
 		double[] inputWindow = encogInputWindow.getAsWindow();
 
-		if (inputWindow.length != neatNetwork.getInputCount()) {
-			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + neatNetwork.getInputCount());
+		if (inputWindow.length != basicNetwork.getInputCount()) {
+			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
 		}
 
 		for (int i = 0; i < inputWindow.length; i++) {
@@ -89,7 +82,7 @@ public class SignalOfEncog extends SignalBase {
 			input.add(i, normalizedFieldForSignals.normalize(inputWindow[i]));
 		}
 
-		MLData output = neatNetwork.compute(input);
+		MLData output = basicNetwork.compute(input);
 
 		double valueForLongEntry = output.getData(0);
 		double valueForShortEntry = output.getData(1);
@@ -120,24 +113,7 @@ public class SignalOfEncog extends SignalBase {
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 		}
 
-		// if (signalPoint.signalPointType == SignalPointType.long_entry ||
-		// signalPoint.signalPointType == SignalPointType.long_exit){
-		// Co.println("--> Encog signal with window: " +
-		// signalPoint.signalPointType.name());
-		// for (int i=0; i<inputWindow.length; i++){
-		// Co.print(" " + inputWindow[i]);
-		// }
-		// }
-
 		return signalPoint;
-		// Co.println("--> " + valueForEntry + ", " + valueForExit);
-
-		//if (signalPoint.signalPointType != lastSignalPointType) {
-		//	lastSignalPointType = signalPoint.signalPointType;
-		//} else {
-		//	return new SignalPoint(SignalPointType.none, SignalMetricType.metric_encog);
-		//}
-
 	}
 
 	public void setInput(EncogInputWindow encogInputWindow) {

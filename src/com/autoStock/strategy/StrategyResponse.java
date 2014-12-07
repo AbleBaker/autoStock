@@ -28,6 +28,7 @@ public class StrategyResponse {
 	
 	public enum StrategyActionCause {
 		disable_condition_time_entry,
+		disable_condition_profit_loss,
 		disable_condition_profit_yield,
 		cease_condition_time_exit,
 		cease_condition_time_loss,

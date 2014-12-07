@@ -59,7 +59,7 @@ public class WMIslandMigration implements Migration {
             
             for (int i = 0; i < includeFittest; i++){
             	island.set((island.size() - includeFittest) + i, listOfFittestCandidates.get(i));
-//            	Co.println("--> Setting fit candidate: " + listOfFittestCandidates.get(i).getFitness() + " into island: " + islandPopulations.indexOf(island));
+            	//Co.println("--> Setting fit candidate: " + listOfFittestCandidates.get(i).getFitness() + " into island: " + islandPopulations.indexOf(island));
             }
         }
 	}

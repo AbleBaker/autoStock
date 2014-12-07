@@ -1,1 +1,0 @@
-1 = main_backtest 01/16/2012 01/16/2012 NYSE "AIG" backtest_adjustment_individual

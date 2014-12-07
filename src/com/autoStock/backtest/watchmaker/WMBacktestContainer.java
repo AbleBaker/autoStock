@@ -67,6 +67,8 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	private EvolutionaryOperator<AlgorithmModel> evolutionaryPipeline;
 	private GenerationalEvolutionEngine<AlgorithmModel> evolutionEngine;
 	private IslandEvolution<AlgorithmModel> islandEvolutionEngine;
+	
+	private TrainEncogSignal trainEncogSignal;
 
 	public WMBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
 		this.symbol = symbol;
@@ -84,14 +86,14 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		operators.add(new WMCrossover(1));
 		
 		evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
+		
+		trainEncogSignal = new TrainEncogSignal(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol), historicalData);
 	}
 	
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = null;
 		
-		if (TrainEncogSignal.networkExists() == false){
-			trainEncog(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol), historicalData);
-		}
+		trainEncogSignal.getTrainer().saveNetwork(); //blank the network
 		
 		if (evolutionType == WMEvolutionType.type_island){
 			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick ? ISLAND_COUNT : ISLAND_COUNT * 2, 
@@ -105,7 +107,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(512, 16, 8, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(256, 16, 8, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(8));
 			}
@@ -178,7 +180,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		bestResult = data.getBestCandidateFitness();
 		
 		if (data.getGenerationNumber() != 2){
-			trainEncog(data.getBestCandidate(), historicalData);
+			trainEncog(data.getBestCandidate());
 		}
 	}
 
@@ -187,7 +189,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
 	}
 	
-	private void trainEncog(AlgorithmModel algorithmModel, HistoricalData historicalData){		
-		new TrainEncogSignal(algorithmModel, historicalData).execute();
+	private void trainEncog(AlgorithmModel algorithmModel){		
+		trainEncogSignal.execute(algorithmModel);
 	}
 }

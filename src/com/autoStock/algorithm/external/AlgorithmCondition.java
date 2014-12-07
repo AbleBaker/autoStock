@@ -230,6 +230,13 @@ public class AlgorithmCondition {
 		return countOfNilChanges >= strategyOptions.maxNilChangeVolume;
 	}
 	
+	public boolean disableAfterLoss(AlgorithmBase algorithmBase){
+		if (strategyOptions.disableAfterLoss.value != 0 && algorithmBase.getYieldCurrent() <= strategyOptions.disableAfterLoss.value){
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean disableAfterYield(AlgorithmBase algorithmBase){
 		if (strategyOptions.disableAfterYield.value != 0 && algorithmBase.getYieldCurrent() >= strategyOptions.disableAfterYield.value){
 			return true;

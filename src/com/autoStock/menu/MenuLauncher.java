@@ -164,7 +164,7 @@ public class MenuLauncher {
 					command = String.format("main_backtest_wm 03/05/2012 03/05/2012 NYSE %s", typicalSymbol);
 					break;
 				case "wm_md":
-					command = String.format("main_backtest_wm 03/05/2012 03/19/2012 NYSE %s", typicalSymbol);
+					command = String.format("main_backtest_wm 03/05/2012 03/30/2012 NYSE %s", typicalSymbol);
 					break;
 				case "wm_dod":
 					command = String.format("main_backtest_wm_dod 03/05/2012 NYSE %s backtest_default", typicalSymbol);
@@ -189,7 +189,7 @@ public class MenuLauncher {
 					command = String.format("main_backtest 03/05/2012 03/19/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "4":
-					command = "main_clustered_backtest 03/05/2012 03/09/2012 NYSE \"AIG\"";
+					command = String.format("main_backtest 03/20/2012 03/20/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "5":
 					command = "main_clustered_backtest_client";

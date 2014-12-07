@@ -92,6 +92,11 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		signalGroup = new SignalGroup();
 		indicatorGroup = new IndicatorGroup(commonAnalysisData, signalGroup);
 		positionGovernor = new PositionGovernor(algorithmMode == AlgorithmMode.mode_backtest_single ? new PositionManager() : PositionManager.getGlobalInstance());
+		
+		//Hack for SignalOfEncog
+		if (exchange != null && symbol != null){
+			signalGroup.signalOfEncog.setNetworkName(exchange.exchangeName + "-" + symbol.symbolName);
+		}
 	}
 	
 
