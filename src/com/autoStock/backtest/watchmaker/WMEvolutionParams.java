@@ -16,7 +16,14 @@ public class WMEvolutionParams {
 	}
 	
 	public enum WMEvolutionThorough {
-		thorough_quick,
-		thorough_slow,
+		thorough_quick(3),
+		thorough_slow(5),
+		;
+		
+		int generationCount;
+		
+		WMEvolutionThorough(int generationCount){
+			this.generationCount = generationCount;
+		}
 	}
 }

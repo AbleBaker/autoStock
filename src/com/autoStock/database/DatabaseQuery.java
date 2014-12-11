@@ -36,6 +36,7 @@ public class DatabaseQuery {
 			
 			if (dbQuery.isCachable){
 				if (hashCache.containsKey(queryHash)){
+//					Co.println("--> Using memory cache");
 					return (ArrayList<?>) hashCache.getValue(queryHash);
 				}
 				

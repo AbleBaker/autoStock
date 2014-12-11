@@ -1,8 +1,10 @@
 package com.autoStock.backtest.encog;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import org.encog.ml.MLRegression;
+import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
 
 import com.autoStock.Co;
@@ -21,10 +23,12 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.MiscTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.google.gson.Gson;
 
 /**
  * @author Kevin Kowalewski
@@ -44,14 +48,14 @@ public class EncogScoreProvider implements CalculateScore {
 	}
 	
 	@Override //Needs to stay synchronized despite the performance hit. Looks like a bug with Encog!
-	public synchronized double calculateScore(MLRegression network) {
-		//Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
+	public double calculateScore(MLRegression network) {
+//		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
 		//Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
 		
 		bench.tick();
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(); //(true, true, true, false);
+		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network);
 //		singleBacktest.backtestContainer.setSignalCache(signalCache);
@@ -63,7 +67,12 @@ public class EncogScoreProvider implements CalculateScore {
 		
 		double score = backtestEvaluation.getScore();
 		
-		//Co.println("" + score);
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		new PersistBasicNetwork().save(baos, network);
+//		String hash = MiscTools.getHash(baos.toString());
+//		Co.print(hash);
+//		Co.println(" " + score);
+		
 //		bench.printTick("Scored");
 		
 		return score > 0 ? score : Double.MIN_VALUE;

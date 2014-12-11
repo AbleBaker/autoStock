@@ -13,6 +13,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
+import org.omg.CORBA.Environment;
 
 import com.autoStock.Co;
 import com.autoStock.backtest.encog.TrainEncogBase;
@@ -63,7 +64,8 @@ public class SignalOfEncog extends SignalBase {
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		SignalPoint signalPoint = new SignalPoint();
 
-		if (encogInputWindow == null){
+		if (encogInputWindow == null || basicNetwork == null){
+//			Co.println("--> No network! " + (encogInputWindow == null) + ", " + (basicNetwork == null));
 			return signalPoint;
 		}
 
@@ -117,6 +119,9 @@ public class SignalOfEncog extends SignalBase {
 	}
 
 	public void setInput(EncogInputWindow encogInputWindow) {
+		if (encogInputWindow == null){
+			throw new IllegalArgumentException("Can't set a null EncogInputWindow");
+		}
 		this.encogInputWindow = encogInputWindow;
 	}
 	

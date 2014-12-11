@@ -62,7 +62,7 @@ import com.google.gson.Gson;
  * 
  */
 public class TrainEncogSignal {
-	private static final int TRAINING_ITERATIONS = 1;
+	public static final int TRAINING_ITERATIONS = 30;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
 	private TrainEncogBase encogTrainer;
@@ -77,7 +77,7 @@ public class TrainEncogSignal {
 		encogScoreProvider.setDetails(algorithmModel, historicalData);		
 		
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
-			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName, TRAINING_ITERATIONS);
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
 			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
 		}

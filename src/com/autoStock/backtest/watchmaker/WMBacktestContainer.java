@@ -37,10 +37,12 @@ import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.TrainEncogSignal;
+import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.signal.extras.EncogNetworkProvider;
+import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -53,7 +55,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
-	private static final int ISLAND_COUNT = Runtime.getRuntime().availableProcessors();
+	private static final int ISLAND_COUNT = Runtime.getRuntime().availableProcessors() -1;
 	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
 	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
 	public DummyAlgorithm algorithm;
@@ -96,7 +98,18 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = null;
 		
-		trainEncogSignal.getTrainer().saveNetwork(); //blank the network
+		Co.print("--> Blanking the network... ");
+		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
+			trainEncogSignal.getTrainer().saveNetwork(); //blank the network
+		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
+			trainEncogSignal.setDetails(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol));
+			for (int i=0; i<TrainEncogSignal.TRAINING_ITERATIONS; i++){
+				trainEncogSignal.getTrainer().train(1, 0);
+				if (trainEncogSignal.getTrainer().bestScore != 0){trainEncogSignal.getTrainer().saveNetwork(); break;}
+			}
+		}
+		
+		Co.println("OK!");
 		
 		if (evolutionType == WMEvolutionType.type_island){
 			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick ? ISLAND_COUNT : ISLAND_COUNT * 2, 
@@ -110,7 +123,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(64, 16, 3, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(512, 16, 3, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(8));
 			}
@@ -176,10 +189,6 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		Co.println("\n\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n"); // + " Out of sample: " + backtestEvaluation.getScore() + "\n");
 		
-//		for (AdjustmentBase adjustmentBase : data.getBestCandidate().wmAdjustment.listOfAdjustmentBase){
-//			Co.println(new BacktestEvaluationBuilder().getAdjustmentDescriptor(adjustmentBase).toString());
-//		}
-		
 		bestResult = data.getBestCandidateFitness();
 		
 //		trainEncogSignal.setDetails(data.getBestCandidate());
@@ -191,6 +200,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			try {
 				trainEncogSignal.execute(data.getBestCandidate(), bestResult);
 			}catch(IllegalStateException e){
+				Co.println(trainEncogSignal.getScoreProvider().getAlgorithmModel().getUniqueIdentifier());
 				e.printStackTrace();
 				ApplicationStates.shutdown();
 			}

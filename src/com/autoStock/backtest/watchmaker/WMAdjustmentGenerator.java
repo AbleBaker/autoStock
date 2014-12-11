@@ -17,6 +17,7 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
+import com.autoStock.signal.signalMetrics.SignalOfEncog;
 
 /**
  * @author Kevin
@@ -42,7 +43,7 @@ public class WMAdjustmentGenerator {
 	}
 	
 	private void addTypicalIndicatorParameters(IndicatorBase indicatorBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){
-		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(indicatorBase.getClass().getSimpleName() + " Period Length", indicatorBase.indicatorParameters.periodLength, new IterableOfInteger(10, 60, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(indicatorBase.getClass().getSimpleName() + " Period Length", indicatorBase.indicatorParameters.periodLength, new IterableOfInteger(Math.max(SignalOfEncog.INPUT_WINDOW_PS, 15), 60, 1)));
 	}
 	
 	public void addCustomIndicatorParameters(IndicatorBase indicatorBase, ArrayList<AdjustmentBase> listOfAdjustmentBase, int min, int max){

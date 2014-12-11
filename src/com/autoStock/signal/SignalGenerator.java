@@ -5,6 +5,7 @@ package com.autoStock.signal;
 
 import java.util.Arrays;
 
+import com.autoStock.Co;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.MathTools;
@@ -27,6 +28,8 @@ public class SignalGenerator {
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfWILLR.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfADX.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfDI.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+			
+			signalGroup.signalOfEncog.setInput(encogWindow);
 			
 //			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalOfSAR.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 
@@ -72,7 +75,6 @@ public class SignalGenerator {
 //				Co.print(" " + encogWindow.getAsWindow()[i]);
 //			}
 			
-			signalGroup.signalOfEncog.setInput(encogWindow);
 		}
 	}
 }

@@ -16,9 +16,11 @@ import com.autoStock.signal.extras.EncogNetworkProvider;
 public abstract class TrainEncogBase {
 	public double bestScore;
 	public String networkName;
+	protected CalculateScore calculateScore;
 	protected EncogNetworkProvider encogNetworkProvider;
 		
 	public TrainEncogBase(CalculateScore calculateScore, String networkName){
+		this.calculateScore = calculateScore;
 		this.networkName = networkName;
 		encogNetworkProvider = new EncogNetworkProvider(networkName);
 	}
