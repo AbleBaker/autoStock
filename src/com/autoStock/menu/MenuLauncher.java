@@ -15,6 +15,8 @@ import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
 import com.autoStock.MainTest;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.backtest.BacktestPredictFuture;
+import com.autoStock.backtest.BacktestPredictTest;
 import com.autoStock.backtest.watchmaker.WMBacktest;
 import com.autoStock.backtest.watchmaker.WMBacktestDoD;
 import com.autoStock.database.BuildDatabaseDefinitions;
@@ -133,7 +135,8 @@ public class MenuLauncher {
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_test){
-			new MainTest();
+			//new MainTest();
+			new BacktestPredictFuture().fun();
 		}
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){
