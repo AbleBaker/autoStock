@@ -16,7 +16,7 @@ import com.autoStock.tools.MathTools;
  */
 public class SignalGenerator {
 	public void generateEncogSignal(SignalGroup signalGroup){
-		if (signalGroup.signalOfEncog.isLongEnough(signalGroup.signalOfCCI, signalGroup.signalOfUO, signalGroup.signalOfWILLR, signalGroup.signalOfADX, signalGroup.signalOfDI)){
+		if (signalGroup.signalOfEncog.isLongEnough(signalGroup.signalOfCCI, signalGroup.signalOfUO, signalGroup.signalOfWILLR, signalGroup.signalOfADX, signalGroup.signalOfDI, signalGroup.signalOfSAR)){
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
@@ -28,6 +28,13 @@ public class SignalGenerator {
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfWILLR.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfADX.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfDI.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+			encogWindow.addInputArray(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalGroup.signalOfSAR.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+			
+//			encogWindow.addInputArray(Arrays.copyOfRange(signalGroup.signalOfCCI.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+//			encogWindow.addInputArray(Arrays.copyOfRange(signalGroup.signalOfUO.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+//			encogWindow.addInputArray(Arrays.copyOfRange(signalGroup.signalOfWILLR.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+//			encogWindow.addInputArray(Arrays.copyOfRange(signalGroup.signalOfADX.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
+//			encogWindow.addInputArray(Arrays.copyOfRange(signalGroup.signalOfDI.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1));
 			
 			signalGroup.signalOfEncog.setInput(encogWindow);
 			

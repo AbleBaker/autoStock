@@ -23,7 +23,7 @@ public class IndicatorOfMACD extends IndicatorBase {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsMACD analize(){
+	public ResultsMACD analyize(){
 		results = new ResultsMACD(indicatorParameters.resultSetLength);
 		results.arrayOfDates = arrayOfDates;
 		

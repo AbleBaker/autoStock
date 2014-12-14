@@ -178,7 +178,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForADX extends SignalParameters {
 		public SignalParametersForADX(){
-			super(new NormalizeInterface(){@Override public double normalize(double input) {return (MathTools.pow(input - 30, 1.1));}}, new MutableInteger(5),
+			super(new NormalizeInterface(){@Override public double normalize(double input) {return input - 50;}}, new MutableInteger(5),
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 48)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -44)},
 			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
@@ -220,7 +220,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForCCI extends SignalParameters {
 		public SignalParametersForCCI() {
-			super(new NormalizeInterface(){@Override public double normalize(double input) {return (input / 8);}}, new MutableInteger(1),
+			super(new NormalizeInterface(){@Override public double normalize(double input) {return (input / 12);}}, new MutableInteger(1),
 			    new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_trough), SignalBounds.bounds_lower), 
 				new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, 0)},
 	
@@ -457,5 +457,9 @@ public class SignalDefinitions {
 		public SignalParametersForCandlestickGroup(){
 			super(null, null, null, null, null, null);
 		}
+	}
+	
+	public static class IndicatorParametersForBasic extends IndicatorParameters {
+		public IndicatorParametersForBasic() {super(new MutableInteger(30), 1);}
 	}
 }

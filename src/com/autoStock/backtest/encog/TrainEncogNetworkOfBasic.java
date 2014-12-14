@@ -49,19 +49,14 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase {
 	
 	@Override
 	public void train(int count, double score){
-		
-//		((NeuralPSO)train).setInitialPopulation(); // network
-		
 		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 256);
-		train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, calculateScore, 10, 2, 256), 0.01, (int)expectedIterations/3, (int)expectedIterations/6));
-		train.addStrategy(new HybridStrategy(new NeuralGeneticAlgorithm(network, new NguyenWidrowRandomizer(), calculateScore, 256, 0.10f, 0.25f), 0.01, (int)expectedIterations/3, (int)expectedIterations/6));
+		NeuralGeneticAlgorithm neuralGeneticAlgorithm = new NeuralGeneticAlgorithm(network, new NguyenWidrowRandomizer(), calculateScore, 256, 0.10f, 0.40f);
+		neuralGeneticAlgorithm.setThreadCount(Runtime.getRuntime().availableProcessors() * 2);
+		train.addStrategy(new HybridStrategy(neuralGeneticAlgorithm, 0.01, (int)expectedIterations/2, (int)expectedIterations/2));
 		
 		for (int i = 0; i < count; i++) {
 			train.iteration();
-			
-			Co.println("--> Training... " + i + ", " + train.getError());
-			if (train.getError() < score){Co.println("--> Warning, network was not able to return to score: " + score + ", " + train.getError()); ApplicationStates.shutdown();}
-			
+			Co.println("--> Training... " + i + ", " + train.getError());			
 			bestScore = Math.max(train.getError(), bestScore);
 		}
 	}

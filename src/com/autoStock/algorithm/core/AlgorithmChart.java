@@ -3,6 +3,9 @@ package com.autoStock.algorithm.core;
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest;
+import com.autoStock.indicator.IndicatorGroup;
+import com.autoStock.indicator.IndicatorOfCSO;
+import com.autoStock.indicator.IndicatorOfCSO.ResultsCSO;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.ArrayTools;
@@ -53,7 +56,7 @@ public class AlgorithmChart {
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		chart.listOfYield.add(algorithmBase.getYieldCurrent());
 		
-		chart.listOfDebugAlpha.add(algorithmBase.signalGroup.signalOfHT.getStrength());
+		chart.listOfDebugAlpha.add(((ResultsCSO)algorithmBase.indicatorGroup.indicatorOfCSO.analyize()).arrayOfCSO[0]);
 
 //		if (algorithmBase.signalGroup != null && algorithmBase.indicatorGroup.resultsPTD != null) {
 //			if (algorithmBase.indicatorGroup.resultsPTD.arrayOfPTD[0] == 1){

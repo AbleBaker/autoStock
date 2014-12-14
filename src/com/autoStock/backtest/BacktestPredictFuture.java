@@ -3,9 +3,12 @@
  */
 package com.autoStock.backtest;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.encog.engine.network.activation.ActivationElliottSymmetric;
+import org.encog.engine.network.activation.ActivationFunction;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
@@ -49,25 +52,55 @@ import com.autoStock.types.Symbol;
  *
  */
 public class BacktestPredictFuture {
+	private static final int POINT_SIZE = 4;
+	private static final int INPUT_POINTS = 10;
+	private static final int OUTPUT_NEURONS = 3;
+	private static final int OFFSET = 0;
+	private static final int INPUT_NEURONS = INPUT_POINTS * POINT_SIZE;
+	private DecimalFormat df = new DecimalFormat("#.##");
+	private ActivationFunction activationFunction = new ActivationTANH();
+	
 	private NormalizedField nf = new NormalizedField(NormalizationAction.Normalize, "Normalizer", 20, 17, 1, 0);
 	
 	public void fun(){
-		TemporalMLDataSet tds = new TemporalMLDataSet(10, 1);
-		tds.addDescription(new TemporalDataDescription(new ActivationTANH(), Type.RAW, true, true));
-		tds.addDescription(new TemporalDataDescription(new ActivationTANH(), Type.RAW, true, false));
-		tds.addDescription(new TemporalDataDescription(new ActivationTANH(), Type.RAW, true, false));
-		tds.addDescription(new TemporalDataDescription(new ActivationTANH(), Type.RAW, true, false));
+		TemporalMLDataSet tds = new TemporalMLDataSet(INPUT_POINTS, OUTPUT_NEURONS);
+		tds.addDescription(new TemporalDataDescription(activationFunction, Type.RAW, true, true));
+		tds.addDescription(new TemporalDataDescription(activationFunction, Type.RAW, true, false));
+		tds.addDescription(new TemporalDataDescription(activationFunction, Type.RAW, true, false));
+		tds.addDescription(new TemporalDataDescription(activationFunction, Type.RAW, true, false));
 		
-		HistoricalData historicalData = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("03/05/2012"), DateTools.getDateFromString("03/09/2012"), Resolution.min);
-		historicalData.setStartAndEndDatesToExchange();
-		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
+		HistoricalData historicalDataIS = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("03/05/2012"), DateTools.getDateFromString("03/29/2012"), Resolution.min);
+		historicalDataIS.setStartAndEndDatesToExchange();
+		ArrayList<DbStockHistoricalPrice> listOfResultsIS = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalDataIS.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalDataIS.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalDataIS.endDate)));
+		
+		HistoricalData historicalDataOS = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("03/30/2012"), DateTools.getDateFromString("03/30/2012"), Resolution.min);
+		historicalDataOS.setStartAndEndDatesToExchange();
+		ArrayList<DbStockHistoricalPrice> listOfResultsOS = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalDataOS.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalDataOS.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalDataOS.endDate)));
 
-		Co.println("--> Size: " + listOfResults.size());
+		Co.println("--> Size: " + listOfResultsIS.size());
 		
-		for (DbStockHistoricalPrice slice : listOfResults){
+		double min = Double.MAX_VALUE;
+		double max = Double.MIN_VALUE;
+		
+		for (DbStockHistoricalPrice slice : listOfResultsIS){
+			min = Math.min(min, slice.priceLow);
+			max = Math.max(max, slice.priceHigh);
+		}
+		
+		for (DbStockHistoricalPrice slice : listOfResultsOS){
+			min = Math.min(min, slice.priceLow);
+			max = Math.max(max, slice.priceHigh);
+		}
+		
+		nf.setActualLow(min -1);
+		nf.setActualHigh(max + 1);
+		
+		Co.println("--> Min / max? " + min + ", " + max);
+		
+		for (DbStockHistoricalPrice slice : listOfResultsIS){
 			Co.println("--> Slice: " + slice.dateTime + ", " + slice.priceClose);
 			
-			TemporalPoint tp = new TemporalPoint(4);
+			TemporalPoint tp = new TemporalPoint(POINT_SIZE);
 			tp.setData(0, nf.normalize(slice.priceClose));
 			tp.setData(1, nf.normalize(slice.priceOpen));
 			tp.setData(2, nf.normalize(slice.priceHigh));
@@ -77,7 +110,7 @@ public class BacktestPredictFuture {
 		
 		tds.generate();
 		
-		BasicNetwork network = getMLNetwork(40, 1);
+		BasicNetwork network = getMLNetwork(INPUT_NEURONS, OUTPUT_NEURONS);
 		
 		MLTrain train = new ResilientPropagation(network, tds);
 		
@@ -92,25 +125,35 @@ public class BacktestPredictFuture {
 		
 		Co.println("--> Inputs: " + network.getInputCount());
 		
-		testOutput(listOfResults.subList(30, 40), network, listOfResults.get(40));
-		testOutput(listOfResults.subList(40, 50), network, listOfResults.get(50));
-		testOutput(listOfResults.subList(50, 60), network, listOfResults.get(60));		
+		testOutput(3, network, listOfResultsIS);
+		testOutput(4, network, listOfResultsIS);
+		testOutput(5, network, listOfResultsIS);
+		
+		Co.println("--> Out of sample");
+		
+		testOutput(3, network, listOfResultsOS);
+		testOutput(4, network, listOfResultsOS);
+		testOutput(5, network, listOfResultsOS);
 	}
 	
-	private void testOutput(List<DbStockHistoricalPrice> list, BasicNetwork network, DbStockHistoricalPrice actual) {
-		MLData input = new BasicMLData(40);
+	private void testOutput(int index, BasicNetwork network, List<DbStockHistoricalPrice> listOfResults){
+		List<DbStockHistoricalPrice> listForInput = listOfResults.subList(index * INPUT_POINTS, (index+1) * INPUT_POINTS);
+		List<DbStockHistoricalPrice> listOfActual = listOfResults.subList(((index+1) * INPUT_POINTS) + OFFSET, (((index+1) * INPUT_POINTS) + OUTPUT_NEURONS) + OFFSET);
 		
-		int index = 0;
-		
-//		Co.println("--> List: " + list.size());
+		testOutput(listForInput, listOfActual, network);		
+	}
+	
+	private void testOutput(List<DbStockHistoricalPrice> listForInput, List<DbStockHistoricalPrice> listOfActual, BasicNetwork network) {
+		MLData input = new BasicMLData(INPUT_NEURONS);
 		
 		Co.print("--> Output for input: ");
 		
-		for (DbStockHistoricalPrice slice : list){
-			input.add(index, nf.normalize(slice.priceClose)); 			index++;
-			input.add(index, nf.normalize(slice.priceOpen)); 			index++;
-			input.add(index, nf.normalize(slice.priceHigh)); 			index++;
-			input.add(index, nf.normalize(slice.priceLow)); 			index++;
+		int index = 0;
+		double lastPrice = listForInput.get(listForInput.size()-1).priceClose;
+		
+		for (DbStockHistoricalPrice slice : listForInput){
+			addPoint(input, index, new double[]{slice.priceClose, slice.priceOpen, slice.priceHigh, slice.priceLow});
+			index += POINT_SIZE;
 			Co.print("" + slice.priceClose + " ");
 		}
 		
@@ -123,8 +166,31 @@ public class BacktestPredictFuture {
 //		Co.println("--> Input length: " + input.size());
 		
 		MLData output = network.compute(input);
-		Co.print(" --> " + nf.deNormalize(output.getData(0)));
-		Co.println(" / Actual: " + actual.priceClose);
+		
+		int actualIndex = 0;
+		
+		Co.println("");
+		
+		for (DbStockHistoricalPrice slice : listOfActual){
+			double predicted = nf.deNormalize(output.getData(actualIndex));
+			double actual = slice.priceClose;
+			boolean direction = false;
+			
+			if (predicted >= lastPrice && actual >= lastPrice){direction = true;}
+			if (predicted <= lastPrice && actual <= lastPrice){direction = true;}
+			
+			Co.print("--> Predicted " + df.format(predicted));
+			Co.print(" / Actual: " + actual);
+			Co.println("  " + direction);
+			actualIndex++;
+		}
+	}
+	
+	private void addPoint(MLData input, int index, double[] values){
+		for (double value : values){
+			input.add(index, nf.normalize(value));
+			index++;
+		}
 	}
 	
 	
@@ -136,8 +202,9 @@ public class BacktestPredictFuture {
 		pattern.setInputNeurons(inputSize);
 		pattern.addHiddenLayer(inputSize/2);
 		pattern.addHiddenLayer(inputSize/3);
+		pattern.addHiddenLayer(inputSize/4);
 		pattern.setOutputNeurons(outputSize);
-		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setActivationFunction(activationFunction);
 		return (BasicNetwork) pattern.generate();
 	}
 }

@@ -37,19 +37,13 @@ public class SignalOfEncog extends SignalBase {
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_EXTRAS = 0;
 	public static final int INPUT_WINDOW_PS = 15;
-	public static final int INPUTS = 5;
+	public static final int INPUTS = 6;
 	private String networkName;
 	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
 
 	public SignalOfEncog(SignalParameters signalParameters) {
 		super(SignalMetricType.metric_encog, signalParameters);
-
-		if (encogNetworkType == EncogNetworkType.basic){
-			basicNetwork = new EncogNetworkProvider("NYSE-MS").getBasicNetwork();
-		}else if (encogNetworkType == EncogNetworkType.neat){
-			basicNetwork = new EncogNetworkProvider("NYSE-MS").getNeatNetwork();
-		}
 	}
 
 	public void setNetwork(MLRegression network) {
@@ -58,6 +52,12 @@ public class SignalOfEncog extends SignalBase {
 	
 	public void setNetworkName(String networkName) {
 		this.networkName = networkName;
+		
+		if (encogNetworkType == EncogNetworkType.basic){
+			basicNetwork = new EncogNetworkProvider(networkName).getBasicNetwork();
+		}else if (encogNetworkType == EncogNetworkType.neat){
+			basicNetwork = new EncogNetworkProvider(networkName).getNeatNetwork();
+		}
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class SignalOfEncog extends SignalBase {
 			return signalPoint;
 		}
 
-		NormalizedField normalizedFieldForSignals = new NormalizedField(NormalizationAction.Normalize, "Signal Normalizer", 50, -50, 1, -1);
+		NormalizedField normalizedFieldForSignals = new NormalizedField(NormalizationAction.Normalize, "Signal Delta Normalizer", 10000, -10000, 1, -1);
 
 		MLData input = new BasicMLData(basicNetwork.getInputCount());
 

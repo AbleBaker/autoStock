@@ -34,7 +34,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		this.startingDate = startingDate;
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_single){
-			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo, SignalMetricType.metric_willr, SignalMetricType.metric_adx, SignalMetricType.metric_di})), strategyBase.strategyOptions.listOfSignalMetricType);
+			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo, SignalMetricType.metric_willr, SignalMetricType.metric_adx, SignalMetricType.metric_di, SignalMetricType.metric_sar})), strategyBase.strategyOptions.listOfSignalMetricType);
 			//setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
 		}else{
 			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);

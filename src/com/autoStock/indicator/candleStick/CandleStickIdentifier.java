@@ -53,4 +53,9 @@ public class CandleStickIdentifier extends IndicatorBase {
 		
 		return new CandleStickIdentifierResult(candleStickIdentity, arrayOfDates, arrayOfResults);
 	}
+
+	@Override
+	public Object analyize() {
+		return null; //pass
+	}
 }

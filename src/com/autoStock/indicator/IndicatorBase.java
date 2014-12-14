@@ -34,6 +34,8 @@ public abstract class IndicatorBase {
 	public int endIndex = 0;
 	private ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	
+	public abstract Object analyize();
+	
 	public IndicatorBase(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType){
 		this.indicatorParameters = indicatorParameters;
 		this.commonAnlaysisData = commonAnlaysisData;

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski
@@ -21,6 +22,8 @@ public class EncogInputWindow {
 	}
 	
 	public void addInputArray(double[] arrayOfDouble){
+		//if (MathTools.getMax(arrayOfDouble) > 10000){throw new IllegalStateException("Max is more than max signal range: " + MathTools.getMax(arrayOfDouble));}
+		//if (MathTools.getMin(arrayOfDouble) < -10000){throw new IllegalStateException("Min is less than min signal range: " + MathTools.getMin(arrayOfDouble));}
 		listOfDouble.addAll(ListTools.getListFromArray(arrayOfDouble));
 	}
 	
