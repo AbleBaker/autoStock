@@ -16,14 +16,13 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfSTORSI extends IndicatorBase {
-	public ResultsSTORSI results;
-	
+public class IndicatorOfSTORSI extends IndicatorBase<ResultsSTORSI> {	
 	public IndicatorOfSTORSI(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsSTORSI analyize(){
+	@Override
+	public ResultsSTORSI analyze(){
 		results = new ResultsSTORSI(50);
 		results.arrayOfDates = arrayOfDates;
 		

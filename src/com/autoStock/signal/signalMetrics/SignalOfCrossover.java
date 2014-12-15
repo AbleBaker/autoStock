@@ -5,6 +5,7 @@ import java.awt.IllegalComponentStateException;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import com.autoStock.Co;
+import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -25,14 +26,9 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 		super(signalMetricType, signalParameters);
 	}
 	
-	public void setInput(double valueFirst, double valueSecond){
-//		Co.println("--> ? " + valueFirst + ", " + valueSecond);
-		super.setInput((valueSecond - valueFirst) * 100);
-	}
-	
 	@Override
-	public void setInput(double value) {
-		throw new IllegalAccessError("Use the other signature");
+	public void setInput(ResultsBase resultsBase) {
+		setInput(0);
 	}
 
 	@Override

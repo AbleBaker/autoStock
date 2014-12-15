@@ -15,18 +15,17 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfRSI extends IndicatorBase{
-	public ResultsRSI results;
-	
+public class IndicatorOfRSI extends IndicatorBase<ResultsRSI>{
 	public IndicatorOfRSI(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsRSI analyize(){
+	@Override
+	public ResultsRSI analyze(){
 		results = new ResultsRSI(indicatorParameters.resultSetLength);
 		results.arrayOfDates = arrayOfDates;
 		
-		RetCode returnCode = taLibCore.rsi(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfRSI);
+		RetCode returnCode = taLibCore.rsi(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfValue);
 		handleAnalysisResult(returnCode);
 		
 		return results;

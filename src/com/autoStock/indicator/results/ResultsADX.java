@@ -10,11 +10,7 @@ import java.util.Date;
  *
  */
 public class ResultsADX extends ResultsBase {
-	public Date[] arrayOfDates;
-	public double[] arrayOfADX;
-	
-	public ResultsADX(int length){
-		this.arrayOfDates = new Date[length];
-		this.arrayOfADX = new double[length];
+	public ResultsADX(int length) {
+		super(length);
 	}
 }

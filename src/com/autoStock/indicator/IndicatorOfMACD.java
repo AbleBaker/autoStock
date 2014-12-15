@@ -13,8 +13,7 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfMACD extends IndicatorBase {
-	public ResultsMACD results;
+public class IndicatorOfMACD extends IndicatorBase<ResultsMACD> {
 	public static MutableInteger immutableIntegerForLong = new MutableInteger(29);
 	public static MutableInteger immutableIntegerForEma = new MutableInteger(9);
 	public static MutableInteger immutableIntegerForShort = new MutableInteger(6);
@@ -23,7 +22,8 @@ public class IndicatorOfMACD extends IndicatorBase {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsMACD analyize(){
+	@Override
+	public ResultsMACD analyze(){
 		results = new ResultsMACD(indicatorParameters.resultSetLength);
 		results.arrayOfDates = arrayOfDates;
 		

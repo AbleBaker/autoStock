@@ -6,6 +6,8 @@ import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.indicator.IndicatorOfCSO;
 import com.autoStock.indicator.IndicatorOfCSO.ResultsCSO;
+import com.autoStock.indicator.IndicatorOfSAR;
+import com.autoStock.indicator.results.ResultsSAR;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.ArrayTools;
@@ -47,16 +49,16 @@ public class AlgorithmChart {
 		chart.listOfSignalARDown.add(algorithmBase.signalGroup.signalOfARDown.getStrength());
 		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
 		
-		try {chart.listOfIndicatorEMAFirst.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMAFirst.arrayOfEMA));}catch(Exception e){}
-		try {chart.listOfIndicatorEMASecond.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMASecond.arrayOfEMA));}catch(Exception e){}
+//		try {chart.listOfIndicatorEMAFirst.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMAFirst.arrayOfEMA));}catch(Exception e){}
+//		try {chart.listOfIndicatorEMASecond.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMASecond.arrayOfEMA));}catch(Exception e){}
 		
 		try {chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());}catch(Exception e){}
-		try {chart.listOfIndicatorSAR.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsSAR.arrayOfSAR));}catch(Exception e){}
+		try {chart.listOfIndicatorSAR.add(ArrayTools.getLastElement((algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSAR.class).getBaseResults().arrayOfValue)));}catch(Exception e){}
 		
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		chart.listOfYield.add(algorithmBase.getYieldCurrent());
 		
-		chart.listOfDebugAlpha.add(((ResultsCSO)algorithmBase.indicatorGroup.indicatorOfCSO.analyize()).arrayOfCSO[0]);
+		chart.listOfDebugAlpha.add(((ResultsCSO)algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCSO.class).analyze()).arrayOfCSO[0]);
 
 //		if (algorithmBase.signalGroup != null && algorithmBase.indicatorGroup.resultsPTD != null) {
 //			if (algorithmBase.indicatorGroup.resultsPTD.arrayOfPTD[0] == 1){

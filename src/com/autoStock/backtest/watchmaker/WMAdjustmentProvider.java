@@ -15,6 +15,12 @@ import com.autoStock.adjust.IterableOfEnum;
 import com.autoStock.adjust.IterableOfInteger;
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
 import com.autoStock.algorithm.AlgorithmBase;
+import com.autoStock.indicator.IndicatorOfADX;
+import com.autoStock.indicator.IndicatorOfCCI;
+import com.autoStock.indicator.IndicatorOfDI;
+import com.autoStock.indicator.IndicatorOfSAR;
+import com.autoStock.indicator.IndicatorOfUO;
+import com.autoStock.indicator.IndicatorOfWILLR;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
@@ -29,12 +35,12 @@ public class WMAdjustmentProvider {
 	public ArrayList<AdjustmentBase> getListOfAdjustmentBase(AlgorithmBase algorithmBase){
 		ArrayList<AdjustmentBase> listOfAdjustmentBase = new ArrayList<AdjustmentBase>();
 		
-		listOfAdjustmentBase.addAll(new WMAdjustmentGenerator().getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.indicatorOfCCI));
-		listOfAdjustmentBase.addAll(new WMAdjustmentGenerator().getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.indicatorOfUO));
-		listOfAdjustmentBase.addAll(new WMAdjustmentGenerator().getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.indicatorOfDI));
-		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.indicatorOfWILLR, listOfAdjustmentBase, 20, 60);
-		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.indicatorOfADX, listOfAdjustmentBase, 20, 60);
-		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.indicatorOfSAR, listOfAdjustmentBase, 20, 60);
+		listOfAdjustmentBase.addAll(new WMAdjustmentGenerator().getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCCI.class)));
+		listOfAdjustmentBase.addAll(new WMAdjustmentGenerator().getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfUO.class)));
+		listOfAdjustmentBase.addAll(new WMAdjustmentGenerator().getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfDI.class)));
+		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfWILLR.class), listOfAdjustmentBase, 20, 60);
+		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfADX.class), listOfAdjustmentBase, 20, 60);
+		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSAR.class), listOfAdjustmentBase, 20, 60);
 			
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Entry", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForEntry));
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Exit", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForExit));

@@ -10,12 +10,7 @@ import java.util.Date;
  *
  */
 public class ResultsWILLR extends ResultsBase {
-	public Date[] arrayOfDates;
-	public double[] arrayOfWILLR;
-	public double[] arrayOfPrice;
-	
-	public ResultsWILLR(int length){
-		this.arrayOfDates = new Date[length];
-		this.arrayOfWILLR = new double[length];
+	public ResultsWILLR(int length) {
+		super(length);
 	}
 }

@@ -10,12 +10,11 @@ import java.util.Date;
  *
  */
 public class ResultsAR extends ResultsBase {
-	public Date[] arrayOfDates;
 	public double[] arrayOfARUp;
 	public double[] arrayOfARDown;
 	
 	public ResultsAR(int length){
-		this.arrayOfDates = new Date[length];
+		super(length);
 		this.arrayOfARUp = new double[length];
 		this.arrayOfARDown = new double[length];
 	}

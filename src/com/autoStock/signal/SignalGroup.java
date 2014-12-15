@@ -5,7 +5,9 @@ import java.util.Arrays;
 
 import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnalysisData;
+import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.indicator.IndicatorGroup;
+import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.signal.SignalDefinitions.*;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.signalMetrics.SignalOfADX;
@@ -98,35 +100,47 @@ public class SignalGroup {
 		new SignalGenerator().generateEncogSignal(this);
 	}
 	
-	public void generateSignals(CommonAnalysisData commonAnlaysisData, Position position){
-		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsCCI.arrayOfCCI));}
-		if (indicatorGroup.resultsADX != null){signalOfADX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsADX.arrayOfADX));}
-		if (indicatorGroup.resultsDI != null){signalOfDI.setInput(indicatorGroup.resultsDI.arrayOfDIPlus[0], indicatorGroup.resultsDI.arrayOfDIMinus[0]);}
-		if (indicatorGroup.resultsMACD != null){signalOfMACD.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMACD.arrayOfMACDHistogram));}
-		if (indicatorGroup.resultsRSI != null){signalOfRSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsRSI.arrayOfRSI));}
-		if (indicatorGroup.resultsTRIX != null){signalOfTRIX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsTRIX.arrayOfTRIX));}
-		if (indicatorGroup.resultsROC != null){signalOfROC.setInput(ArrayTools.getLastElement(indicatorGroup.resultsROC.arrayOfROC));}
-		if (indicatorGroup.resultsSTORSI != null){signalOfSTORSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSTORSI.arrayOfPercentK));}
-		if (indicatorGroup.resultsMFI != null){signalOfMFI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMFI.arrayOfMFI));}
-		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsWILLR.arrayOfWILLR));}
-		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
-		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARUp));}
-		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
-		if (indicatorGroup.resultsSAR != null){signalOfSAR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSAR.arrayOfSAR), ArrayTools.getLastElement(commonAnlaysisData.arrayOfPriceClose));}
-		
-		if (indicatorGroup.resultsEMAFirst != null && indicatorGroup.resultsEMASecond != null){
-			signalOfCrossover.setInput(ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA), ArrayTools.getLastElement(indicatorGroup.resultsEMASecond.arrayOfEMA));
+	public void generateSignals(CommonAnalysisData commonAnalysisData, Position position){
+		for (SignalBase signalBase : listOfSignalBase){
+			IndicatorBase<?> indicatorBase = indicatorGroup.getIndicatorByMetric(signalBase.signalMetricType);
+			
+			if (indicatorBase != null && indicatorBase.getResults() != null){
+				signalBase.setInput((ResultsBase) indicatorBase.getResults());
+			}
 		}
 		
-		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
-		
-		signalOfHT.analyize(signalOfUO.getStrengthWindow());
-		
-//		Co.println("--> " + signalOfCCI.listOfNormalizedValuePersist.size());
-		
 		new SignalGenerator().generateEncogSignal(this);
-		
 	}
+	
+//	public void generateSignals(CommonAnalysisData commonAnlaysisData, Position position){
+//		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsCCI.arrayOfCCI));}
+//		if (indicatorGroup.resultsADX != null){signalOfADX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsADX.arrayOfADX));}
+//		if (indicatorGroup.resultsDI != null){signalOfDI.setInput(indicatorGroup.resultsDI.arrayOfDIPlus[0], indicatorGroup.resultsDI.arrayOfDIMinus[0]);}
+//		if (indicatorGroup.resultsMACD != null){signalOfMACD.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMACD.arrayOfMACDHistogram));}
+//		if (indicatorGroup.resultsRSI != null){signalOfRSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsRSI.arrayOfRSI));}
+//		if (indicatorGroup.resultsTRIX != null){signalOfTRIX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsTRIX.arrayOfTRIX));}
+//		if (indicatorGroup.resultsROC != null){signalOfROC.setInput(ArrayTools.getLastElement(indicatorGroup.resultsROC.arrayOfROC));}
+//		if (indicatorGroup.resultsSTORSI != null){signalOfSTORSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSTORSI.arrayOfPercentK));}
+//		if (indicatorGroup.resultsMFI != null){signalOfMFI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMFI.arrayOfMFI));}
+//		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsWILLR.arrayOfWILLR));}
+//		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
+//		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARUp));}
+//		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
+//		if (indicatorGroup.resultsSAR != null){signalOfSAR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSAR.arrayOfSAR), ArrayTools.getLastElement(commonAnlaysisData.arrayOfPriceClose));}
+//		
+//		if (indicatorGroup.resultsEMAFirst != null && indicatorGroup.resultsEMASecond != null){
+//			signalOfCrossover.setInput(ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA), ArrayTools.getLastElement(indicatorGroup.resultsEMASecond.arrayOfEMA));
+//		}
+//		
+//		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
+//		
+//		signalOfHT.analyize(signalOfUO.getStrengthWindow());
+//		
+////		Co.println("--> " + signalOfCCI.listOfNormalizedValuePersist.size());
+//		
+//		new SignalGenerator().generateEncogSignal(this);
+//		
+//	}
 	
 	public IndicatorGroup getIndicatorGroup(){
 		return indicatorGroup;

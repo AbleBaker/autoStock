@@ -55,7 +55,7 @@ public class CandleStickIdentifier extends IndicatorBase {
 	}
 
 	@Override
-	public Object analyize() {
+	public Object analyze() {
 		return null; //pass
 	}
 }

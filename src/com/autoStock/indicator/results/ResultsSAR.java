@@ -10,11 +10,7 @@ import java.util.Date;
  *
  */
 public class ResultsSAR extends ResultsBase {
-	public Date[] arrayOfDates;
-	public double[] arrayOfSAR;
-	
-	public ResultsSAR(int length){
-		this.arrayOfDates = new Date[length];
-		this.arrayOfSAR = new double[length];
+	public ResultsSAR(int length) {
+		super(length);
 	}
 }

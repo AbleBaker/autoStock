@@ -16,8 +16,7 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfBB extends IndicatorBase {
-	public ResultsBB results;
+public class IndicatorOfBB extends IndicatorBase<ResultsBB> {
 	public int optionDeviationUp = 8;
 	public int optionDeviationDown = 8;
 	
@@ -25,7 +24,8 @@ public class IndicatorOfBB extends IndicatorBase {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsBB analyize(){	
+	@Override
+	public ResultsBB analyze(){	
 		results = new ResultsBB(indicatorParameters.resultSetLength);
 		
 		results.arrayOfDates = arrayOfDates;

@@ -6,6 +6,7 @@ import com.autoStock.Co;
 import com.autoStock.guage.GuageOfThresholdLeft;
 import com.autoStock.guage.GuageOfThresholdMet;
 import com.autoStock.guage.SignalGuage;
+import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -73,6 +74,10 @@ public abstract class SignalBase {
 		signalRangeLimit.addValue(strength);
 		
 		prune(maxSignalAverage.value);
+	}
+	
+	public void setInput(ResultsBase resultsBase){
+		setInput(ArrayTools.getLastElement(resultsBase.arrayOfValue));
 	}
 	
 	public void setInput(double value){

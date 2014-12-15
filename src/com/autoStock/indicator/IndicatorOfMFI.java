@@ -16,18 +16,17 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfMFI extends IndicatorBase{
-	public ResultsMFI results;
-	
+public class IndicatorOfMFI extends IndicatorBase<ResultsMFI>{
 	public IndicatorOfMFI(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsMFI analyize(){
+	@Override
+	public ResultsMFI analyze(){
 		results = new ResultsMFI(indicatorParameters.resultSetLength);
 		results.arrayOfDates = arrayOfDates;
 		
-		RetCode returnCode = taLibCore.mfi(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, ArrayTools.convertToDouble(arrayOfSizeVolume), indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfMFI);
+		RetCode returnCode = taLibCore.mfi(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, ArrayTools.convertToDouble(arrayOfSizeVolume), indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfValue);
 		handleAnalysisResult(returnCode);
 		
 		return results;

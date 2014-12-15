@@ -4,6 +4,7 @@
 package com.autoStock.indicator;
 
 import com.autoStock.indicator.results.ResultsADX;
+import com.autoStock.indicator.results.ResultsSMA;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
@@ -15,18 +16,17 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfSMA extends IndicatorBase {
-	public ResultsADX results;
-	
+public class IndicatorOfSMA extends IndicatorBase<ResultsSMA> {
 	public IndicatorOfSMA(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsADX analyize(){
-		results = new ResultsADX(indicatorParameters.resultSetLength);
+	@Override
+	public ResultsSMA analyze(){
+		results = new ResultsSMA(indicatorParameters.resultSetLength);
 		results.arrayOfDates = arrayOfDates;
 		
-		RetCode returnCode = taLibCore.adx(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, indicatorParameters.periodLength.value/2, new MInteger(), new MInteger(), results.arrayOfADX);
+		RetCode returnCode = taLibCore.sma(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value, new MInteger(), new MInteger(), results.arrayOfValue);
 		handleAnalysisResult(returnCode);
 		
 		return results;

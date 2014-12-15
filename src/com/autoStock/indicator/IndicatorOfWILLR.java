@@ -17,22 +17,19 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfWILLR extends IndicatorBase{
-	public ResultsWILLR results;
-	
+public class IndicatorOfWILLR extends IndicatorBase<ResultsWILLR> {
 	public IndicatorOfWILLR(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsWILLR analyize(){
+	@Override
+	public ResultsWILLR analyze(){
 		results = new ResultsWILLR(indicatorParameters.resultSetLength+1); //WILLR Specific
-		
 		results.arrayOfDates = arrayOfDates;
-		results.arrayOfPrice = arrayOfPriceClose;
 		
-		RetCode returnCode = taLibCore.willR(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfWILLR);
+		RetCode returnCode = taLibCore.willR(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, arrayOfPriceClose, indicatorParameters.periodLength.value-1, new MInteger(), new MInteger(), results.arrayOfValue);
 		
-		results.arrayOfWILLR = Arrays.copyOfRange(results.arrayOfWILLR, 1, indicatorParameters.resultSetLength +1); //WILLR specific
+		results.arrayOfValue = Arrays.copyOfRange(results.arrayOfValue, 1, indicatorParameters.resultSetLength +1); //WILLR specific
 		
 		handleAnalysisResult(returnCode);
 		

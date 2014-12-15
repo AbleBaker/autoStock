@@ -7,11 +7,7 @@ import java.util.Date;
  *
  */
 public class ResultsEMA extends ResultsBase {
-	public Date[] arrayOfDates;
-	public double[] arrayOfEMA;
-	
-	public ResultsEMA(int length){
-		this.arrayOfDates = new Date[length];
-		this.arrayOfEMA = new double[length];
+	public ResultsEMA(int length) {
+		super(length);
 	}
 }

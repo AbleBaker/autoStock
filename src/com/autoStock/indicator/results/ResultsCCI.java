@@ -10,12 +10,7 @@ import java.util.Date;
  *
  */
 public class ResultsCCI extends ResultsBase {
-	
-	public Date[] arrayOfDates;
-	public double[] arrayOfCCI;
-	
-	public ResultsCCI(int length){
-		this.arrayOfDates = new Date[length];
-		this.arrayOfCCI = new double[length];
+	public ResultsCCI(int length) {
+		super(length);
 	}
 }

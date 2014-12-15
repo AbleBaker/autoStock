@@ -18,14 +18,4 @@ public class SignalOfSAR extends SignalBase {
 	public SignalOfSAR(SignalParameters signalParameters){
 		super(SignalMetricType.metric_sar, signalParameters);
 	}
-	
-	public void setInput(double value, double priceClose){
-//		Co.println("--> Set value: " + value + ", " + priceClose);
-		super.setInput(priceClose);
-	}
-	
-	@Override
-	public void setInput(double value) {
-		throw new IllegalAccessError("Use the other signature");
-	}
 }

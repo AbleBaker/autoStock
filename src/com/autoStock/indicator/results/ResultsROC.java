@@ -10,11 +10,7 @@ import java.util.Date;
  *
  */
 public class ResultsROC extends ResultsBase {
-	public Date[] arrayOfDates;
-	public double[] arrayOfROC;
-	
-	public ResultsROC(int length){
-		this.arrayOfDates = new Date[length];
-		this.arrayOfROC = new double[length];
+	public ResultsROC(int length) {
+		super(length);
 	}
 }

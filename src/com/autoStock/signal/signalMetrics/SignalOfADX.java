@@ -13,7 +13,6 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  *
  */
 public class SignalOfADX extends SignalBase {
-	
 	public SignalOfADX(SignalParameters signalParameters){
 		super(SignalMetricType.metric_adx, signalParameters);
 	}

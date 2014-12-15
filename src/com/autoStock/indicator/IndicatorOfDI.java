@@ -16,14 +16,13 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfDI extends IndicatorBase {
-	public ResultsDI results;
-	
+public class IndicatorOfDI extends IndicatorBase<ResultsDI> {
 	public IndicatorOfDI(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsDI analyize(){
+	@Override
+	public ResultsDI analyze(){
 		results = new ResultsDI(indicatorParameters.resultSetLength);
 		results.arrayOfDates = arrayOfDates;
 		

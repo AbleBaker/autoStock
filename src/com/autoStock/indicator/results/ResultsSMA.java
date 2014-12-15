@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.autoStock.indicator.results;
 
 import java.util.Date;
@@ -9,8 +6,8 @@ import java.util.Date;
  * @author Kevin Kowalewski
  *
  */
-public class ResultsMFI extends ResultsBase {
-	public ResultsMFI(int length) {
+public class ResultsSMA extends ResultsBase {
+	public ResultsSMA(int length) {
 		super(length);
 	}
 }

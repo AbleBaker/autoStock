@@ -18,18 +18,17 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfSAR extends IndicatorBase {
-	public ResultsSAR results;
-	
+public class IndicatorOfSAR extends IndicatorBase<ResultsSAR> {
 	public IndicatorOfSAR(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsSAR analyize(){
+	@Override
+	public ResultsSAR analyze(){
 		results = new ResultsSAR(indicatorParameters.periodLength.value -1); //SAR specific
 		results.arrayOfDates = arrayOfDates;
 		
-		RetCode returnCode = taLibCore.sar(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, 0.02, 0.20, new MInteger(), new MInteger(), results.arrayOfSAR); 
+		RetCode returnCode = taLibCore.sar(0, endIndex, arrayOfPriceHigh, arrayOfPriceLow, 0.02, 0.20, new MInteger(), new MInteger(), results.arrayOfValue); 
 
 		handleAnalysisResult(returnCode);
 		

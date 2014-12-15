@@ -8,18 +8,14 @@ import java.util.Date;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
+import com.autoStock.indicator.IndicatorOfCSO.ResultsCSO;
 
 /**
  * @author Kevin
  *
  */
-public class IndicatorOfCSO extends IndicatorBase {
-	public ResultsCSO results;
+public class IndicatorOfCSO extends IndicatorBase<ResultsCSO> {
 	private double firstPriceClose;
-	
-	public IndicatorOfCSO(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
-		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
-	}
 	
 	public static class ResultsCSO {
 		public Date[] arrayOfDates;
@@ -30,9 +26,13 @@ public class IndicatorOfCSO extends IndicatorBase {
 			this.arrayOfCSO = new double[length];
 		}
 	}
+	
+	public IndicatorOfCSO(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
+	}
 
 	@Override
-	public Object analyize() {
+	public ResultsCSO analyze() {
 		ResultsCSO results = new ResultsCSO(1);
 		if (firstPriceClose == 0){firstPriceClose = arrayOfPriceClose[arrayOfPriceClose.length-1];}
 		results.arrayOfCSO[0] = arrayOfPriceClose[arrayOfPriceClose.length-1] - firstPriceClose;

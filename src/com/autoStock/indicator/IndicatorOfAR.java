@@ -15,14 +15,13 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class IndicatorOfAR extends IndicatorBase {
-	public ResultsAR results;
-	
+public class IndicatorOfAR extends IndicatorBase<ResultsAR> {
 	public IndicatorOfAR(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
 	}
 	
-	public ResultsAR analyize(){
+	@Override
+	public ResultsAR analyze(){
 		results = new ResultsAR(indicatorParameters.resultSetLength);
 		results.arrayOfDates = arrayOfDates;
 		
