@@ -2,11 +2,8 @@ package com.autoStock.guage;
 
 import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalBounds;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
-import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.MathTools;
 
 /**

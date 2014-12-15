@@ -3,19 +3,12 @@ package com.autoStock.backtest;
 import java.text.DecimalFormat;
 import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
-import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.internal.GsonProvider;
-import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
-import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.tools.DateTools;
-import com.autoStock.types.Exchange;
-import com.autoStock.types.Symbol;
-import com.google.gson.GsonBuilder;
 
 /**
  * @author Kevin Kowalewski

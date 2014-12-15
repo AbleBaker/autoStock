@@ -13,7 +13,6 @@ import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.order.OrderDefinitions.OrderStatus;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderStatusListener;
-import com.autoStock.order.OrderTools;
 import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionCallback;
 import com.autoStock.position.PositionDefinitions.PositionType;
@@ -27,7 +26,6 @@ import com.autoStock.tools.MathTools;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
-import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski

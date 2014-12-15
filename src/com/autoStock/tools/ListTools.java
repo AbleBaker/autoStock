@@ -5,12 +5,9 @@ package com.autoStock.tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 
 /**
  * @author Kevin Kowalewski

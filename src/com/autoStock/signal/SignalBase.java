@@ -2,18 +2,11 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
-import com.autoStock.guage.GuageOfThresholdLeft;
-import com.autoStock.guage.GuageOfThresholdMet;
-import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
-import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.ArrayTools;
-import com.autoStock.tools.PrintTools;
 import com.autoStock.types.basic.MutableInteger;
 
 public abstract class SignalBase {

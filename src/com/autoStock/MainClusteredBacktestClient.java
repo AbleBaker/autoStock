@@ -2,10 +2,8 @@ package com.autoStock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.autoStock.account.AccountProvider;
-import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
@@ -16,13 +14,10 @@ import com.autoStock.com.CommandSerializer;
 import com.autoStock.com.ListenerOfCommandHolderResult;
 import com.autoStock.comServer.ClusterClient;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
-import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
-import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionManager;
-import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.types.Symbol;
 
 /**

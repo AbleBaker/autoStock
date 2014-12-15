@@ -3,9 +3,6 @@ package com.autoStock.tools;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.autoStock.Co;
-import com.autoStock.types.basic.Time;
-
 /**
  * @author Kevin Kowalewski
  *

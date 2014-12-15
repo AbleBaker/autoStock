@@ -3,8 +3,6 @@ package com.autoStock.adjust;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.autoStock.Co;
-
 /**
  * @author Kevin Kowalewski
  * @param <E>

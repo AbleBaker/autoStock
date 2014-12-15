@@ -2,8 +2,6 @@ package com.autoStock.backtest;
 
 import java.util.Date;
 
-import com.autoStock.Co;
-import com.autoStock.account.AccountProvider;
 import com.google.gson.internal.Pair;
 
 /**

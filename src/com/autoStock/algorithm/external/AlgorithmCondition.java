@@ -1,10 +1,8 @@
 package com.autoStock.algorithm.external;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
@@ -12,7 +10,6 @@ import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
-import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;

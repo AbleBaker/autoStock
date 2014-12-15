@@ -1,22 +1,11 @@
 package com.autoStock.signal.signalMetrics;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import org.encog.ml.MLRegression;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
-import org.encog.neural.neat.NEATNetwork;
-import org.encog.neural.neat.PersistNEATNetwork;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
-import org.omg.CORBA.Environment;
 
-import com.autoStock.Co;
-import com.autoStock.backtest.encog.TrainEncogBase;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;

@@ -11,8 +11,6 @@ import java.util.Random;
 import org.uncommons.watchmaker.framework.EvaluatedCandidate;
 import org.uncommons.watchmaker.framework.islands.Migration;
 
-import com.autoStock.Co;
-
 /**
  * @author Kevin
  *

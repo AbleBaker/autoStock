@@ -5,19 +5,15 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 
-import com.autoStock.database.DatabaseQuery;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
+import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
-import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.internal.GsonProvider;
-import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
-import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
-import com.google.gson.GsonBuilder;
 
 /**
  * @author Kevin

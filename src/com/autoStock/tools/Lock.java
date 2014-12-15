@@ -1,8 +1,5 @@
 package com.autoStock.tools;
 
-import java.lang.Thread.State;
-
-import com.autoStock.Co;
 
 /**
  * @author Kevin Kowalewski

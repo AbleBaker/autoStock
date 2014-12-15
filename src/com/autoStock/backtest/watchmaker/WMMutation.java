@@ -9,13 +9,11 @@ import org.uncommons.maths.number.NumberGenerator;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 
-import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.algorithm.DummyAlgorithm;
-import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.backtest.AlgorithmModel;
-import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski

@@ -2,7 +2,6 @@ package com.autoStock.com;
 
 import java.io.PrintWriter;
 
-import com.autoStock.Co;
 import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommand;
 import com.autoStock.internal.GsonClassAdapter;

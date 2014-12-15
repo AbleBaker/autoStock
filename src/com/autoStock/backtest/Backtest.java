@@ -5,7 +5,6 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.dataFeed.DataFeedHistoricalPrices;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;

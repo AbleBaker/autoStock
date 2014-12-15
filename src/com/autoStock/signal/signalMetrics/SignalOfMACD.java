@@ -6,7 +6,6 @@ package com.autoStock.signal.signalMetrics;
 import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.indicator.results.ResultsMACD;
 import com.autoStock.signal.SignalBase;
-import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.tools.ArrayTools;

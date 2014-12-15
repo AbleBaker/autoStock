@@ -1,6 +1,5 @@
 package com.autoStock.backtest;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,16 +15,13 @@ import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
 import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
-import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalBase;
-import com.autoStock.signal.SignalMoment;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
-import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;

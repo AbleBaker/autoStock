@@ -6,22 +6,11 @@ import java.util.List;
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.backtest.AlgorithmModel;
-import com.autoStock.backtest.BacktestEvaluation;
-import com.autoStock.database.DatabaseQuery;
-import com.autoStock.database.DatabaseDefinitions.BasicQueries;
-import com.autoStock.database.DatabaseDefinitions.QueryArg;
-import com.autoStock.database.DatabaseDefinitions.QueryArgs;
-import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.indicator.IndicatorBase;
-import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
-import com.autoStock.tools.PrintTools;
-import com.autoStock.types.Exchange;
-import com.autoStock.types.Symbol;
-import com.google.gson.GsonBuilder;
 
 /**
  * @author Kevin Kowalewski

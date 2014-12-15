@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
-import com.autoStock.com.CommandHolder;
 import com.autoStock.internal.GsonProvider;
 import com.autoStock.signal.signalMetrics.SignalOfCandlestickGroup;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;

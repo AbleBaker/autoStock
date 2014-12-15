@@ -5,9 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.text.DateFormatter;
-
-import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
 import com.autoStock.guage.SignalGuage;

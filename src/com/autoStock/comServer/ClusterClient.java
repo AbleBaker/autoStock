@@ -16,13 +16,11 @@ import com.autoStock.Co;
 import com.autoStock.cluster.ComputeUnitForBacktest;
 import com.autoStock.com.CommandHolder;
 import com.autoStock.com.ListenerOfCommandHolderResult;
-import com.autoStock.comServer.CommunicationDefinitions.Command;
 import com.autoStock.comServer.CommunicationDefinitions.CommunicationCommand;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.GsonClassAdapter;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 

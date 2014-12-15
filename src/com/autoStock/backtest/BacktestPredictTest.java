@@ -3,22 +3,19 @@
  */
 package com.autoStock.backtest;
 
-import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.temporal.TemporalDataDescription;
-import org.encog.ml.data.temporal.TemporalPoint;
 import org.encog.ml.data.temporal.TemporalDataDescription.Type;
 import org.encog.ml.data.temporal.TemporalMLDataSet;
+import org.encog.ml.data.temporal.TemporalPoint;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.pattern.FeedForwardPattern;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
-import org.encog.util.simple.EncogUtility;
 
-import com.autoStock.internal.Config;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 
 /**

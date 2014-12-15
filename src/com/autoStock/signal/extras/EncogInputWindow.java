@@ -1,12 +1,10 @@
 package com.autoStock.signal.extras;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
-import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin Kowalewski

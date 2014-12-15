@@ -6,8 +6,6 @@ package com.autoStock.tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.autoStock.Co;
-
 
 /**
  * @author Kevin Kowalewski

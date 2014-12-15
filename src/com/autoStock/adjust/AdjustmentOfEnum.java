@@ -1,6 +1,5 @@
 package com.autoStock.adjust;
 
-import com.autoStock.Co;
 import com.autoStock.types.basic.MutableEnum;
 
 /**

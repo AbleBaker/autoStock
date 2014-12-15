@@ -1,6 +1,5 @@
 package com.autoStock.indicator;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.results.ResultsMACD;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;

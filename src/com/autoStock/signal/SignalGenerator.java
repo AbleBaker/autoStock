@@ -5,7 +5,6 @@ package com.autoStock.signal;
 
 import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.MathTools;

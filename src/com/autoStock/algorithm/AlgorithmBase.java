@@ -3,13 +3,9 @@
  */
 package com.autoStock.algorithm;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import org.jfree.data.time.Year;
 
 import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
@@ -17,10 +13,8 @@ import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmChart;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
-import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.core.AlgorithmState;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
-import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.ListenerOfPositionStatusChange;
@@ -32,8 +26,8 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.retrospect.Prefill;
 import com.autoStock.retrospect.Prefill.PrefillMethod;
-import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalCache;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyBase;
 import com.autoStock.strategy.StrategyResponse;
@@ -42,7 +36,6 @@ import com.autoStock.tables.TableForAlgorithm;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
-import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.Position;
 import com.autoStock.trading.yahoo.FundamentalData;
 import com.autoStock.types.Exchange;

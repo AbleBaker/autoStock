@@ -7,7 +7,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.backtest.BacktestContainer;
-import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.SignalMoment;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;

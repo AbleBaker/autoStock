@@ -6,14 +6,13 @@ package com.autoStock.backtest.watchmaker;
 import java.util.ArrayList;
 
 import com.autoStock.adjust.AdjustmentBase;
+import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
 import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.adjust.IterableOfDouble;
 import com.autoStock.adjust.IterableOfEnum;
 import com.autoStock.adjust.IterableOfInteger;
-import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
-import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;

@@ -17,7 +17,6 @@ import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
 import com.google.gson.internal.Pair;
-import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski

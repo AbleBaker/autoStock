@@ -10,7 +10,6 @@ import com.autoStock.taLib.Core;
 import com.autoStock.taLib.MAType;
 import com.autoStock.taLib.MInteger;
 import com.autoStock.taLib.RetCode;
-import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski

@@ -1,26 +1,15 @@
 package com.autoStock.backtest.watchmaker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.SingleBacktest;
-import com.autoStock.finance.SecurityTypeHelper.SecurityType;
-import com.autoStock.position.PositionGovernor;
-import com.autoStock.position.PositionManager;
-import com.autoStock.signal.SignalDefinitions.SignalGuageType;
-import com.autoStock.tools.Benchmark;
-import com.autoStock.tools.DateTools;
-import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
-import com.autoStock.types.Exchange;
-import com.autoStock.types.Symbol;
 
 /**
  * @author Kevin Kowalewski

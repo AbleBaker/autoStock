@@ -1,21 +1,13 @@
 package com.autoStock.signal.signalMetrics;
 
-import java.awt.IllegalComponentStateException;
-
-import org.apache.commons.lang3.mutable.MutableInt;
-
-import com.autoStock.Co;
 import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalBaseWithPoint;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
-import com.autoStock.signal.SignalBaseWithPoint;
-import com.autoStock.types.basic.MutableDouble;
-import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski

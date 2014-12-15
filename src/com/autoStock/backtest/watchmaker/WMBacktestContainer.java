@@ -1,11 +1,8 @@
 package com.autoStock.backtest.watchmaker;
 
-import java.awt.IllegalComponentStateException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
@@ -17,9 +14,7 @@ import org.uncommons.watchmaker.framework.islands.IslandEvolution;
 import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
-import org.uncommons.watchmaker.framework.selection.RankSelection;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
-import org.uncommons.watchmaker.framework.selection.SigmaScaling;
 import org.uncommons.watchmaker.framework.selection.StochasticUniversalSampling;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
@@ -27,23 +22,18 @@ import org.uncommons.watchmaker.framework.termination.TargetFitness;
 import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
-import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.algorithm.DummyAlgorithm;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
-import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.BacktestEvaluationWriter;
-import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.TrainEncogSignal;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.internal.ApplicationStates;
-import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
-import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;

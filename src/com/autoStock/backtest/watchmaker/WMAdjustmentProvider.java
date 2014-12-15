@@ -2,18 +2,13 @@ package com.autoStock.backtest.watchmaker;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.adjust.AdjustmentOfBasicBoolean;
 import com.autoStock.adjust.AdjustmentOfBasicDouble;
 import com.autoStock.adjust.AdjustmentOfBasicInteger;
-import com.autoStock.adjust.AdjustmentOfEnum;
-import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.adjust.IterableOfBoolean;
 import com.autoStock.adjust.IterableOfDouble;
-import com.autoStock.adjust.IterableOfEnum;
 import com.autoStock.adjust.IterableOfInteger;
-import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.IndicatorOfADX;
 import com.autoStock.indicator.IndicatorOfCCI;
@@ -21,11 +16,6 @@ import com.autoStock.indicator.IndicatorOfDI;
 import com.autoStock.indicator.IndicatorOfSAR;
 import com.autoStock.indicator.IndicatorOfUO;
 import com.autoStock.indicator.IndicatorOfWILLR;
-import com.autoStock.signal.SignalBase;
-import com.autoStock.signal.SignalDefinitions.SignalGuageType;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
-import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
-import com.autoStock.signal.TacticResolver.SignalPointTactic;
 
 /**
  * @author Kevin Kowalewski

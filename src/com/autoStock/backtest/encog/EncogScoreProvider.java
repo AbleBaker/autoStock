@@ -1,34 +1,19 @@
 package com.autoStock.backtest.encog;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import org.encog.ml.MLRegression;
-import org.encog.neural.networks.PersistBasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
-import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.SingleBacktest;
-import com.autoStock.finance.SecurityTypeHelper.SecurityType;
-import com.autoStock.position.PositionGovernor;
-import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalCache;
-import com.autoStock.tables.TableController;
-import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.Benchmark;
-import com.autoStock.tools.DateTools;
-import com.autoStock.tools.MiscTools;
-import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
-import com.autoStock.types.Exchange;
-import com.autoStock.types.Symbol;
-import com.google.gson.Gson;
 
 /**
  * @author Kevin Kowalewski

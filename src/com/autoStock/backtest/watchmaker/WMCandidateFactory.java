@@ -5,19 +5,13 @@ import java.util.Random;
 
 import org.uncommons.watchmaker.framework.factories.AbstractCandidateFactory;
 
-import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.adjust.AdjustmentBase;
-import com.autoStock.adjust.AdjustmentCampaign;
-import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
-import com.autoStock.adjust.IterableOfInteger;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.DummyAlgorithm;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.backtest.AlgorithmModel;
-import com.autoStock.signal.SignalBase;
-import com.autoStock.signal.SignalDefinitions.SignalParameters;
 
 /**
  * @author Kevin Kowalewski

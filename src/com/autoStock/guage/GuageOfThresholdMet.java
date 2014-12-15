@@ -1,6 +1,5 @@
 package com.autoStock.guage;
 
-import com.autoStock.Co;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalBounds;
 

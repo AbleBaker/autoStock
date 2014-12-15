@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import com.autoStock.backtest.AlgorithmModel;
-import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 

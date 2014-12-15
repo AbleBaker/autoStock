@@ -2,10 +2,6 @@ package com.autoStock.adjust;
 
 import java.util.Random;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
-import com.autoStock.Co;
-
 
 /**
  * @author Kevin Kowalewski

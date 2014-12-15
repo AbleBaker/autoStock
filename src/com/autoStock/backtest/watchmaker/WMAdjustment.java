@@ -2,8 +2,6 @@ package com.autoStock.backtest.watchmaker;
 
 import java.util.ArrayList;
 
-import org.encog.util.obj.ObjectCloner;
-
 import com.autoStock.adjust.AdjustmentBase;
 import com.rits.cloning.Cloner;
 

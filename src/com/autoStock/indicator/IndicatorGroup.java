@@ -2,34 +2,28 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
-import org.apache.http.MethodNotSupportedException;
-
-import com.autoStock.Co;
-import com.autoStock.indicator.IndicatorOfCSO.ResultsCSO;
-import com.autoStock.indicator.candleStick.CandleStickDefinitions.CandleStickIdentity;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
-import com.autoStock.indicator.results.ResultsADX;
-import com.autoStock.indicator.results.ResultsAR;
-import com.autoStock.indicator.results.ResultsBB;
-import com.autoStock.indicator.results.ResultsCCI;
-import com.autoStock.indicator.results.ResultsDI;
 import com.autoStock.indicator.results.ResultsEMA;
-import com.autoStock.indicator.results.ResultsMACD;
-import com.autoStock.indicator.results.ResultsMFI;
-import com.autoStock.indicator.results.ResultsPTD;
-import com.autoStock.indicator.results.ResultsROC;
-import com.autoStock.indicator.results.ResultsRSI;
-import com.autoStock.indicator.results.ResultsSAR;
-import com.autoStock.indicator.results.ResultsSTORSI;
-import com.autoStock.indicator.results.ResultsTRIX;
-import com.autoStock.indicator.results.ResultsUO;
-import com.autoStock.indicator.results.ResultsWILLR;
-import com.autoStock.signal.SignalDefinitions.*;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForADX;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForARUp;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForBasic;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForCCI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForDI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForEMAFirst;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForEMASecond;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMACD;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMFI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForROC;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForRSI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForSAR;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForSTORSI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForTRIX;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForUO;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.taLib.Core;
-import com.autoStock.types.basic.MutableInteger;
 
 /**
  * @author Kevin Kowalewski
@@ -37,42 +31,8 @@ import com.autoStock.types.basic.MutableInteger;
  */
 public class IndicatorGroup {
 	public Core taLibCore = new Core();
-//	public IndicatorOfADX indicatorOfADX;
-//	public IndicatorOfCCI indicatorOfCCI;
-//	public IndicatorOfDI indicatorOfDI;
-//	public IndicatorOfMACD indicatorOfMACD;
-//	public IndicatorOfBB indicatorOfBB;
-//	public IndicatorOfTRIX indicatorOfTRIX;
-//	public IndicatorOfRSI indicatorOfRSI;
-//	public IndicatorOfROC indicatorOfROC;
-//	public IndicatorOfSTORSI indicatorOfSTORSI;
-//	public IndicatorOfMFI indicatorOfMFI;
-//	public IndicatorOfWILLR indicatorOfWILLR;
-//	public IndicatorOfUO indicatorOfUO;
-//	public IndicatorOfAR indicatorOfAR;
-//	public IndicatorOfSAR indicatorOfSAR;
-//	public IndicatorOfEMA indicatorOfEMAFirst;
-//	public IndicatorOfEMA indicatorOfEMASecond;
-//	public IndicatorOfCSO indicatorOfCSO;
 	
 	public CandleStickIdentifier candleStickIdentifier;
-
-//	public ResultsADX resultsADX;
-//	public ResultsCCI resultsCCI;
-//	public ResultsDI resultsDI;
-//	public ResultsBB resultsBB;
-//	public ResultsMACD resultsMACD;
-//	public ResultsRSI resultsRSI;
-//	public ResultsTRIX resultsTRIX;
-//	public ResultsROC resultsROC;
-//	public ResultsSTORSI resultsSTORSI;
-//	public ResultsMFI resultsMFI;
-//	public ResultsWILLR resultsWILLR;
-//	public ResultsUO resultsUO;
-//	public ResultsAR resultsAR;
-//	public ResultsPTD resultsPTD;
-//	public ResultsSAR resultsSAR;
-//	public ResultsCSO resultsCSO;
 	
 	public ResultsEMA resultsEMAFirst;
 	public ResultsEMA resultsEMASecond;
@@ -95,7 +55,6 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(new IndicatorOfCCI(new IndicatorParametersForCCI(), commonAnalysisData, taLibCore, SignalMetricType.metric_cci));
 		listOfIndicatorBase.add(new IndicatorOfDI(new IndicatorParametersForDI(), commonAnalysisData, taLibCore, SignalMetricType.metric_di));
 		listOfIndicatorBase.add(new IndicatorOfMACD(new IndicatorParametersForMACD(), commonAnalysisData, taLibCore, SignalMetricType.metric_macd));
-//		listOfIndicatorBase.add(new IndicatorOfBB(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.none));
 		listOfIndicatorBase.add(new IndicatorOfRSI(new IndicatorParametersForRSI(), commonAnalysisData, taLibCore, SignalMetricType.metric_rsi));
 		listOfIndicatorBase.add(new IndicatorOfTRIX(new IndicatorParametersForTRIX(), commonAnalysisData, taLibCore, SignalMetricType.metric_trix));
 		listOfIndicatorBase.add(new IndicatorOfROC(new IndicatorParametersForROC(), commonAnalysisData, taLibCore, SignalMetricType.metric_roc));
@@ -106,10 +65,10 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(new IndicatorOfAR(new IndicatorParametersForARUp(), commonAnalysisData, taLibCore, SignalMetricType.metric_ar_up));
 		listOfIndicatorBase.add(new IndicatorOfSAR(new IndicatorParametersForSAR(), commonAnalysisData, taLibCore, SignalMetricType.metric_sar));
 		listOfIndicatorBase.add(new IndicatorOfCSO(new IndicatorParametersForBasic(), commonAnlaysisData, taLibCore, SignalMetricType.none));
+//		listOfIndicatorBase.add(new IndicatorOfBB(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.none));
 		
 		listOfIndicatorBase.add(new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
 		listOfIndicatorBase.add(new IndicatorOfEMA(new IndicatorParametersForEMASecond(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
-		
 		
 //		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters(new MutableInteger(30), 1) {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
 	}
@@ -125,6 +84,7 @@ public class IndicatorGroup {
 		return null;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public IndicatorBase getIndicatorByMetric(SignalMetricType metricType){
 		for (IndicatorBase indicator : listOfIndicatorBase){
 			if (indicator.getSignalMetricType() == metricType){
@@ -163,47 +123,6 @@ public class IndicatorGroup {
 				indicatorBase.analyze();
 			}
 		}
-	}
-
-	public void analyzeOld() {
-		throw new NoSuchMethodError("Don't call this");
-		
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_adx)){resultsADX = indicatorOfADX.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_cci)){resultsCCI = indicatorOfCCI.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_di)){resultsDI = indicatorOfDI.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_macd)){resultsMACD = indicatorOfMACD.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_rsi)){resultsRSI = indicatorOfRSI.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_trix)){resultsTRIX = indicatorOfTRIX.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_roc)){resultsROC = indicatorOfROC.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_storsi)){resultsSTORSI = indicatorOfSTORSI.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_mfi)){resultsMFI = indicatorOfMFI.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_willr)){resultsWILLR = indicatorOfWILLR.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_uo)){resultsUO = indicatorOfUO.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_ar_up)){resultsAR = indicatorOfAR.analyize();}
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_sar)){resultsSAR = indicatorOfSAR.analyize();}
-//		
-////		resultsCSO = (ResultsCSO) indicatorOfCSO.analyize();
-//		
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_crossover)){
-//			resultsEMAFirst = indicatorOfEMAFirst.analyize();
-//			resultsEMASecond = indicatorOfEMASecond.analyize();
-//		}
-//		
-////		Co.println("-->X: " + signalGroup.signalOfUO.getStrengthWindow().length);
-//		
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_uo) && signalGroup.signalOfUO.getStrengthWindow().length >= 10){
-////			resultsPTD = indicatorOfPTD.analyize(signalGroup.signalOfUO.getStrengthWindow());
-//			
-////			Co.println("--> Have results? " + resultsPTD.arrayOfPTD.length);
-//			
-////			for (int i=0; i<resultsPTD.arrayOfPTD.length; i++){
-////				Co.print(" " + resultsPTD.arrayOfPTD[i]);
-////			}
-//		}
-//		
-//		if (listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_candlestick_group) && candleStickIdentifier != null){
-//			candleStickIdentifierResult = candleStickIdentifier.identify(CandleStickIdentity.hanging_man);
-//		}
 	}
 	
 	public ArrayList<IndicatorBase> getListOfIndicatorBaseActive(){

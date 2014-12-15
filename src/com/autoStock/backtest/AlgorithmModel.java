@@ -2,9 +2,6 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 
-import org.jfree.chart.HashUtilities;
-
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.backtest.watchmaker.WMAdjustment;
 import com.autoStock.indicator.IndicatorBase;
@@ -14,7 +11,6 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.MiscTools;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**

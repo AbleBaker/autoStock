@@ -5,10 +5,10 @@ package com.autoStock.indicator;
 
 import java.util.Date;
 
+import com.autoStock.indicator.IndicatorOfCSO.ResultsCSO;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.taLib.Core;
-import com.autoStock.indicator.IndicatorOfCSO.ResultsCSO;
 
 /**
  * @author Kevin

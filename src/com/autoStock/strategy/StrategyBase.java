@@ -3,11 +3,7 @@ package com.autoStock.strategy;
 import java.util.ArrayList;
 
 import com.autoStock.algorithm.AlgorithmBase;
-import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
-import com.autoStock.algorithm.external.AlgorithmCondition;
 import com.autoStock.indicator.IndicatorGroup;
-import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.position.PositionGovernor;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalGroup;

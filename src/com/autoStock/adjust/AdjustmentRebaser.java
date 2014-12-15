@@ -1,13 +1,11 @@
 package com.autoStock.adjust;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.autoStock.Co;
 import com.autoStock.backtest.BacktestContainer;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalRangeLimit;
-import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski

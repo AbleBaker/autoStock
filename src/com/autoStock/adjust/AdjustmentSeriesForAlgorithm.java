@@ -1,9 +1,7 @@
 package com.autoStock.adjust;
 
 import com.autoStock.algorithm.AlgorithmBase;
-import com.autoStock.guage.SignalGuage;
 import com.autoStock.signal.SignalBase;
-import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 
 /**
  * @author Kevin Kowalewski

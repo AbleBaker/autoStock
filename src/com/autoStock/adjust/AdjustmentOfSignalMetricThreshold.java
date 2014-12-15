@@ -1,10 +1,6 @@
 package com.autoStock.adjust;
 
-import java.util.ArrayList;
-
-import com.autoStock.Co;
 import com.autoStock.adjust.AdjustmentCampaign.AdjustmentType;
-import com.autoStock.guage.SignalGuage;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;

@@ -2,7 +2,6 @@ package com.autoStock.position;
 
 import java.util.ArrayList;
 
-import com.autoStock.Co;
 import com.autoStock.account.TransactionFees;
 import com.autoStock.order.OrderDefinitions.OrderType;
 import com.autoStock.order.OrderValue;

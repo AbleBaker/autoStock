@@ -3,25 +3,17 @@
  */
 package com.autoStock.backtest.encog;
 
-import org.encog.Encog;
-import org.encog.engine.network.activation.ActivationSteepenedSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
-import org.encog.mathutil.randomize.ConsistentRandomizer;
-import org.encog.mathutil.randomize.FanInRandomizer;
 import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
 import org.encog.ml.train.MLTrain;
 import org.encog.ml.train.strategy.HybridStrategy;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.CalculateScore;
-import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.neural.networks.training.pso.NeuralPSO;
 import org.encog.neural.pattern.FeedForwardPattern;
-import org.encog.plugin.system.SystemLoggingPlugin;
-import org.encog.util.logging.EncogLogging;
 
 import com.autoStock.Co;
-import com.autoStock.internal.ApplicationStates;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 
 /**

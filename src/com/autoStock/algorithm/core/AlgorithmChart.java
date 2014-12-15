@@ -1,18 +1,14 @@
 package com.autoStock.algorithm.core;
 
-import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest;
-import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.indicator.IndicatorOfCSO;
 import com.autoStock.indicator.IndicatorOfCSO.ResultsCSO;
 import com.autoStock.indicator.IndicatorOfSAR;
-import com.autoStock.indicator.results.ResultsSAR;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.types.QuoteSlice;
-import com.google.gson.Gson;
 
 /**
  * @author Kevin Kowalewski

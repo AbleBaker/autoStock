@@ -1,15 +1,30 @@
 package com.autoStock.signal;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.indicator.results.ResultsBase;
-import com.autoStock.signal.SignalDefinitions.*;
-import com.autoStock.signal.extras.EncogInputWindow;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForADX;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForARDown;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForARUp;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForCCI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForCandlestickGroup;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForCrossover;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForDI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForEncog;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForMACD;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForMFI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForROC;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForRSI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForSAR;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForSTORSI;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
 import com.autoStock.signal.signalMetrics.SignalOfADX;
 import com.autoStock.signal.signalMetrics.SignalOfARDown;
 import com.autoStock.signal.signalMetrics.SignalOfARUp;
@@ -28,11 +43,7 @@ import com.autoStock.signal.signalMetrics.SignalOfSTORSI;
 import com.autoStock.signal.signalMetrics.SignalOfTRIX;
 import com.autoStock.signal.signalMetrics.SignalOfUO;
 import com.autoStock.signal.signalMetrics.SignalOfWILLR;
-import com.autoStock.tools.ArrayTools;
-import com.autoStock.tools.MathTools;
-import com.autoStock.tools.PrintTools;
 import com.autoStock.trading.types.Position;
-import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.basic.MutableInteger;
 
 /**
@@ -112,43 +123,12 @@ public class SignalGroup {
 		new SignalGenerator().generateEncogSignal(this);
 	}
 	
-//	public void generateSignals(CommonAnalysisData commonAnlaysisData, Position position){
-//		if (indicatorGroup.resultsCCI != null){signalOfCCI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsCCI.arrayOfCCI));}
-//		if (indicatorGroup.resultsADX != null){signalOfADX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsADX.arrayOfADX));}
-//		if (indicatorGroup.resultsDI != null){signalOfDI.setInput(indicatorGroup.resultsDI.arrayOfDIPlus[0], indicatorGroup.resultsDI.arrayOfDIMinus[0]);}
-//		if (indicatorGroup.resultsMACD != null){signalOfMACD.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMACD.arrayOfMACDHistogram));}
-//		if (indicatorGroup.resultsRSI != null){signalOfRSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsRSI.arrayOfRSI));}
-//		if (indicatorGroup.resultsTRIX != null){signalOfTRIX.setInput(ArrayTools.getLastElement(indicatorGroup.resultsTRIX.arrayOfTRIX));}
-//		if (indicatorGroup.resultsROC != null){signalOfROC.setInput(ArrayTools.getLastElement(indicatorGroup.resultsROC.arrayOfROC));}
-//		if (indicatorGroup.resultsSTORSI != null){signalOfSTORSI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSTORSI.arrayOfPercentK));}
-//		if (indicatorGroup.resultsMFI != null){signalOfMFI.setInput(ArrayTools.getLastElement(indicatorGroup.resultsMFI.arrayOfMFI));}
-//		if (indicatorGroup.resultsWILLR != null){signalOfWILLR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsWILLR.arrayOfWILLR));}
-//		if (indicatorGroup.resultsUO != null){signalOfUO.setInput(ArrayTools.getLastElement(indicatorGroup.resultsUO.arrayOfUO));}
-//		if (indicatorGroup.resultsAR != null){signalOfARUp.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARUp));}
-//		if (indicatorGroup.resultsAR != null){signalOfARDown.setInput(ArrayTools.getLastElement(indicatorGroup.resultsAR.arrayOfARDown));}
-//		if (indicatorGroup.resultsSAR != null){signalOfSAR.setInput(ArrayTools.getLastElement(indicatorGroup.resultsSAR.arrayOfSAR), ArrayTools.getLastElement(commonAnlaysisData.arrayOfPriceClose));}
-//		
-//		if (indicatorGroup.resultsEMAFirst != null && indicatorGroup.resultsEMASecond != null){
-//			signalOfCrossover.setInput(ArrayTools.getLastElement(indicatorGroup.resultsEMAFirst.arrayOfEMA), ArrayTools.getLastElement(indicatorGroup.resultsEMASecond.arrayOfEMA));
-//		}
-//		
-//		if (indicatorGroup.candleStickIdentifierResult != null){ } //signalOfCandlestickGroup.addInput(indicatorGroup.candleStickIdentifierResult.getLastValue());}
-//		
-//		signalOfHT.analyize(signalOfUO.getStrengthWindow());
-//		
-////		Co.println("--> " + signalOfCCI.listOfNormalizedValuePersist.size());
-//		
-//		new SignalGenerator().generateEncogSignal(this);
-//		
-//	}
-	
 	public IndicatorGroup getIndicatorGroup(){
 		return indicatorGroup;
 	}
 
 	public SignalBase getSignalBaseForType(SignalMetricType signalMetricType) {
 		for (SignalBase signalBase : listOfSignalBase){
-//			Co.println("--> Signal metric: " + signalBase.signalMetricType.name());
 			if (signalBase != null && signalBase.signalMetricType == signalMetricType){
 				return signalBase;
 			}
