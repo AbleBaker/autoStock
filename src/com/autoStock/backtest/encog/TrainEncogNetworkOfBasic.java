@@ -63,6 +63,7 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase {
 		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
 		pattern.addHiddenLayer(inputWindow/2);
 		pattern.addHiddenLayer(inputWindow/3);
+		pattern.addHiddenLayer(inputWindow/4);
 		pattern.setOutputNeurons(4);
 		pattern.setActivationFunction(new ActivationTANH());
 		return (BasicNetwork) pattern.generate();

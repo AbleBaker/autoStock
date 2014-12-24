@@ -23,7 +23,7 @@ public class TrainEncogNetworkOfNeat extends TrainEncogBase {
 		train = new NEATTraining(calculateScore, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 4, 512));
 		train.setPercentToMate(0.25);
 		train.setMutationPercent(0.25f);
-		train.setMatingPopulation(0.50f);
+		train.setMatingPopulation(0.40f);
 	}
 	
 	@Override

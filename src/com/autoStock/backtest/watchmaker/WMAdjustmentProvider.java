@@ -11,9 +11,14 @@ import com.autoStock.adjust.IterableOfDouble;
 import com.autoStock.adjust.IterableOfInteger;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.IndicatorOfADX;
+import com.autoStock.indicator.IndicatorOfAR;
 import com.autoStock.indicator.IndicatorOfCCI;
 import com.autoStock.indicator.IndicatorOfDI;
+import com.autoStock.indicator.IndicatorOfEMA;
+import com.autoStock.indicator.IndicatorOfMACD;
+import com.autoStock.indicator.IndicatorOfROC;
 import com.autoStock.indicator.IndicatorOfSAR;
+import com.autoStock.indicator.IndicatorOfTRIX;
 import com.autoStock.indicator.IndicatorOfUO;
 import com.autoStock.indicator.IndicatorOfWILLR;
 
@@ -30,7 +35,7 @@ public class WMAdjustmentProvider {
 		listOfAdjustmentBase.addAll(new WMAdjustmentGenerator().getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfDI.class)));
 		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfWILLR.class), listOfAdjustmentBase, 20, 60);
 		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfADX.class), listOfAdjustmentBase, 20, 60);
-		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSAR.class), listOfAdjustmentBase, 20, 60);
+		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfROC.class), listOfAdjustmentBase, 20, 60);
 			
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Entry", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForEntry));
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Exit", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForExit));

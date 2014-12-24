@@ -12,7 +12,6 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  *
  */
 public class SignalOfARUp extends SignalBase {
-	
 	public SignalOfARUp(SignalParameters signalParameters){
 		super(SignalMetricType.metric_ar_up, signalParameters);
 	}

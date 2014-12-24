@@ -177,7 +177,7 @@ public class MenuLauncher {
 					command = String.format("main_backtest 03/09/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_dod":
-					command = String.format("main_backtest 03/05/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 03/05/2012 03/08/2012 NYSE %s backtest_default", typicalSymbol);
 					
 					// -- Older backtest styles
 				case "1":
