@@ -25,6 +25,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParametersForSTORSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
+import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.signalMetrics.SignalOfADX;
 import com.autoStock.signal.signalMetrics.SignalOfARDown;
 import com.autoStock.signal.signalMetrics.SignalOfARUp;
@@ -80,6 +81,7 @@ public class SignalGroup {
 	}, new MutableInteger(1), null, null, null, null){});
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
+	private SignalGenerator signalGenerator = new SignalGenerator();
 	
 	public SignalGroup(){
 		listOfSignalBase.add(signalOfCCI);
@@ -108,7 +110,7 @@ public class SignalGroup {
 	}
 	
 	public void generateSignalsCached(){
-		new SignalGenerator().generateEncogSignal(this);
+		signalGenerator.generateEncogSignal(this, null);
 	}
 	
 	public void generateSignals(CommonAnalysisData commonAnalysisData, Position position){
@@ -119,8 +121,10 @@ public class SignalGroup {
 				signalBase.setInput((ResultsBase) indicatorBase.getResults());
 			}
 		}
-		
-		new SignalGenerator().generateEncogSignal(this);
+	}
+	
+	public void processEncog(ArrayList<EncogFrame> encogFrames) {
+		signalGenerator.generateEncogSignal(this, encogFrames);
 	}
 	
 	public IndicatorGroup getIndicatorGroup(){

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import com.autoStock.Co;
+import com.autoStock.backtest.BacktestUtils.LookDirection;
 import com.autoStock.types.basic.Time;
 
 /**
@@ -120,12 +121,46 @@ public class DateTools {
 		return listOfDate;
 	}
 	
+	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, LookDirection direction, int days){
+		ArrayList<Date> listOfDate = new ArrayList<Date>();
+		GregorianCalendar calendarAtCurrent = new GregorianCalendar();
+		
+		calendarAtCurrent.setTime(startDate);
+		
+		while (listOfDate.size() < days){
+			if (isWeekday(calendarAtCurrent)){
+				listOfDate.add(new Date(calendarAtCurrent.getTimeInMillis()));
+			}
+			
+			if (direction == LookDirection.forward){
+				calendarAtCurrent.add(Calendar.DAY_OF_MONTH, 1);
+			}else if (direction == LookDirection.backward){
+				calendarAtCurrent.add(Calendar.DAY_OF_MONTH, -1);
+			}
+		}
+		
+		return listOfDate;
+	}
+	
 	public static boolean isWeekday(Calendar calendar){
 		return calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY;
 	}
 	
 	public static Date getFirstWeekdayAfter(Date date){
 		return getListOfDatesOnWeekdays(new Date(date.getTime() + 1000 * 60 * 60 * 24 * 1), new Date(date.getTime() + 1000 * 60 * 60 * 24 * 7)).get(0);
+	}
+	
+	public static Date getFirstWeekdayBefore(Date date){
+		GregorianCalendar calendarAtCurrent = new GregorianCalendar();
+		calendarAtCurrent.setTime(date);
+		
+		calendarAtCurrent.add(Calendar.DAY_OF_MONTH, -1);
+		
+		while (isWeekday(calendarAtCurrent) == false){
+			calendarAtCurrent.add(Calendar.DAY_OF_MONTH, -1);
+		}
+		
+		return calendarAtCurrent.getTime();
 	}
 	
 	public static Date getLocalDateFromForeignTime(Time time, String timeZone) {

@@ -12,6 +12,11 @@ public class RequestHolder {
 	public Object caller;
 	public int mulitpleRequests = 0;
 	
+	public RequestHolder(){
+		this.requestId = RequestManager.getNewRequestId();
+		this.callback = null;
+	}
+	
 	public RequestHolder(Object callback){
 		this.requestId = RequestManager.getNewRequestId();
 		this.callback = callback;

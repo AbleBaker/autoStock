@@ -38,7 +38,7 @@ public class ActiveAlgorithmManager implements ActivationListener {
 			public void run() {
 				try{Thread.sleep(1000 * 5);}catch(InterruptedException e){}
 				while (true){
-					try{Thread.sleep(1000 * Resolution.min.seconds);}catch(InterruptedException e){return;}
+					try{Thread.sleep(1000 * Resolution.min.asSeconds());}catch(InterruptedException e){return;}
 					displayAlgorithmTable();
 				}
 			}

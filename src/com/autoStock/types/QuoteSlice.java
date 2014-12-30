@@ -29,6 +29,10 @@ public class QuoteSlice implements Cloneable {
 		
 	}
 	
+	public QuoteSlice(Symbol symbol){
+		this.symbol = symbol;
+	}
+	
 	public QuoteSlice(Symbol symbol, double priceOpen, double priceHigh, double priceLow, double priceClose, double priceBid, double priceAsk, int sizeVolume, Date dateTime, Resolution resolution) {
 		this.symbol = symbol;
 		this.priceOpen = priceOpen;

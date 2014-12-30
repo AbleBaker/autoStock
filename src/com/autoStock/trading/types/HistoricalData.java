@@ -3,6 +3,7 @@ package com.autoStock.trading.types;
 import java.util.Date;
 
 import com.autoStock.internal.ApplicationStates;
+import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -25,16 +26,21 @@ public class HistoricalData implements Cloneable {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.resolution = resolution;
-		this.duration = (endDate.getTime() / 1000 - startDate.getTime() / 1000);
+		
+		if (startDate != null && endDate != null){
+			this.duration = (endDate.getTime() / 1000 - startDate.getTime() / 1000);
+		}
 	}
 	
-	public void setStartAndEndDatesToExchange(){
+	public HistoricalData setStartAndEndDatesToExchange(){
 		startDate.setHours(exchange.timeOpenForeign.hours);
 		startDate.setMinutes(exchange.timeOpenForeign.minutes);
 		endDate.setHours(exchange.timeCloseForeign.hours);
 		endDate.setMinutes(exchange.timeCloseForeign.minutes);
 		
 		this.duration = (endDate.getTime() / 1000 - startDate.getTime() / 1000);
+		
+		return this;
 	}
 	
 	@Override
@@ -46,5 +52,12 @@ public class HistoricalData implements Cloneable {
 			ApplicationStates.shutdown();
 			return null;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		try {
+			return exchange.exchangeName + " : " + symbol.symbolName + ", " + DateTools.getPrettyDate(startDate) + " to " + DateTools.getPrettyDate(endDate);
+		}catch(Exception e){return super.toString();}
 	}
 }

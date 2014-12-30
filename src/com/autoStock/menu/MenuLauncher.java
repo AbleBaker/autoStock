@@ -25,6 +25,7 @@ import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.premise.PremiseTest;
 import com.autoStock.replay.ReplayController;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
@@ -134,7 +135,8 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_main_test){
 			//new MainTest();
-			new BacktestPredictFuture().fun();
+			//new BacktestPredictFuture().fun();
+			new PremiseTest().run();
 		}
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){
@@ -178,7 +180,7 @@ public class MenuLauncher {
 					break;
 				case "bt_dod":
 					command = String.format("main_backtest 03/05/2012 03/08/2012 NYSE %s backtest_default", typicalSymbol);
-					
+					break;
 					// -- Older backtest styles
 				case "1":
 					command = String.format("main_backtest 03/05/2012 03/05/2012 NYSE %s backtest_default", typicalSymbol);

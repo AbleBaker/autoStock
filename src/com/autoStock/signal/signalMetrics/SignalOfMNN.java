@@ -6,7 +6,6 @@ import org.encog.ml.data.basic.BasicMLData;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
-import com.autoStock.Co;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
@@ -14,20 +13,16 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
-import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.tools.MathTools;
-import com.google.common.util.concurrent.MoreExecutors;
 
 /**
  * @author Kevin Kowalewski
  * 
  */
-public class SignalOfEncog extends SignalBase {
+public class SignalOfMNN extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	public static final double NORM_MAX = 10000;
-	public static final double NORM_MIN = -10000;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_EXTRAS = 0;
 	public static final int INPUT_WINDOW_PS = 20;
@@ -36,7 +31,7 @@ public class SignalOfEncog extends SignalBase {
 	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
 
-	public SignalOfEncog(SignalParameters signalParameters) {
+	public SignalOfMNN(SignalParameters signalParameters) {
 		super(SignalMetricType.metric_encog, signalParameters);
 	}
 
@@ -63,19 +58,13 @@ public class SignalOfEncog extends SignalBase {
 			return signalPoint;
 		}
 
-		NormalizedField normalizedFieldForSignals = new NormalizedField(NormalizationAction.Normalize, "Signal Delta Normalizer", NORM_MAX, NORM_MIN, 1, -1);
+		NormalizedField normalizedFieldForSignals = new NormalizedField(NormalizationAction.Normalize, "Signal Delta Normalizer", 10000, -10000, 1, -1);
 
 		MLData input = new BasicMLData(basicNetwork.getInputCount());
 
 		double[] inputWindow = encogInputWindow.getAsWindow();
 
 		if (inputWindow.length != basicNetwork.getInputCount()) {
-			for (EncogFrame encogFrame : encogInputWindow.getFrames()){
-				Co.println("--> Frame: " + encogFrame.description + ", " + encogFrame.listOfSubframe.size() + ", " + encogFrame.asDoubleList().size());
-			}
-			
-			Co.println("");
-			
 			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
 		}
 
@@ -137,15 +126,11 @@ public class SignalOfEncog extends SignalBase {
 	}
 	
 	public EncogInputWindow getInputWindow() {
-		if (MathTools.getMin(encogInputWindow.getAsWindow()) == 0 && MathTools.getMax(encogInputWindow.getAsWindow()) == 0){
-			throw new IllegalStateException("This probably shouldn't be");
-		}
 		return encogInputWindow;
 	}
 	
 	public static int getInputWindowLength(){
-		//return (INPUT_WINDOW_PS * INPUTS) + INPUT_WINDOW_EXTRAS;
-		return 120;
+		return (INPUT_WINDOW_PS * INPUTS) + INPUT_WINDOW_EXTRAS;
 	}
 
 	@Override

@@ -15,6 +15,11 @@ public class Symbol {
 		this.securityType = securityType;
 	}
 	
+	public Symbol(String symbol) {
+		this.symbolName = symbol;
+		securityType = SecurityType.type_stock;
+	}
+	
 	@Override
 	public String toString() {
 		return symbolName + ", " + securityType.name();

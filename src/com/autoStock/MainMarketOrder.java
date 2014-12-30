@@ -51,7 +51,7 @@ public class MainMarketOrder implements ListenerOfPositionStatusChange {
 			public void completed(RequestHolder requestHolder, ExResultSetMarketSymbolData exResultSetMarketData) {
 				
 			}
-		}, new MarketSymbolData(exchange, new Symbol(symbol, SecurityType.type_stock)) , Resolution.sec_5.seconds);
+		}, new MarketSymbolData(exchange, new Symbol(symbol, SecurityType.type_stock)) , Resolution.sec_5.asSeconds());
 	}
 
 	@Override

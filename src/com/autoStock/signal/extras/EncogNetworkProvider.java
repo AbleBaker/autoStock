@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.PersistNEATNetwork;
 import org.encog.neural.networks.BasicNetwork;
@@ -49,7 +50,17 @@ public class EncogNetworkProvider {
 	
 	public BasicNetwork getBasicNetwork(){
 		try {
-			return (BasicNetwork) new PersistBasicNetwork().read(new FileInputStream(new File(getNetworkPath(NetworkType.basic))));
+			String key = DigestUtils.md5Hex(new FileInputStream(new File(getNetworkPath(NetworkType.basic))));
+			
+			if (EncogNetworkCache.getInstance().contains(key)){
+				return (BasicNetwork) EncogNetworkCache.getInstance().get(key);
+			}else{
+				BasicNetwork network = (BasicNetwork) new PersistBasicNetwork().read(new FileInputStream(new File(getNetworkPath(NetworkType.basic))));
+				EncogNetworkCache.getInstance().put(key, network);
+				return network;
+			}
+			
+			
 		}catch(Exception e){}
 		
 		return null;
@@ -57,7 +68,15 @@ public class EncogNetworkProvider {
 	
 	public NEATNetwork getNeatNetwork(){
 		try {
-			return (NEATNetwork) new PersistNEATNetwork().read(new FileInputStream(new File(getNetworkPath(NetworkType.neat))));
+			String key = DigestUtils.md5Hex(new FileInputStream(new File(getNetworkPath(NetworkType.neat))));
+			
+			if (EncogNetworkCache.getInstance().contains(key)){
+				return (NEATNetwork) EncogNetworkCache.getInstance().get(key);
+			}else{
+				NEATNetwork network = (NEATNetwork) new PersistNEATNetwork().read(new FileInputStream(new File(getNetworkPath(NetworkType.neat))));
+				EncogNetworkCache.getInstance().put(key, network);
+				return network;
+			}
 		}catch (Exception e){}
 		
 		return null;

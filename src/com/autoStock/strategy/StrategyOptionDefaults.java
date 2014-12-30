@@ -21,6 +21,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.prefillEnabled = false;
+		strategyOptions.premiseEnabled = true;
 		strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_any;
 		strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_any;
 		

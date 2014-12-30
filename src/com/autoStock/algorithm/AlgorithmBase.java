@@ -24,6 +24,7 @@ import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionOptions;
+import com.autoStock.premise.PremiseController;
 import com.autoStock.retrospect.Prefill;
 import com.autoStock.retrospect.Prefill.PrefillMethod;
 import com.autoStock.signal.SignalCache;
@@ -75,6 +76,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	protected int receiveIndex;
 	protected Benchmark bench = new Benchmark();
 	public SignalCache signalCache;
+	public PremiseController premiseController = new PremiseController();
 	
 	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount){
 		this.exchange = exchange;

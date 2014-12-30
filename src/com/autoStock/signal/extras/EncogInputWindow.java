@@ -1,8 +1,12 @@
 package com.autoStock.signal.extras;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.autoStock.Co;
+import com.autoStock.signal.extras.EncogFrame.FrameType;
+import com.autoStock.signal.extras.EncogFrameSupport.EncogFrameSource;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
 
@@ -11,33 +15,35 @@ import com.autoStock.tools.ListTools;
  *
  */
 public class EncogInputWindow {
-	private ArrayList<Double> listOfDouble = new ArrayList<Double>();
+	private ArrayList<EncogFrame> listOfFrame = new ArrayList<EncogFrame>();
 	public EncogInputWindow(){}
-	public String debug = "";
-	
-	public void addInputList(List<Double> list){
-		listOfDouble.addAll(list);
-	}
-	
-	public void addInputArray(double[] arrayOfDouble){
-		//if (MathTools.getMax(arrayOfDouble) > 10000){throw new IllegalStateException("Max is more than max signal range: " + MathTools.getMax(arrayOfDouble));}
-		//if (MathTools.getMin(arrayOfDouble) < -10000){throw new IllegalStateException("Min is less than min signal range: " + MathTools.getMin(arrayOfDouble));}
-		listOfDouble.addAll(ListTools.getListFromArray(arrayOfDouble));
-	}
-	
-	public void addInput(double input){
-		listOfDouble.add(input);
-	}
 	
 	public double[] getAsWindow(){
+		ArrayList<Double> listOfDouble = new ArrayList<Double>();
+		
+		FrameType frameType = FrameType.none;
+		
+		for (EncogFrame encogFrame : listOfFrame){
+			if (frameType != FrameType.none && encogFrame.frameType != frameType){
+				//Co.println("--> Warning, frame types differ... They should probably be different networks instead: " + encogFrame.description + " : " + frameType + ", " + encogFrame.frameType);
+			}
+			
+			frameType = encogFrame.frameType;
+			listOfDouble.addAll(encogFrame.asDoubleList());
+		}
+		
 		return ArrayTools.getArrayFromListOfDouble(listOfDouble);
 	}
 
-	public void eraseDebug() {
-		debug = "";
+	public void addFrame(EncogFrame encogFrame) {
+		listOfFrame.add(encogFrame);
 	}
-	
-	public void addDebug(String string){
-		debug += " " + string;
+
+	public void addFrames(ArrayList<EncogFrame> encogFrames) {
+		listOfFrame.addAll(encogFrames);
+	}
+
+	public ArrayList<EncogFrame> getFrames() {
+		return listOfFrame;
 	}
 }

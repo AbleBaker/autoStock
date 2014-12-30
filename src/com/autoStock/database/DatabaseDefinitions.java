@@ -105,8 +105,8 @@ public class DatabaseDefinitions {
 		
 		public final String query;
 		public final QueryArgs[] listOfFormatterArguments;
-		public final boolean isCachable; 
 		public final Class resultClass;
+		public final boolean isCachable; 
 		
 		BasicQueries(String query, QueryArgs[] listOfFormatterArguments, Class resultClass, boolean cachable){
 			this.query = query;

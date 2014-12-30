@@ -46,12 +46,20 @@ public class HistoricalDataDefinitions {
 		tick(0, "1 ticks");
 		;
 		
-		public int seconds;
+		private int seconds;
 		public String barSize;
 		
 		Resolution(int seconds, String barSize){
 			this.seconds = seconds;
 			this.barSize = barSize;
+		}
+		
+		public int asSeconds(){
+			return seconds;
+		}
+		
+		public int asMinutes(){
+			return seconds / 60;
 		}
 	}
 	

@@ -37,6 +37,12 @@ import com.google.gson.internal.Pair;
  * 
  */
 public class BacktestUtils {	
+	public static enum LookDirection {
+		forward,
+		backward,
+	}
+	
+	
 	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, BacktestResultTransactionDetails backtestResultDetails, BacktestType backtestType, BasicAccount basicAccount){
 		
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(basicAccount.getBalance()) + " ********";
@@ -210,6 +216,32 @@ public class BacktestUtils {
 		}
 		
 		return listOfHistoricalDataList;
+	}
+	
+	public static ArrayList<HistoricalData> getHistoricalDataListForDates(HistoricalData historicalData){
+		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
+		ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
+		
+		for (Date date : listOfBacktestDates){
+			HistoricalData data = new HistoricalData(historicalData.exchange, historicalData.symbol, (Date)date.clone(), (Date)date.clone(), historicalData.resolution);
+			data.setStartAndEndDatesToExchange();
+			listOfHistoricalData.add(data);
+		}
+		
+		return listOfHistoricalData;
+	}
+	
+	public static ArrayList<HistoricalData> getHistoricalDataListForDates(HistoricalData historicalData, LookDirection direction, int days){
+		ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
+		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, direction, days);
+
+		for (Date date : listOfBacktestDates){
+			HistoricalData data = new HistoricalData(historicalData.exchange, historicalData.symbol, (Date)date.clone(), (Date)date.clone(), historicalData.resolution);
+			data.setStartAndEndDatesToExchange();
+			listOfHistoricalData.add(data);
+		}
+		
+		return listOfHistoricalData;
 	}
 	
 	public static HistoricalData getBaseHistoricalData(Exchange exchange, Symbol symbol, Date dateStart, Date dateEnd, Resolution resolution){

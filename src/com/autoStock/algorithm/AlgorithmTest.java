@@ -6,11 +6,16 @@ import java.util.Date;
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.premise.PremiseOfOHLC;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
+import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -40,6 +45,26 @@ public class AlgorithmTest extends AlgorithmBase {
 		if (strategyBase.strategyOptions.prefillEnabled){
 			prefill();
 		}
+		
+		if (strategyBase.strategyOptions.premiseEnabled){
+			
+//			Co.println("--> Today: " + DateTools.getPrettyDate(startingDate));
+//			Co.println("--> Earliest weekday: " + DateTools.getPrettyDate(DateTools.getFirstWeekdayBefore(startingDate)));
+			
+			premiseController.reset();
+//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.min_30, 2));
+//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.day, 5));
+			premiseController.determinePremise();
+			//Co.println("--> Premise...");
+			
+			int length = 0;
+			
+			for (EncogFrame ef : premiseController.getEncogFrames()){
+				length += ef.asDoubleList().size();
+			}
+			
+//			Co.println("--> Length: " + length);
+		}
 	}
 
 	@Override
@@ -57,6 +82,7 @@ public class AlgorithmTest extends AlgorithmBase {
 				indicatorGroup.setDataSet();
 				indicatorGroup.analyze();
 				signalGroup.generateSignals(commonAnalysisData, position);
+				signalGroup.processEncog(premiseController.getEncogFrames());
 			}
 			
 			baseInformStrategy(quoteSlice);
