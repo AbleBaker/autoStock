@@ -19,6 +19,7 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.signal.extras.EncogFrameSupport;
@@ -69,6 +70,8 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 		ArrayList<DbStockHistoricalPrice> results = new ArrayList<DbStockHistoricalPrice>();
 		ArrayList<QuoteSlice> listOfOHLC = new ArrayList<QuoteSlice>();
 		
+		long expectedSize = (list.get(0).duration / resolution.asSeconds()) * 4;
+		
 		for (HistoricalData historicalData : list){
 			results.addAll((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate))));			
 		}
@@ -97,6 +100,26 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 			index++;
 		}
 		
+		QuoteSlice lastSlice = null;
+		
+		for (QuoteSlice slice : listOfOHLC){
+			if (lastSlice != null){
+				long age = (slice.dateTime.getTime() - lastSlice.dateTime.getTime()) / 1000;
+				if (age > list.get(0).resolution.asSeconds()){
+					Co.println("--> Failed to get appropriate slice. Age was: " + age);
+					ApplicationStates.shutdown();
+				}else{
+//					Co.println("--> Age was okay at: " + age);
+				}
+			}
+			
+			lastSlice = slice;
+		}
+		
+		if (listOfOHLC.size() != expectedSize / 4){
+			throw new IllegalStateException("Size doesn't match. Expected found: " + expectedSize + ", " + (listOfOHLC.size() * 4));
+		}
+		
 		listOfQuotes = listOfOHLC;
 	}
 	
@@ -106,6 +129,8 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 		
 		for (HistoricalData data : list){
 			ArrayList<DbStockHistoricalPrice> results = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, data.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(data.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(data.endDate)));
+			
+			Co.println("--> Duration: " + data.duration);
 			
 			QuoteSlice quote = new QuoteSlice(symbol);
 			
