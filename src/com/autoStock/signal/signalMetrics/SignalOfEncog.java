@@ -20,6 +20,7 @@ import com.autoStock.signal.extras.EncogNetworkCache;
 import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.tools.MathTools;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -43,7 +44,6 @@ public class SignalOfEncog extends SignalBase {
 	
 	public void setNetworkName(String networkName) {
 		this.networkName = networkName;
-		readNetwork();
 	}
 	
 	public void setNetwork(MLRegression network) {
@@ -54,6 +54,10 @@ public class SignalOfEncog extends SignalBase {
 	@Override
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		SignalPoint signalPoint = new SignalPoint();
+		
+		if (basicNetwork == null){
+			readNetwork();
+		}
 		
 		if (encogInputWindow == null || basicNetwork == null){
 //			Co.println("--> No network! " + (encogInputWindow == null) + ", " + (basicNetwork == null));
@@ -116,6 +120,12 @@ public class SignalOfEncog extends SignalBase {
 	}
 
 	private void readNetwork() {
+//		if (encogNetworkType == EncogNetworkType.basic){
+//			basicNetwork = new EncogNetworkProvider().getBasicNetwork(networkName);
+//		}else if (encogNetworkType == EncogNetworkType.neat){
+//			basicNetwork = new EncogNetworkProvider().getNeatNetwork(networkName);
+//		}
+		
 //		Co.println("--> *** READ FROM DISK OR CACHE");
 		MLRegression cachedNetwork = (MLRegression) EncogNetworkCache.getInstance().get(networkName);
 		
@@ -127,7 +137,7 @@ public class SignalOfEncog extends SignalBase {
 			}
 			EncogNetworkCache.getInstance().put(networkName, basicNetwork);
 		}else{
-			basicNetwork = cachedNetwork;
+			basicNetwork = new Cloner().deepClone(cachedNetwork);
 		}
 	}
 
