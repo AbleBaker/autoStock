@@ -41,7 +41,7 @@ public class StrategyOptions implements Cloneable {
 	public MutableDouble disableAfterLoss = new MutableDouble();
 	public MutableDouble disableAfterYield = new MutableDouble();
 	public boolean prefillEnabled;
-	public boolean premiseEnabled = true; //Remove later
+	public boolean premiseEnabled;
 	
 	public ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	

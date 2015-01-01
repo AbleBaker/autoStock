@@ -32,6 +32,6 @@ public class EncogNetworkCache {
 	}
 
 	public void put(String key, Object network) {
-		networks.put(key, network);		
+		//networks.put(key, network);		
 	}
 }

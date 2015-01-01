@@ -223,7 +223,7 @@ public class Position implements OrderStatusListener {
 			positionUtils.getPositionValueCurrent(false), positionUtils.getPositionValueCurrent(true),
 			positionUtils.getPositionPriceCurrent(false), positionUtils.getPositionPriceCurrent(true),
 			positionUtils.getOrderUnitPriceRequested(), positionUtils.getOrderUnitPriceFilled(), positionUtils.getOrderUnitPriceIntrinsic(),
-			unitPriceLastKnown, getPositionProfitLossAfterComission(false), getCurrentPercentGainLoss(true)
+			unitPriceLastKnown, getPositionProfitLossAfterComission(true), getCurrentPercentGainLoss(true)
 		);
 //		new PositionValueTable().printTable(this, positionValue);
 		

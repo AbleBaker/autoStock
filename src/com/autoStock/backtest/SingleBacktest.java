@@ -13,6 +13,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.DatabaseQuery;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.HistoricalDataList;
@@ -27,6 +28,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 	private HistoricalData historicalData;
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
 	private int currentBacktestDayIndex = 0;
+	private Benchmark bench = new Benchmark();
 	
 	public SingleBacktest(HistoricalData historicalData, AlgorithmMode algorithmMode){
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
