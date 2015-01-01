@@ -47,7 +47,6 @@ public class SignalOfEncog extends SignalBase {
 	}
 	
 	public void setNetwork(MLRegression network) {
-		//Co.println("--> *** SET NETWORK ");
 		this.basicNetwork = network;
 		EncogNetworkCache.getInstance().remove(networkName);
 	}

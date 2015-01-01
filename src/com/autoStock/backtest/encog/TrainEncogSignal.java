@@ -41,9 +41,12 @@ public class TrainEncogSignal {
 //		SignalCache.erase();
 //		encogScoreProvider.setSignalCache(signalCache);
 		
+		EncogNetworkCache.getInstance().clear();
 		encogTrainer.train(TRAINING_ITERATIONS, score);
 		encogTrainer.saveNetwork();
 		EncogNetworkCache.getInstance().clear();
+		
+		Co.println(" . ");
 	}
 	
 	public void setDetails(AlgorithmModel algorithmModel) {
