@@ -16,8 +16,7 @@ import com.google.gson.internal.Pair;
  */
 public class EncogNetworkCache {
 	private HashMap<String, Object> networks = new HashMap<String, Object>();
-	
-	public static EncogNetworkCache instance = new EncogNetworkCache();
+	private static EncogNetworkCache instance = new EncogNetworkCache();
 
 	public static EncogNetworkCache getInstance() {
 		return instance;
@@ -32,6 +31,14 @@ public class EncogNetworkCache {
 	}
 
 	public void put(String key, Object network) {
-		//networks.put(key, network);		
+		networks.put(key, network);
+	}
+
+	public void remove(String networkName) {
+		networks.remove(networkName);
+	}
+	
+	public void clear() {
+		networks.clear();
 	}
 }

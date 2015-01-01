@@ -40,6 +40,6 @@ public class TrainEncogNetworkOfNeat extends TrainEncogBase {
 
 	@Override
 	public boolean saveNetwork() {
-		return encogNetworkProvider.saveNeatNetwork((NEATNetwork) train.getMethod());
+		return encogNetworkProvider.saveNeatNetwork((NEATNetwork) train.getMethod(), networkName);
 	}
 }

@@ -51,6 +51,8 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase {
 			Co.println("--> Training... " + i + ", " + train.getError());			
 			bestScore = Math.max(train.getError(), bestScore);
 		}
+		
+		train.finishTraining();
 	}
 	
 	public BasicNetwork getMLNetwork(){
@@ -71,6 +73,6 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase {
 
 	@Override
 	public boolean saveNetwork() {
-		return encogNetworkProvider.saveNetwork(network);
+		return encogNetworkProvider.saveNetwork(network, networkName);
 	}
 }

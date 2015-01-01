@@ -16,6 +16,7 @@ import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.extras.EncogInputWindow;
+import com.autoStock.signal.extras.EncogNetworkCache;
 import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.tools.MathTools;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -39,25 +40,22 @@ public class SignalOfEncog extends SignalBase {
 	public SignalOfEncog(SignalParameters signalParameters) {
 		super(SignalMetricType.metric_encog, signalParameters);
 	}
-
-	public void setNetwork(MLRegression network) {
-		this.basicNetwork = network;
-	}
 	
 	public void setNetworkName(String networkName) {
 		this.networkName = networkName;
-		
-		if (encogNetworkType == EncogNetworkType.basic){
-			basicNetwork = new EncogNetworkProvider(networkName).getBasicNetwork();
-		}else if (encogNetworkType == EncogNetworkType.neat){
-			basicNetwork = new EncogNetworkProvider(networkName).getNeatNetwork();
-		}
+		readNetwork();
+	}
+	
+	public void setNetwork(MLRegression network) {
+		//Co.println("--> *** SET NETWORK ");
+		this.basicNetwork = network;
+		EncogNetworkCache.getInstance().remove(networkName);
 	}
 
 	@Override
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		SignalPoint signalPoint = new SignalPoint();
-
+		
 		if (encogInputWindow == null || basicNetwork == null){
 //			Co.println("--> No network! " + (encogInputWindow == null) + ", " + (basicNetwork == null));
 			return signalPoint;
@@ -116,6 +114,22 @@ public class SignalOfEncog extends SignalBase {
 		}
 
 		return signalPoint;
+	}
+
+	private void readNetwork() {
+//		Co.println("--> *** READ FROM DISK OR CACHE");
+		MLRegression cachedNetwork = (MLRegression) EncogNetworkCache.getInstance().get(networkName);
+		
+		if (cachedNetwork == null){
+			if (encogNetworkType == EncogNetworkType.basic){
+				basicNetwork = new EncogNetworkProvider().getBasicNetwork(networkName);
+			}else if (encogNetworkType == EncogNetworkType.neat){
+				basicNetwork = new EncogNetworkProvider().getNeatNetwork(networkName);
+			}
+			EncogNetworkCache.getInstance().put(networkName, basicNetwork);
+		}else{
+			basicNetwork = cachedNetwork;
+		}
 	}
 
 	public void setInput(EncogInputWindow encogInputWindow) {

@@ -48,7 +48,7 @@ public class TableTools {
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				//responseString = valueGainString;
 			}else{
-				responseString = valueGainString + " | " + percentGainString;
+				responseString = valueGainString + " -> " + percentGainString;
 			}
 		}
 		

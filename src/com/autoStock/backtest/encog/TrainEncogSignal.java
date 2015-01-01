@@ -2,6 +2,7 @@ package com.autoStock.backtest.encog;
 
 import com.autoStock.Co;
 import com.autoStock.backtest.AlgorithmModel;
+import com.autoStock.signal.extras.EncogNetworkCache;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.trading.types.HistoricalData;
 
@@ -42,6 +43,7 @@ public class TrainEncogSignal {
 		
 		encogTrainer.train(TRAINING_ITERATIONS, score);
 		encogTrainer.saveNetwork();
+		EncogNetworkCache.getInstance().clear();
 	}
 	
 	public void setDetails(AlgorithmModel algorithmModel) {

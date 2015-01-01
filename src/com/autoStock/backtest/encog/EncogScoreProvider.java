@@ -32,7 +32,7 @@ public class EncogScoreProvider implements CalculateScore {
 		this.historicalData = historicalData;
 	}
 	
-	@Override //Needs to stay synchronized despite the performance hit. Looks like a bug with Encog!
+	@Override
 	public double calculateScore(MLRegression network) {
 //		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
 		//Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
@@ -51,14 +51,6 @@ public class EncogScoreProvider implements CalculateScore {
 		runCount++;
 		
 		double score = backtestEvaluation.getScore();
-		
-//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//		new PersistBasicNetwork().save(baos, network);
-//		String hash = MiscTools.getHash(baos.toString());
-//		Co.print(hash);
-//		Co.println(" " + score);
-		
-//		bench.printTick("Scored");
 		
 		return score > 0 ? score : Double.MIN_VALUE;
 	}

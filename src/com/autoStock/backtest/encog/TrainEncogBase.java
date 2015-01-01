@@ -17,12 +17,11 @@ public abstract class TrainEncogBase {
 	public double bestScore;
 	public String networkName;
 	protected CalculateScore calculateScore;
-	protected EncogNetworkProvider encogNetworkProvider;
+	protected EncogNetworkProvider encogNetworkProvider = new EncogNetworkProvider();
 		
 	public TrainEncogBase(CalculateScore calculateScore, String networkName){
 		this.calculateScore = calculateScore;
-		this.networkName = networkName;
-		encogNetworkProvider = new EncogNetworkProvider(networkName);
+		this.networkName = networkName; 
 	}
 	
 	public abstract void train(int count, double score);
@@ -30,9 +29,9 @@ public abstract class TrainEncogBase {
 
 	public boolean networkExists() { 
 		if (this instanceof TrainEncogNetworkOfBasic){
-			return encogNetworkProvider.getNeatNetwork() != null; 
+			return encogNetworkProvider.getNeatNetwork(networkName) != null; 
 		}else if (this instanceof TrainEncogNetworkOfNeat){
-			return encogNetworkProvider.getNeatNetwork() != null; 
+			return encogNetworkProvider.getNeatNetwork(networkName) != null; 
 		}
 		
 		throw new IllegalComponentStateException("Don't understand network type!");
