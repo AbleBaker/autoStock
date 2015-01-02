@@ -164,32 +164,32 @@ public class MenuLauncher {
 			
 			switch (menuCommand){
 				case "wm_sd":
-					command = String.format("main_backtest_wm 03/05/2012 03/05/2012 NYSE %s", typicalSymbol);
+					command = String.format("main_backtest_wm 09/08/2014 09/12/2014 NYSE %s", typicalSymbol);
 					break;
 				case "wm_md":
-					command = String.format("main_backtest_wm 03/05/2012 03/30/2012 NYSE %s", typicalSymbol);
+					command = String.format("main_backtest_wm 09/08/2014 09/30/2014 NYSE %s", typicalSymbol);
 					break;
 				case "wm_dod":
-					command = String.format("main_backtest_wm_dod 03/05/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest_wm_dod 09/08/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_is":
-					command = String.format("main_backtest 03/05/2012 03/05/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 09/08/2014 09/08/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_os":
-					command = String.format("main_backtest 03/09/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 10/01/2014 10/01/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_dod":
-					command = String.format("main_backtest 03/05/2012 03/08/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 09/08/2014 09/12/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 					// -- Older backtest styles
 				case "1":
-					command = String.format("main_backtest 03/05/2012 03/05/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 09/01/2014 09/01/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "2":
-					command = String.format("main_backtest 03/05/2012 03/09/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 09/01/2014 03/09/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "3":
-					command = String.format("main_backtest 03/05/2012 03/19/2012 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 09/01/2014 03/19/2012 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "4":
 					command = String.format("main_backtest 03/20/2012 03/20/2012 NYSE %s backtest_default", typicalSymbol);
