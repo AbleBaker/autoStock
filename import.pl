@@ -2,9 +2,9 @@
 
 $dir = "./import";
 
-$resolutions = {"1", "5", "10", "15", "30", "60"}
+@resolutions = {"1", "5", "10", "15", "30", "60"}
 
-foreach $resolution ($resolutions){
+foreach $resolution (@resolutions){
 	print "Have resolution: $resolution";
 }
 
