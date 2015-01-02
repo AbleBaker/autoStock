@@ -16,9 +16,9 @@ foreach $resolution (@resolutions){
 	}
 }
 
-print "*** READING DAILY BARS ***\n";
+print "*** READING DAILY BARS ***\n"; #^[^"]*$
 opendir($dh, $dir);
-@files = grep { /^*(?!\_).csv$/ } readdir($dh);
+@files = grep { /^*[(?!\_)].csv$/ } readdir($dh);
 close($dh);
 
 foreach $file (@files){
