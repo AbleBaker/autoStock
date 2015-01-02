@@ -2,7 +2,7 @@
 
 $dir = "./import";
 
-@resolutions = ("60"); #("1", "5", "10", "15", "30", "60");
+@resolutions = ("1", "5", "10", "15", "30", "60");
 
 foreach $resolution (@resolutions){
 	print "*** READING $resolution BARS ***\n";
