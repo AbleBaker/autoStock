@@ -2,7 +2,7 @@
 
 $dir = "./import";
 
-@resolutions = (); #("1", "5", "10", "15", "30", "60");
+@resolutions = ("60"); #("1", "5", "10", "15", "30", "60");
 
 foreach $resolution (@resolutions){
 	print "*** READING $resolution BARS ***\n";
@@ -13,6 +13,7 @@ foreach $resolution (@resolutions){
 	
 	foreach $file (@files){
    		print "File: $file\n";
+   		system(qq~ mysql -pSSmxynk,. -u root autoStock -e "load data local infile '$dir/$file' into table stockHistoricalPrices fields terminated by ',' lines terminated by '\\n' ignore 1 lines (symbol, \@test, priceOpen, priceHigh, priceLow, priceClose, sizeVolume) set dateTime = str_to_date(\@test, '\%d-\%b-\%Y \%k:\%i'), resolution = '$resolution', exchange='NYSE';" ~);
 	}
 }
 
@@ -23,8 +24,7 @@ close($dh);
 
 foreach $file (@files){
 	if ($file =~ /^((?!_[1635]).)*$/){
-		print "Importing: $file\n";
-		
-		system(qq~ mysql -pSSmxynk,. -u root autoStock -e "load data local infile '$dir/$file' into table stockHistoricalPrices fields terminated by ',' lines terminated by '\\n' ignore 1 lines (symbol, \@test, priceOpen, priceHigh, priceLow, priceClose, sizeVolume) set dateTime = str_to_date(\@test, '\%d-\%b-\%Y \%k:\%i'), resolution = '1440';" ~);
+		print "Importing: $file\n";		
+		system(qq~ mysql -pSSmxynk,. -u root autoStock -e "load data local infile '$dir/$file' into table stockHistoricalPrices fields terminated by ',' lines terminated by '\\n' ignore 1 lines (symbol, \@test, priceOpen, priceHigh, priceLow, priceClose, sizeVolume) set dateTime = str_to_date(\@test, '\%d-\%b-\%Y \%k:\%i'), resolution = '1440', exchange='NYSE';" ~);
 	}    
 }
