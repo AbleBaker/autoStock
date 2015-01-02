@@ -10,16 +10,16 @@ foreach $resolution (@resolutions){
 	opendir($dh, $dir);
 	@files = grep { /^*_$resolution.csv$/ } readdir($dh);
 	close($dh);
+	
+	foreach $file (@files){
+   		print "File: $file\n";
+	}
 }
 
 #### FINISH OFF WITH DAILY RESOLUTION of 1,440
 #opendir($dh, $dir);
 #@files = grep { /^*_$resolution.csv$/ } readdir($dh);
 #close($dh);
-
-foreach $file (@files){
-   print "File: $file\n";
-}
 
 #foreach $file (@files){
 #  print "Importing: $file\n";
