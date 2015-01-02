@@ -24,7 +24,7 @@ public class BacktestEvaluationReader {
 		ArrayList<DbGson> listOfGsonResults = (ArrayList<DbGson>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_backtest_evaluation, new QueryArg(QueryArgs.symbol, symbol.symbolName), new QueryArg(QueryArgs.exchange, exchange.exchangeName));
 		
 		if (listOfGsonResults.size() > 0){
-			BacktestEvaluation backtestEvaluation = new GsonProvider().getGsonForBacktestEvaluations().fromJson(listOfGsonResults.get(0).gson, BacktestEvaluation.class);				
+			BacktestEvaluation backtestEvaluation = new GsonProvider().getGsonForBacktestEvaluations().fromJson(listOfGsonResults.get(0).gsonString, BacktestEvaluation.class);				
 			return backtestEvaluation;
 		}
 		return null;

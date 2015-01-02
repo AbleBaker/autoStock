@@ -37,13 +37,15 @@ public class HistoricalDataDefinitions {
 		hour(3600, "1 hour"),
 		min_30(1800, "30 mins"),
 		min_15(900, "15 mins"),
+		min_10(600, "10 mins"),
 		min_5(300, "5 mins"),
 		min(60, "1 min"),
 		sec_30(30, "30 secs"),
 		sec_15(15, "15 secs"),
 		sec_5(5, "5 secs"),
 		sec(1, "1 secs"),
-		tick(0, "1 ticks");
+		tick(0, "1 ticks"),
+		unknown(0, "unknown");
 		;
 		
 		private int seconds;
@@ -60,6 +62,16 @@ public class HistoricalDataDefinitions {
 		
 		public int asMinutes(){
 			return seconds / 60;
+		}
+		
+		public static Resolution fromMinutes(int minutes){
+			for (Resolution resolution : Resolution.values()){
+				if (resolution.seconds / 60 == minutes){
+					return resolution;
+				}
+			}
+			
+			return Resolution.unknown;
 		}
 	}
 	

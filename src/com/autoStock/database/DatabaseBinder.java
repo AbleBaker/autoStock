@@ -10,6 +10,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbSymbol;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbWhitelist;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.tools.DateTools;
 
 /**
@@ -17,7 +18,7 @@ import com.autoStock.tools.DateTools;
  *
  */
 public class DatabaseBinder {
-	public DbStockHistoricalPrice getDbStockHistoricalPrice(long id, String symbol, String exchange, double priceOpen, double priceHigh, double priceLow, double priceClose, int sizeVolume, String date){
+	public DbStockHistoricalPrice getDbStockHistoricalPrice(long id, String symbol, String exchange, int resolution, double priceOpen, double priceHigh, double priceLow, double priceClose, int sizeVolume, String date){
 		DbStockHistoricalPrice dbStockHistoricalPrice = new TableDefinitions.DbStockHistoricalPrice();
 		dbStockHistoricalPrice.id = id;
 		dbStockHistoricalPrice.symbol = symbol;
@@ -28,6 +29,7 @@ public class DatabaseBinder {
 		dbStockHistoricalPrice.priceClose = priceClose;
 		dbStockHistoricalPrice.sizeVolume = sizeVolume;
 		dbStockHistoricalPrice.dateTime = DateTools.getDateFromString(date);
+		dbStockHistoricalPrice.resolution = Resolution.fromMinutes(resolution);
 		return dbStockHistoricalPrice;
 	}
 	
@@ -71,7 +73,7 @@ public class DatabaseBinder {
 	public DbGson getDbGson(int id, String gsonString) {
 		DbGson dbGson = new DbGson();
 		dbGson.id = id;
-		dbGson.gson = gsonString;
+		dbGson.gsonString = gsonString;
 		return dbGson;
 	}
 }

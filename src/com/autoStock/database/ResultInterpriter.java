@@ -20,7 +20,7 @@ public class ResultInterpriter { // This class should go away
 	public Object interprit(ResultSet resultSet, Class resultClass){
 		try {
 			if (resultClass == DbStockHistoricalPrice.class){
-				return new DatabaseBinder().getDbStockHistoricalPrice(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getDouble(4), resultSet.getDouble(5), resultSet.getDouble(6), resultSet.getDouble(7), resultSet.getInt(8), resultSet.getString(9));
+				return new DatabaseBinder().getDbStockHistoricalPrice(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4), resultSet.getDouble(5), resultSet.getDouble(6), resultSet.getDouble(7), resultSet.getDouble(8), resultSet.getInt(9), resultSet.getString(10));
 			}else if (resultClass == DbSymbol.class){
 				return new DatabaseBinder().getDbSymbol(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
 			}else if (resultClass == QueryResult.QrSymbolCountFromExchange.class){

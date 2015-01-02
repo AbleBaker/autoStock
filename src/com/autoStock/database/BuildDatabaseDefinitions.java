@@ -30,6 +30,7 @@ public class BuildDatabaseDefinitions {
 			printWriter.println("package com.autoStock.generated.basicDefinitions;\n");
 			printWriter.println("import java.util.Date;");
 			printWriter.println("import com.autoStock.types.basic.Time;");
+			printWriter.println("import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;");
 			printWriter.println("public class TableDefinitions {\n");
 			
 			while (resultSetForTables.next()){
@@ -43,6 +44,8 @@ public class BuildDatabaseDefinitions {
 				while (resultSetForColumns.next()){
 					if (resultSetForColumns.getString(4).equals("timeOffset")){
 						printWriter.println("\t\tpublic " + getStringType("TIME") + " " + resultSetForColumns.getString(4) + ";");
+					}else if (resultSetForColumns.getString(4).equals("resolution")){
+						printWriter.println("\t\tpublic " + "Resolution" + " " + resultSetForColumns.getString(4) + ";");
 					}else{
 						printWriter.println("\t\tpublic " + getStringType(resultSetForColumns.getString(6)) + " " + resultSetForColumns.getString(4) + ";");						
 					}
@@ -68,7 +71,7 @@ public class BuildDatabaseDefinitions {
 		if (sqlType.equals("INT")){return "int";}
 		if (sqlType.equals("BIGINT")){return "long";}
 		if (sqlType.equals("DATETIME") || sqlType.equals("DATE")){return "Date";}
-		if (sqlType.equals("VARCHAR") || sqlType.equals("BLOB")){return "String";}
+		if (sqlType.equals("VARCHAR") || sqlType.equals("BLOB") || sqlType.equals("LONGBLOB")){return "String";}
 		if (sqlType.equals("TIME")){return "Time";}
 		if (sqlType.equals("BIT")){return "boolean";}
 		else {throw new UnsatisfiedLinkError("No type matched " + sqlType);}

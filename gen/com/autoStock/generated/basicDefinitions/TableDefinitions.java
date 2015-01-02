@@ -1,8 +1,8 @@
 package com.autoStock.generated.basicDefinitions;
 
 import java.util.Date;
-
 import com.autoStock.types.basic.Time;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 public class TableDefinitions {
 
 	public static class DbBacktestResult {
@@ -50,7 +50,7 @@ public class TableDefinitions {
 
 	public static class DbGson {
 		public int id;
-		public String gson;
+		public String gsonString;
 	}
 
 	public static DbGson dbGson = new TableDefinitions.DbGson();
@@ -84,6 +84,7 @@ public class TableDefinitions {
 		public long id;
 		public String symbol;
 		public String exchange;
+		public Resolution resolution;
 		public double priceOpen;
 		public double priceHigh;
 		public double priceLow;
