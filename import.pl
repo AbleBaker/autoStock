@@ -9,7 +9,7 @@ opendir($dh, $dir);
 @files = grep { /^*_$resolution.csv$/ } readdir($dh);
 close($dh);
 
-foeach $file (@files){
+foreach $file (@files){
    print "File: $file\n";
 }
 
