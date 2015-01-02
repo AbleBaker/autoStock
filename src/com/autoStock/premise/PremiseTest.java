@@ -25,9 +25,9 @@ public class PremiseTest {
 		Co.println("--> Premise test A");
 	
 		//		premiseController.addPremise(new PremiseOfOHLC(new Exchange("NYSE"), new Symbol("MS"), DateTools.getDateFromString("03/09/2012"), Resolution.day, 5));
-		premiseController.addPremise(new PremiseOfOHLC(new Exchange("NYSE"), new Symbol("MS"), DateTools.getDateFromString("03/09/2012"), Resolution.min_15, 1));
+		//premiseController.addPremise(new PremiseOfOHLC(new Exchange("NYSE"), new Symbol("MS"), DateTools.getDateFromString("03/09/2012"), Resolution.min_15, 1));
 		
-		premiseController.determinePremise();
+		//premiseController.determinePremise();
 		
 //		for (EncogFrame encogFrame : premiseController.getEncogFrames()){
 //			Co.println("--> Have encog frame: " + encogFrame.description + " of " + encogFrame.asDoubleList().size());
@@ -42,7 +42,7 @@ public class PremiseTest {
 //		premiseBase.run();
 //		Co.println("B: " + ((EncogFrameSource)premiseBase).asEncogFrame().asDoubleList().size());
 		
-		PremiseBase premiseBase = new PremiseOfOHLC(new Exchange("NYSE"), new Symbol("MS"), DateTools.getDateFromString("02/29/2012"), Resolution.min_15, 3);
+		PremiseBase premiseBase = new PremiseOfOHLC(new Exchange("NYSE"), new Symbol("MS"), DateTools.getFirstWeekdayBefore(DateTools.getDateFromString("10/1/2014")), Resolution.min_15, 3);
 		premiseBase.run();
 		Co.println("C: " + ((EncogFrameSource)premiseBase).asEncogFrame().asDoubleList().size());
 	}

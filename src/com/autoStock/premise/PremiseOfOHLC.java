@@ -43,9 +43,10 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 	public Symbol symbol;
 	public Date dateStart;
 	public int days;
+	public int duration;
+	public int expectedQuotes;
 	public Resolution resolution;
-	public ArrayList<QuoteSlice> listOfQuotes;
-	public static final int ITEM_LENGTH = 4;
+	public ArrayList<QuoteSlice> listOfQuotes = new ArrayList<QuoteSlice>();
 	
 	public PremiseOfOHLC(Exchange exchange, Symbol symbol, Date dateStart, Resolution resolution, int days) {
 		this.exchange = exchange;
@@ -53,6 +54,13 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 		this.dateStart = dateStart;
 		this.resolution = resolution;
 		this.days = days;
+		
+		duration =  (int) (new HistoricalData(exchange, symbol, (Date)dateStart.clone(), (Date)dateStart.clone(), resolution).setStartAndEndDatesToExchange().duration / 60) * days;
+		expectedQuotes = duration / resolution.asMinutes();
+		
+//		Co.println("--> Days: " + days + " at resolution " + resolution.asMinutes());
+//		Co.println("--> Duration: " + duration);
+//		Co.println("--> Expected quotes: " + expectedQuotes);
 	}
 
 	@Override
@@ -61,18 +69,24 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 	}
 	
 	private void populate(){
-		ArrayList<HistoricalData> list = BacktestUtils.getHistoricalDataListForDates(new HistoricalData(exchange, symbol, dateStart, null, resolution), LookDirection.backward, days);
-		ArrayList<DbStockHistoricalPrice> results = new ArrayList<DbStockHistoricalPrice>();
-		ArrayList<QuoteSlice> listOfOHLC = new ArrayList<QuoteSlice>();
+		ArrayList<HistoricalData> list = BacktestUtils.getHistoricalDataListForDates(new HistoricalData(exchange, symbol, dateStart, null, resolution), LookDirection.backward, days + 5);
 		
-		for (HistoricalData historicalData : list){
-			results.addAll((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate))));			
+		external_loop : for (HistoricalData historicalData : list){
+			//Co.println("--> Have day: " + historicalData.startDate.toString());
+			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
+			//Co.println(" " + listOfResults.size());
+			
+			for (DbStockHistoricalPrice price : listOfResults){
+				QuoteSlice quoteSlice = new QuoteSlice(symbol, price.priceOpen, price.priceHigh, price.priceLow, price.priceClose, 0, 0, price.sizeVolume, price.dateTime, resolution);
+				listOfQuotes.add(quoteSlice);
+				
+				if (listOfQuotes.size() == expectedQuotes){
+					break external_loop;
+				}
+			}
 		}
 		
-		for (DbStockHistoricalPrice price : results){
-			QuoteSlice quoteSlice = new QuoteSlice(symbol, price.priceOpen, price.priceHigh, price.priceLow, price.priceClose, 0, 0, price.sizeVolume, price.dateTime, resolution);
-			listOfOHLC.add(quoteSlice);
-		}
+		Co.println("--> Have expected, results: " + expectedQuotes + ", " + listOfQuotes.size());
 	}
 
 	@Override
