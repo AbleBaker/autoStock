@@ -54,7 +54,7 @@ public class DatabaseDefinitions {
 	
 	
 	public static enum BasicQueries {
-		basic_historical_price_range("select * from stockHistoricalPrices where exchange = '%s' and symbol = '%s' and resolution= = '%s' and dateTime between '%s' and '%s' order by dateTime asc",
+		basic_historical_price_range("select * from stockHistoricalPrices where symbol = '%s' and exchange = '%s' and resolution = '%s' and dateTime between '%s' and '%s' order by dateTime asc",
 			new QueryArgs[]{QueryArgs.symbol, QueryArgs.exchange, QueryArgs.resolution, QueryArgs.startDate, QueryArgs.endDate},
 			DbStockHistoricalPrice.class,
 			true
