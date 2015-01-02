@@ -5,7 +5,7 @@ $dir = "./import";
 @resolutions = ("1", "5", "10", "15", "30", "60");
 
 foreach $resolution (@resolutions){
-	print "Have resolution: $resolution";
+	print "Have resolution: $resolution\n";
 }
 
 print "*** READING 1 MINUTE BARS ***\n";
