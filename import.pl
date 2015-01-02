@@ -5,15 +5,17 @@ $dir = "./import";
 @resolutions = ("1", "5", "10", "15", "30", "60");
 
 foreach $resolution (@resolutions){
-	print "Have resolution: $resolution\n";
+	print "*** READING $resolution BARS ***\n";
+	
+	opendir($dh, $dir);
+	@files = grep { /^*_$resolution.csv$/ } readdir($dh);
+	close($dh);
 }
 
-print "*** READING 1 MINUTE BARS ***\n";
-
-$resolution = 1;
-opendir($dh, $dir);
-@files = grep { /^*_$resolution.csv$/ } readdir($dh);
-close($dh);
+#### FINISH OFF WITH DAILY RESOLUTION of 1,440
+#opendir($dh, $dir);
+#@files = grep { /^*_$resolution.csv$/ } readdir($dh);
+#close($dh);
 
 foreach $file (@files){
    print "File: $file\n";
