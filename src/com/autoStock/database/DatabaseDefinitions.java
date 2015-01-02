@@ -1,5 +1,6 @@
 package com.autoStock.database;
 
+import com.autoStock.database.DatabaseDefinitions.QueryArgs;
 import com.autoStock.database.queryResults.QueryResult;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbGson;
@@ -21,6 +22,11 @@ public class DatabaseDefinitions {
 			this.queryArgs = queryArgs;
 			this.value = value;
 		}
+
+		public QueryArg(QueryArgs queryArgs, int value) {
+			this.queryArgs = queryArgs;
+			this.value = String.valueOf(value);
+		}
 	}
 	
 	public enum QueryArgs{
@@ -30,6 +36,7 @@ public class DatabaseDefinitions {
 		dayDate,
 		symbol,
 		exchange,
+		resolution,
 		limit,
 		reason, 
 		balanceInBand, 
@@ -42,13 +49,13 @@ public class DatabaseDefinitions {
 		tradeWins, 
 		tradeLoss,
 		gsonId, 
-		gsonString
+		gsonString,
 	}
 	
 	
 	public static enum BasicQueries {
-		basic_historical_price_range("select * from stockHistoricalPrices where symbol = '%s' and dateTime between '%s' and '%s' order by dateTime asc", //GROUP BY ((60/10) * HOUR( dateTime ) + FLOOR( MINUTE( dateTime ) / 10 )) order by dateTime asc
-			new QueryArgs[]{QueryArgs.symbol, QueryArgs.startDate, QueryArgs.endDate},
+		basic_historical_price_range("select * from stockHistoricalPrices where exchange = '%s' and symbol = '%s' and resolution= = '%s' and dateTime between '%s' and '%s' order by dateTime asc",
+			new QueryArgs[]{QueryArgs.symbol, QueryArgs.exchange, QueryArgs.resolution, QueryArgs.startDate, QueryArgs.endDate},
 			DbStockHistoricalPrice.class,
 			true
 		),

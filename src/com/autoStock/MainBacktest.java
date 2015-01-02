@@ -152,7 +152,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 		for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 			if (backtestContainer.isIncomplete()) {
 				HistoricalData historicalData = BacktestUtils.getHistoricalDataForSymbol(historicalDataList, backtestContainer.symbol.symbolName);
-				ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
+				ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 
 				if (listOfResults.size() > 0) {
 					backtestContainer.setBacktestData(listOfResults, historicalData);
