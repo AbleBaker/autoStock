@@ -9,25 +9,41 @@ import com.autoStock.Co;
  *
  */
 public class Benchmark {
-	private long startMark = new Date().getTime();
-	private long lastMark = new Date().getTime();
+	private long startMark = getCurrentTime();
+	private long lastMark = getCurrentTime();
 	public boolean hasTicked = false;
+	public boolean useNs = false;
 	
+
+	public Benchmark(){}
+	
+	public Benchmark(boolean useNs){
+		this.useNs = useNs;
+	}
+
 	public void tick(){
 		if (hasTicked == false){hasTicked = true;}
-		long currentTimeMills = new Date().getTime();
+		long currentTimeMills = getCurrentTime();
 		//Co.log("Tick: " + (currentTimeMills - lastMark) + "ms");
 		lastMark = currentTimeMills;
 	}
 	
 	public void printTick(String action){
-		long currentTimeMills = new Date().getTime();
+		long currentTimeMills = getCurrentTime();
 		Co.log("Tick: [" + action + "] " + MiscTools.getCommifiedValue((currentTimeMills - lastMark), 0) + "ms");
 		lastMark = currentTimeMills;
 	}
 	
 	public void printTotal(){
-		long currentTimeMills = new Date().getTime();
+		long currentTimeMills = getCurrentTime();
 		Co.log("Benchmark: " + MiscTools.getCommifiedValue((currentTimeMills - startMark), 0));
+	}
+	
+	public long getCurrentTime(){
+		if (useNs){
+			return System.nanoTime();
+		}else{
+			return System.currentTimeMillis();
+		}
 	}
 }

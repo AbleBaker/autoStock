@@ -24,6 +24,8 @@ public class EncogInputWindow {
 		FrameType frameType = FrameType.none;
 		
 		for (EncogFrame encogFrame : listOfFrame){
+			//Co.println("--> Have frame: " + encogFrame.description + " : " + encogFrame.frameType.name());
+			
 			if (frameType != FrameType.none && encogFrame.frameType != frameType){
 				//Co.println("--> Warning, frame types differ... They should probably be different networks instead: " + encogFrame.description + " : " + frameType + ", " + encogFrame.frameType);
 			}

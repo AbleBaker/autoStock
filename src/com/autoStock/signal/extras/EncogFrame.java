@@ -6,6 +6,7 @@ package com.autoStock.signal.extras;
 import java.util.ArrayList;
 
 import com.autoStock.signal.extras.EncogFrame.FrameType;
+import com.autoStock.tools.ArrayTools;
 
 /**
  * @author Kevin
@@ -41,5 +42,23 @@ public class EncogFrame {
 		}
 		
 		return listOfDouble;
+	}
+	
+	public double[] asDoubleArray() {
+		return ArrayTools.getDoubleArray(asDoubleList());
+	}
+	
+	public int getLength(){
+		int length = 0;
+		
+		for (EncogSubframe subFrame : listOfSubframe){
+			length += subFrame.asDoubleArray().length;
+		}
+		
+		return length;
+	}
+	
+	public int getSubframeCount(){
+		return listOfSubframe.size();
 	}
 }

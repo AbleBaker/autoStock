@@ -26,6 +26,7 @@ import com.autoStock.signal.extras.EncogFrameSupport;
 import com.autoStock.signal.extras.EncogFrameSupport.EncogFrameSource;
 import com.autoStock.signal.extras.EncogSubframe;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.MathTools;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -56,11 +57,16 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 		this.days = days;
 		
 		duration =  (int) (new HistoricalData(exchange, symbol, (Date)dateStart.clone(), (Date)dateStart.clone(), resolution).setStartAndEndDatesToExchange().duration / 60) * days;
-		expectedQuotes = duration / resolution.asMinutes();
 		
-//		Co.println("--> Days: " + days + " at resolution " + resolution.asMinutes());
-//		Co.println("--> Duration: " + duration);
-//		Co.println("--> Expected quotes: " + expectedQuotes);
+		if (resolution != Resolution.day){
+			expectedQuotes = duration / resolution.asMinutes();
+		}else if (resolution == Resolution.day){
+			expectedQuotes = days; 
+		}
+		
+		//Co.println("--> Days: " + days + " at resolution " + resolution.asMinutes());
+		//Co.println("--> Duration: " + duration);
+		//Co.println("--> Expected quotes: " + expectedQuotes);
 	}
 
 	@Override
@@ -73,6 +79,12 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 		
 		external_loop : for (HistoricalData historicalData : list){
 			//Co.println("--> Have day: " + historicalData.startDate.toString());
+			
+			if (resolution == Resolution.day){
+				historicalData.startDate = DateTools.getSameDateMinTime(historicalData.startDate);
+				historicalData.endDate = DateTools.getSameDateMaxTime(historicalData.endDate);
+			}
+			
 			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 			//Co.println(" " + listOfResults.size());
 			
@@ -86,22 +98,44 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 			}
 		}
 		
-		Co.println("--> Have expected, results: " + expectedQuotes + ", " + listOfQuotes.size());
+		//Co.println("--> Have expected, results: " + expectedQuotes + ", " + listOfQuotes.size());
 	}
 
 	@Override
-	public EncogFrame asEncogFrame() {
-		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.symbolName + ", " + DateTools.getPrettyDate(dateStart) + ", " + resolution.name(), FrameType.raw);
+	public EncogFrame asEncogFrame() { //Trying as deltas
+		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.symbolName + ", " + DateTools.getPrettyDate(dateStart) + ", " + resolution.name(), FrameType.percent_change);
 		ArrayList<Double> values = new ArrayList<Double>();
+		ArrayList<Double> valueOpen = new ArrayList<Double>();
+		ArrayList<Double> valueHigh = new ArrayList<Double>();
+		ArrayList<Double> valueLow = new ArrayList<Double>();
+		ArrayList<Double> valueClose = new ArrayList<Double>();
+
 		
 		for (QuoteSlice quote : listOfQuotes){
-			values.add(quote.priceOpen);
-			values.add(quote.priceHigh);
-			values.add(quote.priceLow);
-			values.add(quote.priceClose);
+//			values.add(quote.priceOpen);
+//			values.add(quote.priceHigh);
+//			values.add(quote.priceLow);
+//			values.add(quote.priceClose);
+			
+			valueOpen.add(quote.priceOpen);
+			valueHigh.add(quote.priceHigh);
+			valueLow.add(quote.priceLow);
+			valueClose.add(quote.priceClose);
 		}
 		
-		encogFrame.addSubframe(new EncogSubframe(values, FrameType.raw));
+		valueOpen = MathTools.getDeltasAsPercent(valueOpen);
+		valueHigh = MathTools.getDeltasAsPercent(valueHigh);
+		valueLow = MathTools.getDeltasAsPercent(valueLow);
+		valueClose = MathTools.getDeltasAsPercent(valueClose);
+		
+		for (int i=1; i<listOfQuotes.size(); i++){ //Purposely remove first as its always zero
+			values.add(valueOpen.get(i));
+			values.add(valueHigh.get(i));
+			values.add(valueLow.get(i));
+			values.add(valueClose.get(i));
+		}
+		
+		encogFrame.addSubframe(new EncogSubframe(values, FrameType.percent_change));
 		return encogFrame;
 	}
 }

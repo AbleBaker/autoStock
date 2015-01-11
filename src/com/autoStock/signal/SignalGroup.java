@@ -34,6 +34,7 @@ import com.autoStock.signal.signalMetrics.SignalOfCandlestickGroup;
 import com.autoStock.signal.signalMetrics.SignalOfCrossover;
 import com.autoStock.signal.signalMetrics.SignalOfDI;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
+import com.autoStock.signal.signalMetrics.SignalOfEncogNew;
 import com.autoStock.signal.signalMetrics.SignalOfHT;
 import com.autoStock.signal.signalMetrics.SignalOfMACD;
 import com.autoStock.signal.signalMetrics.SignalOfMFI;
@@ -70,6 +71,7 @@ public class SignalGroup {
 	
 	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover());
 	
+	//public SignalOfEncogNew signalOfEncog = new SignalOfEncogNew(new SignalParametersForEncog());
 	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
 	

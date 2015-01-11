@@ -19,13 +19,12 @@ import com.autoStock.trading.types.HistoricalData;
  * @author Kevin Kowalewski
  *
  */
-public class EncogScoreProvider implements CalculateScore {
+public class EncogScoreProviderNew implements CalculateScore {
 	private HistoricalData historicalData;	
 	public static long runCount;
 	private AlgorithmModel algorithmModel;
 	public static ArrayList<EncogTest> listOfEncogTest = new ArrayList<EncogTest>();
-	private SignalCache signalCache;
-	private Benchmark bench = new Benchmark();
+	int whichNetwork = 0;
 	
 	public void setDetails(AlgorithmModel algorithmModel, HistoricalData historicalData){
 		this.algorithmModel = algorithmModel;
@@ -37,14 +36,10 @@ public class EncogScoreProvider implements CalculateScore {
 //		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
 		//Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
 		
-		bench.tick();
-		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-//		singleBacktest.backtestContainer.algorithm.algorithmMode.populateTable = false;
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
-		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network, 0);
-//		singleBacktest.backtestContainer.setSignalCache(signalCache);
+		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network, whichNetwork);
 		singleBacktest.runBacktest();
 		
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false);
@@ -74,10 +69,14 @@ public class EncogScoreProvider implements CalculateScore {
 	}
 
 	public void setSignalCache(SignalCache signalCache) {
-		this.signalCache = signalCache;
+		//
 	}
 
 	public AlgorithmModel getAlgorithmModel() {
 		return algorithmModel;
+	}
+
+	public void setWhichNetwork(int which) {
+		this.whichNetwork = which;
 	}
 }

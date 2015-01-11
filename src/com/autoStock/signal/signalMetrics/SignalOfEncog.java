@@ -31,9 +31,7 @@ public class SignalOfEncog extends SignalBase {
 	public static final double NORM_MAX = 10000;
 	public static final double NORM_MIN = -10000;
 	private static final double NEURON_THRESHOLD = 0.95;
-	public static final int INPUT_WINDOW_EXTRAS = 0;
 	public static final int INPUT_WINDOW_PS = 20;
-	public static final int INPUTS = 6;
 	private String networkName;
 	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
@@ -46,7 +44,7 @@ public class SignalOfEncog extends SignalBase {
 		this.networkName = networkName;
 	}
 	
-	public void setNetwork(MLRegression network) {
+	public void setNetwork(MLRegression network, int which) {
 		this.basicNetwork = network;
 		EncogNetworkCache.getInstance().remove(networkName);
 	}
@@ -69,6 +67,10 @@ public class SignalOfEncog extends SignalBase {
 		MLData input = new BasicMLData(basicNetwork.getInputCount());
 
 		double[] inputWindow = encogInputWindow.getAsWindow();
+		
+//		for (EncogFrame encogFrame : encogInputWindow.getFrames()){
+//			Co.println("--> Frame: " + encogFrame.description + ", " + encogFrame.listOfSubframe.size() + ", " + encogFrame.asDoubleList().size());
+//		}
 
 		if (inputWindow.length != basicNetwork.getInputCount()) {
 			for (EncogFrame encogFrame : encogInputWindow.getFrames()){
@@ -120,14 +122,7 @@ public class SignalOfEncog extends SignalBase {
 	}
 
 	private void readNetwork() {
-//		if (encogNetworkType == EncogNetworkType.basic){
-//			basicNetwork = new EncogNetworkProvider().getBasicNetwork(networkName);
-//		}else if (encogNetworkType == EncogNetworkType.neat){
-//			basicNetwork = new EncogNetworkProvider().getNeatNetwork(networkName);
-//		}
-		
-//		Co.println("--> *** READ FROM DISK OR CACHE");
-		MLRegression cachedNetwork = (MLRegression) EncogNetworkCache.getInstance().get(networkName);
+		MLRegression cachedNetwork = (MLRegression) EncogNetworkCache.getInstance().get(networkName, true);
 		
 		if (cachedNetwork == null){
 			if (encogNetworkType == EncogNetworkType.basic){
@@ -137,14 +132,12 @@ public class SignalOfEncog extends SignalBase {
 			}
 			EncogNetworkCache.getInstance().put(networkName, basicNetwork);
 		}else{
-			basicNetwork = new Cloner().deepClone(cachedNetwork);
+			basicNetwork = cachedNetwork;
 		}
 	}
 
 	public void setInput(EncogInputWindow encogInputWindow) {
-		if (encogInputWindow == null){
-			throw new IllegalArgumentException("Can't set a null EncogInputWindow");
-		}
+		if (encogInputWindow == null){throw new IllegalArgumentException("Can't set a null EncogInputWindow");}
 		this.encogInputWindow = encogInputWindow;
 	}
 	

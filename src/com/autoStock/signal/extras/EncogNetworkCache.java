@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.encog.neural.networks.BasicNetwork;
 
 import com.google.gson.internal.Pair;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin
@@ -26,8 +27,12 @@ public class EncogNetworkCache {
 		return networks.containsKey(key);
 	}
 	
-	public Object get(String key){
-		return networks.get(key);
+	public Object get(String key, boolean asClone){
+		if (networks.containsKey(key) && asClone){
+			return new Cloner().deepClone(networks.get(key));
+		}else{
+			return networks.get(key);
+		}
 	}
 
 	public void put(String key, Object network) {

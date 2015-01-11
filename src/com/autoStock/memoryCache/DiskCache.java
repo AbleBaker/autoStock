@@ -49,7 +49,10 @@ public class DiskCache {
 			Writer output = new BufferedWriter(new FileWriter(file));
 			output.write(gson.toJson(listOfResults));
 			output.close();
-			file.renameTo(new File(CACHE_ROOT + queryHash + ".sql"));
+			
+			if (file.renameTo(new File(CACHE_ROOT + queryHash + ".sql")) == false){
+				file.delete();
+			}
 		}catch(Exception e){e.printStackTrace();}
 	}
 }

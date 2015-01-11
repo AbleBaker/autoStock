@@ -10,6 +10,7 @@ import com.autoStock.backtest.BacktestRevolverListener;
 import com.autoStock.dataFeed.listener.DataFeedListenerOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.internal.ApplicationStates;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -25,6 +26,7 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 	private ArrayList<DbStockHistoricalPrice> listOfPrices;
 	private Resolution resolution;
 	private Thread threadForDelivery;
+	private Benchmark bench = new Benchmark();
 	
 	public DataFeedHistoricalPrices(HistoricalData typeHistoricalData, ArrayList<DbStockHistoricalPrice> listOfHistoricalPrices){
 		this.typeHistoricalData = typeHistoricalData;
@@ -36,6 +38,7 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 		threadForDelivery = new Thread(new Runnable(){
 			@Override
 			public void run() {
+				bench.tick();
 				for (DbStockHistoricalPrice price : listOfPrices){
 					feed(price);
 				}

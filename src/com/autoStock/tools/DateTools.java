@@ -185,6 +185,28 @@ public class DateTools {
 		
 		return date;
 	}
+	
+	public static Date getSameDateMaxTime(Date date){
+		GregorianCalendar calendarAtCurrent = new GregorianCalendar();
+		calendarAtCurrent.setTime(date);
+		calendarAtCurrent.set(Calendar.HOUR_OF_DAY, 23);
+		calendarAtCurrent.set(Calendar.MINUTE, 59);
+		calendarAtCurrent.set(Calendar.SECOND, 59);
+		calendarAtCurrent.set(Calendar.MILLISECOND, 999);
+		
+		return calendarAtCurrent.getTime();
+	}
+	
+	public static Date getSameDateMinTime(Date date){
+		GregorianCalendar calendarAtCurrent = new GregorianCalendar();
+		calendarAtCurrent.setTime(date);
+		calendarAtCurrent.set(Calendar.HOUR_OF_DAY, 0);
+		calendarAtCurrent.set(Calendar.MINUTE, 0);
+		calendarAtCurrent.set(Calendar.SECOND, 0);
+		calendarAtCurrent.set(Calendar.MILLISECOND, 0);
+		
+		return calendarAtCurrent.getTime();
+	}
 
 	public static Time getTimeUntil(Date date) {
 		Time time = new Time();

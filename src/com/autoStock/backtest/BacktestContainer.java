@@ -34,6 +34,7 @@ import com.google.gson.internal.Pair;
  */
 public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private final boolean USE_PRECOMPUTED_ALGORITHM_MODEL = true;
+	private final boolean USE_SO_OVERRIDE = false;
 	public final Symbol symbol;
 	public final Exchange exchange;
 	public HistoricalData historicalData;
@@ -73,7 +74,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			AlgorithmModel algorithmModel = BacktestEvaluationReader.getPrecomputedModel(exchange, symbol);
 			if (algorithmModel != null){
 				Co.println("--> Evaluation available");
-				
 				new AlgorithmRemodeler(algorithm, algorithmModel).remodel(true, true, true, false);
 			}
 		}

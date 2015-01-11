@@ -52,10 +52,10 @@ public class AlgorithmTest extends AlgorithmBase {
 //			Co.println("--> Earliest weekday: " + DateTools.getPrettyDate(DateTools.getFirstWeekdayBefore(startingDate)));
 			
 			premiseController.reset();
-//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.min_30, 2));
-//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.day, 5));
-			premiseController.determinePremise();
-			//Co.println("--> Premise...");
+			//premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.min_30, 3));
+			//premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.day, 5));
+			//premiseController.determinePremise();
+//			Co.println("--> Premise...");
 			
 			int length = 0;
 			
@@ -86,7 +86,6 @@ public class AlgorithmTest extends AlgorithmBase {
 			}
 			
 			baseInformStrategy(quoteSlice);
-			
 			finishedReceiveQuoteSlice();
 		}
 	}

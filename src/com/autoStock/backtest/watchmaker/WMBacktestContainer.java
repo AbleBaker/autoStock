@@ -30,6 +30,7 @@ import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.encog.TrainEncogSignal;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
+import com.autoStock.backtest.encog.TrainEncogSignalNew;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.internal.ApplicationStates;
@@ -63,6 +64,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	private GenerationalEvolutionEngine<AlgorithmModel> evolutionEngine;
 	private IslandEvolution<AlgorithmModel> islandEvolutionEngine;
 	
+	//private TrainEncogSignalNew trainEncogSignal;
 	private TrainEncogSignal trainEncogSignal;
 
 	public WMBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
@@ -82,7 +84,8 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
 		
-		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData);
+		//trainEncogSignal = new TrainEncogSignalNew(AlgorithmModel.getEmptyModel(), historicalData);
+		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, true);
 	}
 	
 	public void runBacktest(){
@@ -90,7 +93,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		Co.print("--> Blanking the network... ");
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
-			trainEncogSignal.getTrainer().saveNetwork(); //blank the network
+			trainEncogSignal.getTrainer().saveNetwork();
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
 			trainEncogSignal.setDetails(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol));
 			for (int i=0; i<TrainEncogSignal.TRAINING_ITERATIONS; i++){
@@ -113,7 +116,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			islandEvolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = islandEvolutionEngine.evolve(512, 16, 8, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
+				algorithmModel = islandEvolutionEngine.evolve(128, 16, 3, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
 				algorithmModel = islandEvolutionEngine.evolve(512, 16, 64, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(8));
 			}
@@ -190,7 +193,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			try {
 				trainEncogSignal.execute(data.getBestCandidate(), bestResult);
 			}catch(IllegalStateException e){
-				Co.println(trainEncogSignal.getScoreProvider().getAlgorithmModel().getUniqueIdentifier());
+				//Co.println(trainEncogSignal.getScoreProvider().getAlgorithmModel().getUniqueIdentifier());
 				e.printStackTrace();
 				ApplicationStates.shutdown();
 			}

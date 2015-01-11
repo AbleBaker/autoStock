@@ -27,6 +27,7 @@ public class MenuDefinitions {
 		menu_quick_command(new MenuArguments[]{MenuArguments.arg_command}),
 		menu_main_backtest_wm(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_end_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol_array}),
 		menu_main_backtest_wm_dod(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol_array}),
+		menu_main_backtest_encog(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_end_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol_array}),
 
 		;
 		

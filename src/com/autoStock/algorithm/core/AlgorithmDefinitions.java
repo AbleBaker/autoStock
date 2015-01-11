@@ -15,7 +15,7 @@ public class AlgorithmDefinitions {
 		mode_backtest_silent(false, false, false, true);
 		;
 		
-		public final boolean populateTable;
+		public boolean populateTable;
 		public final boolean displayChart;
 		public final boolean displayTable;
 		public final boolean displayMessages;

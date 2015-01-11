@@ -161,7 +161,7 @@ public class BacktestEvaluationBuilder {
 		singleBacktest.setBacktestData(listOfResults);
 		
 		if (neuralNetwork != null){
-			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(neuralNetwork);
+			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(neuralNetwork, 0);
 		}
 		
 		singleBacktest.runBacktest();

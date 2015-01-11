@@ -3,6 +3,7 @@ package com.autoStock.backtest.encog;
 import com.autoStock.Co;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.signal.extras.EncogNetworkCache;
+import com.autoStock.signal.extras.EncogNetworkGenerator;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.trading.types.HistoricalData;
 
@@ -12,6 +13,7 @@ import com.autoStock.trading.types.HistoricalData;
  */
 public class TrainEncogSignal {
 	public static final int TRAINING_ITERATIONS = 30;
+	private boolean saveNetwork;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
 	private TrainEncogBase encogTrainer;
@@ -21,12 +23,13 @@ public class TrainEncogSignal {
 		basic,
 	}
 	
-	public TrainEncogSignal(AlgorithmModel algorithmModel, HistoricalData historicalData){
+	public TrainEncogSignal(AlgorithmModel algorithmModel, HistoricalData historicalData, boolean saveNetwork){
 		this.historicalData = historicalData;
+		this.saveNetwork = saveNetwork;
 		encogScoreProvider.setDetails(algorithmModel, historicalData);		
 		
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
-			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName, TRAINING_ITERATIONS);
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 4), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName, TRAINING_ITERATIONS);
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
 			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
 		}
@@ -42,7 +45,7 @@ public class TrainEncogSignal {
 //		encogScoreProvider.setSignalCache(signalCache);
 		
 		encogTrainer.train(TRAINING_ITERATIONS, score);
-		encogTrainer.saveNetwork();
+		if (saveNetwork){encogTrainer.saveNetwork();}
 		EncogNetworkCache.getInstance().clear();
 		
 		Co.println(" . ");
