@@ -47,7 +47,7 @@ import com.autoStock.types.Symbol;
  */
 public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
 	private static final int ISLAND_COUNT = Runtime.getRuntime().availableProcessors() -1;
-	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
+	private WMEvolutionType evolutionType = WMEvolutionType.type_generational;
 	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
@@ -124,15 +124,15 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
 				evolutionaryPipeline, 
 				new WMBacktestEvaluator(historicalData), 
-				new StochasticUniversalSampling(),
+				new RouletteWheelSelection(),
 				randomNumberGenerator);
 			
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(128, 16, new TargetFitness(999999, true), new GenerationCount(3));
+				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}else{
-				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(999999, true), new GenerationCount(16));
+				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}
 		}else{
 			throw new IllegalArgumentException();
@@ -189,7 +189,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 //		Co.println("--> EScore: " + escore);
 //		Co.println(data.getBestCandidate().getUniqueIdentifier());
 		
-		if (data.getGenerationNumber() != 2){
+		if (data.getBestCandidateFitness() > 0 && data.getGenerationNumber() != 0 && data.getGenerationNumber() % 2 == 0){
 			try {
 				trainEncogSignal.execute(data.getBestCandidate(), bestResult);
 			}catch(IllegalStateException e){

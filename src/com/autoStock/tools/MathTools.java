@@ -6,6 +6,8 @@ package com.autoStock.tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.autoStock.Co;
+
 
 /**
  * @author Kevin Kowalewski
@@ -18,6 +20,23 @@ public class MathTools {
 	
 	public static double roundAccurate(double value){
 		return Math.round(value*100000.0)/100000.0;
+	}
+	
+	public synchronized static int roundOut(int valueToRound, int multiple) {
+		int value = valueToRound;
+		
+		if (value < 0){value *= -1;}
+		
+		int result = multiple;
+		
+		if (value % multiple != 0) {
+			int division = (value / multiple) + 1;
+			result = division * multiple;
+		}
+		
+		result = valueToRound > 0 ? result : result * -1;
+		
+		return result;
 	}
 	
 	public static int[] averageArray(int[] arrayOfInt){

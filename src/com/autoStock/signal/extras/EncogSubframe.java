@@ -10,6 +10,7 @@ import java.util.List;
 import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
+import com.autoStock.Co;
 import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.ArrayTools;
@@ -29,8 +30,12 @@ public class EncogSubframe {
 		this.values = values;
 		this.frameType = frameType;
 		
-		normalizer.setActualHigh(MathTools.getMax(values));
-		normalizer.setActualLow(MathTools.getMin(values));
+//		Co.println("--> Actual High / Low: " + MathTools.getMax(values) + ", " + MathTools.getMin(values));
+////		Co.println("--> Round High / Low: " + MathTools.round((int) MathTools.getMax(values), 100) + ", " + MathTools.round((int) MathTools.getMin(values), 100));
+		normalizer.setActualHigh(MathTools.roundOut((int) MathTools.getMax(values), 100));
+		normalizer.setActualLow(MathTools.roundOut((int) MathTools.getMin(values), 100));
+//		
+//		Co.println("--> Norm ahigh / alow: " + normalizer.getActualHigh() + ", " + normalizer.getActualLow());
 	}
 	
 	public EncogSubframe(ArrayList<Double> values, FrameType frameType) {

@@ -26,7 +26,7 @@ public class BacktestScoreProvider {
 		
 //		penalty += backtestEvaluation.transactionDetails.countForTradesLoss;
 		
-		score /= penalty;
+//		score /= penalty;
 		
 		return score > 0 ? score : 0;
 	}

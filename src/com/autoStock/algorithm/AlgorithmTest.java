@@ -51,10 +51,10 @@ public class AlgorithmTest extends AlgorithmBase {
 //			Co.println("--> Today: " + DateTools.getPrettyDate(startingDate));
 //			Co.println("--> Earliest weekday: " + DateTools.getPrettyDate(DateTools.getFirstWeekdayBefore(startingDate)));
 //			
-			premiseController.reset();
-			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.hour, 2));
+//			premiseController.reset();
+//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.hour, 2));
 //			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.day, 5));
-			premiseController.determinePremise();
+//			premiseController.determinePremise();
 ////			Co.println("--> Premise...");
 //			
 			int length = 0;

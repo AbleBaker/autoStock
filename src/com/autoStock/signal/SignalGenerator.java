@@ -33,10 +33,10 @@ public class SignalGenerator {
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
-			EncogFrame encogFrame = new EncogFrame("Typical indicators", FrameType.delta_change);
+			EncogFrame encogFrame = new EncogFrame("Typical indicators", FrameType.percent_change);
 			
 			for (SignalBase signalBase : arrayOfSignalBase){
-				EncogSubframe subframe = getSubFrame(signalBase, FrameType.delta_change);
+				EncogSubframe subframe = getSubFrame(signalBase, FrameType.percent_change);
 				for (Double value : subframe.asDoubleList()){
 					if (Double.isNaN(value) || Double.isInfinite(value)){
 						//throw new IllegalStateException("Subframe value was NaN or Infinite: " + signalBase.getClass().getName() + ", " + value);
