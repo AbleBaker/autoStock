@@ -14,6 +14,8 @@ import java.util.TimeZone;
 
 import com.autoStock.Co;
 import com.autoStock.backtest.BacktestUtils.LookDirection;
+import com.autoStock.tools.DateConditions.BaseDateCondition;
+import com.autoStock.tools.DateConditions.QuoteAvailableDateCondition;
 import com.autoStock.types.basic.Time;
 
 /**
@@ -121,14 +123,16 @@ public class DateTools {
 		return listOfDate;
 	}
 	
-	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, LookDirection direction, int days){
+	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, LookDirection direction, int days, QuoteAvailableDateCondition dateCondition){
 		ArrayList<Date> listOfDate = new ArrayList<Date>();
 		GregorianCalendar calendarAtCurrent = new GregorianCalendar();
 		
 		calendarAtCurrent.setTime(startDate);
 		
 		while (listOfDate.size() < days){
-			if (isWeekday(calendarAtCurrent)){
+			if (dateCondition != null){dateCondition.setDate(calendarAtCurrent.getTime());}
+			
+			if (isWeekday(calendarAtCurrent) && (dateCondition == null || dateCondition.isValid())){
 				listOfDate.add(new Date(calendarAtCurrent.getTimeInMillis()));
 			}
 			

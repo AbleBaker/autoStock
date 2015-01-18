@@ -43,7 +43,7 @@ public class DiskCache {
 		return null;
 	}
 
-	public void addValue(String queryHash, ArrayList<Object> listOfResults) {
+	public synchronized void addValue(String queryHash, ArrayList<Object> listOfResults) {
 		try {
 			File file = new File(CACHE_ROOT + queryHash + ".tmp");
 			Writer output = new BufferedWriter(new FileWriter(file));

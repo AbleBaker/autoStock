@@ -22,6 +22,7 @@ import com.autoStock.signal.Signal;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.tools.DateConditions.QuoteAvailableDateCondition;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.tools.MiscTools;
@@ -233,7 +234,7 @@ public class BacktestUtils {
 	
 	public static ArrayList<HistoricalData> getHistoricalDataListForDates(HistoricalData historicalData, LookDirection direction, int days){
 		ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
-		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, direction, days);
+		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, direction, days, new QuoteAvailableDateCondition(historicalData));
 
 		for (Date date : listOfBacktestDates){
 			HistoricalData data = new HistoricalData(historicalData.exchange, historicalData.symbol, (Date)date.clone(), (Date)date.clone(), historicalData.resolution);

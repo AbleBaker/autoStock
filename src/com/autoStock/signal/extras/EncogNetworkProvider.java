@@ -32,7 +32,7 @@ public class EncogNetworkProvider {
 		try {
 			new PersistBasicNetwork().save(new FileOutputStream(new File(getNetworkPath(NetworkType.basic, networkName))), basicNetwork);
 			return true;
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){}
 		
 		return false;
 	}
@@ -41,7 +41,7 @@ public class EncogNetworkProvider {
 		try {
 			new PersistNEATNetwork().save(new FileOutputStream(new File(getNetworkPath(NetworkType.neat, networkName))), neatNetwork);
 			return true;
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){}
 		
 		return false;
 	}
@@ -49,7 +49,7 @@ public class EncogNetworkProvider {
 	public BasicNetwork getBasicNetwork(String networkName){
 		try {
 			return (BasicNetwork) new PersistBasicNetwork().read(new FileInputStream(new File(getNetworkPath(NetworkType.basic, networkName))));
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){} // Co.println("--> Network was null while reading");
 		
 		return null;
 	}
@@ -57,7 +57,7 @@ public class EncogNetworkProvider {
 	public NEATNetwork getNeatNetwork(String networkName){		
 		try {
 			return (NEATNetwork) new PersistNEATNetwork().read(new FileInputStream(new File(getNetworkPath(NetworkType.neat, networkName))));
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){} // Co.println("--> Network was null while reading");
 		
 		return null;
 	}

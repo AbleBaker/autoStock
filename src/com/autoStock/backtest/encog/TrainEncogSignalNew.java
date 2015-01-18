@@ -30,7 +30,7 @@ public class TrainEncogSignalNew {
 		
 		//Might want new networks...
 		SignalOfEncogNew signalOfEncog = new SignalOfEncogNew(new SignalParametersForEncog());
-		signalOfEncog.setup();
+		signalOfEncog.createNetworks();
 		
 		int index = 0;
 		

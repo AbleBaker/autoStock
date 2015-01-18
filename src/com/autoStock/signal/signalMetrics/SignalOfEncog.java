@@ -28,8 +28,6 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	public static final double NORM_MAX = 10000;
-	public static final double NORM_MIN = -10000;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_PS = 20;
 	private String networkName;
@@ -61,12 +59,9 @@ public class SignalOfEncog extends SignalBase {
 //			Co.println("--> No network! " + (encogInputWindow == null) + ", " + (basicNetwork == null));
 			return signalPoint;
 		}
-
-		NormalizedField normalizedFieldForSignals = new NormalizedField(NormalizationAction.Normalize, "Signal Delta Normalizer", NORM_MAX, NORM_MIN, 1, -1);
-
-		MLData input = new BasicMLData(basicNetwork.getInputCount());
-
-		double[] inputWindow = encogInputWindow.getAsWindow();
+		
+		double[] inputWindow = encogInputWindow.getAsWindow(true);
+		MLData input = new BasicMLData(inputWindow);
 		
 //		for (EncogFrame encogFrame : encogInputWindow.getFrames()){
 //			Co.println("--> Frame: " + encogFrame.description + ", " + encogFrame.listOfSubframe.size() + ", " + encogFrame.asDoubleList().size());
@@ -82,11 +77,11 @@ public class SignalOfEncog extends SignalBase {
 			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
 		}
 
-		for (int i = 0; i < inputWindow.length; i++) {
-			//Co.print(" " + inputWindow[i]);
-			input.add(i, normalizedFieldForSignals.normalize(inputWindow[i]));
-		}
-
+//		for (int i = 0; i < inputWindow.length; i++) {
+//			//Co.print(" " + inputWindow[i]);
+//			input.add(i, inputWindow[i]);
+//		}
+	
 		MLData output = basicNetwork.compute(input);
 
 		double valueForLongEntry = output.getData(0);
@@ -141,27 +136,26 @@ public class SignalOfEncog extends SignalBase {
 		this.encogInputWindow = encogInputWindow;
 	}
 	
-	public double[] getInputWindowRounded(){
-		if (encogInputWindow == null){return null;}
-		double[] array = new double[encogInputWindow.getAsWindow().length];
-		
-		for (int i=0; i<array.length; i++){
-			array[i] = MathTools.round(encogInputWindow.getAsWindow()[i]);
-		}
-		
-		return array;
-	}
+//	public double[] getInputWindowRounded(){
+//		if (encogInputWindow == null){return null;}
+//		double[] array = new double[encogInputWindow.getAsWindow().length];
+//		
+//		for (int i=0; i<array.length; i++){
+//			array[i] = MathTools.round(encogInputWindow.getAsWindow()[i]);
+//		}
+//		
+//		return array;
+//	}
 	
-	public EncogInputWindow getInputWindow() {
-		if (MathTools.getMin(encogInputWindow.getAsWindow()) == 0 && MathTools.getMax(encogInputWindow.getAsWindow()) == 0){
-			throw new IllegalStateException("This probably shouldn't be");
-		}
-		return encogInputWindow;
-	}
+//	public EncogInputWindow getInputWindow() {
+//		if (MathTools.getMin(encogInputWindow.getAsWindow()) == 0 && MathTools.getMax(encogInputWindow.getAsWindow()) == 0){
+//			throw new IllegalStateException("This probably shouldn't be");
+//		}
+//		return encogInputWindow;
+//	}
 	
 	public static int getInputWindowLength(){
-		//return (INPUT_WINDOW_PS * INPUTS) + INPUT_WINDOW_EXTRAS;
-		return 120;
+		return 168;
 	}
 
 	@Override

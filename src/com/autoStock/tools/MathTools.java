@@ -305,8 +305,9 @@ public class MathTools {
 		for (int i=0; i<arrayOfDouble.length; i++){
 			if (i == 0){
 				results[i] = 0;
+			}else{
+				results[i] = arrayOfDouble[i] - arrayOfDouble[i-1];
 			}
-			results[i] = arrayOfDouble[i] - arrayOfDouble[i-1];
 		}
 		
 		return results;
@@ -324,7 +325,12 @@ public class MathTools {
 				results[i] = 0;
 			}else{
 //				Co.println("--> X["+i+"]: " + arrayOfDouble[i] + ", " + arrayOfDouble[i-1]);
+				
 				results[i] = ((arrayOfDouble[i] / arrayOfDouble[i-1]) -1) * 100;
+				
+//				if (Double.isInfinite(results[i]) || Double.isNaN(results[i])){
+//					throw new IllegalArgumentException("Delta's are not right: " + i + ", " + arrayOfDouble[i] + " / " + arrayOfDouble[i-1]);
+//				}
 			}
 		}
 		

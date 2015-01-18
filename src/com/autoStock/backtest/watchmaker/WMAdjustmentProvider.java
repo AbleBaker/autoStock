@@ -11,14 +11,9 @@ import com.autoStock.adjust.IterableOfDouble;
 import com.autoStock.adjust.IterableOfInteger;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.IndicatorOfADX;
-import com.autoStock.indicator.IndicatorOfAR;
 import com.autoStock.indicator.IndicatorOfCCI;
 import com.autoStock.indicator.IndicatorOfDI;
-import com.autoStock.indicator.IndicatorOfEMA;
-import com.autoStock.indicator.IndicatorOfMACD;
 import com.autoStock.indicator.IndicatorOfROC;
-import com.autoStock.indicator.IndicatorOfSAR;
-import com.autoStock.indicator.IndicatorOfTRIX;
 import com.autoStock.indicator.IndicatorOfUO;
 import com.autoStock.indicator.IndicatorOfWILLR;
 
@@ -36,14 +31,20 @@ public class WMAdjustmentProvider {
 		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfWILLR.class), listOfAdjustmentBase, 20, 60);
 		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfADX.class), listOfAdjustmentBase, 20, 60);
 		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfROC.class), listOfAdjustmentBase, 20, 60);
+		
 			
+		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfWILLR);
+		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfDI);
+		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
+		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfROC);
+		
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Entry", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForEntry));
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Exit", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForExit));
 		
 		//Long, Short & Reentry
-//		listOfAdjustmentBase.add(new AdjustmentOfBasicBoolean("SO canGoLong", algorithmBase.strategyBase.strategyOptions.canGoLong, new IterableOfBoolean()));
-//		listOfAdjustmentBase.add(new AdjustmentOfBasicBoolean("SO canGoShort", algorithmBase.strategyBase.strategyOptions.canGoShort, new IterableOfBoolean()));
-//		listOfAdjustmentBase.add(new AdjustmentOfBasicBoolean("SO canReenter", algorithmBase.strategyBase.strategyOptions.canReenter, new IterableOfBoolean()));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicBoolean("SO canGoLong", algorithmBase.strategyBase.strategyOptions.canGoLong, new IterableOfBoolean()));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicBoolean("SO canGoShort", algorithmBase.strategyBase.strategyOptions.canGoShort, new IterableOfBoolean()));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicBoolean("SO canReenter", algorithmBase.strategyBase.strategyOptions.canReenter, new IterableOfBoolean()));
 		
 		//Stop Loss & Profit Drawdown
 		listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO maxStopLossPercent", algorithmBase.strategyBase.strategyOptions.maxStopLossPercent, new IterableOfDouble(-0.25, 0, 0.01)));
@@ -59,7 +60,7 @@ public class WMAdjustmentProvider {
      	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SO intervalForEntryWithSameSignalPointType", algorithmBase.strategyBase.strategyOptions.intervalForEntryWithSameSignalPointType, new IterableOfInteger(1, 20, 1)));
      	
      	//Misc
-//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SO maxTransactionsPerDay", algorithmBase.strategyBase.strategyOptions.maxTransactionsDay, new IterableOfInteger(3, 32, 1)));
+     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SO maxTransactionsPerDay", algorithmBase.strategyBase.strategyOptions.maxTransactionsDay, new IterableOfInteger(3, 32, 1)));
      	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO disableAfterYield", algorithmBase.strategyBase.strategyOptions.disableAfterYield, new IterableOfDouble(0, 3.00, 0.10)));
      	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO disableAfterLoss", algorithmBase.strategyBase.strategyOptions.disableAfterLoss, new IterableOfDouble(-3.00, 0, 0.10)));
      	

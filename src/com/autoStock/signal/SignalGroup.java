@@ -71,7 +71,7 @@ public class SignalGroup {
 	
 	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover());
 	
-	//public SignalOfEncogNew signalOfEncog = new SignalOfEncogNew(new SignalParametersForEncog());
+//	public SignalOfEncogNew signalOfEncog = new SignalOfEncogNew(new SignalParametersForEncog());
 	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
 	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
 	

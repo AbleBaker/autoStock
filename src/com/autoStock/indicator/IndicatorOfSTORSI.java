@@ -22,10 +22,10 @@ public class IndicatorOfSTORSI extends IndicatorBase<ResultsSTORSI> {
 	
 	@Override
 	public ResultsSTORSI analyze(){
-		results = new ResultsSTORSI(50);
+		results = new ResultsSTORSI(indicatorParameters.resultSetLength + 5);
 		results.arrayOfDates = arrayOfDates;
 		
-		RetCode returnCode = taLibCore.stochRsi(0, endIndex, arrayOfPriceClose, 15, 12, 3, MAType.Trima, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
+		RetCode returnCode = taLibCore.stochRsi(0, endIndex, arrayOfPriceClose, 5, 15, 10, MAType.Wma, new MInteger(), new MInteger(), results.arrayOfPercentK, results.arrayOfPercentD);
 		handleAnalysisResult(returnCode);
 		
 		return results;

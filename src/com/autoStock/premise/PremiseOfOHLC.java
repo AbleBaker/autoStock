@@ -112,11 +112,6 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 
 		
 		for (QuoteSlice quote : listOfQuotes){
-//			values.add(quote.priceOpen);
-//			values.add(quote.priceHigh);
-//			values.add(quote.priceLow);
-//			values.add(quote.priceClose);
-			
 			valueOpen.add(quote.priceOpen);
 			valueHigh.add(quote.priceHigh);
 			valueLow.add(quote.priceLow);

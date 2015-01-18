@@ -38,7 +38,7 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase {
 	
 	@Override
 	public void train(int count, double score){
-		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 128);
+		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 64);
 		//train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, calculateScore, 10, 2, 128), 0.01, (int)expectedIterations/2, (int)expectedIterations/2));
 		//NeuralGeneticAlgorithm neuralGeneticAlgorithm = new NeuralGeneticAlgorithm(network, new NguyenWidrowRandomizer(), calculateScore, 128, 0.10f, 0.40f);
 		//neuralGeneticAlgorithm.setThreadCount(Runtime.getRuntime().availableProcessors() * 2);

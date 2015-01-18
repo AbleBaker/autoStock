@@ -69,9 +69,9 @@ public class ChartForAlgorithmTest {
 	public ArrayList<Double> listOfCCI = new ArrayList<Double>();
 	public ArrayList<Double> listOfRSI = new ArrayList<Double>();
 	
-	public ArrayList<Double> listOfDebugAlpha = new ArrayList<Double>();
-	public ArrayList<Double> listOfDebugBeta = new ArrayList<Double>();
-	public ArrayList<Double> listOfDebugGamma = new ArrayList<Double>();
+	public ArrayList<Double> listOfDebug1 = new ArrayList<Double>();
+	public ArrayList<Double> listOfDebug2 = new ArrayList<Double>();
+	public ArrayList<Double> listOfDebug3 = new ArrayList<Double>();
 	
 	public StrategyOptions strategyOptions;
 	
@@ -136,7 +136,7 @@ public class ChartForAlgorithmTest {
 		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_ar_down)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal AR", SignalMetricType.metric_ar_down, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalARDown))));}
 		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_sar)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal SAR", SignalMetricType.metric_sar, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalSAR))));}
 		
-		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal Debug", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebugAlpha))));
+		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal Debug", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug1))));
 				
 		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_crossover)){
 			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Indicator EMA First", SignalMetricType.metric_crossover, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorEMAFirst))));
@@ -180,15 +180,18 @@ public class ChartForAlgorithmTest {
 			timeSeriesCollectionForShortExitAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Exit", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfShortExitAtPrice))));
 		}
 		
-		if (listOfDebugAlpha.size() != 0){
-			timeSeriesCollectionForDebug.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Debug", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebugAlpha))));
+		if (listOfDebug1.size() != 0){
+			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Debug 1", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug1))));
 		}
 		
+		if (listOfDebug2.size() != 0){
+			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Debug 2", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug2))));
+		}
 		
-//		for (int i=0; i<listOfSignalCCI.size(); i++){
-//			Co.print("," + listOfSignalCCI.get(i));
-//		}
-		
+		if (listOfDebug3.size() != 0){
+			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Debug 3", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug3))));
+		}
+	
 		new CombinedLineChart().new LineChartDisplay(title, 
 			dataSetForDefaultHighLowDataset,
 			algorithmBase,

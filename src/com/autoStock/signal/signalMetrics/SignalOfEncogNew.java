@@ -27,6 +27,7 @@ import com.autoStock.signal.extras.EncogNetworkGenerator;
 import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.tools.ArrayTools;
+import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.ListTools;
 
 /**
@@ -34,35 +35,42 @@ import com.autoStock.tools.ListTools;
  * 
  */
 public class SignalOfEncogNew extends SignalBase {
-	public static final double NORM_MAX = 10000;
-	public static final double NORM_MIN = -10000;
 	private static final double NEURON_THRESHOLD = 0.95;
 	private EncogInputWindow encogInputWindow;
 	private EncogNetworkProvider encogNetworkProvider = new EncogNetworkProvider();
 	private ArrayList<EncogNetwork> listOfNetworks = new ArrayList<EncogNetwork>();
 	private NormalizedField normalizerSmall = new NormalizedField(NormalizationAction.Normalize, "Small Normalizer", 100, -100, 1, -1);
-	private NormalizedField normalizerLarge = new NormalizedField(NormalizationAction.Normalize, "Large Normalizer", NORM_MAX, NORM_MIN, 1, -1);
+	private NormalizedField normalizerLarge = new NormalizedField(NormalizationAction.Normalize, "Large Normalizer", 10000, -10000, 1, -1);
 	private String networkName;
+	private Benchmark bench = new Benchmark();
 	
 	public static class EncogNetwork {
-		public String description;
+		public String name;
+		public int inputs;
+		public int outputs;
 		public MLMethod method;
 		public ArrayList<EncogFrame> listOfFrame = new ArrayList<EncogFrame>();
 		
-		public EncogNetwork(MLMethod method, String description, EncogFrame encogFrame) {
+		public EncogNetwork(MLMethod method, String name, EncogFrame encogFrame) {
 			this.method = method;
-			this.description = description;
+			this.name = name;
 			listOfFrame.add(encogFrame);
 		}
 		
-		public EncogNetwork(MLMethod method, String description) {
-			this.description = description;
-			this.method = method;
+		public EncogNetwork(int inputs, int outputs, String name) {
+			this.name = name;
+			this.inputs = inputs;
+			this.outputs = outputs;
+		}
+		
+		public EncogNetwork generate(){
+			this.method = EncogNetworkGenerator.getBasicNetwork(inputs, outputs);
+			return this;
 		}
 		
 		@Override
 		public String toString() {
-			return description + " : " + ((BasicNetwork)method).getInputCount() + ", " + ((BasicNetwork)method).getOutputCount();
+			return name + " : " + ((BasicNetwork)method).getInputCount() + ", " + ((BasicNetwork)method).getOutputCount();
 		}
 	}
 	
@@ -73,19 +81,17 @@ public class SignalOfEncogNew extends SignalBase {
 	public void setInput(EncogInputWindow encogInputWindow) {
 		if (encogInputWindow == null){throw new IllegalArgumentException("Can't set a null EncogInputWindow");}
 		this.encogInputWindow = encogInputWindow;
-		
-		if (listOfNetworks.size() == 0){
-			setup();
-		}
 	}
 	
 	public void setNetworkName(String networkName){
 		this.networkName = networkName;
+		//Co.println("--> Set name");
+		createNetworks();
 		readFromDisk();
 	}
 	
 	public void setNetwork(MLRegression network, int which){
-		Co.println("--> Set network at/with: " + which + ", " + ((BasicNetwork)network).getInputCount());
+		//Co.println("--> Set network at / with: " + which + ", " + ((BasicNetwork)network).getInputCount());
 		listOfNetworks.get(which).method = network;
 	}
 	
@@ -93,40 +99,31 @@ public class SignalOfEncogNew extends SignalBase {
 		throw new IllegalAccessError("Don't call this");
 	}
 	
-	public void setup(){
+	public void createNetworks(){
 //		for (EncogFrame encogFrame : encogInputWindow.getFrames()){
 //			new EncogNetwork(EncogNetworkGenerator.getBasicNetwork(encogFrame.getLength(), outputs), null);
 //		}
-		
-		listOfNetworks.add(new EncogNetwork(EncogNetworkGenerator.getBasicNetwork(6, 4), "Network 0"));
-		listOfNetworks.add(new EncogNetwork(EncogNetworkGenerator.getBasicNetwork(152, 1), "Network 1"));
-		listOfNetworks.add(new EncogNetwork(EncogNetworkGenerator.getBasicNetwork(16, 1), "Network 2"));
-		listOfNetworks.add(new EncogNetwork(EncogNetworkGenerator.getBasicNetwork(120, 4), "Network 3"));
+
+//		listOfNetworks.add(new EncogNetwork(1, 4, networkName + "-0").generate());
+		listOfNetworks.add(new EncogNetwork(80, 4, networkName + "-0").generate());
 	}
 	
-	public void readFromDisk(){
-//		EncogNetwork network0Cached = EncogNetworkCache.getInstance().get(networkName + "-0", true);
-//		EncogNetwork network0 = new EncogNetwork(encogNetworkProvider.getBasicNetwork(networkName + "-0"), "Network 0");
-//		if (network0 != null){listOfNetworks.add(network0); EncogNetworkCache.getInstance().put(networkName + "-0", network0);}
-//		
-//		try {listOfNetworks.add(new EncogNetwork(encogNetworkProvider.getBasicNetwork(networkName + "-1"), "Network 1"));}catch(Exception e){Co.println("--> Network not found when reading from disk");}
-//		try {listOfNetworks.add(new EncogNetwork(encogNetworkProvider.getBasicNetwork(networkName + "-2"), "Network 2"));}catch(Exception e){Co.println("--> Network not found when reading from disk");}
-//		try {listOfNetworks.add(new EncogNetwork(encogNetworkProvider.getBasicNetwork(networkName + "-3"), "Network 3"));}catch(Exception e){Co.println("--> Network not found when reading from disk");}
-		
-		readAndStoreNetwork(networkName + "-0");
-		readAndStoreNetwork(networkName + "-1");
-		readAndStoreNetwork(networkName + "-2");
-		readAndStoreNetwork(networkName + "-3");
+	private void readFromDisk(){
+		for (EncogNetwork encogNetwork : listOfNetworks){
+			readNetwork(encogNetwork);
+		}
 	}
 	
-	public void readAndStoreNetwork(String networkName){
-		BasicNetwork basicNetworkCached = (BasicNetwork) EncogNetworkCache.getInstance().get(networkName, true);
+	private void readNetwork(EncogNetwork encogNetwork){
+		BasicNetwork basicNetworkCached = (BasicNetwork) EncogNetworkCache.getInstance().get(encogNetwork.name, true);
+		
 		if (basicNetworkCached != null){
-			listOfNetworks.add(new EncogNetwork(basicNetworkCached, networkName));
+			//Co.println("--> Used cached: " + encogNetwork.name);
+			encogNetwork.method = basicNetworkCached;
 		}else{
-			EncogNetwork encogNetwork = new EncogNetwork(encogNetworkProvider.getBasicNetwork(networkName), networkName);
-			EncogNetworkCache.getInstance().put(networkName, encogNetwork.method);
-			listOfNetworks.add(encogNetwork);
+			BasicNetwork basicNetworkFromDisk = encogNetworkProvider.getBasicNetwork(encogNetwork.name);
+			EncogNetworkCache.getInstance().put(encogNetwork.name, basicNetworkFromDisk);
+			encogNetwork.method = basicNetworkFromDisk;
 		}
 	}
 	
@@ -137,33 +134,42 @@ public class SignalOfEncogNew extends SignalBase {
 	
 	@Override
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
-		SignalPoint signalPoint = new SignalPoint();
 		
-		if (encogInputWindow == null){
-			return signalPoint;
+		if (encogInputWindow == null || listOfNetworks.size() == 0){
+			return new SignalPoint();
 		}
 		
 		BasicNetwork mainNetwork = (BasicNetwork) listOfNetworks.get(0).method;
 		ArrayList<Double> inputFromNetworks = new ArrayList<Double>();
 		
-		int index = 1;
+		int index = 0;
 		
 		for (EncogFrame encogFrame : encogInputWindow.getFrames()){
 			EncogNetwork network = listOfNetworks.get(index);
 			BasicMLData input = new BasicMLData(encogFrame.getLength());
 
-			//Co.println("--> Input: " + network.description + ", " + encogFrame.description + ", " + encogFrame.frameType.name());
+//			Co.println("--> Input: " + network.name + ", " + encogFrame.description + ", " + encogFrame.frameType.name() + ", " + encogFrame.getLength());
+//			
+//			for (Double value : encogFrame.asDoubleList()){
+//				Co.print(" " + value);
+//			}
 			
 			if (encogFrame.frameType == FrameType.raw){
 				for (int i=0; i<encogFrame.getLength(); i++){
-					input.add(i, normalizerSmall.normalize(encogFrame.asDoubleArray()[i]));
+					input.add(i, normalizerLarge.normalize(encogFrame.asDoubleArray()[i]));
+					dataCheck(input.getData(i));
 				}
-			}else if (encogFrame.frameType == FrameType.percent_change){
+			}else if (encogFrame.frameType == FrameType.percent_change || encogFrame.frameType == FrameType.delta_change){
 				for (int i=0; i<encogFrame.getLength(); i++){
 					input.add(i, normalizerSmall.normalize(encogFrame.asDoubleArray()[i]));
+					dataCheck(input.getData(i));
 				}
 			}else{
 				throw new IllegalArgumentException("Can't handle frame type: " + encogFrame.description + ", " + encogFrame.frameType.name());
+			}
+			
+			if (true){
+				return getSignalPointFromData(mainNetwork, input, havePosition, positionType);
 			}
 			
 //			for (Double value : input.getData()){
@@ -185,8 +191,9 @@ public class SignalOfEncogNew extends SignalBase {
 			index++;
 		}
 		
-		MLData mainInput = new BasicMLData(ArrayTools.getArrayFromListOfDouble(inputFromNetworks));
-		MLData output = mainNetwork.compute(mainInput);
+		return null;
+		
+//		MLData mainInput = new BasicMLData(ArrayTools.getArrayFromListOfDouble(inputFromNetworks));
 		
 //		Co.println("--> Input to main is: ");
 //		for (Double value : mainInput.getData()){
@@ -195,14 +202,21 @@ public class SignalOfEncogNew extends SignalBase {
 //		Co.println("\n");
 		
 		//Co.println("--> Output from main is: ");
-		for (Double value : output.getData()){
-			//Co.print(" " + value);
-			if (value > NEURON_THRESHOLD){
-//				throw new IllegalAccessError();
-//				Co.println("--> Cool");
-			}
-		}
+//		for (Double value : output.getData()){
+//			//Co.print(" " + value);
+//			if (value > NEURON_THRESHOLD){
+////				throw new IllegalAccessError();
+////				Co.println("--> Cool");
+//			}
+//		}
 //		Co.println("\n");
+
+
+	}
+	
+	private SignalPoint getSignalPointFromData(MLMethod method, MLData input, boolean havePosition, PositionType positionType){
+		SignalPoint signalPoint = new SignalPoint();
+		MLData output = ((BasicNetwork)method).compute(input);
 
 		double valueForLongEntry = output.getData(0);
 		double valueForShortEntry = output.getData(1);
@@ -231,7 +245,15 @@ public class SignalOfEncogNew extends SignalBase {
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 		}
 		
+//		bench.printTick("signalPoint");
+		
 		return signalPoint;
+	}
+	
+	private void dataCheck(double value){
+		if (Double.isNaN(value) || Double.isInfinite(value)){
+			throw new IllegalArgumentException("NaN or Infinity: " + value);
+		}
 	}
 	
 	public boolean isLongEnough(SignalBase... arrayOfSignalBase) {

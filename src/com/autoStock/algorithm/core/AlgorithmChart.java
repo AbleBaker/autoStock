@@ -3,7 +3,9 @@ package com.autoStock.algorithm.core;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.chart.ChartForAlgorithmTest;
 import com.autoStock.indicator.IndicatorOfCSO;
+import com.autoStock.indicator.IndicatorOfSTORSI;
 import com.autoStock.indicator.IndicatorOfCSO.ResultsCSO;
+import com.autoStock.indicator.results.ResultsSTORSI;
 import com.autoStock.indicator.IndicatorOfSAR;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.strategy.StrategyResponse;
@@ -36,6 +38,7 @@ public class AlgorithmChart {
 		chart.listOfSignalCCI.add(algorithmBase.signalGroup.signalOfCCI.getStrength());
 		chart.listOfSignalMACD.add(algorithmBase.signalGroup.signalOfMACD.getStrength());
 		chart.listOfSignalRSI.add(algorithmBase.signalGroup.signalOfRSI.getStrength());
+		chart.listOfSignalSTORSI.add(algorithmBase.signalGroup.signalOfSTORSI.getStrength());
 		chart.listOfSignalTRIX.add(algorithmBase.signalGroup.signalOfTRIX.getStrength());
 		chart.listOfSignalMFI.add(algorithmBase.signalGroup.signalOfMFI.getStrength());
 		chart.listOfSignalROC.add(algorithmBase.signalGroup.signalOfROC.getStrength());
@@ -54,7 +57,10 @@ public class AlgorithmChart {
 		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
 		chart.listOfYield.add(algorithmBase.getYieldCurrent());
 		
-		chart.listOfDebugAlpha.add(((ResultsCSO)algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCSO.class).analyze()).arrayOfCSO[0]);
+		//chart.listOfDebug1.add(((ResultsSTORSI)algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSTORSI.class).analyze()).arrayOfPercentK[0]);
+		//chart.listOfDebug2.add(((ResultsSTORSI)algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSTORSI.class).analyze()).arrayOfPercentD[0]);
+		
+//		chart.listOfDebug1.add(((ResultsCSO)algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCSO.class).analyze()).arrayOfCSO[0]);
 
 //		if (algorithmBase.signalGroup != null && algorithmBase.indicatorGroup.resultsPTD != null) {
 //			if (algorithmBase.indicatorGroup.resultsPTD.arrayOfPTD[0] == 1){

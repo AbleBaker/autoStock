@@ -31,7 +31,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
-		strategyOptions.maxPositionExitTime = 10;
+		strategyOptions.maxPositionExitTime = 5;
 		strategyOptions.maxPositionLossTime = 0;
 		strategyOptions.maxReenterTimesPerPosition.value = 3;
 		strategyOptions.intervalForReentryMins.value = 2;

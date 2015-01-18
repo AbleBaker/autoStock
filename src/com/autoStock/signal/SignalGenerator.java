@@ -25,20 +25,28 @@ public class SignalGenerator {
 										  signalGroup.signalOfWILLR,
 										  signalGroup.signalOfADX,
 										  signalGroup.signalOfDI,
-										  signalGroup.signalOfROC};
+										  signalGroup.signalOfROC
+										  };
 		
 		
 		if (signalGroup.signalOfEncog.isLongEnough(arrayOfSignalBase)){
 //			Co.println("--> Trying to use Encog!");
 			
 			EncogInputWindow encogWindow = new EncogInputWindow();
-			EncogFrame encogFrame = new EncogFrame("Typical indicators", FrameType.percent_change);
+			EncogFrame encogFrame = new EncogFrame("Typical indicators", FrameType.delta_change);
 			
 			for (SignalBase signalBase : arrayOfSignalBase){
-				encogFrame.addSubframe(getSubFrame(signalBase, FrameType.percent_change));
+				EncogSubframe subframe = getSubFrame(signalBase, FrameType.delta_change);
+				for (Double value : subframe.asDoubleList()){
+					if (Double.isNaN(value) || Double.isInfinite(value)){
+						//throw new IllegalStateException("Subframe value was NaN or Infinite: " + signalBase.getClass().getName() + ", " + value);
+					}
+				}
+				encogFrame.addSubframe(subframe);
 			}
 			
 			if (encogFrames != null){encogWindow.addFrames(encogFrames);}
+			
 			encogWindow.addFrame(encogFrame);
 
 			signalGroup.signalOfEncog.setInput(encogWindow);
@@ -48,6 +56,8 @@ public class SignalGenerator {
 	public EncogSubframe getSubFrame(SignalBase signalBase, FrameType frameType){
 		if (frameType == FrameType.percent_change){
 			return new EncogSubframe(Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalBase.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType);
+		}if (frameType == FrameType.delta_change){
+			return new EncogSubframe(Arrays.copyOfRange(MathTools.getDeltas(signalBase.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType);
 		}else if (frameType == FrameType.raw){
 			return new EncogSubframe(Arrays.copyOfRange(signalBase.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType);
 		}

@@ -49,6 +49,10 @@ public class WMAdjustmentGenerator {
 		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(indicatorBase.getClass().getSimpleName() + " Period Length", indicatorBase.indicatorParameters.periodLength, new IterableOfInteger(min, max, 1)));
 	}
 	
+	public void addSignalAverage(ArrayList<AdjustmentBase> listOfAdjustmentBase, SignalBase signalBase){
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(signalBase.getClass().getSimpleName() + " Signal Average", signalBase.signalParameters.maxSignalAverage, new IterableOfInteger(1, 5, 1)));
+	}
+	
 	private void addTypicalSignalRanges(SignalBase signalBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_entry, new IterableOfDouble(-35, 35, 1)));
 		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_exit, new IterableOfDouble(-35, 35, 1)));

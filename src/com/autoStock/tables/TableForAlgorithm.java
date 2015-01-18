@@ -37,6 +37,7 @@ public class TableForAlgorithm extends BaseTable {
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfUO.getStrength())));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfCCI.getStrength())));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfRSI.getStrength())));
+		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfSTORSI.getStrength())));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMACD.getStrength())));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfTRIX.getStrength())));
 		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfROC.getStrength())));

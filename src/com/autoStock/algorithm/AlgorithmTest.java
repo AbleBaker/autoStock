@@ -50,18 +50,18 @@ public class AlgorithmTest extends AlgorithmBase {
 			
 //			Co.println("--> Today: " + DateTools.getPrettyDate(startingDate));
 //			Co.println("--> Earliest weekday: " + DateTools.getPrettyDate(DateTools.getFirstWeekdayBefore(startingDate)));
-			
+//			
 			premiseController.reset();
-			//premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.min_30, 3));
-			//premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.day, 5));
-			//premiseController.determinePremise();
-//			Co.println("--> Premise...");
-			
+			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.hour, 2));
+//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.day, 5));
+			premiseController.determinePremise();
+////			Co.println("--> Premise...");
+//			
 			int length = 0;
 			
-			for (EncogFrame ef : premiseController.getEncogFrames()){
-				length += ef.asDoubleList().size();
-			}
+//			for (EncogFrame ef : premiseController.getEncogFrames()){
+//				length += ef.asDoubleList().size();
+//			}
 			
 //			Co.println("--> Length: " + length);
 		}

@@ -3,6 +3,8 @@
  */
 package com.autoStock.signal.signalMetrics;
 
+import com.autoStock.indicator.results.ResultsBase;
+import com.autoStock.indicator.results.ResultsSTORSI;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -12,9 +14,13 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  *
  */
 public class SignalOfSTORSI extends SignalBase {
-	
 	public SignalOfSTORSI(SignalParameters signalParameters){
 		super(SignalMetricType.metric_storsi, signalParameters);
+	}
+	
+	@Override
+	public void setInput(ResultsBase resultsBase) {
+		addInput(((ResultsSTORSI)resultsBase).arrayOfPercentK, ((ResultsSTORSI)resultsBase).arrayOfPercentD, 1);
 	}
 	
 	public void addInput(double[] arrayOfPercentK, double[] arrayOfPercentD, int periodAverage){
@@ -43,6 +49,6 @@ public class SignalOfSTORSI extends SignalBase {
 			percentDValue = arrayOfPercentK[arrayOfPercentD.length-1];
 		}
 		
-		super.setInput(percentKValue);
+		super.setInput(percentKValue - percentDValue);
 	}
 }

@@ -55,6 +55,8 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 				ApplicationStates.shutdown();
 			}
 		});
+		
+		threadForDelivery.setPriority(Thread.MAX_PRIORITY);
 	}
 	
 	public void startFeed(boolean joinThread){

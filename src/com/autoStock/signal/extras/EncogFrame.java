@@ -44,6 +44,16 @@ public class EncogFrame {
 		return listOfDouble;
 	}
 	
+	public ArrayList<Double> asNormalizedDoubleList(){
+		ArrayList<Double> listOfDouble = new ArrayList<Double>();
+		
+		for (EncogSubframe subFrame : listOfSubframe){
+			listOfDouble.addAll(subFrame.asNormalizedDoubleList());
+		}
+		
+		return listOfDouble;
+	}
+	
 	public double[] asDoubleArray() {
 		return ArrayTools.getDoubleArray(asDoubleList());
 	}

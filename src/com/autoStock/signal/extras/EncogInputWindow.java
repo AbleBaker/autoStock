@@ -18,7 +18,7 @@ public class EncogInputWindow {
 	private ArrayList<EncogFrame> listOfFrame = new ArrayList<EncogFrame>();
 	public EncogInputWindow(){}
 	
-	public double[] getAsWindow(){
+	public double[] getAsWindow(boolean autoNormalized){
 		ArrayList<Double> listOfDouble = new ArrayList<Double>();
 		
 		FrameType frameType = FrameType.none;
@@ -31,7 +31,9 @@ public class EncogInputWindow {
 			}
 			
 			frameType = encogFrame.frameType;
-			listOfDouble.addAll(encogFrame.asDoubleList());
+			
+			if (autoNormalized){listOfDouble.addAll(encogFrame.asNormalizedDoubleList());}
+			else {listOfDouble.addAll(encogFrame.asDoubleList());}
 		}
 		
 		return ArrayTools.getArrayFromListOfDouble(listOfDouble);

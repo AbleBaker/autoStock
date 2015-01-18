@@ -208,7 +208,7 @@ public class CombinedLineChart {
 				    subPlotForSignals.addRangeMarker(markerForShortExit);
 			    }
 			    
-				if (getPairForType(TimeSeriesType.type_debug) != null){
+//				if (getPairForType(TimeSeriesType.type_debug) != null){
 //					subPlotForSignals.setDataset(1, getPairForType(TimeSeriesType.type_debug).timeSeriesCollection);
 ////					subPlotForSignals.getRangeAxis(1).setAutoRange(true);
 ////					((NumberAxis)subPlotForSignals.getRangeAxis(1)).setAutoRangeIncludesZero(false);
@@ -216,7 +216,7 @@ public class CombinedLineChart {
 //					subPlotForSignals.setRenderer(1, new XYShapeRenderer());
 //					subPlotForSignals.getRenderer(1).setSeriesShape(0, ShapeUtilities.createDiamond(2));
 //					subPlotForSignals.getRenderer(1).setSeriesPaint(0, Color.BLACK);
-				}
+//				}
 //			    
 			    subPlotForSignals.getRenderer().setBaseToolTipGenerator(StandardXYToolTipGenerator.getTimeSeriesInstance());
 			    

@@ -54,7 +54,7 @@ public class EncogBacktestContainer {
 	private double bestResult = 0;
 	private HistoricalData historicalData;
 	
-	//private TrainEncogSignalNew trainEncogSignal;
+//	private TrainEncogSignalNew trainEncogSignal;
 	private TrainEncogSignal trainEncogSignal;
 
 	public EncogBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
@@ -68,14 +68,14 @@ public class EncogBacktestContainer {
 	
 		algorithm = new DummyAlgorithm(exchange, symbol, AlgorithmMode.mode_backtest_with_adjustment, new BasicAccount(AccountProvider.defaultBalance));
 			
-		//trainEncogSignal = new TrainEncogSignalNew(AlgorithmModel.getEmptyModel(), historicalData);
+//		trainEncogSignal = new TrainEncogSignalNew(AlgorithmModel.getEmptyModel(), historicalData);
 		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, false);
 	}
 	
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = null;
 		
-		Co.print("--> Blanking the network... ");
+		Co.println("--> Blanking the network... ");
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
 			trainEncogSignal.getTrainer().saveNetwork();
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
