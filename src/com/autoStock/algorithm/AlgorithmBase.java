@@ -250,10 +250,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 	
 	protected void prefill(){
-		if (algorithmMode == AlgorithmMode.mode_backtest || algorithmMode == AlgorithmMode.mode_backtest_with_adjustment || algorithmMode == AlgorithmMode.mode_backtest_silent){
+		if(algorithmMode == AlgorithmMode.mode_engagement){
+			prefill = new Prefill(symbol, exchange, PrefillMethod.method_broker);			
+		}else{
 			prefill = new Prefill(symbol, exchange, PrefillMethod.method_database);
-		} else if(algorithmMode == AlgorithmMode.mode_engagement){
-			prefill = new Prefill(symbol, exchange, PrefillMethod.method_broker);
 		}
 		
 		prefill.prefillAlgorithm(this, strategyBase.strategyOptions);

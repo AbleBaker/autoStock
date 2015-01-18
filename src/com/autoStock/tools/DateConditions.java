@@ -32,7 +32,7 @@ public class DateConditions {
 		public Exchange exchange;
 		public Date date;
 		
-		public QuoteAvailableDateCondition(Symbol symbol, Exchange exchange, Date date) {
+		public QuoteAvailableDateCondition(Exchange exchange, Symbol symbol, Date date) {
 			this.symbol = symbol;
 			this.exchange = exchange;
 		}
@@ -48,7 +48,7 @@ public class DateConditions {
 
 		@Override
 		public boolean isValid() {
-			HistoricalData historicalData = new HistoricalData(exchange, symbol, date, date, Resolution.min);
+			HistoricalData historicalData = new HistoricalData(exchange, symbol, (Date)date.clone(), (Date)date.clone(), Resolution.min);
 			historicalData.setStartAndEndDatesToExchange();
 			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 			

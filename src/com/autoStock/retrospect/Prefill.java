@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
+import com.autoStock.backtest.BacktestUtils.LookDirection;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
@@ -17,6 +18,7 @@ import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.strategy.StrategyOptions;
+import com.autoStock.tools.DateConditions.QuoteAvailableDateCondition;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.QuoteSliceTools;
@@ -92,18 +94,26 @@ public class Prefill {
 	}
 	
 	private void prefillFromDatabase(AlgorithmBase algorithmBase, StrategyOptions strategyOptions){
-		setupPrefill(algorithmBase.startingDate, algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.getPeriodLength());
-		
-		HistoricalData historicalData = new HistoricalData(exchange, symbol, calendarForStart.getTime(), calendarForEnd.getTime(), Resolution.min);
-		ArrayList<QuoteSlice> listOfQuoteSlice = QuoteSliceTools.getListOfQuoteSliceFromDbStockHistoricalPrice((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate))));
+//		setupPrefill(listOfDate.get(0), algorithmBase.exchange.timeOpenForeign, algorithmBase.exchange.timeCloseForeign, algorithmBase.getPeriodLength());
 
+		ArrayList<QuoteSlice> listOfQuoteSliceForReturn = new ArrayList<QuoteSlice>();
+		ArrayList<Date> listOfDate = DateTools.getListOfDatesOnWeekdays(DateTools.getFirstWeekdayBefore(algorithmBase.startingDate), LookDirection.backward, 1, new QuoteAvailableDateCondition(algorithmBase.exchange, algorithmBase.symbol, algorithmBase.startingDate));
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, (Date)listOfDate.get(0).clone(), (Date)listOfDate.get(0).clone(), Resolution.min);
+		historicalData.setStartAndEndDatesToExchange();
+		
+		ArrayList<QuoteSlice> listOfQuoteSlice = QuoteSliceTools.getListOfQuoteSliceFromDbStockHistoricalPrice((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate))));		
+		
+		for (int i=listOfQuoteSlice.size()-1; i>listOfQuoteSlice.size()-algorithmBase.getPeriodLength(); i--){
+			listOfQuoteSliceForReturn.add(listOfQuoteSlice.get(i));
+		}
+		
 		if (listOfQuoteSlice.size() > 0){
 			for (int i=0; i<strategyOptions.prefillShift.value; i++){
 				listOfQuoteSlice.remove(0);
 			}
 		}
 		
-		algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSlice);
+		algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSliceForReturn);
 	}
 	
 	public void setupPrefill(Date startingDate, Time timeOpenForeign, Time timeCloseForeign, int periodLength){

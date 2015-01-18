@@ -33,10 +33,10 @@ public class WMAdjustmentProvider {
 		new WMAdjustmentGenerator().addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfROC.class), listOfAdjustmentBase, 20, 60);
 		
 			
-		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfWILLR);
-		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfDI);
-		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
-		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfROC);
+//		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfWILLR);
+//		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfDI);
+//		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
+//		new WMAdjustmentGenerator().addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfROC);
 		
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Entry", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForEntry));
 //		listOfAdjustmentBase.add(new AdjustmentOfEnum<SignalPointTactic>("SO Tactic Exit", new IterableOfEnum<SignalPointTactic>(SignalPointTactic.tactic_any, SignalPointTactic.tactic_combined), algorithmBase.strategyBase.strategyOptions.signalPointTacticForExit));
