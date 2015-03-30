@@ -48,7 +48,6 @@ public class DatabaseQuery {
 				}
 			}
 			
-			
 			Connection connection = DatabaseCore.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
