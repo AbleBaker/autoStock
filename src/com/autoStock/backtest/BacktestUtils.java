@@ -154,6 +154,8 @@ public class BacktestUtils {
 				
 				double transactionProfit = strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true);
 				
+				backtestTransactions.listOfTransactionYield.add(new Pair<Date, Double>(strategyResponse.positionGovernorResponse.dateOccurred, strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
+				
 				if (transactionProfit > 0){
 					backtestTransactions.countForTradesProfit++;
 					backtestTransactions.avgTradeWin += transactionProfit;
@@ -281,6 +283,7 @@ public class BacktestUtils {
 	}
 	
 	public static class BacktestResultTransactionDetails {
+		public ArrayList<Pair<Date, Double>> listOfTransactionYield = new ArrayList<Pair<Date, Double>>();
 		public int countForTradeLongEntry;
 		public int countForTradeShortEntry;
 		public int countForTradeExit;

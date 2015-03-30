@@ -1,6 +1,7 @@
 package com.autoStock.signal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorBase;
@@ -127,6 +128,10 @@ public class SignalGroup {
 	
 	public void processEncog(ArrayList<EncogFrame> encogFrames) {
 		signalGenerator.generateEncogSignal(this, encogFrames);
+	}
+	
+	public void processEncog(EncogFrame... encogFrames) {
+		signalGenerator.generateEncogSignal(this, new ArrayList<EncogFrame>(Arrays.asList(encogFrames)));
 	}
 	
 	public IndicatorGroup getIndicatorGroup(){

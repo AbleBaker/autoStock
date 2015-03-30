@@ -50,7 +50,7 @@ public class WMAdjustmentGenerator {
 	}
 	
 	public void addSignalAverage(ArrayList<AdjustmentBase> listOfAdjustmentBase, SignalBase signalBase){
-		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(signalBase.getClass().getSimpleName() + " Signal Average", signalBase.signalParameters.maxSignalAverage, new IterableOfInteger(1, 5, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(signalBase.getClass().getSimpleName() + " Signal Average", signalBase.signalParameters.maxSignalAverage, new IterableOfInteger(1, 3, 1)));
 	}
 	
 	private void addTypicalSignalRanges(SignalBase signalBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){

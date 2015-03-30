@@ -38,5 +38,15 @@
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.14.jar"/>
 	<classpathentry kind="lib" path="lib/uncommons-maths-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/watchmaker-framework-0.7.1.jar" sourcepath="lib/watchmaker-framework-0.7.1-src.jar"/>
+	<classpathentry kind="lib" path="lib/JRI.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/Kevin/Downloads/rJava_0.9-5/rJava/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/JRIEngine.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/Kevin/Downloads/rJava_0.9-5/rJava/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

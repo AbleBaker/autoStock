@@ -20,7 +20,7 @@ public class TrainEncogNetworkOfNeat extends TrainEncogBase {
 	
 	public TrainEncogNetworkOfNeat(CalculateScore calculateScore, String networkName){
 		super(calculateScore, networkName);
-		train = new NEATTraining(calculateScore, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 4, 512));
+		train = new NEATTraining(calculateScore, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 2, 256));
 		train.setPercentToMate(0.25);
 		train.setMutationPercent(0.25f);
 		train.setMatingPopulation(0.40f);
@@ -32,7 +32,7 @@ public class TrainEncogNetworkOfNeat extends TrainEncogBase {
 			train.iteration();
 			
 			Co.println("--> Training... " + i + ", " + train.getError());
-			if (train.getError() < score){Co.println("--> Warning, network was not able to return to score: " + score + ", " + train.getError());			}
+			if (train.getError() < score){Co.println("--> Warning, network was not able to return to score: " + score + ", " + train.getError());}
 			
 			bestScore = Math.max(train.getError(), bestScore);
 		}

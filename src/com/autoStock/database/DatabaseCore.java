@@ -2,6 +2,7 @@ package com.autoStock.database;
 
 import java.sql.Connection;
 
+import com.autoStock.Co;
 import com.autoStock.internal.Config;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;

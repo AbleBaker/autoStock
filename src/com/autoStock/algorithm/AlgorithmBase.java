@@ -15,6 +15,7 @@ import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
 import com.autoStock.algorithm.core.AlgorithmState;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
+import com.autoStock.context.ContextController;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.ListenerOfPositionStatusChange;
@@ -61,6 +62,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
 	public final PositionGovernor positionGovernor;
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
+	public final ArrayList<QuoteSlice> listOfQuoteSlicePersist = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	public ArrayList<SignalMetricType> listOfSignalMetricTypeActive = new ArrayList<SignalMetricType>();
 	public ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
@@ -77,6 +79,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	protected Benchmark bench = new Benchmark();
 	public SignalCache signalCache;
 	public PremiseController premiseController = new PremiseController();
+	public ContextController contextController = new ContextController();
 	
 	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount){
 		this.exchange = exchange;
@@ -126,6 +129,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 //		}
 		
 		listOfQuoteSlice.clear();
+		listOfQuoteSlicePersist.clear();
 		listOfStrategyResponse.clear();
 		commonAnalysisData.reset();
 		signalGroup.reset();
@@ -229,6 +233,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		listOfQuoteSlice.add(quoteSlice);
+		listOfQuoteSlicePersist.add(quoteSlice);
+		
 		position = positionGovernor.getPositionManager().getPosition(quoteSlice.symbol);
 		positionGovernor.getPositionManager().updatePositionPrice(quoteSlice, position);
 	}

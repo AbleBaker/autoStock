@@ -13,6 +13,8 @@ import com.autoStock.MainFilter;
 import com.autoStock.MainIndicatorTest;
 import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
+import com.autoStock.MainRTest;
+import com.autoStock.MainTest;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestPredictFuture;
 import com.autoStock.backtest.encog.EncogBacktest;
@@ -135,9 +137,10 @@ public class MenuLauncher {
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_test){
-			//new MainTest();
+			new MainTest();
 			//new BacktestPredictFuture().fun();
-			new PremiseTest().run();
+//			new PremiseTest().run();
+//			new MainRTest().run(); 
 		}
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){
@@ -169,6 +172,12 @@ public class MenuLauncher {
 					break;
 				case "wm_md":
 					command = String.format("main_backtest_wm 09/08/2014 09/30/2014 NYSE %s", typicalSymbol);
+					break;
+				case "wm_md2":
+					command = String.format("main_backtest_wm 09/08/2014 09/19/2014 NYSE %s", typicalSymbol);
+					break;
+				case "wm_md3":
+					command = String.format("main_backtest_wm 09/02/2014 10/19/2014 NYSE %s", typicalSymbol);
 					break;
 				case "wm_dod":
 					command = String.format("main_backtest_wm_dod 09/08/2014 NYSE %s backtest_default", typicalSymbol);

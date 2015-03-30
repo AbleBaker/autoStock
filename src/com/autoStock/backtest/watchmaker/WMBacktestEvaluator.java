@@ -35,7 +35,7 @@ public class WMBacktestEvaluator implements FitnessEvaluator<AlgorithmModel>{
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		
-		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, includeExtras, includeExtras);
+		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, includeExtras, includeExtras, false);
 		
 		return backtestEvaluation;
 	}

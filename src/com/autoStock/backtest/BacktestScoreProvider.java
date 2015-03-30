@@ -9,25 +9,47 @@ import com.google.gson.internal.Pair;
  *
  */
 public class BacktestScoreProvider {
-	public static double getScore(BacktestEvaluation backtestEvaluation){
+	public static double getScore(BacktestEvaluation backtestEvaluation, boolean allowNegativeScore){
 		double score = 0;
-//		score = backtestEvaluation.percentYield;
-//		score = backtestEvaluation.percentTradeWin * backtestEvaluation.transactionDetails.countForTradeExit;
-//		score = backtestEvaluation.transactionDetails.countForTradesProfit * backtestEvaluation.percentYield;
-//		score = backtestEvaluation.percentTradeProfit * (backtestEvaluation.percentYield * 2);
-
+		
+//		score = getScoreOnlyYield(backtestEvaluation);
+		score = getScoreDoDYield(backtestEvaluation);
+//		score = getScorePerTrans(backtestEvaluation);
+		
+		if (allowNegativeScore){return score;}
+		else {return score > 0 ? score : 0;}
+	}
+	
+	private static double getScorePerTrans(BacktestEvaluation backtestEvaluation){
+		
+		double score = 0;
+		int penalty = 1;
+		
+		for (Pair<Date, Double> pair : backtestEvaluation.transactionDetails.listOfTransactionYield){
+			score += pair.second;
+			if (pair.second < 0){penalty++;}
+		}
+		
+		score /= penalty;
+		
+		return score;
+	}
+	
+	private static double getScoreDoDYield(BacktestEvaluation backtestEvaluation){
+		double score = 0;
 		int penalty = 1;
 		
 		for (Pair<Date, Double> pair : backtestEvaluation.listOfDailyYield){
 			score += pair.second;
-			//score += Math.min(pair.second, 2);
 			if (pair.second < 0){penalty++;}
 		}
 		
-//		penalty += backtestEvaluation.transactionDetails.countForTradesLoss;
+		score /= penalty;
 		
-//		score /= penalty;
-		
-		return score > 0 ? score : 0;
+		return score;
+	}
+	
+	private static double getScoreOnlyYield(BacktestEvaluation backtestEvaluation){
+		return backtestEvaluation.percentYield;
 	}
 }

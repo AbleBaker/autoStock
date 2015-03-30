@@ -23,6 +23,8 @@ import com.google.gson.internal.Pair;
  *
  */
 public class BacktestEvaluation {
+	public boolean allowNegativeScore = false;
+	
 	public BacktestResultTransactionDetails transactionDetails;
 	
 	public final Symbol symbol;
@@ -57,7 +59,7 @@ public class BacktestEvaluation {
 	}
 	
 	public double getScore(){
-		return BacktestScoreProvider.getScore(this);
+		return BacktestScoreProvider.getScore(this, allowNegativeScore);
 	}
 	
 	public static class DescriptorForSignal {
@@ -188,6 +190,16 @@ public class BacktestEvaluation {
 //		string += "Sizes: " + listOfDisplayRowsFromStrategyResponse.size() + ", " + listOfDisplayRowsFromStrategyResponse.get(0).size();
 		
 		string += "\n" + (listOfDisplayRowsFromStrategyResponse.size() == 0 ? "No transactions occurred" : new TableController().getTable(AsciiTables.backtest_strategy_response, listOfDisplayRowsFromStrategyResponse));
+		
+		return string;
+	}
+	
+	public String getSingleLine(){
+		String string = new DecimalFormat("#.00").format(getScore()) + "[%" + new DecimalFormat("#.00").format(percentYield) + "] ";
+		
+		for (Pair<Date, Double> pair : listOfDailyYield){
+			string += " " + new SimpleDateFormat("dd/MM/yyyy").format(pair.first) + " -> %" + new DecimalFormat("#.00").format(pair.second);
+		}
 		
 		return string;
 	}

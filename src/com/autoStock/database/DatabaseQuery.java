@@ -32,7 +32,7 @@ public class DatabaseQuery {
 			String query = new QueryFormatter().format(dbQuery, queryArg);
 			String queryHash = MiscTools.getHash(query);
 			
-			//Co.println("Executing query: " + query);
+//			Co.println("Executing query: " + query);
 			
 			if (dbQuery.isCachable){
 				if (hashCache.containsKey(queryHash)){

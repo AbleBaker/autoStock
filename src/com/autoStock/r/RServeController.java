@@ -13,7 +13,7 @@ import com.autoStock.osPlatform.Os;
 import com.autoStock.osPlatform.Os.OsType;
 
 public class RServeController {
-	private static final int instancePoolSize = 10;
+	private static final int instancePoolSize = 32;
 	
 	private ArrayList<RProcess> listOfRServeProcesses = new ArrayList<RProcess>();
 	
@@ -26,7 +26,7 @@ public class RServeController {
 		
 		for (int i=0; i<instancePoolSize; i++){
 			try {
-				Process process = Runtime.getRuntime().exec("C:\\Program Files\\R\\R-3.0.1\\bin\\R.exe -e \"library(Rserve);Rserve(FALSE,args='--no-save --slave --RS-port 100" + i + "')\" --no-save --slave");
+				Process process = Runtime.getRuntime().exec("C:\\Program Files\\R\\R-3.1.2\\bin\\R.exe -e \"library(Rserve);Rserve(FALSE,args='--no-save --slave --RS-port 100" + i + "')\" --no-save --slave");
 				listOfRServeProcesses.add(new RProcess(i, 5000 + i, process));
 			}catch(Exception e){
 				e.printStackTrace();

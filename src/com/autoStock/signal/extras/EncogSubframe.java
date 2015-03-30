@@ -27,19 +27,36 @@ public class EncogSubframe {
 	private final NormalizedField normalizer = new NormalizedField(NormalizationAction.Normalize, "Subframe Normalizer", 0, 0, 1, -1);
 	
 	public EncogSubframe(double[] values, FrameType frameType) {
-		this.values = values;
-		this.frameType = frameType;
-		
-//		Co.println("--> Actual High / Low: " + MathTools.getMax(values) + ", " + MathTools.getMin(values));
-////		Co.println("--> Round High / Low: " + MathTools.round((int) MathTools.getMax(values), 100) + ", " + MathTools.round((int) MathTools.getMin(values), 100));
-		normalizer.setActualHigh(MathTools.roundOut((int) MathTools.getMax(values), 100));
-		normalizer.setActualLow(MathTools.roundOut((int) MathTools.getMin(values), 100));
-//		
-//		Co.println("--> Norm ahigh / alow: " + normalizer.getActualHigh() + ", " + normalizer.getActualLow());
+		this(values, frameType, 0, 0);
 	}
 	
 	public EncogSubframe(ArrayList<Double> values, FrameType frameType) {
-		this(ArrayTools.getDoubleArray(values), frameType);
+		this(ArrayTools.getDoubleArray(values), frameType, 0, 0);
+	}
+	
+	public EncogSubframe(ArrayList<Double> values, FrameType frameType, double normalizerHigh, double normalizerLow) {
+		this(ArrayTools.getDoubleArray(values), frameType, normalizerHigh, normalizerLow);
+	}
+	
+	public EncogSubframe(double[] values, FrameType frameType, double normailzerHigh, double normailzerLow) {
+		this.values = values;
+		this.frameType = frameType;
+		
+		if (normailzerHigh == 0 && normailzerLow == 0){
+			int roundOutHigh = MathTools.roundOut((int) MathTools.getMax(values), 100);
+			int roundOutLow = MathTools.roundOut((int) MathTools.getMin(values), 100);
+		
+			normalizer.setActualHigh(Math.max(roundOutHigh, 100));
+			normalizer.setActualLow(Math.min(roundOutLow, -100));
+		
+			if (normalizer.getActualHigh() == normalizer.getActualLow() || normalizer.getActualHigh() <= normalizer.getActualLow()){throw new IllegalStateException("Check normailzer inputs (high/low): " + normalizer.getActualHigh() + ", " + normalizer.getActualLow());}			
+		}else{
+			normalizer.setActualHigh(normailzerHigh);
+			normalizer.setActualLow(normailzerLow);
+		}
+		
+//		Co.println("--> Norm: " + normalizer.getActualHigh() + ", " +  normalizer.getActualLow());
+//	    Co.println("--> Actual High / Low: " + MathTools.getMax(values) + ", " + MathTools.getMin(values));
 	}
 	
 	public double[] asDoubleArray(){

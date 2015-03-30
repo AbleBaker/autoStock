@@ -191,6 +191,16 @@ public class AlgorithmCondition {
 		
 		return false;
 	}
+	
+	public boolean requestExitAfterProfitHold(QuoteSlice quoteSlice, Position position){
+		if (position.getCurrentPercentGainLoss(true) >= strategyOptions.maxPositionProfitTimeMinYield.value){
+			if (((quoteSlice.dateTime.getTime() - position.getPositionHistory().dateOfCreation.getTime()) / 60 / 1000) >= strategyOptions.maxPositionProfitTime.value){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	public boolean disableAfterNilChanges(ArrayList<QuoteSlice> listOfQuoteSlice) {
 		if (strategyOptions.disableAfterNilChanges == false){return false;}

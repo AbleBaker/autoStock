@@ -3,12 +3,19 @@ package com.autoStock.algorithm;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.context.ContextOfChangeSinceHighLow;
+import com.autoStock.context.ContextOfChangeSinceOpen;
+import com.autoStock.context.ContextOfPosition;
 import com.autoStock.premise.PremiseOfOHLC;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.extras.EncogFrame;
+import com.autoStock.signal.extras.EncogFrame.FrameType;
+import com.autoStock.signal.extras.EncogSubframe;
 import com.autoStock.strategy.StrategyOfTest;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
@@ -42,28 +49,24 @@ public class AlgorithmTest extends AlgorithmBase {
 
 		initialize();
 		
-		if (strategyBase.strategyOptions.prefillEnabled){
+		if (strategyBase.strategyOptions.enablePrefill){
 			prefill();
 		}
 		
-		if (strategyBase.strategyOptions.premiseEnabled){
-			
+		if (strategyBase.strategyOptions.enablePremise){
 //			Co.println("--> Today: " + DateTools.getPrettyDate(startingDate));
 //			Co.println("--> Earliest weekday: " + DateTools.getPrettyDate(DateTools.getFirstWeekdayBefore(startingDate)));
-//			
-//			premiseController.reset();
-//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.hour, 2));
-//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.day, 5));
-//			premiseController.determinePremise();
-////			Co.println("--> Premise...");
-//			
-			int length = 0;
-			
-//			for (EncogFrame ef : premiseController.getEncogFrames()){
-//				length += ef.asDoubleList().size();
-//			}
-			
-//			Co.println("--> Length: " + length);
+			premiseController.reset();
+			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.hour, 3));
+			premiseController.determinePremise();
+		}
+		
+		if (strategyBase.strategyOptions.enableContext){
+			contextController.reset();
+			contextController.addContext(new ContextOfPosition());
+			contextController.addContext(new ContextOfChangeSinceOpen());
+			contextController.addContext(new ContextOfChangeSinceHighLow());
+			contextController.determineContext();
 		}
 	}
 
@@ -82,7 +85,14 @@ public class AlgorithmTest extends AlgorithmBase {
 				indicatorGroup.setDataSet();
 				indicatorGroup.analyze();
 				signalGroup.generateSignals(commonAnalysisData, position);
-				signalGroup.processEncog(premiseController.getEncogFrames());
+				
+				if (strategyBase.strategyOptions.enableContext){
+					((ContextOfPosition)contextController.getByClass(ContextOfPosition.class)).setPosition(position);
+					((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
+					((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersist);
+				}
+				
+				signalGroup.processEncog(ListTools.combineLists(contextController.getEncogFrames(), premiseController.getEncogFrames())); 
 			}
 			
 			baseInformStrategy(quoteSlice);

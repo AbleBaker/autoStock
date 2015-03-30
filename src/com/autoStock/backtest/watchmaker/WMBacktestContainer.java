@@ -1,6 +1,7 @@
 package com.autoStock.backtest.watchmaker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,7 @@ import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
@@ -96,9 +98,9 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			trainEncogSignal.getTrainer().saveNetwork();
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
 			trainEncogSignal.setDetails(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol));
-			for (int i=0; i<TrainEncogSignal.TRAINING_ITERATIONS; i++){
-				trainEncogSignal.getTrainer().train(1, 0);
-				if (trainEncogSignal.getTrainer().bestScore != 0){trainEncogSignal.getTrainer().saveNetwork(); break;}
+			for (int i=0; i<TrainEncogSignal.TRAINING_ITERATIONS/3; i++){
+				trainEncogSignal.getTrainer().train(3, 0);
+				if (trainEncogSignal.getTrainer().bestScore > 0.01){trainEncogSignal.getTrainer().saveNetwork(); break;}
 			}
 		}
 		
@@ -130,7 +132,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
+				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(10));
 			}else{
 				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}
@@ -160,9 +162,9 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		Date dateOutOfSample = DateTools.getFirstWeekdayAfter(dateEnd);
 
-		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateOutOfSample, dateOutOfSample, Resolution.min)).getBacktestEvaluation(algorithmModel, true);
+		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateOutOfSample, DateTools.getRolledDate(dateOutOfSample, Calendar.DAY_OF_MONTH, 5), Resolution.min)).getBacktestEvaluation(algorithmModel, true);
 		
-		Co.println("\n\n Out of sample: " + dateOutOfSample + ", " + backtestEvaluationOutOfSample.percentYield);
+		Co.println("\n\n Out of sample: " + dateOutOfSample + ", " + backtestEvaluationOutOfSample.getSingleLine());
 		
 //		Co.print(backtestEvaluationOutOfSample.toString());
 		
@@ -180,7 +182,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 //		
 //		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 		
-		Co.println("\n\n--> Generation " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness() + "\n"); // + " Out of sample: " + backtestEvaluation.getScore() + "\n");
+		Co.println("--> Generation " + data.getGenerationNumber() + ", " + MathTools.round(data.getBestCandidateFitness())); // + " Out of sample: " + backtestEvaluation.getScore() + "\n");
 		
 		bestResult = data.getBestCandidateFitness();
 		
@@ -189,7 +191,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 //		Co.println("--> EScore: " + escore);
 //		Co.println(data.getBestCandidate().getUniqueIdentifier());
 		
-		if (data.getBestCandidateFitness() > 0 && data.getGenerationNumber() != 0 && data.getGenerationNumber() % 2 == 0){
+		if (data.getGenerationNumber() != 0 && data.getGenerationNumber() % 5 == 0){ // && data.getBestCandidateFitness() > 0 
 			try {
 				trainEncogSignal.execute(data.getBestCandidate(), bestResult);
 			}catch(IllegalStateException e){

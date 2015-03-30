@@ -24,6 +24,7 @@ import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.DummyAlgorithm;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.extras.StrategyOptionsOverride;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
@@ -35,6 +36,7 @@ import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
+import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
@@ -45,7 +47,7 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class EncogBacktestContainer {
+public class EncogBacktestContainer implements StrategyOptionsOverride {
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
 	public Exchange exchange;
@@ -88,11 +90,11 @@ public class EncogBacktestContainer {
 		
 		Co.println("OK!");
 		
-		trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol), bestResult);
+		trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, this), bestResult);
 		trainEncogSignal.getTrainer().saveNetwork();
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol));
+		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, this));
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		Co.print(new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer).toString());
@@ -104,5 +106,10 @@ public class EncogBacktestContainer {
 //		
 //		BacktestEvaluation backtestEvaluationOutOfSample = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 //		Co.println("\n\n Out of sample: " + dateOutOfSample + ", " + backtestEvaluationOutOfSample.percentYield);
+	}
+
+	@Override
+	public void override(StrategyOptions strategyOptions) {
+		
 	}
 }

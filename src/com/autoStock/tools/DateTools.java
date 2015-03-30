@@ -167,6 +167,13 @@ public class DateTools {
 		return calendarAtCurrent.getTime();
 	}
 	
+	public static Date getRolledDate(Date date, int calendarField, int amount) {
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(date);
+		calendar.add(calendarField, amount);
+		return calendar.getTime();
+	}
+	
 	public static Date getLocalDateFromForeignTime(Time time, String timeZone) {
 		GregorianCalendar calendarForForeign = new GregorianCalendar(TimeZone.getTimeZone(timeZone));
 		calendarForForeign.set(Calendar.HOUR_OF_DAY, time.hours);

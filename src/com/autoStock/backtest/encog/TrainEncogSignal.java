@@ -29,7 +29,7 @@ public class TrainEncogSignal {
 		encogScoreProvider.setDetails(algorithmModel, historicalData);		
 		
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
-			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 4), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName, TRAINING_ITERATIONS);
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName, TRAINING_ITERATIONS);
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
 			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
 		}

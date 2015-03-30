@@ -26,6 +26,7 @@ public class EncogFrame {
 		raw,
 		delta_change,
 		percent_change,
+		category,
 		none
 	}
 

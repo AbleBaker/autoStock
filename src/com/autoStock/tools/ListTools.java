@@ -9,6 +9,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.autoStock.signal.extras.EncogFrame;
+
 /**
  * @author Kevin Kowalewski
  *
@@ -64,5 +66,13 @@ public class ListTools {
 
 	public static <T> ArrayList<T> getList(List<T> asList) {
 		return new ArrayList<T>(asList);
+	}
+
+	public static <T> ArrayList<T> combineLists(ArrayList<T>... arrayOfLists) {
+		ArrayList<T> list = new ArrayList<T>();
+		for (ArrayList<T> listIn : arrayOfLists){
+			list.addAll(listIn);
+		}
+		return list;
 	}
 }

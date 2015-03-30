@@ -8,6 +8,7 @@ import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmRemodeler;
+import com.autoStock.backtest.BacktestUtils.LookDirection;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.database.DatabaseDefinitions.QueryArgs;
@@ -26,19 +27,23 @@ import com.autoStock.types.Symbol;
 public class SingleBacktest implements ListenerOfBacktestCompleted {
 	public BacktestContainer backtestContainer;
 	private HistoricalData historicalData;
-	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
+	private ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
 	private int currentBacktestDayIndex = 0;
 	private Benchmark bench = new Benchmark();
 	
 	public SingleBacktest(HistoricalData historicalData, AlgorithmMode algorithmMode){
 		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
+		if (listOfBacktestDates.size() == 0) {throw new IllegalArgumentException("Weekday not entered: " + historicalData.startDate + ", " + historicalData.endDate);}
+		
+		listOfHistoricalData = BacktestUtils.getHistoricalDataListForDates(historicalData);
+		
+		this.historicalData = historicalData;
+		backtestContainer = new BacktestContainer(historicalData.symbol, historicalData.exchange, this, algorithmMode);
+	}
+	
+	public SingleBacktest(HistoricalData historicalData, AlgorithmMode algorithmMode, int days){
+		listOfHistoricalData = BacktestUtils.getHistoricalDataListForDates(new HistoricalData(historicalData.exchange, historicalData.symbol, historicalData.startDate, null, historicalData.resolution), LookDirection.forward, days);
 
-		if (listOfBacktestDates.size() == 0) {
-			throw new IllegalArgumentException("Weekday not entered: " + historicalData.startDate + ", " + historicalData.endDate);
-		}
-		
-		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(historicalData.exchange, historicalData.startDate, historicalData.endDate, Arrays.asList(new Symbol[]{historicalData.symbol}));
-		
 		this.historicalData = historicalData;
 		backtestContainer = new BacktestContainer(historicalData.symbol, historicalData.exchange, this, algorithmMode);
 	}
@@ -49,7 +54,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 		
 		currentBacktestDayIndex++;
 		
-		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {
+		if (currentBacktestDayIndex == listOfHistoricalData.size()) {
 			//pass, used to release lock
 			backtestContainer.markAsComplete();
 		}else{
@@ -59,7 +64,7 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 	}
 	
 	public void selfPopulateBacktestData(){
-		HistoricalData historicalData = BacktestUtils.getHistoricalDataForSymbol(listOfHistoricalDataList.get(currentBacktestDayIndex), backtestContainer.symbol.symbolName);
+		HistoricalData historicalData = listOfHistoricalData.get(currentBacktestDayIndex);
 		ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 		
 		if (listOfResults.size() == 0){

@@ -106,14 +106,14 @@ public class CombinedLineChart {
 				}
 				
 				@Override
-				public void chartMouseClicked(ChartMouseEvent arg0) {
+				public void chartMouseClicked(ChartMouseEvent mouseEvent) {
 					Co.println("--> Chart mouse clicked");
 					
-					if (arg0.getEntity() != null && arg0.getEntity() instanceof XYItemEntity){
-						XYDataset xyDataSet = ((XYItemEntity)arg0.getEntity()).getDataset();
+					if (mouseEvent.getEntity() != null && mouseEvent.getEntity() instanceof XYItemEntity){
+						XYDataset xyDataSet = ((XYItemEntity)mouseEvent.getEntity()).getDataset();
 
-						int index = ((XYItemEntity)arg0.getEntity()).getItem();
-						double value = xyDataSet.getYValue(((XYItemEntity)arg0.getEntity()).getSeriesIndex(), ((XYItemEntity)arg0.getEntity()).getItem());
+						int index = ((XYItemEntity)mouseEvent.getEntity()).getItem();
+						double value = xyDataSet.getYValue(((XYItemEntity)mouseEvent.getEntity()).getSeriesIndex(), ((XYItemEntity)mouseEvent.getEntity()).getItem());
 						
 						Co.println("--> Added entity: " + index + ", " + value);
 						

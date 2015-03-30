@@ -12,6 +12,7 @@ import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.AlgorithmTest;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmRemodeler;
+import com.autoStock.algorithm.extras.StrategyOptionsOverride;
 import com.autoStock.algorithm.reciever.ReceiverOfQuoteSlice;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.position.PositionDefinitions.PositionType;
@@ -19,6 +20,7 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalCache;
 import com.autoStock.signal.SignalRangeLimit;
+import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.HistoricalData;
@@ -71,7 +73,14 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		algorithm.signalCache = signalCache;
 
 		if (algorithmMode == AlgorithmMode.mode_backtest && USE_PRECOMPUTED_ALGORITHM_MODEL){
-			AlgorithmModel algorithmModel = BacktestEvaluationReader.getPrecomputedModel(exchange, symbol);
+			StrategyOptionsOverride override = new StrategyOptionsOverride() {
+				@Override
+				public void override(StrategyOptions strategyOptions) {
+					
+				}
+			};
+			
+			AlgorithmModel algorithmModel = BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? override : null);
 			if (algorithmModel != null){
 				Co.println("--> Evaluation available");
 				new AlgorithmRemodeler(algorithm, algorithmModel).remodel(true, true, true, false);

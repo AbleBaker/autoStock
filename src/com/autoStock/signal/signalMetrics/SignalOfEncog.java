@@ -28,6 +28,7 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
+	private static final int INPUT_LENGTH = 136;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_PS = 20;
 	private String networkName;
@@ -86,22 +87,21 @@ public class SignalOfEncog extends SignalBase {
 
 		double valueForLongEntry = output.getData(0);
 		double valueForShortEntry = output.getData(1);
-		double valueForAnyExit = output.getData(2);
-		double valueForReeentry = output.getData(3);
+		double valueForAnyExit = output.getData(1);
+//		double valueForReeentry = output.getData(3);
 		
 //		Co.println("--> Values: " + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit);
 
 		if (valueForLongEntry >= NEURON_THRESHOLD) {
-			// Co.println("--> Long entry?");
 			signalPoint.signalPointType = SignalPointType.long_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 			// }
 		} else if (valueForShortEntry >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.short_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
-		} else if (valueForReeentry >= NEURON_THRESHOLD) {
-			signalPoint.signalPointType = SignalPointType.reentry;
-			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+//		} else if (valueForReeentry >= NEURON_THRESHOLD) {
+//			signalPoint.signalPointType = SignalPointType.reentry;
+//			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 		} else if (valueForAnyExit >= NEURON_THRESHOLD && havePosition) {
 			if (positionType == PositionType.position_long) {
 				signalPoint.signalPointType = SignalPointType.long_exit;
@@ -155,7 +155,7 @@ public class SignalOfEncog extends SignalBase {
 //	}
 	
 	public static int getInputWindowLength(){
-		return 168;
+		return INPUT_LENGTH;
 	}
 
 	@Override

@@ -37,11 +37,14 @@ public class StrategyOptions implements Cloneable {
 	public MutableInteger intervalForReentryMins = new MutableInteger();
 	public MutableInteger intervalForEntryAfterExitWithLossMins = new MutableInteger();
 	public MutableInteger intervalForEntryWithSameSignalPointType = new MutableInteger();
+	public MutableInteger maxPositionProfitTime = new MutableInteger();
+	public MutableDouble maxPositionProfitTimeMinYield = new MutableDouble();
 	public MutableInteger prefillShift = new MutableInteger();
 	public MutableDouble disableAfterLoss = new MutableDouble();
 	public MutableDouble disableAfterYield = new MutableDouble();
-	public boolean prefillEnabled;
-	public boolean premiseEnabled;
+	public boolean enablePrefill;
+	public boolean enablePremise;
+	public boolean enableContext;
 	
 	public ArrayList<SignalMetricType> listOfSignalMetricType = new ArrayList<SignalMetricType>();
 	
@@ -51,8 +54,9 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Can go long: " + canGoLong.value;
 		string += "\n - Can go short: " + canGoShort.value;
 		string += "\n - Can reenter: " + canReenter.value;
-		string += "\n - Enable prefill: " + prefillEnabled;
-		string += "\n - Enable premise: " + premiseEnabled;
+		string += "\n - Enable prefill: " + enablePrefill;
+		string += "\n - Enable premise: " + enablePremise;
+		string += "\n - Enable context: " + enableContext;
 		string += "\n - Disable after nil changes: " + disableAfterNilChanges;
 		string += "\n - Disable after nil changes in price: " + maxNilChangePrice;
 		string += "\n - Disable after nil changes in volume: " + maxNilChangeVolume;
@@ -61,6 +65,8 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Max position entry time: " + maxPositionEntryTime;
 		string += "\n - Max position exit time: " + maxPositionExitTime;
 		string += "\n - Max position loss time: " + maxPositionLossTime;
+		string += "\n - Max position profit time: " + maxPositionProfitTime.value;
+		string += "\n - Max position profit time yield: " + maxPositionProfitTimeMinYield.value;
 		string += "\n - Max stop loss percent: " +  maxStopLossPercent.value;
 		string += "\n - Max profit drawdown percent: " +  maxProfitDrawdownPercent.value;
 		string += "\n - Max transactions per day: " + maxTransactionsDay.value;

@@ -31,6 +31,7 @@ public class StrategyResponse {
 		disable_condition_profit_loss,
 		disable_condition_profit_yield,
 		cease_condition_time_exit,
+		cease_condition_time_profit,
 		cease_condition_time_loss,
 		cease_condition_trans,
 		cease_condition_profit,

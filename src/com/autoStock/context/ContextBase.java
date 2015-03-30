@@ -8,5 +8,5 @@ package com.autoStock.context;
  *
  */
 public abstract class ContextBase {
-	
+	public abstract void run();
 }

@@ -33,16 +33,14 @@ public class EncogScoreProviderNew implements CalculateScore {
 	
 	@Override
 	public double calculateScore(MLRegression network) {
-//		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
-		//Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
-		
+//		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network, whichNetwork);
 		singleBacktest.runBacktest();
 		
-		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false);
+		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false, true);
 		
 		runCount++;
 		

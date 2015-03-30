@@ -15,8 +15,10 @@ import org.encog.neural.networks.training.pso.NeuralPSO;
 import org.encog.neural.pattern.FeedForwardPattern;
 
 import com.autoStock.Co;
+import com.autoStock.backtest.encog.EncogScoreProvider.EncogResult;
 import com.autoStock.signal.extras.EncogNetworkGenerator;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
+import com.autoStock.tools.MathTools;
 
 /**
  * @author Kevin
@@ -26,6 +28,7 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase {
 	public BasicNetwork network;
 	private MLTrain train;
 	private int expectedIterations;
+	private boolean isForBacktestScore = true;
 	
 	public TrainEncogNetworkOfBasic(CalculateScore calculateScore, BasicNetwork network, String networkName, int expectedIterations){
 		super(calculateScore, networkName);
@@ -40,14 +43,15 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase {
 	public void train(int count, double score){
 		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 128);
 //		train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, calculateScore, 10, 2, 128), 0.01, (int)expectedIterations/2, (int)expectedIterations/2));
-		NeuralGeneticAlgorithm neuralGeneticAlgorithm = new NeuralGeneticAlgorithm(network, new NguyenWidrowRandomizer(), calculateScore, 128, 0.10f, 0.40f);
-		neuralGeneticAlgorithm.setThreadCount(Runtime.getRuntime().availableProcessors() * 2);
-		train.addStrategy(new HybridStrategy(neuralGeneticAlgorithm, 0.01, (int)expectedIterations/2, (int)expectedIterations/2));
+//		NeuralGeneticAlgorithm neuralGeneticAlgorithm = new NeuralGeneticAlgorithm(network, new NguyenWidrowRandomizer(), calculateScore, 128, 0.10f, 0.40f);
+//		neuralGeneticAlgorithm.setThreadCount(Runtime.getRuntime().availableProcessors() * 2);
+//		train.addStrategy(new HybridStrategy(neuralGeneticAlgorithm, 0.01, (int)expectedIterations/2, (int)expectedIterations/2));
 		
 		
 		for (int i = 0; i < count; i++) {
 			train.iteration();
-			Co.println("--> Training... " + i + ", " + train.getError());			
+			Co.println("--> Training... " + i + ", " + MathTools.round(train.getError()));
+			
 			bestScore = Math.max(train.getError(), bestScore);
 		}
 		

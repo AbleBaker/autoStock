@@ -42,13 +42,19 @@ import com.rits.cloning.Cloner;
  *
  */
 public class BacktestEvaluationBuilder {
-	public BacktestEvaluation buildEvaluation(BacktestContainer backtestContainer){
-		return buildEvaluation(backtestContainer, true, true);
+	public static enum EvaluationFrom {
+		encog,
+		watchmaker,
+		algorithm_run,
 	}
 	
-	public BacktestEvaluation buildEvaluation(BacktestContainer backtestContainer, boolean includeDescriptors, boolean includeTables){
+	public BacktestEvaluation buildEvaluation(BacktestContainer backtestContainer){
+		return buildEvaluation(backtestContainer, true, true, true);
+	}
+	
+	public BacktestEvaluation buildEvaluation(BacktestContainer backtestContainer, boolean includeDescriptors, boolean includeTables, boolean allowNegativeScore){
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluation(backtestContainer);
-		
+		backtestEvaluation.allowNegativeScore = allowNegativeScore;
 		BacktestResultTransactionDetails backtestResultTransactionDetails = BacktestUtils.getBacktestResultTransactionDetails(backtestContainer);
 		
 		backtestEvaluation.transactions = backtestContainer.algorithm.basicAccount.getTransactions();

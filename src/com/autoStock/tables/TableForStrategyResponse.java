@@ -30,13 +30,13 @@ public class TableForStrategyResponse extends BaseTable {
 			listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 			listOfString.add(backtestContainer.symbol.symbolName);
 			listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
-			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("changed", "").replaceAll("proceed_", ""));
-			listOfString.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", ""));
+			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("changed", "").replaceAll("proceed_", "").replaceAll("_condition_", " -> ").replaceAll("_", " "));
+			listOfString.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", "").replaceAll("_", " "));
 
 			String stringForSignal = new String();
 
 			for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()) {
-				stringForSignal += signalMoment.signalMetricType.name() + ":" + new DecimalFormat("0.00").format(signalMoment.strength);
+				stringForSignal += signalMoment.signalMetricType.name().replace("metric_", "") + ":" + new DecimalFormat("0.00").format(signalMoment.strength);
 				if (signalMoment.debug.length() > 0){stringForSignal += " - " + signalMoment.debug;}
 			}
 
