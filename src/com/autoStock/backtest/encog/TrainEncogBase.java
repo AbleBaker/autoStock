@@ -5,7 +5,7 @@ package com.autoStock.backtest.encog;
 
 import java.awt.IllegalComponentStateException;
 
-import org.encog.neural.networks.training.CalculateScore;
+import org.encog.ml.CalculateScore;
 
 import com.autoStock.signal.extras.EncogNetworkProvider;
 

@@ -3,21 +3,13 @@
  */
 package com.autoStock.backtest.encog;
 
-import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
+import org.encog.ml.CalculateScore;
 import org.encog.ml.train.MLTrain;
-import org.encog.ml.train.strategy.HybridStrategy;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.CalculateScore;
-import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
-import org.encog.neural.networks.training.genetic.NeuralGeneticAlgorithm;
 import org.encog.neural.networks.training.pso.NeuralPSO;
-import org.encog.neural.pattern.FeedForwardPattern;
 
 import com.autoStock.Co;
-import com.autoStock.backtest.encog.EncogScoreProvider.EncogResult;
-import com.autoStock.signal.extras.EncogNetworkGenerator;
-import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.MathTools;
 
 /**

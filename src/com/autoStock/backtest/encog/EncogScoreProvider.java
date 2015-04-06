@@ -2,9 +2,10 @@ package com.autoStock.backtest.encog;
 
 import java.util.ArrayList;
 
+import org.encog.ml.CalculateScore;
 import org.encog.ml.MLMethod;
 import org.encog.ml.MLRegression;
-import org.encog.neural.networks.training.CalculateScore;
+import org.encog.neural.networks.BasicNetwork;
 import org.w3c.dom.ls.LSInput;
 
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -36,7 +37,7 @@ public class EncogScoreProvider implements CalculateScore {
 	}
 	
 	@Override
-	public double calculateScore(MLRegression network) {
+	public double calculateScore(MLMethod method){
 //		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
 		//Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
 		
@@ -46,7 +47,7 @@ public class EncogScoreProvider implements CalculateScore {
 //		singleBacktest.backtestContainer.algorithm.algorithmMode.populateTable = false;
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
-		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network, 0);
+		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((BasicNetwork)method, 0);
 //		singleBacktest.backtestContainer.setSignalCache(signalCache);
 		singleBacktest.runBacktest();
 		
@@ -83,4 +84,7 @@ public class EncogScoreProvider implements CalculateScore {
 	public AlgorithmModel getAlgorithmModel() {
 		return algorithmModel;
 	}
+
+	@Override
+	public boolean requireSingleThreaded() {return false;}
 }

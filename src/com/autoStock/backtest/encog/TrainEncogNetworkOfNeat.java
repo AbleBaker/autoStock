@@ -3,10 +3,11 @@
  */
 package com.autoStock.backtest.encog;
 
+import org.encog.ml.CalculateScore;
+import org.encog.ml.ea.train.basic.TrainEA;
 import org.encog.neural.neat.NEATNetwork;
 import org.encog.neural.neat.NEATPopulation;
-import org.encog.neural.neat.training.NEATTraining;
-import org.encog.neural.networks.training.CalculateScore;
+import org.encog.neural.neat.NEATUtil;
 
 import com.autoStock.Co;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
@@ -16,14 +17,11 @@ import com.autoStock.signal.signalMetrics.SignalOfEncog;
  *
  */
 public class TrainEncogNetworkOfNeat extends TrainEncogBase {
-	private static NEATTraining train;
+	private static TrainEA train;
 	
 	public TrainEncogNetworkOfNeat(CalculateScore calculateScore, String networkName){
 		super(calculateScore, networkName);
-		train = new NEATTraining(calculateScore, new NEATPopulation(SignalOfEncog.getInputWindowLength(), 2, 256));
-		train.setPercentToMate(0.25);
-		train.setMutationPercent(0.25f);
-		train.setMatingPopulation(0.40f);
+		train = NEATUtil.constructNEATTrainer(calculateScore, SignalOfEncog.getInputWindowLength(), 2, 256);
 	}
 	
 	@Override

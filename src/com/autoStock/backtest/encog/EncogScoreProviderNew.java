@@ -2,8 +2,10 @@ package com.autoStock.backtest.encog;
 
 import java.util.ArrayList;
 
+import org.encog.ml.CalculateScore;
+import org.encog.ml.MLMethod;
 import org.encog.ml.MLRegression;
-import org.encog.neural.networks.training.CalculateScore;
+import org.encog.neural.networks.BasicNetwork;
 
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmRemodeler;
@@ -12,7 +14,6 @@ import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.signal.SignalCache;
-import com.autoStock.tools.Benchmark;
 import com.autoStock.trading.types.HistoricalData;
 
 /**
@@ -32,12 +33,12 @@ public class EncogScoreProviderNew implements CalculateScore {
 	}
 	
 	@Override
-	public double calculateScore(MLRegression network) {
+	public double calculateScore(MLMethod method) {
 //		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
-		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network, whichNetwork);
+		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((BasicNetwork)method, whichNetwork);
 		singleBacktest.runBacktest();
 		
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false, true);
@@ -77,4 +78,6 @@ public class EncogScoreProviderNew implements CalculateScore {
 	public void setWhichNetwork(int which) {
 		this.whichNetwork = which;
 	}
+
+	@Override public boolean requireSingleThreaded() {return false;}
 }

@@ -5,9 +5,9 @@ package com.autoStock.backtest.encog;
 
 import java.util.ArrayList;
 
+import org.encog.ml.CalculateScore;
 import org.encog.ml.MLMethod;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.CalculateScore;
 
 import com.autoStock.Co;
 import com.autoStock.signal.extras.EncogNetworkCache;

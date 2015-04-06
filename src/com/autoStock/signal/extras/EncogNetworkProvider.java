@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.encog.neural.neat.NEATNetwork;
-import org.encog.neural.neat.PersistNEATNetwork;
+import org.encog.neural.neat.PersistNEATPopulation;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.PersistBasicNetwork;
 
@@ -39,7 +39,7 @@ public class EncogNetworkProvider {
 	
 	public boolean saveNeatNetwork(NEATNetwork neatNetwork, String networkName){
 		try {
-			new PersistNEATNetwork().save(new FileOutputStream(new File(getNetworkPath(NetworkType.neat, networkName))), neatNetwork);
+			new PersistNEATPopulation().save(new FileOutputStream(new File(getNetworkPath(NetworkType.neat, networkName))), neatNetwork);
 			return true;
 		}catch(Exception e){}
 		
@@ -56,7 +56,7 @@ public class EncogNetworkProvider {
 	
 	public NEATNetwork getNeatNetwork(String networkName){		
 		try {
-			return (NEATNetwork) new PersistNEATNetwork().read(new FileInputStream(new File(getNetworkPath(NetworkType.neat, networkName))));
+			return (NEATNetwork) new PersistNEATPopulation().read(new FileInputStream(new File(getNetworkPath(NetworkType.neat, networkName))));
 		}catch(Exception e){} // Co.println("--> Network was null while reading");
 		
 		return null;
