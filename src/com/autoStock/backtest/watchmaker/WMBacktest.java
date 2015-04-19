@@ -1,10 +1,16 @@
 package com.autoStock.backtest.watchmaker;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
+import com.autoStock.Co;
 import com.autoStock.backtest.BacktestEvaluator;
 import com.autoStock.backtest.BacktestUtils;
+import com.autoStock.internal.ConsoleScanner;
+import com.autoStock.internal.ConsoleScanner.ConsoleListener;
+import com.autoStock.internal.ConsoleScanner.ConsoleMatch;
 import com.autoStock.internal.Global;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.ListTools;
@@ -17,7 +23,7 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class WMBacktest {
+public class WMBacktest implements ConsoleListener {
 	private Exchange exchange;
 	private ArrayList<Symbol> listOfSymbols;
 	public final BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
@@ -35,6 +41,7 @@ public class WMBacktest {
 		this.dateEnd = dateEnd;
 		
 		Global.callbackLock.requestLock();
+		ConsoleScanner.addListener(this);
 		
 		if (listOfSymbols.size() == 0){
 			throw new IllegalArgumentException("No symbols specified");
@@ -55,9 +62,7 @@ public class WMBacktest {
 	private void setupBacktestContainers(){
 		for (Symbol symbol : listOfSymbols){
 			HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, null);
-			
 			WMBacktestContainer wmBacktestContainer = new WMBacktestContainer(symbol, exchange, dateStart, dateEnd);
-			
 			listOfWMBacktestContainer.add(wmBacktestContainer);
 		}
 	}
@@ -67,4 +72,12 @@ public class WMBacktest {
 			wmBacktestContainer.runBacktest();
 		}
 	}
+
+	@Override
+	public void receivedMatch(ConsoleMatch consoleMatch) {
+		Co.println("--> Received match! " + consoleMatch.name());
+	}
+
+	@Override
+	public void receivedLine(String line) {}
 }

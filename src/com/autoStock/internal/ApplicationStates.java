@@ -17,6 +17,8 @@ public class ApplicationStates {
 	
 	public static void startup(Mode mode){
 		Global.setMode(mode);
+		ConsoleScanner.start();
+		
 		databaseCore = new DatabaseCore();
 		databaseCore.init();
 		
