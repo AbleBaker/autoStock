@@ -35,6 +35,7 @@ import com.autoStock.backtest.encog.TrainEncogSignalNew;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionThorough;
 import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.internal.ApplicationStates;
+import com.autoStock.internal.StateRequestListener;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
@@ -47,9 +48,9 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
+public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel>, StateRequestListener {
 	private static final int ISLAND_COUNT = Runtime.getRuntime().availableProcessors() -1;
-	private WMEvolutionType evolutionType = WMEvolutionType.type_generational;
+	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
 	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
@@ -58,6 +59,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	public Date dateEnd;
 	private double bestResult = 0;
 	private HistoricalData historicalData;
+	private boolean stopRequested;
 
 	private WMCandidateFactory wmCandidateFactory;
 	private MersenneTwisterRNG randomNumberGenerator = new MersenneTwisterRNG();
@@ -132,7 +134,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(10));
+				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
 				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}
@@ -205,5 +207,10 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	@Override
 	public void islandPopulationUpdate(int islandIndex, PopulationData<? extends AlgorithmModel> data) {
 		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
+	}
+
+	@Override
+	public void requestStop() {
+		stopRequested = true;
 	}
 }

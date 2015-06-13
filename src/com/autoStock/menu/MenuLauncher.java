@@ -137,8 +137,8 @@ public class MenuLauncher {
 		}
 		
 		else if (menuStructure == MenuStructures.menu_main_test){
-			new MainTest();
-			//new BacktestPredictFuture().fun();
+			//new MainTest();
+			new BacktestPredictFuture().run();
 //			new PremiseTest().run();
 //			new MainRTest().run(); 
 		}
