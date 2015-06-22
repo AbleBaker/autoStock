@@ -3,6 +3,7 @@
  */
 package com.autoStock.tools;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -10,6 +11,14 @@ import java.util.ArrayList;
  *
  */
 public class StringTools {
+	public static String toDecimal(float number){
+		return new DecimalFormat("#.##").format(number);
+	}
+	
+	public static String toDecimal(double number){
+		return new DecimalFormat("#.##").format(number);
+	}
+	
 	public static String removePrefix(String string, String prefix){
 		return string.substring(string.indexOf(prefix)+1);
 	}

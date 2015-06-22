@@ -355,4 +355,29 @@ public class MathTools {
 		
 		return results;
 	}
+	
+	private static double[] lastValues = new double[4];
+	
+	public static void getPercentChangeList(ArrayList<Double> resultList, double... values){
+		if (resultList.size() == 0){
+			for (int i=0; i<values.length; i++){
+				resultList.add(Double.NaN);
+				lastValues[i] = values[i];
+			}
+			return;
+		}
+		
+		for (int i=0; i<values.length; i++){
+			double lastValue = lastValues[i]; //resultList.get(resultList.size() -1 - i);
+			double currentValue = values[i];
+			double change = ((currentValue / lastValue) -1) * 100;
+			
+			Co.println("--> Last value, current: " + lastValue + ", " + currentValue + " -> " + change);
+			
+			lastValues[i] = currentValue;
+			
+			resultList.add(change);
+		}
+		
+	}
 }

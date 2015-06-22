@@ -111,10 +111,10 @@ public class ArrayTools {
 		return arrayOfDouble[arrayOfDouble.length-1];
 	}
 	
-	public static double[] getDoubleArray(ArrayList<Double> listOfDouble){
+	public static double[] getDoubleArray(List<Double> listOfDouble){
 		double[] arrayOfDouble = new double[listOfDouble.size()];
 		
-		for (int i=0; i<listOfDouble.size()-1; i++){
+		for (int i=0; i<listOfDouble.size(); i++){
 			arrayOfDouble[i] = listOfDouble.get(i);
 		}
 		

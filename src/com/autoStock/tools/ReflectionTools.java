@@ -6,12 +6,13 @@ package com.autoStock.tools;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Kevin Kowalewski
  * 
  */
-public class ReflectionHelper {
+public class ReflectionTools {
 	public ArrayList<String> getValuesToStringArryay(Object object) {
 		try {
 			ArrayList<String> listOfString = new ArrayList<String>();
@@ -40,4 +41,8 @@ public class ReflectionHelper {
 			throw new IllegalStateException();
 		}
 	}
+//	
+//	private List<Double> getValues(Object object, String... fields){
+//		
+//	}
 }

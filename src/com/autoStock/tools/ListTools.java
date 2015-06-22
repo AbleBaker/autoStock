@@ -75,4 +75,9 @@ public class ListTools {
 		}
 		return list;
 	}
+	
+	public static <T> ArrayList<T> subList(List<T> list, int start, int end){
+		if (end == -1){end = list.size();}
+		return new ArrayList<T>(list.subList(start, end));
+	}
 }
