@@ -89,7 +89,7 @@ public class BacktestPredictFuture {
 		
 		for (DbStockHistoricalPrice slice : listOfResultsIS){
 			Co.println("--> Slice: (" + sequence + ")" + slice.dateTime + ", " + slice.priceClose);
-			MathTools.getPercentChangeList(percentChangeWindow, slice.priceOpen, slice.priceHigh, slice.priceLow, slice.priceClose);
+			MathTools.addPercentChangeList(percentChangeWindow, slice.priceOpen, slice.priceHigh, slice.priceLow, slice.priceClose);
 			
 			if (sequence != 0 && sequence % INPUT_POINTS == 0){
 				Co.println("--> Would add slice at: " + sequence);
@@ -128,7 +128,7 @@ public class BacktestPredictFuture {
 		BasicNetwork network = getMLNetwork(INPUT_NEURONS, OUTPUT_NEURONS);
 		MLTrain train = new ResilientPropagation(network, dataSet);
 	
-		for (int i=0; i<10000; i++){
+		for (int i=0; i<1000; i++){
 			train.iteration();
 			System.out.println("" + train.getError() * 1000);
 		}

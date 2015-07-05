@@ -358,7 +358,7 @@ public class MathTools {
 	
 	private static double[] lastValues = new double[4];
 	
-	public static void getPercentChangeList(ArrayList<Double> resultList, double... values){
+	public static void addPercentChangeList(ArrayList<Double> resultList, double... values){
 		if (resultList.size() == 0){
 			for (int i=0; i<values.length; i++){
 				resultList.add(Double.NaN);
