@@ -17,6 +17,7 @@ import com.autoStock.position.ListenerOfPositionStatusChange;
 import com.autoStock.position.PositionCallback;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionHistory;
+import com.autoStock.position.PositionHistory.PositionHistoryItem;
 import com.autoStock.position.PositionManager;
 import com.autoStock.position.PositionOptions;
 import com.autoStock.position.PositionUtils;
@@ -211,7 +212,7 @@ public class Position implements OrderStatusListener {
 	
 	public void updatePosition(QuoteSlice quoteSlice){
 		unitPriceLastKnown = quoteSlice.priceClose;
-		positionHistory.addProfitLoss(getCurrentPercentGainLoss(true));
+		positionHistory.addProfitLoss(new PositionHistoryItem(getCurrentPercentGainLoss(true), quoteSlice.priceClose, quoteSlice.dateTime));
 	}
 	
 	public synchronized PositionValue getPositionValue(){
@@ -239,7 +240,7 @@ public class Position implements OrderStatusListener {
 	}
 	
 	public double getPositionProfitDrawdown(){
-		return MathTools.round(getCurrentPercentGainLoss(true) - positionHistory.getMaxPercentProfitLoss());
+		return MathTools.round(getCurrentPercentGainLoss(true) - positionHistory.getMaxPercentProfitLoss().profitLossPercent);
 	}
 	
 	public Order getLastEntryOrder(){

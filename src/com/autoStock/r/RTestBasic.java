@@ -12,7 +12,7 @@ public class RTestBasic {
 		Rengine rEngine = RJavaController.getInstance().getREngine();
 
 		Benchmark bench = new Benchmark();
-		bench.tick();
+		bench.printTick("--> Started up");
 		
 		double[][] ohlc2 = new double[][]{
 				{10.34, 10.35, 10.34},
@@ -53,10 +53,6 @@ public class RTestBasic {
 		
 		bench.tick();
 		
-		for (double value : Arrays.copyOfRange(rEngine.eval("CCI(a)").asDoubleArray(), 19, 30)){Co.println("--> Value: " + value);}
-		for (double value : Arrays.copyOfRange(rEngine.eval("CCI(a)").asDoubleArray(), 19, 30)){Co.println("--> Value: " + value);}
-		for (double value : Arrays.copyOfRange(rEngine.eval("CCI(a)").asDoubleArray(), 19, 30)){Co.println("--> Value: " + value);}
-		for (double value : Arrays.copyOfRange(rEngine.eval("CCI(a)").asDoubleArray(), 19, 30)){Co.println("--> Value: " + value);}
 		for (double value : Arrays.copyOfRange(rEngine.eval("CCI(a)").asDoubleArray(), 19, 30)){Co.println("--> Value: " + value);}
 		
 		bench.printTick("Done");

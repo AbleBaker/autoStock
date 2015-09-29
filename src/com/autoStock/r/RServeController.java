@@ -14,9 +14,8 @@ import com.autoStock.osPlatform.Os.OsType;
 
 public class RServeController {
 	private static final int instancePoolSize = 32;
-	
 	private ArrayList<RProcess> listOfRServeProcesses = new ArrayList<RProcess>();
-	
+
 	public void start(){
 		// should use Os.OsShell
 		

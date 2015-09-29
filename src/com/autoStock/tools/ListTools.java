@@ -9,6 +9,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.encog.ml.data.MLData;
+
 import com.autoStock.signal.extras.EncogFrame;
 
 /**
@@ -79,5 +81,17 @@ public class ListTools {
 	public static <T> ArrayList<T> subList(List<T> list, int start, int end){
 		if (end == -1){end = list.size();}
 		return new ArrayList<T>(list.subList(start, end));
+	}
+
+	public static ArrayList<Double> getLast(List<Double> list, int elements) {
+		return subList(list, list.size() - elements, -1);
+	}
+	
+	public static <T> T getLast(List<T> list){
+		return list.get(list.size()-1);
+	}
+
+	public static <T> T getFirst(List<T> list){
+		return list.get(0);
 	}
 }

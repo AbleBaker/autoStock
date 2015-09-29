@@ -3,13 +3,19 @@
  */
 package com.autoStock.r;
 
-import java.util.Arrays;
+import java.io.*;
+import java.awt.Frame;
+import java.awt.FileDialog;
+import java.util.Enumeration;
 
-import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
+import org.rosuda.JRI.REXP;
+import org.rosuda.JRI.RList;
+import org.rosuda.JRI.RVector;
+import org.rosuda.JRI.RMainLoopCallbacks;
 
 import com.autoStock.Co;
-import com.autoStock.tools.Benchmark;
+
 
 /**
  * @author Kevin
@@ -18,7 +24,7 @@ import com.autoStock.tools.Benchmark;
 public class RJavaController {
 	public static RJavaController instance = new RJavaController();
 	private boolean useCompiler = false;
-	private boolean useTextConsole = false;
+	private boolean useTextConsole = true;
 	private Rengine rEngine;
 	
 	private RJavaController(){
@@ -27,10 +33,11 @@ public class RJavaController {
 	}
 	
 	private void loadRInstance() {
-		rEngine = new Rengine(new String[]{}, false, useTextConsole ? new TextConsole() : new REmptyCallback());
+		Co.println("--> ?");
+		rEngine = new Rengine(new String[]{}, false, useTextConsole ? new TextConsoleX() : new REmptyCallback());
 		if (rEngine.waitForR() == false){throw new IllegalStateException("Could start R properly...");}
 		
-		//rEngine.eval("install.packages(\"quantmod\")");
+//		rEngine.eval("install.packages(\"quantmod\")");
 		//rEngine.eval("install.packages(\"TTR\")");	
 		
 		rEngine.eval("library(\"quantmod\")");
@@ -41,6 +48,7 @@ public class RJavaController {
 			rEngine.eval("enableJIT(0)");
 		}
 		
+		Co.println("--> Started instance");
 	}
 	
 	public synchronized Rengine getREngine(){

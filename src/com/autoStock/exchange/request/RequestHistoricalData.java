@@ -84,7 +84,7 @@ public class RequestHistoricalData {
 	public synchronized void finished(){
 		this.requestHolder.mulitpleRequests--;
 		if (this.requestHolder.mulitpleRequests <= 0){
-			Collections.sort(exResultSetHistoricalData.listOfExResultRowHistoricalData, new ReflectiveComparator.ListComparator("date", SortDirection.order_ascending));
+			Collections.sort(exResultSetHistoricalData.listOfExResultRowHistoricalData, new ReflectiveComparator.ListComparator("date", SortDirection.asc));
 			this.requestHistoricalDataListener.completed(requestHolder, exResultSetHistoricalData);
 		}
 	}

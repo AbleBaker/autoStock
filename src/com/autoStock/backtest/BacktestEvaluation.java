@@ -198,7 +198,7 @@ public class BacktestEvaluation {
 		String string = new DecimalFormat("#.00").format(getScore()) + "[%" + new DecimalFormat("#.00").format(percentYield) + "] ";
 		
 		for (Pair<Date, Double> pair : listOfDailyYield){
-			string += " " + new SimpleDateFormat("dd/MM/yyyy").format(pair.first) + " -> %" + new DecimalFormat("#.00").format(pair.second);
+			string += " " + new SimpleDateFormat("dd/MM/yyyy").format(pair.first) + " -> %" + new DecimalFormat("#.00").format(pair.second) + "\n";
 		}
 		
 		return string;

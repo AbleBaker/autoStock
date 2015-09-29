@@ -31,7 +31,7 @@ public class Time {
 		return false;
 	}
 	
-	public int getSeconds(){
+	public int asSeconds(){
 		return (hours *60 * 60) + (minutes * 60) + seconds;
 	}
 	

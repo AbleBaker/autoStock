@@ -107,7 +107,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		}
 		if (algorithmMode.displayTable) {
 			Co.println("--> " + symbol.symbolName);
-			new TableController().displayTable(AsciiTables.algorithm, tableForAlgorithm.getDisplayRows());
+			new TableController().displayTable(tableForAlgorithm.INCLUDE_SIGNALS ? AsciiTables.algorithm : AsciiTables.algorithm_no_signals, tableForAlgorithm.getDisplayRows());
 		}
 		if (algorithmListener != null) {
 			algorithmListener.endOfAlgorithm();

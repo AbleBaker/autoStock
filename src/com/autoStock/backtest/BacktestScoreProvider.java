@@ -13,8 +13,8 @@ public class BacktestScoreProvider {
 		double score = 0;
 		
 //		score = getScoreOnlyYield(backtestEvaluation);
-		score = getScoreDoDYield(backtestEvaluation);
-//		score = getScorePerTrans(backtestEvaluation);
+//		score = getScoreDoDYield(backtestEvaluation);
+		score = getScorePerTrans(backtestEvaluation);
 		
 		if (allowNegativeScore){return score;}
 		else {return score > 0 ? score : 0;}
@@ -27,10 +27,13 @@ public class BacktestScoreProvider {
 		
 		for (Pair<Date, Double> pair : backtestEvaluation.transactionDetails.listOfTransactionYield){
 			score += pair.second;
-			if (pair.second < 0){penalty++;}
+			
+			if (pair.second < 0){
+				penalty++;
+			}
 		}
 		
-		score /= penalty;
+		score /= (penalty /2);
 		
 		return score;
 	}

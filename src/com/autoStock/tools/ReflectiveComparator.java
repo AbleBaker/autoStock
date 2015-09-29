@@ -38,8 +38,8 @@ public class ReflectiveComparator{
 	    private SortDirection sortDirection;
 	    
 	    public static enum SortDirection {
-	    	order_ascending,
-	    	order_descending,
+	    	asc,
+	    	desc,
 	    }
 
 	    public ListComparator(String fieldName, SortDirection sortDirection) {
@@ -63,9 +63,9 @@ public class ReflectiveComparator{
 	            if (o1FieldValue == null){ return -1;}
 	            if (o2FieldValue == null){ return 1;}
 	            
-	            if (sortDirection == SortDirection.order_ascending){
+	            if (sortDirection == SortDirection.asc){
 		            return o1FieldValue.compareTo(o2FieldValue);    	
-	            }else if (sortDirection == SortDirection.order_descending){
+	            }else if (sortDirection == SortDirection.desc){
 		            return o2FieldValue.compareTo(o1FieldValue);
 	            }else{
 	            	throw new UnsupportedOperationException();

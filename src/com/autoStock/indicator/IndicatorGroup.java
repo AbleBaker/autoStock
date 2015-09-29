@@ -2,6 +2,7 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
 import com.autoStock.indicator.results.ResultsEMA;
@@ -150,6 +151,7 @@ public class IndicatorGroup {
 		for (IndicatorBase<?> indicator : listOfIndicatorBase){
 			if (indicator instanceof CandleStickIdentifier == false){
 				for (SignalMetricType signalMetricType : indicator.getSignalMetricTypeList()){
+//					Co.println("--> Indicator, length: " + indicator.getClass().getSimpleName() + ", " + indicator.getRequiredDatasetLength());
 					if (listOfSignalMetricTypeAnalyze.contains(signalMetricType) || includeAll){
 						if (indicator.getRequiredDatasetLength() > min){
 							min = indicator.getRequiredDatasetLength();

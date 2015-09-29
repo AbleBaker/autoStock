@@ -29,6 +29,8 @@ import com.autoStock.menu.MenuDefinitions.MenuArguments;
 import com.autoStock.menu.MenuDefinitions.MenuStructures;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.premise.PremiseTest;
+import com.autoStock.r.RTestBasic;
+import com.autoStock.r.rtest;
 import com.autoStock.replay.ReplayController;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
@@ -138,9 +140,11 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_main_test){
 			//new MainTest();
-			new BacktestPredictFuture().run();
+//			new BacktestPredictFuture().run();
 //			new PremiseTest().run();
-//			new MainRTest().run(); 
+//			new MainRTest().run();
+			new RTestBasic().run();
+//			rtest.main(new String[]{});
 		}
 		
 		else if (menuStructure == MenuStructures.menu_internal_build_database_definitions){

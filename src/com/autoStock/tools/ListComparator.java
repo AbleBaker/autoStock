@@ -26,8 +26,8 @@ public class ListComparator {
 		if (firstArrayList.size() >= secondArrayList.size()){largestSize = firstArrayList.size();}
 		else{largestSize = secondArrayList.size();}
 		
-		Collections.sort(firstArrayList, new ReflectiveComparator.ListComparator(field, SortDirection.order_ascending));
-		Collections.sort(secondArrayList, new ReflectiveComparator.ListComparator(field, SortDirection.order_ascending));
+		Collections.sort(firstArrayList, new ReflectiveComparator.ListComparator(field, SortDirection.asc));
+		Collections.sort(secondArrayList, new ReflectiveComparator.ListComparator(field, SortDirection.asc));
 		
 		for (int i=0; i<largestSize; i++){
 			if (firstArrayList.get(i) == null && secondArrayList.get(i) != null){return true;}
@@ -49,8 +49,8 @@ public class ListComparator {
 		if (firstArrayList == null && secondArrayList != null ){return secondArrayList;}
 		if (firstArrayList != null && secondArrayList == null){return firstArrayList;}
 		
-		Collections.sort(firstArrayList, new ReflectiveComparator.ListComparator(fieldName, SortDirection.order_ascending));
-		Collections.sort(secondArrayList, new ReflectiveComparator.ListComparator(fieldName, SortDirection.order_ascending));
+		Collections.sort(firstArrayList, new ReflectiveComparator.ListComparator(fieldName, SortDirection.asc));
+		Collections.sort(secondArrayList, new ReflectiveComparator.ListComparator(fieldName, SortDirection.asc));
 		
 		for (Object object : firstArrayList){
 			Field field = null;			

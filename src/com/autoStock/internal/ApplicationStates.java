@@ -17,7 +17,7 @@ public class ApplicationStates {
 	
 	public static void startup(Mode mode){
 		Global.setMode(mode);
-		ConsoleScanner.start();
+//		ConsoleScanner.start(); //TODO: Messes with JRI
 		
 		databaseCore = new DatabaseCore();
 		databaseCore.init();

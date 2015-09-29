@@ -6,6 +6,8 @@ package com.autoStock.r;
 import org.rosuda.JRI.RMainLoopCallbacks;
 import org.rosuda.JRI.Rengine;
 
+import com.autoStock.Co;
+
 /**
  * @author Kevin
  *

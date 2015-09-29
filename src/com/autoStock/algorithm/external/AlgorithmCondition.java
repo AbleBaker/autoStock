@@ -3,13 +3,17 @@ package com.autoStock.algorithm.external;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
+import com.autoStock.position.PositionHistory;
+import com.autoStock.position.PositionHistory.ProfitOrLoss;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.ListTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -180,21 +184,24 @@ public class AlgorithmCondition {
 		return false;
 	}
 	
-	public boolean requestExitAfterLossDate(Date date, Position position, ArrayList<StrategyResponse> listOfStrategyResponse){
-		if (strategyOptions.maxPositionLossTime == 0){
-			return false;
-		}
+	public boolean requestExitAfterTimeInLoss(Date date, Position position, ArrayList<StrategyResponse> listOfStrategyResponse){
+		if (strategyOptions.maxPositionTimeAtLoss.value == 0){return false;}
 		
-		if (((date.getTime() - position.getPositionHistory().dateOfCreation.getTime()) / 60 / 1000) > strategyOptions.maxPositionLossTime && position.getPositionProfitLossAfterComission(true) <= 0){
+		//Co.println("--> A: " + ListTools.getLast(position.getPositionHistory().listOfPositionHistory).date + ", " + position.getPositionHistory().getTimeIn(ProfitOrLoss.loss).asSeconds());		
+		//Co.println("--> B: " + ListTools.getLast(position.getPositionHistory().listOfPositionHistory).date + ", " + position.getPositionHistory().getTimeIn(ProfitOrLoss.profit).asSeconds());
+
+		if (position.getPositionHistory().getTimeIn(ProfitOrLoss.loss).asSeconds() >= strategyOptions.maxPositionTimeAtLoss.value * 60){
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public boolean requestExitAfterProfitHold(QuoteSlice quoteSlice, Position position){
-		if (position.getCurrentPercentGainLoss(true) >= strategyOptions.maxPositionProfitTimeMinYield.value){
-			if (((quoteSlice.dateTime.getTime() - position.getPositionHistory().dateOfCreation.getTime()) / 60 / 1000) >= strategyOptions.maxPositionProfitTime.value){
+	public boolean requestExitAfterTimeInProfit(QuoteSlice quoteSlice, Position position){
+		if (strategyOptions.maxPositionTimeAtLoss.value == 0){return false;}
+		
+		if (position.getPositionHistory().getTimeIn(ProfitOrLoss.profit).asSeconds() >= strategyOptions.maxPositionTimeAtProfit.value * 60){
+			if (position.getCurrentPercentGainLoss(true) >= strategyOptions.minPositionTimeAtProfitYield.value){
 				return true;
 			}
 		}
@@ -255,7 +262,7 @@ public class AlgorithmCondition {
 //		Co.print("--> Max Profit was: " +  new DecimalFormat("#.00").format(MathTools.round(position.getPositionHistory().getMaxPercentProfitLoss())));
 		
 		double profitDrawdown = position.getPositionProfitDrawdown();
-		double positionMaxProfitPercent = position.getPositionHistory().getMaxPercentProfitLoss();
+		double positionMaxProfitPercent = position.getPositionHistory().getMaxPercentProfitLoss().profitLossPercent;
 		
 //		Co.println("--> Drawdown is: " +  positionMaxProfitPercent + ", " + new DecimalFormat("#.00").format(profitDrawdown));
 //		Co.println("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))) + "\n");

@@ -43,7 +43,6 @@ public class TrainEncogNetworkOfBasic extends TrainEncogBase {
 		for (int i = 0; i < count; i++) {
 			train.iteration();
 			Co.println("--> Training... " + i + ", " + MathTools.round(train.getError()));
-			
 			bestScore = Math.max(train.getError(), bestScore);
 		}
 		

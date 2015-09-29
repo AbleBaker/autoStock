@@ -23,6 +23,7 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class TableForAlgorithm extends BaseTable {
+	public static boolean INCLUDE_SIGNALS = false;
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	
 	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse, BasicAccount basicAccount){
@@ -33,16 +34,19 @@ public class TableForAlgorithm extends BaseTable {
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
 		columnValues.add(decimalFormat.format(quoteSlice.priceClose));
 		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfDI.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfUO.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfCCI.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfRSI.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfSTORSI.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMACD.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfTRIX.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfROC.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMFI.getStrength())));
-		columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfWILLR.getStrength())));
+		
+		if (INCLUDE_SIGNALS){
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfDI.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfUO.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfCCI.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfRSI.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfSTORSI.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMACD.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfTRIX.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfROC.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMFI.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfWILLR.getStrength())));
+		}
 		
 		columnValues.add(strategyResponse.positionGovernorResponse.status.name());
 		columnValues.add(strategyResponse.strategyAction == StrategyAction.no_change ? "-" : (strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name()));

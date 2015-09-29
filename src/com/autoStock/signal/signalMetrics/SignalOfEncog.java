@@ -31,6 +31,7 @@ public class SignalOfEncog extends SignalBase {
 	private static final int INPUT_LENGTH = 136;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_PS = 20;
+	private static final boolean HAS_DELTAS = true;
 	private String networkName;
 	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
@@ -171,7 +172,7 @@ public class SignalOfEncog extends SignalBase {
 
 	public boolean isLongEnough(SignalBase... arrayOfSignalBase) {
 		for (SignalBase signalBase : arrayOfSignalBase){
-			if (signalBase.listOfNormalizedValuePersist.size() <= INPUT_WINDOW_PS){
+			if (signalBase.listOfNormalizedValuePersist.size() <= INPUT_WINDOW_PS + (HAS_DELTAS ? 1 : 0)){
 				return false;
 			}
 		}

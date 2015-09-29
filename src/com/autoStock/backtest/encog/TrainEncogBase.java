@@ -29,7 +29,7 @@ public abstract class TrainEncogBase {
 
 	public boolean networkExists() { 
 		if (this instanceof TrainEncogNetworkOfBasic){
-			return encogNetworkProvider.getNeatNetwork(networkName) != null; 
+			return encogNetworkProvider.getBasicNetwork(networkName) != null; 
 		}else if (this instanceof TrainEncogNetworkOfNeat){
 			return encogNetworkProvider.getNeatNetwork(networkName) != null; 
 		}

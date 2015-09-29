@@ -13,6 +13,7 @@ import com.autoStock.internal.ConsoleScanner.ConsoleListener;
 import com.autoStock.internal.ConsoleScanner.ConsoleMatch;
 import com.autoStock.internal.Global;
 import com.autoStock.tools.Benchmark;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.trading.types.HistoricalDataList;
@@ -49,7 +50,8 @@ public class WMBacktest implements ConsoleListener {
 		
 		ListTools.removeDuplicates(listOfSymbols);
 		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(exchange, dateStart, dateEnd, listOfSymbols);
-		
+		Co.println("--> Running from " + DateTools.getPrettyDate(dateStart) + " to " + DateTools.getPrettyDate(dateEnd));
+
 		bench.printTick("Started");
 		
 		setupBacktestContainers();
