@@ -31,7 +31,7 @@ public class StringTools {
 		}
 	}
 	
-	public static String addPlusToPositiveNumbers(double number){
+	public static String addPlus(double number){
 		if (number > 0){
 			return "+" + number;
 		}else{

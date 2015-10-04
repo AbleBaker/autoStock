@@ -7,6 +7,7 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.tools.ArrayTools;
+import com.autoStock.tools.ListTools;
 import com.autoStock.types.basic.MutableInteger;
 
 public abstract class SignalBase {
@@ -36,7 +37,9 @@ public abstract class SignalBase {
 	
 	public double[] getNormalizedWindow(int windowSize){
 		if (windowSize <= 0 || listOfNormalizedValuePersist.size() - windowSize < 0){throw new IllegalArgumentException("Could not satisfy window size: " + windowSize + ", available: " + listOfNormalizedValuePersist.size());}
-		return ArrayTools.getArrayFromListOfDouble(listOfNormalizedValuePersist.subList(listOfNormalizedValuePersist.size()-windowSize, listOfNormalizedValuePersist.size()));
+		return ArrayTools.getArrayFromListOfDouble(ListTools.getLast(listOfNormalizedValuePersist, windowSize));
+		
+		//return ArrayTools.getArrayFromListOfDouble(listOfNormalizedValuePersist.subList(listOfNormalizedValuePersist.size()-windowSize, listOfNormalizedValuePersist.size()));
 	}
 
 	public double getStrength(){

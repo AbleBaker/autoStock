@@ -1,4 +1,4 @@
-package com.autoStock.memoryCache;
+package com.autoStock.cache;
 
 import java.util.HashMap;
 

@@ -10,12 +10,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.autoStock.Co;
+import com.autoStock.cache.DiskCache;
+import com.autoStock.cache.HashCache;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.memoryCache.DiskCache;
-import com.autoStock.memoryCache.HashCache;
 import com.autoStock.tools.MiscTools;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,7 +42,7 @@ public class DatabaseQuery {
 				
 				if (diskCache.containsKey(queryHash) && getGsonType(dbQuery) != null){
 	//				Co.println("--> Using disk cache");
-					ArrayList<?> listOfResults = diskCache.getValue(queryHash, getGsonType(dbQuery));
+					ArrayList<?> listOfResults = diskCache.readList(queryHash, getGsonType(dbQuery));
 					hashCache.addValue(queryHash, listOfResults);
 					return listOfResults; 
 				}
@@ -64,7 +64,7 @@ public class DatabaseQuery {
 			
 			if (dbQuery.isCachable){
 				hashCache.addValue(queryHash, listOfResults);
-				diskCache.addValue(queryHash, listOfResults);
+				diskCache.writeList(queryHash, listOfResults);
 			}
 			
 			return listOfResults;

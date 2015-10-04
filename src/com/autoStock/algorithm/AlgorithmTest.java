@@ -44,7 +44,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo, SignalMetricType.metric_willr, SignalMetricType.metric_adx, SignalMetricType.metric_di, SignalMetricType.metric_roc})), strategyBase.strategyOptions.listOfSignalMetricType);
 			//setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
 		}else{
-			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType); //ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci})));
 		}
 
 		initialize();
@@ -107,7 +107,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		}
 		if (algorithmMode.displayTable) {
 			Co.println("--> " + symbol.symbolName);
-			new TableController().displayTable(AsciiTables.algorithm, tableForAlgorithm.getDisplayRows());
+			new TableController().displayTable(tableForAlgorithm.INCLUDE_SIGNALS ? AsciiTables.algorithm : AsciiTables.algorithm_no_signals, tableForAlgorithm.getDisplayRows());
 		}
 		if (algorithmListener != null) {
 			algorithmListener.endOfAlgorithm();

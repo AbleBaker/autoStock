@@ -123,8 +123,8 @@ public class Prefill {
 		
 		Time time = DateTools.getTimeUntilTime(DateTools.getTimeFromDate(startingDate), timeOpenForeign);
 		
-		int minutesFromDatabase = (periodLength - (time.getSeconds() / 60));
-		int minutesFromBroker = time.getSeconds() / 60; 
+		int minutesFromDatabase = (periodLength - (time.asSeconds() / 60));
+		int minutesFromBroker = time.asSeconds() / 60; 
 		
 //		Co.println("--> Minutes from database, broker: " + minutesFromDatabase + ", " + minutesFromBroker);
 		

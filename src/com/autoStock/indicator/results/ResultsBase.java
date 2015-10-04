@@ -24,7 +24,7 @@ public abstract class ResultsBase {
 	}
 	
 	public ArrayList<BasicTimeValuePair> getResultsAsListOfBasicTimeValuePair(Date[] arrayOfDates, double[] arrayOfValues){
-		return ResultsTools.getResultsAsListOfBasicTimeValuePair(arrayOfDates, arrayOfValues);
+		return ResultsTools.getBasicPair(arrayOfDates, arrayOfValues);
 	}
 	
 	public boolean isStandard(){

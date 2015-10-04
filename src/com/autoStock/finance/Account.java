@@ -29,25 +29,25 @@ public class Account {
 		return instance;
 	}
 
-	public synchronized double getAccountBalance() {
+	public double getAccountBalance() {
 		synchronized (this) {
 			return MathTools.round(bankBalance.get());
 		}
 	}
 
-	public synchronized double getTransactionFeesPaid() {
+	public double getTransactionFeesPaid() {
 		synchronized (this) {
 			return MathTools.round(transactionFeesPaid.get());
 		}
 	}
 
-	public synchronized int getTransactions() {
+	public int getTransactions() {
 		synchronized (this) {
 			return transactions.get();
 		}
 	}
 
-	public synchronized void changeAccountBalance(double positionCost, double transactionCost) {
+	public void changeAccountBalance(double positionCost, double transactionCost) {
 		synchronized (this) {
 			// Co.println("--> Changing account balance by: " + positionCost + ", " + transactionCost + ", " + (positionCost + transactionCost));
 

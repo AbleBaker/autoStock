@@ -154,6 +154,8 @@ public class SignalOfEncogNew extends SignalBase {
 //				Co.print(" " + value);
 //			}
 			
+			Co.println("--> Have frame: " + encogFrame.frameType.name());
+			
 			if (encogFrame.frameType == FrameType.raw){
 				for (int i=0; i<encogFrame.getLength(); i++){
 					input.add(i, normalizerLarge.normalize(encogFrame.asDoubleArray()[i]));

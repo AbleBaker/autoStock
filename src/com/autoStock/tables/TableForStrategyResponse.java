@@ -30,7 +30,7 @@ public class TableForStrategyResponse extends BaseTable {
 			listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 			listOfString.add(backtestContainer.symbol.symbolName);
 			listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
-			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("changed", "").replaceAll("proceed_", "").replaceAll("_condition_", " -> ").replaceAll("_", " "));
+			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("proceed_changed", "entry").replaceAll("changed", "").replaceAll("proceed_", "").replaceAll("_condition_", " -> ").replaceAll("_", " "));
 			listOfString.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", "").replaceAll("_", " "));
 
 			String stringForSignal = new String();

@@ -47,7 +47,8 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class EncogBacktestContainer implements StrategyOptionsOverride {
+public class EncogBacktestContainer {
+	private static boolean USE_SO_OVERRIDE = true; 
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
 	public Exchange exchange;
@@ -90,11 +91,23 @@ public class EncogBacktestContainer implements StrategyOptionsOverride {
 		
 		Co.println("OK!");
 		
-		trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, this), bestResult);
+		StrategyOptionsOverride strategyOptionsOverride = new StrategyOptionsOverride() {
+			@Override
+			public void override(StrategyOptions strategyOptions) {
+				//For loose Encog training
+				strategyOptions.disableAfterYield.value = 1000d;
+				strategyOptions.maxStopLossPercent.value = -1000d;
+				strategyOptions.maxProfitDrawdownPercent.value = -1000d;
+				strategyOptions.maxPositionTimeAtLoss.value = -1000;
+				strategyOptions.maxPositionTimeAtProfit.value = 1000;
+			}
+		};
+		
+		trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null), bestResult);
 		trainEncogSignal.getTrainer().saveNetwork();
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, this));
+		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null));
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		Co.print(new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer).toString());
@@ -106,10 +119,5 @@ public class EncogBacktestContainer implements StrategyOptionsOverride {
 //		
 //		BacktestEvaluation backtestEvaluationOutOfSample = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 //		Co.println("\n\n Out of sample: " + dateOutOfSample + ", " + backtestEvaluationOutOfSample.percentYield);
-	}
-
-	@Override
-	public void override(StrategyOptions strategyOptions) {
-		
 	}
 }

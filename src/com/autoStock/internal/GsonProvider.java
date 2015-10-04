@@ -14,6 +14,13 @@ import com.google.gson.GsonBuilder;
  *
  */
 public class GsonProvider {
+	public Gson getGsonInstance(){
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.setPrettyPrinting();
+		gsonBuilder.serializeSpecialFloatingPointValues();
+		return gsonBuilder.create();
+	}
+	
 	public Gson getGsonForBacktestEvaluations(){
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(SignalParameters.class, new GsonClassAdapter());

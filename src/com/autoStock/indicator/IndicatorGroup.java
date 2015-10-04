@@ -2,6 +2,7 @@ package com.autoStock.indicator;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.candleStick.CandleStickIdentifier;
 import com.autoStock.indicator.candleStick.CandleStickIdentifierResult;
 import com.autoStock.indicator.results.ResultsEMA;
@@ -24,6 +25,7 @@ import com.autoStock.signal.SignalDefinitions.IndicatorParametersForWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.taLib.Core;
+import com.autoStock.tools.Benchmark;
 
 /**
  * @author Kevin Kowalewski
@@ -45,6 +47,7 @@ public class IndicatorGroup {
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 	private ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
 	private ArrayList<SignalMetricType> listOfSignalMetricTypeActive = new ArrayList<SignalMetricType>();
+	private Benchmark bench = new Benchmark();
 
 	public IndicatorGroup(CommonAnalysisData commonAnlaysisData, SignalGroup signalGroup) {
 		this.signalGroup = signalGroup;
@@ -150,6 +153,7 @@ public class IndicatorGroup {
 		for (IndicatorBase<?> indicator : listOfIndicatorBase){
 			if (indicator instanceof CandleStickIdentifier == false){
 				for (SignalMetricType signalMetricType : indicator.getSignalMetricTypeList()){
+//					Co.println("--> Indicator, length: " + indicator.getClass().getSimpleName() + ", " + indicator.getRequiredDatasetLength());
 					if (listOfSignalMetricTypeAnalyze.contains(signalMetricType) || includeAll){
 						if (indicator.getRequiredDatasetLength() > min){
 							min = indicator.getRequiredDatasetLength();

@@ -32,9 +32,13 @@ public class DateTools {
 	}
 	
 	public static String getPrettyDate(Date date){
+		return getPrettyDate(date, false);
+	}
+	
+	public static String getPrettyDate(Date date, boolean includeSeconds){
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
-		dateFormat.applyPattern("yyyy/MM/dd hh:mm:ss a");
-		
+		if (includeSeconds){dateFormat.applyPattern("yyyy/MM/dd hh:mm:ss a");}
+		else {dateFormat.applyPattern("yyyy/MM/dd hh:mm a");}
 		return dateFormat.format(date);
 	}
 	
@@ -247,7 +251,7 @@ public class DateTools {
 	public static Time getTimeUntilTime(Time timeFirst, Time timeSecond){
 		Time time = new Time();
 		
-		long secDiff = timeFirst.getSeconds() - timeSecond.getSeconds();
+		long secDiff = timeFirst.asSeconds() - timeSecond.asSeconds();
 		
 		time.hours = (int) (secDiff / (60*60));
 		time.minutes = (int) ((secDiff % (60*60)) / 60);

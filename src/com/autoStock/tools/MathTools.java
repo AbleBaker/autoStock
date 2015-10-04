@@ -341,40 +341,43 @@ public class MathTools {
 		
 		for (int i=0; i<arrayOfDouble.length; i++){
 			if (i == 0){
-				results[i] = 0;
+				results[i] = Double.NaN;
 			}else{
 //				Co.println("--> X["+i+"]: " + arrayOfDouble[i] + ", " + arrayOfDouble[i-1]);
 				
 				results[i] = ((arrayOfDouble[i] / arrayOfDouble[i-1]) -1) * 100;
 				
-//				if (Double.isInfinite(results[i]) || Double.isNaN(results[i])){
-//					throw new IllegalArgumentException("Delta's are not right: " + i + ", " + arrayOfDouble[i] + " / " + arrayOfDouble[i-1]);
-//				}
+				if (Double.isInfinite(results[i]) || Double.isNaN(results[i])){
+					//throw new IllegalArgumentException("Delta's are not right: " + i + ", " + arrayOfDouble[i] + " / " + arrayOfDouble[i-1]);
+				}
 			}
 		}
 		
 		return results;
 	}
 	
-	private static double[] lastValues = new double[4];
 	
-	public static void getPercentChangeList(ArrayList<Double> resultList, double... values){
-		if (resultList.size() == 0){
+	private static ArrayList<Double> lastValues = new ArrayList<>();
+	
+	public static void genPercentChangeList(ArrayList<Double> resultList, int indexOffset, double... values){
+		int sequence = resultList.size() / values.length;
+		
+		if (resultList.size() < (indexOffset * values.length)){
 			for (int i=0; i<values.length; i++){
 				resultList.add(Double.NaN);
-				lastValues[i] = values[i];
+				lastValues.add(values[i]);
 			}
 			return;
 		}
 		
 		for (int i=0; i<values.length; i++){
-			double lastValue = lastValues[i]; //resultList.get(resultList.size() -1 - i);
+			double lastValue = lastValues.get(i + ((sequence - indexOffset) * values.length));
 			double currentValue = values[i];
 			double change = ((currentValue / lastValue) -1) * 100;
 			
-			Co.println("--> Last value, current: " + lastValue + ", " + currentValue + " -> " + change);
+//			Co.println("--> Last value, current: " + lastValue + ", " + currentValue + " -> " + change);
 			
-			lastValues[i] = currentValue;
+			lastValues.add(currentValue);
 			
 			resultList.add(change);
 		}

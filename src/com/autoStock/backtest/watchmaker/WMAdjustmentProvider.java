@@ -53,8 +53,9 @@ public class WMAdjustmentProvider {
 		//Stop Loss & Profit Drawdown
 //		listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO maxStopLossPercent", algorithmBase.strategyBase.strategyOptions.maxStopLossPercent, new IterableOfDouble(-0.25, 0, 0.01)));
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO maxProfitDrawdownPercent", algorithmBase.strategyBase.strategyOptions.maxProfitDrawdownPercent, new IterableOfDouble(-0.25, 0, 0.01)));
-//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SO maxProfitTime", algorithmBase.strategyBase.strategyOptions.maxPositionProfitTime, new IterableOfInteger(0, 45, 1)));
-//     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO maxProfitTimeYield", algorithmBase.strategyBase.strategyOptions.maxPositionProfitTimeMinYield, new IterableOfDouble(0, 1.0, 0.10)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SO maxTimeAtProfit", algorithmBase.strategyBase.strategyOptions.maxPositionTimeAtProfit, new IterableOfInteger(0, 45, 1)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SO maxTimeAtLoss", algorithmBase.strategyBase.strategyOptions.maxPositionTimeAtProfit, new IterableOfInteger(0, 45, 1)));
+//     	listOfAdjustmentBase.add(new AdjustmentOfBasicDouble("SO minTimeAtProfitYield", algorithmBase.strategyBase.strategyOptions.minPositionTimeAtProfitYield, new IterableOfDouble(0, 1.0, 0.10)));
      	
      	//Reentry
 //     	listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("SO intervalForReentryMins", algorithmBase.strategyBase.strategyOptions.intervalForReentryMins, new IterableOfInteger(1, 15, 1)));

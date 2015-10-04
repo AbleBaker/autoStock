@@ -2,6 +2,7 @@ package com.autoStock.backtest;
 
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.google.gson.internal.Pair;
 
 /**
@@ -13,21 +14,23 @@ public class BacktestScoreProvider {
 		double score = 0;
 		
 //		score = getScoreOnlyYield(backtestEvaluation);
-		score = getScoreDoDYield(backtestEvaluation);
-//		score = getScorePerTrans(backtestEvaluation);
+//		score = getScoreDoDYield(backtestEvaluation);
+		score = getScorePerTrans(backtestEvaluation);
 		
 		if (allowNegativeScore){return score;}
 		else {return score > 0 ? score : 0;}
 	}
 	
 	private static double getScorePerTrans(BacktestEvaluation backtestEvaluation){
-		
 		double score = 0;
 		int penalty = 1;
 		
 		for (Pair<Date, Double> pair : backtestEvaluation.transactionDetails.listOfTransactionYield){
 			score += pair.second;
-			if (pair.second < 0){penalty++;}
+			
+			if (pair.second < 0){
+				penalty++;
+			}
 		}
 		
 		score /= penalty;

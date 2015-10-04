@@ -40,8 +40,8 @@ public class SignalGenerator {
 			for (SignalBase signalBase : arrayOfSignalBase){
 				EncogSubframe subframe = getSubFrame(signalBase, frameType);
 				for (Double value : subframe.asDoubleList()){
-					if (Double.isNaN(value) || Double.isInfinite(value)){
-						//throw new IllegalStateException("Subframe value was NaN or Infinite: " + signalBase.getClass().getName() + ", " + value);
+					if (Double.isNaN(value)){ // || Double.isInfinite(value)){
+						//throw new IllegalStateException("Subframe value was NaN or Infinite: " + subframe.frameType.name() + ", " + signalBase.getClass().getName() + ", " + value);
 					}
 				}
 				encogFrame.addSubframe(subframe);

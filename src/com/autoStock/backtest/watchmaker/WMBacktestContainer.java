@@ -49,6 +49,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel>, StateRequestListener {
+	private static final boolean BLANK_ENCOG = false;
 	private static final int ISLAND_COUNT = Runtime.getRuntime().availableProcessors() -1;
 	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
 	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
@@ -95,18 +96,19 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = null;
 		
-		Co.print("--> Blanking the network... ");
-		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
-			trainEncogSignal.getTrainer().saveNetwork();
-		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
-			trainEncogSignal.setDetails(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol));
-			for (int i=0; i<TrainEncogSignal.TRAINING_ITERATIONS/3; i++){
-				trainEncogSignal.getTrainer().train(3, 0);
-				if (trainEncogSignal.getTrainer().bestScore > 0.01){trainEncogSignal.getTrainer().saveNetwork(); break;}
+		if (BLANK_ENCOG){
+			Co.print("--> Blanking the network... ");
+			if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
+				trainEncogSignal.getTrainer().saveNetwork();
+			}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
+				trainEncogSignal.setDetails(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol));
+				for (int i=0; i<TrainEncogSignal.TRAINING_ITERATIONS/3; i++){
+					trainEncogSignal.getTrainer().train(3, 0);
+					if (trainEncogSignal.getTrainer().bestScore > 0.01){trainEncogSignal.getTrainer().saveNetwork(); break;}
+				}
 			}
+			Co.println("OK!");
 		}
-		
-		Co.println("OK!");
 		
 		if (evolutionType == WMEvolutionType.type_island){
 			islandEvolutionEngine = new IslandEvolution<>(evolutionThorough == WMEvolutionThorough.thorough_quick ? ISLAND_COUNT : ISLAND_COUNT * 2, 
@@ -166,7 +168,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 
 		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateOutOfSample, DateTools.getRolledDate(dateOutOfSample, Calendar.DAY_OF_MONTH, 5), Resolution.min)).getBacktestEvaluation(algorithmModel, true);
 		
-		Co.println("\n\n Out of sample: " + dateOutOfSample + ", " + backtestEvaluationOutOfSample.getSingleLine());
+		Co.println("\n\n Out of sample: " + dateOutOfSample + "\n" + backtestEvaluationOutOfSample.getSingleLine());
 		
 //		Co.print(backtestEvaluationOutOfSample.toString());
 		
