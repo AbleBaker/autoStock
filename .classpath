@@ -47,6 +47,6 @@
 			<attribute name="javadoc_location" value="file:/C:/Users/Kevin/Downloads/rJava_0.9-5/rJava/javadoc/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/encog-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/encog-java-core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
