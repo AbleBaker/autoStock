@@ -14,7 +14,7 @@ public class RTestBasic {
 		Benchmark bench = new Benchmark();
 		bench.printTick("--> Started up");
 		
-		double[][] ohlc2 = new double[][]{
+		double[][] ohlc = new double[][]{
 				{10.34, 10.35, 10.34},
 				{10.30, 10.33, 10.32},
 				{10.34, 10.35, 10.33},
@@ -47,7 +47,7 @@ public class RTestBasic {
 				{10.31, 10.35, 10.34},
 				};
 		
-		RUtils.assignAsRMatrix(rEngine, ohlc2, "a");
+		RUtils.assignAsRMatrix(rEngine, ohlc, "a");
 		
 		Co.println("" + rEngine.eval("exists(\"a\")").asBool());
 		
@@ -56,7 +56,5 @@ public class RTestBasic {
 		for (double value : Arrays.copyOfRange(rEngine.eval("CCI(a)").asDoubleArray(), 19, 30)){Co.println("--> Value: " + value);}
 		
 		bench.printTick("Done");
-		
-		//rEngine.startMainLoop();
 	}
 }

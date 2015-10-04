@@ -13,7 +13,7 @@ import com.autoStock.types.basic.BasicTimeValuePair;
  *
  */
 public class ResultsTools {
-	public static ArrayList<BasicTimeValuePair> getResultsAsListOfBasicTimeValuePair(Date[] arrayOfDates, double[] arrayOfValues){
+	public static ArrayList<BasicTimeValuePair> getBasicPair(Date[] arrayOfDates, double[] arrayOfValues){
 		ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair = new ArrayList<BasicTimeValuePair>();
 		
 		for (int i=0; i<Math.min(arrayOfDates.length, arrayOfValues.length); i++){
@@ -23,7 +23,7 @@ public class ResultsTools {
 		return listOfBasicTimeValuePair;
 	}
 	
-	public static ArrayList<BasicTimeValuePair> getResultsAsListOfBasicTimeValuePair(Date[] arrayOfDates, float[] arrayOfValues){
+	public static ArrayList<BasicTimeValuePair> getBasicPair(Date[] arrayOfDates, float[] arrayOfValues){
 		ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair = new ArrayList<BasicTimeValuePair>();
 		
 		for (int i=0; i<Math.min(arrayOfDates.length, arrayOfValues.length); i++){
@@ -33,7 +33,7 @@ public class ResultsTools {
 		return listOfBasicTimeValuePair;
 	}
 	
-	public static ArrayList<BasicTimeValuePair> getResultsAsListOfBasicTimeValuePair(Date[] arrayOfDates, int[] arrayOfValues){
+	public static ArrayList<BasicTimeValuePair> getBasicPair(Date[] arrayOfDates, int[] arrayOfValues){
 		ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair = new ArrayList<BasicTimeValuePair>();
 		
 		for (int i=0; i<Math.min(arrayOfDates.length, arrayOfValues.length); i++){

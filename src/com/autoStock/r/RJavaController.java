@@ -24,7 +24,7 @@ import com.autoStock.Co;
 public class RJavaController {
 	public static RJavaController instance = new RJavaController();
 	private boolean useCompiler = false;
-	private boolean useTextConsole = true;
+	private boolean useTextConsole = false;
 	private Rengine rEngine;
 	
 	private RJavaController(){
@@ -33,15 +33,10 @@ public class RJavaController {
 	}
 	
 	private void loadRInstance() {
-		Co.println("--> ?");
 		rEngine = new Rengine(new String[]{}, false, useTextConsole ? new TextConsoleX() : new REmptyCallback());
 		if (rEngine.waitForR() == false){throw new IllegalStateException("Could start R properly...");}
 		
-//		rEngine.eval("install.packages(\"quantmod\")");
-		//rEngine.eval("install.packages(\"TTR\")");	
-		
-		rEngine.eval("library(\"quantmod\")");
-		rEngine.eval("library(\"TTR\")");
+		loadLibraries("quantmod", "TTR");
 		
 		if (useCompiler){
 			rEngine.eval("require(\"compiler\")");
@@ -49,6 +44,12 @@ public class RJavaController {
 		}
 		
 		Co.println("--> Started instance");
+	}
+	
+	private void loadLibraries(String... libraries){
+		for (String library : libraries){
+			rEngine.eval("library(\"" + library + "\")");
+		}
 	}
 	
 	public synchronized Rengine getREngine(){

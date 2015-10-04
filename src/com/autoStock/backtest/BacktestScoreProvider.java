@@ -2,6 +2,7 @@ package com.autoStock.backtest;
 
 import java.util.Date;
 
+import com.autoStock.Co;
 import com.google.gson.internal.Pair;
 
 /**
@@ -21,7 +22,6 @@ public class BacktestScoreProvider {
 	}
 	
 	private static double getScorePerTrans(BacktestEvaluation backtestEvaluation){
-		
 		double score = 0;
 		int penalty = 1;
 		
@@ -33,7 +33,7 @@ public class BacktestScoreProvider {
 			}
 		}
 		
-		score /= (penalty /2);
+		score /= penalty;
 		
 		return score;
 	}

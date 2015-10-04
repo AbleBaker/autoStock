@@ -172,7 +172,10 @@ public class MenuLauncher {
 			
 			switch (menuCommand){
 				case "wm_sd":
-					command = String.format("main_backtest_wm 09/08/2014 09/12/2014 NYSE %s", typicalSymbol);
+					command = String.format("main_backtest_wm 09/08/2014 09/08/2014 NYSE %s", typicalSymbol);
+					break;
+				case "wm_is":
+					command = String.format("main_backtest_wm 09/08/2014 09/13/2014 NYSE %s", typicalSymbol);
 					break;
 				case "wm_md":
 					command = String.format("main_backtest_wm 09/08/2014 09/30/2014 NYSE %s", typicalSymbol);
@@ -187,10 +190,10 @@ public class MenuLauncher {
 					command = String.format("main_backtest_wm_dod 09/08/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_is":
-					command = String.format("main_backtest 09/08/2014 09/08/2014 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 09/08/2014 09/13/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_sd":
-					command = String.format("main_backtest 09/08/2014 09/12/2014 NYSE %s backtest_default", typicalSymbol);
+					command = String.format("main_backtest 09/08/2014 09/08/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "bt_os":
 					command = String.format("main_backtest 10/01/2014 10/03/2014 NYSE %s backtest_default", typicalSymbol);
@@ -199,7 +202,10 @@ public class MenuLauncher {
 					command = String.format("main_backtest 09/08/2014 09/12/2014 NYSE %s backtest_default", typicalSymbol);
 					break;
 				case "en_sd":
-					command = String.format("main_backtest_encog 09/08/2014 09/12/2014 NYSE %s", typicalSymbol);
+					command = String.format("main_backtest_encog 09/08/2014 09/08/2014 NYSE %s", typicalSymbol);
+					break;
+				case "en_is":
+					command = String.format("main_backtest_encog 09/08/2014 09/13/2014 NYSE %s", typicalSymbol);
 					break;
 				case "en_md":
 					command = String.format("main_backtest_encog 09/08/2014 09/30/2014 NYSE %s", typicalSymbol);

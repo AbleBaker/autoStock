@@ -103,110 +103,108 @@ public class ChartForAlgorithmTest {
 	}
 
 	public void display() {
-		TimeSeriesCollection timeSeriesCollectionForSignals = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForPrice = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForValue = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForYield = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForLongEntryAtPrice = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForShortEntryAtPrice = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForReEntryAtPrice = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForLongExitAtPrice = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForShortExitAtPrice = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForEntryAtSignal = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForExitAtSignal = new TimeSeriesCollection();
-		TimeSeriesCollection timeSeriesCollectionForDebug = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForSignals = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForPrice = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForValue = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForYield = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForLongEntryAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForShortEntryAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForReEntryAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForLongExitAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForShortExitAtPrice = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForEntryAtSignal = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForExitAtSignal = new TimeSeriesCollection();
+		TimeSeriesCollection TSCForDebug = new TimeSeriesCollection();
 		
 		DefaultHighLowDataset dataSetForDefaultHighLowDataset = new DefaultHighLowDataset("Price series", ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPriceHigh), ArrayTools.getArrayFromListOfDouble(listOfPriceLow), ArrayTools.getArrayFromListOfDouble(listOfPriceOpen), ArrayTools.getArrayFromListOfDouble(listOfPriceClose), ArrayTools.getArrayFromListOfDouble(listOfSizeVolume));
 
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_adx)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal ADX ", SignalMetricType.metric_adx, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalADX))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_ppc)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal PPC ", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalPPC))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_di)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal DI", SignalMetricType.metric_di, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalDI))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_cci)){
-			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal CCI", SignalMetricType.metric_cci, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalCCI))));
-		}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_macd)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal MACD", SignalMetricType.metric_macd, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalMACD))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_storsi)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal STORSI", SignalMetricType.metric_storsi, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalSTORSI))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_rsi)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal RSI", SignalMetricType.metric_rsi, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalRSI))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_trix)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal TRIX", SignalMetricType.metric_trix, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalTRIX))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_mfi)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal MFI", SignalMetricType.metric_mfi, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalMFI))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_roc)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal ROC", SignalMetricType.metric_roc, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalROC))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_willr)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal WILLR", SignalMetricType.metric_willr, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalWILLR))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_uo)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal UO", SignalMetricType.metric_uo, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalUO))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_ar_up)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal AR", SignalMetricType.metric_ar_up, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalARUp))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_ar_down)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal AR", SignalMetricType.metric_ar_down, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalARDown))));}
-		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_sar)){timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal SAR", SignalMetricType.metric_sar, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalSAR))));}
-		
-		timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Signal Debug", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug1))));
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_adx)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal ADX ", SignalMetricType.metric_adx, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalADX))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_ppc)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal PPC ", SignalMetricType.none, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalPPC))));}
+		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_di)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal DI", SignalMetricType.metric_di, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalDI))));}
+		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_cci)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal CCI", SignalMetricType.metric_cci, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalCCI))));}
+		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_macd)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal MACD", SignalMetricType.metric_macd, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalMACD))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_storsi)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal STORSI", SignalMetricType.metric_storsi, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalSTORSI))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_rsi)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal RSI", SignalMetricType.metric_rsi, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalRSI))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_trix)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal TRIX", SignalMetricType.metric_trix, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalTRIX))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_mfi)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal MFI", SignalMetricType.metric_mfi, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalMFI))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_roc)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal ROC", SignalMetricType.metric_roc, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalROC))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_willr)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal WILLR", SignalMetricType.metric_willr, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalWILLR))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_uo)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal UO", SignalMetricType.metric_uo, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalUO))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_ar_up)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal AR", SignalMetricType.metric_ar_up, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalARUp))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_ar_down)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal AR", SignalMetricType.metric_ar_down, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalARDown))));}
+//		if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(SignalMetricType.metric_sar)){TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal SAR", SignalMetricType.metric_sar, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfSignalSAR))));}
+//		
+//		TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Signal Debug", SignalMetricType.none, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug1))));
 				
 		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_crossover)){
-			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Indicator EMA First", SignalMetricType.metric_crossover, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorEMAFirst))));
-			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Indicator EMA Second", SignalMetricType.metric_crossover, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorEMASecond))));
+			TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Indicator EMA First", SignalMetricType.metric_crossover, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorEMAFirst))));
+			TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Indicator EMA Second", SignalMetricType.metric_crossover, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorEMASecond))));
 		}
 		
 		if (strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_sar)){
-			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Indicator SAR", SignalMetricType.metric_sar, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorSAR))));
+			TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Indicator SAR", SignalMetricType.metric_sar, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfIndicatorSAR))));
 		}
 
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("DI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDI))));
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("CCI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfCCI))));
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("MACD Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfMACD))));
 //		timeSeriesCollection2.addSeries(new ChartDataFiller().getTimeSeriesFromResults("RSI Value", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfRSI))));
-		timeSeriesCollectionForPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Price ($)", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPriceClose))));
+		TSCForPrice.addSeries(new ChartDataFiller().getTimeSeries("Price ($)", ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfPriceClose))));
 		if (listOfValue.size() != 0){
-			timeSeriesCollectionForValue.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Value (%)", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfValue))));
+			TSCForValue.addSeries(new ChartDataFiller().getTimeSeries("Value (%)", ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfValue))));
 		}
 		
 		if (listOfYield.size() != 0){
-			timeSeriesCollectionForYield.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Yield (%)", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfYield))));
+			TSCForYield.addSeries(new ChartDataFiller().getTimeSeries("Yield (%)", ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfYield))));
 		}
 		
 		if (listOfLongEntryAtPrice.size() != 0){
-			timeSeriesCollectionForLongEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Long Entry", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfLongEntryAtPrice))));
+			TSCForLongEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeries("Long Entry", ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfLongEntryAtPrice))));
 		}
 		
 		if (listOfShortEntryAtPrice.size() != 0){
-			timeSeriesCollectionForShortEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Short Entry", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfShortEntryAtPrice))));
+			TSCForShortEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeries("Short Entry", ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfShortEntryAtPrice))));
 		}
 		
 		if (listOfReEntryAtPrice.size() != 0){
-			timeSeriesCollectionForReEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Reentry", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfReEntryAtPrice))));
+			TSCForReEntryAtPrice.addSeries(new ChartDataFiller().getTimeSeries("Reentry", ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfReEntryAtPrice))));
 		}
 		
 		if (listOfLongExitAtPrice.size() != 0){
-			timeSeriesCollectionForLongExitAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Exit", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfLongExitAtPrice))));
+			TSCForLongExitAtPrice.addSeries(new ChartDataFiller().getTimeSeries("Exit", ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfLongExitAtPrice))));
 		}
 		
 		if (listOfShortExitAtPrice.size() != 0){
-			timeSeriesCollectionForShortExitAtPrice.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Exit", ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfShortExitAtPrice))));
+			TSCForShortExitAtPrice.addSeries(new ChartDataFiller().getTimeSeries("Exit", ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfShortExitAtPrice))));
 		}
 		
 		if (listOfDebug1.size() != 0){
-			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Debug 1", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug1))));
+			TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Debug 1", SignalMetricType.none, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug1))));
 		}
 		
 		if (listOfDebug2.size() != 0){
-			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Debug 2", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug2))));
+			TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Debug 2", SignalMetricType.none, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug2))));
 		}
 		
 		if (listOfDebug3.size() != 0){
-			timeSeriesCollectionForSignals.addSeries(new ChartDataFiller().getTimeSeriesFromResults("Debug 3", SignalMetricType.none, ResultsTools.getResultsAsListOfBasicTimeValuePair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug3))));
+			TSCForSignals.addSeries(new ChartDataFiller().getTimeSeries("Debug 3", SignalMetricType.none, ResultsTools.getBasicPair(ArrayTools.getArrayFromListOfDates(listOfDate), ArrayTools.getArrayFromListOfDouble(listOfDebug3))));
 		}
 	
 		new CombinedLineChart().new LineChartDisplay(title, 
 			dataSetForDefaultHighLowDataset,
 			algorithmBase,
-			new TimeSeriesTypePair(TimeSeriesType.type_signals, timeSeriesCollectionForSignals),
-			new TimeSeriesTypePair(TimeSeriesType.type_price, timeSeriesCollectionForPrice), 
-			new TimeSeriesTypePair(TimeSeriesType.type_value, timeSeriesCollectionForValue),
-			new TimeSeriesTypePair(TimeSeriesType.type_yield, timeSeriesCollectionForYield),
-			new TimeSeriesTypePair(TimeSeriesType.type_long_entry_price, timeSeriesCollectionForLongEntryAtPrice),
-			new TimeSeriesTypePair(TimeSeriesType.type_short_entry_price, timeSeriesCollectionForShortEntryAtPrice),
-			new TimeSeriesTypePair(TimeSeriesType.type_reentry_price, timeSeriesCollectionForReEntryAtPrice),
-			new TimeSeriesTypePair(TimeSeriesType.type_long_exit_price, timeSeriesCollectionForLongExitAtPrice),
-			new TimeSeriesTypePair(TimeSeriesType.type_short_exit_price, timeSeriesCollectionForShortExitAtPrice),
-			new TimeSeriesTypePair(TimeSeriesType.type_entry_signal, timeSeriesCollectionForEntryAtSignal),
-			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, timeSeriesCollectionForExitAtSignal),
-			new TimeSeriesTypePair(TimeSeriesType.type_debug, timeSeriesCollectionForDebug)
+			new TimeSeriesTypePair(TimeSeriesType.type_signals, TSCForSignals),
+			new TimeSeriesTypePair(TimeSeriesType.type_price, TSCForPrice), 
+			new TimeSeriesTypePair(TimeSeriesType.type_value, TSCForValue),
+			new TimeSeriesTypePair(TimeSeriesType.type_yield, TSCForYield),
+			new TimeSeriesTypePair(TimeSeriesType.type_long_entry_price, TSCForLongEntryAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_short_entry_price, TSCForShortEntryAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_reentry_price, TSCForReEntryAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_long_exit_price, TSCForLongExitAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_short_exit_price, TSCForShortExitAtPrice),
+			new TimeSeriesTypePair(TimeSeriesType.type_entry_signal, TSCForEntryAtSignal),
+			new TimeSeriesTypePair(TimeSeriesType.type_exit_signal, TSCForExitAtSignal),
+			new TimeSeriesTypePair(TimeSeriesType.type_debug, TSCForDebug)
 		);
 		
 	}

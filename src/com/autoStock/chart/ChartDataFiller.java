@@ -17,11 +17,11 @@ import com.autoStock.types.basic.BasicTimeValuePair;
  */
 public class ChartDataFiller {
 	
-	public TimeSeries getTimeSeriesFromResults(String label, ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair){
-		return getTimeSeriesFromResults(label, null, listOfBasicTimeValuePair);
+	public TimeSeries getTimeSeries(String label, ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair){
+		return getTimeSeries(label, null, listOfBasicTimeValuePair);
 	}
 	
-	public TimeSeries getTimeSeriesFromResults(String label, Enum enumForDescription, ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair){
+	public TimeSeries getTimeSeries(String label, Enum enumForDescription, ArrayList<BasicTimeValuePair> listOfBasicTimeValuePair){
 		TimeSeries timeSeries = new TimeSeries(label);
 		if (enumForDescription != null){
 			timeSeries.setDescription(enumForDescription.name());

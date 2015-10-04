@@ -29,6 +29,7 @@ public class MiscTools {
 	}
 	
 	public static String getCommifiedValue(double number){
+		if (number <= 0){return String.valueOf(number);}
 		return getCommifiedValue(number, 2);
 	}
 	

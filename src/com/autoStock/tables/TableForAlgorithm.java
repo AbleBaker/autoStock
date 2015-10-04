@@ -23,7 +23,7 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class TableForAlgorithm extends BaseTable {
-	public static boolean INCLUDE_SIGNALS = false;
+	public static boolean INCLUDE_SIGNALS = true;
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	
 	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse, BasicAccount basicAccount){
@@ -33,7 +33,7 @@ public class TableForAlgorithm extends BaseTable {
 		columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
 		columnValues.add(decimalFormat.format(quoteSlice.priceClose));
-		columnValues.add(String.valueOf(StringTools.addPlusToPositiveNumbers(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
+		columnValues.add(String.valueOf(StringTools.addPlus(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));
 		
 		if (INCLUDE_SIGNALS){
 			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfDI.getStrength())));

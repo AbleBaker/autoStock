@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ import org.jfree.util.ShapeUtilities;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
+import com.autoStock.cache.GenericPersister;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
 import com.autoStock.signal.SignalDefinitions;
@@ -59,6 +61,17 @@ import com.google.gson.internal.Pair;
 public class CombinedLineChart {
 	public int usedColor = -1;
 	private ArrayList<Pair<Integer, Double>> listOfPair = new ArrayList<Pair<Integer, Double>>();
+	
+	public static class ClickPoint {
+		public int index;
+		public Date dateStart;
+		public Date dateEnd;
+		public double price;
+		
+		public ClickPoint(int index){
+			this.index = index;
+		}
+	}
 
 	public class LineChartDisplay extends ApplicationFrame implements ActionListener {
 		public String title;
@@ -125,6 +138,8 @@ public class CombinedLineChart {
 							Co.println("--> Index, value: " + pair.first + ", " + pair.second);
 						}
 						
+						new GenericPersister().persistInto(new ClickPoint(index));
+						
 					}else{
 						Co.println("--> Try again!");
 					}
@@ -171,41 +186,41 @@ public class CombinedLineChart {
 		    		try {thresholdForShortEntry = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.getGuagesForType(SignalPointType.short_entry, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold;}catch(IndexOutOfBoundsException e){}
 		    		try {thresholdForShortExit = algorithmBase.signalGroup.getSignalBaseForType(signalMetricType).signalParameters.getGuagesForType(SignalPointType.short_exit, SignalGuageType.guage_threshold_met, SignalGuageType.guage_threshold_left).get(0).threshold;}catch(IndexOutOfBoundsException e){}
 			    	
-				    ValueMarker markerForLongEntry = new ValueMarker(thresholdForLongEntry);
-				    markerForLongEntry.setPaint(Color.decode("#33AA00"));
-				    markerForLongEntry.setAlpha(1.0f);
-				    markerForLongEntry.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - long entry");
-					markerForLongEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
-					markerForLongEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
-					markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-				    subPlotForSignals.addRangeMarker(markerForLongEntry);
-				    
-				    ValueMarker markerForLongExit = new ValueMarker(thresholdForLongExit);
-				    markerForLongExit.setPaint(Color.decode("#FF0000"));
-				    markerForLongExit.setAlpha(1.0f);
-				    markerForLongExit.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - long exit");
-					markerForLongExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
-					markerForLongExit.setLabelOffset(new RectangleInsets(8,10,8,0));
-					markerForLongExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-				    subPlotForSignals.addRangeMarker(markerForLongExit);
-				    
-				    ValueMarker markerForShortEntry = new ValueMarker(thresholdForShortEntry);
-				    markerForShortEntry.setPaint(Color.decode("#33AA00"));
-				    markerForShortEntry.setAlpha(1.0f);
-				    markerForShortEntry.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - short entry");
-					markerForShortEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
-					markerForShortEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
-					markerForShortEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-				    subPlotForSignals.addRangeMarker(markerForShortEntry);
-				    
-				    ValueMarker markerForShortExit = new ValueMarker(thresholdForShortExit);
-				    markerForShortExit.setPaint(Color.decode("#FF0000"));
-				    markerForShortExit.setAlpha(1.0f);
-				    markerForShortExit.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - short exit");
-					markerForShortExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
-					markerForShortExit.setLabelOffset(new RectangleInsets(8,10,8,0));
-					markerForShortExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-				    subPlotForSignals.addRangeMarker(markerForShortExit);
+//				    ValueMarker markerForLongEntry = new ValueMarker(thresholdForLongEntry);
+//				    markerForLongEntry.setPaint(Color.decode("#33AA00"));
+//				    markerForLongEntry.setAlpha(1.0f);
+//				    markerForLongEntry.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - long entry");
+//					markerForLongEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+//					markerForLongEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
+//					markerForLongEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+//				    subPlotForSignals.addRangeMarker(markerForLongEntry);
+//				    
+//				    ValueMarker markerForLongExit = new ValueMarker(thresholdForLongExit);
+//				    markerForLongExit.setPaint(Color.decode("#FF0000"));
+//				    markerForLongExit.setAlpha(1.0f);
+//				    markerForLongExit.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - long exit");
+//					markerForLongExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+//					markerForLongExit.setLabelOffset(new RectangleInsets(8,10,8,0));
+//					markerForLongExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+//				    subPlotForSignals.addRangeMarker(markerForLongExit);
+//				    
+//				    ValueMarker markerForShortEntry = new ValueMarker(thresholdForShortEntry);
+//				    markerForShortEntry.setPaint(Color.decode("#33AA00"));
+//				    markerForShortEntry.setAlpha(1.0f);
+//				    markerForShortEntry.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - short entry");
+//					markerForShortEntry.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+//					markerForShortEntry.setLabelOffset(new RectangleInsets(8,10,8,0));
+//					markerForShortEntry.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+//				    subPlotForSignals.addRangeMarker(markerForShortEntry);
+//				    
+//				    ValueMarker markerForShortExit = new ValueMarker(thresholdForShortExit);
+//				    markerForShortExit.setPaint(Color.decode("#FF0000"));
+//				    markerForShortExit.setAlpha(1.0f);
+//				    markerForShortExit.setLabel(signalMetricType.name().replaceAll("metric_", "") + " - short exit");
+//					markerForShortExit.setStroke(new BasicStroke(0.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f, new float[] {4.0f, 2.0f}, 2.0f));
+//					markerForShortExit.setLabelOffset(new RectangleInsets(8,10,8,0));
+//					markerForShortExit.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+//				    subPlotForSignals.addRangeMarker(markerForShortExit);
 			    }
 			    
 //				if (getPairForType(TimeSeriesType.type_debug) != null){

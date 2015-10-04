@@ -48,7 +48,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class EncogBacktestContainer {
-	private static boolean USE_SO_OVERRIDE = false; 
+	private static boolean USE_SO_OVERRIDE = true; 
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
 	public Exchange exchange;
@@ -94,7 +94,12 @@ public class EncogBacktestContainer {
 		StrategyOptionsOverride strategyOptionsOverride = new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
-				
+				//For loose Encog training
+				strategyOptions.disableAfterYield.value = 1000d;
+				strategyOptions.maxStopLossPercent.value = -1000d;
+				strategyOptions.maxProfitDrawdownPercent.value = -1000d;
+				strategyOptions.maxPositionTimeAtLoss.value = -1000;
+				strategyOptions.maxPositionTimeAtProfit.value = 1000;
 			}
 		};
 		

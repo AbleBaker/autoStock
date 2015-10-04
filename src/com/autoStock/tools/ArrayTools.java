@@ -209,6 +209,23 @@ public class ArrayTools {
 		return returnArray;
 	}
 	
+	public static double[][] toMatrix(double[]... arrays){
+		double[][] returnArray = new double[arrays[0].length][arrays.length];
+		int max = 0;
+		
+		for (int i=0; i<arrays.length; i++){
+			max = Math.max(arrays[i].length, max);
+		}
+		
+		for (int i=0; i<max; i++){
+			for (int c=0; c<arrays.length; c++){
+				returnArray[i][c] = arrays[c][i];
+			}
+		}
+		
+		return returnArray;
+	}
+	
 	public static <T> T[] concat(T[] first, T[] second) {
 		T[] result = Arrays.copyOf(first, first.length + second.length);
 		System.arraycopy(second, 0, result, first.length, second.length);

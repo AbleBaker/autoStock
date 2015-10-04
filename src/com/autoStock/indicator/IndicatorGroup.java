@@ -25,6 +25,7 @@ import com.autoStock.signal.SignalDefinitions.IndicatorParametersForWILLR;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.taLib.Core;
+import com.autoStock.tools.Benchmark;
 
 /**
  * @author Kevin Kowalewski
@@ -46,6 +47,7 @@ public class IndicatorGroup {
 	private ArrayList<IndicatorBase> listOfIndicatorBase = new ArrayList<IndicatorBase>();
 	private ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
 	private ArrayList<SignalMetricType> listOfSignalMetricTypeActive = new ArrayList<SignalMetricType>();
+	private Benchmark bench = new Benchmark();
 
 	public IndicatorGroup(CommonAnalysisData commonAnlaysisData, SignalGroup signalGroup) {
 		this.signalGroup = signalGroup;
