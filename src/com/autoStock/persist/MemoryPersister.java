@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.autoStock.cache;
+package com.autoStock.persist;
 
 import java.util.ArrayList;
 import java.util.HashMap;

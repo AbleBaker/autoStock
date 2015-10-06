@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.autoStock.cache;
+package com.autoStock.persist;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.autoStock.cache.DiskCache;
 import com.autoStock.internal.GsonProvider;
 import com.autoStock.tools.Lock;
 import com.google.gson.Gson;

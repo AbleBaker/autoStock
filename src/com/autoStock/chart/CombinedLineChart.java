@@ -45,9 +45,9 @@ import org.jfree.util.ShapeUtilities;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
-import com.autoStock.cache.GenericPersister;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
+import com.autoStock.persist.GenericPersister;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
