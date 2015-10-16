@@ -40,7 +40,7 @@ public class DiskCache {
 	public List<String> keys(){
 		ArrayList<String> listOfKeys = new ArrayList<String>();
 		for (File file : new File(CACHE_ROOT).listFiles()){
-			listOfKeys.add(file.getName());
+			listOfKeys.add(file.getName().replaceAll(".cache", ""));
 		}
 		
 		return listOfKeys;
@@ -61,20 +61,19 @@ public class DiskCache {
 	
 	public synchronized void writeString(String key, String value){
 		try {
-			File file = new File(CACHE_ROOT + key + ".tmp");
+			File file = new File(CACHE_ROOT + key + ".cache");
 			Writer output = new BufferedWriter(new FileWriter(file));
 			output.write(value);
 			output.close();
-			
-			if (file.renameTo(new File(CACHE_ROOT + key + ".cache")) == false){
-				file.delete();
-			}
+//			if (file.renameTo(new File(CACHE_ROOT + key + ".cache")) == false){
+//				file.delete();
+//			}
 		}catch(Exception e){e.printStackTrace();}
 	}
 
 	public String readString(String key) {
 		try {
-			Files.toString(new File(CACHE_ROOT + key + ".cache"), Charsets.UTF_8);
+			return Files.toString(new File(CACHE_ROOT + key + ".cache"), Charsets.UTF_8);
 		}catch(Exception e){e.printStackTrace();}
 		
 		return null;

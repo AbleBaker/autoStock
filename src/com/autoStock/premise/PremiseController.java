@@ -40,4 +40,8 @@ public class PremiseController {
 	public void addPremise(PremiseBase premise) {
 		listOfPremise.add(premise);
 	}
+	
+	public boolean isEmpty(){
+		return listOfPremise.size() == 0;
+	}
 }

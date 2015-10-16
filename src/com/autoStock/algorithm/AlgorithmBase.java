@@ -37,6 +37,7 @@ import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tables.TableForAlgorithm;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.ListTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
 import com.autoStock.trading.yahoo.FundamentalData;
@@ -76,6 +77,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public Double dayStartingBalance;
 	public String algorithmSource;
 	protected int receiveIndex;
+	protected int processedIndex;
 	protected Benchmark bench = new Benchmark();
 	public SignalCache signalCache;
 	public PremiseController premiseController = new PremiseController();
@@ -116,6 +118,9 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
 			//Check Strategy actually contains adjustment values... 
 		}
+		
+		receiveIndex = 0;
+		processedIndex = 0;
 		
 		signalGroup.setIndicatorGroup(indicatorGroup);
 		indicatorGroup.setAnalyze(listOfSignalMetricTypeAnalyze);
@@ -215,6 +220,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			algorithmListener.receiveStrategyResponse(strategyResponse);
 		}else if (strategyResponse.strategyAction== StrategyAction.algorithm_pass){
 			listOfStrategyResponse.add(strategyResponse);
+		} else if (strategyResponse.strategyAction == StrategyAction.no_change || strategyResponse.strategyAction == StrategyAction.none){
+			//pass 
+		} else {
+			throw new IllegalArgumentException("Can't handle: " + strategyResponse.strategyAction);
 		}
 	}
 	
@@ -240,8 +249,13 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 	
 	public void finishedReceiveQuoteSlice(){
-		if (listOfQuoteSlice.size() >= periodLength) {
+		boolean processed = listOfQuoteSlice.size() >= periodLength;
+		
+		if (algorithmListener != null){algorithmListener.receiveTick(ListTools.getLast(listOfQuoteSlice), receiveIndex, processedIndex, processed);}
+		
+		if (processed) {
 			listOfQuoteSlice.remove(0);
+			processedIndex++;
 		}
 		
 		receiveIndex++;

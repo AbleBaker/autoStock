@@ -28,7 +28,7 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	private static final int INPUT_LENGTH = 136;
+	private static final int INPUT_LENGTH = 60; //136;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_PS = 20;
 	private static final boolean HAS_DELTAS = true;
@@ -88,7 +88,7 @@ public class SignalOfEncog extends SignalBase {
 
 		double valueForLongEntry = output.getData(0);
 		double valueForShortEntry = output.getData(1);
-		double valueForAnyExit = output.getData(1);
+		double valueForAnyExit = output.getData(2);
 //		double valueForReeentry = output.getData(3);
 		
 //		Co.println("--> Values: " + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit);
@@ -96,6 +96,8 @@ public class SignalOfEncog extends SignalBase {
 		if (valueForLongEntry >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.long_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+			
+//			Co.println("--> Going long with: " + valueForLongEntry);
 			// }
 		} else if (valueForShortEntry >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.short_entry;
@@ -112,6 +114,13 @@ public class SignalOfEncog extends SignalBase {
 				throw new IllegalStateException("Have position of type: " + positionType.name());
 			}
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+		}
+		
+		if (signalPoint.signalPointType != SignalPointType.none){
+			Co.println("--> Encog signal with frame: " + signalPoint.signalPointType.name() + "(" + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit + ")" +  " - " + encogInputWindow.getUniqueIdent() + " -> " + encogInputWindow.getHash());
+		}else if (encogInputWindow.getHash().startsWith("ae7")){
+			Co.println("--> X !!! " + encogInputWindow.getUniqueIdent());
+			Co.println("--> Values: " + valueForLongEntry);
 		}
 
 		return signalPoint;
@@ -135,6 +144,10 @@ public class SignalOfEncog extends SignalBase {
 	public void setInput(EncogInputWindow encogInputWindow) {
 		if (encogInputWindow == null){throw new IllegalArgumentException("Can't set a null EncogInputWindow");}
 		this.encogInputWindow = encogInputWindow;
+	}
+	
+	public EncogInputWindow getInputWindow(){
+		return encogInputWindow;
 	}
 	
 //	public double[] getInputWindowRounded(){

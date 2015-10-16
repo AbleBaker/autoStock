@@ -21,8 +21,8 @@ public class StrategyOptionDefaults {
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
 		strategyOptions.enablePrefill = false;
-		strategyOptions.enablePremise = true;
-		strategyOptions.enableContext = true;
+		strategyOptions.enablePremise = false;
+		strategyOptions.enableContext = false;
 		strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_any;
 		strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_any;
 		
@@ -43,7 +43,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 5;
 		strategyOptions.intervalForEntryWithSameSignalPointType.value = 0;
 		strategyOptions.disableAfterLoss.value = -0.25d;
-		strategyOptions.disableAfterYield.value = 0.75d;
+		strategyOptions.disableAfterYield.value = 2.00d;
 		
 		return strategyOptions;
 	}

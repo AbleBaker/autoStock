@@ -40,12 +40,14 @@ public class AlgorithmTest extends AlgorithmBase {
 	public void init(Date startingDate){
 		this.startingDate = startingDate;
 		
-		if (algorithmMode == AlgorithmMode.mode_backtest_single){
-			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo, SignalMetricType.metric_willr, SignalMetricType.metric_adx, SignalMetricType.metric_di, SignalMetricType.metric_roc})), strategyBase.strategyOptions.listOfSignalMetricType);
-			//setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
-		}else{
-			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType); //ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci})));
-		}
+		setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+		
+//		if (algorithmMode == AlgorithmMode.mode_backtest_single){
+//			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo, SignalMetricType.metric_willr, SignalMetricType.metric_adx, SignalMetricType.metric_di, SignalMetricType.metric_roc})), strategyBase.strategyOptions.listOfSignalMetricType);
+//			//setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+//		}else{
+//			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType); //ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci})));
+//		}
 
 		initialize();
 		
@@ -53,21 +55,21 @@ public class AlgorithmTest extends AlgorithmBase {
 			prefill();
 		}
 		
-		if (strategyBase.strategyOptions.enablePremise){
-//			Co.println("--> Today: " + DateTools.getPrettyDate(startingDate));
-//			Co.println("--> Earliest weekday: " + DateTools.getPrettyDate(DateTools.getFirstWeekdayBefore(startingDate)));
-			premiseController.reset();
-			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.hour, 3));
-			premiseController.determinePremise();
-		}
-		
-		if (strategyBase.strategyOptions.enableContext){
-			contextController.reset();
-			contextController.addContext(new ContextOfPosition());
-			contextController.addContext(new ContextOfChangeSinceOpen());
-			contextController.addContext(new ContextOfChangeSinceHighLow());
-			contextController.determineContext();
-		}
+//		if (strategyBase.strategyOptions.enablePremise){
+////			Co.println("--> Today: " + DateTools.getPrettyDate(startingDate));
+////			Co.println("--> Earliest weekday: " + DateTools.getPrettyDate(DateTools.getFirstWeekdayBefore(startingDate)));
+//			premiseController.reset();
+//			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.hour, 3));
+//			premiseController.determinePremise();
+//		}
+//		
+//		if (strategyBase.strategyOptions.enableContext){
+//			contextController.reset();
+//			contextController.addContext(new ContextOfPosition());
+//			contextController.addContext(new ContextOfChangeSinceOpen());
+//			contextController.addContext(new ContextOfChangeSinceHighLow());
+//			contextController.determineContext();
+//		}
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class AlgorithmTest extends AlgorithmBase {
 				indicatorGroup.analyze();
 				signalGroup.generateSignals(commonAnalysisData, position);
 				
-				if (strategyBase.strategyOptions.enableContext){
+				if (strategyBase.strategyOptions.enableContext && contextController.isEmpty() == false){
 					((ContextOfPosition)contextController.getByClass(ContextOfPosition.class)).setPosition(position);
 					((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
 					((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersist);
@@ -96,8 +98,9 @@ public class AlgorithmTest extends AlgorithmBase {
 			}
 			
 			baseInformStrategy(quoteSlice);
-			finishedReceiveQuoteSlice();
 		}
+		
+		finishedReceiveQuoteSlice();
 	}
 
 	@Override

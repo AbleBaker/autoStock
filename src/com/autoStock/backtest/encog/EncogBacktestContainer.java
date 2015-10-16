@@ -48,7 +48,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class EncogBacktestContainer {
-	private static boolean USE_SO_OVERRIDE = true; 
+	private static boolean USE_SO_OVERRIDE = false; 
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
 	public Exchange exchange;
@@ -94,12 +94,15 @@ public class EncogBacktestContainer {
 		StrategyOptionsOverride strategyOptionsOverride = new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
-				//For loose Encog training
-				strategyOptions.disableAfterYield.value = 1000d;
-				strategyOptions.maxStopLossPercent.value = -1000d;
-				strategyOptions.maxProfitDrawdownPercent.value = -1000d;
-				strategyOptions.maxPositionTimeAtLoss.value = -1000;
-				strategyOptions.maxPositionTimeAtProfit.value = 1000;
+//				//For loose Encog training
+//				strategyOptions.disableAfterYield.value = 1000d;
+//				strategyOptions.maxStopLossPercent.value = -1000d;
+//				strategyOptions.maxProfitDrawdownPercent.value = -1000d;
+//				strategyOptions.maxPositionTimeAtLoss.value = -1000;
+//				strategyOptions.maxPositionTimeAtProfit.value = 1000;
+				
+				strategyOptions.enableContext = false;
+				strategyOptions.enablePremise = false;
 			}
 		};
 		
@@ -110,7 +113,10 @@ public class EncogBacktestContainer {
 		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null));
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
-		Co.print(new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer).toString());
+		
+		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer); 
+		new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
+		Co.print(backtestEvaluation.toString());
 		
 //		Date dateOutOfSample = DateTools.getFirstWeekdayAfter(dateEnd);
 //		SingleBacktest singleBacktest = new SingleBacktest(new HistoricalData(exchange, symbol, dateOutOfSample, dateOutOfSample, Resolution.min), AlgorithmMode.mode_backtest_single);

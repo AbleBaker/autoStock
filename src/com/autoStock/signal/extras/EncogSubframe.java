@@ -64,6 +64,10 @@ public class EncogSubframe {
 	}
 	
 	public double[] asNormalizedDoubleArray(){
+		if (frameType == FrameType.category){
+			return values;
+		}
+		
 		double[] normalizedValues = new double[values.length];
 		
 		for (int i=0; i<normalizedValues.length; i++){

@@ -13,6 +13,9 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
@@ -42,12 +45,16 @@ import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.RefineryUtilities;
 import org.jfree.ui.TextAnchor;
 import org.jfree.util.ShapeUtilities;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.cache.GenericPersister;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
+import com.autoStock.input.GlobalInputHook;
 import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -61,6 +68,7 @@ import com.google.gson.internal.Pair;
 public class CombinedLineChart {
 	public int usedColor = -1;
 	private ArrayList<Pair<Integer, Double>> listOfPair = new ArrayList<Pair<Integer, Double>>();
+	private GenericPersister genericPersister = new GenericPersister();
 	
 	public static class ClickPoint {
 		public int index;
@@ -68,19 +76,32 @@ public class CombinedLineChart {
 		public Date dateEnd;
 		public double price;
 		
-		public ClickPoint(int index){
+		public SignalPointType signalPoint;
+		
+		public ClickPoint(int index, SignalPointType signalPoint){
 			this.index = index;
+			this.signalPoint = signalPoint;
 		}
 	}
 
-	public class LineChartDisplay extends ApplicationFrame implements ActionListener {
+	public class LineChartDisplay extends ApplicationFrame implements ActionListener, NativeKeyListener {
 		public String title;
 		public TimeSeriesTypePair[] arrayOfTimeSeriesPair;
 		public DefaultHighLowDataset defaultHighLowDataset;
 		private AlgorithmBase algorithmBase;
+		private ClickPoint clickPoint;
 		
 		public LineChartDisplay(String title, DefaultHighLowDataset defaultHighLowDataset, AlgorithmBase algorithmBase, TimeSeriesTypePair... timeSeriesPairs) {
 			super("autoStock - Chart - " + title);
+			
+			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+			logger.setLevel(Level.OFF);
+			Handler[] handlers = Logger.getLogger("").getHandlers();
+			for (int i = 0; i < handlers.length; i++) {
+			    handlers[i].setLevel(Level.OFF);
+			}
+			try {GlobalScreen.registerNativeHook();}catch(Exception e){e.printStackTrace();}
+			GlobalScreen.addNativeKeyListener(this);
 			
 			this.title = title;
 			this.defaultHighLowDataset = defaultHighLowDataset;
@@ -138,8 +159,7 @@ public class CombinedLineChart {
 							Co.println("--> Index, value: " + pair.first + ", " + pair.second);
 						}
 						
-						new GenericPersister().persistInto(new ClickPoint(index));
-						
+						clickPoint = new ClickPoint(index, SignalPointType.none);
 					}else{
 						Co.println("--> Try again!");
 					}
@@ -408,8 +428,31 @@ public class CombinedLineChart {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent actionEvent) {}
+
+		@Override
+		public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {}
+
+		@Override
+		public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
+			Co.println("--> " + nativeKeyEvent.getKeyCode());
+			if (clickPoint == null){Co.println("--> Click point was null"); return;}
 			
+			if (nativeKeyEvent.getKeyCode() == 2){clickPoint.signalPoint = SignalPointType.long_entry;}
+			else if (nativeKeyEvent.getKeyCode() == 3){clickPoint.signalPoint = SignalPointType.short_entry;}
+			else if (nativeKeyEvent.getKeyCode() == 4){clickPoint.signalPoint = SignalPointType.reentry;}
+			else if (nativeKeyEvent.getKeyCode() == 5){clickPoint.signalPoint = SignalPointType.long_exit;}
+			else if (nativeKeyEvent.getKeyCode() == 6){clickPoint.signalPoint = SignalPointType.short_exit;}
+			
+			Co.println("--> " + clickPoint.signalPoint);
+
+			if (clickPoint.signalPoint != SignalPointType.none){
+				genericPersister.persistInto(clickPoint);
+				clickPoint = null;
+			}
 		}
+
+		@Override
+		public void nativeKeyTyped(NativeKeyEvent nativeKeyEvent) {}
 	}
 }

@@ -17,9 +17,20 @@ public class EncogFrame {
 	public FrameType frameType;
 	public ArrayList<EncogSubframe> listOfSubframe = new ArrayList<EncogSubframe>();
 	
-	public EncogFrame(String description, FrameType frameType) {
+	public EncogFrame(String description, FrameType frameType, ArrayList<EncogSubframe> listOfSubframe) {
 		this.description = description;
 		this.frameType = frameType;
+		if (listOfSubframe != null){this.listOfSubframe.addAll(listOfSubframe);}
+	}
+	
+	public EncogFrame(String description, FrameType frameType, EncogSubframe encogSubframe) {
+		this.description = description;
+		this.frameType = frameType;
+		listOfSubframe.add(encogSubframe);
+	}
+	
+	public EncogFrame(String description, FrameType frameType) {
+		this(description, frameType, new ArrayList<EncogSubframe>());
 	}
 
 	public static enum FrameType {

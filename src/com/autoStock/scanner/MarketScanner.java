@@ -92,6 +92,11 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 		
 	}
 
+	@Override
+	public void receiveTick(QuoteSlice quote, int index, int processedIndex, boolean processed) {
+		
+	}
+
 //	@Override
 //	public void recieveSignal(Signal signal, QuoteSlice typeQuoteSlice) {
 //

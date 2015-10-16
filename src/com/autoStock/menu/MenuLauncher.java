@@ -10,6 +10,7 @@ import com.autoStock.MainClusteredBacktest;
 import com.autoStock.MainClusteredBacktestClient;
 import com.autoStock.MainEngagement;
 import com.autoStock.MainFilter;
+import com.autoStock.MainGenerateIdeal;
 import com.autoStock.MainIndicatorTest;
 import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
@@ -226,6 +227,9 @@ public class MenuLauncher {
 				case "5":
 					command = "main_clustered_backtest_client";
 					break;
+				case "gi_sd":
+					command = "main_generate_ideal";
+					break;
 			}
 			
 			if (command == null){
@@ -258,6 +262,10 @@ public class MenuLauncher {
 			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
 			DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
 			SymbolTools.getListOfSymbolFromListOfString(ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "), SecurityType.type_stock));
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_generate_ideal){
+			new MainGenerateIdeal().run();
 		}
 		
 		else {

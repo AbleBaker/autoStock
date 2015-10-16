@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.autoStock.Co;
 import com.autoStock.internal.GsonProvider;
 import com.autoStock.tools.Lock;
 import com.google.gson.Gson;
@@ -62,6 +63,7 @@ public class GenericPersister {
 	public GenericPersister() {
 		gson = new GsonProvider().getGsonInstance();
 		memoryPersister = new MemoryPersister();
+		syncFromDisk();
 	}
 
 	public void persistInto(Object object){
@@ -78,21 +80,21 @@ public class GenericPersister {
 	}
 	
 	public void syncFromDisk(){
+		
+		Co.println("--> Sync");
+		
 		synchronized(lock){	
 			for (String key : diskCache.keys()){
 				if (key.startsWith(PREF_PREFIX_LIST)){
-					
 					try {
 						Class clazz = Class.forName(key.replaceAll(PREF_PREFIX_LIST, ""));
 						Type type = new ListParameterizedType(clazz);
 						ArrayList<?> list = gson.fromJson(diskCache.readString(key), type);
+//						Co.println("--> Have class: " + clazz.getName());
 						
-						memoryPersister.putList(clazz, list);
-					
 						if (list != null && list.size() > 0){
-//							Ln.e("--> Type is: " + list.get(0).getClass().getName());
+							memoryPersister.putList(clazz, list);
 						}
-						
 					}catch(Exception e){e.printStackTrace();}
 					
 				}else if (key.startsWith(PREF_PREFIX_OBJECT)){
@@ -111,6 +113,7 @@ public class GenericPersister {
 				if (value instanceof List){
 					String serialized = gson.toJson(value, new TypeToken<ArrayList<Object>>(){}.getType());
 					diskCache.writeString(PREF_PREFIX_LIST + key.getName(), serialized);
+					Co.println("--> Synced to disk? " + ((List)value).size());
 				} else {
 					String serialized = gson.toJson(value, new TypeToken<ArrayList<Object>>(){}.getType());
 					diskCache.writeString(PREF_PREFIX_LIST + key.getName(), serialized);

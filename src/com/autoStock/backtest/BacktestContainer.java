@@ -76,7 +76,10 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			StrategyOptionsOverride override = new StrategyOptionsOverride() {
 				@Override
 				public void override(StrategyOptions strategyOptions) {
-					
+					strategyOptions.enableContext = false;
+					strategyOptions.enablePremise = false;
+//					strategyOptions.disableAfterYield.value = 1000d;
+//					strategyOptions.maxStopLossPercent.value = -1000d;
 				}
 			};
 			

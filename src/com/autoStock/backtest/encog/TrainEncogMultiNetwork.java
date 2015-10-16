@@ -17,7 +17,7 @@ import com.autoStock.signal.signalMetrics.SignalOfEncogNew.EncogNetwork;
  * @author Kevin
  *
  */
-public class TrainEncogMultiNetwork extends TrainEncogBase {
+public class TrainEncogMultiNetwork extends TrainEncogWithScore {
 	private ArrayList<TrainEncogBase> listOfNetworksToTrain = new ArrayList<TrainEncogBase>();
 	
 	public TrainEncogMultiNetwork(CalculateScore calculateScore, String networkName) {

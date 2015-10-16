@@ -19,7 +19,7 @@ import com.autoStock.tools.MathTools;
  * @author Kevin
  *
  */
-public class TrainEncogNetworkOfBasic extends TrainEncogBase {
+public class TrainEncogNetworkOfBasic extends TrainEncogWithScore {
 	public BasicNetwork network;
 	private MLTrain train;
 	private int expectedIterations;

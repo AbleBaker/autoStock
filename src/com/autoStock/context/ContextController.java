@@ -51,4 +51,8 @@ public class ContextController {
 		
 		return null;
 	}
+	
+	public boolean isEmpty(){
+		return listOfContext.size() == 0;
+	}
 }

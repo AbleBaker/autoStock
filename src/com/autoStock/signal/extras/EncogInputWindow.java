@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jfree.chart.HashUtilities;
+
 import com.autoStock.Co;
 import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.signal.extras.EncogFrameSupport.EncogFrameSource;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.tools.MiscTools;
 
 /**
  * @author Kevin Kowalewski
@@ -49,5 +52,18 @@ public class EncogInputWindow {
 
 	public ArrayList<EncogFrame> getFrames() {
 		return listOfFrame;
+	}
+
+	public int frameCount() {
+		return listOfFrame.size();
+	}
+	
+	public String getUniqueIdent(){
+		double[] window = getAsWindow(true);
+		return listOfFrame.size() + " - " + window.length + " = " + window[0] + "-" + window[1] + "-" + window[2];
+	}
+	
+	public String getHash(){
+		return MiscTools.getHash(getUniqueIdent());
 	}
 }

@@ -69,6 +69,8 @@ public class SingleBacktest implements ListenerOfBacktestCompleted {
 		
 		if (listOfResults.size() == 0){
 			Co.println("--> Warning! No backtest data for symbol: " + historicalData.symbol.symbolName + " on " + historicalData.startDate + " to " + historicalData.endDate);
+		}else{
+//			Co.println("--> Size: " + listOfResults.size());
 		}
 		
 		backtestContainer.setBacktestData(listOfResults, historicalData);

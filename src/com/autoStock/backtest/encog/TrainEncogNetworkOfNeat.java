@@ -16,7 +16,7 @@ import com.autoStock.signal.signalMetrics.SignalOfEncog;
  * @author Kevin
  *
  */
-public class TrainEncogNetworkOfNeat extends TrainEncogBase {
+public class TrainEncogNetworkOfNeat extends TrainEncogWithScore {
 	private static TrainEA train;
 	
 	public TrainEncogNetworkOfNeat(CalculateScore calculateScore, String networkName){

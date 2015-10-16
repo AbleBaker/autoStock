@@ -28,7 +28,7 @@ public class MenuDefinitions {
 		menu_main_backtest_wm(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_end_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol_array}),
 		menu_main_backtest_wm_dod(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol_array}),
 		menu_main_backtest_encog(new MenuArguments[]{MenuArguments.arg_start_date, MenuArguments.arg_end_date, MenuArguments.arg_exchange, MenuArguments.arg_symbol_array}),
-
+		menu_main_generate_ideal(new MenuArguments[]{MenuArguments.arg_none});
 		;
 		
 		public MenuArguments[] arrayOfMenuArguments;
