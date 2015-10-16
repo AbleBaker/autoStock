@@ -191,8 +191,8 @@ public class MainGenerateIdeal implements AlgorithmListener {
 		new NguyenWidrowRandomizer().randomize(network);
 
 		//MLTrain train = new NelderMeadTraining(network, dataSet);
-		MLTrain train = new ManhattanPropagation(network, dataSet, 0.10);
-//		MLTrain train = new ResilientPropagation(network, dataSet);
+		MLTrain train = new ManhattanPropagation(network, dataSet, 0.01);
+//		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 0.10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 500, 500));

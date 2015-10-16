@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.autoStock.Co;
 import com.autoStock.internal.GsonProvider;
+import com.autoStock.persist.MemoryPersister;
 import com.autoStock.tools.Lock;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
