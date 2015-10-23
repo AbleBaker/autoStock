@@ -43,9 +43,7 @@ public class BacktestUtils {
 		backward,
 	}
 	
-	
 	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, BacktestResultTransactionDetails backtestResultDetails, BacktestType backtestType, BasicAccount basicAccount){
-		
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(basicAccount.getBalance()) + " ********";
 		
 		string += "\n --> Balance: $" + MiscTools.getCommifiedValue(basicAccount.getBalance());
@@ -200,7 +198,7 @@ public class BacktestUtils {
 		
 		HistoricalData baseHistoricalData = getBaseHistoricalData(exchange, null, dateStart, dateEnd, Resolution.min);
 
-		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate);
+		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(baseHistoricalData.startDate, baseHistoricalData.endDate, null);
 
 		if (listOfBacktestDates.size() == 0) {
 			throw new IllegalArgumentException("Weekday not entered. Backtest must contain a weekday.");
@@ -222,7 +220,7 @@ public class BacktestUtils {
 	}
 	
 	public static ArrayList<HistoricalData> getHistoricalDataListForDates(HistoricalData historicalData){
-		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate);
+		ArrayList<Date> listOfBacktestDates = DateTools.getListOfDatesOnWeekdays(historicalData.startDate, historicalData.endDate, new QuoteAvailableDateCondition(historicalData));
 		ArrayList<HistoricalData> listOfHistoricalData = new ArrayList<HistoricalData>();
 		
 		for (Date date : listOfBacktestDates){

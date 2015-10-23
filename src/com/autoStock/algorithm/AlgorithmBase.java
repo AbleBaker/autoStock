@@ -143,6 +143,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		if (signalCache != null){
 			signalCache.restoreFromDisk();
 		}
+		
+		if (algorithmListener != null){algorithmListener.initialize(startingDate);}
 	}
 	
 	public StrategyResponse requestExitExternally(){
@@ -344,7 +346,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		
 		if (yield > 20){
 			Co.println("--> " + getCurrentQuoteSlice().toString());
-			throw new IllegalStateException("Yield for one day is very high at " + yield);
+//			throw new IllegalStateException("Yield for one day is very high at " + yield);
 		}
 
 		return yield;

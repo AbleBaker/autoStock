@@ -94,14 +94,14 @@ public class CombinedLineChart {
 		public LineChartDisplay(String title, DefaultHighLowDataset defaultHighLowDataset, AlgorithmBase algorithmBase, TimeSeriesTypePair... timeSeriesPairs) {
 			super("autoStock - Chart - " + title);
 			
-			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-			logger.setLevel(Level.OFF);
-			Handler[] handlers = Logger.getLogger("").getHandlers();
-			for (int i = 0; i < handlers.length; i++) {
-			    handlers[i].setLevel(Level.OFF);
-			}
-			try {GlobalScreen.registerNativeHook();}catch(Exception e){e.printStackTrace();}
-			GlobalScreen.addNativeKeyListener(this);
+//			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+//			logger.setLevel(Level.OFF);
+//			Handler[] handlers = Logger.getLogger("").getHandlers();
+//			for (int i = 0; i < handlers.length; i++) {
+//			    handlers[i].setLevel(Level.OFF);
+//			}
+//			try {GlobalScreen.registerNativeHook();}catch(Exception e){e.printStackTrace();}
+//			GlobalScreen.addNativeKeyListener(this);
 			
 			this.title = title;
 			this.defaultHighLowDataset = defaultHighLowDataset;

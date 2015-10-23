@@ -6,6 +6,7 @@ package com.autoStock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
@@ -25,14 +26,19 @@ import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropaga
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.propagation.scg.ScaledConjugateGradient;
 import org.encog.neural.networks.training.pso.NeuralPSO;
+import org.encog.neural.pattern.ElmanPattern;
 import org.encog.neural.pattern.FeedForwardPattern;
+import org.encog.neural.pattern.JordanPattern;
+import org.encog.neural.pattern.RadialBasisPattern;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
 import com.autoStock.algorithm.extras.StrategyOptionsOverride;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationReader;
+import com.autoStock.backtest.ListenerOfBacktest;
 import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.cache.GenericPersister;
 import com.autoStock.chart.CombinedLineChart.ClickPoint;
@@ -71,54 +77,46 @@ import com.autoStock.types.Symbol;
  * @author Kevin
  *
  */
-public class MainGenerateIdeal implements AlgorithmListener {
+public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
 	private GenericPersister genericPersister = new GenericPersister();
 	private ArrayList<ClickPoint> listOfClickPoint;
 	private SingleBacktest singleBacktest;
-	private ArrayList<Pair<EncogFrame, ClickPoint>> listOfPair = new ArrayList<Pair<EncogFrame, ClickPoint>>();
 	private ArrayList<ArrayList<Double>> listOfInput = new ArrayList<ArrayList<Double>>();
 	private ArrayList<ArrayList<Double>> listOfIdeal = new ArrayList<ArrayList<Double>>();
+	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
+	private Exchange exchange = new Exchange("NYSE");
+	private Date dateStart = DateTools.getDateFromString("09/08/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	
 	public void run(){
 		Global.callbackLock.requestLock();
 		
-		//Load the index data
-		listOfClickPoint = (ArrayList<ClickPoint>) genericPersister.getHash().get(ClickPoint.class);		
-		Co.println("--> Loaded click points: " + listOfClickPoint.size());
-		
 		// Load the data
-		
-		HistoricalData historicalData = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("09/08/2014"), DateTools.getDateFromString("09/08/2014"), Resolution.min);
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
-		HistoricalData historicalDataIS = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("09/08/2014"), DateTools.getDateFromString("09/08/2014"), Resolution.min);
-		historicalDataIS.setStartAndEndDatesToExchange();
-		ArrayList<DbStockHistoricalPrice> listOfResultsIS = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalDataIS.symbol.symbolName), new QueryArg(QueryArgs.exchange, new Exchange("NYSE").exchangeName), new QueryArg(QueryArgs.resolution, Resolution.min.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalDataIS.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalDataIS.endDate)));
-		
-		HistoricalData historicalDataOS = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("09/08/2014"), DateTools.getDateFromString("09/08/2014"), Resolution.min);
-		historicalDataOS.setStartAndEndDatesToExchange();
-		ArrayList<DbStockHistoricalPrice> listOfResultsOS = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalDataOS.symbol.symbolName), new QueryArg(QueryArgs.exchange, new Exchange("NYSE").exchangeName), new QueryArg(QueryArgs.resolution, Resolution.min.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalDataOS.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalDataOS.endDate)));
-
-		Co.println("--> Size: " + listOfResultsIS.size() + ", " + listOfResultsOS.size());
-		
 		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest);
-		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), new StrategyOptionsOverride() {
+		singleBacktest.setListenerOfBacktestCompleted(this);
+		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
+		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
 				strategyOptions.enableContext = false;
 				strategyOptions.enablePremise = false;
 			}
 		}));
+		
 		singleBacktest.selfPopulateBacktestData();
-		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
 		singleBacktest.runBacktest();
 		
 		Co.print(new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer).toString());	
 	}
 	
-	private ClickPoint getAtIndex(int index){
-		for (ClickPoint clickPoint : listOfClickPoint){if (clickPoint.index == index){return clickPoint;}}
-		return null;
+	@Override
+	public void initialize(Date startingDate) {
+		BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(exchange.exchangeName + "-" + symbol.symbolName + "-day-" + DateTools.getEncogDate(startingDate));
+		if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load");}
+		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(basicNetwork, 0);
 	}
 
 	@Override
@@ -173,13 +171,33 @@ public class MainGenerateIdeal implements AlgorithmListener {
 			listOfIdeal.add(listOfIdealOutputs);
 		}
 	}
+	
+	int currentDay = 0;
 
 	@Override
 	public void endOfAlgorithm() {		
+		//Co.println("--> Have input list of: " + listOfInput.size());
+		//Co.println("--> Have ideal list of: " + listOfIdeal.size());
+		//Co.println("***** Current day: " + currentDay);
+		currentDay++;
+	}
+	
+	private BasicNetwork getNetwork(){
+		FeedForwardPattern pattern = new FeedForwardPattern();
+		pattern.setInputNeurons(60);
+		pattern.addHiddenLayer(40);
+		pattern.addHiddenLayer(20);
+		pattern.setOutputNeurons(3);
+		pattern.setActivationFunction(new ActivationTANH());
+		return (BasicNetwork) pattern.generate();
+	}
+
+	@Override
+	public void onCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
+		Co.println("--> Backtest completed!");
 		Co.println("--> Have input list of: " + listOfInput.size());
 		Co.println("--> Have ideal list of: " + listOfIdeal.size());
 		
-		//Convert the types
 		BasicMLDataSet dataSet = new BasicMLDataSet();
 		
 		for (int i=0; i<listOfInput.size(); i++){
@@ -190,15 +208,14 @@ public class MainGenerateIdeal implements AlgorithmListener {
 		BasicNetwork network =  getNetwork(); //EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3);
 		new NguyenWidrowRandomizer().randomize(network);
 
-		//MLTrain train = new NelderMeadTraining(network, dataSet);
-		MLTrain train = new ManhattanPropagation(network, dataSet, 0.01);
-//		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 0.10);
+		MLTrain train = new ManhattanPropagation(network, dataSet, 0.025);
+//		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 500, 500));
 //		train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, new TrainingSetScore(dataSet), 10, 2, 100), 0.010, 500, 100));
 	
-		for (int i=0; i<5000; i++){
+		for (int i=0; i<2000; i++){
 			train.iteration();
 			System.out.println(i + " - " + train.getError() * 1000);
 		}
@@ -219,15 +236,16 @@ public class MainGenerateIdeal implements AlgorithmListener {
 		
 //		dataSet.add(, new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfIdeal.get(i))));
 		
-		if (train.getError() * 1000 < 1){
-			Co.println("--> Saved network");
+		
+		// Verficiation stage
+		if (train.getError() * 1000 < 10){
+			Co.println("--> Good score");
 			
-			HistoricalData historicalData = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("09/08/2014"), DateTools.getDateFromString("09/08/2014"), Resolution.min);
+			HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("09/02/2014"), DateTools.getDateFromString("09/31/2014"), Resolution.min);
 			historicalData.setStartAndEndDatesToExchange();
 			
 			SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 			singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), null));
-//			singleBacktest.backtestContainer.algorithm.set
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((MLRegression) train.getMethod(), 0);
 			singleBacktest.selfPopulateBacktestData();
 			singleBacktest.runBacktest();
@@ -236,28 +254,5 @@ public class MainGenerateIdeal implements AlgorithmListener {
 			
 			new EncogNetworkProvider().saveNetwork(network, "NYSE-MS");
 		}
-		
-//		Co.println("--> " + network.compute(new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfInput.get(25 - 21)))).getData(0));
-//		Co.println("--> " + network.compute(new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfInput.get(81 - 21)))).getData(2));
-//		Co.println("--> " + network.compute(new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfInput.get(115 - 21)))).getData(0));
-//		Co.println("--> " + network.compute(new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfInput.get(157 - 21)))).getData(0));
-		
-//		if (mlData.getData(0) > 0.90){
-//			Co.println("--> Saved network");
-////			new EncogNetworkProvider().saveNetwork(network, "NYSE-MS");	
-//		}
-		
-//		Co.println("--> MLD: " + mlData.getData(0)); // + ", " + mlData.getData(1) + ", " + mlData.getData(2));
-	}
-	
-	
-	private BasicNetwork getNetwork(){
-		FeedForwardPattern pattern = new FeedForwardPattern();
-		pattern.setInputNeurons(60);
-		pattern.addHiddenLayer(90);
-		pattern.addHiddenLayer(30);
-		pattern.setOutputNeurons(3);
-		pattern.setActivationFunction(new ActivationTANH());
-		return (BasicNetwork) pattern.generate();
 	}
 }

@@ -59,6 +59,14 @@ public class EncogSubframe {
 //	    Co.println("--> Actual High / Low: " + MathTools.getMax(values) + ", " + MathTools.getMin(values));
 	}
 	
+	public void replaceNaN(){
+		for (int i=0; i<values.length; i++){
+			if (Double.isNaN(values[i])){
+				values[i] = 0;
+			}
+		}
+	}
+	
 	public double[] asDoubleArray(){
 		return values;
 	}

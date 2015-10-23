@@ -43,6 +43,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/JRI.jar"/>
 	<classpathentry kind="lib" path="lib/jnativehook-2.0.2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/encog-java-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/encog-core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

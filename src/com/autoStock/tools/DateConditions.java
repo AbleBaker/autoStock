@@ -22,28 +22,29 @@ import com.autoStock.types.Symbol;
  * @author Kevin
  *
  */
-public class DateConditions {
+public class DateConditions {	
 	public static abstract class BaseDateCondition {
-		public abstract boolean isValid(); 
+		public Date date;
+		public abstract boolean isValid();
+		
+		public void setDate(Date date){
+			this.date = date;
+		}
 	}
 	
 	public static class QuoteAvailableDateCondition extends BaseDateCondition {
 		public Symbol symbol;
 		public Exchange exchange;
-		public Date date;
 		
 		public QuoteAvailableDateCondition(Exchange exchange, Symbol symbol, Date date) {
 			this.symbol = symbol;
 			this.exchange = exchange;
+			this.date = date;
 		}
 		
 		public QuoteAvailableDateCondition(HistoricalData historicalData) {
 			this.exchange = historicalData.exchange;
 			this.symbol = historicalData.symbol;
-		}
-
-		public void setDate(Date date){
-			this.date = date;
 		}
 
 		@Override

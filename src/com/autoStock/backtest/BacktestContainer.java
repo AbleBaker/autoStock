@@ -41,7 +41,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	public final Exchange exchange;
 	public HistoricalData historicalData;
 	public final AlgorithmTest algorithm;
-	private ListenerOfBacktestCompleted listener;
+	private ListenerOfBacktest listener;
 	private Backtest backtest;
 	private AlgorithmMode algorithmMode;
 	private boolean isComplete;
@@ -57,7 +57,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	public Date dateContainerEnd;
 
 	@SuppressWarnings({ "unchecked", "unused" })
-	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktestCompleted listener, AlgorithmMode algorithmMode) {
+	public BacktestContainer(Symbol symbol, Exchange exchange, ListenerOfBacktest listener, AlgorithmMode algorithmMode) {
 		this.symbol = symbol;
 		this.exchange = exchange;
 		this.listener = listener;
@@ -151,7 +151,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		}
 	}
 
-	public void setListener(ListenerOfBacktestCompleted listenerOfBacktestCompleted) {
+	public void setListener(ListenerOfBacktest listenerOfBacktestCompleted) {
 		this.listener = listenerOfBacktestCompleted;
 	}
 
@@ -182,18 +182,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 
 	@Override
 	public void endOfFeed(Symbol symbol) {
-//		for (SignalBase signalBase : algorithm.signalGroup.getListOfSignalBase()){
-//			if (signalBase.signalRangeLimit.isSet()){
-//				if (hashOfSignalRangeLimit.containsKey(signalBase)){
-//					hashOfSignalRangeLimit.put(signalBase, AdjustmentRebaser.getRangeLimit(Arrays.asList(new SignalRangeLimit[]{hashOfSignalRangeLimit.get(signalBase), signalBase.signalRangeLimit.copy()})));
-//				}else{
-//					hashOfSignalRangeLimit.put(signalBase, signalBase.signalRangeLimit.copy());
-//				}
-//			}else{
-////				Co.println("--> Signal range limit not set: " + signalBase.getClass().getName());
-//			}
-//		}
-		
 		listOfYield.add(new Pair<Date, Double>(historicalData.startDate, algorithm.getYieldCurrent()));
 		
 		//If running with mode exchange
@@ -219,7 +207,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		listOfStrategyResponse.addAll(algorithm.listOfStrategyResponse);
 		
 		algorithm.endOfFeed(symbol);
-		listener.backtestCompleted(symbol, algorithm);
+		listener.onCompleted(symbol, algorithm);
 	}
 
 	public void markAsComplete() {

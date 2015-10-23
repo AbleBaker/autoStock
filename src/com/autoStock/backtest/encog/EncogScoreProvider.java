@@ -55,9 +55,7 @@ public class EncogScoreProvider implements CalculateScore {
 		
 		runCount++;
 		
-		double score = backtestEvaluation.getScore();
-		
-		return score;
+		return backtestEvaluation.getScore();
 	}
 
 	@Override

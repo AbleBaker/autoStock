@@ -3,6 +3,8 @@
  */
 package com.autoStock.algorithm.core;
 
+import java.util.Date;
+
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.types.QuoteSlice;
 
@@ -15,4 +17,5 @@ public interface AlgorithmListener {
 	public void receiveChangedStrategyResponse(StrategyResponse strategyResponse);
 	public void receiveTick(QuoteSlice quoteSlice, int receiveIndex, int processedIndex, boolean processed);
 	public void endOfAlgorithm();
+	public void initialize(Date startingDate);
 }

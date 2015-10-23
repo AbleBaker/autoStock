@@ -32,10 +32,10 @@ public class DateTools {
 	}
 	
 	public static String getPrettyDate(Date date){
-		return getPrettyDate(date, false);
+		return getPretty(date, false);
 	}
 	
-	public static String getPrettyDate(Date date, boolean includeSeconds){
+	public static String getPretty(Date date, boolean includeSeconds){
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
 		if (includeSeconds){dateFormat.applyPattern("yyyy/MM/dd hh:mm:ss a");}
 		else {dateFormat.applyPattern("yyyy/MM/dd hh:mm a");}
@@ -45,6 +45,12 @@ public class DateTools {
 	public static String getSqlDate(Date date){
 		SimpleDateFormat dateFormat = new SimpleDateFormat();
 		dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss.S");
+		return dateFormat.format(date);
+	}
+	
+	public static String getEncogDate(Date date){
+		SimpleDateFormat dateFormat = new SimpleDateFormat();
+		dateFormat.applyPattern("yyyy-MM-dd");
 		return dateFormat.format(date);
 	}
 	
@@ -108,7 +114,7 @@ public class DateTools {
 		return date;
 	}
 	
-	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, Date endDate){
+	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, Date endDate, BaseDateCondition dateCondition){
 		ArrayList<Date> listOfDate = new ArrayList<Date>();
 		GregorianCalendar calendarAtCurrent = new GregorianCalendar();
 		GregorianCalendar calendarAtEnd = new GregorianCalendar();
@@ -117,7 +123,9 @@ public class DateTools {
 		calendarAtEnd.setTime(endDate);
 		
 		while (calendarAtCurrent.before(calendarAtEnd) || calendarAtCurrent.equals(calendarAtEnd)){
-			if (isWeekday(calendarAtCurrent)){
+			if (dateCondition != null){dateCondition.setDate(calendarAtCurrent.getTime());}
+
+			if (isWeekday(calendarAtCurrent) && (dateCondition == null || dateCondition.isValid())){
 				listOfDate.add(new Date(calendarAtCurrent.getTimeInMillis()));
 			}
 			
@@ -127,7 +135,7 @@ public class DateTools {
 		return listOfDate;
 	}
 	
-	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, LookDirection direction, int days, QuoteAvailableDateCondition dateCondition){
+	public static ArrayList<Date> getListOfDatesOnWeekdays(Date startDate, LookDirection direction, int days, BaseDateCondition dateCondition){
 		ArrayList<Date> listOfDate = new ArrayList<Date>();
 		GregorianCalendar calendarAtCurrent = new GregorianCalendar();
 		
@@ -155,7 +163,7 @@ public class DateTools {
 	}
 	
 	public static Date getFirstWeekdayAfter(Date date){
-		return getListOfDatesOnWeekdays(new Date(date.getTime() + 1000 * 60 * 60 * 24 * 1), new Date(date.getTime() + 1000 * 60 * 60 * 24 * 7)).get(0);
+		return getListOfDatesOnWeekdays(new Date(date.getTime() + 1000 * 60 * 60 * 24 * 1), new Date(date.getTime() + 1000 * 60 * 60 * 24 * 7), null).get(0);
 	}
 	
 	public static Date getFirstWeekdayBefore(Date date){

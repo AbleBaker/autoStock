@@ -7,6 +7,6 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public interface ListenerOfBacktestCompleted {
-	public void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase);
+public interface ListenerOfBacktest {	
+	public void onCompleted(Symbol symbol, AlgorithmBase algorithmBase);
 }

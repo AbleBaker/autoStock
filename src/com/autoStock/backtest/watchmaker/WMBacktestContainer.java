@@ -90,7 +90,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
 		
 		//trainEncogSignal = new TrainEncogSignalNew(AlgorithmModel.getEmptyModel(), historicalData);
-		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, true);
+		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, true, "complete");
 	}
 	
 	public void runBacktest(){

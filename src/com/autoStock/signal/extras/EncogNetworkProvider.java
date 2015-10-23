@@ -49,7 +49,7 @@ public class EncogNetworkProvider {
 	public BasicNetwork getBasicNetwork(String networkName){
 		try {
 			return (BasicNetwork) new PersistBasicNetwork().read(new FileInputStream(new File(getNetworkPath(NetworkType.basic, networkName))));
-		}catch(Exception e){} // Co.println("--> Network was null while reading");
+		}catch(Exception e){} Co.println("--> Network was null while reading");
 		
 		return null;
 	}

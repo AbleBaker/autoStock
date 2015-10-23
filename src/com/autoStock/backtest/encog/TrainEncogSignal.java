@@ -23,15 +23,15 @@ public class TrainEncogSignal {
 		basic,
 	}
 	
-	public TrainEncogSignal(AlgorithmModel algorithmModel, HistoricalData historicalData, boolean saveNetwork){
+	public TrainEncogSignal(AlgorithmModel algorithmModel, HistoricalData historicalData, boolean saveNetwork, String networkSufix){
 		this.historicalData = historicalData;
 		this.saveNetwork = saveNetwork;
-		encogScoreProvider.setDetails(algorithmModel, historicalData);		
+		encogScoreProvider.setDetails(algorithmModel, historicalData);
 		
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
-			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName, TRAINING_ITERATIONS);
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix, TRAINING_ITERATIONS);
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
-			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
+			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix);
 		}
 	}
 	

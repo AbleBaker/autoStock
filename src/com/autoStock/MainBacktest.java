@@ -23,7 +23,7 @@ import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.BacktestEvaluator;
 import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
-import com.autoStock.backtest.ListenerOfBacktestCompleted;
+import com.autoStock.backtest.ListenerOfBacktest;
 import com.autoStock.backtest.ListenerOfMainBacktestCompleted;
 import com.autoStock.database.DatabaseDefinitions.BasicQueries;
 import com.autoStock.database.DatabaseDefinitions.QueryArg;
@@ -48,7 +48,7 @@ import com.google.gson.internal.Pair;
  * @author Kevin Kowalewski
  * 
  */
-public class MainBacktest implements ListenerOfBacktestCompleted {
+public class MainBacktest implements ListenerOfBacktest {
 	private AdjustmentCampaignProvider adjustmentCampaignProvider = AdjustmentCampaignProvider.getInstance();
 	private BacktestType backtestType;
 	private ArrayList<HistoricalDataList> listOfHistoricalDataList = new ArrayList<HistoricalDataList>();
@@ -356,7 +356,7 @@ public class MainBacktest implements ListenerOfBacktestCompleted {
 	}
 
 	@Override
-	public synchronized void backtestCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
+	public synchronized void onCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
 		if (backtestType != BacktestType.backtest_result_only) {
 			Co.print("[ " + symbol.symbolName + " ] ");
 		}

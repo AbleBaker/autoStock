@@ -116,12 +116,12 @@ public class SignalOfEncog extends SignalBase {
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 		}
 		
-		if (signalPoint.signalPointType != SignalPointType.none){
-			Co.println("--> Encog signal with frame: " + signalPoint.signalPointType.name() + "(" + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit + ")" +  " - " + encogInputWindow.getUniqueIdent() + " -> " + encogInputWindow.getHash());
-		}else if (encogInputWindow.getHash().startsWith("ae7")){
-			Co.println("--> X !!! " + encogInputWindow.getUniqueIdent());
-			Co.println("--> Values: " + valueForLongEntry);
-		}
+//		if (signalPoint.signalPointType != SignalPointType.none){
+//			Co.println("--> Encog signal with frame: " + signalPoint.signalPointType.name() + "(" + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit + ")" +  " - " + encogInputWindow.getUniqueIdent() + " -> " + encogInputWindow.getHash());
+//		}else if (encogInputWindow.getHash().startsWith("ae7")){
+//			Co.println("--> X !!! " + encogInputWindow.getUniqueIdent());
+//			Co.println("--> Values: " + valueForLongEntry);
+//		}
 
 		return signalPoint;
 	}

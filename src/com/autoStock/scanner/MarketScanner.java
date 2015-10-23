@@ -97,6 +97,11 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 		
 	}
 
+	@Override
+	public void initialize(Date startingDate) {
+		
+	}
+
 //	@Override
 //	public void recieveSignal(Signal signal, QuoteSlice typeQuoteSlice) {
 //
