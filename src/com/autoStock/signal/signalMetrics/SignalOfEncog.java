@@ -28,7 +28,7 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	private static final int INPUT_LENGTH = 60; //136;
+	private static final int INPUT_LENGTH = 104;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_PS = 20;
 	private static final boolean HAS_DELTAS = true;
@@ -186,6 +186,7 @@ public class SignalOfEncog extends SignalBase {
 	public boolean isLongEnough(SignalBase... arrayOfSignalBase) {
 		for (SignalBase signalBase : arrayOfSignalBase){
 			if (signalBase.listOfNormalizedValuePersist.size() <= INPUT_WINDOW_PS + (HAS_DELTAS ? 1 : 0)){
+//				Co.println("--> Not long enough: " + signalBase.getClass().getSimpleName());
 				return false;
 			}
 		}

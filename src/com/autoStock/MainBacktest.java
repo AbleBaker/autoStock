@@ -170,7 +170,10 @@ public class MainBacktest implements ListenerOfBacktest {
 
 		if (backtestContainedNoData) {
 			currentBacktestDayIndex++;
-			runNextBacktestForDays(true);
+			
+			if (runNextBacktestForDays(true) == false){
+				endOfBacktests();
+			}
 		}
 	}
 
@@ -186,6 +189,7 @@ public class MainBacktest implements ListenerOfBacktest {
 		}
 				
 		if (currentBacktestDayIndex == listOfHistoricalDataList.size()) {
+			
 			if (backtestType == BacktestType.backtest_default || backtestType == BacktestType.backtest_result_only) {
 				return false;
 			} else if (backtestType == BacktestType.backtest_clustered_client) {
@@ -362,34 +366,38 @@ public class MainBacktest implements ListenerOfBacktest {
 		}
 
 		if (callbacks.decrementAndGet() == 0) {
-			if (backtestType != BacktestType.backtest_result_only) {
-				bench.printTick("Backtested all symbols");
+			endOfBacktests();
+		}
+	}
+	
+	private void endOfBacktests(){
+		if (backtestType != BacktestType.backtest_result_only) {
+			bench.printTick("Backtested all symbols");
+		}
+
+		PositionManager.getGlobalInstance().executeExitAll();
+
+		if (runNextBacktestForDays(false) == false) {
+			if (backtestType == BacktestType.backtest_default) {
+				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
+					Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
+					
+					backtestContainer.markAsComplete();
+
+//					new TableController().displayTable(AsciiTables.backtest_strategy_response, BacktestUtils.getTableDisplayRows(backtestContainer));
+					// Co.print(new ExportTools().exportToString(AsciiTables.backtest_strategy_response, listOfDisplayRows));
+					
+					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
+					Co.println(backtestEvaluation.toString());
+				}
 			}
 
-			PositionManager.getGlobalInstance().executeExitAll();
-
-			if (runNextBacktestForDays(false) == false) {
-				if (backtestType == BacktestType.backtest_default) {
-					for (BacktestContainer backtestContainer : listOfBacktestContainer) {
-						Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
-						
-						backtestContainer.markAsComplete();
-
-//						new TableController().displayTable(AsciiTables.backtest_strategy_response, BacktestUtils.getTableDisplayRows(backtestContainer));
-						// Co.print(new ExportTools().exportToString(AsciiTables.backtest_strategy_response, listOfDisplayRows));
-						
-						BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
-						Co.println(backtestEvaluation.toString());
-					}
-				}
-
-				if (listenerOfMainBacktestCompleted != null) {
-					listenerOfMainBacktestCompleted.backtestCompleted();
-				}
-				if (backtestType == BacktestType.backtest_default) {
-					Co.println("--> Finished backtest");
-					Global.callbackLock.releaseLock();
-				}
+			if (listenerOfMainBacktestCompleted != null) {
+				listenerOfMainBacktestCompleted.backtestCompleted();
+			}
+			if (backtestType == BacktestType.backtest_default) {
+				Co.println("--> Finished backtest");
+				Global.callbackLock.releaseLock();
 			}
 		}
 	}

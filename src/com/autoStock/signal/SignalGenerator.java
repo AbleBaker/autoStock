@@ -6,6 +6,7 @@ package com.autoStock.signal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.autoStock.Co;
 import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.signal.extras.EncogInputWindow;
@@ -24,9 +25,12 @@ public class SignalGenerator {
 		
 		SignalBase[] arrayOfSignalBase = {signalGroup.signalOfCCI,
 										  signalGroup.signalOfUO,
-//										  signalGroup.signalOfWILLR,
-//										  signalGroup.signalOfADX,
+										  signalGroup.signalOfADX,
+										  signalGroup.signalOfTRIX,
 										  signalGroup.signalOfDI,
+//										  signalGroup.signalOfARUp,
+//										  signalGroup.signalOfARDown,
+//										  signalGroup.signalOfWILLR,
 //										  signalGroup.signalOfROC
 										  };
 		

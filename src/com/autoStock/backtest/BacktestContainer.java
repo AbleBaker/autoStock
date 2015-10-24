@@ -36,7 +36,7 @@ import com.google.gson.internal.Pair;
  */
 public class BacktestContainer implements ReceiverOfQuoteSlice {
 	private final boolean USE_PRECOMPUTED_ALGORITHM_MODEL = true;
-	private final boolean USE_SO_OVERRIDE = false;
+	private final boolean USE_SO_OVERRIDE = true;
 	public final Symbol symbol;
 	public final Exchange exchange;
 	public HistoricalData historicalData;
@@ -76,7 +76,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			StrategyOptionsOverride override = new StrategyOptionsOverride() {
 				@Override
 				public void override(StrategyOptions strategyOptions) {
-					strategyOptions.enableContext = false;
+					strategyOptions.enableContext = true;
 					strategyOptions.enablePremise = false;
 //					strategyOptions.disableAfterYield.value = 1000d;
 //					strategyOptions.maxStopLossPercent.value = -1000d;

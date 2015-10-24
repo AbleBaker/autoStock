@@ -85,8 +85,9 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private ArrayList<ArrayList<Double>> listOfIdeal = new ArrayList<ArrayList<Double>>();
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 	private Exchange exchange = new Exchange("NYSE");
-	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
+	private Date dateStart = DateTools.getDateFromString("09/02/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/30/2014");
+	private StrategyOptionsOverride soo;
 	
 	public void run(){
 		Global.callbackLock.requestLock();
@@ -95,16 +96,18 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
+		soo = new StrategyOptionsOverride() {
+			@Override
+			public void override(StrategyOptions strategyOptions) {
+				strategyOptions.enableContext = true;
+				strategyOptions.enablePremise = false;
+			}
+		};
+		
 		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest);
 		singleBacktest.setListenerOfBacktestCompleted(this);
 		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
-		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, new StrategyOptionsOverride() {
-			@Override
-			public void override(StrategyOptions strategyOptions) {
-				strategyOptions.enableContext = false;
-				strategyOptions.enablePremise = false;
-			}
-		}));
+		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
 		
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
@@ -178,15 +181,15 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	public void endOfAlgorithm() {		
 		//Co.println("--> Have input list of: " + listOfInput.size());
 		//Co.println("--> Have ideal list of: " + listOfIdeal.size());
-		//Co.println("***** Current day: " + currentDay);
+//		Co.println("***** Current day: " + currentDay);
 		currentDay++;
 	}
 	
 	private BasicNetwork getNetwork(){
 		FeedForwardPattern pattern = new FeedForwardPattern();
-		pattern.setInputNeurons(60);
-		pattern.addHiddenLayer(40);
-		pattern.addHiddenLayer(20);
+		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
+		pattern.addHiddenLayer(75);
+		pattern.addHiddenLayer(25);
 		pattern.setOutputNeurons(3);
 		pattern.setActivationFunction(new ActivationTANH());
 		return (BasicNetwork) pattern.generate();
@@ -245,7 +248,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			historicalData.setStartAndEndDatesToExchange();
 			
 			SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-			singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), null));
+			singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((MLRegression) train.getMethod(), 0);
 			singleBacktest.selfPopulateBacktestData();
 			singleBacktest.runBacktest();

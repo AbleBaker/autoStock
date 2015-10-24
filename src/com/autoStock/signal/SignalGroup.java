@@ -3,6 +3,7 @@ package com.autoStock.signal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.autoStock.Co;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.indicator.IndicatorGroup;

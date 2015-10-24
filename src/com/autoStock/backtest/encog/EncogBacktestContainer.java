@@ -64,7 +64,7 @@ public class EncogBacktestContainer {
 			public void override(StrategyOptions strategyOptions) {
 				//Looser training
 				strategyOptions.disableAfterYield.value = 1000d;
-				strategyOptions.enableContext = false;
+				strategyOptions.enableContext = true;
 				strategyOptions.enablePremise = false;
 			}
 		};

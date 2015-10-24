@@ -62,14 +62,14 @@ public class AlgorithmTest extends AlgorithmBase {
 //			premiseController.addPremise(new PremiseOfOHLC(exchange, symbol, DateTools.getFirstWeekdayBefore(startingDate), Resolution.hour, 3));
 //			premiseController.determinePremise();
 //		}
-//		
-//		if (strategyBase.strategyOptions.enableContext){
-//			contextController.reset();
-//			contextController.addContext(new ContextOfPosition());
-//			contextController.addContext(new ContextOfChangeSinceOpen());
-//			contextController.addContext(new ContextOfChangeSinceHighLow());
-//			contextController.determineContext();
-//		}
+		
+		if (strategyBase.strategyOptions.enableContext){
+			contextController.reset();
+			contextController.addContext(new ContextOfPosition());
+			contextController.addContext(new ContextOfChangeSinceOpen());
+			contextController.addContext(new ContextOfChangeSinceHighLow());
+			contextController.determineContext();
+		}
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		receivedQuoteSlice(quoteSlice);
 			
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
-			//Co.print("\n --> QS: " + quoteSlice.toString());
+//			Co.print("\n --> QS: " + quoteSlice.toString());
 			
 			if (signalCache != null && signalCache.isAvailable()){
 				signalCache.setToQuoteSlice(quoteSlice, receiveIndex);
