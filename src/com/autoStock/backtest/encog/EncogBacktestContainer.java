@@ -63,6 +63,7 @@ public class EncogBacktestContainer {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
 				//Looser training
+				strategyOptions.maxPositionTimeAtProfit.value = 1000;
 				strategyOptions.disableAfterYield.value = 1000d;
 				strategyOptions.enableContext = true;
 				strategyOptions.enablePremise = false;

@@ -15,6 +15,7 @@ import com.autoStock.MainIndicatorTest;
 import com.autoStock.MainMarketIndexData;
 import com.autoStock.MainMarketOrder;
 import com.autoStock.MainRTest;
+import com.autoStock.MainRewriteEvaluation;
 import com.autoStock.MainTest;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.backtest.BacktestPredictFuture;
@@ -266,6 +267,10 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_main_generate_ideal){
 			new MainGenerateIdeal().run();
+		}
+		
+		else if (menuStructure == MenuStructures.menu_main_rewrite_evaluation){
+			new MainRewriteEvaluation().run();
 		}
 		
 		else {

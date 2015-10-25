@@ -85,7 +85,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private ArrayList<ArrayList<Double>> listOfIdeal = new ArrayList<ArrayList<Double>>();
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 	private Exchange exchange = new Exchange("NYSE");
-	private Date dateStart = DateTools.getDateFromString("09/02/2014");
+	private Date dateStart = DateTools.getDateFromString("09/08/2014");
 	private Date dateEnd = DateTools.getDateFromString("09/30/2014");
 	private StrategyOptionsOverride soo;
 	
@@ -99,6 +99,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		soo = new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
+				strategyOptions.maxPositionTimeAtProfit.value = 1000;
 				strategyOptions.enableContext = true;
 				strategyOptions.enablePremise = false;
 			}
@@ -188,8 +189,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private BasicNetwork getNetwork(){
 		FeedForwardPattern pattern = new FeedForwardPattern();
 		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
-		pattern.addHiddenLayer(75);
-		pattern.addHiddenLayer(25);
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / 1.5d));
+		pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 3);
 		pattern.setOutputNeurons(3);
 		pattern.setActivationFunction(new ActivationTANH());
 		return (BasicNetwork) pattern.generate();

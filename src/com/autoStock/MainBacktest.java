@@ -381,12 +381,9 @@ public class MainBacktest implements ListenerOfBacktest {
 			if (backtestType == BacktestType.backtest_default) {
 				for (BacktestContainer backtestContainer : listOfBacktestContainer) {
 					Co.println("\n\n--> Backtest container: " + backtestContainer.symbol.symbolName);
-					
 					backtestContainer.markAsComplete();
-
-//					new TableController().displayTable(AsciiTables.backtest_strategy_response, BacktestUtils.getTableDisplayRows(backtestContainer));
+					//new TableController().displayTable(AsciiTables.backtest_strategy_response, BacktestUtils.getTableDisplayRows(backtestContainer));
 					// Co.print(new ExportTools().exportToString(AsciiTables.backtest_strategy_response, listOfDisplayRows));
-					
 					BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(backtestContainer);
 					Co.println(backtestEvaluation.toString());
 				}
