@@ -61,6 +61,7 @@ import com.autoStock.signal.extras.EncogNetworkGenerator;
 import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.signal.extras.EncogSubframe;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
+import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
@@ -87,7 +88,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private Exchange exchange = new Exchange("NYSE");
 	private Date dateStart = DateTools.getDateFromString("09/08/2014");
 	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
-	private StrategyOptionsOverride soo;
+	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	
 	public void run(){
 		Global.callbackLock.requestLock();
@@ -95,15 +96,6 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		// Load the data
 		HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
-		
-		soo = new StrategyOptionsOverride() {
-			@Override
-			public void override(StrategyOptions strategyOptions) {
-				strategyOptions.maxPositionTimeAtProfit.value = 1000;
-				strategyOptions.enableContext = true;
-				strategyOptions.enablePremise = false;
-			}
-		};
 		
 		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest);
 		singleBacktest.setListenerOfBacktestCompleted(this);

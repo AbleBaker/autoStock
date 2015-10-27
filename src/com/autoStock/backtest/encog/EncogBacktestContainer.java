@@ -19,6 +19,7 @@ import com.autoStock.backtest.BacktestUtils;
 import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
+import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
@@ -59,16 +60,7 @@ public class EncogBacktestContainer {
 	}
 	
 	public void runBacktest(){
-		StrategyOptionsOverride strategyOptionsOverride = new StrategyOptionsOverride() {
-			@Override
-			public void override(StrategyOptions strategyOptions) {
-				//Looser training
-				strategyOptions.maxPositionTimeAtProfit.value = 1000;
-				strategyOptions.disableAfterYield.value = 1000d;
-				strategyOptions.enableContext = true;
-				strategyOptions.enablePremise = false;
-			}
-		};
+		StrategyOptionsOverride strategyOptionsOverride = StrategyOptionDefaults.getDefaultOverride();
 		
 		if (MODE == Mode.full){
 			trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, false, "full");

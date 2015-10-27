@@ -1,5 +1,6 @@
 package com.autoStock.strategy;
 
+import com.autoStock.algorithm.extras.StrategyOptionsOverride;
 import com.autoStock.signal.TacticResolver.SignalPointTactic;
 
 /**
@@ -7,12 +8,20 @@ import com.autoStock.signal.TacticResolver.SignalPointTactic;
  *
  */
 public class StrategyOptionDefaults {
-	public static StrategyOptionDefaults instance = new StrategyOptionDefaults();
 	
-	public static StrategyOptionDefaults getInstance(){
-		return instance;
-	}	
-	public StrategyOptions getDefaultStrategyOptions(){
+	public static StrategyOptionsOverride getDefaultOverride() {
+		return new StrategyOptionsOverride() {
+			@Override
+			public void override(StrategyOptions strategyOptions) {
+				strategyOptions.maxPositionTimeAtProfit.value = 1000;
+				strategyOptions.disableAfterYield.value = 1000d;
+				strategyOptions.enableContext = true;
+				strategyOptions.enablePremise = false;
+			}
+		};
+	}
+	
+	public static StrategyOptions getDefaultStrategyOptions(){
 		StrategyOptions strategyOptions = new StrategyOptions();
 		strategyOptions.canGoLong.value = true;
 		strategyOptions.canGoShort.value = true;

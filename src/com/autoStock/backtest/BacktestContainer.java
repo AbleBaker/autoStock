@@ -20,6 +20,7 @@ import com.autoStock.position.PositionManager;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalCache;
 import com.autoStock.signal.SignalRangeLimit;
+import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
@@ -73,15 +74,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		algorithm.signalCache = signalCache;
 
 		if (algorithmMode == AlgorithmMode.mode_backtest && USE_PRECOMPUTED_ALGORITHM_MODEL){
-			StrategyOptionsOverride override = new StrategyOptionsOverride() {
-				@Override
-				public void override(StrategyOptions strategyOptions) {
-					strategyOptions.enableContext = true;
-					strategyOptions.enablePremise = false;
-//					strategyOptions.disableAfterYield.value = 1000d;
-//					strategyOptions.maxStopLossPercent.value = -1000d;
-				}
-			};
+			StrategyOptionsOverride override = StrategyOptionDefaults.getDefaultOverride();
 			
 			AlgorithmModel algorithmModel = BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? override : null);
 			if (algorithmModel != null){

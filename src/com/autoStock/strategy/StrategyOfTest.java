@@ -26,7 +26,7 @@ public class StrategyOfTest extends StrategyBase {
 	public StrategyOfTest(AlgorithmBase algorithmBase) {
 		super(algorithmBase);
 		
-		strategyOptions = StrategyOptionDefaults.getInstance().getDefaultStrategyOptions();
+		strategyOptions = StrategyOptionDefaults.getDefaultStrategyOptions();
 
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);

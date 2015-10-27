@@ -76,6 +76,16 @@ public class StringTools {
 		return returnString;
 	}
 	
+	public static String arrayOfDoubleToString(double[] arrayOfdouble){
+		String returnString = new String();
+		
+		for (Double value : arrayOfdouble){
+			returnString += value + ", ";
+		}
+		
+		return returnString;
+	}
+	
 	public static String listOfStringToString(ArrayList<String> listOfString, boolean addSpace){
 		String returnString = new String();
 		

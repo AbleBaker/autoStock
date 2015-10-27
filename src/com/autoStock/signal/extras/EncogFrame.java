@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.tools.ArrayTools;
+import com.autoStock.tools.StringTools;
 
 /**
  * @author Kevin
@@ -82,5 +83,16 @@ public class EncogFrame {
 	
 	public int getSubframeCount(){
 		return listOfSubframe.size();
+	}
+	
+	@Override
+	public String toString() {
+		String string = "EncogFrame: " + frameType.name() + " with " + listOfSubframe.size() + " sub frames";
+		
+		for (EncogSubframe frame : listOfSubframe){
+			string += frame.frameType + " - " + StringTools.arrayOfDoubleToString(frame.asDoubleArray());
+		}
+		
+		return string;
 	}
 }
