@@ -25,14 +25,15 @@ public class SignalGenerator {
 		
 		SignalBase[] arrayOfSignalBase = {signalGroup.signalOfCCI,
 										  signalGroup.signalOfUO,
-										  signalGroup.signalOfADX,
-										  signalGroup.signalOfTRIX,
 										  signalGroup.signalOfDI,
-										  signalGroup.signalOfMACD,
+										  signalGroup.signalOfTRIX,
+										  signalGroup.signalOfROC,
+										  signalGroup.signalOfSAR,
+//										  signalGroup.signalOfMACD,
 //										  signalGroup.signalOfARUp,
 //										  signalGroup.signalOfARDown,
 //										  signalGroup.signalOfWILLR,
-//										  signalGroup.signalOfROC
+//										  signalGroup.signalOfADX,
 										  };
 		
 		
@@ -44,7 +45,9 @@ public class SignalGenerator {
 			
 			for (SignalBase signalBase : arrayOfSignalBase){
 				EncogSubframe subframe = getSubFrame(signalBase, frameType);
+				if (subframe.isAllZeros()){throw new IllegalStateException("Subframe for signal was all zeros: " + signalBase.getClass().getSimpleName());}
 				subframe.replaceNaN();
+				
 				for (Double value : subframe.asDoubleList()){
 					if (Double.isNaN(value)){ // || Double.isInfinite(value)){
 						throw new IllegalStateException("Subframe value was NaN or Infinite: " + subframe.frameType.name() + ", " + signalBase.getClass().getName() + ", " + value);

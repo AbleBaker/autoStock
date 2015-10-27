@@ -24,19 +24,22 @@ public class EncogInputWindow {
 	public double[] getAsWindow(boolean autoNormalized){
 		ArrayList<Double> listOfDouble = new ArrayList<Double>();
 		
-		FrameType frameType = FrameType.none;
-		
 		for (EncogFrame encogFrame : listOfFrame){
 			//Co.println("--> Have frame: " + encogFrame.description + " : " + encogFrame.frameType.name());
+			//if (frameType != FrameType.none && encogFrame.frameType != frameType){
+			//	//Co.println("--> Warning, frame types differ... They should probably be different networks instead: " + encogFrame.description + " : " + frameType + ", " + encogFrame.frameType);
+			//}
 			
-			if (frameType != FrameType.none && encogFrame.frameType != frameType){
-				//Co.println("--> Warning, frame types differ... They should probably be different networks instead: " + encogFrame.description + " : " + frameType + ", " + encogFrame.frameType);
+			ArrayList<Double> frameValues = new ArrayList<Double>();
+			
+			for (Double value : frameValues){
+				if (value > 1 || value < -1){throw new IllegalStateException("Not possible");}
 			}
 			
-			frameType = encogFrame.frameType;
+			if (autoNormalized){frameValues.addAll(encogFrame.asNormalizedDoubleList());}
+			else {frameValues.addAll(encogFrame.asDoubleList());}
 			
-			if (autoNormalized){listOfDouble.addAll(encogFrame.asNormalizedDoubleList());}
-			else {listOfDouble.addAll(encogFrame.asDoubleList());}
+			listOfDouble.addAll(frameValues);
 		}
 		
 		return ArrayTools.getArrayFromListOfDouble(listOfDouble);

@@ -12,7 +12,7 @@ import com.autoStock.trading.types.HistoricalData;
  * 
  */
 public class TrainEncogSignal {
-	public static final int TRAINING_ITERATIONS = 15;
+	public static final int TRAINING_ITERATIONS = 10;
 	private boolean saveNetwork;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();

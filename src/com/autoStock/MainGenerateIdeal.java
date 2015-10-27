@@ -68,6 +68,7 @@ import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.tools.StringTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
@@ -131,16 +132,27 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	}
 
 	@Override
-	public void receiveTick(QuoteSlice quote, int receivedIndex, int processedIndex, boolean processed) {
+	public synchronized void receiveTick(QuoteSlice quote, int receivedIndex, int processedIndex, boolean processed) {
 		Co.println("--> Received tick " + receivedIndex + ", " + processedIndex);
 		
 		EncogInputWindow eiw = singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.getInputWindow();
 		ArrayList<Double> listOfIdealOutputs = new ArrayList<Double>();
 		
 		if (processed && eiw != null){			
+//			for (EncogFrame ef : eiw.getFrames()){
+//				for (EncogSubframe esf : ef.listOfSubframe){
+//					Co.println("--> E: " + ef.description + " " + esf.asDoubleList().size() + " : " + StringTools.arrayOfDoubleToString(esf.asNormalizedDoubleArray()));
+//				}
+//			}
+			
 			if (haveChange && status != PositionGovernorResponseStatus.none){
 				haveChange = false;
-				Co.println("--> Have change at tick: " + DateTools.getPrettyDate(quote.dateTime) + " EIW: " + eiw.getHash());
+				Co.println("--> Have change at tick: " + DateTools.getPrettyDate(quote.dateTime) + " to status " + status.name() +  " with EIW: " + eiw.getHash());
+				
+				if (eiw.getAsWindow(true).length != SignalOfEncog.INPUT_LENGTH){
+					throw new IllegalArgumentException();
+				}
+				
 				if (status == PositionGovernorResponseStatus.changed_long_entry){
 					listOfIdealOutputs.add(1d);
 					listOfIdealOutputs.add(-1d);
@@ -181,10 +193,12 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private BasicNetwork getNetwork(){
 		FeedForwardPattern pattern = new FeedForwardPattern();
 		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / 1.5d));
-		pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 3);
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
 		pattern.setOutputNeurons(3);
 		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setActivationOutput(new ActivationTANH());
 		return (BasicNetwork) pattern.generate();
 	}
 
@@ -194,6 +208,14 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		Co.println("--> Have input list of: " + listOfInput.size());
 		Co.println("--> Have ideal list of: " + listOfIdeal.size());
 		
+		for (ArrayList<Double> list : listOfIdeal){
+			for (Double value : list){
+				if (value != -1){
+					Co.println("--> Have input: " + value);
+				}
+			}
+		}
+		
 		BasicMLDataSet dataSet = new BasicMLDataSet();
 		
 		for (int i=0; i<listOfInput.size(); i++){
@@ -201,10 +223,11 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		}
 		
 		// Train the network
-		BasicNetwork network =  getNetwork(); //EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3);
+		BasicNetwork network = getNetwork(); //EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3);
+		
 		new NguyenWidrowRandomizer().randomize(network);
 
-		MLTrain train = new ManhattanPropagation(network, dataSet, 0.020);
+		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
 //		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);

@@ -25,6 +25,8 @@ public class EncogSubframe {
 	private double[] values;
 	public FrameType frameType;
 	private final NormalizedField normalizer = new NormalizedField(NormalizationAction.Normalize, "Subframe Normalizer", 0, 0, 1, -1);
+	private int lastRoundHigh = -1;
+	private int lastRoundLow = -1;
 	
 	public EncogSubframe(double[] values, FrameType frameType) {
 		this(values, frameType, 0, 0);
@@ -45,6 +47,9 @@ public class EncogSubframe {
 		if (normailzerHigh == 0 && normailzerLow == 0){
 			int roundOutHigh = MathTools.roundOut((int) MathTools.getMax(values), 100);
 			int roundOutLow = MathTools.roundOut((int) MathTools.getMin(values), 100);
+			
+			if (lastRoundHigh != -1 && roundOutHigh != lastRoundHigh){ throw new IllegalStateException("Normalizer will fail!");}else{lastRoundHigh = roundOutHigh;}
+			if (lastRoundLow != -1 && roundOutLow != lastRoundLow){ throw new IllegalStateException("Normalizer will fail!");}else{lastRoundLow = roundOutLow;}
 		
 			normalizer.setActualHigh(Math.max(roundOutHigh, 100));
 			normalizer.setActualLow(Math.min(roundOutLow, -100));
@@ -57,14 +62,6 @@ public class EncogSubframe {
 		
 //		Co.println("--> Norm: " + normalizer.getActualHigh() + ", " +  normalizer.getActualLow());
 //	    Co.println("--> Actual High / Low: " + MathTools.getMax(values) + ", " + MathTools.getMin(values));
-	}
-	
-	public void replaceNaN(){
-		for (int i=0; i<values.length; i++){
-			if (Double.isNaN(values[i])){
-				values[i] = 0;
-			}
-		}
 	}
 	
 	public double[] asDoubleArray(){
@@ -91,5 +88,23 @@ public class EncogSubframe {
 	
 	public ArrayList<Double> asNormalizedDoubleList(){
 		return ListTools.getListFromArray(asNormalizedDoubleArray());
+	}
+
+	public void replaceNaN(){
+		for (int i=0; i<values.length; i++){
+			if (Double.isNaN(values[i])){
+				values[i] = 0;
+			}
+		}
+	}
+	
+	public boolean isAllZeros(){
+		for (Double value : values){
+			if (value != 0){
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

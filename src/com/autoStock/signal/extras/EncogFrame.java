@@ -88,9 +88,11 @@ public class EncogFrame {
 	@Override
 	public String toString() {
 		String string = "EncogFrame: " + frameType.name() + " with " + listOfSubframe.size() + " sub frames";
+		int i = 0;
 		
 		for (EncogSubframe frame : listOfSubframe){
-			string += frame.frameType + " - " + StringTools.arrayOfDoubleToString(frame.asDoubleArray());
+			string += "Subframe " + i + " -> " + StringTools.arrayOfDoubleToString(frame.asDoubleArray());
+			i++;
 		}
 		
 		return string;

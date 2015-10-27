@@ -8,6 +8,8 @@ import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForDI;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMACD;
+import com.autoStock.signal.SignalDefinitions.IndicatorParametersForSTORSI;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForUO;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
@@ -23,7 +25,7 @@ public class MainRewriteEvaluation {
 		
 		BacktestEvaluation backtestEvaluation = BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol);
 		
-		boolean result = changeIndicatorLength(backtestEvaluation, 60, IndicatorParametersForUO.class);
+		boolean result = changeIndicatorLength(backtestEvaluation, 30, IndicatorParametersForSTORSI.class);
 		
 		if (result){
 			new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);

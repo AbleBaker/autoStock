@@ -28,9 +28,9 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	private static final int INPUT_LENGTH = 184;
+	public static final int INPUT_LENGTH = 274;
 	private static final double NEURON_THRESHOLD = 0.95;
-	public static final int INPUT_WINDOW_PS = 30;
+	public static final int INPUT_WINDOW_PS = 45;
 	private static final boolean HAS_DELTAS = true;
 	private String networkName;
 	private MLRegression basicNetwork;
