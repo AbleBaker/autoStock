@@ -28,6 +28,7 @@ public class SignalGenerator {
 										  signalGroup.signalOfADX,
 										  signalGroup.signalOfTRIX,
 										  signalGroup.signalOfDI,
+										  signalGroup.signalOfMACD,
 //										  signalGroup.signalOfARUp,
 //										  signalGroup.signalOfARDown,
 //										  signalGroup.signalOfWILLR,

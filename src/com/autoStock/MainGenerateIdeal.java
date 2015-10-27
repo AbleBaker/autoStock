@@ -86,7 +86,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 	private Exchange exchange = new Exchange("NYSE");
 	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/30/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	private StrategyOptionsOverride soo;
 	
 	public void run(){
@@ -212,7 +212,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		BasicNetwork network =  getNetwork(); //EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3);
 		new NguyenWidrowRandomizer().randomize(network);
 
-		MLTrain train = new ManhattanPropagation(network, dataSet, 0.025);
+		MLTrain train = new ManhattanPropagation(network, dataSet, 0.020);
 //		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
@@ -245,7 +245,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		if (train.getError() * 1000 < 10){
 			Co.println("--> Good score");
 			
-			HistoricalData historicalData = new HistoricalData(exchange, symbol, DateTools.getDateFromString("09/02/2014"), DateTools.getDateFromString("09/31/2014"), Resolution.min);
+			HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 			historicalData.setStartAndEndDatesToExchange();
 			
 			SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
