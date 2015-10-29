@@ -13,6 +13,8 @@ public class StrategyOptionDefaults {
 		return new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
+				strategyOptions.maxStopLossPercent.value = -0.25d;
+				strategyOptions.maxProfitDrawdownPercent.value = -0.50d;
 				strategyOptions.maxPositionTimeAtProfit.value = 1000;
 				strategyOptions.disableAfterYield.value = 1000d;
 				strategyOptions.enableContext = true;

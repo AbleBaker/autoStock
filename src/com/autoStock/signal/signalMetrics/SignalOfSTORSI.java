@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal.signalMetrics;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.indicator.results.ResultsSTORSI;
 import com.autoStock.signal.SignalBase;
@@ -14,8 +15,8 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  *
  */
 public class SignalOfSTORSI extends SignalBase {
-	public SignalOfSTORSI(SignalParameters signalParameters){
-		super(SignalMetricType.metric_storsi, signalParameters);
+	public SignalOfSTORSI(SignalParameters signalParameters, AlgorithmBase algorithmBase){
+		super(SignalMetricType.metric_storsi, signalParameters, algorithmBase);
 	}
 	
 	@Override

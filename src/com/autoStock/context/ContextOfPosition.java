@@ -19,7 +19,7 @@ public class ContextOfPosition extends ContextBase implements EncogFrameSource{
 	@Override
 	public EncogFrame asEncogFrame() {
 		EncogFrame encogFrame = new EncogFrame(this.getClass().getSimpleName(), FrameType.percent_change);
-		EncogSubframe subframeForPositionValue = new EncogSubframe(new double[]{position == null ? 0 : position.getCurrentPercentGainLoss(true)}, FrameType.percent_change);
+		EncogSubframe subframeForPositionValue = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position == null ? 0 : position.getCurrentPercentGainLoss(true)}, FrameType.percent_change, 3, -3);
 		encogFrame.addSubframe(subframeForPositionValue);
 		return encogFrame;
 	}

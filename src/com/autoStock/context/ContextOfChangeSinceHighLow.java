@@ -37,7 +37,7 @@ public class ContextOfChangeSinceHighLow extends ContextBase implements EncogFra
 		percentFromMax = (currentQuoteSlice.priceHigh / maxPrice) -1;
 		
 		EncogFrame encogFrame = new EncogFrame(this.getClass().getSimpleName(), FrameType.percent_change);
-		EncogSubframe subframeForPositionValue = new EncogSubframe(new double[]{percentFromMin, percentFromMax}, FrameType.percent_change, 10, -10);
+		EncogSubframe subframeForPositionValue = new EncogSubframe(this.getClass().getSimpleName(), new double[]{percentFromMin, percentFromMax}, FrameType.percent_change, 3, -3);
 		encogFrame.addSubframe(subframeForPositionValue);
 		return encogFrame;
 	}

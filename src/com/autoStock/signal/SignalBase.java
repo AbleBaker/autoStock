@@ -2,6 +2,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -16,11 +17,14 @@ public abstract class SignalBase {
 	protected ArrayList<Double> listOfNormalizedAveragedValue = new ArrayList<Double>();
 	public ArrayList<Double> listOfNormalizedValuePersist = new ArrayList<Double>();
 	protected ArrayList<Double> listOfNormalizedAveragedValuePersist = new ArrayList<Double>();
+	protected ArrayList<Double> listOfRawValuePersist = new ArrayList<Double>();
 	protected MutableInteger maxSignalAverage;
 	public SignalParameters signalParameters;
+	public AlgorithmBase algorithmBase;
 	public SignalRangeLimit signalRangeLimit = new SignalRangeLimit();
 	
-	public SignalBase(SignalMetricType signalMetricType, SignalParameters signalParameters){
+	public SignalBase(SignalMetricType signalMetricType, SignalParameters signalParameters, AlgorithmBase algorithmBase){
+		this.algorithmBase = algorithmBase;
 		this.signalMetricType = signalMetricType;
 		this.signalParameters = signalParameters;
 		maxSignalAverage = signalParameters.maxSignalAverage;
@@ -38,8 +42,11 @@ public abstract class SignalBase {
 	public double[] getNormalizedWindow(int windowSize){
 		if (windowSize <= 0 || listOfNormalizedValuePersist.size() - windowSize < 0){throw new IllegalArgumentException("Could not satisfy window size: " + windowSize + ", available: " + listOfNormalizedValuePersist.size());}
 		return ArrayTools.getArrayFromListOfDouble(ListTools.getLast(listOfNormalizedValuePersist, windowSize));
-		
-		//return ArrayTools.getArrayFromListOfDouble(listOfNormalizedValuePersist.subList(listOfNormalizedValuePersist.size()-windowSize, listOfNormalizedValuePersist.size()));
+	}
+	
+	public double[] getRawWindow(int windowSize){
+		if (windowSize <= 0 || listOfRawValuePersist.size() - windowSize < 0){throw new IllegalArgumentException("Could not satisfy window size: " + windowSize + ", available: " + listOfRawValuePersist.size());}
+		return ArrayTools.getArrayFromListOfDouble(ListTools.getLast(listOfRawValuePersist, windowSize));
 	}
 
 	public double getStrength(){
@@ -86,6 +93,7 @@ public abstract class SignalBase {
 		
 		listOfNormalizedAveragedValue.add(strength);
 		listOfNormalizedAveragedValuePersist.add(strength);
+		listOfRawValuePersist.add(value);
 		signalRangeLimit.addValue(strength);
 		
 		prune(maxSignalAverage.value);
@@ -116,6 +124,7 @@ public abstract class SignalBase {
 		listOfNormalizedAveragedValue.clear();
 		listOfNormalizedValuePersist.clear();
 		listOfNormalizedValue.clear();
+		listOfRawValuePersist.clear();
 		signalRangeLimit.reset();
 	}
 }

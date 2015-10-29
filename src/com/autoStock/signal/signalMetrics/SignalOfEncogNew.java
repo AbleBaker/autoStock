@@ -11,6 +11,7 @@ import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.backtest.encog.TrainEncogBase;
 import com.autoStock.backtest.encog.TrainEncogNetworkOfBasic;
 import com.autoStock.position.PositionDefinitions.PositionType;
@@ -19,6 +20,7 @@ import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForEncog;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalGroup;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.extras.EncogInputWindow;
@@ -39,8 +41,6 @@ public class SignalOfEncogNew extends SignalBase {
 	private EncogInputWindow encogInputWindow;
 	private EncogNetworkProvider encogNetworkProvider = new EncogNetworkProvider();
 	private ArrayList<EncogNetwork> listOfNetworks = new ArrayList<EncogNetwork>();
-	private NormalizedField normalizerSmall = new NormalizedField(NormalizationAction.Normalize, "Small Normalizer", 100, -100, 1, -1);
-	private NormalizedField normalizerLarge = new NormalizedField(NormalizationAction.Normalize, "Large Normalizer", 10000, -10000, 1, -1);
 	private String networkName;
 	private Benchmark bench = new Benchmark();
 	
@@ -74,8 +74,8 @@ public class SignalOfEncogNew extends SignalBase {
 		}
 	}
 	
-	public SignalOfEncogNew(SignalParametersForEncog signalParameters) {
-		super(SignalMetricType.metric_encog, signalParameters);
+	public SignalOfEncogNew(SignalParametersForEncog signalParameters, AlgorithmBase algorithmBase) {
+		super(SignalMetricType.metric_encog, signalParameters, algorithmBase);
 	}
 
 	public void setInput(EncogInputWindow encogInputWindow) {
@@ -156,23 +156,25 @@ public class SignalOfEncogNew extends SignalBase {
 			
 			Co.println("--> Have frame: " + encogFrame.frameType.name());
 			
-			if (encogFrame.frameType == FrameType.raw){
-				for (int i=0; i<encogFrame.getLength(); i++){
-					input.add(i, normalizerLarge.normalize(encogFrame.asDoubleArray()[i]));
-					dataCheck(input.getData(i));
-				}
-			}else if (encogFrame.frameType == FrameType.percent_change || encogFrame.frameType == FrameType.delta_change){
-				for (int i=0; i<encogFrame.getLength(); i++){
-					input.add(i, normalizerSmall.normalize(encogFrame.asDoubleArray()[i]));
-					dataCheck(input.getData(i));
-				}
-			}else{
-				throw new IllegalArgumentException("Can't handle frame type: " + encogFrame.description + ", " + encogFrame.frameType.name());
-			}
+			// ** Fix this if ever needed, EncogFrames are auto normalized to be acceptable NN input
 			
-			if (true){
-				return getSignalPointFromData(mainNetwork, input, havePosition, positionType);
-			}
+//			if (encogFrame.frameType == FrameType.raw){
+//				for (int i=0; i<encogFrame.getLength(); i++){
+//					input.add(i, normalizerLarge.normalize(encogFrame.asNormalizedDoubleList()()[i]));
+//					dataCheck(input.getData(i));
+//				}
+//			}else if (encogFrame.frameType == FrameType.percent_change || encogFrame.frameType == FrameType.delta_change){
+//				for (int i=0; i<encogFrame.getLength(); i++){
+//					input.add(i, normalizerSmall.normalize(encogFrame.asDoubleArray()[i]));
+//					dataCheck(input.getData(i));
+//				}
+//			}else{
+//				throw new IllegalArgumentException("Can't handle frame type: " + encogFrame.description + ", " + encogFrame.frameType.name());
+//			}
+//			
+//			if (true){
+//				return getSignalPointFromData(mainNetwork, input, havePosition, positionType);
+//			}
 			
 //			for (Double value : input.getData()){
 //				Co.print(" " + value);

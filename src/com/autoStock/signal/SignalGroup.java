@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.indicator.IndicatorGroup;
@@ -37,7 +38,6 @@ import com.autoStock.signal.signalMetrics.SignalOfCrossover;
 import com.autoStock.signal.signalMetrics.SignalOfDI;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.signal.signalMetrics.SignalOfEncogNew;
-import com.autoStock.signal.signalMetrics.SignalOfHT;
 import com.autoStock.signal.signalMetrics.SignalOfMACD;
 import com.autoStock.signal.signalMetrics.SignalOfMFI;
 import com.autoStock.signal.signalMetrics.SignalOfROC;
@@ -55,39 +55,35 @@ import com.autoStock.types.basic.MutableInteger;
  *
  */
 public class SignalGroup {
+	private AlgorithmBase algorithmBase;
 	public IndicatorGroup indicatorGroup;
-	public SignalOfCCI signalOfCCI = new SignalOfCCI(new SignalParametersForCCI());
-	public SignalOfADX signalOfADX = new SignalOfADX(new SignalParametersForADX());
-	public SignalOfDI signalOfDI = new SignalOfDI(new SignalParametersForDI());
-	public SignalOfMACD signalOfMACD = new SignalOfMACD(new SignalParametersForMACD());
-	public SignalOfRSI signalOfRSI = new SignalOfRSI(new SignalParametersForRSI());
-	public SignalOfTRIX signalOfTRIX = new SignalOfTRIX(new SignalParametersForTRIX());
-	public SignalOfROC signalOfROC = new SignalOfROC(new SignalParametersForROC());
-	public SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(new SignalParametersForSTORSI());
-	public SignalOfMFI signalOfMFI = new SignalOfMFI(new SignalParametersForMFI());
-	public SignalOfWILLR signalOfWILLR = new SignalOfWILLR(new SignalParametersForWILLR());
-	public SignalOfUO signalOfUO = new SignalOfUO(new SignalParametersForUO());
-	public SignalOfARUp signalOfARUp = new SignalOfARUp(new SignalParametersForARUp());
-	public SignalOfARDown signalOfARDown = new SignalOfARDown(new SignalParametersForARDown());
-	public SignalOfSAR signalOfSAR = new SignalOfSAR(new SignalParametersForSAR());
+	public SignalOfCCI signalOfCCI = new SignalOfCCI(new SignalParametersForCCI(), algorithmBase);
+	public SignalOfADX signalOfADX = new SignalOfADX(new SignalParametersForADX(), algorithmBase);
+	public SignalOfDI signalOfDI = new SignalOfDI(new SignalParametersForDI(), algorithmBase);
+	public SignalOfMACD signalOfMACD = new SignalOfMACD(new SignalParametersForMACD(), algorithmBase);
+	public SignalOfRSI signalOfRSI = new SignalOfRSI(new SignalParametersForRSI(), algorithmBase);
+	public SignalOfTRIX signalOfTRIX = new SignalOfTRIX(new SignalParametersForTRIX(), algorithmBase);
+	public SignalOfROC signalOfROC = new SignalOfROC(new SignalParametersForROC(), algorithmBase);
+	public SignalOfSTORSI signalOfSTORSI = new SignalOfSTORSI(new SignalParametersForSTORSI(), algorithmBase);
+	public SignalOfMFI signalOfMFI = new SignalOfMFI(new SignalParametersForMFI(), algorithmBase);
+	public SignalOfWILLR signalOfWILLR = new SignalOfWILLR(new SignalParametersForWILLR(), algorithmBase);
+	public SignalOfUO signalOfUO = new SignalOfUO(new SignalParametersForUO(), algorithmBase);
+	public SignalOfARUp signalOfARUp = new SignalOfARUp(new SignalParametersForARUp(), algorithmBase);
+	public SignalOfARDown signalOfARDown = new SignalOfARDown(new SignalParametersForARDown(), algorithmBase);
+	public SignalOfSAR signalOfSAR = new SignalOfSAR(new SignalParametersForSAR(), algorithmBase);
 	
-	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover());
+	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover(), algorithmBase);
 	
 //	public SignalOfEncogNew signalOfEncog = new SignalOfEncogNew(new SignalParametersForEncog());
-	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog());
-	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup());
-	
-	public SignalOfHT signalOfHT = new SignalOfHT(SignalMetricType.none, new SignalParameters(new NormalizeInterface() {
-		@Override
-		public double normalize(double input) {
-			return input;
-		}
-	}, new MutableInteger(1), null, null, null, null){});
+	public SignalOfEncog signalOfEncog = new SignalOfEncog(new SignalParametersForEncog(), algorithmBase);
+	public SignalOfCandlestickGroup signalOfCandlestickGroup = new SignalOfCandlestickGroup(new SignalParametersForCandlestickGroup(), algorithmBase);
 	
 	private ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 	private SignalGenerator signalGenerator = new SignalGenerator();
 	
-	public SignalGroup(){
+	public SignalGroup(AlgorithmBase algorithmBase){
+		this.algorithmBase = algorithmBase; 
+		
 		listOfSignalBase.add(signalOfCCI);
 		listOfSignalBase.add(signalOfADX);
 		listOfSignalBase.add(signalOfDI);

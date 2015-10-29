@@ -46,16 +46,6 @@ public class EncogFrame {
 		if (subFrame.frameType != frameType){throw new IllegalArgumentException("Can't have sub-frame / frames of differing types.");}
 		listOfSubframe.add(subFrame);
 	}
-
-	public ArrayList<Double> asDoubleList() {
-		ArrayList<Double> listOfDouble = new ArrayList<Double>();
-		
-		for (EncogSubframe subFrame : listOfSubframe){
-			listOfDouble.addAll(subFrame.asDoubleList());
-		}
-		
-		return listOfDouble;
-	}
 	
 	public ArrayList<Double> asNormalizedDoubleList(){
 		ArrayList<Double> listOfDouble = new ArrayList<Double>();
@@ -67,15 +57,15 @@ public class EncogFrame {
 		return listOfDouble;
 	}
 	
-	public double[] asDoubleArray() {
-		return ArrayTools.getDoubleArray(asDoubleList());
+	public double[] asNormalizedDoubleArray(){
+		return ArrayTools.getDoubleArray(asNormalizedDoubleList());
 	}
 	
 	public int getLength(){
 		int length = 0;
 		
 		for (EncogSubframe subFrame : listOfSubframe){
-			length += subFrame.asDoubleArray().length;
+			length += subFrame.asNormalizedDoubleArray().length;
 		}
 		
 		return length;
@@ -91,7 +81,7 @@ public class EncogFrame {
 		int i = 0;
 		
 		for (EncogSubframe frame : listOfSubframe){
-			string += "Subframe " + i + " -> " + StringTools.arrayOfDoubleToString(frame.asDoubleArray());
+			string += "Subframe " + i + " -> " + StringTools.arrayOfDoubleToString(frame.asNormalizedDoubleArray());
 			i++;
 		}
 		

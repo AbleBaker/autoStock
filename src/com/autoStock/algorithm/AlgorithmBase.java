@@ -89,7 +89,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		this.algorithmMode = algorithmMode;
 		this.basicAccount = basicAccount;
 		
-		signalGroup = new SignalGroup();
+		signalGroup = new SignalGroup(this);
 		indicatorGroup = new IndicatorGroup(commonAnalysisData, signalGroup);
 		positionGovernor = new PositionGovernor(algorithmMode == AlgorithmMode.mode_backtest_single ? new PositionManager() : PositionManager.getGlobalInstance());
 		

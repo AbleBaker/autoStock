@@ -29,7 +29,7 @@ public class TrainEncogSignalNew {
 		encogTrainer = new TrainEncogMultiNetwork(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
 		
 		//Might want new networks...
-		SignalOfEncogNew signalOfEncog = new SignalOfEncogNew(new SignalParametersForEncog());
+		SignalOfEncogNew signalOfEncog = new SignalOfEncogNew(new SignalParametersForEncog(), null);
 		signalOfEncog.createNetworks();
 		
 		int index = 0;

@@ -14,14 +14,14 @@ import com.autoStock.types.QuoteSlice;
  * @author Kevin
  *
  */
-public class ContextOfChangeSinceOpen extends ContextBase implements EncogFrameSource{
+public class ContextOfChangeSinceOpen extends ContextBase implements EncogFrameSource {
 	private QuoteSlice firstQuoteSlice;
 	private QuoteSlice currentQuoteSlice;
 
 	@Override
 	public EncogFrame asEncogFrame() {
-		EncogFrame encogFrame = new EncogFrame(this.getClass().getSimpleName(), FrameType.percent_change);
-		EncogSubframe subframeForPositionValue = new EncogSubframe(new double[]{(currentQuoteSlice.priceClose / firstQuoteSlice.priceClose) -1}, FrameType.percent_change, 1, -1);
+		EncogFrame encogFrame = new EncogFrame(getClass().getSimpleName(), FrameType.raw);
+		EncogSubframe subframeForPositionValue = new EncogSubframe(getClass().getSimpleName(), new double[]{(currentQuoteSlice.priceClose / firstQuoteSlice.priceClose) -1}, FrameType.raw);
 		encogFrame.addSubframe(subframeForPositionValue);
 		return encogFrame;
 	}

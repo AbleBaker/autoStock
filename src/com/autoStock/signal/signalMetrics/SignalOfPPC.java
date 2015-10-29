@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal.signalMetrics;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -14,8 +15,8 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
 public class SignalOfPPC extends SignalBase {	
 	private double[] arrayOfPrice;
 	
-	public SignalOfPPC(SignalParameters signalParameters) {
-		super(SignalMetricType.metric_ppc, signalParameters);
+	public SignalOfPPC(SignalParameters signalParameters, AlgorithmBase algorithmBase) {
+		super(SignalMetricType.metric_ppc, signalParameters, algorithmBase);
 	}
 
 	@Override

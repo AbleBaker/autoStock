@@ -44,6 +44,6 @@ public class PremiseTest {
 		
 		PremiseBase premiseBase = new PremiseOfOHLC(new Exchange("NYSE"), new Symbol("MS"), DateTools.getFirstWeekdayBefore(DateTools.getDateFromString("10/1/2014")), Resolution.min_15, 3);
 		premiseBase.run();
-		Co.println("C: " + ((EncogFrameSource)premiseBase).asEncogFrame().asDoubleList().size());
+		Co.println("C: " + ((EncogFrameSource)premiseBase).asEncogFrame().asNormalizedDoubleList().size());
 	}
 }

@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal.signalMetrics;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -13,7 +14,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  */
 public class SignalOfTRIX extends SignalBase {
 	
-	public SignalOfTRIX(SignalParameters signalParameters){
-		super(SignalMetricType.metric_trix, signalParameters);
+	public SignalOfTRIX(SignalParameters signalParameters, AlgorithmBase algorithmBase){
+		super(SignalMetricType.metric_trix, signalParameters, algorithmBase);
 	}
 }

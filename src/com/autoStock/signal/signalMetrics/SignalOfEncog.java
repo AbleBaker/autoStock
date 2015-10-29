@@ -7,6 +7,7 @@ import org.encog.util.arrayutil.NormalizationAction;
 import org.encog.util.arrayutil.NormalizedField;
 
 import com.autoStock.Co;
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
@@ -18,6 +19,7 @@ import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.extras.EncogNetworkCache;
 import com.autoStock.signal.extras.EncogNetworkProvider;
+import com.autoStock.signal.extras.EncogSubframe;
 import com.autoStock.tools.MathTools;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.rits.cloning.Cloner;
@@ -28,16 +30,16 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	public static final int INPUT_LENGTH = 274;
+	public static final int INPUT_LENGTH = 213;
 	private static final double NEURON_THRESHOLD = 0.95;
-	public static final int INPUT_WINDOW_PS = 45;
+	public static final int INPUT_WINDOW_PS = 30;
 	private static final boolean HAS_DELTAS = true;
 	private String networkName;
 	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
 
-	public SignalOfEncog(SignalParameters signalParameters) {
-		super(SignalMetricType.metric_encog, signalParameters);
+	public SignalOfEncog(SignalParameters signalParameters, AlgorithmBase algorithmBase) {
+		super(SignalMetricType.metric_encog, signalParameters, algorithmBase);
 	}
 	
 	public void setNetworkName(String networkName) {
@@ -70,12 +72,8 @@ public class SignalOfEncog extends SignalBase {
 //		}
 
 		if (inputWindow.length != basicNetwork.getInputCount()) {
-			for (EncogFrame encogFrame : encogInputWindow.getFrames()){
-				Co.println("--> Frame: " + encogFrame.description + ", " + encogFrame.listOfSubframe.size() + ", " + encogFrame.asDoubleList().size());
-			}
-			
-			Co.println("");
-			
+			Co.println(encogInputWindow.describeContents());
+			try {Thread.sleep(50);}catch(InterruptedException e){}
 			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
 		}
 
@@ -92,16 +90,17 @@ public class SignalOfEncog extends SignalBase {
 //		double valueForReeentry = output.getData(3);
 		
 //		Co.println("--> Values: " + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit);
+		
+		int count = 0;
 
 		if (valueForLongEntry >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.long_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
-			
-//			Co.println("--> Going long with: " + valueForLongEntry);
-			// }
+			count++;
 		} else if (valueForShortEntry >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.short_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+			count++;
 //		} else if (valueForReeentry >= NEURON_THRESHOLD) {
 //			signalPoint.signalPointType = SignalPointType.reentry;
 //			signalPoint.signalMetricType = SignalMetricType.metric_encog;
@@ -114,13 +113,14 @@ public class SignalOfEncog extends SignalBase {
 				throw new IllegalStateException("Have position of type: " + positionType.name());
 			}
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+			count++;
 		}
+		
+		if (count > 1){signalPoint = new SignalPoint();} 
 		
 //		if (signalPoint.signalPointType != SignalPointType.none){
 //			Co.println("--> Encog signal with frame: " + signalPoint.signalPointType.name() + "(" + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit + ")" +  " - " + encogInputWindow.getUniqueIdent() + " -> " + encogInputWindow.getHash());
-//		}else if (encogInputWindow.getHash().startsWith("ae7")){
-//			Co.println("--> X !!! " + encogInputWindow.getUniqueIdent());
-//			Co.println("--> Values: " + valueForLongEntry);
+//			Co.println(encogInputWindow.describeContents());
 //		}
 
 		return signalPoint;

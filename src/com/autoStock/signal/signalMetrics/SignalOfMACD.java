@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal.signalMetrics;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.indicator.results.ResultsMACD;
 import com.autoStock.signal.SignalBase;
@@ -15,8 +16,8 @@ import com.autoStock.tools.ArrayTools;
  *
  */
 public class SignalOfMACD extends SignalBase {
-	public SignalOfMACD(SignalParameters signalParameters){
-		super(SignalMetricType.metric_macd, signalParameters);
+	public SignalOfMACD(SignalParameters signalParameters, AlgorithmBase algorithmBase){
+		super(SignalMetricType.metric_macd, signalParameters, algorithmBase);
 	}
 	
 	@Override

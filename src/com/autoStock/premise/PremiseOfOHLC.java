@@ -130,7 +130,7 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 			values.add(valueClose.get(i));
 		}
 		
-		encogFrame.addSubframe(new EncogSubframe(values, FrameType.percent_change, 10, -10));
+		encogFrame.addSubframe(new EncogSubframe(this.getClass().getSimpleName(), values, FrameType.percent_change, 10, -10));
 		return encogFrame;
 	}
 }

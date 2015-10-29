@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal.signalMetrics;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.signal.RSignalBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -13,7 +14,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  *
  */
 public class RSignalOfCCI extends RSignalBase {	
-	public RSignalOfCCI(SignalParameters signalParameters) {
-		super(SignalMetricType.metric_cci, signalParameters);
+	public RSignalOfCCI(SignalParameters signalParameters, AlgorithmBase algorithmBase) {
+		super(SignalMetricType.metric_cci, signalParameters, algorithmBase);
 	}
 }

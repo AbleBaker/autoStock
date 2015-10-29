@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.comServer.ContextOfOHLC;
 import com.autoStock.context.ContextOfChangeSinceHighLow;
 import com.autoStock.context.ContextOfChangeSinceOpen;
 import com.autoStock.context.ContextOfPosition;
@@ -68,6 +69,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			contextController.addContext(new ContextOfPosition());
 			contextController.addContext(new ContextOfChangeSinceOpen());
 			contextController.addContext(new ContextOfChangeSinceHighLow());
+			contextController.addContext(new ContextOfOHLC());
 			contextController.determineContext();
 		}
 	}
@@ -92,6 +94,7 @@ public class AlgorithmTest extends AlgorithmBase {
 					((ContextOfPosition)contextController.getByClass(ContextOfPosition.class)).setPosition(position);
 					((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
 					((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersist);
+					((ContextOfOHLC)contextController.getByClass(ContextOfOHLC.class)).setAlgorithmBase(this);
 				}
 				
 				signalGroup.processEncog(ListTools.combineLists(contextController.getEncogFrames(), premiseController.getEncogFrames())); 

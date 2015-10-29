@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal.signalMetrics;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.indicator.results.ResultsDI;
 import com.autoStock.signal.SignalBase;
@@ -15,8 +16,8 @@ import com.autoStock.tools.ArrayTools;
  *
  */
 public class SignalOfDI extends SignalBase {
-	public SignalOfDI(SignalParameters signalParameters){
-		super(SignalMetricType.metric_di, signalParameters);
+	public SignalOfDI(SignalParameters signalParameters, AlgorithmBase algorithmBase){
+		super(SignalMetricType.metric_di, signalParameters, algorithmBase);
 	}
 
 	@Override

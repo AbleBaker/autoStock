@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -13,8 +14,8 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  */
 public class SignalOfReentry extends SignalBaseWithPoint {
 
-	public SignalOfReentry(SignalMetricType signalMetricType, SignalParameters signalParameters) {
-		super(signalMetricType, signalParameters);
+	public SignalOfReentry(SignalMetricType signalMetricType, SignalParameters signalParameters, AlgorithmBase algorithmBase) {
+		super(signalMetricType, signalParameters, algorithmBase);
 	}
 	
 	@Override

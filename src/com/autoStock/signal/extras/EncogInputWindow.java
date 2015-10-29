@@ -12,6 +12,7 @@ import com.autoStock.signal.extras.EncogFrameSupport.EncogFrameSource;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.MiscTools;
+import com.autoStock.tools.StringTools;
 
 /**
  * @author Kevin Kowalewski
@@ -37,7 +38,7 @@ public class EncogInputWindow {
 			}
 			
 			if (autoNormalized){frameValues.addAll(encogFrame.asNormalizedDoubleList());}
-			else {frameValues.addAll(encogFrame.asDoubleList());}
+			else {frameValues.addAll(encogFrame.asNormalizedDoubleList());}
 			
 			listOfDouble.addAll(frameValues);
 		}
@@ -61,9 +62,25 @@ public class EncogInputWindow {
 		return listOfFrame.size();
 	}
 	
+	public String describeContents() {
+		String string = "";
+		
+		for (EncogFrame encogFrame : listOfFrame){
+			string += "--> Frame: " + encogFrame.description + ", " + encogFrame.frameType.name() + " = " + encogFrame.asNormalizedDoubleList().size() + "\n";
+			
+			for (EncogSubframe subFrame : encogFrame.listOfSubframe){
+				string += "-->   SubFrame: " + subFrame.description + ", " + subFrame.asNormalizedDoubleArray().length + " -> " + StringTools.arrayOfDoubleToString(subFrame.asNormalizedDoubleArray()) + "\n";	
+			}
+			
+			string += "\n";
+		}
+		
+		return string; 
+	}
+	
 	public String getUniqueIdent(){
 		double[] window = getAsWindow(true);
-		return listOfFrame.size() + " - " + window.length + " = " + window[0] + "-" + window[1] + "-" + window[2];
+		return listOfFrame.size() + " - " + window.length + " = " + window[0] + " - " + window[1] + " - " + window[2];
 	}
 	
 	public String getHash(){

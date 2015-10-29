@@ -87,8 +87,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private ArrayList<ArrayList<Double>> listOfIdeal = new ArrayList<ArrayList<Double>>();
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 	private Exchange exchange = new Exchange("NYSE");
-	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
+	private Date dateStart = DateTools.getDateFromString("09/02/2014");
+	private Date dateEnd = DateTools.getDateFromString("10/17/2014");
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	
 	public void run(){
@@ -196,9 +196,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 8));
 		pattern.setOutputNeurons(3);
 		pattern.setActivationFunction(new ActivationTANH());
-		pattern.setActivationOutput(new ActivationTANH());
+//		pattern.setActivationOutput(new ActivationTANH());
 		return (BasicNetwork) pattern.generate();
 	}
 
@@ -239,6 +240,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			System.out.println(i + " - " + train.getError() * 1000);
 		}
 		
+		train.finishTraining();
+		
 //		train = new ResilientPropagation(network, dataSet);
 //		
 //		for (int i=0; i<10000; i++){
@@ -255,7 +258,6 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 //		dataSet.add(, new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfIdeal.get(i))));
 		
-		
 		// Verficiation stage
 		if (train.getError() * 1000 < 10){
 			Co.println("--> Good score");
@@ -271,7 +273,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			
 			Co.println(new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer).toString());
 			
-			new EncogNetworkProvider().saveNetwork(network, "NYSE-MS");
+			new EncogNetworkProvider().saveNetwork((BasicNetwork) train.getMethod(), "NYSE-MS");
 		}
 	}
 }

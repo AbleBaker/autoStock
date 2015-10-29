@@ -3,6 +3,7 @@
  */
 package com.autoStock.signal.signalMetrics;
 
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -13,7 +14,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
  */
 public class SignalOfROC extends SignalBase {
 	
-	public SignalOfROC(SignalParameters signalParameters){
-		super(SignalMetricType.metric_roc, signalParameters);
+	public SignalOfROC(SignalParameters signalParameters, AlgorithmBase algorithmBase){
+		super(SignalMetricType.metric_roc, signalParameters, algorithmBase);
 	}
 }

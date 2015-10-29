@@ -83,7 +83,7 @@ public class ListTools {
 		return new ArrayList<T>(list.subList(start, end));
 	}
 
-	public static ArrayList<Double> getLast(List<Double> list, int elements) {
+	public static <T> ArrayList<T> getLast(List<T> list, int elements) {
 		return subList(list, list.size() - elements, -1);
 	}
 	
