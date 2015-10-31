@@ -17,6 +17,7 @@ public class EncogFrame {
 	public String description;
 	public FrameType frameType;
 	public ArrayList<EncogSubframe> listOfSubframe = new ArrayList<EncogSubframe>();
+	public ArrayList<Double> cached;
 	
 	public EncogFrame(String description, FrameType frameType, ArrayList<EncogSubframe> listOfSubframe) {
 		this.description = description;
@@ -48,11 +49,15 @@ public class EncogFrame {
 	}
 	
 	public ArrayList<Double> asNormalizedDoubleList(){
+//		if (cached != null){return cached;}
+		
 		ArrayList<Double> listOfDouble = new ArrayList<Double>();
 		
 		for (EncogSubframe subFrame : listOfSubframe){
 			listOfDouble.addAll(subFrame.asNormalizedDoubleList());
 		}
+		
+		cached = listOfDouble;
 		
 		return listOfDouble;
 	}

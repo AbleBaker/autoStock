@@ -13,10 +13,10 @@ public class StrategyOptionDefaults {
 		return new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
-				strategyOptions.maxStopLossPercent.value = -0.25d;
-				strategyOptions.maxProfitDrawdownPercent.value = -0.50d;
-				strategyOptions.maxPositionTimeAtProfit.value = 1000;
-				strategyOptions.disableAfterYield.value = 1000d;
+				strategyOptions.maxStopLossPercent.value = -0.50d;
+				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
+				strategyOptions.maxPositionTimeAtProfit.value = 60;
+				strategyOptions.disableAfterYield.value = 3.0d;
 				strategyOptions.enableContext = true;
 				strategyOptions.enablePremise = false;
 			}
@@ -51,7 +51,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.intervalForReentryMins.value = 2;
 		strategyOptions.minReentryPercentGain.value = 0.15;
 		strategyOptions.prefillShift.value = 0;
-		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 5;
+		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 15;
 		strategyOptions.intervalForEntryWithSameSignalPointType.value = 0;
 		strategyOptions.disableAfterLoss.value = -0.25d;
 		strategyOptions.disableAfterYield.value = 2.00d;

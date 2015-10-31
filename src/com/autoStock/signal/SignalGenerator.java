@@ -32,20 +32,25 @@ public class SignalGenerator {
 	}
 	
 	private EncogFrame getFrameFromSignalValues(SignalGroup signalGroup) throws UnableToProcessException {
-		FrameType frameType = FrameType.percent_change;
+		FrameType frameType = FrameType.raw;
+		
 		EncogFrame encogFrame = new EncogFrame("Signals that output numeric values", frameType);
 		SignalBase[] arrayOfSignalBase = {
 			signalGroup.signalOfCCI,
 			signalGroup.signalOfUO,
-			signalGroup.signalOfDI,
-			signalGroup.signalOfTRIX,
-			signalGroup.signalOfROC,
-			signalGroup.signalOfSAR,
-//			signalGroup.signalOfMACD,
+			signalGroup.signalOfMACD,
+			signalGroup.signalOfMFI,
+			signalGroup.signalOfRSI,
+			
+			//DO NOT USE
+//			signalGroup.signalOfROC,
+//			signalGroup.signalOfWILLR,
 //			signalGroup.signalOfARUp,
 //			signalGroup.signalOfARDown,
-//			signalGroup.signalOfWILLR,
-//			signalGroup.signalOfADX,
+//			signalGroup.signalOfADX,			
+//			signalGroup.signalOfDI,
+//			signalGroup.signalOfTRIX,
+//			signalGroup.signalOfSAR,
 		};
 		
 		if (signalGroup.signalOfEncog.isLongEnough(arrayOfSignalBase) == false){
@@ -99,11 +104,11 @@ public class SignalGenerator {
 		EncogSubframe subFrame = null;
 		
 		if (frameType == FrameType.percent_change){
-			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType);
+			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 250, -250);
 		}if (frameType == FrameType.delta_change){
-			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltas(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType);
+			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltas(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 100, -100);
 		}else if (frameType == FrameType.raw){
-			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType);
+			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(signalBase.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 100, -100);
 		}
 		
 		if (subFrame != null){return subFrame;}

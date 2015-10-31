@@ -1,5 +1,6 @@
 package com.autoStock.signal.extras;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.jfree.chart.HashUtilities;
 import com.autoStock.Co;
 import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.signal.extras.EncogFrameSupport.EncogFrameSource;
+import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.MiscTools;
@@ -26,20 +28,11 @@ public class EncogInputWindow {
 		ArrayList<Double> listOfDouble = new ArrayList<Double>();
 		
 		for (EncogFrame encogFrame : listOfFrame){
-			//Co.println("--> Have frame: " + encogFrame.description + " : " + encogFrame.frameType.name());
-			//if (frameType != FrameType.none && encogFrame.frameType != frameType){
-			//	//Co.println("--> Warning, frame types differ... They should probably be different networks instead: " + encogFrame.description + " : " + frameType + ", " + encogFrame.frameType);
-			//}
-			
 			ArrayList<Double> frameValues = new ArrayList<Double>();
-			
-			for (Double value : frameValues){
-				if (value > 1 || value < -1){throw new IllegalStateException("Not possible");}
-			}
+			//for (Double value : frameValues){if (value > 1 || value < -1){throw new IllegalStateException("Not possible");}}
 			
 			if (autoNormalized){frameValues.addAll(encogFrame.asNormalizedDoubleList());}
 			else {frameValues.addAll(encogFrame.asNormalizedDoubleList());}
-			
 			listOfDouble.addAll(frameValues);
 		}
 		
@@ -69,7 +62,7 @@ public class EncogInputWindow {
 			string += "--> Frame: " + encogFrame.description + ", " + encogFrame.frameType.name() + " = " + encogFrame.asNormalizedDoubleList().size() + "\n";
 			
 			for (EncogSubframe subFrame : encogFrame.listOfSubframe){
-				string += "-->   SubFrame: " + subFrame.description + ", " + subFrame.asNormalizedDoubleArray().length + " -> " + StringTools.arrayOfDoubleToString(subFrame.asNormalizedDoubleArray()) + "\n";	
+				string += "-->   SubFrame: " + subFrame.description + " (" + subFrame.getNormalizer().getActualHigh() + ":" + subFrame.getNormalizer().getActualLow() + ") " + subFrame.asNormalizedDoubleArray().length + " -> " + StringTools.arrayOfDoubleToString(subFrame.asNormalizedDoubleArray()) + "\n";	
 			}
 			
 			string += "\n";

@@ -1,5 +1,10 @@
 package com.autoStock.backtest.encog;
 
+import org.encog.engine.network.activation.ActivationBiPolar;
+import org.encog.engine.network.activation.ActivationSteepenedSigmoid;
+import org.encog.engine.network.activation.ActivationTANH;
+import org.encog.neural.pattern.FeedForwardPattern;
+
 import com.autoStock.Co;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.signal.extras.EncogNetworkCache;
@@ -12,7 +17,7 @@ import com.autoStock.trading.types.HistoricalData;
  * 
  */
 public class TrainEncogSignal {
-	public static final int TRAINING_ITERATIONS = 10;
+	public static final int TRAINING_ITERATIONS = 15;
 	private boolean saveNetwork;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
@@ -29,7 +34,7 @@ public class TrainEncogSignal {
 		encogScoreProvider.setDetails(algorithmModel, historicalData);
 		
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
-			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix, TRAINING_ITERATIONS);
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 6, new ActivationTANH()), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix, TRAINING_ITERATIONS);
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
 			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix);
 		}

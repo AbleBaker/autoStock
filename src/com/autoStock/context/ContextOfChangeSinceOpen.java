@@ -20,8 +20,8 @@ public class ContextOfChangeSinceOpen extends ContextBase implements EncogFrameS
 
 	@Override
 	public EncogFrame asEncogFrame() {
-		EncogFrame encogFrame = new EncogFrame(getClass().getSimpleName(), FrameType.raw);
-		EncogSubframe subframeForPositionValue = new EncogSubframe(getClass().getSimpleName(), new double[]{(currentQuoteSlice.priceClose / firstQuoteSlice.priceClose) -1}, FrameType.raw);
+		EncogFrame encogFrame = new EncogFrame(getClass().getSimpleName(), FrameType.percent_change);
+		EncogSubframe subframeForPositionValue = new EncogSubframe(getClass().getSimpleName(), new double[]{(currentQuoteSlice.priceClose / firstQuoteSlice.priceClose) -1}, FrameType.percent_change, 1, -1);
 		encogFrame.addSubframe(subframeForPositionValue);
 		return encogFrame;
 	}

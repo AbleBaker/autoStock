@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.account.BasicAccount;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalGroup;
@@ -26,7 +26,7 @@ public class TableForAlgorithm extends BaseTable {
 	public static boolean INCLUDE_SIGNALS = true;
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.00");
 	
-	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signal signal, SignalGroup signalGroup, StrategyResponse strategyResponse, BasicAccount basicAccount){
+	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signaler signal, SignalGroup signalGroup, StrategyResponse strategyResponse, BasicAccount basicAccount){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 

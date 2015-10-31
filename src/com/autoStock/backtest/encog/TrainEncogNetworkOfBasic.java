@@ -3,6 +3,8 @@
  */
 package com.autoStock.backtest.encog;
 
+import org.encog.engine.network.activation.ActivationBiPolar;
+import org.encog.engine.network.activation.ActivationFunction;
 import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
 import org.encog.ml.CalculateScore;
 import org.encog.ml.MLMethod;
@@ -12,6 +14,7 @@ import org.encog.ml.genetic.MLMethodGeneticAlgorithm;
 import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.pso.NeuralPSO;
+import org.encog.neural.pattern.FeedForwardPattern;
 
 import com.autoStock.Co;
 import com.autoStock.tools.MathTools;

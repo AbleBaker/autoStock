@@ -64,7 +64,7 @@ public class SignalOfEncogNew extends SignalBase {
 		}
 		
 		public EncogNetwork generate(){
-			this.method = EncogNetworkGenerator.getBasicNetwork(inputs, outputs);
+			this.method = EncogNetworkGenerator.getBasicNetwork(inputs, outputs, null);
 			return this;
 		}
 		

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.IndicatorGroup;
 import com.autoStock.position.PositionOptions;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalGroup;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.QuoteSlice;
@@ -15,7 +15,7 @@ import com.autoStock.types.QuoteSlice;
  * 
  */
 public abstract class StrategyBase {
-	public Signal signal;
+	public Signaler signal;
 	public StrategyOptions strategyOptions;
 	public AlgorithmBase algorithmBase;
 	public StrategyResponse lastStrategyResponse = new StrategyResponse();

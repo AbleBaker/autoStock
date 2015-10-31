@@ -30,7 +30,10 @@ public class BacktestScoreProvider {
 			
 			if (pair.second < 0){
 				penalty++;
+			} else if (pair.second < 0.10){
+				score -= pair.second;	
 			}
+			
 		}
 		
 		score /= penalty;

@@ -6,7 +6,7 @@ package com.autoStock.position;
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
@@ -20,7 +20,7 @@ public class PositionGenerator {
 	private static final int entryPositionFunding = 5000;
 	private static final int reentryPositionFunding = 2500;
 	
-	public Position generatePosition(QuoteSlice quoteSlice, Signal signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount, PositionManager positionManager){
+	public Position generatePosition(QuoteSlice quoteSlice, Signaler signal, PositionType positionType, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount, PositionManager positionManager){
 		int positionUnits = getPositionInitialUnits(quoteSlice.priceClose, signal, basicAccount);
 		
 		if (positionUnits != 0){
@@ -30,7 +30,7 @@ public class PositionGenerator {
 		return null;
 	}
 	
-	private int getPositionInitialUnits(double price, Signal signal, BasicAccount basicAccount){
+	private int getPositionInitialUnits(double price, Signaler signal, BasicAccount basicAccount){
 		double accountBalance = basicAccount.getBalance();
 		int units = (int) (entryPositionFunding / price);
 
@@ -45,7 +45,7 @@ public class PositionGenerator {
 		return units;
 	}
 	
-	public int getPositionReentryUnits(double price, Signal signal, BasicAccount basicAccount){
+	public int getPositionReentryUnits(double price, Signaler signal, BasicAccount basicAccount){
 		double accountBalance = basicAccount.getBalance();
 		int units = (int) (reentryPositionFunding / price);
 

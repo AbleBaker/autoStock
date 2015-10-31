@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.TacticResolver;
@@ -32,7 +32,7 @@ public class PositionGovernor {
 		this.positionManager = positionManager;
 	}
 	
-	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signal signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions, BasicAccount basicAccount){
+	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signaler signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions, BasicAccount basicAccount){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		SignalPoint signalPoint = new SignalPoint();
 		
@@ -97,7 +97,7 @@ public class PositionGovernor {
 		return positionGovernorResponse;
 	} 
 	
-	private Position governLongEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount){
+	private Position governLongEntry(QuoteSlice quoteSlice, Signaler signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount){
 		Position position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_long_entry, null, positionOptions, basicAccount);
 		if (position == null){
 			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
@@ -108,7 +108,7 @@ public class PositionGovernor {
 		return position;
 	}
 	
-	private void governLongReentry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, BasicAccount basicAccount){
+	private void governLongReentry(QuoteSlice quoteSlice, Position position, Signaler signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, BasicAccount basicAccount){
 		int reentryUnits = positionGenerator.getPositionReentryUnits(quoteSlice.priceClose, signal, position.basicAccount);
 		if (reentryUnits > 0){
 			position.executeReentry(reentryUnits, quoteSlice.priceClose);
@@ -118,7 +118,7 @@ public class PositionGovernor {
 		}
 	}
 	
-	private Position governShortEntry(QuoteSlice quoteSlice, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount){
+	private Position governShortEntry(QuoteSlice quoteSlice, Signaler signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount){
 		Position position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_short_entry, null, positionOptions, basicAccount);
 		if (position == null){
 			positionGovernorResponse.getFailedResponse(PositionGovernorResponseReason.failed_insufficient_funds);
@@ -129,7 +129,7 @@ public class PositionGovernor {
 		return position;
 	}
 
-	private void governShortReentry(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, BasicAccount basicAccount){
+	private void governShortReentry(QuoteSlice quoteSlice, Position position, Signaler signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, BasicAccount basicAccount){
 		int reentryUnits = positionGenerator.getPositionReentryUnits(quoteSlice.priceClose, signal, position.basicAccount);
 		if (reentryUnits > 0){
 			position.executeReentry(reentryUnits, quoteSlice.priceClose);
@@ -139,7 +139,7 @@ public class PositionGovernor {
 		}
 	}
 	
-	private void governLongExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
+	private void governLongExit(QuoteSlice quoteSlice, Position position, Signaler signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
 		if (position != null && (position.positionType == PositionType.position_long_exit)){
 			throw new IllegalStateException();
 		}
@@ -147,7 +147,7 @@ public class PositionGovernor {
 		positionGovernorResponse.status = PositionGovernorResponseStatus.changed_long_exit;
 	}
 	
-	private void governShortExit(QuoteSlice quoteSlice, Position position, Signal signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
+	private void governShortExit(QuoteSlice quoteSlice, Position position, Signaler signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange){
 		if (position != null && (position.positionType == PositionType.position_short_exit)){
 			throw new IllegalStateException();
 		}

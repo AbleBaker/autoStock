@@ -9,7 +9,7 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionOptions;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
 import com.autoStock.signal.SignalGroup;
@@ -56,7 +56,7 @@ public class StrategyOfTest extends StrategyBase {
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size() - 1);
 		AlgorithmCondition algorithmCondition = new AlgorithmCondition(strategyOptions);
 
-		signal = new Signal(SignalSource.from_algorithm, signalGroup);
+		signal = new Signaler(SignalSource.from_algorithm, signalGroup);
 		signal.addSignalBaseFromMetrics(strategyOptions.listOfSignalMetricType);
 
 		// SignalPoint signalPointForEntry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
@@ -123,7 +123,7 @@ public class StrategyOfTest extends StrategyBase {
 	@Override
 	public StrategyResponse requestExit(Position position, QuoteSlice quoteSlice, PositionOptions positionOptions) {
 		StrategyResponse strategyResponse = new StrategyResponse();
-		strategyResponse.signal = new Signal(SignalSource.from_manual, null);
+		strategyResponse.signal = new Signaler(SignalSource.from_manual, null);
 		strategyResponse.quoteSlice = quoteSlice;
 		strategyResponse.positionGovernorResponse = cease(StrategyActionCause.cease_end_of_feed, quoteSlice, position, strategyResponse);
 		strategyResponse.basicAccountCopy = algorithmBase.basicAccount.copy();

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.types.Position;
@@ -24,7 +24,7 @@ public class ReentrantStrategy {
 		status_none,
 	}
 	
-	public ReentryStatus getReentryStatus(Position position, Signal signal, StrategyOptions strategyOptions, SignalPoint signalPoint, Pair<Symbol, ArrayList<PositionGovernorResponse>> listOfPair, QuoteSlice quoteSlice){
+	public ReentryStatus getReentryStatus(Position position, Signaler signal, StrategyOptions strategyOptions, SignalPoint signalPoint, Pair<Symbol, ArrayList<PositionGovernorResponse>> listOfPair, QuoteSlice quoteSlice){
 		PositionGovernorResponse positionGovernorResponseLast = listOfPair.second.get(listOfPair.second.size()-1);
 		Time timeOfLastOccurrenceDifference = DateTools.getTimeUntilDate(quoteSlice.dateTime, positionGovernorResponseLast.dateOccurred);
 		double percentGainFromPosition = position.getCurrentPercentGainLoss(true);

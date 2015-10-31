@@ -27,11 +27,7 @@ public class EncogSubframe {
 	private double[] values;
 	public FrameType frameType;
 	private NormalizedField normalizer;
-	
-	public EncogSubframe(String description, double[] values, FrameType frameType) {
-		this(description, values, frameType, 0, 0);
-	}
-	
+
 	public EncogSubframe(String description, ArrayList<Double> values, FrameType frameType) {
 		this(description, ArrayTools.getDoubleArray(values), frameType, 0, 0);
 	}
@@ -46,16 +42,10 @@ public class EncogSubframe {
 		this.frameType = frameType;
 		
 		if (normailzerHigh == 0 && normailzerLow == 0){
-			if (frameType == FrameType.percent_change || frameType == FrameType.delta_change){
-				 normalizer = new NormalizedField(NormalizationAction.Normalize, "Subframe normalize for percents or deltas", 500, -500, 1, -1);
-			}else if (frameType == FrameType.category || frameType == FrameType.raw){
-				normalizer = new NormalizedField(NormalizationAction.Normalize, "Subframe Normalizer for category", 1, -1, 1, -1);
-			}else{
-				throw new UnsupportedOperationException();
-			}
-		}else{
-			normalizer = new NormalizedField(NormalizationAction.Normalize, "Subframe Normalizer", normailzerHigh, normailzerLow, 1, -1);
+			throw new IllegalArgumentException("Define the normalizer");
 		}
+		
+		normalizer = new NormalizedField(NormalizationAction.Normalize, null, normailzerHigh, normailzerLow, 1, -1); 
 	}
 	
 	public double[] asNormalizedDoubleArray(){
@@ -104,8 +94,12 @@ public class EncogSubframe {
 		return true;
 	}
 	
+	public NormalizedField getNormalizer(){
+		return normalizer;
+	}
+	
 	@Override
 	public String toString() {
-		return "Subframe: " + description + ", " + values.length + " -> " + StringTools.arrayOfDoubleToString(values);
+		return "Subframe: " + description + " normalizer: " + normalizer.getActualHigh() + ":" +normalizer.getActualLow() + " length: " + values.length + " -> " + StringTools.arrayOfDoubleToString(values);
 	}
 }

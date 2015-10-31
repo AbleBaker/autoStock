@@ -2,6 +2,7 @@ package com.autoStock.signal;
 
 import java.util.ArrayList;
 
+import com.autoStock.Co;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
@@ -20,7 +21,7 @@ public class TacticResolver {
 		tactic_conjugate,
 	}
 	
-	public static synchronized SignalPoint getSignalPoint(boolean havePosition, Signal signal, PositionType positionType, SignalPointTactic signalPointTactic){
+	public static synchronized SignalPoint getSignalPoint(boolean havePosition, Signaler signal, PositionType positionType, SignalPointTactic signalPointTactic){
 		SignalPoint signalPoint;
 		
 		if (signalPointTactic == SignalPointTactic.tactic_majority){
@@ -38,7 +39,7 @@ public class TacticResolver {
 		return signalPoint;
 	}
 	
-	private static SignalPoint getSignalPointMixed(boolean havePosition, PositionType positionType, Signal signal){
+	private static SignalPoint getSignalPointMixed(boolean havePosition, PositionType positionType, Signaler signal){
 		SignalPoint signalPoint = new SignalPoint();
 		
 		SignalPoint signalPointFromCCI = signal.getSignalGroup().getSignalBaseForType(SignalMetricType.metric_cci).getSignalPoint(havePosition, positionType);
@@ -49,7 +50,7 @@ public class TacticResolver {
 		return signalPoint;
 	}
 	
-	private static SignalPoint getSignalPointCombined(boolean havePosition, PositionType positionType, Signal signal){
+	private static SignalPoint getSignalPointCombined(boolean havePosition, PositionType positionType, Signaler signal){
 		SignalPoint signalPoint = new SignalPoint();
 		
 		for (SignalBase signalBase : signal.getListOfSignalBase()){
@@ -73,7 +74,7 @@ public class TacticResolver {
 		return signalPoint;
 	}
 	
-	private static SignalPoint getSignalPointMajority(boolean havePosition, PositionType positionType, Signal signal){
+	private static SignalPoint getSignalPointMajority(boolean havePosition, PositionType positionType, Signaler signal){
 		SignalPoint signalPoint = new SignalPoint();
 		int occurenceCount = 0;
 		boolean isEvenNumberOfMetrics = MathTools.isEven(signal.getListOfSignalBase().size());
@@ -102,7 +103,7 @@ public class TacticResolver {
 		return signalPoint;
 	} 
 	
-	private static SignalPoint getSignalPointChange(boolean havePosition, PositionType positionType, Signal signal){
+	private static SignalPoint getSignalPointChange(boolean havePosition, PositionType positionType, Signaler signal){
 		SignalPoint signalPoint = new SignalPoint();
 		
 		for (SignalBase signalBase : signal.getListOfSignalBase()){
@@ -110,7 +111,7 @@ public class TacticResolver {
 			if (metricSignalPoint.signalPointType != SignalPointType.none){
 				signalPoint = metricSignalPoint;
 				signalPoint.signalMetricType = signalBase.signalMetricType;
-				break;
+				return signalPoint;
 			}
 		}
 		

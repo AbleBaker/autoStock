@@ -18,7 +18,7 @@ import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
@@ -43,7 +43,7 @@ public class BacktestUtils {
 		backward,
 	}
 	
-	public static String getCurrentBacktestCompleteValueGroup(Signal signal, StrategyOptions strategyOptions, BacktestResultTransactionDetails backtestResultDetails, BacktestType backtestType, BasicAccount basicAccount){
+	public static String getCurrentBacktestCompleteValueGroup(Signaler signal, StrategyOptions strategyOptions, BacktestResultTransactionDetails backtestResultDetails, BacktestType backtestType, BasicAccount basicAccount){
 		String string = "\n ******* Backtest results $" + MiscTools.getCommifiedValue(basicAccount.getBalance()) + " ********";
 		
 		string += "\n --> Balance: $" + MiscTools.getCommifiedValue(basicAccount.getBalance());

@@ -9,7 +9,7 @@ import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionDefinitions.PositionType;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.types.Position;
@@ -39,7 +39,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 		this.orderMode = orderMode;
 	}
 
-	public Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signal signal, PositionType positionType, Position inboundPosition, PositionOptions positionOptions, BasicAccount basicAccount) {
+	public Position executePosition(QuoteSlice quoteSlice, Exchange exchange, Signaler signal, PositionType positionType, Position inboundPosition, PositionOptions positionOptions, BasicAccount basicAccount) {
 		synchronized (lock) {
 			if (positionType == PositionType.position_long_entry) {
 				Position position = positionGenerator.generatePosition(quoteSlice, signal, positionType, exchange, positionOptions, basicAccount, this);

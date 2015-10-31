@@ -180,7 +180,7 @@ public class PremiseOfOHLCOld extends PremiseBase implements EncogFrameSource {
 			values.add(quote.priceClose);
 		}
 		
-		encogFrame.addSubframe(new EncogSubframe(this.getClass().getSimpleName(), values, FrameType.raw));
+		encogFrame.addSubframe(new EncogSubframe(this.getClass().getSimpleName(), values, FrameType.raw, 100, -100));
 		return encogFrame;
 	}
 }

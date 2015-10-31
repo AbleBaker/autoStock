@@ -2,7 +2,7 @@ package com.autoStock.strategy;
 
 import com.autoStock.account.BasicAccount;
 import com.autoStock.position.PositionGovernorResponse;
-import com.autoStock.signal.Signal;
+import com.autoStock.signal.Signaler;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -14,7 +14,7 @@ public class StrategyResponse {
 	public StrategyAction strategyAction = StrategyAction.none;
 	public StrategyActionCause strategyActionCause = StrategyActionCause.none;
 	public QuoteSlice quoteSlice;
-	public Signal signal;
+	public Signaler signal;
 	public BasicAccount basicAccountCopy;
 	
 	public enum StrategyAction {

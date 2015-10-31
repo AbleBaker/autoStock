@@ -37,7 +37,7 @@ public class TableForStrategyResponse extends BaseTable {
 
 			for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()) {
 				stringForSignal += signalMoment.signalMetricType.name().replace("metric_", "") + ":" + new DecimalFormat("0.00").format(signalMoment.strength);
-				if (signalMoment.debug.length() > 0){stringForSignal += " - " + signalMoment.debug;}
+				if (signalMoment.debug != null && signalMoment.debug.length() > 0){stringForSignal += " - " + signalMoment.debug;}
 			}
 
 			listOfString.add(stringForSignal);

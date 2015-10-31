@@ -4,71 +4,40 @@
 package com.autoStock;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 
+import org.encog.engine.network.activation.ActivationBiPolar;
+import org.encog.engine.network.activation.ActivationSteepenedSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
-import org.encog.mathutil.randomize.NguyenWidrowRandomizer;
 import org.encog.ml.MLRegression;
-import org.encog.ml.anneal.SimulatedAnnealing;
-import org.encog.ml.data.MLData;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
-import org.encog.ml.train.strategy.HybridStrategy;
-import org.encog.neural.neat.NEATUtil;
 import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.training.TrainingSetScore;
-import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
-import org.encog.neural.networks.training.nm.NelderMeadTraining;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
-import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.neural.networks.training.propagation.scg.ScaledConjugateGradient;
-import org.encog.neural.networks.training.pso.NeuralPSO;
-import org.encog.neural.pattern.ElmanPattern;
 import org.encog.neural.pattern.FeedForwardPattern;
-import org.encog.neural.pattern.JordanPattern;
-import org.encog.neural.pattern.RadialBasisPattern;
 
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
 import com.autoStock.algorithm.extras.StrategyOptionsOverride;
-import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.ListenerOfBacktest;
 import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.cache.GenericPersister;
 import com.autoStock.chart.CombinedLineChart.ClickPoint;
-import com.autoStock.database.DatabaseDefinitions.BasicQueries;
-import com.autoStock.database.DatabaseDefinitions.QueryArg;
-import com.autoStock.database.DatabaseDefinitions.QueryArgs;
-import com.autoStock.database.DatabaseQuery;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
-import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
-import com.autoStock.internal.ApplicationStates;
-import com.autoStock.internal.CallbackLock;
 import com.autoStock.internal.Global;
-import com.autoStock.misc.Pair;
 import com.autoStock.position.PositionGovernorResponseStatus;
-import com.autoStock.signal.SignalDefinitions.SignalPointType;
-import com.autoStock.signal.extras.EncogFrame;
-import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.signal.extras.EncogInputWindow;
-import com.autoStock.signal.extras.EncogNetworkGenerator;
 import com.autoStock.signal.extras.EncogNetworkProvider;
-import com.autoStock.signal.extras.EncogSubframe;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.strategy.StrategyOptionDefaults;
-import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
-import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
-import com.autoStock.tools.StringTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
@@ -87,8 +56,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private ArrayList<ArrayList<Double>> listOfIdeal = new ArrayList<ArrayList<Double>>();
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 	private Exchange exchange = new Exchange("NYSE");
-	private Date dateStart = DateTools.getDateFromString("09/02/2014");
-	private Date dateEnd = DateTools.getDateFromString("10/17/2014");
+	private Date dateStart = DateTools.getDateFromString("09/08/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	
 	public void run(){
@@ -126,7 +95,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 
 	@Override
 	public void receiveChangedStrategyResponse(StrategyResponse strategyResponse) {
-		Co.println("--> Received changed strategy response: " + strategyResponse.positionGovernorResponse.status.name());
+		//Co.println("--> Received changed strategy response: " + strategyResponse.positionGovernorResponse.status.name());
 		status = strategyResponse.positionGovernorResponse.status;
 		haveChange = true;
 	}
@@ -138,23 +107,22 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		EncogInputWindow eiw = singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.getInputWindow();
 		ArrayList<Double> listOfIdealOutputs = new ArrayList<Double>();
 		
-		if (processed && eiw != null){			
-//			for (EncogFrame ef : eiw.getFrames()){
-//				for (EncogSubframe esf : ef.listOfSubframe){
-//					Co.println("--> E: " + ef.description + " " + esf.asDoubleList().size() + " : " + StringTools.arrayOfDoubleToString(esf.asNormalizedDoubleArray()));
-//				}
-//			}
+		if (processed && eiw != null){
 			
 			if (haveChange && status != PositionGovernorResponseStatus.none){
 				haveChange = false;
 				Co.println("--> Have change at tick: " + DateTools.getPrettyDate(quote.dateTime) + " to status " + status.name() +  " with EIW: " + eiw.getHash());
+				Co.println(eiw.describeContents());
 				
-				if (eiw.getAsWindow(true).length != SignalOfEncog.INPUT_LENGTH){
-					throw new IllegalArgumentException();
-				}
+//				if (eiw.getAsWindow(true).length != SignalOfEncog.INPUT_LENGTH){
+//					throw new IllegalArgumentException();
+//				}
 				
 				if (status == PositionGovernorResponseStatus.changed_long_entry){
 					listOfIdealOutputs.add(1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 				}
@@ -162,17 +130,42 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(1d);
 					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
 				}
-				else if (status == PositionGovernorResponseStatus.changed_long_exit || status == PositionGovernorResponseStatus.changed_short_exit){
+				else if (status == PositionGovernorResponseStatus.changed_long_reentry){
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+				}
+				else if (status == PositionGovernorResponseStatus.changed_long_exit){
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+				}
+				else if (status == PositionGovernorResponseStatus.changed_short_exit){
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(-1d);
+					listOfIdealOutputs.add(1d);
+					listOfIdealOutputs.add(-1d);
 				}
 				else { throw new IllegalStateException(); }
 			}else{
 				listOfIdealOutputs.add(-1d);
 				listOfIdealOutputs.add(-1d);
 				listOfIdealOutputs.add(-1d);
+				listOfIdealOutputs.add(-1d);
+				listOfIdealOutputs.add(-1d);
+				listOfIdealOutputs.add(1d);
 			}
 			
 			listOfInput.add(ListTools.getListFromArray(eiw.getAsWindow(true)));
@@ -195,11 +188,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 8));
-		pattern.setOutputNeurons(3);
+//		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
+		pattern.setOutputNeurons(6);
 		pattern.setActivationFunction(new ActivationTANH());
-//		pattern.setActivationOutput(new ActivationTANH());
+//		pattern.setActivationOutput(new ActivationSteepenedSigmoid());
 		return (BasicNetwork) pattern.generate();
 	}
 
@@ -226,7 +218,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		// Train the network
 		BasicNetwork network = getNetwork(); //EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 3);
 		
-		new NguyenWidrowRandomizer().randomize(network);
+//		new NguyenWidrowRandomizer().randomize(network);
 
 		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
 //		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 10);
@@ -235,7 +227,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 500, 500));
 //		train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, new TrainingSetScore(dataSet), 10, 2, 100), 0.010, 500, 100));
 	
-		for (int i=0; i<2000; i++){
+		for (int i=0; i<1000; i++){
 			train.iteration();
 			System.out.println(i + " - " + train.getError() * 1000);
 		}
@@ -259,7 +251,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		dataSet.add(, new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfIdeal.get(i))));
 		
 		// Verficiation stage
-		if (train.getError() * 1000 < 10){
+		if (train.getError() * 1000 < 9999){
 			Co.println("--> Good score");
 			
 			HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);

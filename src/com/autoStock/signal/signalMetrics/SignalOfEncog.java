@@ -30,7 +30,7 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	public static final int INPUT_LENGTH = 213;
+	public static final int INPUT_LENGTH = 214;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_PS = 30;
 	private static final boolean HAS_DELTAS = true;
@@ -86,10 +86,12 @@ public class SignalOfEncog extends SignalBase {
 
 		double valueForLongEntry = output.getData(0);
 		double valueForShortEntry = output.getData(1);
-		double valueForAnyExit = output.getData(2);
-//		double valueForReeentry = output.getData(3);
+		double valueForReeentry = output.getData(2);
+		double valueForLongExit = output.getData(3);
+		double valueForShortExit = output.getData(4);
+		double valueForNoAction = output.getData(5);
 		
-//		Co.println("--> Values: " + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit);
+//		Co.println("--> Values: " + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForLongExit + ", " + valueForShortExit);
 		
 		int count = 0;
 
@@ -101,20 +103,33 @@ public class SignalOfEncog extends SignalBase {
 			signalPoint.signalPointType = SignalPointType.short_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 			count++;
-//		} else if (valueForReeentry >= NEURON_THRESHOLD) {
-//			signalPoint.signalPointType = SignalPointType.reentry;
-//			signalPoint.signalMetricType = SignalMetricType.metric_encog;
-		} else if (valueForAnyExit >= NEURON_THRESHOLD && havePosition) {
-			if (positionType == PositionType.position_long) {
-				signalPoint.signalPointType = SignalPointType.long_exit;
-			} else if (positionType == PositionType.position_short) {
-				signalPoint.signalPointType = SignalPointType.short_exit;
-			} else {
-				throw new IllegalStateException("Have position of type: " + positionType.name());
-			}
+		} else if (valueForReeentry >= NEURON_THRESHOLD) {
+			signalPoint.signalPointType = SignalPointType.reentry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 			count++;
+		} else if (valueForLongExit >= NEURON_THRESHOLD) {
+			signalPoint.signalPointType = SignalPointType.long_exit;
+			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+			count++;
+		} else if (valueForShortExit >= NEURON_THRESHOLD) {
+			signalPoint.signalPointType = SignalPointType.short_exit;
+			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+			count++;
+		} else if (valueForNoAction >= NEURON_THRESHOLD){
+			//pass
 		}
+		
+//		else if (valueForShortExit >= NEURON_THRESHOLD && havePosition) {
+//			if (positionType == PositionType.position_long) {
+//				signalPoint.signalPointType = SignalPointType.long_exit;
+//			} else if (positionType == PositionType.position_short) {
+//				signalPoint.signalPointType = SignalPointType.short_exit;
+//			} else {
+//				throw new IllegalStateException("Have position of type: " + positionType.name());
+//			}
+//			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+//			count++;
+//		}
 		
 		if (count > 1){signalPoint = new SignalPoint();} 
 		
