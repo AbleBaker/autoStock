@@ -13,8 +13,12 @@ import org.encog.ml.MLRegression;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.ml.train.MLTrain;
+import org.encog.ml.train.strategy.HybridStrategy;
 import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.training.TrainingSetScore;
+import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
+import org.encog.neural.networks.training.pso.NeuralPSO;
 import org.encog.neural.pattern.FeedForwardPattern;
 
 import com.autoStock.algorithm.AlgorithmBase;
@@ -26,8 +30,9 @@ import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.ListenerOfBacktest;
 import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.cache.GenericPersister;
-import com.autoStock.chart.CombinedLineChart.ClickPoint;
+import com.autoStock.chart.CombinedLineChart.ChartSignalPoint;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
+import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.extras.EncogInputWindow;
@@ -50,7 +55,7 @@ import com.autoStock.types.Symbol;
  */
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
 	private GenericPersister genericPersister = new GenericPersister();
-	private ArrayList<ClickPoint> listOfClickPoint;
+	private ArrayList<ChartSignalPoint> listOfClickPoint;
 	private SingleBacktest singleBacktest;
 	private ArrayList<ArrayList<Double>> listOfInput = new ArrayList<ArrayList<Double>>();
 	private ArrayList<ArrayList<Double>> listOfIdeal = new ArrayList<ArrayList<Double>>();
@@ -63,11 +68,17 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	public void run(){
 		Global.callbackLock.requestLock();
 		
+		for (Class clazz : genericPersister.getHash().keySet()){
+			Co.println("--> X : " + clazz.getName());
+			ArrayList<ChartSignalPoint> list = new ArrayList<ChartSignalPoint>(genericPersister.getList(ChartSignalPoint.class));
+			Co.println("--> " + list.size());
+		}
+		
 		// Load the data
 		HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
-		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest);
+		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		singleBacktest.setListenerOfBacktestCompleted(this);
 		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
 		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
@@ -75,14 +86,30 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		
-		Co.print(new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer).toString());	
+		Co.print(new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer).toString());
 	}
 	
 	@Override
-	public void initialize(Date startingDate) {
-		BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(exchange.exchangeName + "-" + symbol.symbolName + "-day-" + DateTools.getEncogDate(startingDate));
-		if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load");}
-		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(basicNetwork, 0);
+	public void initialize(Date startingDate, Date endDate) {
+		ArrayList<ChartSignalPoint> list = getList(startingDate, endDate); 
+		if (list.size() > 0){
+			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = list; 
+		}else{
+			BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(exchange.exchangeName + "-" + symbol.symbolName + "-day-" + DateTools.getEncogDate(startingDate));
+			if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load");}
+			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(basicNetwork, 0);
+		}
+	}
+	
+	private ArrayList<ChartSignalPoint> getList(Date dateStart, Date dateEnd){
+		ArrayList<ChartSignalPoint> list = new ArrayList<ChartSignalPoint>(genericPersister.getList(ChartSignalPoint.class));
+		ArrayList<ChartSignalPoint> returnList = new ArrayList<ChartSignalPoint>();
+		for (ChartSignalPoint csp : list){
+			if (csp.date.getTime() >= dateStart.getTime() && csp.date.getTime() <= dateEnd.getTime()){
+				returnList.add(csp);
+			}
+		}
+		return returnList;
 	}
 
 	@Override
@@ -224,10 +251,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
-//		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 500, 500));
-//		train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, new TrainingSetScore(dataSet), 10, 2, 100), 0.010, 500, 100));
+//		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 200, 200));
+//		train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, new TrainingSetScore(dataSet), 10, 2, 100), 0.010, 250, 250));
 	
-		for (int i=0; i<1000; i++){
+		for (int i=0; i<500; i++){
 			train.iteration();
 			System.out.println(i + " - " + train.getError() * 1000);
 		}

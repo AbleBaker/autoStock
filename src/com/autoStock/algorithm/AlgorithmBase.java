@@ -72,6 +72,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public StrategyBase strategyBase;
 	private Prefill prefill;
 	public Date startingDate;
+	public Date endDate;
 	protected FundamentalData fundamentalData;
 	public final BasicAccount basicAccount;
 	public Double dayStartingBalance;
@@ -144,7 +145,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			signalCache.restoreFromDisk();
 		}
 		
-		if (algorithmListener != null){algorithmListener.initialize(startingDate);}
+		if (algorithmListener != null){algorithmListener.initialize(startingDate, endDate);}
 	}
 	
 	public StrategyResponse requestExitExternally(){

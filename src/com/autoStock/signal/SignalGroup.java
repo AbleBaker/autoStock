@@ -55,7 +55,7 @@ import com.autoStock.types.basic.MutableInteger;
  *
  */
 public class SignalGroup {
-	private AlgorithmBase algorithmBase;
+	public AlgorithmBase algorithmBase;
 	public IndicatorGroup indicatorGroup;
 	public SignalOfCCI signalOfCCI = new SignalOfCCI(new SignalParametersForCCI(), algorithmBase);
 	public SignalOfADX signalOfADX = new SignalOfADX(new SignalParametersForADX(), algorithmBase);

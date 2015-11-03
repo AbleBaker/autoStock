@@ -3,6 +3,7 @@
  */
 package com.autoStock.context;
 
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.extras.EncogSubframe;
 import com.autoStock.signal.extras.EncogFrame.FrameType;
@@ -19,10 +20,12 @@ public class ContextOfPosition extends ContextBase implements EncogFrameSource{
 	@Override
 	public EncogFrame asEncogFrame() {
 		EncogFrame encogFrame = new EncogFrame(this.getClass().getSimpleName(), FrameType.raw);
-		EncogSubframe subframeForPositionValue = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position == null ? 0 : position.getCurrentPercentGainLoss(true)}, FrameType.raw, 1, -1);
-		EncogSubframe subFrameForHavePosition = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position == null ? -1 : 1}, FrameType.raw, 1, -1);
+		EncogSubframe subframeForPositionValue = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position != null ? position.getCurrentPercentGainLoss(true) : 0}, FrameType.raw, 1, -1);
+		EncogSubframe subFrameForHavePositionLong = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position != null && position.positionType == PositionType.position_long ? 1 : -1}, FrameType.raw, 1, -1);
+		EncogSubframe subFrameForHavePositionShort = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position != null && position.positionType == PositionType.position_short ? 1 : -1}, FrameType.raw, 1, -1);
 		encogFrame.addSubframe(subframeForPositionValue);
-		encogFrame.addSubframe(subFrameForHavePosition);
+		encogFrame.addSubframe(subFrameForHavePositionLong);
+		encogFrame.addSubframe(subFrameForHavePositionShort);
 		return encogFrame;
 	}
 

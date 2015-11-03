@@ -81,24 +81,26 @@ public class ChartForAlgorithmTest {
 	}
 	
 	public static enum TimeSeriesType {
-		type_signals("Signals"),
-		type_price("Price"),
-		type_value("Value %"),
-		type_yield("Yield %"),
-		type_long_entry_price("Long Entry"),
-		type_short_entry_price("Short Entry"),
-		type_reentry_price("Reentry"),
-		type_long_exit_price("Exit"),
-		type_short_exit_price("Exit"),
-		type_entry_signal("Entry"),
-		type_exit_signal("Exit"),
-		type_debug("Debug"),
+		type_signals("Signals", 0),
+		type_price("Price", 0),
+		type_value("Value %", 0),
+		type_yield("Yield %", 0),
+		type_long_entry_price("Long Entry", 2),
+		type_short_entry_price("Short Entry", 4),
+		type_reentry_price("Reentry", 6),
+		type_long_exit_price("Exit", 3),
+		type_short_exit_price("Exit", 5),
+		type_entry_signal("Entry", 0),
+		type_exit_signal("Exit", 0),
+		type_debug("Debug", 0),
 		;
 		
 		public String displayName;
+		public int seriesIndex; // hack
 		
-		TimeSeriesType(String displayName){
+		TimeSeriesType(String displayName, int seriesIndex){
 			this.displayName = displayName;
+			this.seriesIndex = seriesIndex;
 		}
 	}
 

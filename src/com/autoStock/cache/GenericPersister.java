@@ -32,6 +32,12 @@ public class GenericPersister {
 	private DiskCache diskCache = new DiskCache();
 	private Lock lock = new Lock();
 	
+	private static GenericPersister staticInstance = new GenericPersister();
+	
+	public static GenericPersister getStaticInstance(){
+		return staticInstance;
+	}
+	
 	private static class ListParameterizedType implements ParameterizedType {
 	    private Type type;
 
@@ -130,6 +136,10 @@ public class GenericPersister {
 		}else{
 			return hashMap.get(clazz).size();
 		}
+	}
+	
+	public List getList(Class clazz){
+		return memoryPersister.getHash().get(clazz);
 	}
 
 	public void erase() {

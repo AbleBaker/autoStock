@@ -38,8 +38,9 @@ public class AlgorithmTest extends AlgorithmBase {
 		setStrategy(new StrategyOfTest(this));
 	}
 
-	public void init(Date startingDate){
+	public void init(Date startingDate, Date endDate){
 		this.startingDate = startingDate;
+		this.endDate = endDate;
 		
 		setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
 		

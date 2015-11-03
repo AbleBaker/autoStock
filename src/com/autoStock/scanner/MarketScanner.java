@@ -57,7 +57,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 		
 		for (Backtest backtest : listOfBacktest){
 			AlgorithmTest algorithmTest = new AlgorithmTest(null, null, null, null);
-			algorithmTest.init(new Date());
+			algorithmTest.init(new Date(), new Date());
 			algorithmTest.setAlgorithmListener(this);
 			backtest.performBacktest(algorithmTest.getReceiver(), false);
 			listOfAlgorithmTest.add(algorithmTest);
@@ -98,7 +98,7 @@ public class MarketScanner implements ReceiverOfQuoteSlice, AlgorithmListener {
 	}
 
 	@Override
-	public void initialize(Date startingDate) {
+	public void initialize(Date startingDate, Date endDate) {
 		
 	}
 

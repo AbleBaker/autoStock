@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
+import com.autoStock.chart.CombinedLineChart.ChartSignalPoint;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
@@ -27,6 +28,7 @@ public class PositionGovernor {
 	private ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>> listOfPairedResponses = new ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>>();
 	private ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 	private PositionGenerator positionGenerator = new PositionGenerator();
+	public ArrayList<ChartSignalPoint> listOfPredSignalPoint;
 	
 	public PositionGovernor(PositionManager positionManager){
 		this.positionManager = positionManager;
@@ -36,40 +38,57 @@ public class PositionGovernor {
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		SignalPoint signalPoint = new SignalPoint();
 		
-		if (position == null){
-			signalPoint = TacticResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
-				
-			if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong.value){
-				position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
-			}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort.value){
-				position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
+		if (listOfPredSignalPoint != null){
+			for (ChartSignalPoint csp : listOfPredSignalPoint){
+				if (quoteSlice.dateTime.getTime() == csp.date.getTime()){
+					if (csp.signalPoint == SignalPointType.long_entry){governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);}
+					if (csp.signalPoint == SignalPointType.short_entry){governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);}
+					if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_long){governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);}
+					if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_short){governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);}
+					if (csp.signalPoint == SignalPointType.long_exit && position != null){governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);}
+					if (csp.signalPoint == SignalPointType.short_exit && position != null){governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);}
+					
+					Co.println("--> ********** Using X");
+					
+					signalPoint.signalPointType = csp.signalPoint;
+				}
 			}
-		} else {
-			SignalPoint signalPointForReentry = null; //SignalPointResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
-			signalPoint = TacticResolver.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTacticForExit.value);
-
-			if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
-				if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
-					governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
-				}else if (strategyOptions.canReenter.value){
-					//signalPoint.signalPointType == SignalPointType.reentry && 
-					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
-						governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
-					}
+		}else {
+			if (position == null){
+				signalPoint = TacticResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
+					
+				if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong.value){
+					position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
+				}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort.value){
+					position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
 				}
-			}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
-				if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
-					governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
-				}else if (strategyOptions.canReenter.value){
-					//signalPoint.signalPointType == SignalPointType.reentry && 
-					if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
-						governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
+			} else {
+				SignalPoint signalPointForReentry = null; //SignalPointResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
+				signalPoint = TacticResolver.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTacticForExit.value);
+	
+				if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
+					if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
+						governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
+					}else if (strategyOptions.canReenter.value){
+						//signalPoint.signalPointType == SignalPointType.reentry && 
+						if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
+							governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
+						}
 					}
+				}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
+					if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
+						governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
+					}else if (strategyOptions.canReenter.value){
+						//signalPoint.signalPointType == SignalPointType.reentry && 
+						if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
+							governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
+						}
+					}
+				}else if (position.positionType == PositionType.position_cancelled || position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_long_exited || position.positionType == PositionType.position_short_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
+					Co.println("--> Position is not yet removed: " + position.symbol.symbolName);
+				}else {
+					throw new IllegalStateException("Position type did not match: " + position.positionType.name() + ", " + positionManager.getPositionListSize());
 				}
-			}else if (position.positionType == PositionType.position_cancelled || position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_long_exited || position.positionType == PositionType.position_short_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
-				Co.println("--> Position is not yet removed: " + position.symbol.symbolName);
-			}else {
-				throw new IllegalStateException("Position type did not match: " + position.positionType.name() + ", " + positionManager.getPositionListSize());
 			}
 		}
 

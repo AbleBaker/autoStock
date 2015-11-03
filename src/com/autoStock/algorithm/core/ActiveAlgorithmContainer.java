@@ -60,7 +60,7 @@ public class ActiveAlgorithmContainer {
 				}
 				
 				algorithm.setFundamentalData(fundamentalData);
-				algorithm.init(new Date());
+				algorithm.init(new Date(), new Date());
 				startAlgorithmFeed();
 				activationListener.activated(ActiveAlgorithmContainer.this);
 			}

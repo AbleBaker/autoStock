@@ -98,7 +98,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 		
 		setContainerDates();
 
-		algorithm.init(historicalData.startDate);
+		algorithm.init(historicalData.startDate, historicalData.endDate);
 		
 		Iterator<DbStockHistoricalPrice> iterator = this.listOfDbHistoricalPrices.iterator();
 		

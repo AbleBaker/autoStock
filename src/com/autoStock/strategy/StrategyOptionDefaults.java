@@ -17,6 +17,7 @@ public class StrategyOptionDefaults {
 				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
 				strategyOptions.maxPositionTimeAtProfit.value = 60;
 				strategyOptions.disableAfterYield.value = 3.0d;
+				strategyOptions.maxPositionExitTime = 0;
 				strategyOptions.enableContext = true;
 				strategyOptions.enablePremise = false;
 			}

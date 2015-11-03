@@ -17,5 +17,5 @@ public interface AlgorithmListener {
 	public void receiveChangedStrategyResponse(StrategyResponse strategyResponse);
 	public void receiveTick(QuoteSlice quoteSlice, int receiveIndex, int processedIndex, boolean processed);
 	public void endOfAlgorithm();
-	public void initialize(Date startingDate);
+	public void initialize(Date startingDate, Date endDate);
 }
