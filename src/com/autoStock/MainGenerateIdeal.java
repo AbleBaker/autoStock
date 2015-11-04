@@ -301,13 +301,12 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		for (int i=0; i<2500; i++){
 			train.iteration();
 			if (crossValidationRatio == 0){
-				Co.println(i + " - " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " = " + getEvaluationWith(network, historicalData.startDate, historicalData.endDate).getScore());
-			} else{
-				Co.println(i + " - " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " ~ " + df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " "));
-				
-				// Find out score for relevant backtests
-				Co.println("--> X: " + getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore());
-				Co.println("--> X: " + getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore());
+				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalData.startDate, historicalData.endDate).getScore()));
+			} else{				
+				// Find out score for relevant backtest
+				double scoreReg = getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore();
+				double scoreCross = getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore();
+				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " ~ " + df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ") + " = " + (i % 100 != 0 ? "-" : scoreReg + " / " + scoreCross)); 
 			}
 		}
 		
