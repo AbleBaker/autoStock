@@ -54,7 +54,7 @@ public class RequestHistoricalData {
 					callEndTime = callStartTime + neededDuration;
 				}
 								
-				HistoricalData tempTypeHistoricalData = typeHistoricalData.clone();
+				HistoricalData tempTypeHistoricalData = typeHistoricalData.copy();
 				tempTypeHistoricalData.duration = callEndTime - callStartTime;
 				
 				if (tempTypeHistoricalData.duration < HistoricalDataDefinitions.MIN_PERIOD){

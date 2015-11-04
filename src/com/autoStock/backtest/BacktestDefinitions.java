@@ -14,5 +14,6 @@ public class BacktestDefinitions {
 		backtest_adjustment_individual,
 		backtest_clustered_client,
 		backtest_result_only,
+		backtest_bgi,
 	}
 }

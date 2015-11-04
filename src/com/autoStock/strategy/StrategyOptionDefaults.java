@@ -13,13 +13,19 @@ public class StrategyOptionDefaults {
 		return new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
-				strategyOptions.maxStopLossPercent.value = -0.50d;
-				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
+				strategyOptions.intervalForEntryWithSameSignalPointType.value = 0;
+				strategyOptions.maxProfitDrawdownPercent.value = -0.10d;
 				strategyOptions.maxPositionTimeAtProfit.value = 60;
-				strategyOptions.disableAfterYield.value = 3.0d;
-				strategyOptions.maxPositionExitTime = 0;
-				strategyOptions.enableContext = true;
+				strategyOptions.maxStopLossPercent.value = -0.20d;
+				strategyOptions.disableAfterYield.value = 1.0d;
 				strategyOptions.enablePremise = false;
+				strategyOptions.enableContext = true;
+				strategyOptions.enablePrefill = true;
+				
+				strategyOptions.canReenter.value = false;
+				//strategyOptions.maxReenterTimesPerPosition.value = 1;
+				//strategyOptions.minReentryPercentGain.value = 0.10d;
+				//strategyOptions.intervalForReentryMins.value = 3;
 			}
 		};
 	}

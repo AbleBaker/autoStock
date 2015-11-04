@@ -22,12 +22,14 @@ import com.google.gson.GsonBuilder;
 public class DiskCache {
 	private final String CACHE_ROOT = "./cache/";
 	private final File fileForCacheRoot = new File(CACHE_ROOT);
+//	private final File fileForCacheDir;
 	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private String path;
 	
 	public DiskCache(){
-		if (fileForCacheRoot.exists() == false){
-			fileForCacheRoot.mkdir();
-		}
+//		fileForCacheDir = new File(CACHE_ROOT + "/" + path + "/");
+		if (fileForCacheRoot.exists() == false){fileForCacheRoot.mkdir();}
+//		if (fileForCacheDir.exists() == false){fileForCacheRoot.mkdir();}
 	}
 
 	public boolean containsKey(String key) {
@@ -56,6 +58,7 @@ public class DiskCache {
 	}
 
 	public void writeList(String key, ArrayList<Object> listOfResults) {
+		if (listOfResults == null || listOfResults.size() == 0){return;}
 		writeString(key, gson.toJson(listOfResults));
 	}
 	

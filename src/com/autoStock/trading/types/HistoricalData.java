@@ -7,6 +7,7 @@ import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -43,15 +44,8 @@ public class HistoricalData implements Cloneable {
 		return this;
 	}
 	
-	@Override
-	public HistoricalData clone(){
-		try {
-			return (HistoricalData) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-			ApplicationStates.shutdown();
-			return null;
-		}
+	public HistoricalData copy(){
+		return new Cloner().deepClone(this);
 	}
 	
 	@Override

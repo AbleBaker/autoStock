@@ -47,8 +47,7 @@ public class PositionGovernor {
 					if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_short){governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);}
 					if (csp.signalPoint == SignalPointType.long_exit && position != null){governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);}
 					if (csp.signalPoint == SignalPointType.short_exit && position != null){governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);}
-					
-					Co.println("--> ********** Using X");
+					//Co.println("--> ********** Using X");
 					
 					signalPoint.signalPointType = csp.signalPoint;
 				}
@@ -69,8 +68,7 @@ public class PositionGovernor {
 				if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
 					if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
 						governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
-					}else if (strategyOptions.canReenter.value){
-						//signalPoint.signalPointType == SignalPointType.reentry && 
+					}else if (strategyOptions.canReenter.value){ 
 						if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
 							governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
 						}

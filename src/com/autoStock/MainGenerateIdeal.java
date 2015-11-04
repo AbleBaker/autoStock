@@ -3,6 +3,7 @@
  */
 package com.autoStock;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
 import com.autoStock.algorithm.extras.StrategyOptionsOverride;
+import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.ListenerOfBacktest;
@@ -34,6 +36,7 @@ import com.autoStock.chart.CombinedLineChart.ChartSignalPoint;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
+import com.autoStock.misc.Pair;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.extras.EncogNetworkProvider;
@@ -59,23 +62,22 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private SingleBacktest singleBacktest;
 	private ArrayList<ArrayList<Double>> listOfInput = new ArrayList<ArrayList<Double>>();
 	private ArrayList<ArrayList<Double>> listOfIdeal = new ArrayList<ArrayList<Double>>();
-	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-	private Exchange exchange = new Exchange("NYSE");
-	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
+	private ArrayList<Pair<Integer, Date>> listOfIdealPair = new ArrayList<>();
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
+	private Exchange exchange = new Exchange("NYSE");
+	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
+	private Date dateStart = DateTools.getDateFromString("08/01/2014");
+	private Date dateEnd = DateTools.getDateFromString("10/01/2014");
+	private double crossValidationRatio = 0; //0.30d;
+	private HistoricalData historicalData;
+	private HistoricalData historicalDataForRegular;
+	private HistoricalData historicalDataForCross;
 	
 	public void run(){
 		Global.callbackLock.requestLock();
 		
-		for (Class clazz : genericPersister.getHash().keySet()){
-			Co.println("--> X : " + clazz.getName());
-			ArrayList<ChartSignalPoint> list = new ArrayList<ChartSignalPoint>(genericPersister.getList(ChartSignalPoint.class));
-			Co.println("--> " + list.size());
-		}
-		
 		// Load the data
-		HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
+		historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
 		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
@@ -98,12 +100,17 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(exchange.exchangeName + "-" + symbol.symbolName + "-day-" + DateTools.getEncogDate(startingDate));
 			if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load");}
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(basicNetwork, 0);
+			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = null;
 		}
+		
+		Co.println("--> Initialize on date: " + DateTools.getPrettyDate(startingDate) + " with list of input of: " + listOfInput.size());
 	}
 	
 	private ArrayList<ChartSignalPoint> getList(Date dateStart, Date dateEnd){
-		ArrayList<ChartSignalPoint> list = new ArrayList<ChartSignalPoint>(genericPersister.getList(ChartSignalPoint.class));
+		ArrayList<ChartSignalPoint> list = genericPersister.getCount(ChartSignalPoint.class) > 0 ? new ArrayList<ChartSignalPoint>(genericPersister.getList(ChartSignalPoint.class)) : null;
 		ArrayList<ChartSignalPoint> returnList = new ArrayList<ChartSignalPoint>();
+		if (list == null){return returnList;}
+		
 		for (ChartSignalPoint csp : list){
 			if (csp.date.getTime() >= dateStart.getTime() && csp.date.getTime() <= dateEnd.getTime()){
 				returnList.add(csp);
@@ -135,15 +142,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		ArrayList<Double> listOfIdealOutputs = new ArrayList<Double>();
 		
 		if (processed && eiw != null){
-			
 			if (haveChange && status != PositionGovernorResponseStatus.none){
 				haveChange = false;
 				Co.println("--> Have change at tick: " + DateTools.getPrettyDate(quote.dateTime) + " to status " + status.name() +  " with EIW: " + eiw.getHash());
 				Co.println(eiw.describeContents());
-				
-//				if (eiw.getAsWindow(true).length != SignalOfEncog.INPUT_LENGTH){
-//					throw new IllegalArgumentException();
-//				}
 				
 				if (status == PositionGovernorResponseStatus.changed_long_entry){
 					listOfIdealOutputs.add(1d);
@@ -161,7 +163,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else if (status == PositionGovernorResponseStatus.changed_long_reentry){
+				else if (status == PositionGovernorResponseStatus.changed_long_reentry || status == PositionGovernorResponseStatus.changed_short_reentry){
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(1d);
@@ -185,7 +187,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else { throw new IllegalStateException(); }
+				else { throw new IllegalStateException(status.name()); }
 			}else{
 				listOfIdealOutputs.add(-1d);
 				listOfIdealOutputs.add(-1d);
@@ -197,6 +199,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			
 			listOfInput.add(ListTools.getListFromArray(eiw.getAsWindow(true)));
 			listOfIdeal.add(listOfIdealOutputs);
+			listOfIdealPair.add(new Pair<Integer, Date>(listOfIdeal.size(), quote.dateTime));
 		}
 	}
 	
@@ -215,10 +218,11 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
-//		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
 		pattern.setOutputNeurons(6);
 		pattern.setActivationFunction(new ActivationTANH());
 //		pattern.setActivationOutput(new ActivationSteepenedSigmoid());
+		pattern.setActivationOutput(new ActivationBiPolar());
 		return (BasicNetwork) pattern.generate();
 	}
 
@@ -228,18 +232,56 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		Co.println("--> Have input list of: " + listOfInput.size());
 		Co.println("--> Have ideal list of: " + listOfIdeal.size());
 		
-		for (ArrayList<Double> list : listOfIdeal){
-			for (Double value : list){
-				if (value != -1){
-					Co.println("--> Have input: " + value);
+		ArrayList<ArrayList<Double>> listOfCrossInput = null; // = new ArrayList<ArrayList<Double>>();
+		ArrayList<ArrayList<Double>> listOfCrossIdeal = null; // = new ArrayList<ArrayList<Double>>();
+		
+		if (crossValidationRatio > 0){
+			int crossStart = listOfIdeal.size () - (int) (crossValidationRatio * (double)listOfInput.size());
+			
+			for (int i=0; i<1024; i++){
+				if (listOfIdealPair.get(crossStart + i).second.getDay() != listOfIdealPair.get(crossStart).second.getDay()){
+					//Co.println("--> Offsets to: " + i);
+					crossStart += i;
+					break;
 				}
 			}
+			
+			listOfCrossInput = ListTools.getLast(listOfInput, listOfInput.size() - crossStart);//(int) (crossValidationRatio * (double)listOfInput.size()));
+			listOfCrossIdeal = ListTools.getLast(listOfIdeal, listOfIdeal.size() - crossStart);//(int) (crossValidationRatio * (double)listOfIdeal.size()));
+			listOfInput = new ArrayList<ArrayList<Double>>(listOfInput.subList(0, listOfInput.size() - listOfCrossIdeal.size()));
+			listOfIdeal = new ArrayList<ArrayList<Double>>(listOfIdeal.subList(0, listOfIdeal.size() - listOfCrossIdeal.size()));
+			Co.println("--> Using cross validation ratio: " + crossValidationRatio + " with " + listOfCrossInput.size() + " records");
+			Co.println("--> Have input list of: " + listOfInput.size());
+			Co.println("--> Have ideal list of: " + listOfIdeal.size());
+			Co.println("--> Regular data starts on: " + listOfIdealPair.get(0).second + " and ends on " + listOfIdealPair.get(crossStart-1).second);
+			Co.println("--> Cross validation starts on: " + listOfIdealPair.get(listOfInput.size()).second + " and ends on " + ListTools.getLast(listOfIdealPair).second);
+			
+			historicalDataForRegular = new HistoricalData(exchange, symbol, listOfIdealPair.get(0).second, listOfIdealPair.get(crossStart-1).second, Resolution.min);
+			historicalDataForRegular.setStartAndEndDatesToExchange();
+			
+			historicalDataForCross = new HistoricalData(exchange, symbol, listOfIdealPair.get(listOfInput.size()).second, ListTools.getLast(listOfIdealPair).second, Resolution.min);
+			historicalDataForCross.setStartAndEndDatesToExchange();
 		}
 		
+//		for (ArrayList<Double> list : listOfIdeal){
+//			for (Double value : list){
+//				if (value != -1){
+//					Co.println("--> Have input: " + value);
+//				}
+//			}
+//		}
+		
 		BasicMLDataSet dataSet = new BasicMLDataSet();
+		BasicMLDataSet dataSetCross = new BasicMLDataSet();
 		
 		for (int i=0; i<listOfInput.size(); i++){
 			dataSet.add(new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfInput.get(i))), new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfIdeal.get(i))));
+		}
+		
+		if (crossValidationRatio > 0){
+			for (int i=0; i<listOfCrossInput.size(); i++){
+				dataSetCross.add(new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfCrossInput.get(i))), new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfCrossIdeal.get(i))));
+			}
 		}
 		
 		// Train the network
@@ -254,9 +296,19 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 200, 200));
 //		train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, new TrainingSetScore(dataSet), 10, 2, 100), 0.010, 250, 250));
 	
-		for (int i=0; i<500; i++){
+		DecimalFormat df = new DecimalFormat("0000.00000000000000");
+		
+		for (int i=0; i<2500; i++){
 			train.iteration();
-			System.out.println(i + " - " + train.getError() * 1000);
+			if (crossValidationRatio == 0){
+				Co.println(i + " - " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " = " + getEvaluationWith(network, historicalData.startDate, historicalData.endDate).getScore());
+			} else{
+				Co.println(i + " - " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " ~ " + df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " "));
+				
+				// Find out score for relevant backtests
+				Co.println("--> X: " + getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore());
+				Co.println("--> X: " + getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore());
+			}
 		}
 		
 		train.finishTraining();
@@ -294,5 +346,18 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			
 			new EncogNetworkProvider().saveNetwork((BasicNetwork) train.getMethod(), "NYSE-MS");
 		}
+	}
+	
+	private BacktestEvaluation getEvaluationWith(BasicNetwork network, Date dateStart, Date dateEnd){
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
+		historicalData.setStartAndEndDatesToExchange();
+		
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
+		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network, 0);
+		singleBacktest.selfPopulateBacktestData();
+		singleBacktest.runBacktest();
+		
+		return new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer);
 	}
 }

@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.encog.neural.networks.BasicNetwork;
+
 import com.autoStock.account.AccountProvider;
 import com.autoStock.adjust.AdjustmentCampaign;
 import com.autoStock.adjust.AdjustmentCampaignProvider;
@@ -33,6 +35,7 @@ import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoric
 import com.autoStock.internal.Global;
 import com.autoStock.order.OrderDefinitions.OrderMode;
 import com.autoStock.position.PositionManager;
+import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.strategy.StrategyBase;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
@@ -65,6 +68,7 @@ public class MainBacktest implements ListenerOfBacktest {
 	public final BacktestEvaluator backtestEvaluator = new BacktestEvaluator();
 	private HashMap<Symbol, ArrayList<AlgorithmModel>> hashOfAlgorithmModel;
 	private TimeToCompletionEstimate eta = new TimeToCompletionEstimate();
+	private boolean useAutogen = false;
 
 	public MainBacktest(Exchange exchange, Date dateStart, Date dateEnd, BacktestType backtestType, ListenerOfMainBacktestCompleted listerListenerOfMainBacktestCompleted, HashMap<Symbol, ArrayList<AlgorithmModel>> hashOfAlgorithmModel) {
 		this.exchange = exchange;
@@ -104,6 +108,8 @@ public class MainBacktest implements ListenerOfBacktest {
 		if (listOfSymbols.size() == 0){
 			throw new IllegalArgumentException("No symbols specified");
 		}
+		
+		if (backtestType == BacktestType.backtest_bgi){useAutogen = true;}
 		
 		ListTools.removeDuplicates(listOfSymbols);
 		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(exchange, dateStart, dateEnd, listOfSymbols);
@@ -156,6 +162,14 @@ public class MainBacktest implements ListenerOfBacktest {
 
 				if (listOfResults.size() > 0) {
 					backtestContainer.setBacktestData(listOfResults, historicalData);
+
+					// Use autogen network
+					if (useAutogen){
+						BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(backtestContainer.exchange.exchangeName + "-" + backtestContainer.symbol.symbolName + "-day-" + DateTools.getEncogDate(historicalData.startDate));
+						if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load");}
+						backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(basicNetwork, 0);
+					}
+					
 					backtestContainer.runBacktest();
 				} else {
 					Co.println("--> No backtest data! " + backtestContainer.symbol.symbolName);

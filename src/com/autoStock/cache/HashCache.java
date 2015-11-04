@@ -8,7 +8,7 @@ import java.util.HashMap;
  */
 public class HashCache {
 	private HashMap<String, Object> hashOfValues = new HashMap<String, Object>();
-	
+
 	public boolean containsKey(String key){
 		return hashOfValues.containsKey(key);
 	}

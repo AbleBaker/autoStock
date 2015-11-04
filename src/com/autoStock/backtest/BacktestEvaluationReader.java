@@ -55,7 +55,7 @@ public class BacktestEvaluationReader {
 		}
 		
 		if (override != null){
-			Co.println("--> Warning: Using SOOverride");
+			//Co.println("--> Warning: Using SOOverride");
 			override.override(backtestEvaluation.algorithmModel.strategyOptions);
 		}
 		
