@@ -8,6 +8,7 @@ import org.encog.ml.MLRegression;
 import org.encog.neural.networks.BasicNetwork;
 import org.w3c.dom.ls.LSInput;
 
+import com.autoStock.Co;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.backtest.AlgorithmModel;
@@ -38,13 +39,11 @@ public class EncogScoreProvider implements CalculateScore {
 	
 	@Override
 	public double calculateScore(MLMethod method){
-//		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");
-		//Co.println(BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol).toString());
-		
+		//Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");		
 		bench.tick();
-		
+
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
-//		singleBacktest.backtestContainer.algorithm.algorithmMode.populateTable = false;
+		singleBacktest.backtestContainer.algorithm.algorithmMode.populateTable = false;
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((BasicNetwork)method, 0);

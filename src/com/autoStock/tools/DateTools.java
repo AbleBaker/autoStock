@@ -141,6 +141,8 @@ public class DateTools {
 		
 		calendarAtCurrent.setTime(startDate);
 		
+		int maxLookback = 16;
+		
 		while (listOfDate.size() < days){
 			if (dateCondition != null){dateCondition.setDate(calendarAtCurrent.getTime());}
 			
@@ -153,6 +155,9 @@ public class DateTools {
 			}else if (direction == LookDirection.backward){
 				calendarAtCurrent.add(Calendar.DAY_OF_MONTH, -1);
 			}
+			
+			maxLookback--;
+			if (maxLookback == 0){throw new IllegalStateException("Could not find lookback data for: " + startDate + ", " + direction.name() + ", " + dateCondition.date);}
 		}
 		
 		return listOfDate;

@@ -17,6 +17,7 @@ import com.autoStock.database.DatabaseDefinitions.QueryArg;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbExchange;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.tools.MiscTools;
+import com.autoStock.tools.ThreadTools;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -32,7 +33,8 @@ public class DatabaseQuery {
 			String query = new QueryFormatter().format(dbQuery, queryArg);
 			String queryHash = MiscTools.getHash(query);
 			
-//			Co.println("Executing query: " + query);
+			//Co.println("Executing query: " + query);
+			//ThreadTools.printStackTrace();
 			
 			if (dbQuery.isCachable){
 				if (hashCache.containsKey(queryHash)){

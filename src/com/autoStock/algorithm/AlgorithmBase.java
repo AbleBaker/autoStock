@@ -346,7 +346,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		if (yield > 20){
-			Co.println("--> " + getCurrentQuoteSlice().toString());
+			Co.println("--> Warning high yield? " + yield + ", " + startingDate + ", " + endDate + ", " + basicAccount.getBalance() + "," + listOfStrategyResponse.size());
+			//Co.println("--> " + getCurrentQuoteSlice().toString());
 //			throw new IllegalStateException("Yield for one day is very high at " + yield);
 		}
 

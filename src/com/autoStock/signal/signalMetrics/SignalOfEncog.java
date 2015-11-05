@@ -103,11 +103,13 @@ public class SignalOfEncog extends SignalBase {
 			signalPoint.signalPointType = SignalPointType.short_entry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 			count++;
-		} else if (valueForReeentry >= NEURON_THRESHOLD) {
+		}
+		else if (valueForReeentry >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.reentry;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 			count++;
-		} else if (valueForLongExit >= NEURON_THRESHOLD) {
+		} 
+		else if (valueForLongExit >= NEURON_THRESHOLD) {
 			signalPoint.signalPointType = SignalPointType.long_exit;
 			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 			count++;
@@ -119,25 +121,8 @@ public class SignalOfEncog extends SignalBase {
 			//pass
 		}
 		
-//		else if (valueForShortExit >= NEURON_THRESHOLD && havePosition) {
-//			if (positionType == PositionType.position_long) {
-//				signalPoint.signalPointType = SignalPointType.long_exit;
-//			} else if (positionType == PositionType.position_short) {
-//				signalPoint.signalPointType = SignalPointType.short_exit;
-//			} else {
-//				throw new IllegalStateException("Have position of type: " + positionType.name());
-//			}
-//			signalPoint.signalMetricType = SignalMetricType.metric_encog;
-//			count++;
-//		}
-		
 		if (count > 1){signalPoint = new SignalPoint();} 
 		
-//		if (signalPoint.signalPointType != SignalPointType.none){
-//			Co.println("--> Encog signal with frame: " + signalPoint.signalPointType.name() + "(" + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForAnyExit + ")" +  " - " + encogInputWindow.getUniqueIdent() + " -> " + encogInputWindow.getHash());
-//			Co.println(encogInputWindow.describeContents());
-//		}
-
 		return signalPoint;
 	}
 

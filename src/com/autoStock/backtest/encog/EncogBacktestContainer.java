@@ -40,7 +40,6 @@ public class EncogBacktestContainer {
 	public Exchange exchange;
 	public Date dateStart;
 	public Date dateEnd;
-	private double bestResult = 0;
 	private TrainEncogSignal trainEncogSignal;
 	private HistoricalData historicalData;
 	private int currentDay;
@@ -65,7 +64,7 @@ public class EncogBacktestContainer {
 		if (MODE == Mode.full){
 			trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, false, "full");
 			blankNetwork();
-			trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null), bestResult);
+			trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null), 0);
 			trainEncogSignal.getTrainer().saveNetwork();
 		}else{
 			ArrayList<HistoricalData> listOfHistoricalData = BacktestUtils.getHistoricalDataListForDates(historicalData);
@@ -73,7 +72,7 @@ public class EncogBacktestContainer {
 			for (HistoricalData historicalDataIn : listOfHistoricalData){
 				trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalDataIn, false, "day-" + DateTools.getEncogDate(historicalDataIn.startDate));
 				blankNetwork();
-				trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null), bestResult);
+				trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null), 0);
 				trainEncogSignal.getTrainer().saveNetwork();
 				currentDay++;
 			}

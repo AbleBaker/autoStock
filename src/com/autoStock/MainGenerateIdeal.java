@@ -66,8 +66,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-	private Date dateStart = DateTools.getDateFromString("08/01/2014");
-	private Date dateEnd = DateTools.getDateFromString("10/01/2014");
+	private Date dateStart = DateTools.getDateFromString("09/08/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	private double crossValidationRatio = 0; //0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
@@ -263,14 +263,6 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			historicalDataForCross.setStartAndEndDatesToExchange();
 		}
 		
-//		for (ArrayList<Double> list : listOfIdeal){
-//			for (Double value : list){
-//				if (value != -1){
-//					Co.println("--> Have input: " + value);
-//				}
-//			}
-//		}
-		
 		BasicMLDataSet dataSet = new BasicMLDataSet();
 		BasicMLDataSet dataSetCross = new BasicMLDataSet();
 		
@@ -300,33 +292,18 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 		for (int i=0; i<2500; i++){
 			train.iteration();
+			
 			if (crossValidationRatio == 0){
 				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalData.startDate, historicalData.endDate).getScore()));
 			} else{				
 				// Find out score for relevant backtest
-				double scoreReg = getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore();
-				double scoreCross = getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore();
-				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " ~ " + df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ") + " = " + (i % 100 != 0 ? "-" : scoreReg + " / " + scoreCross)); 
+				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " ~ " + (i % 10 != 0 ? "-" : df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ")) + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore() + " / " + getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore())); 
 			}
+			
+			if (train.getError() == 0){break;}
 		}
 		
 		train.finishTraining();
-		
-//		train = new ResilientPropagation(network, dataSet);
-//		
-//		for (int i=0; i<10000; i++){
-//			train.iteration();
-//			System.out.println(i + " - " + train.getError() * 1000);
-//		}
-		
-//		train = new NeuralSimulatedAnnealing(network, new TrainingSetScore(dataSet), 10, 2, 500);
-//
-//		for (int i=0; i<1000; i++){
-//			train.iteration();
-//			System.out.println("" + train.getError() * 1000);
-//		}
-		
-//		dataSet.add(, new BasicMLData(ArrayTools.getArrayFromListOfDouble(listOfIdeal.get(i))));
 		
 		// Verficiation stage
 		if (train.getError() * 1000 < 9999){
