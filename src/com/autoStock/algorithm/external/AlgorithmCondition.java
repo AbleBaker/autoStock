@@ -278,6 +278,14 @@ public class AlgorithmCondition {
 //			throw new IllegalStateException("Have gain yet max profit is zero! " + position.getCurrentPercentGainLoss(false) + ", " + positionMaxProfitPercent);
 //		}
 		
-		return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && position.getCurrentPercentGainLoss(false) > 0;
+		if (strategyOptions.invervalForProfitDrawdownExitMins.value > 0){
+			if (position.getPositionHistory().getTimeIn(ProfitOrLoss.profit).asSeconds() >= strategyOptions.invervalForProfitDrawdownExitMins.value * 60){
+				return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && position.getCurrentPercentGainLoss(false) > 0;			
+			}else {
+				return false;
+			}
+		}else{
+			return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && position.getCurrentPercentGainLoss(false) > 0;
+		}
 	}
 }

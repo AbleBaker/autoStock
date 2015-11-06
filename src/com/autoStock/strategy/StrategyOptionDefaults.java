@@ -14,15 +14,16 @@ public class StrategyOptionDefaults {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
 				strategyOptions.intervalForEntryWithSameSignalPointType.value = 0;
-				strategyOptions.maxProfitDrawdownPercent.value = -0.10d;
+				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
+				strategyOptions.invervalForProfitDrawdownExitMins.value = 5;
 				strategyOptions.maxPositionTimeAtProfit.value = 60;
 				strategyOptions.maxStopLossPercent.value = -0.20d;
-				strategyOptions.disableAfterYield.value = 1.0d;
+				strategyOptions.disableAfterYield.value = 10.0d;
 				strategyOptions.enablePremise = false;
 				strategyOptions.enableContext = true;
 				strategyOptions.enablePrefill = true;
-				
 				strategyOptions.canReenter.value = false;
+				strategyOptions.maxTransactionsDay.value = 32;
 				//strategyOptions.maxReenterTimesPerPosition.value = 1;
 				//strategyOptions.minReentryPercentGain.value = 0.10d;
 				//strategyOptions.intervalForReentryMins.value = 3;
@@ -46,7 +47,8 @@ public class StrategyOptionDefaults {
 		
 		strategyOptions.maxTransactionsDay.value = 16;
 		strategyOptions.maxStopLossPercent.value = -0.10d;
-		strategyOptions.maxProfitDrawdownPercent.value = -0.10d;
+		strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
+		strategyOptions.invervalForProfitDrawdownExitMins.value = 5;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;

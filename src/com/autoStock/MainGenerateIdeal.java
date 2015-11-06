@@ -19,6 +19,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
+import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.pso.NeuralPSO;
 import org.encog.neural.pattern.FeedForwardPattern;
 
@@ -66,9 +67,9 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
-	private double crossValidationRatio = 0; //0.30d;
+	private Date dateStart = DateTools.getDateFromString("02/03/2014");
+	private Date dateEnd = DateTools.getDateFromString("01/01/2015");
+	private double crossValidationRatio = 0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
 	private HistoricalData historicalDataForCross;
@@ -281,8 +282,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 //		new NguyenWidrowRandomizer().randomize(network);
 
-		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-//		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 10);
+//		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
+		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 200, 200));
