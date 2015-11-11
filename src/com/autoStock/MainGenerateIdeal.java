@@ -38,7 +38,9 @@ import com.autoStock.finance.SecurityTypeHelper.SecurityType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.misc.Pair;
+import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
@@ -67,9 +69,9 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-	private Date dateEnd = DateTools.getDateFromString("01/01/2015");
-	private double crossValidationRatio = 0.30d;
+	private Date dateStart = DateTools.getDateFromString("09/08/2014"); //("02/03/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/08/2014"); //("01/01/2015");
+	private double crossValidationRatio = 0; //0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
 	private HistoricalData historicalDataForCross;
@@ -126,12 +128,12 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	}
 	
 	boolean haveChange = false;
-	PositionGovernorResponseStatus status = PositionGovernorResponseStatus.none;
+	PositionGovernorResponse positionGovernorResponse = null;
 
 	@Override
 	public void receiveChangedStrategyResponse(StrategyResponse strategyResponse) {
 		//Co.println("--> Received changed strategy response: " + strategyResponse.positionGovernorResponse.status.name());
-		status = strategyResponse.positionGovernorResponse.status;
+		positionGovernorResponse = strategyResponse.positionGovernorResponse;
 		haveChange = true;
 	}
 
@@ -142,13 +144,16 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		EncogInputWindow eiw = singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.getInputWindow();
 		ArrayList<Double> listOfIdealOutputs = new ArrayList<Double>();
 		
-		if (processed && eiw != null){
-			if (haveChange && status != PositionGovernorResponseStatus.none){
+		if (processed && eiw != null && positionGovernorResponse != null){
+			if (haveChange && positionGovernorResponse.status != PositionGovernorResponseStatus.none 
+				&& (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.metric_encog || positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected)){
+				
 				haveChange = false;
-				Co.println("--> Have change at tick: " + DateTools.getPrettyDate(quote.dateTime) + " to status " + status.name() +  " with EIW: " + eiw.getHash());
+				
+				Co.println("--> Have change at tick: " + DateTools.getPrettyDate(quote.dateTime) + " to status " + positionGovernorResponse.status.name() +  " with EIW: " + eiw.getHash());
 				Co.println(eiw.describeContents());
 				
-				if (status == PositionGovernorResponseStatus.changed_long_entry){
+				if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
 					listOfIdealOutputs.add(1d);
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
@@ -156,7 +161,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else if (status == PositionGovernorResponseStatus.changed_short_entry){
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(1d);
 					listOfIdealOutputs.add(-1d);
@@ -164,7 +169,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else if (status == PositionGovernorResponseStatus.changed_long_reentry || status == PositionGovernorResponseStatus.changed_short_reentry){
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(1d);
@@ -172,7 +177,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else if (status == PositionGovernorResponseStatus.changed_long_exit){
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
@@ -180,7 +185,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else if (status == PositionGovernorResponseStatus.changed_short_exit){
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
@@ -188,7 +193,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else { throw new IllegalStateException(status.name()); }
+				else { throw new IllegalStateException(positionGovernorResponse.status.name()); }
 			}else{
 				listOfIdealOutputs.add(-1d);
 				listOfIdealOutputs.add(-1d);
@@ -291,7 +296,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	
 		DecimalFormat df = new DecimalFormat("0000.00000000000000");
 		
-		for (int i=0; i<2500; i++){
+		for (int i=0; i<2000; i++){
 			train.iteration();
 			
 			if (crossValidationRatio == 0){

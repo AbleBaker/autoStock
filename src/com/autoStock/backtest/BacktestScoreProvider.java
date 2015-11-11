@@ -3,6 +3,10 @@ package com.autoStock.backtest;
 import java.util.Date;
 
 import com.autoStock.Co;
+import com.autoStock.position.PositionGovernorResponse;
+import com.autoStock.position.PositionHistory.ProfitOrLoss;
+import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.trading.types.Position;
 import com.google.gson.internal.Pair;
 
 /**
@@ -15,25 +19,41 @@ public class BacktestScoreProvider {
 		
 //		score = getScoreOnlyYield(backtestEvaluation);
 //		score = getScoreDoDYield(backtestEvaluation);
-		score = getScorePerTrans(backtestEvaluation);
+//		score = getScorePerTrans(backtestEvaluation);
+		score = getFancyScore(backtestEvaluation);
 		
 		if (allowNegativeScore){return score;}
 		else {return score > 0 ? score : 0;}
+	}
+	
+	private static double getFancyScore(BacktestEvaluation backtestEvaluation){
+		double score = 0;
+		int penalty = 1;
+		
+		for (Pair<StrategyResponse, Double> pair : backtestEvaluation.transactionDetails.listOfTransactionYield){
+			//Co.println("--> " + pair.first.strategyAction.name() + " -> " + pair.first.positionGovernorResponse.status.name() + ", " + pair.first.quoteSlice.dateTime + ", " + pair.first.positionGovernorResponse.position.getPositionHistory().getAge().asSeconds());
+			
+			if (pair.first.positionGovernorResponse.position.getPositionHistory().getAge().asSeconds() < 60 * 10){penalty++;}
+			if (pair.second < 0.10){penalty++;}
+			
+			score += pair.second;
+		}
+		
+		return score / penalty;
 	}
 	
 	private static double getScorePerTrans(BacktestEvaluation backtestEvaluation){
 		double score = 0;
 		int penalty = 1;
 		
-		for (Pair<Date, Double> pair : backtestEvaluation.transactionDetails.listOfTransactionYield){
+		for (Pair<StrategyResponse, Double> pair : backtestEvaluation.transactionDetails.listOfTransactionYield){
 			score += pair.second;
 			
 			if (pair.second < 0){
 				penalty++;
 			} else if (pair.second < 0.10){
-				score -= pair.second;	
+				score -= pair.second;
 			}
-			
 		}
 		
 		score /= penalty;

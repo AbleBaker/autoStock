@@ -94,7 +94,7 @@ public class AlgorithmTest extends AlgorithmBase {
 				if (strategyBase.strategyOptions.enableContext && contextController.isEmpty() == false){
 					((ContextOfPosition)contextController.getByClass(ContextOfPosition.class)).setPosition(position);
 					((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
-					((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersist);
+					((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersistForDay);
 					((ContextOfOHLC)contextController.getByClass(ContextOfOHLC.class)).setAlgorithmBase(this);
 				}
 				

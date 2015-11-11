@@ -8,7 +8,9 @@ import java.util.Date;
 import com.autoStock.account.AccountProvider;
 import com.autoStock.backtest.BacktestUtils.BacktestResultTransactionDetails;
 import com.autoStock.guage.SignalGuage;
+import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
@@ -17,6 +19,7 @@ import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.Pair;
+import com.rits.cloning.Cloner;
 
 /**
  * @author Kevin Kowalewski
@@ -24,7 +27,6 @@ import com.google.gson.internal.Pair;
  */
 public class BacktestEvaluation {
 	public boolean allowNegativeScore = false;
-	
 	public BacktestResultTransactionDetails transactionDetails;
 	
 	public final Symbol symbol;
@@ -42,20 +44,19 @@ public class BacktestEvaluation {
 	
 	public AlgorithmModel algorithmModel = new AlgorithmModel();
 	
-	public ArrayList<DescriptorForSignal> listOfDescriptorForSignal = new ArrayList<DescriptorForSignal>();
-	public ArrayList<DescriptorForIndicator> listOfDescriptorForIndicator = new ArrayList<DescriptorForIndicator>();
-	public ArrayList<DescriptorForAdjustment> listOfDescriptorForAdjustment = new ArrayList<DescriptorForAdjustment>();
+	public ArrayList<DescriptorForSignal> listOfDescriptorForSignal = new ArrayList<>();
+	public ArrayList<DescriptorForIndicator> listOfDescriptorForIndicator = new ArrayList<>();
+	public ArrayList<DescriptorForAdjustment> listOfDescriptorForAdjustment = new ArrayList<>();
 	
 	public ArrayList<ArrayList<String>> listOfDisplayRowsFromStrategyResponse;
 	public ArrayList<ArrayList<String>> listOfDisplayRowsFromAlgorithm;
-	
 	public ArrayList<Pair<Date, Double>> listOfDailyYield;
 	
 	public BacktestEvaluation(BacktestContainer backtestContainer){
 		this.symbol = backtestContainer.symbol;
 		this.exchange = backtestContainer.exchange;
 		this.dateStart = backtestContainer.dateContainerStart;
-		this.dateEnd = backtestContainer.dateContainerEnd;		
+		this.dateEnd = backtestContainer.dateContainerEnd;
 	}
 	
 	public double getScore(){

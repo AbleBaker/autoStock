@@ -120,7 +120,7 @@ public class GenericPersister {
 				if (value instanceof List){
 					String serialized = gson.toJson(value, new TypeToken<ArrayList<Object>>(){}.getType());
 					diskCache.writeString(PREF_PREFIX_LIST + key.getName(), serialized);
-					Co.println("--> Synced to disk? " + ((List)value).size());
+					//Co.println("--> Synced to disk? " + ((List)value).size());
 				} else {
 					String serialized = gson.toJson(value, new TypeToken<ArrayList<Object>>(){}.getType());
 					diskCache.writeString(PREF_PREFIX_LIST + key.getName(), serialized);

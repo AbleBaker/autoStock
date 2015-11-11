@@ -48,7 +48,6 @@ public class QuoteSlice implements Cloneable {
 	
 	@Override
 	public String toString() {
-		ThreadTools.printStackTrace();
 		return StringTools.listOfStringToString(new ReflectionTools().getValuesToStringArryay(this), true);
 	}
 	

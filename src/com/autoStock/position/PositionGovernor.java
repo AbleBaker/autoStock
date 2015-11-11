@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.chart.CombinedLineChart.ChartSignalPoint;
+import com.autoStock.misc.Pair;
 import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
@@ -17,7 +19,6 @@ import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
-import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski
@@ -37,29 +38,20 @@ public class PositionGovernor {
 	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signaler signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions, BasicAccount basicAccount){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		SignalPoint signalPoint = new SignalPoint();
+		Pair<SignalPoint, Position> pairForPred = getSignalPointPred(quoteSlice, signal, positionGovernorResponse, positionOptions, basicAccount, position, exchange);
 		
-		if (listOfPredSignalPoint != null){
-			for (ChartSignalPoint csp : listOfPredSignalPoint){
-				if (quoteSlice.dateTime.getTime() == csp.date.getTime()){
-					if (csp.signalPoint == SignalPointType.long_entry){governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);}
-					if (csp.signalPoint == SignalPointType.short_entry){governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);}
-					if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_long){governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);}
-					if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_short){governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);}
-					if (csp.signalPoint == SignalPointType.long_exit && position != null){governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);}
-					if (csp.signalPoint == SignalPointType.short_exit && position != null){governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);}
-					//Co.println("--> ********** Using X");
-					
-					signalPoint.signalPointType = csp.signalPoint;
-				}
-			}
-		}else {
+		if (pairForPred != null){
+			signalPoint = pairForPred.first;
+			if (pairForPred.second != null){position = pairForPred.second;}
+		} else {
 			if (position == null){
-				signalPoint = TacticResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
-					
-				if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong.value){
-					position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
-				}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort.value){
-					position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
+				if (listOfPredSignalPoint == null){
+					signalPoint = TacticResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
+					if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong.value){
+						position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
+					}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort.value){
+						position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
+					}
 				}
 			} else {
 				SignalPoint signalPointForReentry = null; //SignalPointResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
@@ -113,6 +105,31 @@ public class PositionGovernor {
 
 		return positionGovernorResponse;
 	} 
+	
+	private Pair<SignalPoint,Position> getSignalPointPred(QuoteSlice quoteSlice, Signaler signal, PositionGovernorResponse positionGovernorResponse, PositionOptions positionOptions, BasicAccount basicAccount, Position position, Exchange exchange){
+		Pair<SignalPoint, Position> pair = new Pair<SignalPoint, Position>(new SignalPoint(), null);
+		boolean changed = false;
+		
+		for (ChartSignalPoint csp : listOfPredSignalPoint){
+			if (quoteSlice.dateTime.getTime() == csp.date.getTime()){
+				if (csp.signalPoint == SignalPointType.long_entry && position == null){pair.second = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount); changed = true;}
+				else if (csp.signalPoint == SignalPointType.short_entry && position == null){pair.second = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount); changed = true;}
+				else if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_long){governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount); changed = true;}
+				else if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_short){governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount); changed = true;}
+				else if (csp.signalPoint == SignalPointType.long_exit && position != null){governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange); changed = true;}
+				else if (csp.signalPoint == SignalPointType.short_exit && position != null){governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange); changed = true;}
+				//else {throw new IllegalArgumentException("Can't handle Chart Signal Point: " + csp.signalPoint + ", " + position + ", " + changed);}
+				
+				if (changed){
+					pair.first.signalPointType = csp.signalPoint;
+					pair.first.signalMetricType = SignalMetricType.injected;
+					return pair;
+				}
+			}
+		}
+		
+		return null;
+	}
 	
 	private Position governLongEntry(QuoteSlice quoteSlice, Signaler signal, PositionGovernorResponse positionGovernorResponse, Exchange exchange, PositionOptions positionOptions, BasicAccount basicAccount){
 		Position position = positionManager.executePosition(quoteSlice, exchange, signal, PositionType.position_long_entry, null, positionOptions, basicAccount);

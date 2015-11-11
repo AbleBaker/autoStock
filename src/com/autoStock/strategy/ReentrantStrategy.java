@@ -2,6 +2,7 @@ package com.autoStock.strategy;
 
 import java.util.ArrayList;
 
+import com.autoStock.misc.Pair;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
@@ -12,7 +13,6 @@ import com.autoStock.trading.types.Position;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
 import com.autoStock.types.basic.Time;
-import com.google.gson.internal.Pair;
 
 /**
  * @author Kevin Kowalewski

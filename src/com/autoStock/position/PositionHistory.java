@@ -40,6 +40,12 @@ public class PositionHistory {
 		listOfPositionHistory.add(item);
 	}
 	
+	public Time getAge(){
+		PositionHistoryItem lastItem = listOfPositionHistory.get(0);
+		PositionHistoryItem currentItem = ListTools.getLast(listOfPositionHistory);
+		return DateTools.getTimeUntilDate(currentItem.date, lastItem.date);
+	}
+	
 	public Time getTimeIn(ProfitOrLoss profitOrLoss){
 		PositionHistoryItem lastItem = listOfPositionHistory.get(0);
 		PositionHistoryItem currentItem = ListTools.getLast(listOfPositionHistory);

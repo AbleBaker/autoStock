@@ -30,12 +30,12 @@ public class TableForStrategyResponse extends BaseTable {
 			listOfString.add(DateTools.getPrettyDate(strategyResponse.quoteSlice.dateTime));
 			listOfString.add(backtestContainer.symbol.symbolName);
 			listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
-			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("proceed_changed", "entry").replaceAll("changed", "").replaceAll("proceed_", "").replaceAll("_condition_", " -> ").replaceAll("_", " "));
-			listOfString.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", "").replaceAll("_", " "));
+			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("proceed_changed", "*").replaceAll("changed", "").replaceAll("proceed_", "").replaceAll("_condition_", " -> ").replaceAll("_", " "));
+			listOfString.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", "").replaceAll("_", " ").replaceAll("none", " "));
 
 			String stringForSignal = new String();
 
-			for (SignalMoment signalMoment : strategyResponse.signal.getListOfSignalMoment()) {
+			for (SignalMoment signalMoment : strategyResponse.signaler.getListOfSignalMoment()) {
 				stringForSignal += signalMoment.signalMetricType.name().replace("metric_", "") + ":" + new DecimalFormat("0.00").format(signalMoment.strength);
 				if (signalMoment.debug != null && signalMoment.debug.length() > 0){stringForSignal += " - " + signalMoment.debug;}
 			}
@@ -45,14 +45,6 @@ public class TableForStrategyResponse extends BaseTable {
 			listOfString.add(TableTools.getTransactionDetails(strategyResponse));
 			listOfString.add(TableTools.getProfitLossDetails(strategyResponse));
 			listOfString.add(MiscTools.getCommifiedValue(strategyResponse.basicAccountCopy.getBalance()));
-			
-//			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit) {
-//				listOfString.add("$ " + new DecimalFormat("#.00").format(strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
-//			} else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry) {
-//				listOfString.add("");
-//			} else {
-//				listOfString.add("");
-//			}
 
 			listOfDisplayRows.add(listOfString);
 		}

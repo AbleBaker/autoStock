@@ -85,8 +85,8 @@ public class SignalDefinitions {
 		
 		none,
 		mixed,
-		no_change,
-		
+		no_change, 
+		injected,
 		;
 		
 		public static ArrayList<SignalMetricType> asList(){

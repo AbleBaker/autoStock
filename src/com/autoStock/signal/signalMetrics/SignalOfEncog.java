@@ -150,24 +150,6 @@ public class SignalOfEncog extends SignalBase {
 		return encogInputWindow;
 	}
 	
-//	public double[] getInputWindowRounded(){
-//		if (encogInputWindow == null){return null;}
-//		double[] array = new double[encogInputWindow.getAsWindow().length];
-//		
-//		for (int i=0; i<array.length; i++){
-//			array[i] = MathTools.round(encogInputWindow.getAsWindow()[i]);
-//		}
-//		
-//		return array;
-//	}
-	
-//	public EncogInputWindow getInputWindow() {
-//		if (MathTools.getMin(encogInputWindow.getAsWindow()) == 0 && MathTools.getMax(encogInputWindow.getAsWindow()) == 0){
-//			throw new IllegalStateException("This probably shouldn't be");
-//		}
-//		return encogInputWindow;
-//	}
-	
 	public static int getInputWindowLength(){
 		return INPUT_LENGTH;
 	}
@@ -186,7 +168,7 @@ public class SignalOfEncog extends SignalBase {
 	public boolean isLongEnough(SignalBase... arrayOfSignalBase) {
 		for (SignalBase signalBase : arrayOfSignalBase){
 			if (signalBase.listOfNormalizedValuePersist.size() <= INPUT_WINDOW_PS + (HAS_DELTAS ? 1 : 0)){
-//				Co.println("--> Not long enough: " + signalBase.getClass().getSimpleName());
+				//Co.println("--> Not long enough: " + signalBase.getClass().getSimpleName());
 				return false;
 			}
 		}

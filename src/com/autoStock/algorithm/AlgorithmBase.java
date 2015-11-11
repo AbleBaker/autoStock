@@ -63,7 +63,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
 	public final PositionGovernor positionGovernor;
 	public final ArrayList<QuoteSlice> listOfQuoteSlice = new ArrayList<QuoteSlice>();
-	public final ArrayList<QuoteSlice> listOfQuoteSlicePersist = new ArrayList<QuoteSlice>();
+	public final ArrayList<QuoteSlice> listOfQuoteSlicePersistForDay = new ArrayList<QuoteSlice>();
 	public final ArrayList<StrategyResponse> listOfStrategyResponse = new ArrayList<StrategyResponse>();
 	public ArrayList<SignalMetricType> listOfSignalMetricTypeActive = new ArrayList<SignalMetricType>();
 	public ArrayList<SignalMetricType> listOfSignalMetricTypeAnalyze = new ArrayList<SignalMetricType>();
@@ -135,7 +135,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 //		}
 		
 		listOfQuoteSlice.clear();
-		listOfQuoteSlicePersist.clear();
+		listOfQuoteSlicePersistForDay.clear();
 		listOfStrategyResponse.clear();
 		commonAnalysisData.reset();
 		signalGroup.reset();
@@ -245,7 +245,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		listOfQuoteSlice.add(quoteSlice);
-		listOfQuoteSlicePersist.add(quoteSlice);
+		listOfQuoteSlicePersistForDay.add(quoteSlice);
 		
 		position = positionGovernor.getPositionManager().getPosition(quoteSlice.symbol);
 		positionGovernor.getPositionManager().updatePositionPrice(quoteSlice, position);
@@ -273,17 +273,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 	
 	protected void prefill(){
-		if(algorithmMode == AlgorithmMode.mode_engagement){
-			prefill = new Prefill(symbol, exchange, PrefillMethod.method_broker);			
-		}else{
-			prefill = new Prefill(symbol, exchange, PrefillMethod.method_database);
-		}
-		
+		prefill = new Prefill(symbol, exchange, algorithmMode == AlgorithmMode.mode_engagement ? PrefillMethod.method_broker : PrefillMethod.method_database);					
 		prefill.prefillAlgorithm(this, strategyBase.strategyOptions);
-		
-		if (listOfQuoteSlice.size() > 0){
-			firstQuoteSlice = listOfQuoteSlice.get(0);
-		}
 	}
 	
 	public void setFundamentalData(FundamentalData fundamentalData){
@@ -300,7 +291,6 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 
 	@Override
 	public void positionStatusChanged(Position position) {
-//		Co.println("--> Received position change! ");
 		if (position.positionType == PositionType.position_cancelled){
 			Co.println("--> Position was cancelled... Disabling: " + position.symbol.symbolName);
 			disable(position.positionType.name());

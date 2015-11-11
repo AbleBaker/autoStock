@@ -34,8 +34,8 @@ public class ListTools {
 		return listOfObject;
 	}
 	
-	public static ArrayList<?> reverseList(ArrayList<?> listOfObject){
-		ArrayList<Object> listOfReturnObject = new ArrayList<Object>();
+	public static <T> ArrayList<T> reverseList(ArrayList<T> listOfObject){
+		ArrayList<T> listOfReturnObject = new ArrayList<T>();
 		
 		for (int i=listOfObject.size()-1; i>=0; i--){
 			listOfReturnObject.add(listOfObject.get(i));

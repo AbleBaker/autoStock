@@ -14,7 +14,7 @@ public class StrategyResponse {
 	public StrategyAction strategyAction = StrategyAction.none;
 	public StrategyActionCause strategyActionCause = StrategyActionCause.none;
 	public QuoteSlice quoteSlice;
-	public Signaler signal;
+	public Signaler signaler;
 	public BasicAccount basicAccountCopy;
 	
 	public enum StrategyAction {

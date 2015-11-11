@@ -17,9 +17,11 @@ import com.autoStock.exchange.request.base.RequestHolder;
 import com.autoStock.exchange.request.listener.RequestHistoricalDataListener;
 import com.autoStock.exchange.results.ExResultHistoricalData.ExResultSetHistoricalData;
 import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
+import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.tools.DateConditions.QuoteAvailableDateCondition;
 import com.autoStock.tools.DateTools;
+import com.autoStock.tools.ListTools;
 import com.autoStock.tools.Lock;
 import com.autoStock.tools.QuoteSliceTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -113,7 +115,8 @@ public class Prefill {
 			}
 		}
 		
-		algorithmBase.listOfQuoteSlice.addAll(listOfQuoteSliceForReturn);
+		//Co.println("--> Prefilled size: " + listOfQuoteSliceForReturn.size());
+		algorithmBase.listOfQuoteSlice.addAll(ListTools.reverseList(listOfQuoteSliceForReturn));
 	}
 	
 	public void setupPrefill(Date startingDate, Time timeOpenForeign, Time timeCloseForeign, int periodLength){

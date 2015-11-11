@@ -10,11 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
+import java.io.Closeable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -62,6 +65,7 @@ import org.jnativehook.keyboard.NativeKeyListener;
 
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
+import com.autoStock.algorithm.core.ActiveAlgorithmContainer;
 import com.autoStock.cache.GenericPersister;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesType;
 import com.autoStock.chart.ChartForAlgorithmTest.TimeSeriesTypePair;
@@ -71,6 +75,8 @@ import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.types.Exchange;
+import com.autoStock.types.Symbol;
 import com.google.gson.internal.Pair;
 
 /**
@@ -87,14 +93,18 @@ public class CombinedLineChart {
 		public int index;
 		public Date date;
 		public double price;
+		public Exchange exchange;
+		public Symbol symbol;
 
 		public SignalPointType signalPoint;
 
-		public ChartSignalPoint(int index, double price, SignalPointType signalPoint, Date date) {
+		public ChartSignalPoint(int index, double price, SignalPointType signalPoint, Date date, Symbol symbol, Exchange exchange) {
 			this.index = index;
 			this.price = price;
 			this.signalPoint = signalPoint;
 			this.date = date;
+			this.exchange = exchange;
+			this.symbol = symbol;
 		}
 	}
 
@@ -103,23 +113,9 @@ public class CombinedLineChart {
 		public TimeSeriesTypePair[] arrayOfTimeSeriesPair;
 		public DefaultHighLowDataset defaultHighLowDataset;
 		private AlgorithmBase algorithmBase;
-//		private ClickPoint clickPoint;
 
 		public LineChartDisplay(String title, DefaultHighLowDataset defaultHighLowDataset, AlgorithmBase algorithmBase, TimeSeriesTypePair... timeSeriesPairs) {
 			super("autoStock - Chart - " + title);
-
-//			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-//			logger.setLevel(Level.OFF);
-//			Handler[] handlers = Logger.getLogger("").getHandlers();
-//			for (int i = 0; i < handlers.length; i++) {
-//				handlers[i].setLevel(Level.OFF);
-//			}
-//			try {
-//				GlobalScreen.registerNativeHook();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			GlobalScreen.addNativeKeyListener(this);
 
 			this.title = title;
 			this.defaultHighLowDataset = defaultHighLowDataset;
@@ -131,13 +127,9 @@ public class CombinedLineChart {
 			chartPanel.setHorizontalAxisTrace(true);
 			addKeyListener(this);
 
-			// JButton button = new JButton("Add New Data Item");
-			// button.setActionCommand("ADD_DATA");
-			// button.addActionListener(this);
-			// chartPanel.add(button, BorderLayout.SOUTH);
-
 			setContentPane(chartPanel);
 			setVisible(true);
+			
 			toFront();
 			pack();
 
@@ -493,6 +485,11 @@ public class CombinedLineChart {
 			return -1;
 		}
 		
+		private boolean exists(int index){
+			TimeSeriesTypePair pair = pairs.get(currentPairIndex);
+			return pair.timeSeriesCollection.getSeries(0).getDataItem(index).getValue() != null;
+		}
+		
 		private void delete(int index){
 			TimeSeriesTypePair pair = pairs.get(currentPairIndex);
 			pair.timeSeriesCollection.getSeries(0).update(index, null);
@@ -515,36 +512,54 @@ public class CombinedLineChart {
 
 		@Override
 		public void keyPressed(KeyEvent keyEvent) {
-			Co.println("--> " + keyEvent.getKeyCode());
+			//Co.println("--> " + keyEvent.getKeyCode());
 			
 			ChartSignalPoint clickPoint = null;
 			
-			if (keyEvent.getKeyCode() == 10){
+			if (keyEvent.getKeyCode() == 10){ // Enter
 				int nextNotNull = getNotNull(itemIndex, pairs.get(currentPairIndex).timeSeriesCollection);
 				
 				if (nextNotNull != -1){
 					itemIndex = nextNotNull;
 				}else{
 					currentPairIndex++;
+					if (currentPairIndex == 5){currentPairIndex = 0;}
 					itemIndex = 0;
 					itemIndex = getNotNull(itemIndex, pairs.get(currentPairIndex).timeSeriesCollection);
 				}
 			}
 			
-			if (keyEvent.getKeyCode() == 39){
-				try {moveToIndex(itemIndex, ++itemIndex);}catch(ArrayIndexOutOfBoundsException e){}
+			if (keyEvent.getKeyCode() == 39){ // Right
+				if (exists(itemIndex + 1)){moveToIndex(itemIndex, itemIndex + 2); itemIndex += 2;
+				}else{try {moveToIndex(itemIndex, ++itemIndex);}catch(ArrayIndexOutOfBoundsException e){}}
 			}
 			
-			if (keyEvent.getKeyCode() == 37){
-				try {moveToIndex(itemIndex, --itemIndex);}catch(ArrayIndexOutOfBoundsException e){}
+			if (keyEvent.getKeyCode() == 37){ // Left
+				if (itemIndex <= 0){itemIndex = 1;}
+				if (exists(itemIndex - 1)){moveToIndex(itemIndex, itemIndex - 2); itemIndex -= 2;
+				}else{try {moveToIndex(itemIndex, --itemIndex);}catch(ArrayIndexOutOfBoundsException e){}}
 			}
 			
-			if (keyEvent.getKeyCode() == 127){
+			if (keyEvent.getKeyCode() == 127){ // Delete
 				delete(itemIndex);
 			}
 			
-			if (keyEvent.getKeyCode() == 27){
-				Co.println("--> Saving ChartSignalPoints...");
+			if (keyEvent.getKeyCode() == 27){ // Esc
+				Co.print("--> Saving ChartSignalPoints... ");
+				boolean changed = false;
+				int saved = 0;
+
+				if (genericPersister.getCount(ChartSignalPoint.class) > 0){
+					for (Iterator<ChartSignalPoint> iterator = genericPersister.getList(ChartSignalPoint.class).iterator(); iterator.hasNext();){
+						ChartSignalPoint csp = iterator.next();
+						
+						if (csp.date.getTime() >= algorithmBase.startingDate.getTime() && csp.date.getTime() <= algorithmBase.endDate.getTime()){
+							iterator.remove();
+						}
+					}
+				}
+				
+				if (changed){genericPersister.syncToDisk();}
 				
 				for (TimeSeriesTypePair pair : pairs){
 					for (int i=0; i<pair.timeSeriesCollection.getSeries(0).getItemCount(); i++){
@@ -558,10 +573,13 @@ public class CombinedLineChart {
 							if (pair.timeSeriesType == TimeSeriesType.type_long_exit_price){spt = SignalPointType.long_exit;}
 							if (pair.timeSeriesType == TimeSeriesType.type_short_exit_price){spt = SignalPointType.short_exit;}
 						
-							genericPersister.persistInto(new ChartSignalPoint(i, item.getValue().doubleValue(), spt, item.getPeriod().getStart()));
+							genericPersister.persistInto(new ChartSignalPoint(i, item.getValue().doubleValue(), spt, item.getPeriod().getStart(), algorithmBase.symbol, algorithmBase.exchange));
 						}
 					}
 				}
+				
+				Co.println("" + saved + " saved");
+				dispose();
 			}
 			
 			if (keyEvent.getKeyCode() == 97){
@@ -606,6 +624,11 @@ public class CombinedLineChart {
 
 		@Override
 		public void keyTyped(KeyEvent e) {
+		}
+		
+		@Override
+		public void windowClosing(WindowEvent event) {
+			if (event.getWindow() == this){dispose();}
 		}
 	}
 }

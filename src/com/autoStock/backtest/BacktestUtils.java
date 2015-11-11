@@ -15,6 +15,8 @@ import com.autoStock.adjust.AdjustmentOfBasicInteger;
 import com.autoStock.adjust.AdjustmentOfEnum;
 import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
+import com.autoStock.cache.GenericPersister;
+import com.autoStock.chart.CombinedLineChart.ChartSignalPoint;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
@@ -152,7 +154,7 @@ public class BacktestUtils {
 				
 				double transactionProfit = strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true);
 				
-				backtestTransactions.listOfTransactionYield.add(new Pair<Date, Double>(strategyResponse.positionGovernorResponse.dateOccurred, strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
+				backtestTransactions.listOfTransactionYield.add(new Pair<StrategyResponse, Double>(strategyResponse, strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
 				
 				if (transactionProfit > 0){
 					backtestTransactions.countForTradesProfit++;
@@ -269,6 +271,22 @@ public class BacktestUtils {
 		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
 	}
 	
+	public static ArrayList<ChartSignalPoint> getListOfChartSignalPoints(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd){
+		GenericPersister genericPersister = GenericPersister.getStaticInstance();
+		ArrayList<ChartSignalPoint> returnList = new ArrayList<>();
+		ArrayList<ChartSignalPoint> list = new ArrayList<ChartSignalPoint>(genericPersister.getList(ChartSignalPoint.class));
+		
+		if (list.size() == 0){return null;}
+
+		for (ChartSignalPoint csp : list){
+			if (csp.date.getTime() >= dateStart.getTime() && csp.date.getTime() <= dateEnd.getTime()){
+				returnList.add(csp);
+			}
+		}
+
+		return list;
+	}
+	
 	public static class BacktestDayResultDetails {
 		public Date dateStart;
 		public Date dateEnd;
@@ -281,7 +299,7 @@ public class BacktestUtils {
 	}
 	
 	public static class BacktestResultTransactionDetails {
-		public ArrayList<Pair<Date, Double>> listOfTransactionYield = new ArrayList<Pair<Date, Double>>();
+		public transient ArrayList<Pair<StrategyResponse, Double>> listOfTransactionYield = new ArrayList<Pair<StrategyResponse, Double>>();
 		public int countForTradeLongEntry;
 		public int countForTradeShortEntry;
 		public int countForTradeExit;
