@@ -12,6 +12,7 @@ import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.strategy.StrategyOptions;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.strategy.StrategyResponse.StrategyAction;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.trading.types.Position;
@@ -64,23 +65,6 @@ public class AlgorithmCondition {
 		return false;
 	}
 	
-//	public boolean takeProfit(Position position, QuoteSlice quoteSlice){
-//		double percentGainFromPosition = 0;
-//		PositionValue positionValue = position.getPositionValue();
-//		
-//		if (position.isFilled()){
-//			if (position != null && (position.positionType == PositionType.position_long || position.positionType == PositionType.position_short)){
-//				if (position.getLastKnownUnitPrice() != 0){
-//					percentGainFromPosition = positionValue.valueIntrinsicWithFees / positionValue.valueCurrentWithFees;
-//				}
-//			}
-//			
-//			return percentGainFromPosition >= strategyOptions.minTakeProfitExit;
-//		}
-//		
-//		return false;
-//	}
-	
 	public boolean canTradeAfterLoss(ArrayList<StrategyResponse> listOfStrategyResponse){
 		for (StrategyResponse strategyResponse : listOfStrategyResponse){
 			if (strategyResponse.positionGovernorResponse != null && strategyResponse.positionGovernorResponse.position != null){
@@ -94,64 +78,28 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean canTradeAfterLossInterval(Date date, ArrayList<StrategyResponse> listOfStrategyResponse){
-		if (strategyOptions.intervalForEntryAfterExitWithLossMins.value == 0){
-			return true;
-		}
+		if (strategyOptions.intervalForEntryAfterExitWithLossMins.value == 0){return true;}
 		
-		for (StrategyResponse strategyResponse : listOfStrategyResponse){
-			if (strategyResponse.positionGovernorResponse != null){
-				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
-					|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-					
-					if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossBeforeComission() < 0){
-						if ((date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000 < strategyOptions.intervalForEntryAfterExitWithLossMins.value){
-							return false;
-						}
-					}					
-//					Co.println("--> Minutes since exit: " + ( (date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000));
-				}
-				
+		StrategyResponse strategyResponse = null;
+		
+		for (StrategyResponse strategyResponseIn : listOfStrategyResponse){
+			if (strategyResponseIn.positionGovernorResponse != null && strategyResponseIn.strategyAction == StrategyAction.algorithm_changed){
+				strategyResponse = strategyResponseIn;
 			}
 		}
 		
-		return true;
-	}
-	
-	public boolean canTradeLongAfterExitWithSignalPoint(Date date, ArrayList<StrategyResponse> listOfStrategyResponse){
-		if (strategyOptions.intervalForEntryAfterExitWithLossMins.value == 0){
-			return true;
-		}
+		if (strategyResponse == null){return true;}
 		
-		for (StrategyResponse strategyResponse : listOfStrategyResponse){
-			if (strategyResponse.positionGovernorResponse != null){
-				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
-					if ((date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000 < strategyOptions.intervalForEntryAfterExitWithLossMins.value){
-						return false;
-					}
+		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit
+			|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+			
+			if (strategyResponse.positionGovernorResponse.position.getPositionProfitLossBeforeComission() < 0){
+				if ((date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000 < strategyOptions.intervalForEntryAfterExitWithLossMins.value){
+					return false;
 				}
-				
 			}
 		}
-		
-		return true;
-	}
-	
-	public boolean canTradeShortAfterExitWithSignalPoint(Date date, ArrayList<StrategyResponse> listOfStrategyResponse){
-		if (strategyOptions.intervalForEntryAfterExitWithLossMins.value == 0){
-			return true;
-		}
-		
-		for (StrategyResponse strategyResponse : listOfStrategyResponse){
-			if (strategyResponse.positionGovernorResponse != null){
-				if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-					if ((date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000 < strategyOptions.intervalForEntryAfterExitWithLossMins.value){
-						return false;
-					}
-				}
-				
-			}
-		}
-		
+
 		return true;
 	}
 	
@@ -259,24 +207,8 @@ public class AlgorithmCondition {
 	}
 
 	public boolean stopFromProfitDrawdown(Position position) {
-//		Co.print("--> Max Profit was: " +  new DecimalFormat("#.00").format(MathTools.round(position.getPositionHistory().getMaxPercentProfitLoss())));
-		
 		double profitDrawdown = position.getPositionProfitDrawdown();
 		double positionMaxProfitPercent = position.getPositionHistory().getMaxPercentProfitLoss().profitLossPercent;
-		
-//		Co.println("--> Drawdown is: " +  positionMaxProfitPercent + ", " + new DecimalFormat("#.00").format(profitDrawdown));
-//		Co.println("--> Current profit is: " + new DecimalFormat("#.00").format(MathTools.round(position.getCurrentPercentGainLoss(true))) + "\n");
-		
-//		if (position.getCurrentPercentGainLoss(false) > 0 && positionMaxProfitPercent <= 0){
-//			Co.println("--> P&L: ");
-//			for (Double value : position.getPositionHistory().listOfProfitLossPercent){
-//				Co.println("--> Value: " + value);
-//			}
-//			
-//			Co.println("--> Unit prices: " + position.getFirstKnownUnitPrice() + ", " + position.getLastKnownUnitPrice());
-//			
-//			throw new IllegalStateException("Have gain yet max profit is zero! " + position.getCurrentPercentGainLoss(false) + ", " + positionMaxProfitPercent);
-//		}
 		
 		if (strategyOptions.invervalForProfitDrawdownExitMins.value > 0){
 			if (position.getPositionHistory().getTimeIn(ProfitOrLoss.profit).asSeconds() >= strategyOptions.invervalForProfitDrawdownExitMins.value * 60){
@@ -287,5 +219,33 @@ public class AlgorithmCondition {
 		}else{
 			return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && position.getCurrentPercentGainLoss(false) > 0;
 		}
+	}
+	
+	public boolean canExitAfterTime(Position position){
+		return position.getPositionHistory().getAge().asSeconds() >= strategyOptions.minPositionAgeMinsBeforeExit.value * 60;
+	}
+	
+	public boolean canTradeAfterExitWithSameSignal(Date date, ArrayList<StrategyResponse> listOfStrategyResponse, SignalPoint signalPoint){
+		if (strategyOptions.intervalForEntryWithSameSignalPointType.value == 0){return true;}
+		
+		StrategyResponse strategyResponse = null;
+		
+		for (StrategyResponse strategyResponseIn : listOfStrategyResponse){
+			if (strategyResponseIn.positionGovernorResponse != null && strategyResponseIn.strategyAction == StrategyAction.algorithm_changed){
+				strategyResponse = strategyResponseIn;
+			}
+		}
+		
+		if (strategyResponse == null){return true;}
+	
+		if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit && signalPoint.signalPointType == SignalPointType.long_entry 
+			|| strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit && signalPoint.signalPointType == SignalPointType.short_entry){
+			
+			if ((date.getTime() - strategyResponse.positionGovernorResponse.dateOccurred.getTime()) / 60 /1000 < strategyOptions.intervalForEntryWithSameSignalPointType.value){
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

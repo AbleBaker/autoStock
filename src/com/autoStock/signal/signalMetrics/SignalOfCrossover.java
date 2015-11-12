@@ -29,8 +29,8 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 	@Override
 	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
 		
-//		IndicatorOfEMA ema1 = new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), , taLibCore, SignalMetricType.metric_crossover));
-//		InficatorOfEMA ema2 = new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
+		//IndicatorOfEMA ema1 = new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover);
+		//IndicatorOfEMA ema2 = new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover);
 //		
 		
 		

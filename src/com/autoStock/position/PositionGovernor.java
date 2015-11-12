@@ -35,10 +35,21 @@ public class PositionGovernor {
 		this.positionManager = positionManager;
 	}
 	
-	public PositionGovernorResponse informGovener(QuoteSlice quoteSlice, Signaler signal, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions, BasicAccount basicAccount){
+	public SignalPoint resolveEntry(StrategyOptions strategyOptions, Signaler signaler){
+		return TacticResolver.getSignalPoint(false, signaler, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
+	}
+	
+	public SignalPoint resolveExit(StrategyOptions strategyOptions, Signaler signaler, Position position){
+		return TacticResolver.getSignalPoint(true, signaler, position.positionType, strategyOptions.signalPointTacticForExit.value);
+	}
+	
+	public PositionGovernorResponse informGovener(SignalPoint signalPointForEntry, SignalPoint signalPointForExit, QuoteSlice quoteSlice, Signaler signaler, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions, BasicAccount basicAccount){
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		SignalPoint signalPoint = new SignalPoint();
-		Pair<SignalPoint, Position> pairForPred = getSignalPointPred(quoteSlice, signal, positionGovernorResponse, positionOptions, basicAccount, position, exchange);
+		Pair<SignalPoint, Position> pairForPred = listOfPredSignalPoint == null ? null : getSignalPointPred(quoteSlice, signaler, positionGovernorResponse, positionOptions, basicAccount, position, exchange);
+		
+		if (signalPointForEntry == null){signalPointForEntry = new SignalPoint();}
+		if (signalPointForExit == null){signalPointForExit = new SignalPoint();}
 		
 		if (pairForPred != null){
 			signalPoint = pairForPred.first;
@@ -46,32 +57,33 @@ public class PositionGovernor {
 		} else {
 			if (position == null){
 				if (listOfPredSignalPoint == null){
-					signalPoint = TacticResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
+					signalPoint = signalPointForEntry; //resolveEntry(strategyOptions, signaler);
+					
 					if (signalPoint.signalPointType == SignalPointType.long_entry && strategyOptions.canGoLong.value){
-						position = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
+						position = governLongEntry(quoteSlice, signaler, positionGovernorResponse, exchange, positionOptions, basicAccount);
 					}else if (signalPoint.signalPointType == SignalPointType.short_entry && strategyOptions.canGoShort.value){
-						position = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount);
+						position = governShortEntry(quoteSlice, signaler, positionGovernorResponse, exchange, positionOptions, basicAccount);
 					}
 				}
 			} else {
 				SignalPoint signalPointForReentry = null; //SignalPointResolver.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForReentry);
-				signalPoint = TacticResolver.getSignalPoint(true, signal, position.positionType, strategyOptions.signalPointTacticForExit.value);
+				signalPoint = signalPointForExit; //resolveExit(strategyOptions, signaler, position);
 	
 				if (position.positionType == PositionType.position_long || position.positionType == PositionType.position_long_entry) {
-					if (signalPoint.signalPointType == SignalPointType.long_exit || requestExit) {
-						governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
+					if (requestExit || signalPoint.signalPointType == SignalPointType.long_exit) {
+						governLongExit(quoteSlice, position, signaler, positionGovernorResponse, exchange);
 					}else if (strategyOptions.canReenter.value){ 
-						if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
-							governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
+						if (reentrantStrategy.getReentryStatus(position, signaler, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
+							governLongReentry(quoteSlice, position, signaler, positionGovernorResponse, exchange, basicAccount);
 						}
 					}
 				}else if (position.positionType == PositionType.position_short || position.positionType == PositionType.position_short_entry) {
-					if (signalPoint.signalPointType == SignalPointType.short_exit || requestExit) {
-						governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange);
+					if (requestExit || signalPoint.signalPointType == SignalPointType.short_exit) {
+						governShortExit(quoteSlice, position, signaler, positionGovernorResponse, exchange);
 					}else if (strategyOptions.canReenter.value){
 						//signalPoint.signalPointType == SignalPointType.reentry && 
-						if (reentrantStrategy.getReentryStatus(position, signal, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
-							governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount);
+						if (reentrantStrategy.getReentryStatus(position, signaler, strategyOptions, signalPointForReentry, getPair(quoteSlice.symbol), quoteSlice) == ReentryStatus.status_reenter){
+							governShortReentry(quoteSlice, position, signaler, positionGovernorResponse, exchange, basicAccount);
 						}
 					}
 				}else if (position.positionType == PositionType.position_cancelled || position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_long_exited || position.positionType == PositionType.position_short_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
@@ -86,7 +98,7 @@ public class PositionGovernor {
 		if (position != null){positionGovernorResponse.positionValue = position.getPositionValue();}
 		positionGovernorResponse.signalPoint = signalPoint;
 		positionGovernorResponse.dateOccurred = quoteSlice.dateTime;
-		signal.currentSignalPoint = signalPoint;
+		signaler.currentSignalPoint = signalPoint;
 		
 		if (getPair(quoteSlice.symbol) == null){
 			synchronized (listOfPairedResponses) {

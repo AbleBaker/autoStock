@@ -69,8 +69,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-	private Date dateStart = DateTools.getDateFromString("09/08/2014"); //("02/03/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/08/2014"); //("01/01/2015");
+//	private Date dateStart = DateTools.getDateFromString("02/03/2014");
+//	private Date dateEnd = DateTools.getDateFromString("04/01/2014");
+	private Date dateStart = DateTools.getDateFromString("09/08/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	private double crossValidationRatio = 0; //0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
@@ -100,8 +102,9 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		if (list.size() > 0){
 			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = list; 
 		}else{
-			BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(exchange.exchangeName + "-" + symbol.symbolName + "-day-" + DateTools.getEncogDate(startingDate));
-			if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load");}
+			String name = exchange.exchangeName + "-" + symbol.symbolName + "-day-" + DateTools.getEncogDate(startingDate);
+			BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(name);
+			if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load: " + name);}
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(basicNetwork, 0);
 			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = null;
 		}
@@ -146,7 +149,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 		if (processed && eiw != null && positionGovernorResponse != null){
 			if (haveChange && positionGovernorResponse.status != PositionGovernorResponseStatus.none 
-				&& (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.metric_encog || positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected)){
+				&& (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.metric_encog
+					|| (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry)
+				    || (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry)
+				)){
 				
 				haveChange = false;
 				
@@ -169,7 +175,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry){
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(-1d);
 					listOfIdealOutputs.add(1d);
@@ -193,7 +199,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 					listOfIdealOutputs.add(1d);
 					listOfIdealOutputs.add(-1d);
 				}
-				else { throw new IllegalStateException(positionGovernorResponse.status.name()); }
+				else { throw new IllegalStateException(positionGovernorResponse.status.name() + " from " + positionGovernorResponse.signalPoint.signalMetricType.name()); }
 			}else{
 				listOfIdealOutputs.add(-1d);
 				listOfIdealOutputs.add(-1d);
@@ -287,8 +293,9 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 //		new NguyenWidrowRandomizer().randomize(network);
 
-//		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-		MLTrain train = new ResilientPropagation(network, dataSet, 0.01, 10);
+		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
+		//((ManhattanPropagation)train).setDroupoutRate(0.50);
+//		MLTrain train = new ResilientPropagation(network, dataSet); //, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 200, 200));

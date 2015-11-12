@@ -183,9 +183,9 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			Position position = PositionManager.getGlobalInstance().getPosition(symbol);
 		
 			if (position.positionType == PositionType.position_long){
-				PositionManager.getGlobalInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signal, PositionType.position_long_exit, position, null, basicAccount);
+				PositionManager.getGlobalInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signaler, PositionType.position_long_exit, position, null, basicAccount);
 			}else if (position.positionType == PositionType.position_short){
-				PositionManager.getGlobalInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signal, PositionType.position_short_exit, position, null, basicAccount);
+				PositionManager.getGlobalInstance().executePosition(algorithm.getCurrentQuoteSlice(), exchange, algorithm.strategyBase.signaler, PositionType.position_short_exit, position, null, basicAccount);
 			}else{
 				throw new IllegalStateException();
 			}

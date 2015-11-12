@@ -10,6 +10,7 @@ import com.autoStock.indicator.IndicatorOfSAR;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.ArrayTools;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -26,7 +27,7 @@ public class AlgorithmChart {
 		chart.strategyOptions = algorithmBase.strategyBase.strategyOptions;
 	}
 
-	public void addChartPointData(QuoteSlice firstQuoteSlice, QuoteSlice quoteSlice, StrategyResponse strategyResponse) {
+	public void addChartPointData(QuoteSlice firstQuoteSlice, QuoteSlice quoteSlice, StrategyResponse strategyResponse, Position position) {
 		chart.listOfDate.add(quoteSlice.dateTime);
 		chart.listOfPriceOpen.add(quoteSlice.priceOpen);
 		chart.listOfPriceHigh.add(quoteSlice.priceHigh);
@@ -54,7 +55,7 @@ public class AlgorithmChart {
 		try {chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());}catch(Exception e){}
 		try {chart.listOfIndicatorSAR.add(ArrayTools.getLastElement((algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSAR.class).getBaseResults().arrayOfValue)));}catch(Exception e){}
 		
-		chart.listOfValue.add(strategyResponse.positionGovernorResponse.position == null ? Double.MIN_VALUE : strategyResponse.positionGovernorResponse.position.getCurrentPercentGainLoss(false));
+		chart.listOfValue.add(position == null ? Double.MIN_VALUE : position.getCurrentPercentGainLoss(false));
 		chart.listOfYield.add(algorithmBase.getYieldCurrent());
 		
 		//chart.listOfDebug1.add(((ResultsSTORSI)algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSTORSI.class).analyze()).arrayOfPercentK[0]);

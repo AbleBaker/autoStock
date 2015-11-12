@@ -41,6 +41,9 @@ public class SignalGenerator {
 			signalGroup.signalOfMACD,
 			signalGroup.signalOfMFI,
 			signalGroup.signalOfRSI,
+			signalGroup.signalOfDI,
+			signalGroup.signalOfTRIX,
+			signalGroup.signalOfMFI,
 			
 			//DO NOT USE
 //			signalGroup.signalOfROC,
@@ -48,7 +51,7 @@ public class SignalGenerator {
 //			signalGroup.signalOfARUp,
 //			signalGroup.signalOfARDown,
 //			signalGroup.signalOfADX,			
-//			signalGroup.signalOfDI,
+
 //			signalGroup.signalOfTRIX,
 //			signalGroup.signalOfSAR,
 		};

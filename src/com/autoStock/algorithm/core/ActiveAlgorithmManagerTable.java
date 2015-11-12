@@ -65,8 +65,8 @@ public class ActiveAlgorithmManagerTable {
 		
 		String stringForSignalMetrics = new String();
 		
-		if (algorithm.strategyBase.signal != null){
-			for (SignalBase signalBase : algorithm.strategyBase.signal.getListOfSignalBase()){
+		if (algorithm.strategyBase.signaler != null){
+			for (SignalBase signalBase : algorithm.strategyBase.signaler.getListOfSignalBase()){
 				//signalMetrics += " (" + signalMetric.signalMetricType.name() + ":" + signalMetric.strength + ":" + signalMetric.getSignalPoint(position == null ? false : true, position == null ? PositionType.position_none : position.positionType).signalPointType.name() + ")";
 				stringForSignalMetrics = "Replace this";
 			}

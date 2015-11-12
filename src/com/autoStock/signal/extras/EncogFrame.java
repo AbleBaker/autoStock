@@ -44,7 +44,7 @@ public class EncogFrame {
 	}
 
 	public void addSubframe(EncogSubframe subFrame) {
-		if (subFrame.frameType != frameType){throw new IllegalArgumentException("Can't have sub-frame / frames of differing types.");}
+		//if (subFrame.frameType != frameType){throw new IllegalArgumentException("Can't have sub-frame / frames of differing types.");}
 		listOfSubframe.add(subFrame);
 	}
 	

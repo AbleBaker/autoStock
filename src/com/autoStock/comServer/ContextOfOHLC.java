@@ -35,7 +35,7 @@ public class ContextOfOHLC extends ContextBase implements EncogFrameSource {
 		ArrayList<Double> listOfClose = new ArrayList<Double>();
 		ArrayList<Double> listOfCO = new ArrayList<Double>();
 	
-		for (QuoteSlice quoteSlice : ListTools.getLast(algorithmBase.listOfQuoteSlice, 30)){
+		for (QuoteSlice quoteSlice : ListTools.getLast(algorithmBase.listOfQuoteSlice, 60)){
 			listOfClose.add(quoteSlice.priceClose);
 			listOfCO.add(quoteSlice.priceClose - quoteSlice.priceOpen);
 //			Co.println(quoteSlice.toString());

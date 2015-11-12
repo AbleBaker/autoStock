@@ -15,7 +15,7 @@ import com.autoStock.types.QuoteSlice;
  * 
  */
 public abstract class StrategyBase {
-	public Signaler signal;
+	public Signaler signaler;
 	public StrategyOptions strategyOptions;
 	public AlgorithmBase algorithmBase;
 	public StrategyResponse lastStrategyResponse = new StrategyResponse();

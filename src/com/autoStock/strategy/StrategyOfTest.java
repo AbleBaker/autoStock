@@ -9,6 +9,8 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.position.PositionGovernorResponse;
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.position.PositionOptions;
+import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalPoint;
 import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
@@ -56,8 +58,8 @@ public class StrategyOfTest extends StrategyBase {
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size() - 1);
 		AlgorithmCondition algorithmCondition = new AlgorithmCondition(strategyOptions);
 
-		signal = new Signaler(SignalSource.from_algorithm, signalGroup);
-		signal.addSignalBaseFromMetrics(strategyOptions.listOfSignalMetricType);
+		signaler = new Signaler(SignalSource.from_algorithm, signalGroup);
+		signaler.addSignalBaseFromMetrics(strategyOptions.listOfSignalMetricType);
 
 		// SignalPoint signalPointForEntry = SignalPointMethod.getSignalPoint(false, signal, PositionType.position_none, strategyOptions.signalPointTacticForEntry);
 
@@ -80,9 +82,12 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_loss, quoteSlice, position, strategyResponse);
 			} else if (algorithmCondition.requestExitAfterTimeInProfit(quoteSlice, position)){
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_profit, quoteSlice, position, strategyResponse);
+			}else if (algorithmCondition.canExitAfterTime(position) == false){
+				pass(strategyResponse, StrategyActionCause.pass_condition_entry);
 			}
 			else {
-				strategyResponse.positionGovernorResponse = proceed(quoteSlice, position, null);
+				SignalPoint signalPointForExit = algorithmBase.positionGovernor.resolveExit(strategyOptions, signaler, position);
+				strategyResponse.positionGovernorResponse = proceed(quoteSlice, position, null, null, signalPointForExit);
 			}
 		} else {
 			if (algorithmBase.algorithmState.isDisabled) {
@@ -97,22 +102,30 @@ public class StrategyOfTest extends StrategyBase {
 				strategyResponse.positionGovernorResponse = cease(StrategyActionCause.disable_condition_profit_yield, quoteSlice, position, strategyResponse);
 			}else if (algorithmCondition.canTradeAfterLossInterval(quoteSlice.dateTime, listOfStrategyResponse) == false){
 				pass(strategyResponse, StrategyActionCause.pass_condition_previous_loss);
-			}else if (algorithmCondition.canTradeLongAfterExitWithSignalPoint(quoteSlice.dateTime, listOfStrategyResponse) == false){
-				pass(strategyResponse, StrategyActionCause.pass_condition_previous_exit_long);
-			}else if (algorithmCondition.canTradeShortAfterExitWithSignalPoint(quoteSlice.dateTime, listOfStrategyResponse) == false){
-				pass(strategyResponse, StrategyActionCause.pass_condition_previous_exit_short);
 			}
+			
+//			else if (algorithmCondition.canTradeLongAfterExitWithSignalPoint(quoteSlice.dateTime, listOfStrategyResponse) == false){
+//				pass(strategyResponse, StrategyActionCause.pass_condition_previous_exit_long);
+//			}else if (algorithmCondition.canTradeShortAfterExitWithSignalPoint(quoteSlice.dateTime, listOfStrategyResponse) == false){
+//				pass(strategyResponse, StrategyActionCause.pass_condition_previous_exit_short);
+//			}
 			// else if (algorithmCondition.canEnterWithQuoteSlice(quoteSlice, signalPointForEntry) == false){
 			// strategyResponse.positionGovernorResponse = new PositionGovernorResponse();
 			// strategyResponse.strategyAction = StrategyAction.algorithm_pass;
 			// strategyResponse.strategyActionCause = StrategyActionCause.pass_condition_quotslice;
 			// }
 			else {
-				strategyResponse.positionGovernorResponse = proceed(quoteSlice, position, positionOptions);
+				SignalPoint signalPointForEntry = algorithmBase.positionGovernor.resolveEntry(strategyOptions, signaler);
+				
+				if (algorithmCondition.canTradeAfterExitWithSameSignal(quoteSlice.dateTime, listOfStrategyResponse, signalPointForEntry) == false && (signalPointForEntry.signalPointType == SignalPointType.long_entry || signalPointForEntry.signalPointType == SignalPointType.short_entry)){
+					pass(strategyResponse, StrategyActionCause.pass_condition_previous_exit_signal_same);
+				} else{
+					strategyResponse.positionGovernorResponse = proceed(quoteSlice, position, positionOptions, signalPointForEntry, null);					
+				}
 			}
 		}
 
-		strategyResponse.signaler = signal;
+		strategyResponse.signaler = signaler;
 		strategyResponse.signaler.generateSignalMoments(position != null && position.isFilledAndOpen(), position == null ? PositionType.position_none : position.positionType);
 		strategyResponse.quoteSlice = quoteSlice;
 		strategyResponse.basicAccountCopy = algorithmBase.basicAccount.copy();
@@ -163,9 +176,9 @@ public class StrategyOfTest extends StrategyBase {
 		strategyResponse.strategyActionCause = strategyActionCause;
 	}
 
-	private PositionGovernorResponse proceed(QuoteSlice quoteSlice, Position position, PositionOptions positionOptions) {
+	private PositionGovernorResponse proceed(QuoteSlice quoteSlice, Position position, PositionOptions positionOptions, SignalPoint signalPointForEntry, SignalPoint signalPointForExit) {
 		// Co.println("--> Asked to proceed");
-		PositionGovernorResponse positionGovernorResponse = algorithmBase.positionGovernor.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, false, position, positionOptions, algorithmBase.basicAccount);
+		PositionGovernorResponse positionGovernorResponse = algorithmBase.positionGovernor.informGovener(signalPointForEntry, signalPointForExit, quoteSlice, signaler, algorithmBase.exchange, strategyOptions, false, position, positionOptions, algorithmBase.basicAccount);
 		return positionGovernorResponse;
 	}
 
@@ -173,7 +186,7 @@ public class StrategyOfTest extends StrategyBase {
 		// Co.println("--> Asked to cease: " + strategyActionCause.name());
 		PositionGovernorResponse positionGovernorResponse = new PositionGovernorResponse();
 		if (position != null) {
-			positionGovernorResponse = algorithmBase.positionGovernor.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
+			positionGovernorResponse = algorithmBase.positionGovernor.informGovener(null, null, quoteSlice, signaler, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
 		}
 		strategyResponse.strategyAction = StrategyAction.algorithm_disable;
 		strategyResponse.strategyActionCause = strategyActionCause;
@@ -183,7 +196,7 @@ public class StrategyOfTest extends StrategyBase {
 
 	private PositionGovernorResponse exit(StrategyActionCause strategyActionCause, QuoteSlice quoteSlice, Position position, StrategyResponse strategyResponse) {
 		// Co.println("--> Asked to exit");
-		PositionGovernorResponse positionGovernorResponse = algorithmBase.positionGovernor.informGovener(quoteSlice, signal, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
+		PositionGovernorResponse positionGovernorResponse = algorithmBase.positionGovernor.informGovener(null, null, quoteSlice, signaler, algorithmBase.exchange, strategyOptions, true, position, null, algorithmBase.basicAccount);
 
 		strategyResponse.strategyAction = StrategyAction.algorithm_changed;
 		strategyResponse.strategyActionCause = strategyActionCause;

@@ -13,20 +13,18 @@ public class StrategyOptionDefaults {
 		return new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
-				strategyOptions.intervalForEntryWithSameSignalPointType.value = 0;
+				strategyOptions.intervalForEntryWithSameSignalPointType.value = 10;
 				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
-				strategyOptions.invervalForProfitDrawdownExitMins.value = 5;
-				strategyOptions.maxPositionTimeAtProfit.value = 60;
-				strategyOptions.maxStopLossPercent.value = -0.20d;
+				strategyOptions.invervalForProfitDrawdownExitMins.value = 3;
+				strategyOptions.minPositionAgeMinsBeforeExit.value = 5;
+				strategyOptions.maxPositionTimeAtProfit.value = 45;
+				strategyOptions.maxStopLossPercent.value = -0.25d;
 				strategyOptions.disableAfterYield.value = 10.0d;
 				strategyOptions.enablePremise = false;
 				strategyOptions.enableContext = true;
 				strategyOptions.enablePrefill = true;
 				strategyOptions.canReenter.value = false;
 				strategyOptions.maxTransactionsDay.value = 32;
-				//strategyOptions.maxReenterTimesPerPosition.value = 1;
-				//strategyOptions.minReentryPercentGain.value = 0.10d;
-				//strategyOptions.intervalForReentryMins.value = 3;
 			}
 		};
 	}
@@ -53,14 +51,15 @@ public class StrategyOptionDefaults {
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;
 		strategyOptions.maxPositionExitTime = 5;
-		strategyOptions.maxPositionTimeAtLoss.value = 45;
+		strategyOptions.maxPositionTimeAtLoss.value = 60;
 		strategyOptions.maxPositionTimeAtProfit.value = 45;
 		strategyOptions.minPositionTimeAtProfitYield.value = 0; //.25d;
 		strategyOptions.maxReenterTimesPerPosition.value = 3;
 		strategyOptions.intervalForReentryMins.value = 2;
 		strategyOptions.minReentryPercentGain.value = 0.15;
 		strategyOptions.prefillShift.value = 0;
-		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 15;
+		strategyOptions.minPositionAgeMinsBeforeExit.value = 5;
+		strategyOptions.intervalForEntryAfterExitWithLossMins.value = 5;
 		strategyOptions.intervalForEntryWithSameSignalPointType.value = 0;
 		strategyOptions.disableAfterLoss.value = -0.25d;
 		strategyOptions.disableAfterYield.value = 2.00d;

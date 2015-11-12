@@ -69,7 +69,7 @@ public class BacktestEvaluationBuilder {
 		backtestEvaluation.algorithmModel = AlgorithmModel.getCurrentAlgorithmModel(backtestContainer.algorithm);
 		
 		if (includeDescriptors){
-			for (SignalBase signalBase : backtestContainer.algorithm.strategyBase.signal.getListOfSignalBase()){
+			for (SignalBase signalBase : backtestContainer.algorithm.strategyBase.signaler.getListOfSignalBase()){
 				ArrayList<Pair<SignalPointType, SignalGuage[]>> list = signalBase.signalParameters.getGuages();
 				
 				for (Pair<SignalPointType, SignalGuage[]> pair : list){

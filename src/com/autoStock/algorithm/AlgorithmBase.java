@@ -34,6 +34,7 @@ import com.autoStock.signal.SignalGroup;
 import com.autoStock.strategy.StrategyBase;
 import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.strategy.StrategyResponse.StrategyAction;
+import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
 import com.autoStock.tables.TableForAlgorithm;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
@@ -166,11 +167,11 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	
 	public void populateAlgorithmDetails(QuoteSlice quoteSlice, StrategyResponse strategyResponse){
 		if (algorithmMode.displayChart) {
-			algorithmChart.addChartPointData(firstQuoteSlice, quoteSlice, strategyResponse);
+			algorithmChart.addChartPointData(firstQuoteSlice, quoteSlice, strategyResponse, position);
 		}
 		
 		if (algorithmMode.displayTable || algorithmMode.populateTable) {
-			tableForAlgorithm.addTableRow(listOfQuoteSlice, strategyBase.signal, signalGroup, strategyResponse, basicAccount);
+			tableForAlgorithm.addTableRow(listOfQuoteSlice, strategyBase.signaler, signalGroup, strategyResponse, basicAccount);
 		}
 	}
 	
@@ -297,16 +298,27 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 	}
 	
-	public double getYieldCurrent(){
-		return getCurrentYield(false);
-	}
+//	public double getYieldCurrent(){
+//		double yield = 0;
+//		
+//		for (StrategyResponse strategyResponse : listOfStrategyResponse){
+//			PositionGovernorResponse pgr = strategyResponse.positionGovernorResponse;
+//			
+//			if (pgr.status == PositionGovernorResponseStatus.changed_long_exit || pgr.status == PositionGovernorResponseStatus.changed_short_exit){
+//				pgr.position.getPositionValue().percentGainLoss;
+//			}
+//		}
+//	}
 	
 	public double getYieldComplete(){
-		return getCurrentYield(true);
+		return getYield(true);
 	}
-
-
-	private double getCurrentYield(boolean complete) {	
+	
+	public double getYieldCurrent(){
+		return getYield(false);
+	}
+	
+	private double getYield(boolean complete) { //?	
 		double positionCost = 0;
 		Position currentPosition = null;
 		
@@ -335,10 +347,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 			//pass, no positions!
 		}
 		
-		if (yield > 20){
+		if (yield > 10 && !complete){
 			Co.println("--> Warning high yield? " + yield + ", " + startingDate + ", " + endDate + ", " + basicAccount.getBalance() + "," + listOfStrategyResponse.size());
 			//Co.println("--> " + getCurrentQuoteSlice().toString());
-//			throw new IllegalStateException("Yield for one day is very high at " + yield);
+			//throw new IllegalStateException("Yield for one day is very high at " + yield);
 		}
 
 		return yield;

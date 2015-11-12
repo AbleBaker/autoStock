@@ -27,9 +27,14 @@ public class StrategyResponse {
 	}
 	
 	public enum StrategyActionCause {
+		/* Will disable the algorithm from any further trades */
 		disable_condition_time_entry,
 		disable_condition_profit_loss,
 		disable_condition_profit_yield,
+		disable_condition_nilchange,
+		disable_condition_nilvolume,
+		
+		/* Will cease trading, exiting the current position */
 		cease_condition_time_exit,
 		cease_condition_time_profit,
 		cease_condition_time_loss,
@@ -39,13 +44,15 @@ public class StrategyResponse {
 		cease_condition_profit_drawdown,
 		cease_condition_loss,
 		cease_end_of_feed,
-		disable_condition_nilchange,
-		disable_condition_nilvolume,
 		cease_disabled,
+		
+		/* Will not allow new positions / orders for the under a condition */
 		pass_condition_quotslice,
+		pass_condition_entry,
 		pass_condition_previous_loss,
-		pass_condition_previous_exit_long,
-		pass_condition_previous_exit_short,
+		pass_condition_previous_exit_signal_same,
+		
+		/* Other things */
 		position_governor_failure,
 		proceed_changed,
 		none,
