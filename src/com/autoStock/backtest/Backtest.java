@@ -45,7 +45,6 @@ public class Backtest implements DataFeedListenerOfQuoteSlice {
 
 	@Override
 	public void receivedQuoteSlice(QuoteSlice typeQuoteSlice) {
-		//Co.println("Received backtest quote: " + DateTools.getPrettyDate(resultQuoteSlice.dateTime) + ", " + resultQuoteSlice.priceClose);
 		receiverOfQuoteSlice.receiveQuoteSlice(typeQuoteSlice);
 	}
 

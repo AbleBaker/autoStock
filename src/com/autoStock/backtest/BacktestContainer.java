@@ -113,7 +113,6 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	
 	public void prepare(){
 		if (listOfDbHistoricalPrices.size() == 0) {
-//			throw new IllegalStateException();
 			endOfFeed(symbol);
 			return;
 		}
@@ -204,8 +203,8 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 	}
 
 	public void markAsComplete() {
-//		if (algorithm.signalCache != null && SignalCache.CACHE_FILE.exists() == false){algorithm.signalCache.writeToDisk();}
 		isComplete = true;
+		if (algorithm.signalCache != null && SignalCache.CACHE_FILE.exists() == false){algorithm.signalCache.writeToDisk();}
 	}
 
 	public void markAsIncomplete() {

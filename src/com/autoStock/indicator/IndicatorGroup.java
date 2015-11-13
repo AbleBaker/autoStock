@@ -11,8 +11,6 @@ import com.autoStock.signal.SignalDefinitions.IndicatorParametersForARUp;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForBasic;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForCCI;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForDI;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForEMAFirst;
-import com.autoStock.signal.SignalDefinitions.IndicatorParametersForEMASecond;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMACD;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMFI;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForROC;
@@ -70,8 +68,8 @@ public class IndicatorGroup {
 		listOfIndicatorBase.add(new IndicatorOfCSO(new IndicatorParametersForBasic(), commonAnlaysisData, taLibCore, SignalMetricType.none));
 //		listOfIndicatorBase.add(new IndicatorOfBB(new MutableInteger(0), 1, commonAnalysisData, taLibCore, SignalMetricType.none));
 		
-		listOfIndicatorBase.add(new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
-		listOfIndicatorBase.add(new IndicatorOfEMA(new IndicatorParametersForEMASecond(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
+		//listOfIndicatorBase.add(new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
+		//listOfIndicatorBase.add(new IndicatorOfEMA(new IndicatorParametersForEMASecond(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover));
 		
 //		listOfIndicatorBase.add(candleStickIdentifier = new CandleStickIdentifier(new IndicatorParameters(new MutableInteger(30), 1) {}, commonAnalysisData, taLibCore, SignalMetricType.metric_candlestick_group));
 	}

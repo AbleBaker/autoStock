@@ -142,10 +142,10 @@ public class MenuLauncher {
 		
 		else if (menuStructure == MenuStructures.menu_main_test){
 			//new MainTest();
-//			new BacktestPredictFuture().run();
+			new BacktestPredictFuture().run();
 //			new PremiseTest().run();
 //			new MainRTest().run();
-			new RTestBasic().run();
+//			new RTestBasic().run();
 //			rtest.main(new String[]{});
 		}
 		

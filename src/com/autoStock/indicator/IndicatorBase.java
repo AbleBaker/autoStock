@@ -53,13 +53,13 @@ public abstract class IndicatorBase<T> {
 		listOfSignalMetricType.add(signalMetricType);
 	}
 
-	public void setDataSet(){
+	public IndicatorBase setDataSet(){
 		if (commonAnlaysisData.arrayOfDates.length < indicatorParameters.periodLength.value){
 			throw new IllegalArgumentException("List size was too small: " + getClass().getSimpleName() + ", contains " + commonAnlaysisData.arrayOfDates.length + ", expected " + indicatorParameters.periodLength.value);
 		}
 		
 		if (indicatorParameters.periodLength.value == 0){
-			return;
+			return this;
 		}
 		
 		int initialLength = commonAnlaysisData.arrayOfDates.length;
@@ -89,6 +89,7 @@ public abstract class IndicatorBase<T> {
 		endIndex = datasetLength-1;
 		
 //		Co.println("--> this: " + this.getClass().getName() + ", " + resultsetLength);
+		return this;
 	}
 	
 	public void addSignalMetricType(SignalMetricType signalMetricType){

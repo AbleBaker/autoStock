@@ -3,10 +3,12 @@ package com.autoStock.signal;
 import java.util.ArrayList;
 
 import com.autoStock.algorithm.AlgorithmBase;
+import com.autoStock.indicator.CommonAnalysisData;
 import com.autoStock.indicator.results.ResultsBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.taLib.Core;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.types.basic.MutableInteger;
@@ -20,8 +22,10 @@ public abstract class SignalBase {
 	protected ArrayList<Double> listOfRawValuePersist = new ArrayList<Double>();
 	protected MutableInteger maxSignalAverage;
 	public SignalParameters signalParameters;
-	public AlgorithmBase algorithmBase;
-	public SignalRangeLimit signalRangeLimit = new SignalRangeLimit();
+	public transient AlgorithmBase algorithmBase;
+	public transient SignalRangeLimit signalRangeLimit = new SignalRangeLimit();
+	public transient CommonAnalysisData commonAnalysisData;
+	public transient Core taLibCore;
 	
 	public SignalBase(SignalMetricType signalMetricType, SignalParameters signalParameters, AlgorithmBase algorithmBase){
 		this.algorithmBase = algorithmBase;
@@ -68,12 +72,13 @@ public abstract class SignalBase {
 		return new SignalPointResolver(this).getSignalPoint(havePosition, positionType);
 	}
 	
-	public void setInputCached(double strength, double normalizedValue){
+	public void setInputCached(double strength, double normalizedValue, double rawValue){
 		listOfNormalizedValue.add(normalizedValue);
 		listOfNormalizedValuePersist.add(normalizedValue);
 		
 		listOfNormalizedAveragedValue.add(strength);
 		listOfNormalizedAveragedValuePersist.add(strength);
+		listOfRawValuePersist.add(rawValue);
 		signalRangeLimit.addValue(strength);
 		
 		prune(maxSignalAverage.value);
@@ -126,5 +131,13 @@ public abstract class SignalBase {
 		listOfNormalizedValue.clear();
 		listOfRawValuePersist.clear();
 		signalRangeLimit.reset();
+	}
+
+	public void setCommonAnalysisData(CommonAnalysisData commonAnalysisData) {
+		this.commonAnalysisData = commonAnalysisData;
+	}
+
+	public void setTaLib(Core taLibCore) {
+		this.taLibCore = taLibCore;
 	}
 }

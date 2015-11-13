@@ -39,7 +39,9 @@ public class SignalCache {
 		ArrayList<SignalBase> listOfSignalBase = new ArrayList<SignalBase>();
 		
 		for (SignalBase signalBase : algorithmBase.signalGroup.getListOfSignalBase()){
-			if (signalBase instanceof SignalOfCandlestickGroup == false && signalBase instanceof SignalOfEncog == false){
+			if (signalBase instanceof SignalOfCandlestickGroup == false 
+				&& signalBase instanceof SignalOfEncog == false){
+				
 				if (algorithmBase.listOfSignalMetricTypeAnalyze.contains(signalBase.signalMetricType)){
 					//Co.println("********** Storing signal ***********" + signalBase.getClass().getSimpleName());
 					listOfSignalBase.add(signalBase);
@@ -60,10 +62,12 @@ public class SignalCache {
 		}
 		
 		for (SignalBase signalBase : listToRestoreFrom){
+			//Co.println("--> Restoring: " + signalBase.getClass().getSimpleName());
 			SignalBase signalBaseRestoreInto = algorithmBase.signalGroup.getSignalBaseForType(signalBase.signalMetricType);
-			
-			signalBaseRestoreInto.setInputCached(signalBase.listOfNormalizedAveragedValuePersist.get(index), signalBase.listOfNormalizedValuePersist.get(index));
-			//Co.println("--> SignalBase is at: " + signalBaseRestoreInto.signalMetricType.name() + ", " + signalBaseRestoreInto.listOfNormalizedAveragedValuePersist.size() + ", " + signalBase.listOfNormalizedValuePersist.get(index) + ", " + signalBaseRestoreInto.getStrength());
+			if (signalBase.listOfNormalizedAveragedValue.size() > 0 && signalBase.listOfNormalizedValuePersist.size() > 0){
+				signalBaseRestoreInto.setInputCached(signalBase.listOfNormalizedAveragedValuePersist.get(index), signalBase.listOfNormalizedValuePersist.get(index), signalBase.listOfRawValuePersist.get(index));
+				//Co.println("--> SignalBase is at: " + signalBaseRestoreInto.signalMetricType.name() + ", " + signalBaseRestoreInto.listOfNormalizedAveragedValuePersist.size() + ", " + signalBase.listOfNormalizedValuePersist.get(index) + ", " + signalBaseRestoreInto.getStrength());
+			}
 		}
 	}
 	

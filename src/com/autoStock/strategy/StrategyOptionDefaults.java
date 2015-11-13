@@ -13,7 +13,7 @@ public class StrategyOptionDefaults {
 		return new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
-				strategyOptions.intervalForEntryWithSameSignalPointType.value = 10;
+				strategyOptions.intervalForEntryWithSameSignalPointType.value = 5;
 				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
 				strategyOptions.invervalForProfitDrawdownExitMins.value = 3;
 				strategyOptions.minPositionAgeMinsBeforeExit.value = 5;

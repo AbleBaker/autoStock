@@ -21,13 +21,13 @@ public class TacticResolver {
 		tactic_conjugate,
 	}
 	
-	public static synchronized SignalPoint getSignalPoint(boolean havePosition, Signaler signal, PositionType positionType, SignalPointTactic signalPointTactic){
+	public static SignalPoint getSignalPoint(boolean havePosition, Signaler signal, PositionType positionType, SignalPointTactic signalPointTactic){ //synchronized?
 		SignalPoint signalPoint;
 		
-		if (signalPointTactic == SignalPointTactic.tactic_majority){
-			signalPoint = getSignalPointMajority(havePosition, positionType, signal);
-		}else if (signalPointTactic == SignalPointTactic.tactic_any){
+		if (signalPointTactic == SignalPointTactic.tactic_any){
 			signalPoint = getSignalPointChange(havePosition, positionType, signal);
+		}else if (signalPointTactic == SignalPointTactic.tactic_majority){
+			signalPoint = getSignalPointMajority(havePosition, positionType, signal);
 		}else if (signalPointTactic == SignalPointTactic.tactic_combined){
 			signalPoint = getSignalPointCombined(havePosition, positionType, signal);
 		}else if (signalPointTactic == SignalPointTactic.tactic_mixed){

@@ -94,8 +94,8 @@ public class PositionGovernor {
 			}
 		}
 
-		positionGovernorResponse.position = position;
 		if (position != null){positionGovernorResponse.positionValue = position.getPositionValue();}
+		positionGovernorResponse.position = position;
 		positionGovernorResponse.signalPoint = signalPoint;
 		positionGovernorResponse.dateOccurred = quoteSlice.dateTime;
 		signaler.currentSignalPoint = signalPoint;

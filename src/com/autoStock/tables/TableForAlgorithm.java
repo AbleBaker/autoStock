@@ -45,7 +45,7 @@ public class TableForAlgorithm extends BaseTable {
 			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfTRIX.getStrength())));
 			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfROC.getStrength())));
 			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfMFI.getStrength())));
-			columnValues.add(String.valueOf(new DecimalFormat("0.00").format(signalGroup.signalOfWILLR.getStrength())));
+			columnValues.add(String.valueOf(new DecimalFormat("0.0000").format(signalGroup.signalOfCrossover.getStrength())));
 		}
 		
 		columnValues.add(strategyResponse.positionGovernorResponse.status.name());

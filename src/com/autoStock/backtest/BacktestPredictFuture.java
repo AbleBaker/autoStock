@@ -58,8 +58,7 @@ public class BacktestPredictFuture {
 	private static final int OUTPUT_POINTS = 1;
 	private static final int IDEAL_OFFSET = 8;
 	private static final int INPUT_NEURONS = INPUT_POINTS * INPUT_POINT_SIZE;
-	private static final int OUTPUT_NEURONS = OUTPUT_POINTS * OUTPUT_POINT_SIZE;
-	private ActivationFunction activationFunction = new ActivationTANH();
+	private static final int OUTPUT_NEURONS = OUTPUT_POINTS * OUTPUT_POINT_SIZE; 
 	private ArrayList<PredictionResult> listOfPredictionResult = new ArrayList<PredictionResult>();
 	
 	private static class PredictionResult {
@@ -74,7 +73,7 @@ public class BacktestPredictFuture {
 	
 	public void run(){
 		// Load the data
-		HistoricalData historicalDataIS = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("09/08/2014"), DateTools.getDateFromString("09/08/2014"), Resolution.min);
+		HistoricalData historicalDataIS = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("02/03/2014"), DateTools.getDateFromString("04/01/2014"), Resolution.min);
 		historicalDataIS.setStartAndEndDatesToExchange();
 		ArrayList<DbStockHistoricalPrice> listOfResultsIS = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalDataIS.symbol.symbolName), new QueryArg(QueryArgs.exchange, new Exchange("NYSE").exchangeName), new QueryArg(QueryArgs.resolution, Resolution.min.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalDataIS.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalDataIS.endDate)));
 		
@@ -120,10 +119,11 @@ public class BacktestPredictFuture {
 		// Train the network
 		BasicNetwork network = getMLNetwork(INPUT_NEURONS, OUTPUT_NEURONS);
 		MLTrain train = new ResilientPropagation(network, dataSet);
+		//((ResilientPropagation)train).setDroupoutRate(0.5f);
 	
 		for (int i=0; i<1000; i++){
 			train.iteration();
-			System.out.println("" + train.getError() * 1000);
+			Co.println(i + "." + " " + train.getError() * 1000);
 		}
 		
 		// Test the network
@@ -150,9 +150,9 @@ public class BacktestPredictFuture {
 		pattern.setInputNeurons(inputSize);
 		pattern.addHiddenLayer(inputSize/2);
 		pattern.addHiddenLayer(inputSize/3);
-		pattern.addHiddenLayer(outputSize*2);
 		pattern.setOutputNeurons(outputSize);
-		pattern.setActivationFunction(activationFunction);
+		pattern.setActivationFunction(new ActivationTANH());
+		pattern.setActivationOutput(new ActivationTANH());
 		return (BasicNetwork) pattern.generate();
 	}
 }

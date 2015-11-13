@@ -30,4 +30,8 @@ public abstract class ResultsBase {
 	public boolean isStandard(){
 		return isStandard;
 	}
+	
+	public double getLast(){
+		return arrayOfValue[arrayOfValue.length-1];
+	}
 }

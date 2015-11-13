@@ -28,13 +28,13 @@ public class BacktestScoreProvider {
 	
 	private static double getFancyScore(BacktestEvaluation backtestEvaluation){
 		double score = 0;
-		int penalty = 1;
+		double penalty = 1;
 		
 		for (Pair<StrategyResponse, Double> pair : backtestEvaluation.transactionDetails.listOfTransactionYield){
 			//Co.println("--> " + pair.first.strategyAction.name() + " -> " + pair.first.positionGovernorResponse.status.name() + ", " + pair.first.quoteSlice.dateTime + ", " + pair.first.positionGovernorResponse.position.getPositionHistory().getAge().asSeconds());
 			
-			if (pair.first.positionGovernorResponse.position.getPositionHistory().getAge().asSeconds() < 60 * 10){penalty++;}
-			if (pair.second < 0.10){penalty++;}
+			if (pair.first.positionGovernorResponse.position.getPositionHistory().getAge().asSeconds() < 60 * 10){penalty += 0.10;}
+			if (pair.second < 0.05){penalty += 0.20;}
 			
 			score += pair.second;
 		}

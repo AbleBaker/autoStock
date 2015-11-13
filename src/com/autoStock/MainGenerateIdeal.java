@@ -70,7 +70,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 //	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-//	private Date dateEnd = DateTools.getDateFromString("04/01/2014");
+//	private Date dateEnd = DateTools.getDateFromString("08/01/2014");
 	private Date dateStart = DateTools.getDateFromString("09/08/2014");
 	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	private double crossValidationRatio = 0; //0.30d;
@@ -225,19 +225,6 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		currentDay++;
 	}
 	
-	private BasicNetwork getNetwork(){
-		FeedForwardPattern pattern = new FeedForwardPattern();
-		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
-		pattern.setOutputNeurons(6);
-		pattern.setActivationFunction(new ActivationTANH());
-//		pattern.setActivationOutput(new ActivationSteepenedSigmoid());
-		pattern.setActivationOutput(new ActivationBiPolar());
-		return (BasicNetwork) pattern.generate();
-	}
-
 	@Override
 	public void onCompleted(Symbol symbol, AlgorithmBase algorithmBase) {
 		Co.println("--> Backtest completed!");
@@ -294,7 +281,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		new NguyenWidrowRandomizer().randomize(network);
 
 		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-		//((ManhattanPropagation)train).setDroupoutRate(0.50);
+		//((ManhattanPropagation)train).setDroupoutRate(0.25);
 //		MLTrain train = new ResilientPropagation(network, dataSet); //, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
@@ -303,7 +290,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	
 		DecimalFormat df = new DecimalFormat("0000.00000000000000");
 		
-		for (int i=0; i<2000; i++){
+		for (int i=0; i<1000; i++){
 			train.iteration();
 			
 			if (crossValidationRatio == 0){
@@ -336,6 +323,20 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			new EncogNetworkProvider().saveNetwork((BasicNetwork) train.getMethod(), "NYSE-MS");
 		}
 	}
+		
+	private BasicNetwork getNetwork(){
+		FeedForwardPattern pattern = new FeedForwardPattern();
+		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
+		pattern.setOutputNeurons(6);
+		pattern.setActivationFunction(new ActivationTANH());
+//		pattern.setActivationOutput(new ActivationTANH());
+		pattern.setActivationOutput(new ActivationBiPolar());
+		return (BasicNetwork) pattern.generate();
+	}
+
 	
 	private BacktestEvaluation getEvaluationWith(BasicNetwork network, Date dateStart, Date dateEnd){
 		HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);

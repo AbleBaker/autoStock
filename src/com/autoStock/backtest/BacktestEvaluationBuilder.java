@@ -86,10 +86,6 @@ public class BacktestEvaluationBuilder {
 						}
 					}
 					
-					if (signalBase instanceof SignalOfCrossover){
-						descriptorForSignal.extras = " Long/Short gap: " + ((SignalParametersForCrossover)signalBase.signalParameters).longGapSize.value + ", " + ((SignalParametersForCrossover)signalBase.signalParameters).shortGapSize.value;
-					}
-					
 					backtestEvaluation.listOfDescriptorForSignal.add(descriptorForSignal);
 				}
 			}

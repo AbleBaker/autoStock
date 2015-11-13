@@ -126,6 +126,9 @@ public class SignalDefinitions {
 			this.arrayOfSignalGuageForLongExit = arrayOfSignalGuageForLongExit;
 			this.arrayOfSignalGuageForShortEntry = arrayOfSignalGuageForShortEntry;
 			this.arrayOfSignalGuageForShortExit = arrayOfSignalGuageForShortExit;
+			
+			if (maxSignalAverage == null){this.maxSignalAverage = new MutableInteger(1);}
+			if (normalizeInterface == null){this.normalizeInterface = new NormalizeInterface(){@Override public double normalize(double input) {return input;}};}
 		}
 		
 		public SignalParameters(){} //For Gson
@@ -416,35 +419,10 @@ public class SignalDefinitions {
 		}
 	}
 	
-	public static class IndicatorParametersForEMAFirst extends IndicatorParameters {
-		public IndicatorParametersForEMAFirst() {super(new MutableInteger(30), 1);}
-	}
-	
-	public static class SignalParametersForEMASecond extends SignalParameters {
-		public SignalParametersForEMASecond(){
-			super(new NormalizeInterface(){@Override public double normalize(double input) {return input;}}, new MutableInteger(1),
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
-			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
-		}
-	}
-	
-	public static class IndicatorParametersForEMASecond extends IndicatorParameters {
-		public IndicatorParametersForEMASecond() {super(new MutableInteger(30), 1);}
-	}
-	
 	public static class SignalParametersForCrossover extends SignalParameters {
 		public SignalParametersForCrossover(){
-			super(new NormalizeInterface(){@Override public double normalize(double input) {return (int) input;}}, new MutableInteger(1),
-			null,
-			null,
-			null,
-			null);
+			super(new NormalizeInterface(){@Override public double normalize(double input) {return input * 100;}}, null, null,	null, null, null);
 		}
-		
-		public MutableDouble longGapSize = new MutableDouble(0);
-		public MutableDouble shortGapSize = new MutableDouble(0);
 	}
 	
 	public static class SignalParametersForEncog extends SignalParameters {
@@ -461,5 +439,24 @@ public class SignalDefinitions {
 	
 	public static class IndicatorParametersForBasic extends IndicatorParameters {
 		public IndicatorParametersForBasic() {super(new MutableInteger(30), 1);}
+	}
+	
+	
+	public static class IndicatorParametersForEMAFirst extends IndicatorParameters {
+		public IndicatorParametersForEMAFirst() {super(new MutableInteger(30), 1);}
+	}
+	
+	public static class SignalParametersForEMASecond extends SignalParameters {
+		public SignalParametersForEMASecond(){
+			super(new NormalizeInterface(){@Override public double normalize(double input) {return input;}}, new MutableInteger(1),
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_lower, -100)},
+			new SignalGuage[]{new SignalGuage(new MutableEnum<SignalGuageType>(SignalGuageType.guage_threshold_met), SignalBounds.bounds_upper, -100)});
+		}
+	}
+	
+	public static class IndicatorParametersForEMASecond extends IndicatorParameters {
+		public IndicatorParametersForEMASecond() {super(new MutableInteger(30), 1);}
 	}
 }

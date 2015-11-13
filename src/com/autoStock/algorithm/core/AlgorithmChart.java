@@ -48,9 +48,10 @@ public class AlgorithmChart {
 		chart.listOfSignalARUp.add(algorithmBase.signalGroup.signalOfARUp.getStrength());
 		chart.listOfSignalARDown.add(algorithmBase.signalGroup.signalOfARDown.getStrength());
 		chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());
-		
-//		try {chart.listOfIndicatorEMAFirst.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMAFirst.arrayOfEMA));}catch(Exception e){}
-//		try {chart.listOfIndicatorEMASecond.add(ArrayTools.getLastElement(algorithmBase.indicatorGroup.resultsEMASecond.arrayOfEMA));}catch(Exception e){}
+		chart.listOfSignalCrossover.add(algorithmBase.signalGroup.signalOfCrossover.getStrength());
+	
+		chart.listOfIndicatorEMAFirst.add(algorithmBase.signalGroup.signalOfCrossover.ema1Value);
+		chart.listOfIndicatorEMASecond.add(algorithmBase.signalGroup.signalOfCrossover.ema2Value);
 		
 		try {chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());}catch(Exception e){}
 		try {chart.listOfIndicatorSAR.add(ArrayTools.getLastElement((algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSAR.class).getBaseResults().arrayOfValue)));}catch(Exception e){}

@@ -107,18 +107,22 @@ public class SignalGroup {
 	
 	public void setIndicatorGroup(IndicatorGroup indicatorGroup){
 		this.indicatorGroup = indicatorGroup;
-	}
-	
-	public void generateSignalsCached(){
-		signalGenerator.generateEncogSignal(this, null);
+		for (SignalBase signalBase : listOfSignalBase){
+			signalBase.setTaLib(indicatorGroup.taLibCore);
+		}
 	}
 	
 	public void generateSignals(CommonAnalysisData commonAnalysisData, Position position){
 		for (SignalBase signalBase : listOfSignalBase){
-			IndicatorBase<?> indicatorBase = indicatorGroup.getIndicatorByMetric(signalBase.signalMetricType);
+			if (signalBase instanceof SignalOfCandlestickGroup || signalBase instanceof SignalOfEncog){continue;}
+			
+			IndicatorBase<?> indicatorBase = indicatorGroup.getIndicatorByMetric(signalBase.signalMetricType);		
+			signalBase.setCommonAnalysisData(commonAnalysisData);
 			
 			if (indicatorBase != null && indicatorBase.getResults() != null){
 				signalBase.setInput((ResultsBase) indicatorBase.getResults());
+			}else if (indicatorBase == null){
+				signalBase.setInput(0);
 			}
 		}
 	}

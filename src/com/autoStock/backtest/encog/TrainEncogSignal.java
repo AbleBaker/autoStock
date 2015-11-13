@@ -7,6 +7,7 @@ import org.encog.neural.pattern.FeedForwardPattern;
 
 import com.autoStock.Co;
 import com.autoStock.backtest.AlgorithmModel;
+import com.autoStock.signal.SignalCache;
 import com.autoStock.signal.extras.EncogNetworkCache;
 import com.autoStock.signal.extras.EncogNetworkGenerator;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
@@ -17,7 +18,7 @@ import com.autoStock.trading.types.HistoricalData;
  * 
  */
 public class TrainEncogSignal {
-	public static final int TRAINING_ITERATIONS = 15;
+	public static final int TRAINING_ITERATIONS = 30;
 	private boolean saveNetwork;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();

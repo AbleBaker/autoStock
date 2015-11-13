@@ -19,10 +19,10 @@ public class ContextOfPosition extends ContextBase implements EncogFrameSource{
 
 	@Override
 	public EncogFrame asEncogFrame() {
-		EncogFrame encogFrame = new EncogFrame(this.getClass().getSimpleName(), FrameType.raw);
-		EncogSubframe subframeForPositionValue = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position != null ? position.getCurrentPercentGainLoss(true) : 0}, FrameType.raw, 1, -1);
-		EncogSubframe subFrameForHavePositionLong = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position != null && position.positionType == PositionType.position_long ? 1 : -1}, FrameType.raw, 1, -1);
-		EncogSubframe subFrameForHavePositionShort = new EncogSubframe(this.getClass().getSimpleName(), new double[]{position != null && position.positionType == PositionType.position_short ? 1 : -1}, FrameType.raw, 1, -1);
+		EncogFrame encogFrame = new EncogFrame(getClass().getSimpleName(), FrameType.raw);
+		EncogSubframe subframeForPositionValue = new EncogSubframe(getClass().getSimpleName(), new double[]{position != null ? position.getCurrentPercentGainLoss(true) : 0}, FrameType.raw, 1, -1);
+		EncogSubframe subFrameForHavePositionLong = new EncogSubframe(getClass().getSimpleName(), new double[]{position != null && position.positionType == PositionType.position_long ? 1 : -1}, FrameType.raw, 1, -1);
+		EncogSubframe subFrameForHavePositionShort = new EncogSubframe(getClass().getSimpleName(), new double[]{position != null && position.positionType == PositionType.position_short ? 1 : -1}, FrameType.raw, 1, -1);
 		encogFrame.addSubframe(subframeForPositionValue);
 		encogFrame.addSubframe(subFrameForHavePositionLong);
 		encogFrame.addSubframe(subFrameForHavePositionShort);

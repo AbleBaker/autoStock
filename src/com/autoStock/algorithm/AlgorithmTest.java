@@ -12,6 +12,7 @@ import com.autoStock.comServer.ContextOfOHLC;
 import com.autoStock.context.ContextOfChangeSinceHighLow;
 import com.autoStock.context.ContextOfChangeSinceOpen;
 import com.autoStock.context.ContextOfPosition;
+import com.autoStock.indicator.IndicatorOfSAR;
 import com.autoStock.premise.PremiseOfOHLC;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.extras.EncogFrame;
@@ -44,12 +45,14 @@ public class AlgorithmTest extends AlgorithmBase {
 		
 		setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
 		
-//		if (algorithmMode == AlgorithmMode.mode_backtest_single){
-//			setAnalyzeAndActive(ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_uo, SignalMetricType.metric_willr, SignalMetricType.metric_adx, SignalMetricType.metric_di, SignalMetricType.metric_roc})), strategyBase.strategyOptions.listOfSignalMetricType);
-//			//setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
-//		}else{
-//			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType); //ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci})));
-//		}
+////		if (algorithmMode == AlgorithmMode.mode_backtest_single){
+//			setAnalyzeAndActive(ListTools.getList(Arrays.asList(
+//			new SignalMetricType[]{SignalMetricType.metric_cci, SignalMetricType.metric_di, SignalMetricType.metric_rsi, SignalMetricType.metric_uo, SignalMetricType.metric_trix, SignalMetricType.metric_willr, SignalMetricType.metric_crossover}))
+//			, strategyBase.strategyOptions.listOfSignalMetricType);
+////			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+////		}else{
+////			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType); //ListTools.getList(Arrays.asList(new SignalMetricType[]{SignalMetricType.metric_cci})));
+////		}
 
 		initialize();
 		
@@ -71,7 +74,6 @@ public class AlgorithmTest extends AlgorithmBase {
 			contextController.addContext(new ContextOfChangeSinceOpen());
 			contextController.addContext(new ContextOfChangeSinceHighLow());
 			contextController.addContext(new ContextOfOHLC());
-			contextController.determineContext();
 		}
 	}
 
@@ -83,23 +85,24 @@ public class AlgorithmTest extends AlgorithmBase {
 //			Co.print("\n --> QS: " + quoteSlice.toString());
 			
 			if (signalCache != null && signalCache.isAvailable()){
+				//Co.println("--> Using cache");
 				signalCache.setToQuoteSlice(quoteSlice, receiveIndex);
-				signalGroup.generateSignalsCached();
 			}else{
 				commonAnalysisData.setAnalysisData(listOfQuoteSlice);
 				indicatorGroup.setDataSet();
 				indicatorGroup.analyze();
 				signalGroup.generateSignals(commonAnalysisData, position);
-				
-				if (strategyBase.strategyOptions.enableContext && contextController.isEmpty() == false){
-					((ContextOfPosition)contextController.getByClass(ContextOfPosition.class)).setPosition(position);
-					((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
-					((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersistForDay);
-					((ContextOfOHLC)contextController.getByClass(ContextOfOHLC.class)).setAlgorithmBase(this);
-				}
-				
-				signalGroup.processEncog(ListTools.combineLists(contextController.getEncogFrames(), premiseController.getEncogFrames())); 
 			}
+				
+			if (strategyBase.strategyOptions.enableContext && contextController.isEmpty() == false){
+				((ContextOfPosition)contextController.getByClass(ContextOfPosition.class)).setPosition(position);
+				((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
+				((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersistForDay);
+				((ContextOfOHLC)contextController.getByClass(ContextOfOHLC.class)).setAlgorithmBase(this);
+				contextController.determineContext();
+			}
+			
+			signalGroup.processEncog(ListTools.combineLists(contextController.getEncogFrames(), premiseController.getEncogFrames())); 
 			
 			baseInformStrategy(quoteSlice);
 		}
@@ -116,8 +119,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			Co.println("--> " + symbol.symbolName);
 			new TableController().displayTable(tableForAlgorithm.INCLUDE_SIGNALS ? AsciiTables.algorithm : AsciiTables.algorithm_no_signals, tableForAlgorithm.getDisplayRows());
 		}
-		if (algorithmListener != null) {
-			algorithmListener.endOfAlgorithm();
-		}
+		//if (algorithmListener != null) {algorithmListener.endOfAlgorithm();}
+		//if (signalCache.getSignalCachePackage() == null){signalCache.storeSignalGroup();}
 	}
 }

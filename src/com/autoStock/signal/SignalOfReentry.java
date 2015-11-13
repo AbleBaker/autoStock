@@ -19,7 +19,7 @@ public class SignalOfReentry extends SignalBaseWithPoint {
 	}
 	
 	@Override
-	public void setInputCached(double strength, double normalizedValue) {throw new IllegalAccessError("Don't call this");}
+	public void setInputCached(double strength, double normalizedValue, double rawValue) {throw new IllegalAccessError("Don't call this");}
 	
 	@Override
 	public void setInput(double value) {throw new IllegalAccessError("Don't call this");}
