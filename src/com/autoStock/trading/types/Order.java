@@ -98,7 +98,7 @@ public class Order {
 				Co.println("--> Received order: " + exResultRowMarketOrder.status.name());
 
 				ArrayList<String> columnValues = new ArrayList<String>();
-				columnValues.add(DateTools.getPrettyDate(new Date()));
+				columnValues.add(DateTools.getPretty(new Date()));
 				columnValues.add(symbol.symbolName);
 				columnValues.add(orderType.name());
 				columnValues.add(exResultRowMarketOrder.status.name());

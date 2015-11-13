@@ -39,15 +39,25 @@ public class TrainEncogNetworkOfBasic extends TrainEncogWithScore {
 	
 	@Override
 	public void train(int count, double score){
-		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 128);
+		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 192);
 		
+		trainLoop(count);
+		
+		if (train.getError() == 0){
+			Co.println("--> Retrying training...");
+			network.reset();
+			trainLoop(count);
+		}
+		
+		train.finishTraining();
+	}
+	
+	private void trainLoop(int count){
 		for (int i = 0; i < count; i++) {
 			train.iteration();
 			Co.println("--> Training... " + i + ", " + MathTools.round(train.getError()));
 			bestScore = Math.max(train.getError(), bestScore);
 		}
-		
-		train.finishTraining();
 	}
 
 	@Override

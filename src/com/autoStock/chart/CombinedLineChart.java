@@ -574,6 +574,7 @@ public class CombinedLineChart {
 							if (pair.timeSeriesType == TimeSeriesType.type_short_exit_price){spt = SignalPointType.short_exit;}
 						
 							genericPersister.persistInto(new ChartSignalPoint(i, item.getValue().doubleValue(), spt, item.getPeriod().getStart(), algorithmBase.symbol, algorithmBase.exchange));
+							saved++;
 						}
 					}
 				}

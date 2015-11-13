@@ -50,7 +50,7 @@ public class WMBacktest implements ConsoleListener {
 		
 		ListTools.removeDuplicates(listOfSymbols);
 		listOfHistoricalDataList = BacktestUtils.getHistoricalDataList(exchange, dateStart, dateEnd, listOfSymbols);
-		Co.println("--> Running from " + DateTools.getPrettyDate(dateStart) + " to " + DateTools.getPrettyDate(dateEnd));
+		Co.println("--> Running from " + DateTools.getPretty(dateStart) + " to " + DateTools.getPretty(dateEnd));
 
 		bench.printTick("Started");
 		

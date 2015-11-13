@@ -103,7 +103,7 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 
 	@Override
 	public EncogFrame asEncogFrame() { //Trying as deltas
-		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.symbolName + ", " + DateTools.getPrettyDate(dateStart) + ", " + resolution.name(), FrameType.percent_change);
+		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.symbolName + ", " + DateTools.getPretty(dateStart) + ", " + resolution.name(), FrameType.percent_change);
 		ArrayList<Double> values = new ArrayList<Double>();
 		ArrayList<Double> valueOpen = new ArrayList<Double>();
 		ArrayList<Double> valueHigh = new ArrayList<Double>();

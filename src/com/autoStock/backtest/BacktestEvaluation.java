@@ -141,7 +141,7 @@ public class BacktestEvaluation {
 		}
 		
 		string += "\n***** $" +  MiscTools.getCommifiedValue(accountBalance - AccountProvider.defaultBalance) + " / %" + new DecimalFormat("#.00").format(percentYield) + " Score: " + MiscTools.getCommifiedValue(getScore()) + " *****";
-		string += "\n--> Date " + DateTools.getPrettyDate(dateStart) + " to " + DateTools.getPrettyDate(dateEnd);
+		string += "\n--> Date " + DateTools.getPretty(dateStart) + " to " + DateTools.getPretty(dateEnd);
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);
 		string += "\n--> Transaction details (long, short, re-entry, exit): " + transactionDetails.countForTradeLongEntry + " / " + transactionDetails.countForTradeShortEntry + ", " + transactionDetails.countForTradesReentry + ", " + transactionDetails.countForTradeExit;

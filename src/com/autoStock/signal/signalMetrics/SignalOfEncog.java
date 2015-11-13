@@ -67,8 +67,10 @@ public class SignalOfEncog extends SignalBase {
 		double[] inputWindow = encogInputWindow.getAsWindow(true);
 		MLData input = new BasicMLData(inputWindow);
 		
+		//Co.println(encogInputWindow.describeContents());
+		
 //		for (EncogFrame encogFrame : encogInputWindow.getFrames()){
-//			Co.println("--> Frame: " + encogFrame.description + ", " + encogFrame.listOfSubframe.size() + ", " + encogFrame.asDoubleList().size());
+//			Co.println("--> Frame: " + encogFrame.description + ", " + encogFrame.listOfSubframe.size() + ", " + encogFrame.asNormalizedDoubleList().size());
 //		}
 
 		if (inputWindow.length != basicNetwork.getInputCount()) {

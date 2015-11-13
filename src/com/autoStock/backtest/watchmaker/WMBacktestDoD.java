@@ -46,7 +46,7 @@ public class WMBacktestDoD {
 			throw new IllegalArgumentException("No symbols specified");
 		}
 		
-		Co.println(String.format("--> Day over Day backtest starting at %s for %s days", DateTools.getPrettyDate(dateStart), DOD_RUN_PERIOD));
+		Co.println(String.format("--> Day over Day backtest starting at %s for %s days", DateTools.getPretty(dateStart), DOD_RUN_PERIOD));
 		
 //		if (DateTools.getListOfDatesOnWeekdays(dateStart, dateEnd).size() < DOD_RUN_PERIOD){
 //			throw new IllegalArgumentException("Insufficient days for DoD. Needs / Supplied: " + DOD_RUN_PERIOD + ", " + (DateTools.getListOfDatesOnWeekdays(dateStart, dateEnd).size()));

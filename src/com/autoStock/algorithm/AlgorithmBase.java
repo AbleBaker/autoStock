@@ -238,7 +238,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	
 	public void receivedQuoteSlice(QuoteSlice quoteSlice){
 		if (algorithmMode.displayMessages) {
-			Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPrettyDate(quoteSlice.dateTime) + ", " + "O,H,L,C,V: " + +MathTools.round(quoteSlice.priceOpen) + ", " + MathTools.round(quoteSlice.priceHigh) + ", " + MathTools.round(quoteSlice.priceLow) + ", " + MathTools.round(quoteSlice.priceClose) + ", " + quoteSlice.sizeVolume);
+			Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPretty(quoteSlice.dateTime) + ", " + "O,H,L,C,V: " + +MathTools.round(quoteSlice.priceOpen) + ", " + MathTools.round(quoteSlice.priceHigh) + ", " + MathTools.round(quoteSlice.priceLow) + ", " + MathTools.round(quoteSlice.priceClose) + ", " + quoteSlice.sizeVolume);
 		}
 		
 		if (firstQuoteSlice == null){

@@ -25,7 +25,7 @@ public class ReflectionTools {
 					}else if (field.getType() == long.class || field.getType() == int.class || field.getType() == float.class || field.getType() == double.class){
 						listOfString.add(field.getName() + " = " + (String) String.valueOf(fieldObject));
 					}else if (field.getType() == Date.class){
-						listOfString.add(field.getName() + " = " + DateTools.getPrettyDate((Date)fieldObject));
+						listOfString.add(field.getName() + " = " + DateTools.getPretty((Date)fieldObject));
 					}else {
 						listOfString.add(fieldObject.toString());
 						//throw new UnsatisfiedLinkError("Can't handle type: " + field.getType().getSimpleName());

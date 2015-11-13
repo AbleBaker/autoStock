@@ -31,7 +31,7 @@ public class DateTools {
 		return dateFormat.format(new Date(date));
 	}
 	
-	public static String getPrettyDate(Date date){
+	public static String getPretty(Date date){
 		return getPretty(date, false);
 	}
 	

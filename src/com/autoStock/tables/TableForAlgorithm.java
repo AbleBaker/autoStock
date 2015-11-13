@@ -30,7 +30,7 @@ public class TableForAlgorithm extends BaseTable {
 		ArrayList<String> columnValues = new ArrayList<String>();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
 
-		columnValues.add(DateTools.getPrettyDate(quoteSlice.dateTime));
+		columnValues.add(DateTools.getPretty(quoteSlice.dateTime));
 		columnValues.add(String.valueOf(quoteSlice.sizeVolume));
 		columnValues.add(decimalFormat.format(quoteSlice.priceClose));
 		columnValues.add(String.valueOf(StringTools.addPlus(MathTools.round(quoteSlice.priceClose - listOfQuoteSlice.get(listOfQuoteSlice.size() - 2).priceClose))));

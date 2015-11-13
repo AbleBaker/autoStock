@@ -51,7 +51,7 @@ public class HistoricalData implements Cloneable {
 	@Override
 	public String toString() {
 		try {
-			return exchange.exchangeName + " : " + symbol.symbolName + ", " + DateTools.getPrettyDate(startDate) + " to " + DateTools.getPrettyDate(endDate);
+			return exchange.exchangeName + " : " + symbol.symbolName + ", " + DateTools.getPretty(startDate) + " to " + DateTools.getPretty(endDate);
 		}catch(Exception e){return super.toString();}
 	}
 }

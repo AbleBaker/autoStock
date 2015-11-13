@@ -44,7 +44,8 @@ public class EncogBacktestContainer {
 	private HistoricalData historicalData;
 	private int currentDay;
 	private static enum Mode {day_over_day, full}
-	private final Mode MODE = Mode.day_over_day;
+	//private final Mode MODE = Mode.day_over_day;
+	private final Mode MODE = Mode.full;
 
 	public EncogBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
 		this.symbol = symbol;
@@ -71,6 +72,7 @@ public class EncogBacktestContainer {
 			
 			for (HistoricalData historicalDataIn : listOfHistoricalData){
 				trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalDataIn, false, "day-" + DateTools.getEncogDate(historicalDataIn.startDate));
+				Co.println("--> Blanking the network... " + DateTools.getPretty(historicalDataIn.startDate));
 				blankNetwork();
 				trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null), 0);
 				trainEncogSignal.getTrainer().saveNetwork();
@@ -80,7 +82,6 @@ public class EncogBacktestContainer {
 	}
 	
 	private void blankNetwork(){
-		Co.println("--> Blanking the network... ");
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
 			trainEncogSignal.getTrainer().saveNetwork();
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){

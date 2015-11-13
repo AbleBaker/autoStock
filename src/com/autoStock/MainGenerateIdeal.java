@@ -69,10 +69,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-//	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-//	private Date dateEnd = DateTools.getDateFromString("08/01/2014");
-	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
+	private Date dateStart = DateTools.getDateFromString("02/03/2014");
+	private Date dateEnd = DateTools.getDateFromString("03/01/2014");
+//	private Date dateStart = DateTools.getDateFromString("09/08/2014");
+//	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	private double crossValidationRatio = 0; //0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
@@ -109,7 +109,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = null;
 		}
 		
-		Co.println("--> Initialize on date: " + DateTools.getPrettyDate(startingDate) + " with list of input of: " + listOfInput.size());
+		Co.println("--> Initialize on date: " + DateTools.getPretty(startingDate) + " with list of input of: " + listOfInput.size());
 	}
 	
 	private ArrayList<ChartSignalPoint> getList(Date dateStart, Date dateEnd){
@@ -156,7 +156,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				
 				haveChange = false;
 				
-				Co.println("--> Have change at tick: " + DateTools.getPrettyDate(quote.dateTime) + " to status " + positionGovernorResponse.status.name() +  " with EIW: " + eiw.getHash());
+				Co.println("--> Have change at tick: " + DateTools.getPretty(quote.dateTime) + " to status " + positionGovernorResponse.status.name() +  " with EIW: " + eiw.getHash());
 				Co.println(eiw.describeContents());
 				
 				if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){

@@ -170,7 +170,7 @@ public class PremiseOfOHLCOld extends PremiseBase implements EncogFrameSource {
 
 	@Override
 	public EncogFrame asEncogFrame() {
-		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.symbolName + ", " + DateTools.getPrettyDate(dateStart) + ", " + resolution.name(), FrameType.raw);
+		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.symbolName + ", " + DateTools.getPretty(dateStart) + ", " + resolution.name(), FrameType.raw);
 		ArrayList<Double> values = new ArrayList<Double>();
 		
 		for (QuoteSlice quote : listOfQuotes){

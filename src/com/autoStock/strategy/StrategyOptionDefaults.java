@@ -13,7 +13,7 @@ public class StrategyOptionDefaults {
 		return new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
-				strategyOptions.intervalForEntryWithSameSignalPointType.value = 5;
+				strategyOptions.intervalForEntryWithSameSignalPointType.value = 15;
 				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
 				strategyOptions.invervalForProfitDrawdownExitMins.value = 3;
 				strategyOptions.minPositionAgeMinsBeforeExit.value = 5;
@@ -24,7 +24,7 @@ public class StrategyOptionDefaults {
 				strategyOptions.enableContext = true;
 				strategyOptions.enablePrefill = true;
 				strategyOptions.canReenter.value = false;
-				strategyOptions.maxTransactionsDay.value = 32;
+				strategyOptions.maxTransactionsDay.value = 6;
 			}
 		};
 	}

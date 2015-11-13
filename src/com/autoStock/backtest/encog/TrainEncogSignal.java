@@ -18,7 +18,7 @@ import com.autoStock.trading.types.HistoricalData;
  * 
  */
 public class TrainEncogSignal {
-	public static final int TRAINING_ITERATIONS = 30;
+	public static final int TRAINING_ITERATIONS = 4096;
 	private boolean saveNetwork;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
@@ -51,6 +51,7 @@ public class TrainEncogSignal {
 //		encogScoreProvider.setSignalCache(signalCache);
 		
 		encogTrainer.train(TRAINING_ITERATIONS, score);
+		
 		if (saveNetwork){encogTrainer.saveNetwork();}
 		EncogNetworkCache.getInstance().clear();
 		
