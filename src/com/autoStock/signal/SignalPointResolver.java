@@ -10,6 +10,7 @@ import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.tools.ArrayTools;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
@@ -22,12 +23,12 @@ public class SignalPointResolver {
 		this.signalBase = signalBase;
 	}
 	
-	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
+	public SignalPoint getSignalPoint(Position position){
 		if (signalBase instanceof SignalBaseWithPoint){
-			return ((SignalBaseWithPoint)signalBase).getSignalPoint(havePosition, positionType);
+			return ((SignalBaseWithPoint)signalBase).getSignalPoint(position);
 		}
 		
-		if (havePosition == false){
+		if (position == null){
 			ArrayList<SignalGuage> listOfSignalGuageForLongEntry = signalBase.signalParameters.getGuagesForType(SignalPointType.long_entry, SignalGuageType.values());
 			ArrayList<SignalGuage> listOfSignalGuageForShortEntry = signalBase.signalParameters.getGuagesForType(SignalPointType.short_entry, SignalGuageType.values());
 			
@@ -42,11 +43,11 @@ public class SignalPointResolver {
 			ArrayList<SignalGuage> listOfSignalGuageForLongExit = signalBase.signalParameters.getGuagesForType(SignalPointType.long_exit, SignalGuageType.values());
 			ArrayList<SignalGuage> listOfSignalGuageForShortExit = signalBase.signalParameters.getGuagesForType(SignalPointType.short_exit, SignalGuageType.values());
 			
-			if (positionType == PositionType.position_long){
+			if (position.isLong()){
 				if (allQualified(listOfSignalGuageForLongExit)){
 					return new SignalPoint(SignalPointType.long_exit, signalBase.signalMetricType);
 				}
-			}else if (positionType == PositionType.position_short){
+			}else if (position.isShort()){
 				if (allQualified(listOfSignalGuageForShortExit)){
 					return new SignalPoint(SignalPointType.short_exit, signalBase.signalMetricType);
 				}

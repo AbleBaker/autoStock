@@ -8,25 +8,17 @@ import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.DummyAlgorithm;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
-import com.autoStock.algorithm.core.AlgorithmListener;
 import com.autoStock.algorithm.extras.StrategyOptionsOverride;
 import com.autoStock.backtest.AlgorithmModel;
-import com.autoStock.backtest.BacktestEvaluation;
-import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationReader;
-import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.BacktestUtils;
-import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.strategy.StrategyOptionDefaults;
-import com.autoStock.strategy.StrategyOptions;
-import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.DateTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
-import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
 
 /**
@@ -44,7 +36,7 @@ public class EncogBacktestContainer {
 	private HistoricalData historicalData;
 	private int currentDay;
 	private static enum Mode {day_over_day, full}
-	//private final Mode MODE = Mode.day_over_day;
+//	private final Mode MODE = Mode.day_over_day;
 	private final Mode MODE = Mode.full;
 
 	public EncogBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {

@@ -296,4 +296,22 @@ public class Position implements OrderStatusListener {
 			positionOptions.listenerOfPositionStatusChange.positionStatusChanged(this);
 		}
 	}
+
+	public boolean isLong() {
+		if (positionType == PositionType.position_long
+		|| positionType == PositionType.position_long_entry
+		|| positionType == PositionType.position_long_exit
+		|| positionType == PositionType.position_long_exited){
+			return true;
+		}else {return false;}
+	}
+	
+	public boolean isShort() {
+		if (positionType == PositionType.position_short
+		|| positionType == PositionType.position_short_entry
+		|| positionType == PositionType.position_short_exit
+		|| positionType == PositionType.position_short_exited){
+			return true;
+		}else {return false;}		
+	}
 }

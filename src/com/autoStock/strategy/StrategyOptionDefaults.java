@@ -14,17 +14,25 @@ public class StrategyOptionDefaults {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
 				strategyOptions.intervalForEntryWithSameSignalPointType.value = 15;
-				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
-				strategyOptions.invervalForProfitDrawdownExitMins.value = 3;
-				strategyOptions.minPositionAgeMinsBeforeExit.value = 5;
+				strategyOptions.minPositionAgeMinsBeforeExit.value = 3;
+				strategyOptions.invervalForDDorSLExitMins.value = 3;
+				
+				strategyOptions.maxProfitDrawdownPercent.value = -0.20d;
+				strategyOptions.maxStopLossPercent.value = -0.10d;
+				strategyOptions.disableAfterLoss.value = -0.25d;
+				
 				strategyOptions.maxPositionTimeAtProfit.value = 45;
-				strategyOptions.maxStopLossPercent.value = -0.25d;
 				strategyOptions.disableAfterYield.value = 10.0d;
 				strategyOptions.enablePremise = false;
 				strategyOptions.enableContext = true;
 				strategyOptions.enablePrefill = true;
 				strategyOptions.canReenter.value = false;
-				strategyOptions.maxTransactionsDay.value = 6;
+				strategyOptions.prefillShift.value = 30;
+				strategyOptions.maxTransactionsDay.value = 12;
+				
+				strategyOptions.maxProfitDrawdownPercent.value = -99d;
+				strategyOptions.maxStopLossPercent.value = -99d;
+				strategyOptions.disableAfterLoss.value = -99d;
 			}
 		};
 	}
@@ -46,7 +54,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.maxTransactionsDay.value = 16;
 		strategyOptions.maxStopLossPercent.value = -0.10d;
 		strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
-		strategyOptions.invervalForProfitDrawdownExitMins.value = 5;
+		strategyOptions.invervalForDDorSLExitMins.value = 5;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
 		strategyOptions.maxPositionEntryTime = 30;

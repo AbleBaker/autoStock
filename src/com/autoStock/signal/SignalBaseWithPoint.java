@@ -4,6 +4,7 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
@@ -14,10 +15,5 @@ public abstract class SignalBaseWithPoint extends SignalBase {
 		super(signalMetricType, signalParameters, algorithmBase);
 	}
 	
-	public abstract SignalPoint getSignalPoint(boolean havePosition, PositionType positionType);
-	
-//	@Override
-//	public double getStrength() {
-//		throw new IllegalAccessError("Don't call this");
-//	}
+	//public abstract SignalPoint getSignalPoint(Position position);
 }

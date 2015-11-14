@@ -104,7 +104,14 @@ public class AlgorithmCondition {
 	}
 	
 	public boolean stopLoss(Position position){
-		if (position.isFilledAndOpen()){			
+		if (position.isFilledAndOpen()){
+			if (strategyOptions.invervalForDDorSLExitMins.value > 0){
+				if (position.getPositionHistory().getAge().asSeconds() >= strategyOptions.invervalForDDorSLExitMins.value * 60){
+					return position.getCurrentPercentGainLoss(false) < strategyOptions.maxStopLossPercent.value;			
+				}else {
+					return false;
+				}
+			}
 			return position.getCurrentPercentGainLoss(false) < strategyOptions.maxStopLossPercent.value;
 		}
 		
@@ -210,8 +217,8 @@ public class AlgorithmCondition {
 		double profitDrawdown = position.getPositionProfitDrawdown();
 		double positionMaxProfitPercent = position.getPositionHistory().getMaxPercentProfitLoss().profitLossPercent;
 		
-		if (strategyOptions.invervalForProfitDrawdownExitMins.value > 0){
-			if (position.getPositionHistory().getTimeIn(ProfitOrLoss.profit).asSeconds() >= strategyOptions.invervalForProfitDrawdownExitMins.value * 60){
+		if (strategyOptions.invervalForDDorSLExitMins.value > 0){
+			if (position.getPositionHistory().getTimeIn(ProfitOrLoss.profit).asSeconds() >= strategyOptions.invervalForDDorSLExitMins.value * 60){
 				return profitDrawdown <= strategyOptions.maxProfitDrawdownPercent.value && position.getCurrentPercentGainLoss(false) > 0;			
 			}else {
 				return false;

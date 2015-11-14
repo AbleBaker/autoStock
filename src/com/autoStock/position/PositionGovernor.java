@@ -36,11 +36,11 @@ public class PositionGovernor {
 	}
 	
 	public SignalPoint resolveEntry(StrategyOptions strategyOptions, Signaler signaler){
-		return TacticResolver.getSignalPoint(false, signaler, PositionType.position_none, strategyOptions.signalPointTacticForEntry.value);
+		return TacticResolver.getSignalPoint(signaler, strategyOptions.signalPointTacticForEntry.value, null);
 	}
 	
 	public SignalPoint resolveExit(StrategyOptions strategyOptions, Signaler signaler, Position position){
-		return TacticResolver.getSignalPoint(true, signaler, position.positionType, strategyOptions.signalPointTacticForExit.value);
+		return TacticResolver.getSignalPoint(signaler, strategyOptions.signalPointTacticForExit.value, position);
 	}
 	
 	public PositionGovernorResponse informGovener(SignalPoint signalPointForEntry, SignalPoint signalPointForExit, QuoteSlice quoteSlice, Signaler signaler, Exchange exchange, StrategyOptions strategyOptions, boolean requestExit, Position position, PositionOptions positionOptions, BasicAccount basicAccount){

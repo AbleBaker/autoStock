@@ -421,7 +421,7 @@ public class SignalDefinitions {
 	
 	public static class SignalParametersForCrossover extends SignalParameters {
 		public SignalParametersForCrossover(){
-			super(new NormalizeInterface(){@Override public double normalize(double input) {return input * 100;}}, null, null,	null, null, null);
+			super(new NormalizeInterface(){@Override public double normalize(double input) {return input * 250;}}, null, null,	null, null, null);
 		}
 	}
 	

@@ -39,7 +39,7 @@ public class TrainEncogNetworkOfBasic extends TrainEncogWithScore {
 	
 	@Override
 	public void train(int count, double score){
-		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 192);
+		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 512);
 		
 		trainLoop(count);
 		

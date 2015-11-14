@@ -109,6 +109,7 @@ public class SignalGroup {
 		this.indicatorGroup = indicatorGroup;
 		for (SignalBase signalBase : listOfSignalBase){
 			signalBase.setTaLib(indicatorGroup.taLibCore);
+			signalBase.algorithmBase = algorithmBase; //yeah...
 		}
 	}
 	

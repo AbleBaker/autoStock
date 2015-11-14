@@ -3,6 +3,7 @@
  */
 package com.autoStock;
 
+import java.nio.channels.IllegalSelectorException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,10 +70,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-	private Date dateEnd = DateTools.getDateFromString("03/01/2014");
-//	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-//	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
+//	private Date dateStart = DateTools.getDateFromString("02/03/2014");
+//	private Date dateEnd = DateTools.getDateFromString("02/27/2014");
+	private Date dateStart = DateTools.getDateFromString("09/02/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/30/2014");
 	private double crossValidationRatio = 0; //0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
@@ -160,59 +161,91 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				Co.println(eiw.describeContents());
 				
 				if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
-					listOfIdealOutputs.add(1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
+					addLongEntry(listOfIdealOutputs, 1);
 				}
 				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
+					addShortEntry(listOfIdealOutputs, 1);
 				}
-				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry){
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
+					addReentry(listOfIdealOutputs, 1);
 				}
 				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
+					addLongExit(listOfIdealOutputs, 1);
 				}
 				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(-1d);
-					listOfIdealOutputs.add(1d);
-					listOfIdealOutputs.add(-1d);
+					addShortExit(listOfIdealOutputs, 1);
 				}
 				else { throw new IllegalStateException(positionGovernorResponse.status.name() + " from " + positionGovernorResponse.signalPoint.signalMetricType.name()); }
 			}else{
-				listOfIdealOutputs.add(-1d);
-				listOfIdealOutputs.add(-1d);
-				listOfIdealOutputs.add(-1d);
-				listOfIdealOutputs.add(-1d);
-				listOfIdealOutputs.add(-1d);
-				listOfIdealOutputs.add(1d);
+//				if (true && singleBacktest.backtestContainer.algorithm.position != null && singleBacktest.backtestContainer.algorithm.position.getPositionHistory().getAge().asSeconds() < 60 * 5){
+//					if (singleBacktest.backtestContainer.algorithm.position.isLong()){
+//						addLongEntry(listOfIdealOutputs, 0.5);
+//					}else if (singleBacktest.backtestContainer.algorithm.position.isShort()){
+//						addShortEntry(listOfIdealOutputs, 0.5);
+//					}else {throw new IllegalStateException();}
+//				}else {
+//				}
+				addNone(listOfIdealOutputs, 1);
 			}
 			
 			listOfInput.add(ListTools.getListFromArray(eiw.getAsWindow(true)));
 			listOfIdeal.add(listOfIdealOutputs);
 			listOfIdealPair.add(new Pair<Integer, Date>(listOfIdeal.size(), quote.dateTime));
 		}
+	}
+	
+	private void addLongEntry(ArrayList<Double> listOfIdealOutputs, double as){
+		listOfIdealOutputs.add(as);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+	}
+	
+	private void addShortEntry(ArrayList<Double> listOfIdealOutputs, double as){
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(as);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);	
+	}
+	
+	private void addReentry(ArrayList<Double> listOfIdealOutputs, double as){
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(as);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+	}
+	
+	private void addLongExit(ArrayList<Double> listOfIdealOutputs, double as){
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(as);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+	}
+	
+	private void addShortExit(ArrayList<Double> listOfIdealOutputs, double as){
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(as);
+		listOfIdealOutputs.add(-1d);
+	}
+	
+	private void addNone(ArrayList<Double> listOfIdealOutputs, double as){
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(as);
 	}
 	
 	int currentDay = 0;
@@ -290,7 +323,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	
 		DecimalFormat df = new DecimalFormat("0000.00000000000000");
 		
-		for (int i=0; i<1000; i++){
+		for (int i=0; i<1024; i++){
 			train.iteration();
 			
 			if (crossValidationRatio == 0){
@@ -332,8 +365,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
 		pattern.setOutputNeurons(6);
 		pattern.setActivationFunction(new ActivationTANH());
-//		pattern.setActivationOutput(new ActivationTANH());
-		pattern.setActivationOutput(new ActivationBiPolar());
+		pattern.setActivationOutput(new ActivationTANH());
+//		pattern.setActivationOutput(new ActivationBiPolar());
 		return (BasicNetwork) pattern.generate();
 	}
 

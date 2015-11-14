@@ -11,6 +11,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.taLib.Core;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.basic.MutableInteger;
 
 public abstract class SignalBase {
@@ -68,8 +69,8 @@ public abstract class SignalBase {
 //		return listOfNormalizedValue.get(listOfNormalizedValue.size()-1);
 	}
 	
-	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType){
-		return new SignalPointResolver(this).getSignalPoint(havePosition, positionType);
+	public SignalPoint getSignalPoint(Position position){
+		return new SignalPointResolver(this).getSignalPoint(position);
 	}
 	
 	public void setInputCached(double strength, double normalizedValue, double rawValue){

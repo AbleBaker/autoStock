@@ -28,7 +28,7 @@ public class StrategyOptions implements Cloneable {
 	public MutableDouble minReentryPercentGain = new MutableDouble();
 	public MutableDouble maxStopLossPercent = new MutableDouble();
 	public MutableDouble maxProfitDrawdownPercent = new MutableDouble();
-	public MutableInteger invervalForProfitDrawdownExitMins = new MutableInteger();
+	public MutableInteger invervalForDDorSLExitMins = new MutableInteger();
 	public int maxNilChangePrice;
 	public int maxNilChangeVolume;
 	public int maxPositionEntryTime;
@@ -72,7 +72,7 @@ public class StrategyOptions implements Cloneable {
 		string += "\n - Min position age mins before exit from signal allowed: " + minPositionAgeMinsBeforeExit.value;
 		string += "\n - Max stop loss percent: " +  maxStopLossPercent.value;
 		string += "\n - Max profit drawdown percent: " +  maxProfitDrawdownPercent.value;
-		string += "\n - Max profit drawdown afer minutes: " +  invervalForProfitDrawdownExitMins.value;
+		string += "\n - Max profit drawdown afer minutes: " +  invervalForDDorSLExitMins.value;
 		string += "\n - Max transactions per day: " + maxTransactionsDay.value;
 		string += "\n - Signal point tactic (entry): " + signalPointTacticForEntry.value.name();
 		string += "\n - Signal point tactic (exit): " + signalPointTacticForExit.value.name();

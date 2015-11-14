@@ -42,7 +42,7 @@ public class EncogSubframe {
 		this.frameType = frameType;
 		
 		if (normailzerHigh == 0 && normailzerLow == 0){
-			throw new IllegalArgumentException("Define the normalizer");
+			throw new IllegalArgumentException("Define the normalizer: " + description);
 		}
 		
 		normalizer = new NormalizedField(NormalizationAction.Normalize, null, normailzerHigh, normailzerLow, 1, -1); 

@@ -14,7 +14,6 @@ import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.extras.EncogSubframe;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.tools.MathTools;
-import com.autoStock.tools.StringTools;
 
 /**
  * @author Kevin
@@ -27,7 +26,7 @@ public class SignalGenerator {
 		EncogInputWindow encogWindow = new EncogInputWindow();
 		encogWindow.addFrames(encogFrames);
 		try {encogWindow.addFrame(getFrameFromSignalValues(signalGroup));}catch(UnableToProcessException e){return;}
-//		encogWindow.addFrame(getFrameFromSignalPoints(signalGroup));
+		encogWindow.addFrame(getFrameFromSignalPoints(signalGroup));
 		signalGroup.signalOfEncog.setInput(encogWindow);
 	}
 	
@@ -36,9 +35,9 @@ public class SignalGenerator {
 		
 		EncogFrame encogFrame = new EncogFrame("Signals that output numeric values", frameType);
 		SignalBase[] arrayOfSignalBase = {
-			signalGroup.signalOfDI,
+//			signalGroup.signalOfDI,
 			signalGroup.signalOfCCI,
-			signalGroup.signalOfRSI,
+//			signalGroup.signalOfRSI,
 			signalGroup.signalOfUO,
 			signalGroup.signalOfTRIX,
 			signalGroup.signalOfWILLR,
@@ -77,7 +76,7 @@ public class SignalGenerator {
 		EncogFrame encogFrame = new EncogFrame("Signals that output Signal Points", FrameType.category);
 		
 		SignalBase[] arrayOfSignalBase = {
-				signalGroup.signalOfCrossover
+				//signalGroup.signalOfCrossover
 		};
 		
 		for (SignalBase signalBase : arrayOfSignalBase){
@@ -95,13 +94,13 @@ public class SignalGenerator {
 	
 	public EncogSubframe getSubFrameFromSignalPoint(SignalBase signalBase){
 		ArrayList<Double> values = new ArrayList<Double>();
-		SignalPoint signalPoint = ((SignalBaseWithPoint)signalBase).getSignalPoint(false, null);
+		SignalPoint signalPoint = ((SignalBaseWithPoint)signalBase).getSignalPoint(signalBase.algorithmBase.position);
 		if (signalPoint.signalPointType == SignalPointType.long_entry){values.add(1d);}else{values.add(-1d);}
 		if (signalPoint.signalPointType == SignalPointType.short_entry){values.add(1d);}else{values.add(-1d);}
 		if (signalPoint.signalPointType == SignalPointType.reentry){values.add(1d);}else{values.add(-1d);}
 		if (signalPoint.signalPointType == SignalPointType.long_exit){values.add(1d);}else{values.add(-1d);}
 		if (signalPoint.signalPointType == SignalPointType.short_exit){values.add(1d);}else{values.add(-1d);}
-		return new EncogSubframe(signalBase.getClass().getSimpleName(), values, FrameType.category);
+		return new EncogSubframe(signalBase.getClass().getSimpleName(), values, FrameType.category, 1, -1);
 	}
 	
 	public EncogSubframe getSubFrameFromValues(SignalBase signalBase, FrameType frameType){

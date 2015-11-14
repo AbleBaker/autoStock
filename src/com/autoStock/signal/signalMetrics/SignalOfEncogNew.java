@@ -31,6 +31,7 @@ import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.ListTools;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
@@ -133,7 +134,7 @@ public class SignalOfEncogNew extends SignalBase {
 
 	
 	@Override
-	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
+	public SignalPoint getSignalPoint(Position position) {
 		
 		if (encogInputWindow == null || listOfNetworks.size() == 0){
 			return new SignalPoint();

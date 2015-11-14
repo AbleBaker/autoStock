@@ -7,6 +7,7 @@ import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin
@@ -25,7 +26,7 @@ public class SignalOfReentry extends SignalBaseWithPoint {
 	public void setInput(double value) {throw new IllegalAccessError("Don't call this");}
 
 	@Override
-	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
+	public SignalPoint getSignalPoint(Position position) {
 		return null;
 	}
 

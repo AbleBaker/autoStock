@@ -21,6 +21,7 @@ import com.autoStock.signal.extras.EncogNetworkCache;
 import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.signal.extras.EncogSubframe;
 import com.autoStock.tools.MathTools;
+import com.autoStock.trading.types.Position;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.rits.cloning.Cloner;
 
@@ -30,10 +31,10 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	public static final int INPUT_LENGTH = 337;
+	public static final int INPUT_LENGTH = 217;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_PS = 30;
-	private static final boolean HAS_DELTAS = true;
+	private static final boolean HAS_DELTAS = false;
 	private String networkName;
 	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
@@ -52,7 +53,7 @@ public class SignalOfEncog extends SignalBase {
 	}
 
 	@Override
-	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
+	public SignalPoint getSignalPoint(Position position) {
 		SignalPoint signalPoint = new SignalPoint();
 		
 		if (basicNetwork == null){
@@ -68,10 +69,6 @@ public class SignalOfEncog extends SignalBase {
 		MLData input = new BasicMLData(inputWindow);
 		
 		//Co.println(encogInputWindow.describeContents());
-		
-//		for (EncogFrame encogFrame : encogInputWindow.getFrames()){
-//			Co.println("--> Frame: " + encogFrame.description + ", " + encogFrame.listOfSubframe.size() + ", " + encogFrame.asNormalizedDoubleList().size());
-//		}
 
 		if (inputWindow.length != basicNetwork.getInputCount()) {
 			Co.println(encogInputWindow.describeContents());

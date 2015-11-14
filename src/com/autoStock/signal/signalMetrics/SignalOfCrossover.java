@@ -4,10 +4,15 @@ import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.IndicatorOfEMA;
 import com.autoStock.indicator.results.ResultsBase;
+import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalBaseWithPoint;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
+import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalPoint;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.basic.MutableInteger;
 
 /**
@@ -34,12 +39,33 @@ public class SignalOfCrossover extends SignalBase {
 	}
 
 //	@Override
-//	public SignalPoint getSignalPoint(boolean havePosition, PositionType positionType) {
-//
+//	public SignalPoint getSignalPoint(Position position) {
+//		double value = getStrength();
+//		
+//		if (hasCrossed() == false){
+//			return new SignalPoint();
+//		}
+//		
+//		if (position == null){
+//			if (value >= 2){return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_crossover);}
+//			if (value <= -2){return new SignalPoint(SignalPointType.short_entry, SignalMetricType.metric_crossover);}
+//		}else{
+//			if (value <= 2 && position.isLong()){return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_crossover);}
+//			if (value >= 0 && position.isShort()){return new SignalPoint(SignalPointType.short_exit, SignalMetricType.metric_crossover);}
+//		}
+//		
 //		return new SignalPoint();
 //	}
 	
-	
+	private boolean hasCrossed(){
+		for (double value : listOfNormalizedValuePersist){
+			if (value >= 0 && value <= 1){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	public static class IndicatorParametersForEMAFirst extends IndicatorParameters {
 		public IndicatorParametersForEMAFirst() {super(new MutableInteger(10), 1);}
