@@ -317,7 +317,6 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		new NguyenWidrowRandomizer().randomize(network);
 
 		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-		((ManhattanPropagation)train).setDroupoutRate(0.25);
 //		MLTrain train = new ResilientPropagation(network, dataSet); //, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
@@ -336,7 +335,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " ~ " + (i % 10 != 0 ? "-" : df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ")) + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore() + " / " + getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore())); 
 			}
 			
-			if (train.getError() == 0){break;}
+			if (train.getError() == 0 && i > 256){break;}
 		}
 		
 		train.finishTraining();
