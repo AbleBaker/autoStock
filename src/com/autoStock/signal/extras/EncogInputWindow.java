@@ -56,7 +56,7 @@ public class EncogInputWindow {
 	}
 	
 	public String describeContents() {
-		String string = "";
+		String string = "--> EncogInputWindow: " + getHash() + "\n";
 		
 		for (EncogFrame encogFrame : listOfFrame){
 			string += "--> Frame: " + encogFrame.description + ", " + encogFrame.frameType.name() + " = " + encogFrame.asNormalizedDoubleList().size() + "\n";

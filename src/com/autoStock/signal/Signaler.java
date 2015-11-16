@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalSource;
+import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.trading.types.Position;
 
 /**
@@ -34,7 +35,11 @@ public class Signaler {
 	
 	public void generateSignalMoments(Position position){
 		for (SignalBase signalBase : listOfSignalBase){
-			listOfSignalMoment.add(new SignalMoment(signalBase.signalMetricType, signalBase.getStrength(), signalBase.getSignalPoint(position), null));
+			if (signalBase instanceof SignalOfEncog == false){
+				listOfSignalMoment.add(new SignalMoment(signalBase.signalMetricType, signalBase.getStrength(), signalBase.getSignalPoint(position), null));
+			}else{
+				listOfSignalMoment.add(new SignalMoment(signalBase.signalMetricType, 0, new SignalPoint(), null));
+			}
 		}
 	}
 	

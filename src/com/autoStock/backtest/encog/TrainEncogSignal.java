@@ -40,7 +40,7 @@ public class TrainEncogSignal {
 			FeedForwardPattern pattern = new FeedForwardPattern();
 			pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
 			pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 2);
-			pattern.setOutputNeurons(5);
+			pattern.setOutputNeurons(SignalOfEncog.getOutputLength());
 			pattern.setActivationFunction(new ActivationTANH());
 			pattern.setActivationOutput(new ActivationTANH());
 			

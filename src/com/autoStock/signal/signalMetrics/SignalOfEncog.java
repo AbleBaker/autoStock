@@ -20,7 +20,9 @@ import com.autoStock.signal.extras.EncogInputWindow;
 import com.autoStock.signal.extras.EncogNetworkCache;
 import com.autoStock.signal.extras.EncogNetworkProvider;
 import com.autoStock.signal.extras.EncogSubframe;
+import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.tools.ThreadTools;
 import com.autoStock.trading.types.Position;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.rits.cloning.Cloner;
@@ -32,12 +34,14 @@ import com.rits.cloning.Cloner;
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
 	public static final int INPUT_LENGTH = 153;
-	private static final double NEURON_THRESHOLD = 0.95;
+	public static final int OUTPUT_LENGTH = 5;
+	private static final double NEURON_THRESHOLD = 0.90;
 	public static final int INPUT_WINDOW_PS = 30;
 	private static final boolean HAS_DELTAS = false;
 	private String networkName;
 	private MLRegression basicNetwork;
 	private EncogInputWindow encogInputWindow;
+	public boolean describeWindow;
 
 	public SignalOfEncog(SignalParameters signalParameters, AlgorithmBase algorithmBase) {
 		super(SignalMetricType.metric_encog, signalParameters, algorithmBase);
@@ -68,7 +72,12 @@ public class SignalOfEncog extends SignalBase {
 		double[] inputWindow = encogInputWindow.getAsWindow(true);
 		MLData input = new BasicMLData(inputWindow);
 		
-		//Co.println(encogInputWindow.describeContents());
+		if (describeWindow){
+			Co.println(DateTools.getPretty(algorithmBase.getCurrentQuoteSlice().dateTime));
+			Co.println(encogInputWindow.describeContents());
+			
+			ThreadTools.printStackTrace();
+		}
 
 		if (inputWindow.length != basicNetwork.getInputCount()) {
 			Co.println(encogInputWindow.describeContents());
@@ -76,11 +85,6 @@ public class SignalOfEncog extends SignalBase {
 			throw new IllegalArgumentException("Input sizes don't match, supplied, needed: " + inputWindow.length + ", " + basicNetwork.getInputCount());
 		}
 
-//		for (int i = 0; i < inputWindow.length; i++) {
-//			//Co.print(" " + inputWindow[i]);
-//			input.add(i, inputWindow[i]);
-//		}
-	
 		MLData output = basicNetwork.compute(input);
 
 		double valueForLongEntry = output.getData(0);
@@ -151,6 +155,10 @@ public class SignalOfEncog extends SignalBase {
 	
 	public static int getInputWindowLength(){
 		return INPUT_LENGTH;
+	}
+	
+	public static int getOutputLength() {
+		return OUTPUT_LENGTH;
 	}
 
 	@Override

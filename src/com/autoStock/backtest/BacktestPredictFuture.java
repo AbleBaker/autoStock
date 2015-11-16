@@ -5,6 +5,7 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.encog.engine.network.activation.ActivationFunction;
@@ -52,13 +53,17 @@ import com.autoStock.misc.Pair;
  *
  */
 public class BacktestPredictFuture {
-	private static final int INPUT_POINT_SIZE = 4;
 	private static final int INPUT_POINTS = 10;
-	private static final int OUTPUT_POINT_SIZE = 4;
 	private static final int OUTPUT_POINTS = 1;
+	private static final int INPUT_NEURONS = INPUT_POINTS * 4;
+	private static final int OUTPUT_NEURONS = OUTPUT_POINTS * 1;
 	private static final int IDEAL_OFFSET = 8;
-	private static final int INPUT_NEURONS = INPUT_POINTS * INPUT_POINT_SIZE;
-	private static final int OUTPUT_NEURONS = OUTPUT_POINTS * OUTPUT_POINT_SIZE; 
+	
+	private Exchange exchange = new Exchange("NYSE");
+	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
+	private Date dateStart = DateTools.getDateFromString("09/02/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/30/2014");
+	private double crossValidationRatio = 0d; 
 	private ArrayList<PredictionResult> listOfPredictionResult = new ArrayList<PredictionResult>();
 	
 	private static class PredictionResult {
@@ -77,11 +82,11 @@ public class BacktestPredictFuture {
 		historicalDataIS.setStartAndEndDatesToExchange();
 		ArrayList<DbStockHistoricalPrice> listOfResultsIS = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalDataIS.symbol.symbolName), new QueryArg(QueryArgs.exchange, new Exchange("NYSE").exchangeName), new QueryArg(QueryArgs.resolution, Resolution.min.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalDataIS.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalDataIS.endDate)));
 		
-		HistoricalData historicalDataOS = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("09/08/2014"), DateTools.getDateFromString("09/08/2014"), Resolution.min);
+		HistoricalData historicalDataOS = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), DateTools.getDateFromString("04/02/2014"), DateTools.getDateFromString("05/01/2014"), Resolution.min);
 		historicalDataOS.setStartAndEndDatesToExchange();
 		ArrayList<DbStockHistoricalPrice> listOfResultsOS = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalDataOS.symbol.symbolName), new QueryArg(QueryArgs.exchange, new Exchange("NYSE").exchangeName), new QueryArg(QueryArgs.resolution, Resolution.min.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalDataOS.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalDataOS.endDate)));
 
-		Co.println("--> Size: " + listOfResultsIS.size() + ", " + listOfResultsOS.size());
+		Co.println("--> ");
 		
 		BasicMLDataSet dataSet = new BasicMLDataSet();
 		
@@ -95,50 +100,7 @@ public class BacktestPredictFuture {
 			priceIdealList.add(new Pair<DbStockHistoricalPrice, MLData>(slice, new BasicMLData(ArrayTools.getDoubleArray(ListTools.getLast(percentChangeWindow, 4)))));
 		}
 		
-		//Remove the fist nW as it will be 0
-		Co.println("--> A1: " + percentChangeWindow.size());
-		percentChangeWindow = ListTools.subList(percentChangeWindow, INPUT_NEURONS + ((IDEAL_OFFSET -1) * INPUT_POINTS), -1);
-		priceIdealList = ListTools.subList(priceIdealList, INPUT_POINTS, -1);
-		Co.println("--> A2: " + percentChangeWindow.size());
-		Co.println("--> A3 ideal: " + priceIdealList.size());
-	
-		// Setup MLData accordingly
-		for (int i=0; i<percentChangeWindow.size() - INPUT_NEURONS - OUTPUT_NEURONS; i++){
-			MLData input = new BasicMLData(ArrayTools.getDoubleArray(percentChangeWindow.subList(i, i + INPUT_NEURONS)));
-			MLData ideal = new BasicMLData(ArrayTools.getDoubleArray(percentChangeWindow.subList(i + INPUT_NEURONS,  i + INPUT_NEURONS + OUTPUT_NEURONS)));
-			
-			dataSet.add(input, ideal);
-		}
-		
-//		for (Pair<DbStockHistoricalPrice, MLData> item : priceIdealList){
-//			if (item.second != null){
-//				Co.println("--> Price close, predication: " + item.first.dateTime + ", " + item.first.priceClose + ", " + item.second.getData(3) + " = " + ((item.first.priceClose * (item.second.getData(3)/100)) + item.first.priceClose));
-//			}
-//		}
-		
-		// Train the network
-		BasicNetwork network = getMLNetwork(INPUT_NEURONS, OUTPUT_NEURONS);
-		MLTrain train = new ResilientPropagation(network, dataSet);
-		//((ResilientPropagation)train).setDroupoutRate(0.5f);
-	
-		for (int i=0; i<1000; i++){
-			train.iteration();
-			Co.println(i + "." + " " + train.getError() * 1000);
-		}
-		
-		// Test the network
-		for (int i=0; i<percentChangeWindow.size() - INPUT_NEURONS - OUTPUT_NEURONS; i++){
-			MLData input = new BasicMLData(ArrayTools.getDoubleArray(percentChangeWindow.subList(i, i + INPUT_NEURONS)));
-			MLData ideal = new BasicMLData(ArrayTools.getDoubleArray(percentChangeWindow.subList(i + INPUT_NEURONS,  i + INPUT_NEURONS + OUTPUT_NEURONS)));
-			MLData computed = network.compute(input);
-			
-			for (int c=0; c<OUTPUT_POINTS; c++){
-				Co.println("--> c: " + c);
-				for (int d=0; d<OUTPUT_POINT_SIZE; d++){
-					Co.println("--> Computed, ideal: " + computed.getData(c+d) + " -> " + ideal.getData(c+d));	
-				}
-			}
-		}
+
 	}
 	
 	public void getPercentChange(ArrayList<Double> percentChangeWindow, int toIndex){

@@ -73,8 +73,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 //	private Date dateStart = DateTools.getDateFromString("02/03/2014");
 //	private Date dateEnd = DateTools.getDateFromString("02/27/2014");
-	private Date dateStart = DateTools.getDateFromString("09/02/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/30/2014");
+	private Date dateStart = DateTools.getDateFromString("09/08/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	private double crossValidationRatio = 0; //0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
@@ -317,7 +317,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		new NguyenWidrowRandomizer().randomize(network);
 
 		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-		//((ManhattanPropagation)train).setDroupoutRate(0.25);
+		((ManhattanPropagation)train).setDroupoutRate(0.25);
 //		MLTrain train = new ResilientPropagation(network, dataSet); //, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
@@ -351,6 +351,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 			singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((MLRegression) train.getMethod(), 0);
+			//singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.describeWindow = true;
 			singleBacktest.selfPopulateBacktestData();
 			singleBacktest.runBacktest();
 			
@@ -366,10 +367,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
-		pattern.setOutputNeurons(6);
+		pattern.setOutputNeurons(SignalOfEncog.getOutputLength());
 		pattern.setActivationFunction(new ActivationTANH());
-		pattern.setActivationOutput(new ActivationTANH());
-//		pattern.setActivationOutput(new ActivationBiPolar());
+//		pattern.setActivationOutput(new ActivationTANH());
+		pattern.setActivationOutput(new ActivationBiPolar());
 		return (BasicNetwork) pattern.generate();
 	}
 
