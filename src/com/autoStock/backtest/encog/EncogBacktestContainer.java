@@ -36,8 +36,8 @@ public class EncogBacktestContainer {
 	private HistoricalData historicalData;
 	private int currentDay;
 	private static enum Mode {day_over_day, full}
-//	private final Mode MODE = Mode.day_over_day;
-	private final Mode MODE = Mode.full;
+	private final Mode MODE = Mode.day_over_day;
+//	private final Mode MODE = Mode.full;
 
 	public EncogBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
 		this.symbol = symbol;

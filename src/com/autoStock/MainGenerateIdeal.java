@@ -61,6 +61,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
+	private boolean USE_CLICKPOINTS = false;
 	private GenericPersister genericPersister = new GenericPersister();
 	private ArrayList<ChartSignalPoint> listOfClickPoint;
 	private SingleBacktest singleBacktest;
@@ -100,7 +101,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	@Override
 	public void initialize(Date startingDate, Date endDate) {
 		ArrayList<ChartSignalPoint> list = getList(startingDate, endDate); 
-		if (list.size() > 0){
+		if (list.size() > 0 && USE_CLICKPOINTS){
 			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = list; 
 		}else{
 			String name = exchange.exchangeName + "-" + symbol.symbolName + "-day-" + DateTools.getEncogDate(startingDate);
@@ -177,14 +178,16 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				}
 				else { throw new IllegalStateException(positionGovernorResponse.status.name() + " from " + positionGovernorResponse.signalPoint.signalMetricType.name()); }
 			}else{
-//				if (true && singleBacktest.backtestContainer.algorithm.position != null && singleBacktest.backtestContainer.algorithm.position.getPositionHistory().getAge().asSeconds() < 60 * 5){
+//				if (singleBacktest.backtestContainer.algorithm.position != null && singleBacktest.backtestContainer.algorithm.position.getPositionHistory().getAge().asSeconds() < 60 * 5 && singleBacktest.backtestContainer.algorithm.position.getCurrentPercentGainLoss(false) > 0.05){
 //					if (singleBacktest.backtestContainer.algorithm.position.isLong()){
-//						addLongEntry(listOfIdealOutputs, 0.5);
+//						addLongEntry(listOfIdealOutputs, 1);
 //					}else if (singleBacktest.backtestContainer.algorithm.position.isShort()){
-//						addShortEntry(listOfIdealOutputs, 0.5);
+//						addShortEntry(listOfIdealOutputs, 1);
 //					}else {throw new IllegalStateException();}
 //				}else {
+//					addNone(listOfIdealOutputs, 1);					
 //				}
+				
 				addNone(listOfIdealOutputs, 1);
 			}
 			

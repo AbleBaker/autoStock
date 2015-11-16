@@ -1,8 +1,10 @@
 package com.autoStock.backtest.encog;
 
 import org.encog.engine.network.activation.ActivationBiPolar;
+import org.encog.engine.network.activation.ActivationFunction;
 import org.encog.engine.network.activation.ActivationSteepenedSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
+import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.pattern.FeedForwardPattern;
 
 import com.autoStock.Co;
@@ -35,7 +37,14 @@ public class TrainEncogSignal {
 		encogScoreProvider.setDetails(algorithmModel, historicalData);
 		
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
-			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, EncogNetworkGenerator.getBasicNetwork(SignalOfEncog.getInputWindowLength(), 6, new ActivationTANH()), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix, TRAINING_ITERATIONS);
+			FeedForwardPattern pattern = new FeedForwardPattern();
+			pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
+			pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 2);
+			pattern.setOutputNeurons(5);
+			pattern.setActivationFunction(new ActivationTANH());
+			pattern.setActivationOutput(new ActivationTANH());
+			
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, (BasicNetwork) pattern.generate(), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix, TRAINING_ITERATIONS);
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
 			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix);
 		}

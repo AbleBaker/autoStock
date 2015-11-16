@@ -27,7 +27,7 @@ public class EncogNetworkGenerator {
 		FeedForwardPattern pattern = new FeedForwardPattern();
 		pattern.setInputNeurons(inputs);
 		pattern.addHiddenLayer(inputs/2);
-		pattern.addHiddenLayer(outputs/3);
+		pattern.addHiddenLayer(inputs/3);
 		pattern.setOutputNeurons(outputs);
 		pattern.setActivationFunction(new ActivationTANH());
 		if (activationFunctionOutput != null){pattern.setActivationOutput(activationFunctionOutput);}

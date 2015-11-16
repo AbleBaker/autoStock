@@ -43,7 +43,7 @@ public class TrainEncogNetworkOfBasic extends TrainEncogWithScore {
 		
 		trainLoop(count);
 		
-		if (train.getError() == 0){
+		if (train.getError() <= 0){
 			Co.println("--> Retrying training...");
 			network.reset();
 			trainLoop(count);
