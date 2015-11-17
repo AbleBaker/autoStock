@@ -17,14 +17,14 @@ public class StrategyOptionDefaults {
 				strategyOptions.minPositionAgeMinsBeforeExit.value = 3;
 				strategyOptions.invervalForDDorSLExitMins.value = 3;
 				
-				strategyOptions.maxProfitDrawdownPercent.value = -0.10d;
-				strategyOptions.maxStopLossPercent.value = -0.15d;
+				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
+				strategyOptions.maxStopLossPercent.value = -0.20d;
 				strategyOptions.disableAfterLoss.value = -0.25d;
 				
 				strategyOptions.maxPositionTimeAtProfit.value = 45;
 				strategyOptions.disableAfterYield.value = 10.0d;
 				strategyOptions.enablePremise = false;
-				strategyOptions.enableContext = true;
+				strategyOptions.enableContext = false;
 				strategyOptions.enablePrefill = true;
 				strategyOptions.canReenter.value = false;
 				strategyOptions.prefillShift.value = 30;

@@ -56,4 +56,8 @@ public class CommonAnalysisData {
 	public void reset() {
 		 isInitialized = false;
 	}
+
+	public int length() {
+		return arrayOfDates.length;
+	}
 }

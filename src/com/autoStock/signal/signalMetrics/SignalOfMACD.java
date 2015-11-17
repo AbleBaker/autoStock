@@ -22,6 +22,6 @@ public class SignalOfMACD extends SignalBase {
 	
 	@Override
 	public void setInput(ResultsBase resultsBase) {
-		setInput(ArrayTools.getLastElement(((ResultsMACD)resultsBase).arrayOfMACDHistogram));
+		setInput(ArrayTools.getLast(((ResultsMACD)resultsBase).arrayOfMACDHistogram));
 	}
 }

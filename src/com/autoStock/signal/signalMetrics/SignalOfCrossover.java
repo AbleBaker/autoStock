@@ -19,7 +19,7 @@ import com.autoStock.types.basic.MutableInteger;
  * @author Kevin Kowalewski
  *
  */
-public class SignalOfCrossover extends SignalBase {
+public class SignalOfCrossover extends SignalBaseWithPoint {
 	public double ema1Value = 0;
 	public double ema2Value = 0;
 	
@@ -38,24 +38,24 @@ public class SignalOfCrossover extends SignalBase {
 		super.setInput(ema1Value - ema2Value);
 	}
 
-//	@Override
-//	public SignalPoint getSignalPoint(Position position) {
-//		double value = getStrength();
-//		
-//		if (hasCrossed() == false){
-//			return new SignalPoint();
-//		}
-//		
-//		if (position == null){
-//			if (value >= 2){return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_crossover);}
-//			if (value <= -2){return new SignalPoint(SignalPointType.short_entry, SignalMetricType.metric_crossover);}
-//		}else{
-//			if (value <= 2 && position.isLong()){return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_crossover);}
-//			if (value >= 0 && position.isShort()){return new SignalPoint(SignalPointType.short_exit, SignalMetricType.metric_crossover);}
-//		}
-//		
-//		return new SignalPoint();
-//	}
+	@Override
+	public SignalPoint getSignalPoint(Position position) {
+		double value = getStrength();
+		
+		if (hasCrossed() == false){
+			return new SignalPoint();
+		}
+		
+		if (position == null){
+			if (value >= 2){return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_crossover);}
+			if (value <= -2){return new SignalPoint(SignalPointType.short_entry, SignalMetricType.metric_crossover);}
+		}else{
+			if (value <= 2 && position.isLong()){return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_crossover);}
+			if (value >= 0 && position.isShort()){return new SignalPoint(SignalPointType.short_exit, SignalMetricType.metric_crossover);}
+		}
+		
+		return new SignalPoint();
+	}
 	
 	private boolean hasCrossed(){
 		for (double value : listOfNormalizedValuePersist){

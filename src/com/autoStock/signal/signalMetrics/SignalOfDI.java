@@ -23,6 +23,6 @@ public class SignalOfDI extends SignalBase {
 	@Override
 	public void setInput(ResultsBase resultsBase) {
 		ResultsDI results = (ResultsDI)resultsBase;
-		setInput(ArrayTools.getLastElement(results.arrayOfDIPlus) - ArrayTools.getLastElement(results.arrayOfDIMinus)); 
+		setInput(ArrayTools.getLast(results.arrayOfDIPlus) - ArrayTools.getLast(results.arrayOfDIMinus)); 
 	}
 }

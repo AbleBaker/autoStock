@@ -3,6 +3,7 @@
  */
 package com.autoStock.tools;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -107,8 +108,12 @@ public class ArrayTools {
 		});
 	}
 	
-	public static double getLastElement(double[] arrayOfDouble){
-		return arrayOfDouble[arrayOfDouble.length-1];
+	public static <T> T getLast(T[] array){
+		return array[array.length-1];
+	}
+	
+	public static double getLast(double[] array){
+		return array[array.length-1];
 	}
 	
 	public static double[] getDoubleArray(List<Double> listOfDouble){

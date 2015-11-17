@@ -71,9 +71,9 @@ public class AlgorithmTest extends AlgorithmBase {
 		if (strategyBase.strategyOptions.enableContext){
 			contextController.reset();
 			contextController.addContext(new ContextOfPosition());
-			//contextController.addContext(new ContextOfChangeSinceOpen());
-			//contextController.addContext(new ContextOfChangeSinceHighLow());
-			//contextController.addContext(new ContextOfOHLC());
+			contextController.addContext(new ContextOfChangeSinceOpen());
+			contextController.addContext(new ContextOfChangeSinceHighLow());
+			contextController.addContext(new ContextOfOHLC());
 		}
 	}
 
@@ -96,9 +96,9 @@ public class AlgorithmTest extends AlgorithmBase {
 				
 			if (strategyBase.strategyOptions.enableContext && contextController.isEmpty() == false){
 				((ContextOfPosition)contextController.getByClass(ContextOfPosition.class)).setPosition(position);
-				//((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
-				//((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersistForDay);
-				//((ContextOfOHLC)contextController.getByClass(ContextOfOHLC.class)).setAlgorithmBase(this);
+				((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
+				((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersistForDay);
+				((ContextOfOHLC)contextController.getByClass(ContextOfOHLC.class)).setAlgorithmBase(this);
 				contextController.determineContext();
 			}
 			

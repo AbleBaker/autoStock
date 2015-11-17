@@ -61,7 +61,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
-	private boolean USE_CLICKPOINTS = false;
+	private boolean USE_CLICKPOINTS = true;
 	private GenericPersister genericPersister = new GenericPersister();
 	private ArrayList<ChartSignalPoint> listOfClickPoint;
 	private SingleBacktest singleBacktest;
@@ -71,10 +71,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-//	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-//	private Date dateEnd = DateTools.getDateFromString("02/27/2014");
-	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
+	private Date dateStart = DateTools.getDateFromString("02/03/2014");
+	private Date dateEnd = DateTools.getDateFromString("03/31/2014");
+//	private Date dateStart = DateTools.getDateFromString("09/08/2014");
+//	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
 	private double crossValidationRatio = 0; //0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
@@ -151,9 +151,9 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 		if (processed && eiw != null && positionGovernorResponse != null){
 			if (haveChange && positionGovernorResponse.status != PositionGovernorResponseStatus.none 
-				&& (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.metric_encog
-					|| (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry)
-				    || (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry)
+				&& (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.metric_encog || positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected
+					//|| (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry)
+				    //|| (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry)
 				)){
 				
 				haveChange = false;
@@ -178,7 +178,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				}
 				else { throw new IllegalStateException(positionGovernorResponse.status.name() + " from " + positionGovernorResponse.signalPoint.signalMetricType.name()); }
 			}else{
-//				if (singleBacktest.backtestContainer.algorithm.position != null && singleBacktest.backtestContainer.algorithm.position.getPositionHistory().getAge().asSeconds() < 60 * 5 && singleBacktest.backtestContainer.algorithm.position.getCurrentPercentGainLoss(false) > 0.05){
+//				if (singleBacktest.backtestContainer.algorithm.position != null && singleBacktest.backtestContainer.algorithm.position.getPositionHistory().getAge().asSeconds() <= 60 * 2 && singleBacktest.backtestContainer.algorithm.position.getCurrentPercentGainLoss(false) > 0.05){
 //					if (singleBacktest.backtestContainer.algorithm.position.isLong()){
 //						addLongEntry(listOfIdealOutputs, 1);
 //					}else if (singleBacktest.backtestContainer.algorithm.position.isShort()){
@@ -316,8 +316,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 //		new NguyenWidrowRandomizer().randomize(network);
 
-		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-//		MLTrain train = new ResilientPropagation(network, dataSet); //, 0.01, 10);
+//		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
+		MLTrain train = new ResilientPropagation(network, dataSet); //, 0.01, 10);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 200, 200));
@@ -325,7 +325,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	
 		DecimalFormat df = new DecimalFormat("0000.00000000000000");
 		
-		for (int i=0; i<1024; i++){
+		for (int i=0; i<512; i++){
 			train.iteration();
 			
 			if (crossValidationRatio == 0){
@@ -335,7 +335,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " ~ " + (i % 10 != 0 ? "-" : df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ")) + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore() + " / " + getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore())); 
 			}
 			
-			if (train.getError() == 0 && i > 256){break;}
+			if (train.getError() == 0){break;}
 		}
 		
 		train.finishTraining();

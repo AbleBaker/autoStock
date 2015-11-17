@@ -42,7 +42,7 @@ public class ContextOfChangeSinceHighLow extends ContextBase implements EncogFra
 		//Co.println("--> Percent from min / max: " + percentFromMin + ", " + percentFromMax);
 		
 		EncogFrame encogFrame = new EncogFrame(this.getClass().getSimpleName(), FrameType.percent_change);
-		EncogSubframe subframeForChangeSinceHighLow = new EncogSubframe(this.getClass().getSimpleName(), new double[]{percentFromMin, percentFromMax}, FrameType.percent_change, 2, -2);
+		EncogSubframe subframeForChangeSinceHighLow = new EncogSubframe(this.getClass().getSimpleName(), new double[]{percentFromMin, percentFromMax}, FrameType.percent_change, 10, -10);
 		EncogSubframe subframeForAtHighLow = new EncogSubframe(this.getClass().getSimpleName(), new double[]{percentFromMin == 0 ? 1 : -1, percentFromMax == 0 ? 1 : -1}, FrameType.category, 1, -1);
 		encogFrame.addSubframe(subframeForChangeSinceHighLow);
 		encogFrame.addSubframe(subframeForAtHighLow);

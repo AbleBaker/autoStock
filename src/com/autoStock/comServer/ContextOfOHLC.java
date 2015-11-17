@@ -46,10 +46,10 @@ public class ContextOfOHLC extends ContextBase implements EncogFrameSource {
 //		Co.println(StringTools.arrayOfDoubleToString(ArrayTools.getArrayFromListOfDouble(listOfCO)));
 //		Co.println("\n");
 		
-		EncogSubframe subframe1 = new EncogSubframe(getClass().getSimpleName(), ListTools.subList(MathTools.getDeltasAsPercent(listOfClose), 1, -1), FrameType.raw, 0.25, -0.25);
+		EncogSubframe subframe1 = new EncogSubframe(getClass().getSimpleName(), ListTools.subList(MathTools.getDeltasAsPercent(listOfClose), 1, -1), FrameType.raw, 1.0, -1.0);
 		encogFrame.addSubframe(subframe1);
 		
-		EncogSubframe subframe2 = new EncogSubframe(getClass().getSimpleName(), listOfCO, FrameType.raw, 0.25, -0.25);
+		EncogSubframe subframe2 = new EncogSubframe(getClass().getSimpleName(), listOfCO, FrameType.raw, 1.0, -1.0);
 		encogFrame.addSubframe(subframe2);		
 		
 		return encogFrame;

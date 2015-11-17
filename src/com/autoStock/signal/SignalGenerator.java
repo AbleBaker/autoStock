@@ -27,22 +27,23 @@ public class SignalGenerator {
 		encogWindow.addFrames(encogFrames);
 		try {encogWindow.addFrame(getFrameFromSignalValues(signalGroup));}catch(UnableToProcessException e){return;}
 		encogWindow.addFrame(getFrameFromSignalPoints(signalGroup));
+		encogWindow.addFrames(getFrameFromSignalEF(signalGroup));
 		signalGroup.signalOfEncog.setInput(encogWindow);
 	}
 	
 	private EncogFrame getFrameFromSignalValues(SignalGroup signalGroup) throws UnableToProcessException {
-		FrameType frameType = FrameType.raw;
+		FrameType frameType = FrameType.delta_change;
 		
 		EncogFrame encogFrame = new EncogFrame("Signals that output numeric values", frameType);
 		SignalBase[] arrayOfSignalBase = {
 //			signalGroup.signalOfDI,
 			signalGroup.signalOfCCI,
-//			signalGroup.signalOfRSI,
+			signalGroup.signalOfRSI,
 			signalGroup.signalOfUO,
 			signalGroup.signalOfTRIX,
-			signalGroup.signalOfWILLR,
-			signalGroup.signalOfCrossover,
-			
+//			signalGroup.signalOfWILLR,
+//			signalGroup.signalOfCrossover,
+//			
 			//DO NOT USE
 //			signalGroup.signalOfMFI,
 //			signalGroup.signalOfMACD,
@@ -65,7 +66,7 @@ public class SignalGenerator {
 			if (signalBase instanceof SignalBaseWithPoint){throw new IllegalArgumentException("SignalBase shouldn't be an instace of SignalBaseWithPoint");}
 			if (subframe.isAllZeros()){Co.println(subframe.toString()); try {Thread.sleep(100);}catch(InterruptedException e){}; throw new IllegalStateException("Subframe for signal was all zeros: " + signalBase.getClass().getSimpleName());}
 			if (subframe.isOutOfRange()){Co.println(subframe.toString()); try {Thread.sleep(100);}catch(InterruptedException e){}; throw new IllegalStateException("Subframe is out of range: " + subframe.description);}
-			subframe.replaceNaN();
+			//subframe.replaceNaN(); //NaN discarded by encog
 			encogFrame.addSubframe(subframe);			
 		}
 		
@@ -76,7 +77,7 @@ public class SignalGenerator {
 		EncogFrame encogFrame = new EncogFrame("Signals that output Signal Points", FrameType.category);
 		
 		SignalBase[] arrayOfSignalBase = {
-				//signalGroup.signalOfCrossover
+//			signalGroup.signalOfCrossover
 		};
 		
 		for (SignalBase signalBase : arrayOfSignalBase){
@@ -85,6 +86,21 @@ public class SignalGenerator {
 		}
 		
 		return encogFrame;
+	}
+	
+	private ArrayList<EncogFrame> getFrameFromSignalEF(SignalGroup signalGroup){
+		ArrayList<EncogFrame> listOfFrame = new ArrayList<>();
+		
+		SignalBase[] arrayOfSignalBase = {
+			signalGroup.signalOfPPC
+		};
+		
+		for (SignalBase signalBase : arrayOfSignalBase){
+			if (signalBase instanceof SignalBaseWithEF == false){throw new IllegalArgumentException("SignalBase should be an instance of SignalBaseWithEF");}
+			listOfFrame.add(((SignalBaseWithEF)signalBase).asEncogFrame());
+		}
+		
+		return listOfFrame;
 	}
 	
 	public EncogSubframe getSubFrame(SignalBase signalBase, FrameType frameType){
@@ -107,11 +123,11 @@ public class SignalGenerator {
 		EncogSubframe subFrame = null;
 		
 		if (frameType == FrameType.percent_change){
-			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 250, -250);
+			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 500, -500);
 		}if (frameType == FrameType.delta_change){
-			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltas(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 100, -100);
+			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltas(signalBase.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 50, -50);
 		}else if (frameType == FrameType.raw){
-			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(signalBase.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 100, -100);
+			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(signalBase.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 75, -75);
 		}
 		
 		if (subFrame != null){return subFrame;}

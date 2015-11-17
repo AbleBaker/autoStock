@@ -4,6 +4,7 @@
 package com.autoStock.signal.extras;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.autoStock.signal.extras.EncogFrame.FrameType;
 import com.autoStock.tools.ArrayTools;
@@ -43,9 +44,9 @@ public class EncogFrame {
 		none
 	}
 
-	public void addSubframe(EncogSubframe subFrame) {
+	public void addSubframe(EncogSubframe... subFrame) {
 		//if (subFrame.frameType != frameType){throw new IllegalArgumentException("Can't have sub-frame / frames of differing types.");}
-		listOfSubframe.add(subFrame);
+		listOfSubframe.addAll(Arrays.asList(subFrame));
 	}
 	
 	public ArrayList<Double> asNormalizedDoubleList(){

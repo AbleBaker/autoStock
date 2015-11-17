@@ -28,6 +28,7 @@ import com.autoStock.signal.SignalDefinitions.SignalParametersForSTORSI;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForTRIX;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForUO;
 import com.autoStock.signal.SignalDefinitions.SignalParametersForWILLR;
+import com.autoStock.signal.SignalDefinitions.SignalParametersForPPC;
 import com.autoStock.signal.extras.EncogFrame;
 import com.autoStock.signal.signalMetrics.SignalOfADX;
 import com.autoStock.signal.signalMetrics.SignalOfARDown;
@@ -40,6 +41,7 @@ import com.autoStock.signal.signalMetrics.SignalOfEncog;
 import com.autoStock.signal.signalMetrics.SignalOfEncogNew;
 import com.autoStock.signal.signalMetrics.SignalOfMACD;
 import com.autoStock.signal.signalMetrics.SignalOfMFI;
+import com.autoStock.signal.signalMetrics.SignalOfPPC;
 import com.autoStock.signal.signalMetrics.SignalOfROC;
 import com.autoStock.signal.signalMetrics.SignalOfRSI;
 import com.autoStock.signal.signalMetrics.SignalOfSAR;
@@ -71,6 +73,7 @@ public class SignalGroup {
 	public SignalOfARUp signalOfARUp = new SignalOfARUp(new SignalParametersForARUp(), algorithmBase);
 	public SignalOfARDown signalOfARDown = new SignalOfARDown(new SignalParametersForARDown(), algorithmBase);
 	public SignalOfSAR signalOfSAR = new SignalOfSAR(new SignalParametersForSAR(), algorithmBase);
+	public SignalOfPPC signalOfPPC = new SignalOfPPC(new SignalParametersForPPC(), algorithmBase);
 	
 	public SignalOfCrossover signalOfCrossover = new SignalOfCrossover(SignalMetricType.metric_crossover, new SignalParametersForCrossover(), algorithmBase);
 	
@@ -98,11 +101,11 @@ public class SignalGroup {
 		listOfSignalBase.add(signalOfARUp);
 		listOfSignalBase.add(signalOfARDown);
 		listOfSignalBase.add(signalOfSAR);
+		listOfSignalBase.add(signalOfPPC);
 		
 		listOfSignalBase.add(signalOfCrossover);
-		
-		listOfSignalBase.add(signalOfCandlestickGroup);
 		listOfSignalBase.add(signalOfEncog);
+		
 	}
 	
 	public void setIndicatorGroup(IndicatorGroup indicatorGroup){

@@ -54,7 +54,7 @@ public class AlgorithmChart {
 		chart.listOfIndicatorEMASecond.add(algorithmBase.signalGroup.signalOfCrossover.ema2Value);
 		
 		try {chart.listOfSignalSAR.add(algorithmBase.signalGroup.signalOfSAR.getStrength());}catch(Exception e){}
-		try {chart.listOfIndicatorSAR.add(ArrayTools.getLastElement((algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSAR.class).getBaseResults().arrayOfValue)));}catch(Exception e){}
+		try {chart.listOfIndicatorSAR.add(ArrayTools.getLast((algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfSAR.class).getBaseResults().arrayOfValue)));}catch(Exception e){}
 		
 		chart.listOfValue.add(position == null ? Double.MIN_VALUE : position.getCurrentPercentGainLoss(false));
 		chart.listOfYield.add(algorithmBase.getYieldCurrent());

@@ -86,7 +86,7 @@ public abstract class SignalBase {
 	}
 	
 	public void setInput(ResultsBase resultsBase){
-		setInput(ArrayTools.getLastElement(resultsBase.arrayOfValue));
+		setInput(ArrayTools.getLast(resultsBase.arrayOfValue));
 	}
 	
 	public void setInput(double value){

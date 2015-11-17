@@ -80,6 +80,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			if (algorithmModel != null){
 				Co.println("--> Evaluation available");
 				new AlgorithmRemodeler(algorithm, algorithmModel).remodel(true, true, true, false);
+				Co.println("--> Evaluation available");
 			}
 		}
 	}
