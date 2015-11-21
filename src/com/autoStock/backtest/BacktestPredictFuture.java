@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.encog.engine.network.activation.ActivationFunction;
 import org.encog.engine.network.activation.ActivationTANH;
@@ -115,30 +116,36 @@ public class BacktestPredictFuture {
 		int IDEAL_OFFSET = 1;
 		
 		for (int i=1; i<commonAnalysisData.length() - IDEAL_OFFSET; i++){
-			pero[i] = (commonAnalysisData.arrayOfPriceOpen[i-1] / commonAnalysisData.arrayOfPriceOpen[i]) -1;
-			perh[i] = (commonAnalysisData.arrayOfPriceHigh[i-1] / commonAnalysisData.arrayOfPriceHigh[i]) -1;
-			perl[i] = (commonAnalysisData.arrayOfPriceLow[i-1] / commonAnalysisData.arrayOfPriceLow[i]) -1;
-			perc[i] = (commonAnalysisData.arrayOfPriceClose[i-1] / commonAnalysisData.arrayOfPriceClose[i]) -1;
-			peroc[i] = (commonAnalysisData.arrayOfPriceOpen[i] / commonAnalysisData.arrayOfPriceClose[i]) -1;
-			perlh[i] = (commonAnalysisData.arrayOfPriceLow[i] / commonAnalysisData.arrayOfPriceHigh[i]) -1;
+//			pero[i] = (commonAnalysisData.arrayOfPriceOpen[i-1] / commonAnalysisData.arrayOfPriceOpen[i]) -1;
+//			perh[i] = (commonAnalysisData.arrayOfPriceHigh[i-1] / commonAnalysisData.arrayOfPriceHigh[i]) -1;
+//			perl[i] = (commonAnalysisData.arrayOfPriceLow[i-1] / commonAnalysisData.arrayOfPriceLow[i]) -1;
+//			perc[i] = (commonAnalysisData.arrayOfPriceClose[i-1] / commonAnalysisData.arrayOfPriceClose[i]) -1;
+//			peroc[i] = (commonAnalysisData.arrayOfPriceOpen[i] / commonAnalysisData.arrayOfPriceClose[i]) -1;
+//			perlh[i] = (commonAnalysisData.arrayOfPriceLow[i] / commonAnalysisData.arrayOfPriceHigh[i]) -1;
 			
-//			pero[i] = (commonAnalysisData.arrayOfPriceOpen[i-2] / commonAnalysisData.arrayOfPriceOpen[i-1]) -1;
-//			perh[i] = (commonAnalysisData.arrayOfPriceHigh[i-2] / commonAnalysisData.arrayOfPriceHigh[i-1]) -1;
-//			perl[i] = (commonAnalysisData.arrayOfPriceLow[i-2] / commonAnalysisData.arrayOfPriceLow[i-1]) -1;
-//			perc[i] = (commonAnalysisData.arrayOfPriceClose[i-2] / commonAnalysisData.arrayOfPriceClose[i-1]) -1;
-//			
-//			pero[i] = (commonAnalysisData.arrayOfPriceOpen[i-3] / commonAnalysisData.arrayOfPriceOpen[i-2]) -1;
-//			perh[i] = (commonAnalysisData.arrayOfPriceHigh[i-3] / commonAnalysisData.arrayOfPriceHigh[i-2]) -1;
-//			perl[i] = (commonAnalysisData.arrayOfPriceLow[i-3] / commonAnalysisData.arrayOfPriceLow[i-2]) -1;
-//			perc[i] = (commonAnalysisData.arrayOfPriceClose[i-3] / commonAnalysisData.arrayOfPriceClose[i-2]) -1;
+//			pero[i-1] = (commonAnalysisData.arrayOfPriceOpen[i-2] / commonAnalysisData.arrayOfPriceOpen[i-1]) -1;
+//			perh[i-1] = (commonAnalysisData.arrayOfPriceHigh[i-2] / commonAnalysisData.arrayOfPriceHigh[i-1]) -1;
+//			perl[i-1] = (commonAnalysisData.arrayOfPriceLow[i-2] / commonAnalysisData.arrayOfPriceLow[i-1]) -1;
+//			perc[i-1] = (commonAnalysisData.arrayOfPriceClose[i-2] / commonAnalysisData.arrayOfPriceClose[i-1]) -1;
+//
+//			pero[i-2] = (commonAnalysisData.arrayOfPriceOpen[i-3] / commonAnalysisData.arrayOfPriceOpen[i-2]) -1;
+//			perh[i-2] = (commonAnalysisData.arrayOfPriceHigh[i-3] / commonAnalysisData.arrayOfPriceHigh[i-2]) -1;
+//			perl[i-2] = (commonAnalysisData.arrayOfPriceLow[i-3] / commonAnalysisData.arrayOfPriceLow[i-2]) -1;
+//			perc[i-2] = (commonAnalysisData.arrayOfPriceClose[i-3] / commonAnalysisData.arrayOfPriceClose[i-2]) -1;
 			
-			ideal[i] = (commonAnalysisData.arrayOfPriceLow[i] / commonAnalysisData.arrayOfPriceHigh[i+IDEAL_OFFSET]) -1;
+			ideal[i] = new Random().nextDouble(); //(commonAnalysisData.arrayOfPriceLow[i] / commonAnalysisData.arrayOfPriceHigh[i+IDEAL_OFFSET]) -1;
 			
-			BasicMLDataPair pair = new BasicMLDataPair(new BasicMLData(new double[]{pero[i], perh[i], perl[i], perc[i], peroc[i], perlh[i]}), new BasicMLData(new double[]{ideal[i]}));
+			BasicMLDataPair pair = new BasicMLDataPair(new BasicMLData(
+					new double[]{
+							0,
+							//pero[i], perh[i], perl[i], perc[i], peroc[i], perlh[i],
+							//pero[i-1], perh[i-1], perl[i-1], perc[i-1], peroc[i-1], perlh[i-1],
+							//pero[i-2], perh[i-2], perl[i-2], perc[i-2], peroc[i-2], perlh[i-2],
+							}), new BasicMLData(new double[]{ideal[i]}));
 			dataSet.add(pair);
 		}
 		
-		BasicNetwork network = getMLNetwork(6, 1);
+		BasicNetwork network = getMLNetwork(dataSet.getInputSize(), 1);
 		network.reset();
 		
 		MLTrain train = new ResilientPropagation(network, dataSet);

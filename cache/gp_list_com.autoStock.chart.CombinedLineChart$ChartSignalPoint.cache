@@ -1,0 +1,6938 @@
+[
+  {
+    "index": 38,
+    "date": "Feb 3, 2014 10:08:00 AM",
+    "price": 29.522,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 82,
+    "date": "Feb 3, 2014 10:52:00 AM",
+    "price": 29.141999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 70,
+    "date": "Feb 3, 2014 10:40:00 AM",
+    "price": 29.185000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 114,
+    "date": "Feb 3, 2014 11:24:00 AM",
+    "price": 28.977999999999998,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 62,
+    "date": "Feb 4, 2014 10:32:00 AM",
+    "price": 29.148999999999994,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 79,
+    "date": "Feb 4, 2014 10:49:00 AM",
+    "price": 29.287,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 226,
+    "date": "Feb 4, 2014 1:16:00 PM",
+    "price": 29.348000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 258,
+    "date": "Feb 4, 2014 1:48:00 PM",
+    "price": 29.202000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 217,
+    "date": "Feb 5, 2014 1:07:00 PM",
+    "price": 29.089999999999993,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 345,
+    "date": "Feb 5, 2014 3:15:00 PM",
+    "price": 29.085999999999995,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 239,
+    "date": "Feb 5, 2014 1:29:00 PM",
+    "price": 29.142000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 371,
+    "date": "Feb 5, 2014 3:41:00 PM",
+    "price": 29.151,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 47,
+    "date": "Feb 5, 2014 10:17:00 AM",
+    "price": 29.218,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 160,
+    "date": "Feb 5, 2014 12:10:00 PM",
+    "price": 29.153,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 64,
+    "date": "Feb 5, 2014 10:34:00 AM",
+    "price": 29.082,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 185,
+    "date": "Feb 5, 2014 12:35:00 PM",
+    "price": 29.07,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 5,
+    "date": "Feb 6, 2014 9:35:00 AM",
+    "price": 29.243000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 62,
+    "date": "Feb 6, 2014 10:32:00 AM",
+    "price": 29.366999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 28,
+    "date": "Feb 6, 2014 9:58:00 AM",
+    "price": 29.369999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 91,
+    "date": "Feb 6, 2014 11:01:00 AM",
+    "price": 29.484,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 163,
+    "date": "Feb 6, 2014 12:13:00 PM",
+    "price": 29.76,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 187,
+    "date": "Feb 6, 2014 12:37:00 PM",
+    "price": 29.637999999999998,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 118,
+    "date": "Feb 7, 2014 11:28:00 AM",
+    "price": 29.558,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 149,
+    "date": "Feb 7, 2014 11:59:00 AM",
+    "price": 29.758999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 44,
+    "date": "Feb 7, 2014 10:14:00 AM",
+    "price": 29.716,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 159,
+    "date": "Feb 7, 2014 12:09:00 PM",
+    "price": 29.708999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 65,
+    "date": "Feb 7, 2014 10:35:00 AM",
+    "price": 29.471000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 199,
+    "date": "Feb 7, 2014 12:49:00 PM",
+    "price": 29.500999999999998,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 10,
+    "date": "Feb 10, 2014 9:40:00 AM",
+    "price": 29.738000000000007,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 29,
+    "date": "Feb 10, 2014 9:59:00 AM",
+    "price": 29.860000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 66,
+    "date": "Feb 10, 2014 10:36:00 AM",
+    "price": 29.839,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 144,
+    "date": "Feb 10, 2014 11:54:00 AM",
+    "price": 29.766,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 105,
+    "date": "Feb 10, 2014 11:15:00 AM",
+    "price": 29.68,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 182,
+    "date": "Feb 10, 2014 12:32:00 PM",
+    "price": 29.637,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 112,
+    "date": "Feb 11, 2014 11:22:00 AM",
+    "price": 29.577999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 215,
+    "date": "Feb 11, 2014 1:05:00 PM",
+    "price": 29.802,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 293,
+    "date": "Feb 11, 2014 2:23:00 PM",
+    "price": 30.139999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 140,
+    "date": "Feb 11, 2014 11:50:00 AM",
+    "price": 29.7,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 260,
+    "date": "Feb 11, 2014 1:50:00 PM",
+    "price": 30.108000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 344,
+    "date": "Feb 11, 2014 3:14:00 PM",
+    "price": 30.32,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 153,
+    "date": "Feb 12, 2014 12:03:00 PM",
+    "price": 30.142000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 224,
+    "date": "Feb 12, 2014 1:14:00 PM",
+    "price": 30.183,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 186,
+    "date": "Feb 12, 2014 12:36:00 PM",
+    "price": 30.218,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 248,
+    "date": "Feb 12, 2014 1:38:00 PM",
+    "price": 30.326999999999998,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 113,
+    "date": "Feb 12, 2014 11:23:00 AM",
+    "price": 30.205999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 137,
+    "date": "Feb 12, 2014 11:47:00 AM",
+    "price": 30.127,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 96,
+    "date": "Feb 13, 2014 11:20:00 AM",
+    "price": 29.897000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 108,
+    "date": "Feb 13, 2014 11:32:00 AM",
+    "price": 29.994,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 150,
+    "date": "Feb 13, 2014 12:14:00 PM",
+    "price": 29.895000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 186,
+    "date": "Feb 13, 2014 12:50:00 PM",
+    "price": 29.754,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 53,
+    "date": "Feb 14, 2014 10:23:00 AM",
+    "price": 29.804999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 70,
+    "date": "Feb 14, 2014 10:40:00 AM",
+    "price": 29.934000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 81,
+    "date": "Feb 14, 2014 10:51:00 AM",
+    "price": 29.871,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 112,
+    "date": "Feb 14, 2014 11:22:00 AM",
+    "price": 29.745000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 29,
+    "date": "Feb 18, 2014 9:59:00 AM",
+    "price": 29.772000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 290,
+    "date": "Feb 18, 2014 2:20:00 PM",
+    "price": 29.634000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 50,
+    "date": "Feb 18, 2014 10:20:00 AM",
+    "price": 29.677,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 317,
+    "date": "Feb 18, 2014 2:47:00 PM",
+    "price": 29.551,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 221,
+    "date": "Feb 19, 2014 1:11:00 PM",
+    "price": 29.103,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 291,
+    "date": "Feb 19, 2014 2:21:00 PM",
+    "price": 29.278999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 79,
+    "date": "Feb 19, 2014 10:49:00 AM",
+    "price": 29.438,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 146,
+    "date": "Feb 19, 2014 11:56:00 AM",
+    "price": 29.201000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 47,
+    "date": "Feb 20, 2014 10:17:00 AM",
+    "price": 29.069,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 98,
+    "date": "Feb 20, 2014 11:08:00 AM",
+    "price": 29.321999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 133,
+    "date": "Feb 20, 2014 11:43:00 AM",
+    "price": 29.214,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 173,
+    "date": "Feb 20, 2014 12:23:00 PM",
+    "price": 29.091999999999995,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 16,
+    "date": "Feb 21, 2014 9:46:00 AM",
+    "price": 29.437,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 47,
+    "date": "Feb 21, 2014 10:17:00 AM",
+    "price": 29.563000000000006,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 9,
+    "date": "Feb 24, 2014 9:39:00 AM",
+    "price": 29.753000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 61,
+    "date": "Feb 24, 2014 10:31:00 AM",
+    "price": 30.109,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 7,
+    "date": "Feb 25, 2014 9:37:00 AM",
+    "price": 30.240000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 278,
+    "date": "Feb 25, 2014 2:08:00 PM",
+    "price": 29.952000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 49,
+    "date": "Feb 25, 2014 10:19:00 AM",
+    "price": 30.058,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 368,
+    "date": "Feb 25, 2014 3:38:00 PM",
+    "price": 29.617,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 102,
+    "date": "Feb 26, 2014 11:12:00 AM",
+    "price": 29.689000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 181,
+    "date": "Feb 26, 2014 12:31:00 PM",
+    "price": 30.137999999999998,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 60,
+    "date": "Feb 27, 2014 10:30:00 AM",
+    "price": 29.839000000000006,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 108,
+    "date": "Feb 27, 2014 11:18:00 AM",
+    "price": 30.140000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 92,
+    "date": "Feb 27, 2014 11:02:00 AM",
+    "price": 30.054000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 141,
+    "date": "Feb 27, 2014 11:51:00 AM",
+    "price": 30.365,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 21,
+    "date": "Feb 4, 2014 9:51:00 AM",
+    "price": 28.943,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 62,
+    "date": "Feb 4, 2014 10:32:00 AM",
+    "price": 29.21,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 137,
+    "date": "Feb 4, 2014 11:47:00 AM",
+    "price": 29.25,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 33,
+    "date": "Feb 4, 2014 10:03:00 AM",
+    "price": 29.136999999999993,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 75,
+    "date": "Feb 4, 2014 10:45:00 AM",
+    "price": 29.28,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 189,
+    "date": "Feb 4, 2014 12:39:00 PM",
+    "price": 29.361,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 226,
+    "date": "Feb 4, 2014 1:16:00 PM",
+    "price": 29.28,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 257,
+    "date": "Feb 4, 2014 1:47:00 PM",
+    "price": 29.23,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 102,
+    "date": "Feb 26, 2014 11:12:00 AM",
+    "price": 29.74,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 179,
+    "date": "Feb 26, 2014 12:29:00 PM",
+    "price": 30.143,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 16,
+    "date": "Feb 26, 2014 9:46:00 AM",
+    "price": 29.679999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 45,
+    "date": "Feb 26, 2014 10:15:00 AM",
+    "price": 29.541999999999994,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 7,
+    "date": "Feb 25, 2014 9:37:00 AM",
+    "price": 30.24,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 133,
+    "date": "Feb 25, 2014 11:43:00 AM",
+    "price": 30.137,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 278,
+    "date": "Feb 25, 2014 2:08:00 PM",
+    "price": 29.952000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 48,
+    "date": "Feb 25, 2014 10:18:00 AM",
+    "price": 30.048999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 180,
+    "date": "Feb 25, 2014 12:30:00 PM",
+    "price": 29.982,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 369,
+    "date": "Feb 25, 2014 3:39:00 PM",
+    "price": 29.627000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 9,
+    "date": "Feb 24, 2014 9:39:00 AM",
+    "price": 29.87,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 112,
+    "date": "Feb 24, 2014 11:22:00 AM",
+    "price": 30.328999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 57,
+    "date": "Feb 24, 2014 10:27:00 AM",
+    "price": 30.09,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 167,
+    "date": "Feb 24, 2014 12:22:00 PM",
+    "price": 30.518999999999995,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 47,
+    "date": "Feb 20, 2014 10:17:00 AM",
+    "price": 29.17,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 205,
+    "date": "Feb 20, 2014 12:55:00 PM",
+    "price": 29.156,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 98,
+    "date": "Feb 20, 2014 11:08:00 AM",
+    "price": 29.27,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 229,
+    "date": "Feb 20, 2014 1:19:00 PM",
+    "price": 29.256,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 133,
+    "date": "Feb 20, 2014 11:43:00 AM",
+    "price": 29.19,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 173,
+    "date": "Feb 20, 2014 12:23:00 PM",
+    "price": 29.09,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 343,
+    "date": "Feb 5, 2014 3:13:00 PM",
+    "price": 29.072000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 376,
+    "date": "Feb 5, 2014 3:46:00 PM",
+    "price": 29.166000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 42,
+    "date": "Feb 5, 2014 10:12:00 AM",
+    "price": 29.297999999999995,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 159,
+    "date": "Feb 5, 2014 12:09:00 PM",
+    "price": 29.162,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 64,
+    "date": "Feb 5, 2014 10:34:00 AM",
+    "price": 29.082,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 189,
+    "date": "Feb 5, 2014 12:39:00 PM",
+    "price": 29.076,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 13, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 13, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 236,
+    "date": "Mar 3, 2014 1:56:00 PM",
+    "price": 30.144000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 264,
+    "date": "Mar 3, 2014 2:24:00 PM",
+    "price": 30.214,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 68,
+    "date": "Mar 3, 2014 11:08:00 AM",
+    "price": 30.173000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 303,
+    "date": "Mar 3, 2014 3:03:00 PM",
+    "price": 30.163,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 94,
+    "date": "Mar 3, 2014 11:34:00 AM",
+    "price": 30.077000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 334,
+    "date": "Mar 3, 2014 3:34:00 PM",
+    "price": 30.07899999999999,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 66,
+    "date": "Mar 28, 2014 11:06:00 AM",
+    "price": 31.342999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 172,
+    "date": "Mar 28, 2014 12:52:00 PM",
+    "price": 31.067,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 125,
+    "date": "Mar 28, 2014 12:05:00 PM",
+    "price": 31.076999999999998,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 216,
+    "date": "Mar 28, 2014 1:36:00 PM",
+    "price": 30.891000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 86,
+    "date": "Mar 7, 2014 11:26:00 AM",
+    "price": 32.31699999999999,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 110,
+    "date": "Mar 7, 2014 11:50:00 AM",
+    "price": 32.399,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 50,
+    "date": "Mar 7, 2014 10:50:00 AM",
+    "price": 32.558,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 198,
+    "date": "Mar 7, 2014 1:18:00 PM",
+    "price": 32.358000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 82,
+    "date": "Mar 7, 2014 11:22:00 AM",
+    "price": 32.299,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 244,
+    "date": "Mar 7, 2014 2:04:00 PM",
+    "price": 32.17100000000001,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 27,
+    "date": "Mar 4, 2014 10:27:00 AM",
+    "price": 30.895999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 198,
+    "date": "Mar 4, 2014 1:18:00 PM",
+    "price": 31.019,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 296,
+    "date": "Mar 4, 2014 2:56:00 PM",
+    "price": 31.037,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 74,
+    "date": "Mar 4, 2014 11:14:00 AM",
+    "price": 31.015000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 229,
+    "date": "Mar 4, 2014 1:49:00 PM",
+    "price": 31.094,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 341,
+    "date": "Mar 4, 2014 3:41:00 PM",
+    "price": 31.128999999999998,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 33,
+    "date": "Mar 5, 2014 10:33:00 AM",
+    "price": 31.595000000000006,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 86,
+    "date": "Mar 5, 2014 11:26:00 AM",
+    "price": 31.781,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 18,
+    "date": "Mar 6, 2014 10:18:00 AM",
+    "price": 32.160000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 57,
+    "date": "Mar 6, 2014 10:57:00 AM",
+    "price": 31.983000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 69,
+    "date": "Mar 27, 2014 11:09:00 AM",
+    "price": 31.173000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 141,
+    "date": "Mar 27, 2014 12:21:00 PM",
+    "price": 30.665000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 201,
+    "date": "Mar 26, 2014 1:21:00 PM",
+    "price": 31.708999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 242,
+    "date": "Mar 26, 2014 2:02:00 PM",
+    "price": 31.395999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 151,
+    "date": "Mar 25, 2014 12:31:00 PM",
+    "price": 31.669,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 185,
+    "date": "Mar 25, 2014 1:05:00 PM",
+    "price": 31.863000000000007,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 32,
+    "date": "Mar 25, 2014 10:32:00 AM",
+    "price": 32.118,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 65,
+    "date": "Mar 25, 2014 11:05:00 AM",
+    "price": 31.93,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 209,
+    "date": "Mar 24, 2014 1:29:00 PM",
+    "price": 32.293,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 239,
+    "date": "Mar 24, 2014 1:59:00 PM",
+    "price": 32.41,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 28,
+    "date": "Mar 24, 2014 10:28:00 AM",
+    "price": 32.437,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 44,
+    "date": "Mar 24, 2014 10:44:00 AM",
+    "price": 32.314,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 160,
+    "date": "Mar 21, 2014 12:40:00 PM",
+    "price": 32.544,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 193,
+    "date": "Mar 21, 2014 1:13:00 PM",
+    "price": 32.67800000000001,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 67,
+    "date": "Mar 21, 2014 11:07:00 AM",
+    "price": 32.815,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 87,
+    "date": "Mar 21, 2014 11:27:00 AM",
+    "price": 32.61199999999999,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 88,
+    "date": "Mar 20, 2014 11:28:00 AM",
+    "price": 32.251999999999995,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 148,
+    "date": "Mar 20, 2014 12:28:00 PM",
+    "price": 32.518,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 128,
+    "date": "Mar 20, 2014 12:08:00 PM",
+    "price": 32.485,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 179,
+    "date": "Mar 20, 2014 12:59:00 PM",
+    "price": 32.68,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 256,
+    "date": "Mar 19, 2014 2:17:00 PM",
+    "price": 31.615,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 274,
+    "date": "Mar 19, 2014 2:35:00 PM",
+    "price": 31.967000000000002,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 32,
+    "date": "Mar 19, 2014 10:32:00 AM",
+    "price": 31.627,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 305,
+    "date": "Mar 19, 2014 3:06:00 PM",
+    "price": 31.833,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 59,
+    "date": "Mar 19, 2014 10:59:00 AM",
+    "price": 31.594,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 320,
+    "date": "Mar 19, 2014 3:21:00 PM",
+    "price": 31.583999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 58,
+    "date": "Mar 18, 2014 10:58:00 AM",
+    "price": 31.535000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 179,
+    "date": "Mar 18, 2014 12:59:00 PM",
+    "price": 31.51,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 94,
+    "date": "Mar 18, 2014 11:34:00 AM",
+    "price": 31.625000000000007,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 218,
+    "date": "Mar 18, 2014 1:38:00 PM",
+    "price": 31.619999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 37,
+    "date": "Mar 17, 2014 10:37:00 AM",
+    "price": 31.661,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 88,
+    "date": "Mar 17, 2014 11:28:00 AM",
+    "price": 31.532000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 73,
+    "date": "Mar 17, 2014 11:13:00 AM",
+    "price": 31.531,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 110,
+    "date": "Mar 17, 2014 11:50:00 AM",
+    "price": 31.439,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 102,
+    "date": "Mar 14, 2014 11:42:00 AM",
+    "price": 31.120000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 219,
+    "date": "Mar 14, 2014 1:39:00 PM",
+    "price": 31.101999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 132,
+    "date": "Mar 14, 2014 12:12:00 PM",
+    "price": 31.306,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 270,
+    "date": "Mar 14, 2014 2:30:00 PM",
+    "price": 31.333,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 29,
+    "date": "Mar 14, 2014 10:29:00 AM",
+    "price": 31.454,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 94,
+    "date": "Mar 14, 2014 11:34:00 AM",
+    "price": 31.064,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 165,
+    "date": "Mar 13, 2014 12:45:00 PM",
+    "price": 31.719,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 195,
+    "date": "Mar 13, 2014 1:15:00 PM",
+    "price": 31.427999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 162,
+    "date": "Mar 12, 2014 12:42:00 PM",
+    "price": 31.311000000000007,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 195,
+    "date": "Mar 12, 2014 1:15:00 PM",
+    "price": 31.402000000000005,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 116,
+    "date": "Mar 12, 2014 11:56:00 AM",
+    "price": 31.393000000000008,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 155,
+    "date": "Mar 12, 2014 12:35:00 PM",
+    "price": 31.282,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 148,
+    "date": "Mar 11, 2014 12:28:00 PM",
+    "price": 31.852999999999998,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 183,
+    "date": "Mar 11, 2014 1:03:00 PM",
+    "price": 31.974,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 73,
+    "date": "Mar 11, 2014 11:13:00 AM",
+    "price": 32.18000000000001,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 115,
+    "date": "Mar 11, 2014 11:55:00 AM",
+    "price": 31.982999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 78,
+    "date": "Mar 10, 2014 11:18:00 AM",
+    "price": 31.863999999999997,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 111,
+    "date": "Mar 10, 2014 11:51:00 AM",
+    "price": 32.021,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 27,
+    "date": "Mar 10, 2014 10:27:00 AM",
+    "price": 32.022,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 67,
+    "date": "Mar 10, 2014 11:07:00 AM",
+    "price": 31.821999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 129,
+    "date": "Feb 28, 2014 12:09:00 PM",
+    "price": 30.610000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 164,
+    "date": "Feb 28, 2014 12:44:00 PM",
+    "price": 30.865999999999996,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 279,
+    "date": "Feb 28, 2014 2:39:00 PM",
+    "price": 30.826000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 321,
+    "date": "Feb 28, 2014 3:21:00 PM",
+    "price": 30.607000000000006,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 295,
+    "date": "Mar 31, 2014 2:55:00 PM",
+    "price": 31.011000000000003,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_entry"
+  },
+  {
+    "index": 354,
+    "date": "Mar 31, 2014 3:54:00 PM",
+    "price": 31.172000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "long_exit"
+  },
+  {
+    "index": 67,
+    "date": "Mar 31, 2014 11:07:00 AM",
+    "price": 31.271000000000004,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 157,
+    "date": "Mar 31, 2014 12:37:00 PM",
+    "price": 31.081,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_entry"
+  },
+  {
+    "index": 108,
+    "date": "Mar 31, 2014 11:48:00 AM",
+    "price": 31.151,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  },
+  {
+    "index": 188,
+    "date": "Mar 31, 2014 1:08:00 PM",
+    "price": 31.004999999999995,
+    "exchange": {
+      "exchangeName": "NYSE",
+      "currency": "USD",
+      "timeOpenForeign": {
+        "hours": 9,
+        "minutes": 30,
+        "seconds": 0
+      },
+      "timeCloseForeign": {
+        "hours": 16,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "timeOffset": {
+        "hours": -4,
+        "minutes": 0,
+        "seconds": 0
+      },
+      "dateOpenLocal": "Nov 16, 2015 9:30:00 AM",
+      "dateCloseLocal": "Nov 16, 2015 4:00:00 PM",
+      "timeZone": "America/New_York",
+      "exchangeState": "status_unknown",
+      "exchangeDesignation": "NYSE"
+    },
+    "symbol": {
+      "symbolName": "MS",
+      "securityType": "type_stock"
+    },
+    "signalPoint": "short_exit"
+  }
+]
