@@ -12,7 +12,7 @@ import org.apache.commons.lang3.SystemUtils;
 public class Os {
 	public static enum OsType{
 		linux,
-		unix,
+		osx,
 		windows,
 		unknown
 	}
@@ -21,7 +21,7 @@ public class Os {
 		if (SystemUtils.IS_OS_LINUX){
 			return OsType.linux;
 		}else if (SystemUtils.IS_OS_MAC_OSX){
-			return OsType.unix;
+			return OsType.osx;
 		}else if (SystemUtils.IS_OS_WINDOWS){
 			return OsType.windows;
 		}

@@ -67,11 +67,11 @@ public class Position implements OrderStatusListener {
 
 	public void executePosition() {
 		if (positionManager.orderMode == OrderMode.mode_exchange){
-			Co.println("--> Asked to execute " + positionType.name() + ", " + symbol.symbolName);
+			Co.println("--> Asked to execute " + positionType.name() + ", " + symbol.name);
 		}
 		synchronized (lock){
 			if (positionManager.orderMode == OrderMode.mode_exchange){
-				Co.println("--> Synchronized " + positionType.name() + ", " + symbol.symbolName);
+				Co.println("--> Synchronized " + positionType.name() + ", " + symbol.name);
 			}
 			if (initialUnits == 0){
 				Co.println("--> Warning initial units are 0!!!");
@@ -258,7 +258,7 @@ public class Position implements OrderStatusListener {
 		PositionUtils positionUtils;
 		
 		if (positionManager.orderMode == OrderMode.mode_exchange){
-			Co.println("--> Received order status change: " + order.symbol.symbolName + ", " + order.orderType.name() + ", " + orderStatus.name());
+			Co.println("--> Received order status change: " + order.symbol.name + ", " + order.orderType.name() + ", " + orderStatus.name());
 		}
 		
 		positionUtils = new PositionUtils(this, listOfOrderEntry);

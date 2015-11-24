@@ -97,7 +97,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		
 		//Hack for SignalOfEncog
 		if (exchange != null && symbol != null){
-			signalGroup.signalOfEncog.setNetworkName(exchange.exchangeName + "-" + symbol.symbolName);
+			signalGroup.signalOfEncog.setNetworkName(exchange.name + "-" + symbol.name);
 		}
 	}
 	
@@ -110,7 +110,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	
 	public void initialize(){
 		if (algorithmMode.displayChart) {
-			algorithmChart = new AlgorithmChart(symbol.symbolName + " - " + new SimpleDateFormat("EEE MMM dd yyyy").format(startingDate), this);
+			algorithmChart = new AlgorithmChart(symbol.name + " - " + new SimpleDateFormat("EEE MMM dd yyyy").format(startingDate), this);
 		}
 		
 		if (algorithmMode.populateTable){
@@ -293,7 +293,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	@Override
 	public void positionStatusChanged(Position position) {
 		if (position.positionType == PositionType.position_cancelled){
-			Co.println("--> Position was cancelled... Disabling: " + position.symbol.symbolName);
+			Co.println("--> Position was cancelled... Disabling: " + position.symbol.name);
 			disable(position.positionType.name());
 		}
 	}

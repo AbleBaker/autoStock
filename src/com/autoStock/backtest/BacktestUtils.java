@@ -263,7 +263,7 @@ public class BacktestUtils {
 			throw new IllegalStateException("Historical data list size is 0 for symbol: " + symbol);
 		}
 		for (HistoricalData historicalData : historicalDataList.listOfHistoricalData) {
-			if (historicalData.symbol.symbolName.equals(symbol)) {
+			if (historicalData.symbol.name.equals(symbol)) {
 				return historicalData;
 			}
 		}

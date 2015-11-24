@@ -106,7 +106,7 @@ public class PositionManager implements ListenerOfPositionStatusChange {
 	public Position getPosition(Symbol symbol) {
 		synchronized (lock) {
 			for (Position position : listOfPosition) {
-				if (position.symbol.symbolName.equals(symbol.symbolName)) {
+				if (position.symbol.name.equals(symbol.name)) {
 					return position;
 				}
 			}

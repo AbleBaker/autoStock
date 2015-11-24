@@ -99,7 +99,7 @@ public class Order {
 
 				ArrayList<String> columnValues = new ArrayList<String>();
 				columnValues.add(DateTools.getPretty(new Date()));
-				columnValues.add(symbol.symbolName);
+				columnValues.add(symbol.name);
 				columnValues.add(orderType.name());
 				columnValues.add(exResultRowMarketOrder.status.name());
 				columnValues.add(String.valueOf(unitsRequested));

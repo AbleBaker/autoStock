@@ -16,9 +16,9 @@ public class AlgorithmDefinitions {
 		;
 		
 		public boolean populateTable;
-		public final boolean displayChart;
-		public final boolean displayTable;
-		public final boolean displayMessages;
+		public boolean displayChart;
+		public boolean displayTable;
+		public boolean displayMessages;
 		
 		AlgorithmMode(boolean displayChart, boolean displayTable, boolean displayMessages, boolean populateTable){
 			this.displayChart = displayChart;

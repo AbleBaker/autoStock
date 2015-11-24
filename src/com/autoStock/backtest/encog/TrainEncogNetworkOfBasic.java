@@ -39,8 +39,21 @@ public class TrainEncogNetworkOfBasic extends TrainEncogWithScore {
 	
 	@Override
 	public void train(int count, double score){
-		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 512);
+		train = new NeuralPSO(network, new NguyenWidrowRandomizer(), calculateScore, 256);
 		
+//		train = new MLMethodGeneticAlgorithm(new MethodFactory(){
+//			@Override
+//			public MLMethod factor() {
+//				//final BasicNetwork result = createNetwork();
+//				//((MLResettable)result).reset();
+//				//return result;
+//				network.reset();
+//				return network;
+//			}},calculateScore,500);
+		
+		
+		((NeuralPSO)train).setMaxVelocity(5);
+
 		trainLoop(count);
 		
 		if (train.getError() <= 0){

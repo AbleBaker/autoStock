@@ -37,7 +37,7 @@ public class MainClient {
 		new MenuLauncher().launchDisplay(menuStructure);
 		
 		while (Global.callbackLock.isLocked()){
-			try{Thread.sleep(1*100);}catch(InterruptedException e){return;}
+			try{Thread.sleep(1*250);}catch(InterruptedException e){return;}
 		}
 		
 		Co.println("\n******** Finished ********");

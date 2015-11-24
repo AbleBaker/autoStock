@@ -56,7 +56,7 @@ public class IbExchangeInstance {
 		Contract contract = new Contract();
 		com.autoStock.trading.platform.ib.core.Order ibOrder = new com.autoStock.trading.platform.ib.core.Order();
 		contract.m_exchange = order.exchange.exchangeDesignation == ExchangeDesignation.ASX ? "ASX" : "SMART";
-		contract.m_symbol = order.symbol.symbolName;
+		contract.m_symbol = order.symbol.name;
 		contract.m_currency = order.exchange.currency.name();
 		contract.m_secType = "STK";
 		ibOrder.m_orderId = requestHolder.requestId;
@@ -73,7 +73,7 @@ public class IbExchangeInstance {
 		Contract contract = new Contract();
 		com.autoStock.trading.platform.ib.core.Order ibOrder = new com.autoStock.trading.platform.ib.core.Order();
 		contract.m_exchange = order.exchange.exchangeDesignation == ExchangeDesignation.ASX ? "ASX" : "SMART";
-		contract.m_symbol = order.symbol.symbolName;
+		contract.m_symbol = order.symbol.name;
 		contract.m_secType = "STK";
 		contract.m_currency = order.exchange.currency.name();
 		ibOrder.m_orderId = requestHolder.requestId;
@@ -89,7 +89,7 @@ public class IbExchangeInstance {
 		Contract contract = new Contract();
 		com.autoStock.trading.platform.ib.core.Order ibOrder = new com.autoStock.trading.platform.ib.core.Order();
 		contract.m_exchange = order.exchange.exchangeDesignation == ExchangeDesignation.ASX ? "ASX" : "SMART";
-		contract.m_symbol = order.symbol.symbolName;
+		contract.m_symbol = order.symbol.name;
 		contract.m_secType = "STK";
 		contract.m_currency = order.exchange.currency.name();
 		ibOrder.m_orderId = requestHolder.requestId;
@@ -105,7 +105,7 @@ public class IbExchangeInstance {
 		Contract contract = new Contract();
 		com.autoStock.trading.platform.ib.core.Order ibOrder = new com.autoStock.trading.platform.ib.core.Order();
 		contract.m_exchange = order.exchange.exchangeDesignation == ExchangeDesignation.ASX ? "ASX" : "SMART";
-		contract.m_symbol = order.symbol.symbolName;
+		contract.m_symbol = order.symbol.name;
 		contract.m_secType = "STK";
 		contract.m_currency = order.exchange.currency.name();
 		ibOrder.m_orderId = requestHolder.requestId;
@@ -136,7 +136,7 @@ public class IbExchangeInstance {
 		// Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
 		contract.m_exchange = exchange.exchangeDesignation == ExchangeDesignation.ASX ? "ASX" : "SMART";
-		contract.m_symbol = symbol.symbolName;
+		contract.m_symbol = symbol.name;
 		contract.m_currency = exchange.currency.name();
 		contract.m_secType = "STK";
 		contract.m_includeExpired = true;
@@ -156,8 +156,8 @@ public class IbExchangeInstance {
 	public void getHistoricalPrice(HistoricalData historicalData, RequestHolder requestHolder) {
 		// Co.println("Request id: " + requestHolder.requestId);
 		Contract contract = new Contract();
-		contract.m_exchange = historicalData.exchange.exchangeName;
-		contract.m_symbol = historicalData.symbol.symbolName;
+		contract.m_exchange = historicalData.exchange.name;
+		contract.m_symbol = historicalData.symbol.name;
 		contract.m_secType = historicalData.symbol.securityType.ibStringName;
 		contract.m_currency = historicalData.exchange.currency.name();
 		String endDate = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(historicalData.endDate) + " est";

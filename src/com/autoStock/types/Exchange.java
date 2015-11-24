@@ -19,7 +19,7 @@ import com.autoStock.types.basic.Time;
  */
 
 public class Exchange extends ExchangeDefinitions {
-	public String exchangeName;
+	public String name;
 	public CurrencyDefinitions currency;
 	public Time timeOpenForeign;
 	public Time timeCloseForeign;
@@ -35,7 +35,7 @@ public class Exchange extends ExchangeDefinitions {
 	 * @param name - The string name for the exchange
 	 */
 	public Exchange(String name){
-		this.exchangeName = name;
+		this.name = name;
 		
 		@SuppressWarnings("unchecked")
 		ArrayList<DbExchange> listOfQrExchange = (ArrayList<DbExchange>) new DatabaseQuery().getQueryResults(BasicQueries.basic_get_exchange_info, new QueryArg(QueryArgs.exchange, name));

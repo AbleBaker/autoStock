@@ -87,7 +87,7 @@ public class PositionGovernor {
 						}
 					}
 				}else if (position.positionType == PositionType.position_cancelled || position.positionType == PositionType.position_cancelling || position.positionType == PositionType.position_long_exited || position.positionType == PositionType.position_short_exited || position.positionType == PositionType.position_long_exit || position.positionType == PositionType.position_short_exit){
-					Co.println("--> Position is not yet removed: " + position.symbol.symbolName);
+					Co.println("--> Position is not yet removed: " + position.symbol.name);
 				}else {
 					throw new IllegalStateException("Position type did not match: " + position.positionType.name() + ", " + positionManager.getPositionListSize());
 				}
@@ -208,7 +208,7 @@ public class PositionGovernor {
 	private Pair<Symbol,ArrayList<PositionGovernorResponse>> getPair(Symbol symbol){
 		synchronized (listOfPairedResponses){
 			for (Pair<Symbol,ArrayList<PositionGovernorResponse>> pair : listOfPairedResponses){
-				if (pair.first.symbolName.equals(symbol.symbolName)){
+				if (pair.first.name.equals(symbol.name)){
 					return pair;
 				}
 			}

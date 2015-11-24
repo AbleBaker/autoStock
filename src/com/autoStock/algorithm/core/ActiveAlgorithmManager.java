@@ -52,8 +52,8 @@ public class ActiveAlgorithmManager implements ActivationListener {
 			if (listOfActiveAlgorithmContainer.size() >= 100){
 				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + symbol);
 				return false;
-			}else if (getAlgorithmContainerForSymbol(symbol.symbolName, exchange.exchangeName) == null && isInDiscard(new Pair<Symbol,Exchange>(symbol, exchange)) == false){
-				Co.println("Will run algorithm for symbol: " + additionSource  + ", " + symbol.symbolName);
+			}else if (getAlgorithmContainerForSymbol(symbol.name, exchange.name) == null && isInDiscard(new Pair<Symbol,Exchange>(symbol, exchange)) == false){
+				Co.println("Will run algorithm for symbol: " + additionSource  + ", " + symbol.name);
 			}
 		}
 		
@@ -65,7 +65,7 @@ public class ActiveAlgorithmManager implements ActivationListener {
 			if (listOfActiveAlgorithmContainer.size() >= 100){
 				Co.println("--> Reached market data concurrent request limit. Not adding symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				return false;
-			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.exchangeName) == null && isInDiscard(new Pair<Symbol,Exchange>(new Symbol(result.symbol, SecurityType.type_stock), exchange)) == false){
+			}else if (getAlgorithmContainerForSymbol(result.symbol, exchange.name) == null && isInDiscard(new Pair<Symbol,Exchange>(new Symbol(result.symbol, SecurityType.type_stock), exchange)) == false){
 				Co.println("Will run algorithm for symbol: " + result.marketScannerType.name() + ", " + result.symbol);
 				
 				ActiveAlgorithmContainer container = new ActiveAlgorithmContainer(exchange, new Symbol(result.symbol, SecurityType.type_stock), result.marketScannerType.name(), this);
@@ -81,7 +81,7 @@ public class ActiveAlgorithmManager implements ActivationListener {
 	
 	public boolean isInDiscard(Pair<Symbol, Exchange> pair){
 		for (Pair<Symbol,Exchange> pairLocal : listOfDiscards){
-			if (pairLocal.first.symbolName.equals(pair.first.symbolName) && pairLocal.second.exchangeName.equals(pair.second.exchangeName)){
+			if (pairLocal.first.name.equals(pair.first.name) && pairLocal.second.name.equals(pair.second.name)){
 				return true;
 			}
 		}
@@ -92,8 +92,8 @@ public class ActiveAlgorithmManager implements ActivationListener {
 	public void pruneListOfSymbols(ArrayList<String> listOfSymbols, Exchange exchange){
 		for (Iterator<ActiveAlgorithmContainer> iterator = listOfActiveAlgorithmContainer.iterator(); iterator.hasNext();){
 			ActiveAlgorithmContainer container = iterator.next();
-			if (listOfSymbols.contains(container.symbol.symbolName) == false){
-				Co.println("--> No longer want: " + container.symbol.symbolName);
+			if (listOfSymbols.contains(container.symbol.name) == false){
+				Co.println("--> No longer want: " + container.symbol.name);
 				algorithmInfoManager.deactivatedSymbol(container.symbol, container.listOfQuoteSlice);
 				container.deactivate();
 				iterator.remove();
@@ -148,7 +148,7 @@ public class ActiveAlgorithmManager implements ActivationListener {
 	
 	private ActiveAlgorithmContainer getAlgorithmContainerForSymbol(String symbol, String exchange){
 		for (ActiveAlgorithmContainer container : listOfActiveAlgorithmContainer){
-			if (container.symbol.symbolName.equals(symbol) && container.exchange.exchangeName.equals(exchange)){
+			if (container.symbol.name.equals(symbol) && container.exchange.name.equals(exchange)){
 				return container;
 			}
 		}
@@ -186,14 +186,14 @@ public class ActiveAlgorithmManager implements ActivationListener {
 
 	@Override
 	public void activated(ActiveAlgorithmContainer activeAlgorithmContainer) {
-		Co.println("--> Activated: " + activeAlgorithmContainer.symbol.symbolName);
+		Co.println("--> Activated: " + activeAlgorithmContainer.symbol.name);
 		listOfActiveAlgorithmContainer.add(activeAlgorithmContainer);
 		algorithmInfoManager.activatedSymbol(new Date(), activeAlgorithmContainer.symbol, activeAlgorithmContainer.exchange);	
 	}
 
 	@Override
 	public void failed(ActiveAlgorithmContainer activeAlgorithmContainer, String reason) {
-		Co.println("--> Discarded: " + activeAlgorithmContainer.symbol.symbolName + "(" + reason + ")");
-		listOfDiscards.add(new Pair<Symbol,Exchange>(new Symbol(activeAlgorithmContainer.symbol.symbolName, SecurityType.type_stock), activeAlgorithmContainer.exchange));
+		Co.println("--> Discarded: " + activeAlgorithmContainer.symbol.name + "(" + reason + ")");
+		listOfDiscards.add(new Pair<Symbol,Exchange>(new Symbol(activeAlgorithmContainer.symbol.name, SecurityType.type_stock), activeAlgorithmContainer.exchange));
 	}
 }

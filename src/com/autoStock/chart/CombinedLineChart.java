@@ -399,7 +399,6 @@ public class CombinedLineChart {
 				subPlotForCandleStick.setRangeAxis(1, new NumberAxis("Volume"));
 
 				((CandlestickRenderer) subPlotForCandleStick.getRenderer()).setUseOutlinePaint(true);
-
 				plot.add(subPlotForCandleStick, 1);
 			} catch (Exception e) {
 			}

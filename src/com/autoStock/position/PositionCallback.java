@@ -24,7 +24,7 @@ public class PositionCallback {
 
 	public static void affectBankBalance(Order order, OrderMode orderMode, BasicAccount basicAccount, Position position){
 		if (orderMode == OrderMode.mode_exchange){
-			Co.println("Affecting bank balance: " + order.symbol.symbolName + ", " + order.getOrderValue().valueFilled);
+			Co.println("Affecting bank balance: " + order.symbol.name + ", " + order.getOrderValue().valueFilled);
 		}
 		if (order.orderType == OrderType.order_long || order.orderType == OrderType.order_short){
 			if (orderMode == OrderMode.mode_exchange){

@@ -55,7 +55,7 @@ public class MainEngagement implements MultipleRequestMarketScannerListener, Exc
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_top_trade_rate);
 //		multipleRequestMarketScanner.addRequest(exchange, MarketScannerType.type_hot_by_volume);
 		
-		if (exchange.exchangeName.equals("NYSE")){indexMarketDataProvider = new IndexMarketDataProvider(exchange, new Index("INDU"));}
+		if (exchange.name.equals("NYSE")){indexMarketDataProvider = new IndexMarketDataProvider(exchange, new Index("INDU"));}
 		multipleRequestMarketScanner.startScanners();
 	}
 	

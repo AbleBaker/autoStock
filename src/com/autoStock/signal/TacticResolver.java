@@ -19,7 +19,6 @@ public class TacticResolver {
 		tactic_any,
 		tactic_combined,
 		tactic_mixed,
-		tactic_conjugate,
 	}
 	
 	public static SignalPoint getSignalPoint(Signaler signal, SignalPointTactic signalPointTactic, Position position){ //synchronized?
@@ -54,6 +53,8 @@ public class TacticResolver {
 	private static SignalPoint getSignalPointCombined(Signaler signal, Position position){
 		SignalPoint signalPoint = new SignalPoint();
 		
+		//Co.println("--> Using combined " + signal.getListOfSignalBase().size());
+		
 		for (SignalBase signalBase : signal.getListOfSignalBase()){
 			SignalPoint signalPointLocal = signalBase.getSignalPoint(position);
 				
@@ -70,7 +71,7 @@ public class TacticResolver {
 			}
 		}
 		
-//		Co.println("--> SignalPoint, type: " + signalPoint.signalPointType.name() + ", " + signalPoint.signalMetricType);
+		//Co.println("--> SignalPoint, type: " + signalPoint.signalPointType.name() + ", " + signalPoint.signalMetricType);
 		
 		return signalPoint;
 	}

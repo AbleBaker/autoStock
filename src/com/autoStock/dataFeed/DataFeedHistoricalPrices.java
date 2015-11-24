@@ -80,6 +80,11 @@ public class DataFeedHistoricalPrices implements BacktestRevolverListener {
 	}
 	
 	public void addListener(DataFeedListenerOfQuoteSlice listener){
+		for (DataFeedListenerOfQuoteSlice listenerIn : listOfListener){
+			if (listener.hashCode() == listener.hashCode()){
+				throw new IllegalArgumentException("Listener already added");
+			}
+		}
 		listOfListener.add(listener);
 	}
 	

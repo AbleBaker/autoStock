@@ -24,12 +24,14 @@ public class AccountProvider {
 	}
 	
 	public BasicAccount getAccount(Symbol symbol){
-		for (Pair<Symbol, BasicAccount> pair : listOfAccount){
-			if (pair.first.symbolName.equals(symbol.symbolName)){
-				return pair.second;
+		synchronized (listOfAccount){
+			for (Pair<Symbol, BasicAccount> pair : listOfAccount){
+				if (pair.first.name.equals(symbol.name)){
+					return pair.second;
+				}
 			}
 		}
-		
+			
 		return null;
 	}
 	
@@ -41,9 +43,9 @@ public class AccountProvider {
 		
 	}
 
-	public BasicAccount newAccountForSymbol(Symbol symbol) {
+	public synchronized BasicAccount newAccountForSymbol(Symbol symbol) {
 		BasicAccount basicAccount = new BasicAccount(defaultBalance);
-		listOfAccount.add(new Pair<Symbol, BasicAccount>(symbol, basicAccount));
+		if (getAccount(symbol) == null){listOfAccount.add(new Pair<Symbol, BasicAccount>(symbol, basicAccount));}
 		return basicAccount;
 	}
 }

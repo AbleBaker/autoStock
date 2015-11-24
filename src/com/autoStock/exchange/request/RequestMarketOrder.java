@@ -35,7 +35,7 @@ public class RequestMarketOrder {
 		threadForExecution = new Thread(new Runnable(){
 			@Override
 			public void run() {
-				Co.println("--> About to execute order: " + requestHolder.requestId + ", " + order.orderType.name() + ", " + order.symbol.symbolName);
+				Co.println("--> About to execute order: " + requestHolder.requestId + ", " + order.orderType.name() + ", " + order.symbol.name);
 				if (order.orderType == OrderType.order_long_entry){
 					ExchangeController.getIbExchangeInstance().placeLongEntry(order, requestHolder);
 				}else if (order.orderType == OrderType.order_long_exit){

@@ -27,6 +27,7 @@ import org.encog.neural.pattern.FeedForwardPattern;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
 import com.autoStock.algorithm.core.AlgorithmListener;
+import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.extras.StrategyOptionsOverride;
 import com.autoStock.backtest.BacktestEvaluation;
 import com.autoStock.backtest.BacktestEvaluationBuilder;
@@ -61,7 +62,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
-	private boolean USE_CLICKPOINTS = true;
+	private boolean USE_CLICKPOINTS = false;
 	private GenericPersister genericPersister = new GenericPersister();
 	private ArrayList<ChartSignalPoint> listOfClickPoint;
 	private SingleBacktest singleBacktest;
@@ -71,10 +72,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-	private Date dateEnd = DateTools.getDateFromString("03/31/2014");
-//	private Date dateStart = DateTools.getDateFromString("09/08/2014");
-//	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
+//	private Date dateStart = DateTools.getDateFromString("02/03/2014");
+//	private Date dateEnd = DateTools.getDateFromString("03/31/2014");
+	private Date dateStart = DateTools.getDateFromString("09/02/2014");
+	private Date dateEnd = DateTools.getDateFromString("09/30/2014");
 	private double crossValidationRatio = 0; //0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
@@ -92,6 +93,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
 		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
 		
+		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.clear();
+		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
+		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_crossover);
+		
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		
@@ -104,7 +109,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		if (list.size() > 0 && USE_CLICKPOINTS){
 			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = list; 
 		}else{
-			String name = exchange.exchangeName + "-" + symbol.symbolName + "-day-" + DateTools.getEncogDate(startingDate);
+			String name = exchange.name + "-" + symbol.name + "-day-" + DateTools.getEncogDate(startingDate);
+			Co.println("--> Loaded daily network: " + name);
 			BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(name);
 			if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load: " + name);}
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(basicNetwork, 0);
@@ -159,7 +165,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				haveChange = false;
 				
 				Co.println("--> Have change at tick: " + DateTools.getPretty(quote.dateTime) + " to status " + positionGovernorResponse.status.name() +  " with EIW: " + eiw.getHash());
-				Co.println(eiw.describeContents());
+				//Co.println(eiw.describeContents());
 				
 				if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry){
 					addLongEntry(listOfIdealOutputs, 1);
@@ -167,15 +173,16 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 					addShortEntry(listOfIdealOutputs, 1);
 				}
-				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
-					addReentry(listOfIdealOutputs, 1);
-				}
-				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){
+//				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
+//					addReentry(listOfIdealOutputs, 1);
+//				}
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 					addLongExit(listOfIdealOutputs, 1);
 				}
-				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-					addShortExit(listOfIdealOutputs, 1);
-				}
+//				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+//					addShortExit(listOfIdealOutputs, 1);
+//				}
+				
 				else { throw new IllegalStateException(positionGovernorResponse.status.name() + " from " + positionGovernorResponse.signalPoint.signalMetricType.name()); }
 			}else{
 //				if (singleBacktest.backtestContainer.algorithm.position != null && singleBacktest.backtestContainer.algorithm.position.getPositionHistory().getAge().asSeconds() <= 60 * 2 && singleBacktest.backtestContainer.algorithm.position.getCurrentPercentGainLoss(false) > 0.05){
@@ -202,8 +209,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
 	}
 	
 	private void addShortEntry(ArrayList<Double> listOfIdealOutputs, double as){
@@ -211,44 +218,44 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		listOfIdealOutputs.add(as);
 		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);	
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);	
 	}
 	
-	private void addReentry(ArrayList<Double> listOfIdealOutputs, double as){
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(as);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-	}
-	
+//	private void addReentry(ArrayList<Double> listOfIdealOutputs, double as){
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(as);
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
+//	}
+//	
 	private void addLongExit(ArrayList<Double> listOfIdealOutputs, double as){
 		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(as);
 		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
 	}
 	
-	private void addShortExit(ArrayList<Double> listOfIdealOutputs, double as){
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(as);
-		listOfIdealOutputs.add(-1d);
-	}
+//	private void addShortExit(ArrayList<Double> listOfIdealOutputs, double as){
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(as);
+//		listOfIdealOutputs.add(-1d);
+//	}
 	
 	private void addNone(ArrayList<Double> listOfIdealOutputs, double as){
 		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(as);
 	}
 	
 	int currentDay = 0;

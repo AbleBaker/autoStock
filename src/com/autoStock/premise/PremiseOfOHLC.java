@@ -85,7 +85,7 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 				historicalData.endDate = DateTools.getSameDateMaxTime(historicalData.endDate);
 			}
 			
-			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
+			ArrayList<DbStockHistoricalPrice> listOfResults = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.name), new QueryArg(QueryArgs.exchange, historicalData.exchange.name), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate)));
 			//Co.println(" " + listOfResults.size());
 			
 			for (DbStockHistoricalPrice price : listOfResults){
@@ -103,7 +103,7 @@ public class PremiseOfOHLC extends PremiseBase implements EncogFrameSource {
 
 	@Override
 	public EncogFrame asEncogFrame() { //Trying as deltas
-		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.symbolName + ", " + DateTools.getPretty(dateStart) + ", " + resolution.name(), FrameType.percent_change);
+		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.name + ", " + DateTools.getPretty(dateStart) + ", " + resolution.name(), FrameType.percent_change);
 		ArrayList<Double> values = new ArrayList<Double>();
 		ArrayList<Double> valueOpen = new ArrayList<Double>();
 		ArrayList<Double> valueHigh = new ArrayList<Double>();

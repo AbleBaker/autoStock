@@ -15,6 +15,8 @@ import org.rosuda.JRI.RVector;
 import org.rosuda.JRI.RMainLoopCallbacks;
 
 import com.autoStock.Co;
+import com.autoStock.osPlatform.Os;
+import com.autoStock.osPlatform.Os.OsType;
 
 
 /**
@@ -29,7 +31,7 @@ public class RJavaController {
 	
 	private RJavaController(){
 		if (Rengine.versionCheck() == false){throw new IllegalStateException("Could not verify REngine version");}
-		loadRInstance();
+		loadRInstance();	
 	}
 	
 	private void loadRInstance() {

@@ -28,7 +28,7 @@ public class TableForStrategyResponse extends BaseTable {
 		for (StrategyResponse strategyResponse : backtestContainer.listOfStrategyResponse) {
 			ArrayList<String> listOfString = new ArrayList<String>();
 			listOfString.add(DateTools.getPretty(strategyResponse.quoteSlice.dateTime));
-			listOfString.add(backtestContainer.symbol.symbolName);
+			listOfString.add(backtestContainer.symbol.name);
 			listOfString.add(new DecimalFormat("#.00").format(strategyResponse.quoteSlice.priceClose));
 			listOfString.add(strategyResponse.strategyActionCause.name().replaceAll("proceed_changed", "*").replaceAll("changed", "").replaceAll("proceed_", "").replaceAll("_condition_", " -> ").replaceAll("_", " "));
 			listOfString.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", "").replaceAll("_", " ").replaceAll("none", " "));

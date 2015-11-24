@@ -140,14 +140,14 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 			}
 			
 			if (addedUnits > 0){
-				Co.println("--> Added to unit: " + pair.first.identifier.symbolName + ", " + addedUnits);
+				Co.println("--> Added to unit: " + pair.first.identifier.name + ", " + addedUnits);
 				computeUnit.hashOfAlgorithmModel.put(pair.first.identifier, listOfAlgorithmModel);
 			}
 			
 			eta.setMaxIndex(pair.second.getMaxIndex());
 			eta.update(pair.second.getCurrentIndex());
 			
-			pair.second.printPercentComplete(pair.first.identifier.symbolName + " - " + (int) eta.getETAInMinutes() + " minutes");
+			pair.second.printPercentComplete(pair.first.identifier.name + " - " + (int) eta.getETAInMinutes() + " minutes");
 		}
 		
 		Co.println("--> Issued unit: " + atomicIntForRequestId.get() + "\n");
@@ -195,7 +195,7 @@ public class MainClusteredBacktest implements ListenerOfCommandHolderResult {
 		
 		for (String string : listOfSymbols){
 			Symbol symbol = new Symbol(string, SecurityType.type_stock);
-			Co.println("--> SYMBOL BACKTEST: " + symbol.symbolName);
+			Co.println("--> SYMBOL BACKTEST: " + symbol.name);
 			
 			if (backtestEvaluator.getResults(symbol) == null){
 				Co.println("--> No positive results");

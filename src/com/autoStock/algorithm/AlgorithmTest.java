@@ -23,6 +23,7 @@ import com.autoStock.tables.TableController;
 import com.autoStock.tables.TableDefinitions.AsciiTables;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.tools.ThreadTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
 import com.autoStock.types.Exchange;
@@ -116,7 +117,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			algorithmChart.display();
 		}
 		if (algorithmMode.displayTable) {
-			Co.println("--> " + symbol.symbolName);
+			Co.println("--> " + symbol.name);
 			new TableController().displayTable(tableForAlgorithm.INCLUDE_SIGNALS ? AsciiTables.algorithm : AsciiTables.algorithm_no_signals, tableForAlgorithm.getDisplayRows());
 		}
 		//if (algorithmListener != null) {algorithmListener.endOfAlgorithm();}

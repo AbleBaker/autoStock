@@ -78,7 +78,7 @@ public class PremiseOfOHLCOld extends PremiseBase implements EncogFrameSource {
 		long expectedSize = (list.get(0).duration / resolution.asSeconds()) * ITEM_LENGTH;
 		
 		for (HistoricalData historicalData : list){
-			results.addAll((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.symbolName), new QueryArg(QueryArgs.exchange, historicalData.exchange.exchangeName), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate))));			
+			results.addAll((ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, historicalData.symbol.name), new QueryArg(QueryArgs.exchange, historicalData.exchange.name), new QueryArg(QueryArgs.resolution, historicalData.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(historicalData.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(historicalData.endDate))));			
 		}
 
 		int index = 0;
@@ -145,7 +145,7 @@ public class PremiseOfOHLCOld extends PremiseBase implements EncogFrameSource {
 		ArrayList<QuoteSlice> listOfOHLC = new ArrayList<QuoteSlice>();
 		
 		for (HistoricalData data : list){
-			ArrayList<DbStockHistoricalPrice> results = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, data.symbol.symbolName), new QueryArg(QueryArgs.exchange, data.exchange.exchangeName), new QueryArg(QueryArgs.resolution, data.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(data.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(data.endDate)));
+			ArrayList<DbStockHistoricalPrice> results = (ArrayList<DbStockHistoricalPrice>) new DatabaseQuery().getQueryResults(BasicQueries.basic_historical_price_range, new QueryArg(QueryArgs.symbol, data.symbol.name), new QueryArg(QueryArgs.exchange, data.exchange.name), new QueryArg(QueryArgs.resolution, data.resolution.asMinutes()), new QueryArg(QueryArgs.startDate, DateTools.getSqlDate(data.startDate)), new QueryArg(QueryArgs.endDate, DateTools.getSqlDate(data.endDate)));
 			
 			Co.println("--> Duration: " + data.duration);
 			
@@ -170,7 +170,7 @@ public class PremiseOfOHLCOld extends PremiseBase implements EncogFrameSource {
 
 	@Override
 	public EncogFrame asEncogFrame() {
-		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.symbolName + ", " + DateTools.getPretty(dateStart) + ", " + resolution.name(), FrameType.raw);
+		EncogFrame encogFrame = new EncogFrame("OHLC for: " + symbol.name + ", " + DateTools.getPretty(dateStart) + ", " + resolution.name(), FrameType.raw);
 		ArrayList<Double> values = new ArrayList<Double>();
 		
 		for (QuoteSlice quote : listOfQuotes){

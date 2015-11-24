@@ -6,6 +6,8 @@ package com.autoStock.internal;
 import com.autoStock.database.DatabaseCore;
 import com.autoStock.exchange.ExchangeController;
 import com.autoStock.internal.Global.Mode;
+import com.autoStock.osPlatform.Os;
+import com.autoStock.osPlatform.Os.OsType;
 import com.autoStock.r.RJavaController;
 
 /**
@@ -18,12 +20,13 @@ public class ApplicationStates {
 	
 	public static void startup(Mode mode){
 		Global.setMode(mode);
-//		ConsoleScanner.start(); //TODO: Messes with JRI
 		
 		databaseCore = new DatabaseCore();
 		databaseCore.init();
 		
-		RJavaController.getInstance(); //Invokes startup
+		if (Os.identifyOS() != OsType.osx){
+			RJavaController.getInstance();
+		}
 		
 		if (mode != Mode.client_skip_tws){
 			exchangeController = new ExchangeController();

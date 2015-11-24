@@ -26,7 +26,7 @@ public class TrainEncogSignalNew {
 		this.historicalData = historicalData;
 		encogScoreProvider.setDetails(algorithmModel, historicalData);		
 		
-		encogTrainer = new TrainEncogMultiNetwork(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName);
+		encogTrainer = new TrainEncogMultiNetwork(encogScoreProvider, historicalData.exchange.name + "-" + historicalData.symbol.name);
 		
 		//Might want new networks...
 		SignalOfEncogNew signalOfEncog = new SignalOfEncogNew(new SignalParametersForEncog(), null);

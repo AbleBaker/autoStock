@@ -18,21 +18,24 @@ public class StrategyOptionDefaults {
 				strategyOptions.invervalForDDorSLExitMins.value = 3;
 				
 				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
-				strategyOptions.maxStopLossPercent.value = -0.20d;
+				strategyOptions.maxStopLossPercent.value = -0.10d;
 				strategyOptions.disableAfterLoss.value = -0.25d;
 				
-				strategyOptions.maxPositionTimeAtProfit.value = 45;
+				strategyOptions.maxPositionTimeAtProfit.value = 30;
 				strategyOptions.disableAfterYield.value = 10.0d;
 				strategyOptions.enablePremise = false;
 				strategyOptions.enableContext = false;
 				strategyOptions.enablePrefill = true;
 				strategyOptions.canReenter.value = false;
 				strategyOptions.prefillShift.value = 30;
-				strategyOptions.maxTransactionsDay.value = 12;
+				strategyOptions.maxTransactionsDay.value = 32;
 				
 				//strategyOptions.maxProfitDrawdownPercent.value = -99d;
 				//strategyOptions.maxStopLossPercent.value = -99d;
 				//strategyOptions.disableAfterLoss.value = -99d;
+				
+				strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_combined;
+				strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_combined;
 			}
 		};
 	}

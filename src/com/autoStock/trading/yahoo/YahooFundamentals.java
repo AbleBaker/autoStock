@@ -25,12 +25,12 @@ public class YahooFundamentals extends HTTPRequestBase {
 	public void execute(){
 		String requestString;
 		
-		if (exchange.exchangeName.equals("NYSE") || exchange.exchangeName.equals("NASDAQ")){
-			requestString = "http://finance.yahoo.com/d/quotes.csv?s="+ symbol.symbolName.replaceAll(" ", "-") + "&f=sa2vdyehgj1rs7";
-		}else if (exchange.exchangeName.equals("ASX")){
-			requestString = "http://finance.yahoo.com/d/quotes.csv?s="+ symbol.symbolName.replaceAll(" ", "-") + ".AX&f=sa2vdyehgj1rs7";
+		if (exchange.name.equals("NYSE") || exchange.name.equals("NASDAQ")){
+			requestString = "http://finance.yahoo.com/d/quotes.csv?s="+ symbol.name.replaceAll(" ", "-") + "&f=sa2vdyehgj1rs7";
+		}else if (exchange.name.equals("ASX")){
+			requestString = "http://finance.yahoo.com/d/quotes.csv?s="+ symbol.name.replaceAll(" ", "-") + ".AX&f=sa2vdyehgj1rs7";
 		}else{
-			throw new IllegalStateException("Yahoo fundamentals doesn't know how to handle exchange: " + exchange.exchangeName);
+			throw new IllegalStateException("Yahoo fundamentals doesn't know how to handle exchange: " + exchange.name);
 		}
 		
 		sendHttpGetRequest(requestString);

@@ -47,11 +47,11 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 		}
 		
 		if (position == null){
-			if (value >= 2){return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_crossover);}
-			if (value <= -2){return new SignalPoint(SignalPointType.short_entry, SignalMetricType.metric_crossover);}
+			if (value >= 1){return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_crossover);}
+			if (value <= -1){return new SignalPoint(SignalPointType.short_entry, SignalMetricType.metric_crossover);}
 		}else{
-			if (value <= 2 && position.isLong()){return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_crossover);}
-			if (value >= 0 && position.isShort()){return new SignalPoint(SignalPointType.short_exit, SignalMetricType.metric_crossover);}
+			if (value <= 1 && position.isLong()){return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_crossover);}
+			if (value >= -1 && position.isShort()){return new SignalPoint(SignalPointType.short_exit, SignalMetricType.metric_crossover);}
 		}
 		
 		return new SignalPoint();

@@ -5,7 +5,9 @@ import org.encog.engine.network.activation.ActivationFunction;
 import org.encog.engine.network.activation.ActivationSteepenedSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.pattern.ElmanPattern;
 import org.encog.neural.pattern.FeedForwardPattern;
+import org.encog.neural.pattern.JordanPattern;
 
 import com.autoStock.Co;
 import com.autoStock.backtest.AlgorithmModel;
@@ -20,7 +22,7 @@ import com.autoStock.trading.types.HistoricalData;
  * 
  */
 public class TrainEncogSignal {
-	public static final int TRAINING_ITERATIONS = 10;
+	public static final int TRAINING_ITERATIONS = 20;
 	private boolean saveNetwork;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
@@ -39,14 +41,13 @@ public class TrainEncogSignal {
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
 			FeedForwardPattern pattern = new FeedForwardPattern();
 			pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
-			pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 2);
+			pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 5);
 			pattern.setOutputNeurons(SignalOfEncog.getOutputLength());
-			pattern.setActivationFunction(new ActivationTANH());
+			pattern.setActivationFunction(new ActivationTANH()); 
 			pattern.setActivationOutput(new ActivationTANH());
-			
-			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, (BasicNetwork) pattern.generate(), historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix, TRAINING_ITERATIONS);
+			encogTrainer = new TrainEncogNetworkOfBasic(encogScoreProvider, (BasicNetwork) pattern.generate(), historicalData.exchange.name + "-" + historicalData.symbol.name + "-" + networkSufix, TRAINING_ITERATIONS);
 		}else if (SignalOfEncog.encogNetworkType == EncogNetworkType.neat){
-			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.exchangeName + "-" + historicalData.symbol.symbolName + "-" + networkSufix);
+			encogTrainer = new TrainEncogNetworkOfNeat(encogScoreProvider, historicalData.exchange.name + "-" + historicalData.symbol.name + "-" + networkSufix);
 		}
 	}
 	

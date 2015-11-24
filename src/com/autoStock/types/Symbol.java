@@ -7,31 +7,31 @@ import com.autoStock.finance.SecurityTypeHelper.SecurityType;
  *
  */
 public class Symbol {
-	public String symbolName;
+	public String name;
 	public SecurityType securityType;
 
 	public Symbol(String symbol, SecurityType securityType) {
-		this.symbolName = symbol;
+		this.name = symbol;
 		this.securityType = securityType;
 	}
 	
 	public Symbol(String symbol) {
-		this.symbolName = symbol;
+		this.name = symbol;
 		securityType = SecurityType.type_stock;
 	}
 	
 	@Override
 	public String toString() {
-		return symbolName + ", " + securityType.name();
+		return name + ", " + securityType.name();
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		return ((Symbol)obj).symbolName.equals(symbolName);
+		return ((Symbol)obj).name.equals(name);
 	}
 	
 	@Override
 	public int hashCode() {
-		return symbolName.hashCode();
+		return name.hashCode();
 	}
 }

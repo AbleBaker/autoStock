@@ -92,7 +92,7 @@ public class ActiveAlgorithmContainer {
 	}
 	
 	public void deactivate(){
-		Co.println("--> Deactivating: " + symbol.symbolName);
+		Co.println("--> Deactivating: " + symbol.name);
 		if (requestMarketData != null){requestMarketData.cancel();}
 		if (yahooFundamentals != null){yahooFundamentals.cancel();}
 		algorithm.endOfFeed(symbol);
