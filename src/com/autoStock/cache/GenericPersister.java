@@ -73,9 +73,9 @@ public class GenericPersister {
 		syncFromDisk();
 	}
 
-	public void persistInto(Object object){
+	public void persistInto(Object object, boolean noSync){
 		memoryPersister.persistInto(object);
-		syncToDisk();
+		if (noSync == false){syncToDisk();}
 	}
 	
 	public void persistSingle(Object object){

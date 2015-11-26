@@ -580,7 +580,7 @@ public class CombinedLineChart {
 							if (pair.timeSeriesType == TimeSeriesType.type_long_exit_price){spt = SignalPointType.long_exit;}
 							if (pair.timeSeriesType == TimeSeriesType.type_short_exit_price){spt = SignalPointType.short_exit;}
 						
-							genericPersister.persistInto(new StoredSignalPoint(i, item.getValue().doubleValue(), spt, item.getPeriod().getStart(), algorithmBase.symbol, algorithmBase.exchange));
+							genericPersister.persistInto(new StoredSignalPoint(i, item.getValue().doubleValue(), spt, item.getPeriod().getStart(), algorithmBase.symbol, algorithmBase.exchange), false);
 							saved++;
 						}
 					}

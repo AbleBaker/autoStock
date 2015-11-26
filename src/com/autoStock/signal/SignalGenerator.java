@@ -48,11 +48,10 @@ public class SignalGenerator {
 			//DO NOT USE
 //			signalGroup.signalOfMFI,
 //			signalGroup.signalOfMACD,
-//			signalGroup.signalOfMFI,
 //			signalGroup.signalOfROC,
 //			signalGroup.signalOfARUp,
 //			signalGroup.signalOfARDown,
-//			signalGroup.signalOfADX,		
+//			signalGroup.signalOfADX,	
 
 //			signalGroup.signalOfTRIX,
 //			signalGroup.signalOfSAR,

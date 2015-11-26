@@ -37,7 +37,7 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	public static final int INPUT_LENGTH = 278;
+	public static final int INPUT_LENGTH = 272;
 	public static final int OUTPUT_LENGTH = 3;
 	private static final double NEURON_THRESHOLD = 0.95;
 	public static final int INPUT_WINDOW_PS = 30;
@@ -69,7 +69,7 @@ public class SignalOfEncog extends SignalBase {
 		}
 		
 		if (encogInputWindow == null || basicNetwork == null){
-//			Co.println("--> No network! " + (encogInputWindow == null) + ", " + (basicNetwork == null));
+			//Co.println("--> No network! " + (encogInputWindow == null) + ", " + (basicNetwork == null) + ", " + (encogInputWindow == null ? "null" : encogInputWindow.getAsWindow(true).length));
 			return signalPoint;
 		}
 		

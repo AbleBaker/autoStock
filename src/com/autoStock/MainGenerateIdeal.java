@@ -65,7 +65,6 @@ import com.autoStock.types.Symbol;
  *
  */
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
-	private boolean USE_CLICKPOINTS = false;
 	private GenericPersister genericPersister = new GenericPersister();
 	private ArrayList<StoredSignalPoint> lStoredPoints = new ArrayList<StoredSignalPoint>();
 	private SingleBacktest singleBacktest;
@@ -84,7 +83,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private HistoricalData historicalDataForRegular;
 	private HistoricalData historicalDataForCross;
 	private static enum MGIMode {to_points, from_points, direct};
-	private MGIMode mgiMode = MGIMode.to_points;
+	private MGIMode mgiMode = MGIMode.from_points;
 	
 	public void run(){
 		Global.callbackLock.requestLock();
@@ -96,7 +95,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
 		singleBacktest.setListenerOfBacktestCompleted(this);
 		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
-		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
+		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo)).remodel(true, false, true, true); 
 		
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
@@ -107,7 +106,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	@Override
 	public void initialize(Date startingDate, Date endDate) {
 		ArrayList<StoredSignalPoint> list = getList(startingDate, endDate); 
-		if (list.size() > 0 && USE_CLICKPOINTS){
+		if (list.size() > 0 && mgiMode == MGIMode.from_points){
 			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = list; 
 		}else{
 			String name = exchange.name + "-" + symbol.name + "-day-" + DateTools.getEncogDate(startingDate);
@@ -278,12 +277,16 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		Co.println("--> Backtest completed!");
 		Co.println("--> Have input list of: " + listOfInput.size());
 		Co.println("--> Have ideal list of: " + listOfIdeal.size());
-		Co.println("--> Have StoredSignalPoints: " + lStoredPoints.size());
+		//Co.println("--> Have StoredSignalPoints: " + lStoredPoints.size());
+		
+		if (listOfInput.get(0).size() != SignalOfEncog.getInputWindowLength()){throw new IllegalMonitorStateException("Size should be: " + listOfInput.get(0).size());}
 		
 		if (mgiMode == MGIMode.to_points){
 			genericPersister.erase();
-			for (StoredSignalPoint sp : lStoredPoints){genericPersister.persistInto(sp);}
-			Co.println("--> Wrote: " + lStoredPoints.size());
+			Co.print("--> Writing... ");
+			for (StoredSignalPoint sp : lStoredPoints){genericPersister.persistInto(sp, true);}
+			genericPersister.syncToDisk();
+			Co.println("" + lStoredPoints.size());
 			return;
 		}
 		
@@ -337,8 +340,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		new NguyenWidrowRandomizer().randomize(network);
 
 //		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-		MLTrain train = new ResilientPropagation(network, dataSet, 0.10, 25);
-		//((ResilientPropagation)train).setRPROPType(RPROPType.iRPROPp);
+		MLTrain train = new ResilientPropagation(network, dataSet, 0.05, 25);
+		((ResilientPropagation)train).setRPROPType(RPROPType.iRPROPp);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 200, 200));
