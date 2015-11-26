@@ -38,9 +38,10 @@ public class SignalGenerator {
 		SignalBase[] arrayOfSignalBase = {
 //			signalGroup.signalOfDI,
 			signalGroup.signalOfCCI,
-			signalGroup.signalOfRSI,
+//			signalGroup.signalOfRSI,
 			signalGroup.signalOfUO,
 			signalGroup.signalOfTRIX,
+//			signalGroup.signalOfPPC,
 //			signalGroup.signalOfWILLR,
 //			signalGroup.signalOfCrossover,
 //			

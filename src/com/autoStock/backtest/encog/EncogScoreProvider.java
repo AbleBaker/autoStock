@@ -30,6 +30,7 @@ public class EncogScoreProvider implements CalculateScore {
 	public static ArrayList<EncogResult> listOfEncogResult = new ArrayList<EncogResult>();
 	private SignalCache signalCache;
 	private Benchmark bench = new Benchmark();
+	private boolean isSuperloose = false;
 	
 	public void setDetails(AlgorithmModel algorithmModel, HistoricalData historicalData){
 		this.algorithmModel = algorithmModel;
@@ -47,11 +48,19 @@ public class EncogScoreProvider implements CalculateScore {
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((BasicNetwork)method, 0);
+		if (isSuperloose){
+			singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.maxTransactionsDay.value = 999;
+		}
 		//singleBacktest.backtestContainer.setSignalCache(signalCache);
 		singleBacktest.runBacktest();
 		
 		BacktestEvaluation backtestEvaluation = new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer, false, false, true);
 		runCount++;
+		
+		if (isSuperloose){
+			return backtestEvaluation.percentYield;
+		}
+		
 		return backtestEvaluation.getScore();
 	}
 
@@ -82,4 +91,8 @@ public class EncogScoreProvider implements CalculateScore {
 
 	@Override
 	public boolean requireSingleThreaded() {return false;}
+
+	public void setSuperLoose(boolean isSuperloose) {
+		this.isSuperloose = isSuperloose;
+	}
 }

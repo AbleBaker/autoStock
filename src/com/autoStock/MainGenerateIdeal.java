@@ -20,9 +20,11 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.TrainingSetScore;
 import org.encog.neural.networks.training.anneal.NeuralSimulatedAnnealing;
 import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
+import org.encog.neural.networks.training.propagation.resilient.RPROPType;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.pso.NeuralPSO;
 import org.encog.neural.pattern.FeedForwardPattern;
+import org.jfree.chart.event.ChartChangeListener;
 
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
@@ -35,8 +37,9 @@ import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.ListenerOfBacktest;
 import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.cache.GenericPersister;
-import com.autoStock.chart.CombinedLineChart.ChartSignalPoint;
+import com.autoStock.chart.CombinedLineChart.StoredSignalPoint;
 import com.autoStock.finance.SecurityTypeHelper.SecurityType;
+import com.autoStock.indicator.results.ResultsWILLR;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.Global;
 import com.autoStock.misc.Pair;
@@ -64,7 +67,7 @@ import com.autoStock.types.Symbol;
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
 	private boolean USE_CLICKPOINTS = false;
 	private GenericPersister genericPersister = new GenericPersister();
-	private ArrayList<ChartSignalPoint> listOfClickPoint;
+	private ArrayList<StoredSignalPoint> lStoredPoints = new ArrayList<StoredSignalPoint>();
 	private SingleBacktest singleBacktest;
 	private ArrayList<ArrayList<Double>> listOfInput = new ArrayList<ArrayList<Double>>();
 	private ArrayList<ArrayList<Double>> listOfIdeal = new ArrayList<ArrayList<Double>>();
@@ -72,14 +75,16 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-//	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-//	private Date dateEnd = DateTools.getDateFromString("03/31/2014");
-	private Date dateStart = DateTools.getDateFromString("09/02/2014");
-	private Date dateEnd = DateTools.getDateFromString("09/30/2014");
-	private double crossValidationRatio = 0; //0.30d;
+	private Date dateStart = DateTools.getDateFromString("02/03/2014");
+	private Date dateEnd = DateTools.getDateFromString("01/02/2015");
+//	private Date dateStart = DateTools.getDateFromString("09/08/2014");
+//	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
+	private double crossValidationRatio = 0; //0.25d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
 	private HistoricalData historicalDataForCross;
+	private static enum MGIMode {to_points, from_points, direct};
+	private MGIMode mgiMode = MGIMode.to_points;
 	
 	public void run(){
 		Global.callbackLock.requestLock();
@@ -93,10 +98,6 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
 		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
 		
-		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.clear();
-		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
-		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_crossover);
-		
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
 		
@@ -105,7 +106,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	
 	@Override
 	public void initialize(Date startingDate, Date endDate) {
-		ArrayList<ChartSignalPoint> list = getList(startingDate, endDate); 
+		ArrayList<StoredSignalPoint> list = getList(startingDate, endDate); 
 		if (list.size() > 0 && USE_CLICKPOINTS){
 			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = list; 
 		}else{
@@ -120,12 +121,12 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		Co.println("--> Initialize on date: " + DateTools.getPretty(startingDate) + " with list of input of: " + listOfInput.size());
 	}
 	
-	private ArrayList<ChartSignalPoint> getList(Date dateStart, Date dateEnd){
-		ArrayList<ChartSignalPoint> list = genericPersister.getCount(ChartSignalPoint.class) > 0 ? new ArrayList<ChartSignalPoint>(genericPersister.getList(ChartSignalPoint.class)) : null;
-		ArrayList<ChartSignalPoint> returnList = new ArrayList<ChartSignalPoint>();
+	private ArrayList<StoredSignalPoint> getList(Date dateStart, Date dateEnd){
+		ArrayList<StoredSignalPoint> list = genericPersister.getCount(StoredSignalPoint.class) > 0 ? new ArrayList<StoredSignalPoint>(genericPersister.getList(StoredSignalPoint.class)) : null;
+		ArrayList<StoredSignalPoint> returnList = new ArrayList<StoredSignalPoint>();
 		if (list == null){return returnList;}
 		
-		for (ChartSignalPoint csp : list){
+		for (StoredSignalPoint csp : list){
 			if (csp.date.getTime() >= dateStart.getTime() && csp.date.getTime() <= dateEnd.getTime()){
 				returnList.add(csp);
 			}
@@ -150,13 +151,17 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 
 	@Override
 	public synchronized void receiveTick(QuoteSlice quote, int receivedIndex, int processedIndex, boolean processed) {
-		Co.println("--> Received tick " + receivedIndex + ", " + processedIndex);
+		//Co.println("--> Received tick " + receivedIndex + ", " + processedIndex);
 		
 		EncogInputWindow eiw = singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.getInputWindow();
 		ArrayList<Double> listOfIdealOutputs = new ArrayList<Double>();
 		
+		if (mgiMode == MGIMode.to_points && haveChange && positionGovernorResponse != null){
+			lStoredPoints.add(new StoredSignalPoint(receivedIndex, quote.priceClose, positionGovernorResponse.signalPoint.signalPointType, quote.dateTime, symbol, exchange));
+		}
+		
 		if (processed && eiw != null && positionGovernorResponse != null){
-			if (haveChange && positionGovernorResponse.status != PositionGovernorResponseStatus.none 
+			if (haveChange && (positionGovernorResponse.status != PositionGovernorResponseStatus.changed_long_entry || positionGovernorResponse.status != PositionGovernorResponseStatus.changed_short_entry) 
 				&& (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.metric_encog || positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected
 					//|| (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry)
 				    //|| (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry)
@@ -273,6 +278,14 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		Co.println("--> Backtest completed!");
 		Co.println("--> Have input list of: " + listOfInput.size());
 		Co.println("--> Have ideal list of: " + listOfIdeal.size());
+		Co.println("--> Have StoredSignalPoints: " + lStoredPoints.size());
+		
+		if (mgiMode == MGIMode.to_points){
+			genericPersister.erase();
+			for (StoredSignalPoint sp : lStoredPoints){genericPersister.persistInto(sp);}
+			Co.println("--> Wrote: " + lStoredPoints.size());
+			return;
+		}
 		
 		ArrayList<ArrayList<Double>> listOfCrossInput = null; // = new ArrayList<ArrayList<Double>>();
 		ArrayList<ArrayList<Double>> listOfCrossIdeal = null; // = new ArrayList<ArrayList<Double>>();
@@ -324,25 +337,28 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		new NguyenWidrowRandomizer().randomize(network);
 
 //		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-		MLTrain train = new ResilientPropagation(network, dataSet); //, 0.01, 10);
+		MLTrain train = new ResilientPropagation(network, dataSet, 0.10, 25);
+		//((ResilientPropagation)train).setRPROPType(RPROPType.iRPROPp);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
 //		train.addStrategy(new HybridStrategy(new NeuralPSO(network, dataSet), 0.100, 200, 200));
 //		train.addStrategy(new HybridStrategy(new NeuralSimulatedAnnealing(network, new TrainingSetScore(dataSet), 10, 2, 100), 0.010, 250, 250));
 	
 		DecimalFormat df = new DecimalFormat("0000.00000000000000");
+		int zeroCount = 15;
 		
-		for (int i=0; i<512; i++){
+		for (int i=0; i<2048; i++){
 			train.iteration();
 			
 			if (crossValidationRatio == 0){
 				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalData.startDate, historicalData.endDate).getScore()));
 			} else{				
 				// Find out score for relevant backtest
-				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " ~ " + (i % 10 != 0 ? "-" : df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ")) + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore() + " / " + getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore())); 
+				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " / " + (i % 10 != 0 ? "-" : df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ")) + " = " + (i % 10 != 0 ? "-" : getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore() + " / " + getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore())); 
 			}
 			
-			if (train.getError() == 0){break;}
+			if (zeroCount == 0){break;}
+			else if (train.getError() <= 0.000000000000010){zeroCount--;}
 		}
 		
 		train.finishTraining();
@@ -372,11 +388,11 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 5));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 6));
 		pattern.setOutputNeurons(SignalOfEncog.getOutputLength());
 		pattern.setActivationFunction(new ActivationTANH());
-//		pattern.setActivationOutput(new ActivationTANH());
-		pattern.setActivationOutput(new ActivationBiPolar());
+		pattern.setActivationOutput(new ActivationTANH());
+		//pattern.setActivationOutput(new ActivationBiPolar());
 		return (BasicNetwork) pattern.generate();
 	}
 

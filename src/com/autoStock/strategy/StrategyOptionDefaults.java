@@ -24,11 +24,11 @@ public class StrategyOptionDefaults {
 				strategyOptions.maxPositionTimeAtProfit.value = 30;
 				strategyOptions.disableAfterYield.value = 10.0d;
 				strategyOptions.enablePremise = false;
-				strategyOptions.enableContext = false;
+				strategyOptions.enableContext = true;
 				strategyOptions.enablePrefill = true;
 				strategyOptions.canReenter.value = false;
 				strategyOptions.prefillShift.value = 30;
-				strategyOptions.maxTransactionsDay.value = 32;
+				strategyOptions.maxTransactionsDay.value = 999;
 				
 				//strategyOptions.maxProfitDrawdownPercent.value = -99d;
 				//strategyOptions.maxStopLossPercent.value = -99d;

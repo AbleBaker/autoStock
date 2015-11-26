@@ -75,6 +75,8 @@ import com.autoStock.signal.SignalDefinitions;
 import com.autoStock.signal.SignalDefinitions.SignalGuageType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
+import com.autoStock.signal.SignalPoint;
+import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 import com.google.gson.internal.Pair;
@@ -89,19 +91,25 @@ public class CombinedLineChart {
 	private GenericPersister genericPersister = GenericPersister.getStaticInstance();
 	private XYPlot subPlotForPriceCopy;
 
-	public static class ChartSignalPoint {
+	public static class StoredSignalPoint {
 		public int index;
 		public Date date;
 		public double price;
 		public Exchange exchange;
 		public Symbol symbol;
 
-		public SignalPointType signalPoint;
+		public SignalPointType signalPointType;
+		transient public StrategyResponse strategyResponse;
+		
+		public StoredSignalPoint(int index, double price, StrategyResponse strategyResponse, Date date, Symbol symbol, Exchange exchange) {
+			this(index, price, strategyResponse.positionGovernorResponse.signalPoint.signalPointType, date, symbol, exchange);
+			this.strategyResponse = strategyResponse;
+		}
 
-		public ChartSignalPoint(int index, double price, SignalPointType signalPoint, Date date, Symbol symbol, Exchange exchange) {
+		public StoredSignalPoint(int index, double price, SignalPointType signalPoint, Date date, Symbol symbol, Exchange exchange) {
 			this.index = index;
 			this.price = price;
-			this.signalPoint = signalPoint;
+			this.signalPointType = signalPoint;
 			this.date = date;
 			this.exchange = exchange;
 			this.symbol = symbol;
@@ -513,7 +521,7 @@ public class CombinedLineChart {
 		public void keyPressed(KeyEvent keyEvent) {
 			//Co.println("--> " + keyEvent.getKeyCode());
 			
-			ChartSignalPoint clickPoint = null;
+			StoredSignalPoint clickPoint = null;
 			
 			if (keyEvent.getKeyCode() == 10){ // Enter
 				int nextNotNull = getNotNull(itemIndex, pairs.get(currentPairIndex).timeSeriesCollection);
@@ -548,9 +556,9 @@ public class CombinedLineChart {
 				boolean changed = false;
 				int saved = 0;
 
-				if (genericPersister.getCount(ChartSignalPoint.class) > 0){
-					for (Iterator<ChartSignalPoint> iterator = genericPersister.getList(ChartSignalPoint.class).iterator(); iterator.hasNext();){
-						ChartSignalPoint csp = iterator.next();
+				if (genericPersister.getCount(StoredSignalPoint.class) > 0){
+					for (Iterator<StoredSignalPoint> iterator = genericPersister.getList(StoredSignalPoint.class).iterator(); iterator.hasNext();){
+						StoredSignalPoint csp = iterator.next();
 						
 						if (csp.date.getTime() >= algorithmBase.startingDate.getTime() && csp.date.getTime() <= algorithmBase.endDate.getTime()){
 							iterator.remove();
@@ -572,7 +580,7 @@ public class CombinedLineChart {
 							if (pair.timeSeriesType == TimeSeriesType.type_long_exit_price){spt = SignalPointType.long_exit;}
 							if (pair.timeSeriesType == TimeSeriesType.type_short_exit_price){spt = SignalPointType.short_exit;}
 						
-							genericPersister.persistInto(new ChartSignalPoint(i, item.getValue().doubleValue(), spt, item.getPeriod().getStart(), algorithmBase.symbol, algorithmBase.exchange));
+							genericPersister.persistInto(new StoredSignalPoint(i, item.getValue().doubleValue(), spt, item.getPeriod().getStart(), algorithmBase.symbol, algorithmBase.exchange));
 							saved++;
 						}
 					}

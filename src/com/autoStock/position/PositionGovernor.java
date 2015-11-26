@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.autoStock.Co;
 import com.autoStock.account.BasicAccount;
-import com.autoStock.chart.CombinedLineChart.ChartSignalPoint;
+import com.autoStock.chart.CombinedLineChart.StoredSignalPoint;
 import com.autoStock.misc.Pair;
 import com.autoStock.position.PositionDefinitions.PositionType;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
@@ -29,7 +29,7 @@ public class PositionGovernor {
 	private ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>> listOfPairedResponses = new ArrayList<Pair<Symbol,ArrayList<PositionGovernorResponse>>>();
 	private ReentrantStrategy reentrantStrategy = new ReentrantStrategy();
 	private PositionGenerator positionGenerator = new PositionGenerator();
-	public ArrayList<ChartSignalPoint> listOfPredSignalPoint;
+	public ArrayList<StoredSignalPoint> listOfPredSignalPoint;
 	
 	public PositionGovernor(PositionManager positionManager){
 		this.positionManager = positionManager;
@@ -122,18 +122,18 @@ public class PositionGovernor {
 		Pair<SignalPoint, Position> pair = new Pair<SignalPoint, Position>(new SignalPoint(), null);
 		boolean changed = false;
 		
-		for (ChartSignalPoint csp : listOfPredSignalPoint){
+		for (StoredSignalPoint csp : listOfPredSignalPoint){
 			if (quoteSlice.dateTime.getTime() == csp.date.getTime()){
-				if (csp.signalPoint == SignalPointType.long_entry && position == null){pair.second = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount); changed = true;}
-				else if (csp.signalPoint == SignalPointType.short_entry && position == null){pair.second = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount); changed = true;}
-				else if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_long){governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount); changed = true;}
-				else if (csp.signalPoint == SignalPointType.reentry && position != null && position.positionType == PositionType.position_short){governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount); changed = true;}
-				else if (csp.signalPoint == SignalPointType.long_exit && position != null){governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange); changed = true;}
-				else if (csp.signalPoint == SignalPointType.short_exit && position != null){governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange); changed = true;}
+				if (csp.signalPointType == SignalPointType.long_entry && position == null){pair.second = governLongEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount); changed = true;}
+				else if (csp.signalPointType == SignalPointType.short_entry && position == null){pair.second = governShortEntry(quoteSlice, signal, positionGovernorResponse, exchange, positionOptions, basicAccount); changed = true;}
+				else if (csp.signalPointType == SignalPointType.reentry && position != null && position.positionType == PositionType.position_long){governLongReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount); changed = true;}
+				else if (csp.signalPointType == SignalPointType.reentry && position != null && position.positionType == PositionType.position_short){governShortReentry(quoteSlice, position, signal, positionGovernorResponse, exchange, basicAccount); changed = true;}
+				else if (csp.signalPointType == SignalPointType.long_exit && position != null){governLongExit(quoteSlice, position, signal, positionGovernorResponse, exchange); changed = true;}
+				else if (csp.signalPointType == SignalPointType.short_exit && position != null){governShortExit(quoteSlice, position, signal, positionGovernorResponse, exchange); changed = true;}
 				//else {throw new IllegalArgumentException("Can't handle Chart Signal Point: " + csp.signalPoint + ", " + position + ", " + changed);}
 				
 				if (changed){
-					pair.first.signalPointType = csp.signalPoint;
+					pair.first.signalPointType = csp.signalPointType;
 					pair.first.signalMetricType = SignalMetricType.injected;
 					return pair;
 				}

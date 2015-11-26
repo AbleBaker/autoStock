@@ -22,7 +22,7 @@ import com.autoStock.trading.types.HistoricalData;
  * 
  */
 public class TrainEncogSignal {
-	public static final int TRAINING_ITERATIONS = 20;
+	public static final int TRAINING_ITERATIONS = 50;
 	private boolean saveNetwork;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
@@ -37,6 +37,7 @@ public class TrainEncogSignal {
 		this.historicalData = historicalData;
 		this.saveNetwork = saveNetwork;
 		encogScoreProvider.setDetails(algorithmModel, historicalData);
+		encogScoreProvider.setSuperLoose(true);
 		
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
 			FeedForwardPattern pattern = new FeedForwardPattern();

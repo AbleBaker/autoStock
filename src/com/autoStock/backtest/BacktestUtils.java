@@ -16,7 +16,7 @@ import com.autoStock.adjust.AdjustmentOfEnum;
 import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.cache.GenericPersister;
-import com.autoStock.chart.CombinedLineChart.ChartSignalPoint;
+import com.autoStock.chart.CombinedLineChart.StoredSignalPoint;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
@@ -271,14 +271,14 @@ public class BacktestUtils {
 		throw new IllegalStateException("No symbol data found for symbol: " + symbol);
 	}
 	
-	public static ArrayList<ChartSignalPoint> getListOfChartSignalPoints(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd){
+	public static ArrayList<StoredSignalPoint> getListOfChartSignalPoints(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd){
 		GenericPersister genericPersister = GenericPersister.getStaticInstance();
-		ArrayList<ChartSignalPoint> returnList = new ArrayList<>();
-		ArrayList<ChartSignalPoint> list = new ArrayList<ChartSignalPoint>(genericPersister.getList(ChartSignalPoint.class));
+		ArrayList<StoredSignalPoint> returnList = new ArrayList<>();
+		ArrayList<StoredSignalPoint> list = new ArrayList<StoredSignalPoint>(genericPersister.getList(StoredSignalPoint.class));
 		
 		if (list.size() == 0){return null;}
 
-		for (ChartSignalPoint csp : list){
+		for (StoredSignalPoint csp : list){
 			if (csp.date.getTime() >= dateStart.getTime() && csp.date.getTime() <= dateEnd.getTime()){
 				returnList.add(csp);
 			}

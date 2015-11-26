@@ -74,7 +74,7 @@ public class AlgorithmTest extends AlgorithmBase {
 			contextController.addContext(new ContextOfPosition());
 			contextController.addContext(new ContextOfChangeSinceOpen());
 			contextController.addContext(new ContextOfChangeSinceHighLow());
-			contextController.addContext(new ContextOfOHLC());
+			//contextController.addContext(new ContextOfOHLC());
 		}
 	}
 
@@ -99,7 +99,7 @@ public class AlgorithmTest extends AlgorithmBase {
 				((ContextOfPosition)contextController.getByClass(ContextOfPosition.class)).setPosition(position);
 				((ContextOfChangeSinceOpen)contextController.getByClass(ContextOfChangeSinceOpen.class)).setCurrentQuoteSlice(firstQuoteSlice, quoteSlice);
 				((ContextOfChangeSinceHighLow)contextController.getByClass(ContextOfChangeSinceHighLow.class)).setCurrentQuoteSlice(quoteSlice, listOfQuoteSlicePersistForDay);
-				((ContextOfOHLC)contextController.getByClass(ContextOfOHLC.class)).setAlgorithmBase(this);
+//				((ContextOfOHLC)contextController.getByClass(ContextOfOHLC.class)).setAlgorithmBase(this);
 				contextController.determineContext();
 			}
 			
