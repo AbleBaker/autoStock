@@ -2,6 +2,7 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.autoStock.Co;
@@ -17,6 +18,7 @@ import com.autoStock.adjust.AdjustmentOfSignalMetricThreshold;
 import com.autoStock.backtest.BacktestDefinitions.BacktestType;
 import com.autoStock.cache.GenericPersister;
 import com.autoStock.chart.CombinedLineChart.StoredSignalPoint;
+import com.autoStock.generated.basicDefinitions.TableDefinitions.DbStockHistoricalPrice;
 import com.autoStock.guage.SignalGuage;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.position.PositionGovernorResponseStatus;
@@ -285,6 +287,20 @@ public class BacktestUtils {
 		}
 
 		return list;
+	}
+	
+	public static void pruneToExchangeHours(List<DbStockHistoricalPrice> list, Exchange exchange){
+		Iterator<DbStockHistoricalPrice> iterator = list.iterator();
+		
+		while (iterator.hasNext()){
+			DbStockHistoricalPrice dbStockHistoricalPrice = iterator.next();
+			
+			if (dbStockHistoricalPrice.dateTime.getHours() <= exchange.timeOpenForeign.hours && dbStockHistoricalPrice.dateTime.getMinutes() < exchange.timeOpenForeign.minutes){
+				iterator.remove();
+			}else if (dbStockHistoricalPrice.dateTime.getHours() >= exchange.timeCloseForeign.hours && dbStockHistoricalPrice.dateTime.getMinutes() > exchange.timeCloseForeign.minutes){
+				iterator.remove();
+			}
+		}
 	}
 	
 	public static class BacktestDayResultDetails {

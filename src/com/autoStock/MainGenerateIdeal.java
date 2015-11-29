@@ -65,6 +65,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
+	private static final int ITERATIONS = 256;
 	private GenericPersister genericPersister = new GenericPersister();
 	private ArrayList<StoredSignalPoint> lStoredPoints = new ArrayList<StoredSignalPoint>();
 	private SingleBacktest singleBacktest;
@@ -259,7 +260,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
 //		listOfIdealOutputs.add(-1d);
-		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
 	}
 	
 	int currentDay = 0;
@@ -350,7 +351,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		DecimalFormat df = new DecimalFormat("0000.00000000000000");
 		int zeroCount = 15;
 		
-		for (int i=0; i<2048; i++){
+		for (int i=0; i<ITERATIONS; i++){
 			train.iteration();
 			
 			if (crossValidationRatio == 0){

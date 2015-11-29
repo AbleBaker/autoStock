@@ -101,15 +101,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 
 		algorithm.init(historicalData.startDate, historicalData.endDate);
 		
-		Iterator<DbStockHistoricalPrice> iterator = this.listOfDbHistoricalPrices.iterator();
-		
-		while (iterator.hasNext()){
-			DbStockHistoricalPrice dbStockHistoricalPrice = iterator.next();
-			
-			if (dbStockHistoricalPrice.dateTime.getHours() >= exchange.timeCloseForeign.hours && dbStockHistoricalPrice.dateTime.getMinutes() > exchange.timeCloseForeign.minutes){
-				iterator.remove();
-			}
-		}
+		BacktestUtils.pruneToExchangeHours(listOfDbStockHistoricalPrice, exchange);
 	}
 	
 	public void prepare(){

@@ -3,6 +3,7 @@
  */
 package com.autoStock.tools;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,6 +21,12 @@ public class MathTools {
 	
 	public static double roundAccurate(double value){
 		return Math.round(value*100000.0)/100000.0;
+	}
+	
+	public static double roundTo(double value, int places){
+		BigDecimal bd = new BigDecimal(Double.toString(value));
+		bd = bd.setScale(places, BigDecimal.ROUND_HALF_UP);
+		return bd.doubleValue();
 	}
 	
 	public synchronized static int roundOut(int valueToRound, int multiple) {

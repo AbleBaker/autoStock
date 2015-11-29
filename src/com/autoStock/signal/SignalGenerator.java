@@ -40,9 +40,9 @@ public class SignalGenerator {
 			signalGroup.signalOfCCI,
 //			signalGroup.signalOfRSI,
 			signalGroup.signalOfUO,
-			signalGroup.signalOfTRIX,
+//			signalGroup.signalOfTRIX,
 //			signalGroup.signalOfPPC,
-//			signalGroup.signalOfWILLR,
+			signalGroup.signalOfWILLR,
 //			signalGroup.signalOfCrossover,
 //			
 			//DO NOT USE
@@ -123,7 +123,7 @@ public class SignalGenerator {
 		EncogSubframe subFrame = null;
 		
 		if (frameType == FrameType.percent_change){
-			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 500, -500);
+			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltasAsPercent(signalBase.getRawWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 1000, -1000);
 		}if (frameType == FrameType.delta_change){
 			subFrame = new EncogSubframe(signalBase.getClass().getSimpleName(), Arrays.copyOfRange(MathTools.getDeltas(signalBase.getNormalizedWindow(SignalOfEncog.INPUT_WINDOW_PS + 1)), 1, SignalOfEncog.INPUT_WINDOW_PS + 1), frameType, 50, -50);
 		}else if (frameType == FrameType.raw){

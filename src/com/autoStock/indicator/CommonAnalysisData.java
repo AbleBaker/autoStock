@@ -3,6 +3,7 @@ package com.autoStock.indicator;
 import java.util.Date;
 import java.util.List;
 
+import com.autoStock.tools.ArrayTools;
 import com.autoStock.types.QuoteSlice;
 
 /**
@@ -59,5 +60,16 @@ public class CommonAnalysisData {
 
 	public int length() {
 		return arrayOfDates.length;
+	}
+
+	public void remove(int element) {
+		arrayOfPriceOpen = ArrayTools.removeElement(arrayOfPriceOpen, element);
+		arrayOfPriceHigh = ArrayTools.removeElement(arrayOfPriceHigh, element);
+		arrayOfPriceLow = ArrayTools.removeElement(arrayOfPriceLow, element);
+		arrayOfPriceClose = ArrayTools.removeElement(arrayOfPriceClose, element);
+		arrayOfPriceBid = ArrayTools.removeElement(arrayOfPriceBid, element);
+		arrayOfPriceAsk = ArrayTools.removeElement(arrayOfPriceAsk, element);
+		arrayOfSizeVolume = ArrayTools.removeElement(arrayOfSizeVolume, element);
+		arrayOfDates = ArrayTools.removeElement(arrayOfDates, element);
 	}
 }

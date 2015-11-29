@@ -56,8 +56,10 @@ public class EncogSubframe {
 		double[] normalizedValues = new double[values.length];
 		
 		for (int i=0; i<values.length; i++){
-			if (values[i] > normalizer.getActualHigh()){throw new IllegalArgumentException("Input value too high for normalizer: " + description + " -> " + normalizer.getActualHigh() + ", " + values[i]);}
-			if (values[i] < normalizer.getActualLow()){throw new IllegalArgumentException("Input value too low for normalizer: " + description + " -> " + normalizer.getActualLow() + ", " + values[i]);}
+			if (frameType != FrameType.percent_change){
+				if (values[i] > normalizer.getActualHigh()){throw new IllegalArgumentException("Input value too high for normalizer: " + description + " -> " + normalizer.getActualHigh() + ", " + values[i]);}
+				if (values[i] < normalizer.getActualLow()){throw new IllegalArgumentException("Input value too low for normalizer: " + description + " -> " + normalizer.getActualLow() + ", " + values[i]);}
+			}
 			normalizedValues[i] = normalizer.normalize(values[i]);
 		}
 		

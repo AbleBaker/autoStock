@@ -255,4 +255,25 @@ public class ArrayTools {
 		
 		return result;
 	}
+	
+	public static <T> T[] removeElement(T[] array, int element){
+		ArrayList<T> list = new ArrayList<T>(Arrays.asList(array));
+		if (array.length == 0){return (T[]) Array.newInstance(array[0].getClass(), 0);}
+		list.remove(element);
+		return list.toArray((T[]) Array.newInstance(array[0].getClass(), 0));
+	}
+	
+	public static double[] removeElement(double[] array, int element){
+		double[] n = new double[array.length - 1];
+	    System.arraycopy(array, 0, n, 0, element );
+	    System.arraycopy(array, element+1, n, element, array.length - element-1);
+	    return n;
+	}
+	
+	public static int[] removeElement(int[] array, int element){
+		int[] n = new int[array.length - 1];
+	    System.arraycopy(array, 0, n, 0, element );
+	    System.arraycopy(array, element+1, n, element, array.length - element-1);
+	    return n;
+	}
 }
