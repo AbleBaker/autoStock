@@ -5,6 +5,7 @@ package com.autoStock.backtest;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.nio.channels.IllegalSelectorException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -98,12 +99,16 @@ import com.autoStock.misc.Pair;
  *
  */
 public class BacktestPredictFuture {
-	private static final int DAY_GAPS_SIZE = 5;
-	private static final boolean DISCARD = true;
+	private static final int DAY_GAPS_SIZE = 0;
+	private static final int INPUT_PER_ITEM = 5;
+	private static final int IDEAL_OFFSET = 5;
+	private static final int IDEAL_SIZE = 1 ;
+	
+	private static final boolean DISCARD = false;
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
-	private Date dateStart = DateTools.getDateFromString("03/04/2014");
-	private Date dateEnd = DateTools.getDateFromString("03/06/2014");
+	private Date dateStart = DateTools.getDateFromString("01/03/2014");
+	private Date dateEnd = DateTools.getDateFromString("01/03/2014");
 	private double crossValidationRatio = 0; //0.30;
 	private ArrayList<PredictionResult> listOfPredictionResult = new ArrayList<PredictionResult>();
 	private PredictionResult result = new PredictionResult(0, 0);
@@ -112,7 +117,14 @@ public class BacktestPredictFuture {
 	private BasicMLDataSet mlDataSetCross;
 	private DefaultHighLowDataset dataSetForDefaultHighLowDataset;
 	private TimeSeriesCollection TSC = new TimeSeriesCollection();
-	private NormalizedField normalizer = new NormalizedField(NormalizationAction.Normalize, null, 0.010, -0.010, 1, -1); 
+	private NormalizedField normalizer = new NormalizedField(NormalizationAction.Normalize, null, 0.010, -0.010, 1, -1);
+	private DecimalFormat dc = new DecimalFormat("#.########");
+	
+	private BasicNetwork network;
+	private CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
+	
+	private int crossCount = 0;
+	private int regularEnd = 0;
 	
 	public BacktestPredictFuture(){
 		Global.callbackLock.requestLock();
@@ -128,6 +140,7 @@ public class BacktestPredictFuture {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	public void run(){
 		// Load the data
 		HistoricalData historicalData = new HistoricalData(new Exchange("NYSE"), new Symbol("MS", SecurityType.type_stock), dateStart, dateEnd, Resolution.min);
@@ -141,7 +154,6 @@ public class BacktestPredictFuture {
 		// Build the input & ideal lists as % deltas
 		ArrayList<Pair<DbStockHistoricalPrice, MLData>> priceIdealList = new ArrayList<>();
 		
-		CommonAnalysisData commonAnalysisData = new CommonAnalysisData();
 		commonAnalysisData.setAnalysisData(QuoteSliceTools.getListOfQuoteSliceFromDbStockHistoricalPrice(listOfResultsIS));
 		
 		double pero[] = new double[commonAnalysisData.length()];
@@ -156,10 +168,6 @@ public class BacktestPredictFuture {
 		for (int i=0; i<15; i++){
 			Co.println("--> PC: " + commonAnalysisData.arrayOfPriceClose[i]);
 		}
-		
-		int INPUT_PER_ITEM = 15;
-		int IDEAL_OFFSET = 5;
-		int IDEAL_SIZE = 1 ;
 		
 		int discard = 0;
 		Date lastDate = null;
@@ -199,30 +207,27 @@ public class BacktestPredictFuture {
 						
 				for (int idealIndex = 0; idealIndex < IDEAL_SIZE; idealIndex++){
 					int idealInSet = i + 1 + IDEAL_OFFSET + idealIndex;
-					ideal[idealIndex] = normalizer.normalize((commonAnalysisData.arrayOfPriceClose[i + 1 + IDEAL_OFFSET + idealIndex] / commonAnalysisData.arrayOfPriceClose[i + IDEAL_OFFSET]) -1);
-					Co.println("--> Added ideal: " + commonAnalysisData.arrayOfDates[idealInSet] + ", " + new DecimalFormat("#.#######").format(ideal[idealIndex]) + " from price " + commonAnalysisData.arrayOfPriceClose[i + IDEAL_OFFSET] + " to price " + (commonAnalysisData.arrayOfPriceClose[i + 1 + IDEAL_OFFSET + idealIndex]));
-					
+					double idealValue = (commonAnalysisData.arrayOfPriceClose[i + 1 + IDEAL_OFFSET + idealIndex] / commonAnalysisData.arrayOfPriceClose[i + IDEAL_OFFSET]) -1;
+					ideal[idealIndex] = normalizer.normalize(idealValue);
+					//Co.println("--> Added ideal: " + dataSet.size() + " : " + commonAnalysisData.arrayOfDates[idealInSet] + ", " + new DecimalFormat("#.########").format(ideal[idealIndex]) + " from price " + commonAnalysisData.arrayOfPriceClose[i + IDEAL_OFFSET] + " to price " + (commonAnalysisData.arrayOfPriceClose[i + 1 + IDEAL_OFFSET + idealIndex]));					
 				}
 				
 				ArrayList<Double> input = new ArrayList<Double>();
-				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(pero, i -INPUT_PER_ITEM, i + 1)));
-				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perh, i -INPUT_PER_ITEM, i + 1)));
-				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perl, i -INPUT_PER_ITEM, i + 1)));
-				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perc, i -INPUT_PER_ITEM, i + 1)));
+				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(pero, i -INPUT_PER_ITEM, i)));
+				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perh, i -INPUT_PER_ITEM, i)));
+				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perl, i -INPUT_PER_ITEM, i)));
+				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perc, i -INPUT_PER_ITEM, i)));
+				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(peroc, i -INPUT_PER_ITEM, i)));
+				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perlh, i -INPUT_PER_ITEM, i)));
 				
-				//input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(peroc, i -INPUT_PER_ITEM, i + 1)));
-				//input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perlh, i -INPUT_PER_ITEM, i + 1)));
-				
-				for (int r=0; r<INPUT_PER_ITEM; r++){
-//					input[r] = normalizer.normalize(input[r]);
-//					input.add(normalizer.normalize(Arrays.copyOfRange(perc, i -INPUT_PER_ITEM, i + 1)[r]));
-					
-					input.set(r, normalizer.normalize(input.get(r)));
+				for (int r=0; r<input.size(); r++){
+					double normInput = normalizer.normalize(input.get(r));
+					//Co.println("Norm: " + new DecimalFormat("#.########").format(input.get(r)) + " to " + new DecimalFormat("#.########").format(normInput));					
+					input.set(r, normInput);
 				}
 				
 				BasicMLDataPair pair = new BasicMLDataPair(
 				new BasicMLData(ArrayTools.getArrayFromListOfDouble(input)),
-//				new BasicMLData(input),
 				new BasicMLData(ideal));
 				dataSet.add(pair);
 				
@@ -238,14 +243,17 @@ public class BacktestPredictFuture {
 			removed++;
 		}
 		
-		double max = 0;
+//		double min = Double.MAX_VALUE;
+//		double max = Double.MIN_VALUE;
+//		
+//		for (MLDataPair pair : BasicMLDataSet.toList(dataSet)){
+//			if (pair.getIdeal().getData(0) == normalizer.getNormalizedHigh()){throw new IllegalStateException("Check normalizer: " + pair.getIdeal().getData(0));}
+//			min = Math.min(min, pair.getIdeal().getData(0));
+//			max = Math.max(max, pair.getIdeal().getData(0));
+//		} 
 		
-		for (MLDataPair pair : BasicMLDataSet.toList(dataSet)){
-			max = Math.max(pair.getIdeal().getData(0), max);
-		}
-		
-		int crossCount = 0;
-		int regularEnd = 0; 
+//		Co.println("--> Min/Max: " + min + ", " + max);
+//		if (true){return;}
 		
 		if (crossValidationRatio == 0){
 			mlDataSetReg = dataSet;
@@ -264,15 +272,15 @@ public class BacktestPredictFuture {
 			Co.println("--> Check sizes: " + mlDataSetReg.size() + ", " + mlDataSetCross.size());
 		}
 		
-		BasicNetwork network = getMLNetwork(dataSet.getInputSize(), 1);
+		network = getMLNetwork(dataSet.getInputSize(), 1);
 		network.reset();
 		
 		MLTrain train = new ResilientPropagation(network, mlDataSetReg);
 		((ResilientPropagation)train).setRPROPType(RPROPType.iRPROPp);
 		
-		for (int i=0; i<512; i++){
+		for (int i=0; i<4096; i++){
 			train.iteration();
-			Co.println(i + ". " + train.getError());
+			Co.println(i + ". " + (train.getError() * 1000));
 		}
 		
 		train.finishTraining();
@@ -282,27 +290,12 @@ public class BacktestPredictFuture {
 		new EncogNetworkProvider().saveNetwork((BasicNetwork) train.getMethod(), historicalData.exchange.name + "-" + historicalData.symbol.name + "-predict");
 		
 		// Compute Regular
-		for (int i=0; i<mlDataSetReg.getRecordCount(); i++){
-			double idealValue = normalizer.deNormalize(mlDataSetReg.getData().get(i).getIdeal().getData(0));
-			double computedValue = normalizer.deNormalize(network.compute(mlDataSetReg.getData().get(i).getInput()).getData(0));
-			
-			double[] input = dataSet.getData().get(i).getInputArray();
-			double[] inputDenorm = new double[input.length];
-			
-			for (int r=0; r<input.length; r++){
-				inputDenorm[r] = normalizer.deNormalize(input[r]);
-			}
-			
-			//Co.println("--> Inputs, ideal, computed: " + StringTools.arrayOfDoubleToString(inputDenorm) + " = " + new DecimalFormat("#.######").format(idealValue) + " / " + new DecimalFormat("#.######").format(computedValue));
-			
-			if (idealValue > 0 && computedValue > 0){result.countCorrect++;}
-			else if (idealValue < 0 && computedValue < 0){result.countCorrect++;}
-			else if (idealValue == 0){} // && MathTools.roundTo(computedValue, 4) == 0){result.countCorrect++;}
-			else {result.countIncorrect++;}
-		}
+		computeAccuracy(mlDataSetReg, false);
 		
-		Co.println("--> Directional accuracy (reg): " + result.countIncorrect + " / " + result.countCorrect + " = " + new DecimalFormat("#.##").format(((double)result.countCorrect / ((double)result.countCorrect + (double)result.countIncorrect) * 100)) + "%");
+		// Compute Cross
+		if (crossValidationRatio > 0){computeAccuracy(mlDataSetCross, true);}
 		
+		if (true){return;}
 		
 		//TSC.addSeries(new ChartDataFiller().getTimeSeries("Price ($)", ResultsTools.getBasicPair(commonAnalysisData.arrayOfDates, commonAnalysisData.arrayOfPriceClose)));
 		
@@ -331,18 +324,60 @@ public class BacktestPredictFuture {
 		}
 		
 		TSC.addSeries(tsPrice);
+
+		// Compute Cross
 		
-		TimeSeries tsReg = new TimeSeries("Regular");
+		addTimeSeries(mlDataSetReg, new TimeSeries("Regular"), false);
+		addTimeSeries(mlDataSetCross, new TimeSeries("Cross"), true);
 		
-		day = null;
-		cur = null;
+		dataSetForDefaultHighLowDataset = new DefaultHighLowDataset("Price series", commonAnalysisData.arrayOfDates, commonAnalysisData.arrayOfPriceHigh, commonAnalysisData.arrayOfPriceLow, commonAnalysisData.arrayOfPriceOpen, commonAnalysisData.arrayOfPriceClose, ArrayTools.convertToDouble(commonAnalysisData.arrayOfSizeVolume));
 		
-		for (int i=0; i<mlDataSetReg.getRecordCount(); i++){
+		new PredictDisplay("autoStock - Forward Price Prediction");
+	}
+	
+	private void computeAccuracy(BasicMLDataSet mlDataSet, boolean isCross){
+		result.countCorrect = 0;
+		result.countIncorrect = 0;
+		
+		for (int i=0; i<mlDataSet.getRecordCount(); i++){
+			double idealValue = normalizer.deNormalize(mlDataSet.getData().get(i).getIdeal().getData(0));
+			double computedValue = normalizer.deNormalize(network.compute(mlDataSet.getData().get(i).getInput()).getData(0));
+			
+			double[] input = mlDataSet.getData().get(i).getInputArray();
+			double[] inputDenorm = new double[input.length];
+			
+			for (int r=0; r<input.length; r++){
+				inputDenorm[r] = normalizer.deNormalize(input[r]);
+			}
+			
+			//Co.println("--> Inputs, ideal, computed: " + StringTools.arrayOfDoubleToString(input) + " = " + new DecimalFormat("#.########").format(idealValue) + " / " + new DecimalFormat("#.########").format(computedValue));
+			//if (idealValue == 0){Co.println("--> Ideal was zero!"); Co.println("X: " + idealValue + ", " + computedValue + " / " + dc.format(MathTools.roundTo(computedValue, 4)) + ", " +  dc.format(MathTools.roundTo(computedValue, 5)) + ", " +  dc.format(MathTools.roundTo(computedValue, 6)));}
+			
+			if (idealValue > 0 && computedValue > 0){result.countCorrect++;}
+			else if (idealValue < 0 && computedValue < 0){result.countCorrect++;} //Co.println("--> Correct with: " + dc.format(idealValue) + " / " + dc.format(computedValue));
+//			else if (idealValue == 0 && MathTools.roundTo(computedValue, 4) == 0){result.countCorrect++;}
+//			else if (idealValue == 0 && MathTools.roundTo(computedValue, 4) <= 0.0005 && computedValue > 0){result.countCorrect++;}
+//			else if (idealValue == 0 && MathTools.roundTo(computedValue, 4) == -0.0005 && computedValue < 0){result.countCorrect++;}
+			else if (idealValue == 0){}
+			else {
+				//Co.println("--> Incorrect with: " + StringTools.arrayOfDoubleToString(input) + " = " + new DecimalFormat("#.########").format(idealValue) + " / " + new DecimalFormat("#.########").format(computedValue));
+				result.countIncorrect++;
+			}
+		}
+		
+		Co.println("--> Directional accuracy (" + (isCross ? "Cross" : "Regular") + "): " + result.countIncorrect + " / " + result.countCorrect + " = " + new DecimalFormat("#.##").format(((double)result.countCorrect / ((double)result.countCorrect + (double)result.countIncorrect) * 100)) + "%");
+		
+	}
+	
+	private void addTimeSeries(MLDataSet mlDataSet, TimeSeries ts, boolean isCross){
+		Date day = null;
+		
+		for (int i=0; i<mlDataSet.getRecordCount(); i++){
 			//Co.println("--> Computed: " + network.compute(mlDataSetReg.get(i + offset).getInput()).getData(0));
 			
-			double computed = normalizer.deNormalize(network.compute(mlDataSetReg.get(i).getInput()).getData(0));
-			double currentPriceClose = commonAnalysisData.arrayOfPriceClose[i + INPUT_PER_ITEM + IDEAL_OFFSET];
-			Date currentDate = commonAnalysisData.arrayOfDates[i + INPUT_PER_ITEM + IDEAL_OFFSET + 1];
+			double computed = normalizer.deNormalize(network.compute(mlDataSet.get(i).getInput()).getData(0));
+			double currentPriceClose = commonAnalysisData.arrayOfPriceClose[i + INPUT_PER_ITEM + IDEAL_OFFSET + (isCross ? regularEnd : 0)];
+			Date currentDate = commonAnalysisData.arrayOfDates[i + INPUT_PER_ITEM + IDEAL_OFFSET + 1 + (isCross ? regularEnd : 0)];
 			double value =  currentPriceClose * ( 1 + computed); 
 			
 //			value = MathTools.round(value); 
@@ -363,69 +398,15 @@ public class BacktestPredictFuture {
 				
 				for (int x=1; x<=DAY_GAPS_SIZE; x++){
 					temp = DateTools.getRolledDate(temp, Calendar.MINUTE, 1);
-					tsReg.add(new TimeSeriesDataItem(new Minute(temp), null));
+					ts.add(new TimeSeriesDataItem(new Minute(temp), null));
 					Co.println("--> Added null at (B): " + temp);
 				}
 			}
 			
-			tsReg.add(new TimeSeriesDataItem(new Minute(currentDate), value)); 
+			ts.add(new TimeSeriesDataItem(new Minute(currentDate), value)); 
 		}
 		
-		TSC.addSeries(tsReg);
-		
-		// Compute Cross
-		
-		if (crossValidationRatio > 0){
-			result.countCorrect = 0;
-			result.countIncorrect = 0;
-			
-			for (int i=0; i<mlDataSetCross.getRecordCount(); i++){
-				double idealValue = normalizer.deNormalize(mlDataSetCross.getData().get(i).getIdeal().getData(0));
-				double computedValue = normalizer.deNormalize(network.compute(mlDataSetCross.getData().get(i).getInput()).getData(0));
-				
-				double[] input = dataSet.getData().get(i).getInputArray();
-				double[] inputDenorm = new double[input.length];
-				
-				for (int r=0; r<input.length; r++){
-					inputDenorm[r] = normalizer.deNormalize(input[r]);
-				}
-				
-				//Co.println("--> Inputs, ideal, computed: " + StringTools.arrayOfDoubleToString(inputDenorm) + " = " + new DecimalFormat("#.######").format(idealValue) + " / " + new DecimalFormat("#.######").format(computedValue));
-				
-				if (idealValue > 0 && computedValue > 0){result.countCorrect++;}
-				else if (idealValue < 0 && computedValue < 0){result.countCorrect++;}
-				else if (idealValue == 0 && MathTools.roundTo(computedValue, 4) == 0){result.countCorrect++;}
-				else {result.countIncorrect++;}
-			}
-			
-			Co.println("--> Directional accuracy (cross): " + result.countIncorrect + " / " + result.countCorrect + " = " + new DecimalFormat("#.##").format(((double)result.countCorrect / ((double)result.countCorrect + (double)result.countIncorrect) * 100)) + "%");
-			
-			TimeSeries tsCross = new TimeSeries("Cross");
-			
-			for (int i=0; i<mlDataSetCross.getRecordCount(); i++){
-				//Co.println("--> Computed: " + network.compute(mlDataSetReg.get(i + offset).getInput()).getData(0));
-				
-				double computed = normalizer.deNormalize(network.compute(mlDataSetCross.get(i).getInput()).getData(0));
-				double currentPriceClose = commonAnalysisData.arrayOfPriceClose[regularEnd + i + INPUT_PER_ITEM + IDEAL_OFFSET];
-				Date currentDate = commonAnalysisData.arrayOfDates[regularEnd + i + INPUT_PER_ITEM + IDEAL_OFFSET + 1];
-				double value =  currentPriceClose * ( 1 + computed); 
-				
-//				value = MathTools.round(value); 
-//				Co.println("--> Current price: " + currentPriceClose);
-//				Co.println("--> Computed: " + new DecimalFormat("#.######").format(computed));
-//				Co.println("--> Actual: " + new DecimalFormat("#.######").format(normalizer.deNormalize(mlDataSetReg.get(i).getIdeal().getData(0))));
-//				Co.println("--> Result: " + value);
-//				Co.println("\n");
-				
-				tsCross.add(new TimeSeriesDataItem(new Minute(currentDate), value)); 
-			}
-			
-			TSC.addSeries(tsCross);
-		}
-		
-		dataSetForDefaultHighLowDataset = new DefaultHighLowDataset("Price series", commonAnalysisData.arrayOfDates, commonAnalysisData.arrayOfPriceHigh, commonAnalysisData.arrayOfPriceLow, commonAnalysisData.arrayOfPriceOpen, commonAnalysisData.arrayOfPriceClose, ArrayTools.convertToDouble(commonAnalysisData.arrayOfSizeVolume));
-		
-		new PredictDisplay("autoStock - Forward Price Prediction");
+		TSC.addSeries(ts);
 	}
 	
 	public BasicNetwork getMLNetwork(int inputSize, int outputSize){
@@ -434,7 +415,7 @@ public class BacktestPredictFuture {
 		pattern.addHiddenLayer((int)((double)inputSize/1.5));
 		pattern.addHiddenLayer(inputSize/2);
 		pattern.addHiddenLayer(inputSize/3);
-		//pattern.addHiddenLayer(inputSize/5);
+//		pattern.addHiddenLayer(inputSize/5);
 		pattern.setOutputNeurons(outputSize);
 		pattern.setActivationFunction(new ActivationTANH());
 		pattern.setActivationOutput(new ActivationTANH());

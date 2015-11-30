@@ -80,7 +80,7 @@ public class StringTools {
 		String returnString = new String();
 		
 		for (Double value : arrayOfdouble){
-			returnString += new DecimalFormat("#.######").format(value) + ", ";
+			returnString += new DecimalFormat("#.########").format(value) + ", ";
 		}
 		
 		return returnString;
