@@ -2,10 +2,13 @@ package com.autoStock.backtest;
 
 import java.util.ArrayList;
 
+import org.apache.commons.codec.binary.Base64;
+
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.backtest.watchmaker.WMAdjustment;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalBase.SignalExtra;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
 import com.autoStock.strategy.StrategyOptionDefaults;
@@ -56,6 +59,9 @@ public class AlgorithmModel {
 		ArrayList<IndicatorParameters> listOfIndicatorParameters = new ArrayList<IndicatorParameters>();
 		
 		for (SignalBase signalBase : algorithmBase.signalGroup.getListOfSignalBase()){
+			if (signalBase instanceof SignalExtra){
+				signalBase.signalParameters.extras = new String(Base64.encodeBase64(((SignalExtra)signalBase).toExtra().getBytes()));
+			}
 			listOfSignalParameters.add(signalBase.signalParameters.copy());
 		}
 		

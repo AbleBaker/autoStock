@@ -28,6 +28,11 @@ public abstract class SignalBase {
 	public transient CommonAnalysisData commonAnalysisData;
 	public transient Core taLibCore;
 	
+	public static interface SignalExtra {
+		public String toExtra();
+		public void fromExtra(String extra);
+	}
+	
 	public SignalBase(SignalMetricType signalMetricType, SignalParameters signalParameters, AlgorithmBase algorithmBase){
 		this.algorithmBase = algorithmBase;
 		this.signalMetricType = signalMetricType;

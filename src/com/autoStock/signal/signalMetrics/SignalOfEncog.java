@@ -37,10 +37,10 @@ import com.rits.cloning.Cloner;
  */
 public class SignalOfEncog extends SignalBase {
 	public static EncogNetworkType encogNetworkType = EncogNetworkType.basic;
-	public static final int INPUT_LENGTH = 278;
-	public static final int OUTPUT_LENGTH = 3;
+	public static final int INPUT_LENGTH = 113;
+	public static final int OUTPUT_LENGTH = 4;
 	private static final double NEURON_THRESHOLD = 0.95;
-	public static final int INPUT_WINDOW_PS = 30;
+	public static final int INPUT_WINDOW_PS = 3;
 	private static final boolean HAS_DELTAS = true;
 	private String networkName;
 	private MLRegression basicNetwork;
@@ -97,11 +97,11 @@ public class SignalOfEncog extends SignalBase {
 		double valueForLongEntry = output.getData(0);
 		double valueForShortEntry = output.getData(1);
 //		double valueForReeentry = output.getData(2);
-//		double valueForLongExit = output.getData(2);
-//		double valueForShortExit = output.getData(3);
+		double valueForLongExit = output.getData(2);
+		double valueForShortExit = output.getData(3);
 //		double valueForNoAction = output.getData(4);
 		
-		double valueForAnyExit = output.getData(2);
+//		double valueForAnyExit = output.getData(2);
 		
 //		Co.println("--> Values: " + valueForLongEntry + ", " + valueForShortEntry + ", " + valueForLongExit + ", " + valueForShortExit);
 		
@@ -121,27 +121,27 @@ public class SignalOfEncog extends SignalBase {
 //			signalPoint.signalMetricType = SignalMetricType.metric_encog;
 //			count++;
 //		} 
-//		else if (valueForLongExit >= NEURON_THRESHOLD) {
-//			signalPoint.signalPointType = SignalPointType.long_exit;
-//			signalPoint.signalMetricType = SignalMetricType.metric_encog;
-//			count++;
-//		} 		
-//		else if (valueForShortExit >= NEURON_THRESHOLD) {
-//			signalPoint.signalPointType = SignalPointType.short_exit;
-//			signalPoint.signalMetricType = SignalMetricType.metric_encog;
-//			count++;
-//		} 
+		else if (valueForLongExit >= NEURON_THRESHOLD) {
+			signalPoint.signalPointType = SignalPointType.long_exit;
+			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+			count++;
+		} 		
+		else if (valueForShortExit >= NEURON_THRESHOLD) {
+			signalPoint.signalPointType = SignalPointType.short_exit;
+			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+			count++;
+		} 
 //		
 //		else if (valueForNoAction >= NEURON_THRESHOLD){
 //			//pass
 //		}
 		
-		else if (valueForAnyExit >= NEURON_THRESHOLD) {
-			if (position != null && position.isLong()){signalPoint.signalPointType = SignalPointType.long_exit;}
-			if (position != null && position.isShort()){signalPoint.signalPointType = SignalPointType.short_exit;}
-			signalPoint.signalMetricType = SignalMetricType.metric_encog;
-			count++;
-		} 
+//		else if (valueForAnyExit >= NEURON_THRESHOLD) {
+//			if (position != null && position.isLong()){signalPoint.signalPointType = SignalPointType.long_exit;}
+//			if (position != null && position.isShort()){signalPoint.signalPointType = SignalPointType.short_exit;}
+//			signalPoint.signalMetricType = SignalMetricType.metric_encog;
+//			count++;
+//		} 
 		
 		if (count > 1){signalPoint = new SignalPoint();} 
 		

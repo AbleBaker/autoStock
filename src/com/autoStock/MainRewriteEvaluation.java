@@ -12,6 +12,7 @@ import com.autoStock.signal.SignalDefinitions.IndicatorParametersForMACD;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForSTORSI;
 import com.autoStock.signal.SignalDefinitions.IndicatorParametersForUO;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
+import com.autoStock.signal.TacticResolver.SignalPointTactic;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.Symbol;
 
@@ -26,9 +27,12 @@ public class MainRewriteEvaluation {
 		
 		BacktestEvaluation backtestEvaluation = BacktestEvaluationReader.getPrecomputedEvaluation(exchange, symbol);
 		
-		backtestEvaluation.algorithmModel.strategyOptions.listOfSignalMetricType.clear();
-		backtestEvaluation.algorithmModel.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
-		backtestEvaluation.algorithmModel.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_crossover);
+		//backtestEvaluation.algorithmModel.strategyOptions.listOfSignalMetricType.clear();
+		//backtestEvaluation.algorithmModel.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
+		//backtestEvaluation.algorithmModel.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_crossover);
+		
+		backtestEvaluation.algorithmModel.strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_combined;
+		backtestEvaluation.algorithmModel.strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_combined;
 		
 		new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
 		

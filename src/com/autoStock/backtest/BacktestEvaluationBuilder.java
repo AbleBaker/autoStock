@@ -80,6 +80,10 @@ public class BacktestEvaluationBuilder {
 					descriptorForSignal.signalPointType = pair.first.name();
 					descriptorForSignal.maxSignalAverage = signalBase.signalParameters.maxSignalAverage != null ? signalBase.signalParameters.maxSignalAverage.value : 0;
 					
+					if (signalBase instanceof SignalOfCrossover){
+						descriptorForSignal.extras = ((SignalOfCrossover)signalBase).ipEMA1.periodLength.value + " / " + ((SignalOfCrossover)signalBase).ipEMA2.periodLength.value; 						
+					}
+					
 					if (arrayOfSignalGuage != null){
 						for (SignalGuage signalGuage : arrayOfSignalGuage){
 							descriptorForSignal.listOfDescriptorForGuage.add(new DescriptorForGuage(signalGuage));

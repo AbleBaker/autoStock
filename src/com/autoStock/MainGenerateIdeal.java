@@ -65,7 +65,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
-	private static final int ITERATIONS = 256;
+	private static final int ITERATIONS = 2048;
 	private GenericPersister genericPersister = new GenericPersister();
 	private ArrayList<StoredSignalPoint> lStoredPoints = new ArrayList<StoredSignalPoint>();
 	private SingleBacktest singleBacktest;
@@ -79,7 +79,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private Date dateEnd = DateTools.getDateFromString("01/02/2015");
 //	private Date dateStart = DateTools.getDateFromString("09/08/2014");
 //	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
-	private double crossValidationRatio = 0; //0.25d;
+	private double crossValidationRatio = 0.25d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
 	private HistoricalData historicalDataForCross;
@@ -181,12 +181,12 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_reentry || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_reentry){
 //					addReentry(listOfIdealOutputs, 1);
 //				}
-				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_exit){ // || positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
 					addLongExit(listOfIdealOutputs, 1);
 				}
-//				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
-//					addShortExit(listOfIdealOutputs, 1);
-//				}
+				else if (positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_exit){
+					addShortExit(listOfIdealOutputs, 1);
+				}
 				
 				else { throw new IllegalStateException(positionGovernorResponse.status.name() + " from " + positionGovernorResponse.signalPoint.signalMetricType.name()); }
 			}else{
@@ -239,25 +239,25 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private void addLongExit(ArrayList<Double> listOfIdealOutputs, double as){
 		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
-//		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(as);
 		listOfIdealOutputs.add(-1d);
 //		listOfIdealOutputs.add(-1d);
+//		listOfIdealOutputs.add(-1d);
 	}
 	
-//	private void addShortExit(ArrayList<Double> listOfIdealOutputs, double as){
+	private void addShortExit(ArrayList<Double> listOfIdealOutputs, double as){
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(as);
 //		listOfIdealOutputs.add(-1d);
 //		listOfIdealOutputs.add(-1d);
-//		listOfIdealOutputs.add(-1d);
-//		listOfIdealOutputs.add(-1d);
-//		listOfIdealOutputs.add(as);
-//		listOfIdealOutputs.add(-1d);
-//	}
+	}
 	
 	private void addNone(ArrayList<Double> listOfIdealOutputs, double as){
 		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
-//		listOfIdealOutputs.add(-1d);
+		listOfIdealOutputs.add(-1d);
 		listOfIdealOutputs.add(-1d);
 //		listOfIdealOutputs.add(-1d);
 //		listOfIdealOutputs.add(-1d);

@@ -41,7 +41,7 @@ public class WMAdjustmentGenerator {
 		return listOfAdjustmentBase;
 	}
 	
-	private void addTypicalIndicatorParameters(IndicatorBase indicatorBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){
+	public void addTypicalIndicatorParameters(IndicatorBase indicatorBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){
 		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(indicatorBase.getClass().getSimpleName() + " Period Length", indicatorBase.indicatorParameters.periodLength, new IterableOfInteger(Math.max(SignalOfEncog.INPUT_WINDOW_PS, 15), 60, 1)));
 	}
 	
@@ -53,11 +53,11 @@ public class WMAdjustmentGenerator {
 		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger(signalBase.getClass().getSimpleName() + " Signal Average", signalBase.signalParameters.maxSignalAverage, new IterableOfInteger(1, 3, 1)));
 	}
 	
-	private void addTypicalSignalRanges(SignalBase signalBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_entry, new IterableOfDouble(-35, 35, 1)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_exit, new IterableOfDouble(-35, 35, 1)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_entry, new IterableOfDouble(-35, 35, 1)));
-		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_exit, new IterableOfDouble(-35, 35, 1)));
+	public void addTypicalSignalRanges(SignalBase signalBase, ArrayList<AdjustmentBase> listOfAdjustmentBase){
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_entry, new IterableOfDouble(-50, 50, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_long_exit, new IterableOfDouble(-50, 50, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_entry, new IterableOfDouble(-50, 50, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfSignalMetricThreshold(signalBase, AdjustmentType.signal_metric_short_exit, new IterableOfDouble(-50, 50, 1)));
 	}
 	
 	private void addSignalGuagePeakAndTrough(SignalBase signalBase, ArrayList<AdjustmentBase> listOfAdjustmentBase, int index){

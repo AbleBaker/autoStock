@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.encog.ml.MLRegression;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvolutionObserver;
@@ -25,10 +26,13 @@ import com.autoStock.account.AccountProvider;
 import com.autoStock.account.BasicAccount;
 import com.autoStock.algorithm.DummyAlgorithm;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.extras.StrategyOptionsOverride;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.backtest.BacktestEvaluation;
+import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.BacktestEvaluationWriter;
+import com.autoStock.backtest.SingleBacktest;
 import com.autoStock.backtest.encog.TrainEncogSignal;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.backtest.encog.TrainEncogSignalNew;
@@ -37,6 +41,7 @@ import com.autoStock.backtest.watchmaker.WMEvolutionParams.WMEvolutionType;
 import com.autoStock.internal.ApplicationStates;
 import com.autoStock.internal.StateRequestListener;
 import com.autoStock.signal.signalMetrics.SignalOfEncog;
+import com.autoStock.strategy.StrategyOptionDefaults;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
@@ -48,10 +53,12 @@ import com.autoStock.types.Symbol;
  * @author Kevin Kowalewski
  *
  */
-public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel>, StateRequestListener {
+public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, IslandEvolutionObserver<AlgorithmModel> {
 	private static final boolean BLANK_ENCOG = false;
+	private static final boolean TRAIN_SOE = false;
+	private static final boolean USE_SOO = true;
 	private static final int ISLAND_COUNT = Runtime.getRuntime().availableProcessors() -1;
-	private WMEvolutionType evolutionType = WMEvolutionType.type_island;
+	private WMEvolutionType evolutionType = WMEvolutionType.type_generational;
 	private WMEvolutionThorough evolutionThorough = WMEvolutionThorough.thorough_quick;
 	public DummyAlgorithm algorithm;
 	public Symbol symbol;
@@ -60,7 +67,6 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	public Date dateEnd;
 	private double bestResult = 0;
 	private HistoricalData historicalData;
-	private boolean stopRequested;
 
 	private WMCandidateFactory wmCandidateFactory;
 	private MersenneTwisterRNG randomNumberGenerator = new MersenneTwisterRNG();
@@ -71,6 +77,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	
 	//private TrainEncogSignalNew trainEncogSignal;
 	private TrainEncogSignal trainEncogSignal;
+	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
 
 	public WMBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
 		this.symbol = symbol;
@@ -82,7 +89,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	
 		algorithm = new DummyAlgorithm(exchange, symbol, AlgorithmMode.mode_backtest_with_adjustment, new BasicAccount(AccountProvider.defaultBalance));
 		
-		wmCandidateFactory = new WMCandidateFactory(this);
+		wmCandidateFactory = new WMCandidateFactory(this, soo);
 		List<EvolutionaryOperator<AlgorithmModel>> operators = new ArrayList<EvolutionaryOperator<AlgorithmModel>>();
 		operators.add(new WMMutation(new Probability(0.25)));
 		operators.add(new WMCrossover(1));
@@ -93,10 +100,11 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, true, "complete");
 	}
 	
+	@SuppressWarnings("unused")
 	public void runBacktest(){
 		AlgorithmModel algorithmModel = null;
 		
-		if (BLANK_ENCOG){
+		if (BLANK_ENCOG && TRAIN_SOE){
 			Co.print("--> Blanking the network... ");
 			if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
 				trainEncogSignal.getTrainer().saveNetwork();
@@ -115,7 +123,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 					new RingMigration(), 
 					wmCandidateFactory, 
 					evolutionaryPipeline, 
-					new WMBacktestEvaluator(historicalData), 
+					new WMBacktestEvaluator(historicalData, soo), 
 					new RouletteWheelSelection(), 
 					randomNumberGenerator);
 			
@@ -129,14 +137,14 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		}else if (evolutionType == WMEvolutionType.type_generational){
 			evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
 				evolutionaryPipeline, 
-				new WMBacktestEvaluator(historicalData), 
+				new WMBacktestEvaluator(historicalData, soo), 
 				new RouletteWheelSelection(),
 				randomNumberGenerator);
 			
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
+				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}else{
 				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}
@@ -144,7 +152,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			throw new IllegalArgumentException();
 		}
 				
-		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min));
+		WMBacktestEvaluator wmBacktestEvaluator = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min), soo);
 		BacktestEvaluation backtestEvaluation = wmBacktestEvaluator.getBacktestEvaluation(algorithmModel, true);
 		
 		double fitness = backtestEvaluation.getScore();
@@ -164,19 +172,26 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 //		Co.print(new TableController().displayTable(AsciiTables.algorithm_test,);)
 		
-		Date dateOutOfSample = DateTools.getFirstWeekdayAfter(dateEnd);
+		Date oosStart = DateTools.getFirstWeekdayAfter(dateEnd);
+		Date oosEnd = DateTools.getRolledDate(oosStart, Calendar.DAY_OF_MONTH, 90);
 
-		BacktestEvaluation backtestEvaluationOutOfSample = new WMBacktestEvaluator(new HistoricalData(exchange, symbol, dateOutOfSample, DateTools.getRolledDate(dateOutOfSample, Calendar.DAY_OF_MONTH, 5), Resolution.min)).getBacktestEvaluation(algorithmModel, true);
+		HistoricalData historicalData = new HistoricalData(exchange, symbol, oosStart, oosEnd, Resolution.min);
+		historicalData.setStartAndEndDatesToExchange();
 		
-		Co.println("\n\n Out of sample: " + dateOutOfSample + "\n" + backtestEvaluationOutOfSample.getSingleLine());
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		singleBacktest.remodel(algorithmModel);
+		singleBacktest.selfPopulateBacktestData();
+		singleBacktest.runBacktest();
+		
+		Co.println(new BacktestEvaluationBuilder().buildEvaluation(singleBacktest.backtestContainer).toString());
 		
 //		Co.print(backtestEvaluationOutOfSample.toString());
-		
 		if (backtestEvaluation.getScore() > 0){
 			new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
 		}
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void populationUpdate(PopulationData<? extends AlgorithmModel> data) {		
 //		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
@@ -195,7 +210,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 //		Co.println("--> EScore: " + escore);
 //		Co.println(data.getBestCandidate().getUniqueIdentifier());
 		
-		if (data.getGenerationNumber() != 0 && data.getGenerationNumber() % 5 == 0){ // && data.getBestCandidateFitness() > 0 
+		if (TRAIN_SOE && data.getGenerationNumber() != 0 && data.getGenerationNumber() % 5 == 0){ // && data.getBestCandidateFitness() > 0 
 			try {
 				trainEncogSignal.execute(data.getBestCandidate(), bestResult);
 			}catch(IllegalStateException e){
@@ -209,10 +224,5 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	@Override
 	public void islandPopulationUpdate(int islandIndex, PopulationData<? extends AlgorithmModel> data) {
 		Co.print("\n--> Generation [" + islandIndex + "] " + data.getGenerationNumber() + ", " + data.getBestCandidateFitness());
-	}
-
-	@Override
-	public void requestStop() {
-		stopRequested = true;
 	}
 }

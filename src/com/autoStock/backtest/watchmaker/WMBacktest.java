@@ -80,7 +80,7 @@ public class WMBacktest implements ConsoleListener {
 		Co.println("--> Received match! " + consoleMatch.name());
 		if (consoleMatch == ConsoleMatch.command_end_safely){
 			for (WMBacktestContainer wmBacktestContainer : listOfWMBacktestContainer){
-				wmBacktestContainer.requestStop();
+				//wmBacktestContainer.requestStop();
 			}
 		}
 	}

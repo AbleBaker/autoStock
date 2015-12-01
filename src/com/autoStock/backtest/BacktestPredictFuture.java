@@ -35,6 +35,8 @@ import org.encog.ml.train.MLTrain;
 import org.encog.neural.data.basic.BasicNeuralData;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.training.TrainingSetScore;
+import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.neural.networks.training.propagation.manhattan.ManhattanPropagation;
 import org.encog.neural.networks.training.propagation.resilient.RPROPType;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 import org.encog.neural.networks.training.pso.NeuralPSO;
@@ -100,16 +102,16 @@ import com.autoStock.misc.Pair;
  */
 public class BacktestPredictFuture {
 	private static final int DAY_GAPS_SIZE = 0;
-	private static final int INPUT_PER_ITEM = 5;
-	private static final int IDEAL_OFFSET = 5;
+	private static final int INPUT_PER_ITEM = 30;
+	private static final int IDEAL_OFFSET = 1;
 	private static final int IDEAL_SIZE = 1 ;
 	
-	private static final boolean DISCARD = false;
+	private static final boolean DISCARD = true;
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 	private Date dateStart = DateTools.getDateFromString("01/03/2014");
-	private Date dateEnd = DateTools.getDateFromString("01/03/2014");
-	private double crossValidationRatio = 0; //0.30;
+	private Date dateEnd = DateTools.getDateFromString("01/03/2015");
+	private double crossValidationRatio = 0.25;
 	private ArrayList<PredictionResult> listOfPredictionResult = new ArrayList<PredictionResult>();
 	private PredictionResult result = new PredictionResult(0, 0);
 	
@@ -195,19 +197,24 @@ public class BacktestPredictFuture {
 			perl[i] = (commonAnalysisData.arrayOfPriceLow[i + 1] / commonAnalysisData.arrayOfPriceLow[i]) -1;
 			perc[i] = (commonAnalysisData.arrayOfPriceClose[i + 1] / commonAnalysisData.arrayOfPriceClose[i]) -1;
 			
-			//peroc[i] = (commonAnalysisData.arrayOfPriceOpen[i + 1] / commonAnalysisData.arrayOfPriceClose[i + 1]) -1;
-			//perlh[i] = (commonAnalysisData.arrayOfPriceLow[i + 1] / commonAnalysisData.arrayOfPriceHigh[i + 1]) -1;
+			peroc[i] = (commonAnalysisData.arrayOfPriceOpen[i + 1] / commonAnalysisData.arrayOfPriceClose[i + 1]) -1;
+			perlh[i] = (commonAnalysisData.arrayOfPriceLow[i + 1] / commonAnalysisData.arrayOfPriceHigh[i + 1]) -1;
 			
-			Co.println("--> Diff: " + commonAnalysisData.arrayOfPriceClose[i] + " -> " + commonAnalysisData.arrayOfPriceClose[i + 1] + " = " + new DecimalFormat("#.#######").format(perc[i]));
+			//Co.println("--> Diff: " + commonAnalysisData.arrayOfPriceClose[i] + " -> " + commonAnalysisData.arrayOfPriceClose[i + 1] + " = " + new DecimalFormat("#.#######").format(perc[i]));
 			
 			if (i >= INPUT_PER_ITEM){
-				Co.println("--> Last input window date: " + commonAnalysisData.arrayOfDates[i + 1]);
+				//Co.println("--> Last input window date: " + commonAnalysisData.arrayOfDates[i + 1]);
 				
 				double[] ideal = new double[IDEAL_SIZE];
 						
 				for (int idealIndex = 0; idealIndex < IDEAL_SIZE; idealIndex++){
 					int idealInSet = i + 1 + IDEAL_OFFSET + idealIndex;
 					double idealValue = (commonAnalysisData.arrayOfPriceClose[i + 1 + IDEAL_OFFSET + idealIndex] / commonAnalysisData.arrayOfPriceClose[i + IDEAL_OFFSET]) -1;
+					
+					//if (idealValue > 0){idealValue = 0.010;}
+					//if (idealValue  < 0){idealValue = -0.010;}
+					//ideal[idealIndex] = idealValue; 
+					
 					ideal[idealIndex] = normalizer.normalize(idealValue);
 					//Co.println("--> Added ideal: " + dataSet.size() + " : " + commonAnalysisData.arrayOfDates[idealInSet] + ", " + new DecimalFormat("#.########").format(ideal[idealIndex]) + " from price " + commonAnalysisData.arrayOfPriceClose[i + IDEAL_OFFSET] + " to price " + (commonAnalysisData.arrayOfPriceClose[i + 1 + IDEAL_OFFSET + idealIndex]));					
 				}
@@ -217,8 +224,8 @@ public class BacktestPredictFuture {
 				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perh, i -INPUT_PER_ITEM, i)));
 				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perl, i -INPUT_PER_ITEM, i)));
 				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perc, i -INPUT_PER_ITEM, i)));
-				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(peroc, i -INPUT_PER_ITEM, i)));
-				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perlh, i -INPUT_PER_ITEM, i)));
+//				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(peroc, i -INPUT_PER_ITEM, i)));
+//				input.addAll(ListTools.getListFromArray(Arrays.copyOfRange(perlh, i -INPUT_PER_ITEM, i)));
 				
 				for (int r=0; r<input.size(); r++){
 					double normInput = normalizer.normalize(input.get(r));
@@ -231,14 +238,14 @@ public class BacktestPredictFuture {
 				new BasicMLData(ideal));
 				dataSet.add(pair);
 				
-				Co.println("\n");
+				//Co.println("\n");
 			}
 		}
 		
 		int removed = 0;
 		
 		for (Integer i : discards){
-			Co.println("--> NEED TO DISCARD at: " + i);
+			//Co.println("--> NEED TO DISCARD at: " + i);
 			commonAnalysisData.remove(i - removed);
 			removed++;
 		}
@@ -281,6 +288,11 @@ public class BacktestPredictFuture {
 		for (int i=0; i<4096; i++){
 			train.iteration();
 			Co.println(i + ". " + (train.getError() * 1000));
+			
+			if (i % 25 == 0){
+				computeAccuracy(mlDataSetReg, false);
+				if (crossValidationRatio > 0){computeAccuracy(mlDataSetCross, true);}
+			}
 		}
 		
 		train.finishTraining();
@@ -413,7 +425,6 @@ public class BacktestPredictFuture {
 		FeedForwardPattern pattern = new FeedForwardPattern();
 		pattern.setInputNeurons(inputSize);
 		pattern.addHiddenLayer((int)((double)inputSize/1.5));
-		pattern.addHiddenLayer(inputSize/2);
 		pattern.addHiddenLayer(inputSize/3);
 //		pattern.addHiddenLayer(inputSize/5);
 		pattern.setOutputNeurons(outputSize);
@@ -494,3 +505,5 @@ public class BacktestPredictFuture {
 		}
 	}
 }
+
+// NEW CURRENT

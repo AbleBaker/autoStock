@@ -103,7 +103,9 @@ public class AlgorithmTest extends AlgorithmBase {
 				contextController.determineContext();
 			}
 			
-			signalGroup.processEncog(ListTools.combineLists(contextController.getEncogFrames(), premiseController.getEncogFrames())); 
+			if (strategyBase.strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_encog)){
+				signalGroup.processEncog(ListTools.combineLists(contextController.getEncogFrames(), premiseController.getEncogFrames()));
+			}
 			
 			baseInformStrategy(quoteSlice);
 		}

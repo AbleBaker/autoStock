@@ -33,14 +33,11 @@ public class BacktestScoreProvider {
 		for (Pair<StrategyResponse, Double> pair : backtestEvaluation.transactionDetails.listOfTransactionYield){
 			//Co.println("--> " + pair.first.strategyAction.name() + " -> " + pair.first.positionGovernorResponse.status.name() + ", " + pair.first.quoteSlice.dateTime + ", " + pair.first.positionGovernorResponse.position.getPositionHistory().getAge().asSeconds());
 			
-			if (pair.first.positionGovernorResponse.position.getPositionHistory().getAge().asSeconds() < 60 * 5){penalty += 1;}
-			if (pair.second < 0.025){penalty += 3;}
+			if (pair.first.positionGovernorResponse.position.getPositionHistory().getAge().asSeconds() < 60 * 3){penalty += 1;}
+			if (pair.second < 0.010){penalty += 1;}
 			
 			score += pair.second;
 		}
-		
-		//if (backtestEvaluation.transactionDetails.listOfTransactionYield.size() > 12){penalty += 1.00;}
-		//else if (backtestEvaluation.transactionDetails.listOfTransactionYield.size() > 8){penalty += 0.50;}
 		
 		return score / penalty;
 	}

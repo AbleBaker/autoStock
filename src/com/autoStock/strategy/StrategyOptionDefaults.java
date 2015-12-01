@@ -48,7 +48,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.mustHavePositiveSlice = false;
 		strategyOptions.disableAfterNilChanges = true;
 		strategyOptions.disableAfterNilVolumes = true;
-		strategyOptions.enablePrefill = false;
+		strategyOptions.enablePrefill = true;
 		strategyOptions.enablePremise = false;
 		strategyOptions.enableContext = false;
 		strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_any;

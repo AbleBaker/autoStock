@@ -3,11 +3,14 @@ package com.autoStock.algorithm.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
+
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.backtest.AlgorithmModel;
 import com.autoStock.indicator.IndicatorBase;
 import com.autoStock.signal.SignalBase;
+import com.autoStock.signal.SignalBase.SignalExtra;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -64,6 +67,9 @@ public class AlgorithmRemodeler {
 			for (SignalParameters signalParameters : listOfSignalParameters){
 				if (signalBase.signalParameters.getClass() == signalParameters.getClass()){
 					signalBase.signalParameters = signalParameters;
+					if (signalBase instanceof SignalExtra){
+						((SignalExtra)signalBase).fromExtra(new String(Base64.decodeBase64(signalBase.signalParameters.extras)));
+					}
 				}
 			}
 		}

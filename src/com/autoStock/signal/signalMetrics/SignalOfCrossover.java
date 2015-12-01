@@ -1,12 +1,18 @@
 package com.autoStock.signal.signalMetrics;
 
+import java.util.ArrayList;
+
+import org.apache.commons.codec.binary.Base64;
+
 import com.autoStock.Co;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.indicator.IndicatorOfEMA;
 import com.autoStock.indicator.results.ResultsBase;
-import com.autoStock.position.PositionDefinitions.PositionType;
+import com.autoStock.internal.GsonProvider;
+import com.autoStock.misc.Pair;
 import com.autoStock.signal.SignalBase;
 import com.autoStock.signal.SignalBaseWithPoint;
+import com.autoStock.signal.SignalBase.SignalExtra;
 import com.autoStock.signal.SignalDefinitions.IndicatorParameters;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalParameters;
@@ -14,14 +20,18 @@ import com.autoStock.signal.SignalDefinitions.SignalPointType;
 import com.autoStock.signal.SignalPoint;
 import com.autoStock.trading.types.Position;
 import com.autoStock.types.basic.MutableInteger;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @author Kevin Kowalewski
  *
  */
-public class SignalOfCrossover extends SignalBaseWithPoint {
+public class SignalOfCrossover extends SignalBaseWithPoint implements SignalExtra {
 	public double ema1Value = 0;
 	public double ema2Value = 0;
+	public IndicatorParametersForEMAFirst ipEMA1 = new IndicatorParametersForEMAFirst();
+	public IndicatorParametersForEMASecond ipEMA2 = new IndicatorParametersForEMASecond();
 	
 	public SignalOfCrossover(SignalMetricType signalMetricType, SignalParameters signalParameters, AlgorithmBase algorithmBase) {
 		super(signalMetricType, signalParameters, algorithmBase);
@@ -29,8 +39,11 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 	
 	@Override
 	public void setInput(double value) {
-		IndicatorOfEMA ema1 = new IndicatorOfEMA(new IndicatorParametersForEMAFirst(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover);
-		IndicatorOfEMA ema2 = new IndicatorOfEMA(new IndicatorParametersForEMASecond(), commonAnalysisData, taLibCore, SignalMetricType.metric_crossover);
+		IndicatorOfEMA ema1 = new IndicatorOfEMA(ipEMA1, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover);
+		IndicatorOfEMA ema2 = new IndicatorOfEMA(ipEMA2, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover);
+		
+		//Co.println("--> EMAX: " + ipEMA1.periodLength.hashCode());
+		//Co.println("--> EMA: " + ipEMA1.periodLength.value);
 		
 		ema1Value = ((ResultsBase)ema1.setDataSet().analyze()).getLast();
 		ema2Value = ((ResultsBase)ema2.setDataSet().analyze()).getLast();
@@ -47,11 +60,11 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 		}
 		
 		if (position == null){
-			if (value >= 1){return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_crossover);}
-			if (value <= -1){return new SignalPoint(SignalPointType.short_entry, SignalMetricType.metric_crossover);}
+			if (value >= signalParameters.arrayOfSignalGuageForLongEntry[0].threshold){return new SignalPoint(SignalPointType.long_entry, SignalMetricType.metric_crossover);}
+			if (value <= signalParameters.arrayOfSignalGuageForShortEntry[0].threshold){return new SignalPoint(SignalPointType.short_entry, SignalMetricType.metric_crossover);}
 		}else{
-			if (value <= 1 && position.isLong()){return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_crossover);}
-			if (value >= -1 && position.isShort()){return new SignalPoint(SignalPointType.short_exit, SignalMetricType.metric_crossover);}
+			if (value <= signalParameters.arrayOfSignalGuageForShortExit[0].threshold && position.isLong()){return new SignalPoint(SignalPointType.long_exit, SignalMetricType.metric_crossover);}
+			if (value >= signalParameters.arrayOfSignalGuageForLongExit[0].threshold && position.isShort()){return new SignalPoint(SignalPointType.short_exit, SignalMetricType.metric_crossover);}
 		}
 		
 		return new SignalPoint();
@@ -68,10 +81,23 @@ public class SignalOfCrossover extends SignalBaseWithPoint {
 	}
 	
 	public static class IndicatorParametersForEMAFirst extends IndicatorParameters {
-		public IndicatorParametersForEMAFirst() {super(new MutableInteger(10), 1);}
+		public IndicatorParametersForEMAFirst() {super(new MutableInteger(5), 1);}
 	}
 	
 	public static class IndicatorParametersForEMASecond extends IndicatorParameters {
-		public IndicatorParametersForEMASecond() {super(new MutableInteger(30), 1);}
+		public IndicatorParametersForEMASecond() {super(new MutableInteger(34), 1);}
+	}
+
+	@Override
+	public String toExtra() {
+		return new GsonProvider().getGsonForSignalBase().toJson(new Pair<IndicatorParametersForEMAFirst, IndicatorParametersForEMASecond>(ipEMA1, ipEMA2));
+	}
+
+	@Override
+	public void fromExtra(String extra) {
+		Pair<IndicatorParametersForEMAFirst, IndicatorParametersForEMASecond> pair = new Gson().fromJson(extra, new TypeToken<Pair<IndicatorParametersForEMAFirst, IndicatorParametersForEMASecond>>(){}.getType());
+		ipEMA1 = pair.first;
+		ipEMA2 = pair.second;
+		signalParameters.periodLength.value = Math.max(ipEMA1.periodLength.value, ipEMA2.periodLength.value);
 	}
 }

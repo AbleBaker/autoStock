@@ -109,9 +109,13 @@ public class Prefill {
 			listOfQuoteSliceForReturn.add(listOfQuoteSlice.get(i));
 		}
 		
+		// Period length could be less than prefill shift value so check accordingly!
 		if (listOfQuoteSliceForReturn.size() > 0){
 			for (int i=0; i<strategyOptions.prefillShift.value; i++){
-				listOfQuoteSliceForReturn.remove(0);
+				//Co.println("--> Shift: " + strategyOptions.prefillShift.value + " " + listOfQuoteSliceForReturn.size());
+				if (listOfQuoteSliceForReturn.size() > 0){
+					listOfQuoteSliceForReturn.remove(0);
+				}
 			}
 		}
 		

@@ -10,7 +10,9 @@ import com.autoStock.account.BasicAccount;
 import com.autoStock.adjust.AdjustmentBase;
 import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.algorithm.DummyAlgorithm;
+import com.autoStock.algorithm.core.AlgorithmRemodeler;
 import com.autoStock.algorithm.core.AlgorithmDefinitions.AlgorithmMode;
+import com.autoStock.algorithm.extras.StrategyOptionsOverride;
 import com.autoStock.backtest.AlgorithmModel;
 
 /**
@@ -19,9 +21,11 @@ import com.autoStock.backtest.AlgorithmModel;
  */
 public class WMCandidateFactory extends AbstractCandidateFactory<AlgorithmModel>{
 	public WMBacktestContainer wmBacktestContainer;
+	private StrategyOptionsOverride soo;
 
-	public WMCandidateFactory(WMBacktestContainer wmBacktestContainer) {
+	public WMCandidateFactory(WMBacktestContainer wmBacktestContainer, StrategyOptionsOverride soo) {
 		this.wmBacktestContainer = wmBacktestContainer;
+		this.soo = soo;
 	}
 
 	@Override
@@ -40,6 +44,8 @@ public class WMCandidateFactory extends AbstractCandidateFactory<AlgorithmModel>
 //				Co.println("--> And now " + ((AdjustmentOfSignalMetric)adjustmentBase).getValue());
 //			}
 		}
+		
+		if (soo != null){soo.override(dummyAlgorithm.strategyBase.strategyOptions);}
 		
 		AlgorithmModel algorithmModel = getCurrentAlgorithmModel(dummyAlgorithm, listOfAdjustmentBase);
 		algorithmModel.wmAdjustment.listOfAdjustmentBase = listOfAdjustmentBase;

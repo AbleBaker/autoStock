@@ -154,6 +154,17 @@ public class SignalGroup {
 //		throw new IllegalArgumentException("No SignalMetricType matched: " + signalMetricType.name() + ", " + listOfSignalBase.size());
 	}
 	
+	public int getMaxPeriodLength() {
+		int periodLength = 0;
+		for (SignalBase signalBase : listOfSignalBase){
+			if (signalBase.signalParameters.periodLength != null && signalBase.signalParameters.periodLength.value > 0){
+				periodLength = Math.max(periodLength, signalBase.signalParameters.periodLength.value);
+			}
+		}
+		
+		return periodLength;
+	}
+	
 	public ArrayList<SignalBase> getListOfSignalBase(){
 		return listOfSignalBase;
 	}

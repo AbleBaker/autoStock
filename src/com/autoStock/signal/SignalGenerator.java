@@ -32,18 +32,18 @@ public class SignalGenerator {
 	}
 	
 	private EncogFrame getFrameFromSignalValues(SignalGroup signalGroup) throws UnableToProcessException {
-		FrameType frameType = FrameType.delta_change;
+		FrameType frameType = FrameType.raw;
 		
 		EncogFrame encogFrame = new EncogFrame("Signals that output numeric values", frameType);
 		SignalBase[] arrayOfSignalBase = {
 //			signalGroup.signalOfDI,
 			signalGroup.signalOfCCI,
-//			signalGroup.signalOfRSI,
+			signalGroup.signalOfRSI,
 			signalGroup.signalOfUO,
 //			signalGroup.signalOfTRIX,
 //			signalGroup.signalOfPPC,
 			signalGroup.signalOfWILLR,
-//			signalGroup.signalOfCrossover,
+			signalGroup.signalOfCrossover,
 //			
 			//DO NOT USE
 //			signalGroup.signalOfMFI,
@@ -64,7 +64,7 @@ public class SignalGenerator {
 		for (SignalBase signalBase : arrayOfSignalBase){			
 			EncogSubframe subframe = getSubFrame(signalBase, frameType);
 			if (signalBase instanceof SignalBaseWithPoint){throw new IllegalArgumentException("SignalBase shouldn't be an instace of SignalBaseWithPoint");}
-			if (subframe.isAllZeros()){Co.println(subframe.toString()); try {Thread.sleep(100);}catch(InterruptedException e){}; throw new IllegalStateException("Subframe for signal was all zeros: " + signalBase.getClass().getSimpleName());}
+			if (subframe.isAllZeros() && subframe.asNormalizedDoubleList().size() > 5){Co.println(subframe.toString()); try {Thread.sleep(100);}catch(InterruptedException e){}; throw new IllegalStateException("Subframe for signal was all zeros: " + signalBase.getClass().getSimpleName());}
 			if (subframe.isOutOfRange()){Co.println(subframe.toString()); try {Thread.sleep(100);}catch(InterruptedException e){}; throw new IllegalStateException("Subframe is out of range: " + subframe.description);}
 			//subframe.replaceNaN(); //NaN discarded by encog
 			encogFrame.addSubframe(subframe);			

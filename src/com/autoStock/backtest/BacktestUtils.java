@@ -156,7 +156,7 @@ public class BacktestUtils {
 				
 				double transactionProfit = strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true);
 				
-				backtestTransactions.listOfTransactionYield.add(new Pair<StrategyResponse, Double>(strategyResponse, strategyResponse.positionGovernorResponse.position.getPositionProfitLossAfterComission(true)));
+				backtestTransactions.listOfTransactionYield.add(new Pair<StrategyResponse, Double>(strategyResponse, strategyResponse.positionGovernorResponse.position.getPositionValue().percentGainLoss));
 				
 				if (transactionProfit > 0){
 					backtestTransactions.countForTradesProfit++;

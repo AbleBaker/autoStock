@@ -16,6 +16,7 @@ import com.autoStock.indicator.IndicatorOfDI;
 import com.autoStock.indicator.IndicatorOfROC;
 import com.autoStock.indicator.IndicatorOfUO;
 import com.autoStock.indicator.IndicatorOfWILLR;
+import com.autoStock.signal.signalMetrics.SignalOfEncog;
 
 /**
  * @author Kevin Kowalewski
@@ -27,16 +28,30 @@ public class WMAdjustmentProvider {
 	public ArrayList<AdjustmentBase> getListOfAdjustmentBase(AlgorithmBase algorithmBase){
 		ArrayList<AdjustmentBase> listOfAdjustmentBase = new ArrayList<AdjustmentBase>();
 		
-		listOfAdjustmentBase.addAll(wmAdjustmentGenerator.getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCCI.class)));
-		listOfAdjustmentBase.addAll(wmAdjustmentGenerator.getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfUO.class)));
-		listOfAdjustmentBase.addAll(wmAdjustmentGenerator.getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfDI.class)));
+//		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfCCI,  listOfAdjustmentBase);
+//		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCCI.class), listOfAdjustmentBase);
+//		
+//		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfDI,  listOfAdjustmentBase);
+//		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfDI.class), listOfAdjustmentBase);
+//		
+//		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfUO,  listOfAdjustmentBase);
+//		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfUO.class), listOfAdjustmentBase);
+		
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("A", algorithmBase.signalGroup.signalOfCrossover.ipEMA1.periodLength, new IterableOfInteger(3, 15, 1)));
+		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("B", algorithmBase.signalGroup.signalOfCrossover.ipEMA2.periodLength, new IterableOfInteger(15, 45, 1)));
+		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfCrossover, listOfAdjustmentBase);
+		
+		
+//		listOfAdjustmentBase.addAll(wmAdjustmentGenerator.getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCCI.class)));
+//		listOfAdjustmentBase.addAll(wmAdjustmentGenerator.getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfUO.class)));
+//		listOfAdjustmentBase.addAll(wmAdjustmentGenerator.getTypicalAdjustmentForIndicator(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfDI.class)));
 //		wmAdjustmentGenerator.addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfADX.class), listOfAdjustmentBase, 20, 60);
 //		wmAdjustmentGenerator.addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfWILLR.class), listOfAdjustmentBase, 20, 60);
 //		wmAdjustmentGenerator.addCustomIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfROC.class), listOfAdjustmentBase, 20, 60);
 //		
-		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
-		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfUO);
-		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfDI);
+//		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfCCI);
+//		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfUO);
+//		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfDI);
 //		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfADX);
 //		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfWILLR);
 //		wmAdjustmentGenerator.addSignalAverage(listOfAdjustmentBase, algorithmBase.signalGroup.signalOfROC);

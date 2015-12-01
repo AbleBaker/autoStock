@@ -76,7 +76,7 @@ public class BacktestEvaluation {
 		@Override
 		public String toString() {
 			String string = new String();
-			string += signalName + "(" + maxSignalAverage + extras + "), " + signalPointType;
+			string += signalName + "(" + maxSignalAverage + "), " + (extras.equals("") ? "" : "[" + extras + "]") + signalPointType;
 			string += "\n";
 			
 			for (DescriptorForGuage descriptorForGuage : listOfDescriptorForGuage){
