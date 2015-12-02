@@ -40,6 +40,7 @@ import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.Position;
 import com.autoStock.trading.yahoo.FundamentalData;
 import com.autoStock.types.Exchange;
@@ -80,10 +81,12 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public String algorithmSource;
 	protected int receiveIndex;
 	protected int processedIndex;
-	protected Benchmark bench = new Benchmark();
+	protected Benchmark bench = new Benchmark(true);
 	public SignalCache signalCache;
 	public PremiseController premiseController = new PremiseController();
 	public ContextController contextController = new ContextController();
+	public boolean analyizeUsedOnly = false;
+	//public Resolution resolution; //ugh
 	
 	public AlgorithmBase(Exchange exchange, Symbol symbol, AlgorithmMode algorithmMode, BasicAccount basicAccount){
 		this.exchange = exchange;
@@ -93,7 +96,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		
 		signalGroup = new SignalGroup(this);
 		indicatorGroup = new IndicatorGroup(commonAnalysisData, signalGroup);
-		positionGovernor = new PositionGovernor(algorithmMode == AlgorithmMode.mode_backtest_single ? new PositionManager() : PositionManager.getGlobalInstance());
+		positionGovernor = new PositionGovernor(algorithmMode == AlgorithmMode.mode_engagement ? PositionManager.getGlobalInstance() : new PositionManager());
 		
 		//Hack for SignalOfEncog
 		if (exchange != null && symbol != null){
@@ -237,9 +240,9 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	}
 	
 	public void receivedQuoteSlice(QuoteSlice quoteSlice){
-		if (algorithmMode.displayMessages) {
-			Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPretty(quoteSlice.dateTime) + ", " + "O,H,L,C,V: " + +MathTools.round(quoteSlice.priceOpen) + ", " + MathTools.round(quoteSlice.priceHigh) + ", " + MathTools.round(quoteSlice.priceLow) + ", " + MathTools.round(quoteSlice.priceClose) + ", " + quoteSlice.sizeVolume);
-		}
+//		if (algorithmMode.displayMessages) {
+//			Co.println("Received quote: " + quoteSlice.symbol + ", " + DateTools.getPretty(quoteSlice.dateTime) + ", " + "O,H,L,C,V: " + +MathTools.round(quoteSlice.priceOpen) + ", " + MathTools.round(quoteSlice.priceHigh) + ", " + MathTools.round(quoteSlice.priceLow) + ", " + MathTools.round(quoteSlice.priceClose) + ", " + quoteSlice.sizeVolume);
+//		}
 		
 		if (firstQuoteSlice == null){
 			firstQuoteSlice = quoteSlice;

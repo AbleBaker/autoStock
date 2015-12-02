@@ -43,7 +43,7 @@ public class EncogScoreProvider implements CalculateScore {
 		//Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");		
 		bench.tick();
 
-		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_no_tables);
 		singleBacktest.backtestContainer.algorithm.algorithmMode.populateTable = false;
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();

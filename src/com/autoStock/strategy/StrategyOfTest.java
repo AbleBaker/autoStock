@@ -31,15 +31,15 @@ public class StrategyOfTest extends StrategyBase {
 		strategyOptions = StrategyOptionDefaults.getDefaultStrategyOptions();
 
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_adx);
-//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
+		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_di);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_rsi);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_macd);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_trix);
 
-//		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
+		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_cci);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_mfi);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_roc);
-//		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_uo);
+		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_uo);
 //		strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_storsi);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_up);
 //		 strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_ar_down);

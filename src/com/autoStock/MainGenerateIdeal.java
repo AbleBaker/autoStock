@@ -93,7 +93,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
-		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_with_tables);
 		singleBacktest.setListenerOfBacktestCompleted(this);
 		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo)).remodel(true, false, true, true); 
@@ -374,7 +374,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 			historicalData.setStartAndEndDatesToExchange();
 			
-			SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+			SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_with_tables);
 			singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((MLRegression) train.getMethod(), 0);
 			//singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.describeWindow = true;
@@ -405,7 +405,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		HistoricalData historicalData = new HistoricalData(exchange, symbol, dateStart, dateEnd, Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
-		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_with_tables);
 		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network, 0);
 		singleBacktest.selfPopulateBacktestData();

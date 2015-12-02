@@ -10,15 +10,16 @@ public class AlgorithmDefinitions {
 	public static enum AlgorithmMode {
 		mode_backtest(true, true, false, true),
 		mode_backtest_with_adjustment(false, false, false, false),
-		mode_backtest_single(false, false, false, true),
+		mode_backtest_single_with_tables(false, false, false, true),
+		mode_backtest_single_no_tables(false, false, false, false),
 		mode_engagement(false, true, false, true),
 		mode_backtest_silent(false, false, false, true);
 		;
 		
-		public boolean populateTable;
 		public boolean displayChart;
 		public boolean displayTable;
 		public boolean displayMessages;
+		public boolean populateTable;
 		
 		AlgorithmMode(boolean displayChart, boolean displayTable, boolean displayMessages, boolean populateTable){
 			this.displayChart = displayChart;

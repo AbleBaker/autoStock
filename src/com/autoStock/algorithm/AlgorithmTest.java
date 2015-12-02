@@ -44,7 +44,11 @@ public class AlgorithmTest extends AlgorithmBase {
 		this.startingDate = startingDate;
 		this.endDate = endDate;
 		
-		setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+		if (analyizeUsedOnly){
+			setAnalyzeAndActive(strategyBase.strategyOptions.listOfSignalMetricType, strategyBase.strategyOptions.listOfSignalMetricType);
+		}else{
+			setAnalyzeAndActive(SignalMetricType.asList(), strategyBase.strategyOptions.listOfSignalMetricType);
+		}
 		
 ////		if (algorithmMode == AlgorithmMode.mode_backtest_single){
 //			setAnalyzeAndActive(ListTools.getList(Arrays.asList(

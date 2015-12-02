@@ -113,7 +113,8 @@ public class MenuLauncher {
 				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_start_date).value), 
 				DateTools.getDateFromString(menuStructure.getArgument(MenuArguments.arg_end_date).value),
 				SymbolTools.getListOfSymbolFromListOfString(ListTools.getArrayListFromString(menuStructure.getArgument(MenuArguments.arg_symbol_array).value.replaceAll("\"", ""), " "), SecurityType.type_stock),
-				BacktestType.valueOf(menuStructure.getArgument(MenuArguments.arg_backtest_type).value)
+				BacktestType.backtest_default
+				//BacktestType.valueOf(menuStructure.getArgument(MenuArguments.arg_backtest_type).value)
 			);
 		}
 		

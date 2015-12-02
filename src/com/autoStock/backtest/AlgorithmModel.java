@@ -60,7 +60,7 @@ public class AlgorithmModel {
 		
 		for (SignalBase signalBase : algorithmBase.signalGroup.getListOfSignalBase()){
 			if (signalBase instanceof SignalExtra){
-				signalBase.signalParameters.extras = new String(Base64.encodeBase64(((SignalExtra)signalBase).toExtra().getBytes()));
+				signalBase.signalParameters.extras = new String(Base64.encodeBase64(((SignalExtra)signalBase).toExtra().getBytes(), false, true));
 			}
 			listOfSignalParameters.add(signalBase.signalParameters.copy());
 		}

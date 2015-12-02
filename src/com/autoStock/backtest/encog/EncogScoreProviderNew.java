@@ -35,7 +35,7 @@ public class EncogScoreProviderNew implements CalculateScore {
 	@Override
 	public double calculateScore(MLMethod method) {
 //		Co.print("--> Calculate score... " + algorithmModel.getUniqueIdentifier() + " ");		
-		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_no_tables);
 		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, algorithmModel).remodel(true, true, true, false);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((BasicNetwork)method, whichNetwork);

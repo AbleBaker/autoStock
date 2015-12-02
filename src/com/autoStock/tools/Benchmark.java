@@ -30,7 +30,7 @@ public class Benchmark {
 	
 	public void printTick(String action){
 		long currentTimeMills = getCurrentTime();
-		Co.log("Tick: [" + action + "] " + MiscTools.getCommifiedValue((currentTimeMills - lastMark), 0) + "ms");
+		Co.log("Tick: [" + action + "] " + MiscTools.getCommifiedValue((currentTimeMills - lastMark), 0) + (useNs ? "ns" : "ms"));
 		lastMark = currentTimeMills;
 	}
 	

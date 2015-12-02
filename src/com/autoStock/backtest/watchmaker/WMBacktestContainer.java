@@ -8,16 +8,21 @@ import java.util.List;
 import org.encog.ml.MLRegression;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
+import org.uncommons.watchmaker.framework.CachingFitnessEvaluator;
 import org.uncommons.watchmaker.framework.EvolutionObserver;
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
+import org.uncommons.watchmaker.framework.FitnessEvaluator;
 import org.uncommons.watchmaker.framework.GenerationalEvolutionEngine;
 import org.uncommons.watchmaker.framework.PopulationData;
 import org.uncommons.watchmaker.framework.islands.IslandEvolution;
 import org.uncommons.watchmaker.framework.islands.IslandEvolutionObserver;
 import org.uncommons.watchmaker.framework.islands.RingMigration;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
+import org.uncommons.watchmaker.framework.selection.RankSelection;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
+import org.uncommons.watchmaker.framework.selection.SigmaScaling;
 import org.uncommons.watchmaker.framework.selection.StochasticUniversalSampling;
+import org.uncommons.watchmaker.framework.selection.TournamentSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 import org.uncommons.watchmaker.framework.termination.TargetFitness;
 
@@ -74,6 +79,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	private EvolutionaryOperator<AlgorithmModel> evolutionaryPipeline;
 	private GenerationalEvolutionEngine<AlgorithmModel> evolutionEngine;
 	private IslandEvolution<AlgorithmModel> islandEvolutionEngine;
+	private FitnessEvaluator<AlgorithmModel> fitnessEvaluator;
 	
 	//private TrainEncogSignalNew trainEncogSignal;
 	private TrainEncogSignal trainEncogSignal;
@@ -98,6 +104,8 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		
 		//trainEncogSignal = new TrainEncogSignalNew(AlgorithmModel.getEmptyModel(), historicalData);
 		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, true, "complete");
+		
+		fitnessEvaluator = new CachingFitnessEvaluator<AlgorithmModel>(new WMBacktestEvaluator(historicalData, soo));
 	}
 	
 	@SuppressWarnings("unused")
@@ -123,7 +131,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 					new RingMigration(), 
 					wmCandidateFactory, 
 					evolutionaryPipeline, 
-					new WMBacktestEvaluator(historicalData, soo), 
+					fitnessEvaluator, 
 					new RouletteWheelSelection(), 
 					randomNumberGenerator);
 			
@@ -137,14 +145,18 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		}else if (evolutionType == WMEvolutionType.type_generational){
 			evolutionEngine = new GenerationalEvolutionEngine<AlgorithmModel>(wmCandidateFactory,
 				evolutionaryPipeline, 
-				new WMBacktestEvaluator(historicalData, soo), 
-				new RouletteWheelSelection(),
+				fitnessEvaluator, 
+//				new RouletteWheelSelection(),
+//				new RankSelection(),
+//				new TournamentSelection(new Probability(0.60)),
+//				new StochasticUniversalSampling(),
+				new SigmaScaling(),
 				randomNumberGenerator);
 			
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(256, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
+				algorithmModel = evolutionEngine.evolve(128, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(32));
 			}else{
 				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}
@@ -178,7 +190,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		HistoricalData historicalData = new HistoricalData(exchange, symbol, oosStart, oosEnd, Resolution.min);
 		historicalData.setStartAndEndDatesToExchange();
 		
-		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single);
+		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_with_tables);
 		singleBacktest.remodel(algorithmModel);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();

@@ -184,7 +184,7 @@ public class BacktestContainer implements ReceiverOfQuoteSlice {
 			
 //			Co.print(new BacktestEvaluationBuilder().buildEvaluation(this).toString());
 //			throw new IllegalStateException("Position manager still has position for: " + symbol.symbolName);
-		}else if (algorithm.position != null && (algorithmMode == AlgorithmMode.mode_backtest_single || algorithmMode == AlgorithmMode.mode_backtest) && (algorithm.position.positionType == PositionType.position_long || algorithm.position.positionType == PositionType.position_short)){
+		}else if (algorithm.position != null && (algorithmMode == AlgorithmMode.mode_backtest_single_with_tables || algorithmMode == AlgorithmMode.mode_backtest_single_no_tables || algorithmMode == AlgorithmMode.mode_backtest) && (algorithm.position.positionType == PositionType.position_long || algorithm.position.positionType == PositionType.position_short)){
 			algorithm.requestExitExternally();
 			//throw new IllegalStateException("EOF Yet position exists: " + symbol.symbolName);
 		}
