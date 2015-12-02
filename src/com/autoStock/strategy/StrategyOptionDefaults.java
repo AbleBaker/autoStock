@@ -17,9 +17,9 @@ public class StrategyOptionDefaults {
 				strategyOptions.minPositionAgeMinsBeforeExit.value = 3;
 				strategyOptions.invervalForDDorSLExitMins.value = 3;
 				
-				strategyOptions.maxProfitDrawdownPercent.value = -0.15d;
-				strategyOptions.maxStopLossPercent.value = -0.10d;
-				strategyOptions.disableAfterLoss.value = -0.25d;
+				strategyOptions.maxProfitDrawdownPercent.value = -0.25d;
+				strategyOptions.maxStopLossPercent.value = -0.25d;
+				strategyOptions.disableAfterLoss.value = -0.50d;
 				
 				strategyOptions.maxPositionTimeAtProfit.value = 30;
 				strategyOptions.disableAfterYield.value = 10.0d;

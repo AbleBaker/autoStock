@@ -95,7 +95,7 @@ public class SignalOfCrossover extends SignalBaseWithPoint implements SignalExtr
 
 	@Override
 	public void fromExtra(String extra) {
-		Co.println("--> Got string: " + extra);
+		//Co.println("--> Got string: " + extra);
 		Pair<IndicatorParametersForEMAFirst, IndicatorParametersForEMASecond> pair = new Gson().fromJson(extra, new TypeToken<Pair<IndicatorParametersForEMAFirst, IndicatorParametersForEMASecond>>(){}.getType());
 		ipEMA1 = pair.first;
 		ipEMA2 = pair.second;

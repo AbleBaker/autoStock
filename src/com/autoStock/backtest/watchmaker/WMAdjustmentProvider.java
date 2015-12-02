@@ -28,14 +28,14 @@ public class WMAdjustmentProvider {
 	public ArrayList<AdjustmentBase> getListOfAdjustmentBase(AlgorithmBase algorithmBase){
 		ArrayList<AdjustmentBase> listOfAdjustmentBase = new ArrayList<AdjustmentBase>();
 		
-		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfCCI,  listOfAdjustmentBase);
-		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCCI.class), listOfAdjustmentBase);
-		
-		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfDI,  listOfAdjustmentBase);
-		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfDI.class), listOfAdjustmentBase);
-		
-		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfUO,  listOfAdjustmentBase);
-		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfUO.class), listOfAdjustmentBase);
+//		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfCCI,  listOfAdjustmentBase);
+//		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfCCI.class), listOfAdjustmentBase);
+//		
+//		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfDI,  listOfAdjustmentBase);
+//		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfDI.class), listOfAdjustmentBase);
+//		
+//		wmAdjustmentGenerator.addTypicalSignalRanges(algorithmBase.signalGroup.signalOfUO,  listOfAdjustmentBase);
+//		wmAdjustmentGenerator.addTypicalIndicatorParameters(algorithmBase.indicatorGroup.getIndicatorByClass(IndicatorOfUO.class), listOfAdjustmentBase);
 		
 		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("A", algorithmBase.signalGroup.signalOfCrossover.ipEMA1.periodLength, new IterableOfInteger(3, 15, 1)));
 		listOfAdjustmentBase.add(new AdjustmentOfBasicInteger("B", algorithmBase.signalGroup.signalOfCrossover.ipEMA2.periodLength, new IterableOfInteger(15, 45, 1)));
