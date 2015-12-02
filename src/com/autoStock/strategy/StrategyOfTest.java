@@ -82,6 +82,7 @@ public class StrategyOfTest extends StrategyBase {
 			} else if (algorithmCondition.requestExitAfterTimeInProfit(quoteSlice, position)){
 				strategyResponse.positionGovernorResponse = exit(StrategyActionCause.cease_condition_time_profit, quoteSlice, position, strategyResponse);
 			}else if (algorithmCondition.canExitAfterTime(position) == false){
+				strategyResponse.positionGovernorResponse.position = position;
 				pass(strategyResponse, StrategyActionCause.pass_condition_entry);
 			}
 			else {

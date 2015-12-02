@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.autoStock.account.BasicAccount;
+import com.autoStock.algorithm.AlgorithmBase;
 import com.autoStock.signal.Signaler;
 import com.autoStock.signal.SignalDefinitions.SignalMetricType;
 import com.autoStock.signal.SignalDefinitions.SignalPointType;
@@ -23,9 +24,14 @@ import com.autoStock.types.QuoteSlice;
  *
  */
 public class TableForAlgorithm extends BaseTable {
-	public static boolean INCLUDE_SIGNALS = true;
+	public static boolean INCLUDE_SIGNALS = false;
 	private static DecimalFormat decimalFormat = new DecimalFormat("#.00");
+	private AlgorithmBase algorithmBase;
 	
+	public TableForAlgorithm(AlgorithmBase algorithmBase) {
+		this.algorithmBase = algorithmBase;
+	}
+
 	public void addTableRow(ArrayList<QuoteSlice> listOfQuoteSlice, Signaler signal, SignalGroup signalGroup, StrategyResponse strategyResponse, BasicAccount basicAccount){
 		ArrayList<String> columnValues = new ArrayList<String>();
 		QuoteSlice quoteSlice = listOfQuoteSlice.get(listOfQuoteSlice.size()-1);
@@ -48,13 +54,13 @@ public class TableForAlgorithm extends BaseTable {
 			columnValues.add(String.valueOf(new DecimalFormat("0.0000").format(signalGroup.signalOfCrossover.getStrength())));
 		}
 		
-		columnValues.add(strategyResponse.positionGovernorResponse.status.name());
-		columnValues.add(strategyResponse.strategyAction == StrategyAction.no_change ? "-" : (strategyResponse.strategyAction.name() + ", " + strategyResponse.strategyActionCause.name()));
+		columnValues.add(strategyResponse.positionGovernorResponse.status.name().replaceAll("changed_", ""));
+		columnValues.add(strategyResponse.strategyAction == StrategyAction.no_change ? "-" : (strategyResponse.strategyAction.name().replaceAll("algorithm_", "") + ", " + strategyResponse.strategyActionCause.name().replaceAll("_condition", "")));
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalPointType == SignalPointType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalPointType.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add(TableTools.getTransactionDetails(strategyResponse));
 		columnValues.add(TableTools.getProfitLossDetails(strategyResponse));
-		columnValues.add(decimalFormat.format(basicAccount.getBalance()));
+		columnValues.add(decimalFormat.format(basicAccount.getBalance()) + " -> " + String.format("%1$5s","%" + decimalFormat.format(algorithmBase.getYieldCurrent()) + "%"));
 		
 		listOfDisplayRows.add(columnValues);
 	}

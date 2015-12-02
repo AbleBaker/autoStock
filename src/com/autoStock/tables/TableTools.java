@@ -42,8 +42,8 @@ public class TableTools {
 	public static String getProfitLossDetails(StrategyResponse strategyResponse) {
 		String responseString = "";
 		if (strategyResponse.positionGovernorResponse.position != null){
-			String valueGainString = String.format("%1$5s", "$" + strategyResponse.positionGovernorResponse.positionValue.profitLossAfterComission);
-			String percentGainString = String.format("%1$5s","%" + decimalFormat.format(strategyResponse.positionGovernorResponse.positionValue.percentGainLoss));
+			String valueGainString = String.format("%1$5s", "$" + strategyResponse.positionGovernorResponse.position.getPositionValue().profitLossAfterComission);
+			String percentGainString = String.format("%1$5s","%" + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionValue().percentGainLoss));
 			
 			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				//responseString = valueGainString;

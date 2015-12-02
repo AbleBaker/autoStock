@@ -156,7 +156,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(128, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(64));
+				algorithmModel = evolutionEngine.evolve(128, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
 			}else{
 				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}
@@ -200,6 +200,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 //		Co.print(backtestEvaluationOutOfSample.toString());
 		if (backtestEvaluation.getScore() > 0){
 			new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
+			Co.println("--> Wrote evaluation");
 		}
 	}
 

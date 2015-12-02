@@ -6,6 +6,7 @@ package com.autoStock.algorithm;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import com.autoStock.Co;
 import com.autoStock.account.AccountProvider;
@@ -117,7 +118,7 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 		
 		if (algorithmMode.populateTable){
-			tableForAlgorithm = new TableForAlgorithm();
+			tableForAlgorithm = new TableForAlgorithm(this);
 		}
 		
 		if (algorithmMode == AlgorithmMode.mode_backtest_with_adjustment){
@@ -301,61 +302,30 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		}
 	}
 	
-//	public double getYieldCurrent(){
-//		double yield = 0;
-//		
-//		for (StrategyResponse strategyResponse : listOfStrategyResponse){
-//			PositionGovernorResponse pgr = strategyResponse.positionGovernorResponse;
-//			
-//			if (pgr.status == PositionGovernorResponseStatus.changed_long_exit || pgr.status == PositionGovernorResponseStatus.changed_short_exit){
-//				pgr.position.getPositionValue().percentGainLoss;
-//			}
-//		}
-//	}
-	
-	public double getYieldComplete(){
-		return getYield(true);
-	}
-	
 	public double getYieldCurrent(){
-		return getYield(false);
+		double yield = 0;
+		
+		for (Position positionIn : getUniquePositions()){
+			yield += positionIn.getCurrentPercentGainLoss(true);	
+		}
+		
+		return yield;
 	}
 	
-	private double getYield(boolean complete) { //?	
-		double positionCost = 0;
-		Position currentPosition = null;
+	private HashSet<Position> getUniquePositions(){
+		HashSet<Position> set = new HashSet<>();
 		
 		for (StrategyResponse strategyResponse : listOfStrategyResponse){
-			PositionGovernorResponse positionGovernorResponse = strategyResponse.positionGovernorResponse;
-			
-			if (positionGovernorResponse != null && positionGovernorResponse.position != null){
-				positionCost = Math.max(positionCost, positionGovernorResponse.position.getPositionValue().priceCurrent);
-				
-				if (positionGovernorResponse.position.isFilledAndOpen()){
-					currentPosition = positionGovernorResponse.position;
-				}
+			Position positionIn = strategyResponse.positionGovernorResponse.position;
+			if (positionIn != null && set.contains(positionIn) == false){
+				set.add(positionIn);
 			}
 		}
 		
-		double yield = 0;
-		
-		if (currentPosition != null){
-			double totalValue = currentPosition.getPositionValue().valueCurrentWithFee + basicAccount.getBalance();
-			double increasedValue = totalValue - (complete == true ? AccountProvider.defaultBalance : dayStartingBalance);
-			yield = (increasedValue / positionCost) * 100;
-		}else if (positionCost != 0){
-			double increasedValue = basicAccount.getBalance() - (complete == true ? AccountProvider.defaultBalance : dayStartingBalance);
-			yield = (increasedValue / positionCost) * 100;
-		}else{
-			//pass, no positions!
-		}
-		
-		if (yield > 10 && !complete){
-			Co.println("--> Warning high yield? " + yield + ", " + startingDate + ", " + endDate + ", " + basicAccount.getBalance() + "," + listOfStrategyResponse.size());
-			//Co.println("--> " + getCurrentQuoteSlice().toString());
-			//throw new IllegalStateException("Yield for one day is very high at " + yield);
-		}
-
-		return yield;
+		return set;
+	}
+	
+	public double getYieldComplete(){
+		return getYieldCurrent();
 	}
 }

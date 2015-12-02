@@ -10,11 +10,11 @@ public class TableDefinitions {
 		stock_historical_price_live(new AsciiColumns[]{AsciiColumns.symbol, AsciiColumns.dateTime, AsciiColumns.price, AsciiColumns.volume, AsciiColumns.sizeCount, AsciiColumns.change}), //, Columns.sizeVolume
 		stock_historical_price_db(new AsciiColumns[]{AsciiColumns.id, AsciiColumns.symbol, AsciiColumns.priceOpen, AsciiColumns.priceHigh, AsciiColumns.priceLow, AsciiColumns.priceClose, AsciiColumns.volume, AsciiColumns.dateTime}),
 		analysis_test(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.priceClose, AsciiColumns.change, AsciiColumns.change, AsciiColumns.signal , AsciiColumns.PPC, AsciiColumns.ADX, AsciiColumns.CCI, AsciiColumns.BBUpper, AsciiColumns.BBLower, AsciiColumns.MACDHistogram, AsciiColumns.STORSIK, AsciiColumns.STORISD}),
-		algorithm(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.volume, AsciiColumns.price, AsciiColumns.change, AsciiColumns.DI, AsciiColumns.UO, AsciiColumns.CCI, AsciiColumns.RSI, AsciiColumns.STORSI, AsciiColumns.MACD, AsciiColumns.TRIX, AsciiColumns.ROC, AsciiColumns.MFI, AsciiColumns.WILLR, AsciiColumns.positionGovernorResponse, AsciiColumns.strategyResponse, AsciiColumns.signalPoint, AsciiColumns.signalMetric, AsciiColumns.transactionDetails, AsciiColumns.profitLoss, AsciiColumns.bankBalance}),
-		algorithm_no_signals(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.volume, AsciiColumns.price, AsciiColumns.change, AsciiColumns.positionGovernorResponse, AsciiColumns.strategyResponse, AsciiColumns.signalPoint, AsciiColumns.signalMetric, AsciiColumns.transactionDetails, AsciiColumns.profitLoss, AsciiColumns.bankBalance}),
-		algorithm_manager(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.status, AsciiColumns.signal, AsciiColumns.strategyResponse, AsciiColumns.position, AsciiColumns.priceVisible, AsciiColumns.priceEntered, AsciiColumns.priceClose, AsciiColumns.percentChange, AsciiColumns.percentChange, AsciiColumns.transactionDetails, AsciiColumns.signalMetric}),
+		algorithm(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.volume, AsciiColumns.price, AsciiColumns.change, AsciiColumns.DI, AsciiColumns.UO, AsciiColumns.CCI, AsciiColumns.RSI, AsciiColumns.STORSI, AsciiColumns.MACD, AsciiColumns.TRIX, AsciiColumns.ROC, AsciiColumns.MFI, AsciiColumns.WILLR, AsciiColumns.positionGovernor, AsciiColumns.strategy, AsciiColumns.signalPoint, AsciiColumns.signalMetric, AsciiColumns.transactionDetails, AsciiColumns.profitLoss, AsciiColumns.bankBalance}),
+		algorithm_no_signals(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.volume, AsciiColumns.price, AsciiColumns.change, AsciiColumns.positionGovernor, AsciiColumns.strategy, AsciiColumns.signalPoint, AsciiColumns.signalMetric, AsciiColumns.transactionDetails, AsciiColumns.profitLoss, AsciiColumns.bankBalance}),
+		algorithm_manager(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.status, AsciiColumns.signal, AsciiColumns.strategy, AsciiColumns.position, AsciiColumns.priceVisible, AsciiColumns.priceEntered, AsciiColumns.priceClose, AsciiColumns.percentChange, AsciiColumns.percentChange, AsciiColumns.transactionDetails, AsciiColumns.signalMetric}),
 		order_manager(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.orderType, AsciiColumns.orderStatus, AsciiColumns.orderUnitsRequested, AsciiColumns.orderUnitsRemaining, AsciiColumns.orderUnitsFilled, AsciiColumns.orderPriceRequested, AsciiColumns.orderPriceFilledAvg, AsciiColumns.orderPriceFilledLast}),
-		backtest_strategy_response(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.price, AsciiColumns.strategyResponse, AsciiColumns.positionGovernorResponse, AsciiColumns.signal, AsciiColumns.transactionDetails, AsciiColumns.profitLoss, AsciiColumns.bankBalance}),
+		backtest_strategy_response(new AsciiColumns[]{AsciiColumns.dateTime, AsciiColumns.symbol, AsciiColumns.price, AsciiColumns.strategy, AsciiColumns.positionGovernor, AsciiColumns.signal, AsciiColumns.transactionDetails, AsciiColumns.profitLoss, AsciiColumns.bankBalance}),
 		;
 		
 		public AsciiColumns[] arrayOfColumns;
@@ -103,8 +103,8 @@ public class TableDefinitions {
 		peakDetect,
 		position,
 		percentChange,
-		positionGovernorResponse,
-		strategyResponse,
+		positionGovernor,
+		strategy,
 		signalPoint,
 		signalMetric,
 		profitLoss, 

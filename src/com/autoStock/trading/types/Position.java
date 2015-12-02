@@ -165,6 +165,7 @@ public class Position implements OrderStatusListener {
 		double comission = 0;
 		
 		comission += positionUtils.getOrderTransactionFeesIntrinsic();
+		
 		if (bothComissions){
 			comission += TransactionFees.getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		}
@@ -181,7 +182,7 @@ public class Position implements OrderStatusListener {
 		return MathTools.round(positionValue);
 	}
 	
-	public double getCurrentPercentGainLoss(boolean includeEntryTransactionFees){
+	public double getCurrentPercentGainLoss(boolean includeEntryFee){
 		PositionUtils positionUtils = new PositionUtils(this, listOfOrderEntry);
 		double positionValue = positionUtils.getPositionValueCurrent(false) - positionUtils.getOrderValueIntrinsic(false);
 		double comission = 0;
@@ -189,7 +190,7 @@ public class Position implements OrderStatusListener {
 		comission += positionUtils.getOrderTransactionFeesIntrinsic();
 		comission += TransactionFees.getTransactionCost(positionUtils.getOrderUnitsIntrinsic(), unitPriceLastKnown);		
 		
-		if (includeEntryTransactionFees){
+		if (includeEntryFee){
 			positionValue -= comission;
 		}
 		
