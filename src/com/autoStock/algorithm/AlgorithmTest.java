@@ -87,7 +87,7 @@ public class AlgorithmTest extends AlgorithmBase {
 		receivedQuoteSlice(quoteSlice);
 			
 		if (listOfQuoteSlice.size() >= getPeriodLength()) {
-//			Co.print("\n --> QS: " + quoteSlice.toString());
+			//Co.print("\n --> QS: " + quoteSlice.toString());
 			
 			if (signalCache != null && signalCache.isAvailable()){
 				//Co.println("--> Using cache");
@@ -107,9 +107,9 @@ public class AlgorithmTest extends AlgorithmBase {
 				contextController.determineContext();
 			}
 			
-			if (strategyBase.strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_encog)){
+			//if (strategyBase.strategyOptions.listOfSignalMetricType.contains(SignalMetricType.metric_encog)){
 				signalGroup.processEncog(ListTools.combineLists(contextController.getEncogFrames(), premiseController.getEncogFrames()));
-			}
+			//}
 			
 			baseInformStrategy(quoteSlice);
 		}

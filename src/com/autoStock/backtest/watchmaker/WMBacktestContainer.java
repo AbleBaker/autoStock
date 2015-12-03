@@ -38,6 +38,7 @@ import com.autoStock.backtest.BacktestEvaluationBuilder;
 import com.autoStock.backtest.BacktestEvaluationReader;
 import com.autoStock.backtest.BacktestEvaluationWriter;
 import com.autoStock.backtest.SingleBacktest;
+import com.autoStock.backtest.encog.EncogBacktestContainer.Mode;
 import com.autoStock.backtest.encog.TrainEncogSignal;
 import com.autoStock.backtest.encog.TrainEncogSignal.EncogNetworkType;
 import com.autoStock.backtest.encog.TrainEncogSignalNew;
@@ -81,9 +82,8 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 	private IslandEvolution<AlgorithmModel> islandEvolutionEngine;
 	private FitnessEvaluator<AlgorithmModel> fitnessEvaluator;
 	
-	//private TrainEncogSignalNew trainEncogSignal;
 	private TrainEncogSignal trainEncogSignal;
-	private StrategyOptionsOverride soo = StrategyOptionDefaults.getDefaultOverride();
+	private StrategyOptionsOverride soo = USE_SOO ? StrategyOptionDefaults.getDefaultOverride() : null;
 
 	public WMBacktestContainer(Symbol symbol, Exchange exchange, Date dateStart, Date dateEnd) {
 		this.symbol = symbol;
@@ -99,12 +99,9 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 		List<EvolutionaryOperator<AlgorithmModel>> operators = new ArrayList<EvolutionaryOperator<AlgorithmModel>>();
 		operators.add(new WMMutation(new Probability(0.25)));
 		operators.add(new WMCrossover(1));
-		
 		evolutionaryPipeline = new EvolutionPipeline<AlgorithmModel>(operators);
 		
-		//trainEncogSignal = new TrainEncogSignalNew(AlgorithmModel.getEmptyModel(), historicalData);
-		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, true, "complete");
-		
+		trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, true, "complete", Mode.full);
 		fitnessEvaluator = new CachingFitnessEvaluator<AlgorithmModel>(new WMBacktestEvaluator(historicalData, soo));
 	}
 	
@@ -156,7 +153,7 @@ public class WMBacktestContainer implements EvolutionObserver<AlgorithmModel>, I
 			evolutionEngine.addEvolutionObserver(this);
 			
 			if (evolutionThorough == WMEvolutionThorough.thorough_quick){
-				algorithmModel = evolutionEngine.evolve(128, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(3));
+				algorithmModel = evolutionEngine.evolve(128, 16, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(128));
 			}else{
 				algorithmModel = evolutionEngine.evolve(1024, 32, new TargetFitness(Integer.MAX_VALUE, true), new GenerationCount(16));
 			}

@@ -23,7 +23,7 @@ import com.autoStock.tools.ListTools;
  * 
  */
 public class SignalOfPPC extends SignalBaseWithEF {
-	private static final int PERIOD_LENGTH = 16;
+	private static final int PERIOD_LENGTH = 31;
 	
 	public SignalOfPPC(SignalParameters signalParameters, AlgorithmBase algorithmBase) {
 		super(SignalMetricType.metric_ppc, signalParameters, algorithmBase);

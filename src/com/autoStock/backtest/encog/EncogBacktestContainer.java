@@ -35,7 +35,7 @@ public class EncogBacktestContainer {
 	private TrainEncogSignal trainEncogSignal;
 	private HistoricalData historicalData;
 	private int currentDay;
-	private static enum Mode {day_over_day, full}
+	public static enum Mode {day_over_day, full}
 	private final Mode MODE = Mode.day_over_day;
 //	private final Mode MODE = Mode.full;
 
@@ -55,7 +55,7 @@ public class EncogBacktestContainer {
 		StrategyOptionsOverride strategyOptionsOverride = StrategyOptionDefaults.getDefaultOverride();
 		
 		if (MODE == Mode.full){
-			trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, false, "full");
+			trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalData, false, "full", MODE);
 			blankNetwork();
 			trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null), 0);
 			trainEncogSignal.getTrainer().saveNetwork();
@@ -63,7 +63,7 @@ public class EncogBacktestContainer {
 			ArrayList<HistoricalData> listOfHistoricalData = BacktestUtils.getHistoricalDataListForDates(historicalData);
 			
 			for (HistoricalData historicalDataIn : listOfHistoricalData){
-				trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalDataIn, false, "day-" + DateTools.getEncogDate(historicalDataIn.startDate));
+				trainEncogSignal = new TrainEncogSignal(AlgorithmModel.getEmptyModel(), historicalDataIn, false, "day-" + DateTools.getEncogDate(historicalDataIn.startDate), MODE);
 				Co.println("--> Blanking the network... " + DateTools.getPretty(historicalDataIn.startDate));
 				blankNetwork();
 				trainEncogSignal.execute(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, USE_SO_OVERRIDE ? strategyOptionsOverride : null), 0);

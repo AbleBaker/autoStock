@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 
 import com.autoStock.position.PositionGovernorResponseStatus;
 import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.strategy.StrategyResponse.StrategyActionCause;
 
 /**
  * @author Kevin
@@ -39,13 +40,15 @@ public class TableTools {
 		return responseString;
 	}
 
-	public static String getProfitLossDetails(StrategyResponse strategyResponse) {
+	public static String getProfitLossDetails(StrategyResponse strategyResponse, boolean forAlgorithm) {
 		String responseString = "";
 		if (strategyResponse.positionGovernorResponse.position != null){
 			String valueGainString = String.format("%1$5s", "$" + strategyResponse.positionGovernorResponse.position.getPositionValue().profitLossAfterComission);
 			String percentGainString = String.format("%1$5s","%" + decimalFormat.format(strategyResponse.positionGovernorResponse.position.getPositionValue().percentGainLoss));
 			
-			if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
+			if (strategyResponse.strategyActionCause == StrategyActionCause.pass_condition_entry && forAlgorithm == false){
+				
+			}else if (strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry || strategyResponse.positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry){
 				//responseString = valueGainString;
 			}else{
 				responseString = valueGainString + " -> " + percentGainString;

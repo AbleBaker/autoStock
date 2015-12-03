@@ -41,6 +41,7 @@ import com.autoStock.tools.Benchmark;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
 import com.autoStock.tools.MathTools;
+import com.autoStock.tools.MiscTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.Position;
 import com.autoStock.trading.yahoo.FundamentalData;
@@ -132,6 +133,8 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 		indicatorGroup.setAnalyze(listOfSignalMetricTypeAnalyze);
 		indicatorGroup.setActive(listOfSignalMetricTypeAnalyze);
 		periodLength = Math.max(signalGroup.getMaxPeriodLength(), indicatorGroup.getMinPeriodLength(true));
+		
+		//Co.println("--> SG / IG: " + signalGroup.getMaxPeriodLength() + " / " + indicatorGroup.getMinPeriodLength(true));
 		
 		dayStartingBalance = basicAccount.getBalance();
 		
@@ -305,27 +308,10 @@ public abstract class AlgorithmBase implements ListenerOfPositionStatusChange, R
 	public double getYieldCurrent(){
 		double yield = 0;
 		
-		for (Position positionIn : getUniquePositions()){
+		for (Position positionIn : MiscTools.getUniquePositions(listOfStrategyResponse)){
 			yield += positionIn.getCurrentPercentGainLoss(true);	
 		}
 		
 		return yield;
-	}
-	
-	private HashSet<Position> getUniquePositions(){
-		HashSet<Position> set = new HashSet<>();
-		
-		for (StrategyResponse strategyResponse : listOfStrategyResponse){
-			Position positionIn = strategyResponse.positionGovernorResponse.position;
-			if (positionIn != null && set.contains(positionIn) == false){
-				set.add(positionIn);
-			}
-		}
-		
-		return set;
-	}
-	
-	public double getYieldComplete(){
-		return getYieldCurrent();
 	}
 }

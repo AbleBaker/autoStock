@@ -140,7 +140,7 @@ public class BacktestEvaluation {
 			throw new IllegalStateException("List can't be zero sized... Transactions: " + transactions);
 		}
 		
-		string += "\n***** $" +  MiscTools.getCommifiedValue(accountBalance - AccountProvider.defaultBalance) + " / %" + new DecimalFormat("#.00").format(percentYield) + " Score: " + MiscTools.getCommifiedValue(getScore()) + " *****";
+		string += "\n***** $" +  MiscTools.getCommifiedValue(accountBalance - AccountProvider.defaultBalance) + " / %" + new DecimalFormat("#.00").format(percentYield) + " Score: " + getScore() + " *****";
 		string += "\n--> Date " + DateTools.getPretty(dateStart) + " to " + DateTools.getPretty(dateEnd);
 		string += "\n--> Transactions: " + transactions;
 		string += "\n--> Transaction fees: $" + new DecimalFormat("#.00").format(transactionFeesPaid);

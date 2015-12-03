@@ -59,7 +59,7 @@ public class TableForAlgorithm extends BaseTable {
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalPointType == SignalPointType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalPointType.name());
 		columnValues.add(strategyResponse.positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.no_change ? "-" : strategyResponse.positionGovernorResponse.signalPoint.signalMetricType.name());
 		columnValues.add(TableTools.getTransactionDetails(strategyResponse));
-		columnValues.add(TableTools.getProfitLossDetails(strategyResponse));
+		columnValues.add(TableTools.getProfitLossDetails(strategyResponse, true));
 		columnValues.add(decimalFormat.format(basicAccount.getBalance()) + " -> " + String.format("%1$5s","%" + decimalFormat.format(algorithmBase.getYieldCurrent()) + "%"));
 		
 		listOfDisplayRows.add(columnValues);

@@ -11,6 +11,7 @@ import org.encog.neural.pattern.JordanPattern;
 
 import com.autoStock.Co;
 import com.autoStock.backtest.AlgorithmModel;
+import com.autoStock.backtest.encog.EncogBacktestContainer.Mode;
 import com.autoStock.signal.SignalCache;
 import com.autoStock.signal.extras.EncogNetworkCache;
 import com.autoStock.signal.extras.EncogNetworkGenerator;
@@ -22,7 +23,7 @@ import com.autoStock.trading.types.HistoricalData;
  * 
  */
 public class TrainEncogSignal {
-	public static final int TRAINING_ITERATIONS = 50;
+	public static final int TRAINING_ITERATIONS = 32;
 	private boolean saveNetwork;
 	private HistoricalData historicalData;
 	private EncogScoreProvider encogScoreProvider = new EncogScoreProvider();
@@ -33,16 +34,21 @@ public class TrainEncogSignal {
 		basic,
 	}
 	
-	public TrainEncogSignal(AlgorithmModel algorithmModel, HistoricalData historicalData, boolean saveNetwork, String networkSufix){
+	public TrainEncogSignal(AlgorithmModel algorithmModel, HistoricalData historicalData, boolean saveNetwork, String networkSufix, Mode mode){
 		this.historicalData = historicalData;
 		this.saveNetwork = saveNetwork;
 		encogScoreProvider.setDetails(algorithmModel, historicalData);
-		encogScoreProvider.setSuperLoose(true);
+		encogScoreProvider.setSuperLoose(false);
 		
 		if (SignalOfEncog.encogNetworkType == EncogNetworkType.basic){
 			FeedForwardPattern pattern = new FeedForwardPattern();
 			pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
-			pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 5);
+			if (mode == Mode.day_over_day){
+				pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 5);
+			}else if (mode == Mode.full){
+				pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 3);
+				pattern.addHiddenLayer(SignalOfEncog.getInputWindowLength() / 3);
+			}
 			pattern.setOutputNeurons(SignalOfEncog.getOutputLength());
 			pattern.setActivationFunction(new ActivationTANH()); 
 			pattern.setActivationOutput(new ActivationTANH());

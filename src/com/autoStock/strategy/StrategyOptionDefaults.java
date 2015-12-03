@@ -13,7 +13,7 @@ public class StrategyOptionDefaults {
 		return new StrategyOptionsOverride() {
 			@Override
 			public void override(StrategyOptions strategyOptions) {
-				strategyOptions.intervalForEntryWithSameSignalPointType.value = 10;
+				strategyOptions.intervalForEntryWithSameSignalPointType.value = 7;
 				strategyOptions.minPositionAgeMinsBeforeExit.value = 3;
 				strategyOptions.invervalForDDorSLExitMins.value = 3;
 				
@@ -24,7 +24,7 @@ public class StrategyOptionDefaults {
 				strategyOptions.maxPositionTimeAtProfit.value = 30;
 				strategyOptions.disableAfterYield.value = 10.0d;
 				strategyOptions.enablePremise = false;
-				strategyOptions.enableContext = true;
+				strategyOptions.enableContext = false;
 				strategyOptions.enablePrefill = true;
 				strategyOptions.canReenter.value = false;
 				strategyOptions.prefillShift.value = 30;
@@ -60,7 +60,7 @@ public class StrategyOptionDefaults {
 		strategyOptions.invervalForDDorSLExitMins.value = 5;
 		strategyOptions.maxNilChangePrice = 15;
 		strategyOptions.maxNilChangeVolume = 15;
-		strategyOptions.maxPositionEntryTime = 30;
+		strategyOptions.maxPositionEntryTime = 15;
 		strategyOptions.maxPositionExitTime = 5;
 		strategyOptions.maxPositionTimeAtLoss.value = 60;
 		strategyOptions.maxPositionTimeAtProfit.value = 45;

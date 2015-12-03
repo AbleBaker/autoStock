@@ -43,7 +43,7 @@ public class TableForStrategyResponse extends BaseTable {
 			listOfString.add(stringForSignal);
 
 			listOfString.add(TableTools.getTransactionDetails(strategyResponse));
-			listOfString.add(TableTools.getProfitLossDetails(strategyResponse));
+			listOfString.add(TableTools.getProfitLossDetails(strategyResponse, false));
 			listOfString.add(MiscTools.getCommifiedValue(strategyResponse.basicAccountCopy.getBalance()));
 
 			listOfDisplayRows.add(listOfString);

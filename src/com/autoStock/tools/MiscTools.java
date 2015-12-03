@@ -4,8 +4,13 @@
 package com.autoStock.tools;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.apache.commons.codec.digest.DigestUtils;
+
+import com.autoStock.strategy.StrategyResponse;
+import com.autoStock.trading.types.Position;
 
 /**
  * @author Kevin Kowalewski
@@ -43,5 +48,18 @@ public class MiscTools {
 	
 	public static String getHash(String string){
 		return DigestUtils.md5Hex(string);
+	}
+	
+	public static HashSet<Position> getUniquePositions(ArrayList<StrategyResponse> listOfStrategyResponse){
+		HashSet<Position> set = new HashSet<>();
+		
+		for (StrategyResponse strategyResponse : listOfStrategyResponse){
+			Position positionIn = strategyResponse.positionGovernorResponse.position;
+			if (positionIn != null && set.contains(positionIn) == false){
+				set.add(positionIn);
+			}
+		}
+		
+		return set;
 	}
 }

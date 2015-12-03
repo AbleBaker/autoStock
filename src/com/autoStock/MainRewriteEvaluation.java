@@ -31,8 +31,10 @@ public class MainRewriteEvaluation {
 		//backtestEvaluation.algorithmModel.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
 		//backtestEvaluation.algorithmModel.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_crossover);
 		
-		backtestEvaluation.algorithmModel.strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_combined;
-		backtestEvaluation.algorithmModel.strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_combined;
+//		backtestEvaluation.algorithmModel.strategyOptions.signalPointTacticForEntry.value = SignalPointTactic.tactic_combined;
+//		backtestEvaluation.algorithmModel.strategyOptions.signalPointTacticForExit.value = SignalPointTactic.tactic_combined;
+		
+		backtestEvaluation.algorithmModel.strategyOptions.maxProfitDrawdownPercent.value = -0.30;
 		
 		new BacktestEvaluationWriter().writeToDatabase(backtestEvaluation, false);
 		

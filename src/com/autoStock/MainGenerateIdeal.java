@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.encog.engine.network.activation.ActivationBiPolar;
+import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.engine.network.activation.ActivationSteepenedSigmoid;
 import org.encog.engine.network.activation.ActivationTANH;
 import org.encog.ml.MLRegression;
@@ -54,8 +55,10 @@ import com.autoStock.strategy.StrategyResponse;
 import com.autoStock.tools.ArrayTools;
 import com.autoStock.tools.DateTools;
 import com.autoStock.tools.ListTools;
+import com.autoStock.tools.MathTools;
 import com.autoStock.trading.platform.ib.definitions.HistoricalDataDefinitions.Resolution;
 import com.autoStock.trading.types.HistoricalData;
+import com.autoStock.trading.types.Position;
 import com.autoStock.types.Exchange;
 import com.autoStock.types.QuoteSlice;
 import com.autoStock.types.Symbol;
@@ -65,7 +68,7 @@ import com.autoStock.types.Symbol;
  *
  */
 public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest {
-	private static final int ITERATIONS = 2048;
+	private static final int ITERATIONS = 512;
 	private GenericPersister genericPersister = new GenericPersister();
 	private ArrayList<StoredSignalPoint> lStoredPoints = new ArrayList<StoredSignalPoint>();
 	private SingleBacktest singleBacktest;
@@ -76,10 +79,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-	private Date dateEnd = DateTools.getDateFromString("01/02/2015");
+	private Date dateEnd = DateTools.getDateFromString("01/01/2015");
 //	private Date dateStart = DateTools.getDateFromString("09/08/2014");
 //	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
-	private double crossValidationRatio = 0.25d;
+	private double crossValidationRatio = 0.50d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
 	private HistoricalData historicalDataForCross;
@@ -96,7 +99,9 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_with_tables);
 		singleBacktest.setListenerOfBacktestCompleted(this);
 		singleBacktest.backtestContainer.algorithm.setAlgorithmListener(this);
-		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo)).remodel(true, false, true, true); 
+		new AlgorithmRemodeler(singleBacktest.backtestContainer.algorithm, BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo)).remodel(true, true, true, true); 
+		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.clear();
+		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
 		
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
@@ -190,7 +195,9 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				
 				else { throw new IllegalStateException(positionGovernorResponse.status.name() + " from " + positionGovernorResponse.signalPoint.signalMetricType.name()); }
 			}else{
-//				if (singleBacktest.backtestContainer.algorithm.position != null && singleBacktest.backtestContainer.algorithm.position.getPositionHistory().getAge().asSeconds() <= 60 * 2 && singleBacktest.backtestContainer.algorithm.position.getCurrentPercentGainLoss(false) > 0.05){
+//				Position position = singleBacktest.backtestContainer.algorithm.position;
+//				
+//				if (position != null && position.isFilledAndOpen()){ // && singleBacktest.backtestContainer.algorithm.position.getPositionHistory().getAge().asSeconds() <= 60 * 2 && singleBacktest.backtestContainer.algorithm.position.getCurrentPercentGainLoss(false) > 0.05){
 //					if (singleBacktest.backtestContainer.algorithm.position.isLong()){
 //						addLongEntry(listOfIdealOutputs, 1);
 //					}else if (singleBacktest.backtestContainer.algorithm.position.isShort()){
@@ -341,7 +348,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 //		new NguyenWidrowRandomizer().randomize(network);
 
 //		MLTrain train = new ManhattanPropagation(network, dataSet, 0.015);
-		MLTrain train = new ResilientPropagation(network, dataSet, 0.05, 25);
+		MLTrain train = new ResilientPropagation(network, dataSet); //, 0.05, 25);
 		((ResilientPropagation)train).setRPROPType(RPROPType.iRPROPp);
 //		MLTrain train = NEATUtil.constructNEATTrainer(new TrainingSetScore(dataSet), SignalOfEncog.getInputWindowLength(), 3, 512);
 //		MLTrain train = new NeuralPSO(network, dataSet);
@@ -358,7 +365,14 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalData.startDate, historicalData.endDate).getScore()));
 			} else{				
 				// Find out score for relevant backtest
-				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " / " + (i % 10 != 0 ? "-" : df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ")) + " = " + (i % 10 != 0 ? "-" : getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate).getScore() + " / " + getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate).getScore())); 
+				if (i % 10 == 0){
+					BacktestEvaluation beReg = getEvaluationWith(network, historicalDataForRegular.startDate, historicalDataForRegular.endDate);
+					BacktestEvaluation beCross = getEvaluationWith(network, historicalDataForCross.startDate, historicalDataForCross.endDate);
+					Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " / " + df.format(network.calculateError(dataSetCross) * 1000).replaceAll("\\G0", " ") + " = " + MathTools.roundTo(beReg.getScore(), 2) + "(%"  + MathTools.round(beReg.percentYield) + ") / " + MathTools.roundTo(beCross.getScore(), 2) + "(%"  + MathTools.round(beCross.percentYield) + ")"); 
+				}else{
+					Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " "));
+				}
+				
 			}
 			
 			if (zeroCount == 0){break;}
@@ -376,6 +390,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			
 			SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_with_tables);
 			singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
+			singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.clear();
+			singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork((MLRegression) train.getMethod(), 0);
 			//singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.describeWindow = true;
 			singleBacktest.selfPopulateBacktestData();
@@ -390,13 +406,12 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private BasicNetwork getNetwork(){
 		FeedForwardPattern pattern = new FeedForwardPattern();
 		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 6));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
+//		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 6));
 		pattern.setOutputNeurons(SignalOfEncog.getOutputLength());
 		pattern.setActivationFunction(new ActivationTANH());
 		pattern.setActivationOutput(new ActivationTANH());
-		//pattern.setActivationOutput(new ActivationBiPolar());
 		return (BasicNetwork) pattern.generate();
 	}
 
@@ -407,6 +422,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 		SingleBacktest singleBacktest = new SingleBacktest(historicalData, AlgorithmMode.mode_backtest_single_with_tables);
 		singleBacktest.remodel(BacktestEvaluationReader.getPrecomputedModel(exchange, symbol, soo));
+		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.clear();
+		singleBacktest.backtestContainer.algorithm.strategyBase.strategyOptions.listOfSignalMetricType.add(SignalMetricType.metric_encog);
 		singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(network, 0);
 		singleBacktest.selfPopulateBacktestData();
 		singleBacktest.runBacktest();
