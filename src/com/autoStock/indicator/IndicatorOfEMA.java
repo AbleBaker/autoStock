@@ -16,8 +16,11 @@ import com.autoStock.taLib.RetCode;
  *
  */
 public class IndicatorOfEMA extends IndicatorBase<ResultsEMA> {
-	public IndicatorOfEMA(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType) {
+	private boolean isDema;
+	
+	public IndicatorOfEMA(IndicatorParameters indicatorParameters, CommonAnalysisData commonAnlaysisData, Core taLibCore, SignalMetricType signalMetricType, boolean isDema) {
 		super(indicatorParameters, commonAnlaysisData, taLibCore, signalMetricType);
+		this.isDema = isDema;
 	}
 	
 	@Override
@@ -25,8 +28,14 @@ public class IndicatorOfEMA extends IndicatorBase<ResultsEMA> {
 		results = new ResultsEMA(indicatorParameters.resultSetLength);
 		results.arrayOfDates = arrayOfDates;
 		
-		RetCode returnCode = taLibCore.ema(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value, new MInteger(), new MInteger(), results.arrayOfValue);
+		RetCode returnCode;
 		
+		if (isDema){
+			returnCode = taLibCore.dema(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value, new MInteger(), new MInteger(), results.arrayOfValue);			
+		}else{
+			returnCode = taLibCore.ema(0, endIndex, arrayOfPriceClose, indicatorParameters.periodLength.value, new MInteger(), new MInteger(), results.arrayOfValue);
+		}
+	
 		handleAnalysisResult(returnCode);
 		
 		return results;

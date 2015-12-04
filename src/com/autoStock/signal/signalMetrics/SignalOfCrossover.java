@@ -39,8 +39,8 @@ public class SignalOfCrossover extends SignalBaseWithPoint implements SignalExtr
 	
 	@Override
 	public void setInput(double value) {
-		IndicatorOfEMA ema1 = new IndicatorOfEMA(ipEMA1, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover);
-		IndicatorOfEMA ema2 = new IndicatorOfEMA(ipEMA2, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover);
+		IndicatorOfEMA ema1 = new IndicatorOfEMA(ipEMA1, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover, false);
+		IndicatorOfEMA ema2 = new IndicatorOfEMA(ipEMA2, commonAnalysisData, taLibCore, SignalMetricType.metric_crossover, false);
 		
 		//Co.println("--> EMAX: " + ipEMA1.periodLength.hashCode());
 		//Co.println("--> EMA: " + ipEMA1.periodLength.value);

@@ -79,10 +79,10 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private Exchange exchange = new Exchange("NYSE");
 	private Symbol symbol = new Symbol("MS", SecurityType.type_stock);
 	private Date dateStart = DateTools.getDateFromString("02/03/2014");
-	private Date dateEnd = DateTools.getDateFromString("01/01/2015");
+	private Date dateEnd = DateTools.getDateFromString("09/01/2015");
 //	private Date dateStart = DateTools.getDateFromString("09/08/2014");
 //	private Date dateEnd = DateTools.getDateFromString("09/08/2014");
-	private double crossValidationRatio = 0.50d;
+	private double crossValidationRatio = 0.30d;
 	private HistoricalData historicalData;
 	private HistoricalData historicalDataForRegular;
 	private HistoricalData historicalDataForCross;
@@ -118,7 +118,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			String name = exchange.name + "-" + symbol.name + "-day-" + DateTools.getEncogDate(startingDate);
 			Co.println("--> Loaded daily network: " + name);
 			BasicNetwork basicNetwork = new EncogNetworkProvider().getBasicNetwork(name);
-			if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load: " + name);}
+//			if (basicNetwork == null){throw new IllegalStateException("Couldn't find network to load: " + name);}
 			singleBacktest.backtestContainer.algorithm.signalGroup.signalOfEncog.setNetwork(basicNetwork, 0);
 			singleBacktest.backtestContainer.algorithm.positionGovernor.listOfPredSignalPoint = null;
 		}
@@ -167,7 +167,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 		
 		if (processed && eiw != null && positionGovernorResponse != null){
 			if (haveChange && (positionGovernorResponse.status != PositionGovernorResponseStatus.changed_long_entry || positionGovernorResponse.status != PositionGovernorResponseStatus.changed_short_entry) 
-				&& (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.metric_encog || positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected
+				&& (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.metric_encog 
+					|| positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected
 					//|| (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_long_entry)
 				    //|| (positionGovernorResponse.signalPoint.signalMetricType == SignalMetricType.injected && positionGovernorResponse.status == PositionGovernorResponseStatus.changed_short_entry)
 				)){
@@ -362,7 +363,8 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 			train.iteration();
 			
 			if (crossValidationRatio == 0){
-				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " = " + (i % 100 != 0 ? "-" : getEvaluationWith(network, historicalData.startDate, historicalData.endDate).getScore()));
+				BacktestEvaluation beReg = getEvaluationWith(network, historicalData.startDate, historicalData.endDate);
+				Co.println(i + ". " + df.format(train.getError() * 1000).replaceAll("\\G0", " ") + " = " + MathTools.roundTo(beReg.getScore(), 2) + "(%"  + MathTools.round(beReg.percentYield) + ")");
 			} else{				
 				// Find out score for relevant backtest
 				if (i % 10 == 0){
@@ -406,7 +408,7 @@ public class MainGenerateIdeal implements AlgorithmListener, ListenerOfBacktest 
 	private BasicNetwork getNetwork(){
 		FeedForwardPattern pattern = new FeedForwardPattern();
 		pattern.setInputNeurons(SignalOfEncog.getInputWindowLength());
-		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
+		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 1.5));
 		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 3));
 //		pattern.addHiddenLayer((int) ((double)SignalOfEncog.getInputWindowLength() / (double) 6));
 		pattern.setOutputNeurons(SignalOfEncog.getOutputLength());

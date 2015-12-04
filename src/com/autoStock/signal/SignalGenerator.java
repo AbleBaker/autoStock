@@ -36,13 +36,14 @@ public class SignalGenerator {
 		
 		EncogFrame encogFrame = new EncogFrame("Signals that output numeric values", frameType);
 		SignalBase[] arrayOfSignalBase = {
-//			signalGroup.signalOfDI,
 //			signalGroup.signalOfCCI,
 //			signalGroup.signalOfRSI,
 //			signalGroup.signalOfUO,
 //			signalGroup.signalOfTRIX,
-//			signalGroup.signalOfPPC,
 //			signalGroup.signalOfWILLR,
+			
+//			signalGroup.signalOfDI,
+//			signalGroup.signalOfPPC,
 //			signalGroup.signalOfCrossover,
 //			
 			//DO NOT USE

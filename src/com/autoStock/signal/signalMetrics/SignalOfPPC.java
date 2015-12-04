@@ -27,6 +27,7 @@ public class SignalOfPPC extends SignalBaseWithEF {
 	
 	public SignalOfPPC(SignalParameters signalParameters, AlgorithmBase algorithmBase) {
 		super(SignalMetricType.metric_ppc, signalParameters, algorithmBase);
+		signalParameters.periodLength.value = PERIOD_LENGTH;
 	}
 
 	@Override
