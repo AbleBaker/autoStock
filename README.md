@@ -8,3 +8,7 @@ This was my somewhat failed attempt at an algorithmic trading platform. Lot's of
  - Market scanning 
  - Neural Network tactic / combination for signals 
  - Basic charting
+ - Genetic network for solving cobinational problems like position time entry etc 
+ - It only really does inter-day trading, probably to its disadvantage
+
+You're always welcome to email me at kowalewski (dot) kevin (at) gmail.com 
